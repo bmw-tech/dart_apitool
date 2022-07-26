@@ -7,5 +7,6 @@
     // Remove from file watching
     "files.watcherExclude": {
       "**/.fvm": true
-    }
+    },
+    "editor.formatOnSave": true
 }
