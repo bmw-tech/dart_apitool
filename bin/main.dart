@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:args/args.dart';
-import 'package:dart_apitool/ApiRelevantElementsCollector.dart';
-import 'package:dart_apitool/ReferencedFilesCollector.dart';
+import 'package:dart_apitool/src/ApiRelevantElementsCollector.dart';
+import 'package:dart_apitool/src/ReferencedFilesCollector.dart';
 import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) async {
@@ -52,6 +54,43 @@ String _makePackageSubPath(String projectPath, List<String> directories) {
   );
 }
 
+String _getPackageNameFromLibraryIdentifier(String libraryIdentifier) {
+  if (!libraryIdentifier.startsWith('package:')) {
+    return '';
+  }
+  int endIndex = libraryIdentifier.length;
+  if (libraryIdentifier.contains('/')) {
+    endIndex = libraryIdentifier.indexOf('/');
+  }
+
+  return libraryIdentifier.substring('package:'.length, endIndex);
+}
+
+String _getRelativeUriFromLibraryIdentifier(String libraryIdentifier) {
+  if (!libraryIdentifier.contains('package:')) {
+    return libraryIdentifier;
+  }
+  if (!libraryIdentifier.contains('/')) {
+    throw ArgumentError.value(libraryIdentifier, 'libraryIdentifier',
+        'Looks like a package (starts with \'package:\' but doesn\'t contain \'/\'');
+  }
+  return libraryIdentifier.substring(libraryIdentifier.indexOf('/'));
+}
+
+bool _isInternalRef(
+    {required LibraryElement originLibrary,
+    required LibraryElement? refLibrary}) {
+  if (refLibrary == null) {
+    return true;
+  }
+  final origPackageName =
+      _getPackageNameFromLibraryIdentifier(originLibrary.identifier);
+  final refPackageName =
+      _getPackageNameFromLibraryIdentifier(refLibrary.identifier);
+
+  return origPackageName == refPackageName;
+}
+
 Future _handleListCommand(ArgResults cmd) async {
   final String rootDir = cmd['root'];
   final absolutePath = path.normalize(path.absolute(rootDir));
@@ -76,6 +115,7 @@ Future _handleListCommand(ArgResults cmd) async {
   while (filesToAnalyze.isNotEmpty) {
     final fileToAnalyze = filesToAnalyze.first;
     filesToAnalyze.removeFirst();
+    analyzedFiles.add(fileToAnalyze);
 
     try {
       final context = contextCollection.contextFor(fileToAnalyze);
@@ -95,12 +135,26 @@ Future _handleListCommand(ArgResults cmd) async {
         final referencedFilesCollector = ReferencedFilesCollector();
         unitResult.libraryElement.accept(referencedFilesCollector);
         for (final fileRef in referencedFilesCollector.fileReferences) {
-          print('ref:');
-          print('  - Type: ${fileRef.type}');
-          print('  - Uri: ${fileRef.uri}');
-          print('  - Orig-Lib: ${fileRef.originLibrary.identifier}');
-          print(
-              '  - Ref-Lib: ${fileRef.referencedLibrary?.identifier ?? '[none]'}');
+          if (!_isInternalRef(
+              originLibrary: fileRef.originLibrary,
+              refLibrary: fileRef.referencedLibrary)) {
+            continue;
+          }
+          final relativeUri = _getRelativeUriFromLibraryIdentifier(fileRef.uri);
+          final referencedFilePath = path
+              .normalize(path.join(path.dirname(fileToAnalyze), relativeUri));
+          if (!analyzedFiles.contains(referencedFilePath) &&
+              !filesToAnalyze.contains(referencedFilePath)) {
+            filesToAnalyze.add(referencedFilePath);
+          }
+
+//           print('''
+// ref:
+//   - Type: ${fileRef.type}
+//   - Uri: ${fileRef.uri}
+//   - Orig-Lib: ${fileRef.originLibrary.identifier}
+//   - Ref-Lib: ${fileRef.referencedLibrary?.identifier ?? '[none]'}
+// ''');
         }
       }
     } on StateError catch (e) {
