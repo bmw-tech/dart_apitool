@@ -127,8 +127,17 @@ Future _handleListCommand(ArgResults cmd) async {
           print('*** ${unitResult.path} ***');
           final collector = APIRelevantElementsCollector();
           unitResult.libraryElement.accept(collector);
-          for (final thing in collector.things) {
-            print('    ${thing}');
+          // for (final thing in collector.things) {
+          //   print('    ${thing}');
+          // }
+          for (final executableDeclaration
+              in collector.executableDeclarations) {
+            print(
+                '${executableDeclaration.type.name}: ${executableDeclaration.parentClassName}: ${executableDeclaration.signature}');
+          }
+          for (final fieldDeclaration in collector.fieldDeclarations) {
+            print(
+                'Field: ${fieldDeclaration.parentClassName}: ${fieldDeclaration.signature}');
           }
         }
 
