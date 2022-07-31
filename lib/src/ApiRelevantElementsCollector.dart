@@ -2,6 +2,8 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:equatable/equatable.dart';
 
+//TODO: check if top level elements are already found (methods, variables)
+
 List<String> _getTypeParameterList(TypeParameterizedElement element) {
   if (element.typeParameters.isNotEmpty) {
     return element.typeParameters
@@ -9,6 +11,35 @@ List<String> _getTypeParameterList(TypeParameterizedElement element) {
         .toList(growable: false);
   }
   return [];
+}
+
+class ClassDeclatation extends Equatable {
+  final String signature;
+  final String? parentClassName;
+
+  ClassDeclatation(this.signature, this.parentClassName);
+
+  ClassDeclatation.fromClassElement(
+      this.parentClassName, ClassElement classElement)
+      : signature = _computeSignature(classElement);
+
+  static String _computeSignature(ClassElement classElement) {
+    String superTypeSuffix = '';
+    if (classElement.allSupertypes.isNotEmpty) {
+      superTypeSuffix = ' : ' +
+          classElement.allSupertypes
+              .map((e) => e.getDisplayString(withNullability: true))
+              .join(', ');
+    }
+    final className = classElement.getDisplayString(withNullability: true);
+    return '${className}${superTypeSuffix}';
+  }
+
+  @override
+  List<Object?> get props => [
+        parentClassName,
+        signature,
+      ];
 }
 
 class FieldDeclaration extends Equatable {
@@ -98,15 +129,20 @@ class ExecutableDeclaration extends Equatable {
 }
 
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
-  final List<String> _things = [];
+  APIRelevantElementsCollector({this.isOnlyPublic = true});
 
+  final List<String> _things = [];
   List<String> get things => _things;
 
+  final List<ClassDeclatation> _classDeclarations = [];
+  List<ClassDeclatation> get classDeclarations => _classDeclarations;
   final List<ExecutableDeclaration> _executableDeclarations = [];
   List<ExecutableDeclaration> get executableDeclarations =>
       _executableDeclarations;
   final List<FieldDeclaration> _fieldDeclarations = [];
   List<FieldDeclaration> get fieldDeclarations => _fieldDeclarations;
+
+  final bool isOnlyPublic;
 
   ClassElement? _classContext;
   ExecutableElement? _executableContext;
@@ -138,7 +174,12 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitClassElement(ClassElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
     things.add(_format('Class', element.displayName));
+    _classDeclarations.add(ClassDeclatation.fromClassElement(
+        _getClassName(_classContext), element));
     final prev = _classContext;
     _classContext = element;
     super.visitClassElement(element);
@@ -147,17 +188,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitFieldElement(FieldElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
     things.add(_format('Field',
         '${element.displayName} (${element.type.getDisplayString(withNullability: true)})'));
     _fieldDeclarations.add(FieldDeclaration.fromFieldElement(
         _getClassName(_classContext), element));
     super.visitFieldElement(element);
-  }
-
-  @override
-  void visitFieldFormalParameterElement(FieldFormalParameterElement element) {
-    things.add(_format('Field-FP', element.displayName));
-    super.visitFieldFormalParameterElement(element);
   }
 
   @override
@@ -169,6 +207,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitMethodElement(MethodElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
     _things.add(_format('Method',
         '${element.displayName} (${element.returnType.getDisplayString(withNullability: true)})'));
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
@@ -183,6 +224,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   visitConstructorElement(ConstructorElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
+
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
       _getClassName(_classContext),
       element,
@@ -191,12 +236,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _executableContext = element;
     super.visitConstructorElement(element);
     _executableContext = prev;
-  }
-
-  @override
-  void visitPropertyAccessorElement(PropertyAccessorElement element) {
-    things.add(_format('PropAccess', element.displayName));
-    super.visitPropertyAccessorElement(element);
   }
 
   @override

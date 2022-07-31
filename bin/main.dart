@@ -130,6 +130,10 @@ Future _handleListCommand(ArgResults cmd) async {
           // for (final thing in collector.things) {
           //   print('    ${thing}');
           // }
+          for (final classDeclaration in collector.classDeclarations) {
+            print(
+                'class: ${classDeclaration.parentClassName}: ${classDeclaration.signature}');
+          }
           for (final executableDeclaration
               in collector.executableDeclarations) {
             print(
@@ -137,7 +141,7 @@ Future _handleListCommand(ArgResults cmd) async {
           }
           for (final fieldDeclaration in collector.fieldDeclarations) {
             print(
-                'Field: ${fieldDeclaration.parentClassName}: ${fieldDeclaration.signature}');
+                'field: ${fieldDeclaration.parentClassName}: ${fieldDeclaration.signature}');
           }
         }
 
