@@ -2,35 +2,47 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:equatable/equatable.dart';
 
-List<String> _getTypeParameterList(TypeParameterizedElement element) {
+/// helper function to get the type parameter list from a [TypeParameterizedElement]
+///
+/// the parameter [withNullability] gets passed on to [TypeParameterElement.getDisplayString]
+List<String> _getTypeParameterList(
+  TypeParameterizedElement element, {
+  bool withNullability = true,
+}) {
   if (element.typeParameters.isNotEmpty) {
     return element.typeParameters
-        .map((e) => e.getDisplayString(withNullability: true))
+        .map((e) => e.getDisplayString(withNullability: withNullability))
         .toList(growable: false);
   }
   return [];
 }
 
+/// Represents a found class declaration
 class ClassDeclatation extends Equatable {
+  /// the signature of this class condensed to one String
+  /// contains Type arguments as well as base classes or implemented interfaces
   final String signature;
+
+  /// class name of the parent class or [null] if there is no parent class
   final String? parentClassName;
 
-  ClassDeclatation(this.signature, this.parentClassName);
+  const ClassDeclatation._(this.signature, this.parentClassName);
 
+  /// creates a new ClassDeclaration from an given ClassElement
+  ///
+  /// [parentClassName] gets passed on to the ClassDeclaration
   ClassDeclatation.fromClassElement(
-      this.parentClassName, ClassElement classElement)
-      : signature = _computeSignature(classElement);
+      String? parentClassName, ClassElement classElement)
+      : this._(_computeSignature(classElement), parentClassName);
 
   static String _computeSignature(ClassElement classElement) {
     String superTypeSuffix = '';
     if (classElement.allSupertypes.isNotEmpty) {
-      superTypeSuffix = ' : ' +
-          classElement.allSupertypes
-              .map((e) => e.getDisplayString(withNullability: true))
-              .join(', ');
+      superTypeSuffix =
+          ' : ${classElement.allSupertypes.map((e) => e.getDisplayString(withNullability: true)).join(', ')}';
     }
     final className = classElement.getDisplayString(withNullability: true);
-    return '${className}${superTypeSuffix}';
+    return '$className$superTypeSuffix';
   }
 
   @override
@@ -40,20 +52,30 @@ class ClassDeclatation extends Equatable {
       ];
 }
 
+/// represents a found FieldDeclaration
 class FieldDeclaration extends Equatable {
+  /// the signature of this field declaration.
+  ///
+  /// Contains the type (including type parameters and nullability) as well as the name of this field
   final String signature;
+
+  /// class name of the parent class or [null] if there is no parent class
   final String? parentClassName;
 
-  FieldDeclaration(this.signature, this.parentClassName);
+  const FieldDeclaration._(this.signature, this.parentClassName);
 
+  /// creates a [FieldDeclaration] from an [PropertyInducingElement].
+  ///
+  /// Typically [PropertyInducingElement] are properties, fields and top level variables
   FieldDeclaration.fromPropertyInducingElement(
-      this.parentClassName, PropertyInducingElement fieldElement)
-      : signature = _computeSignature(fieldElement);
+      String? parentClassName, PropertyInducingElement fieldElement)
+      : this._(_computeSignature(fieldElement), parentClassName);
 
+  /// helper to compute the signature of a field
   static String _computeSignature(PropertyInducingElement fieldElement) {
     final fieldTypeName =
         fieldElement.type.getDisplayString(withNullability: true);
-    return '${fieldTypeName} ${fieldElement.name}';
+    return '$fieldTypeName ${fieldElement.name}';
   }
 
   @override
@@ -63,23 +85,39 @@ class FieldDeclaration extends Equatable {
       ];
 }
 
+/// Represents the type of executable found
 enum ExecutableType {
+  /// method declaration
   method,
+  // constructor declaration
   constructor,
 }
 
+/// Represents an executable declaration
 class ExecutableDeclaration extends Equatable {
+  /// signature of the executable declaration.
+  ///
+  /// Contains the return type, name of the executable as well as all its parameters
   final String signature;
+
+  /// parent class name or [null] if there is none
   final String? parentClassName;
+
+  /// type of executable (e.g. method or constructor)
   final ExecutableType type;
 
-  ExecutableDeclaration(this.parentClassName, this.signature, this.type);
+  const ExecutableDeclaration._(
+      this.parentClassName, this.signature, this.type);
 
+  /// creates a new ExecutableDeclaration from the given [executableElement]
+  ///
+  /// [parentClassName] gets directly passed into [ExecutableDeclaration]
   ExecutableDeclaration.fromExecutableElement(
       String? parentClassName, ExecutableElement executableElement)
-      : this(parentClassName, _computeSignature(executableElement),
+      : this._(parentClassName, _computeSignature(executableElement),
             _computeExecutableType(executableElement));
 
+  /// retrieves the type of executable from the given [executableElement]
   static ExecutableType _computeExecutableType(
       ExecutableElement executableElement) {
     if (executableElement is ConstructorElement) {
@@ -88,6 +126,9 @@ class ExecutableDeclaration extends Equatable {
     return ExecutableType.method;
   }
 
+  /// computes the executable signature.
+  ///
+  /// The signature contains all public facing aspects of the executable like return value, name and parameters
   static String _computeSignature(ExecutableElement executableElement) {
     final returnType =
         executableElement.returnType.getDisplayString(withNullability: true);
@@ -99,12 +140,12 @@ class ExecutableDeclaration extends Equatable {
           parameterElement.type.getDisplayString(withNullability: true);
       final paramName = parameterElement.name;
       if (!parameterElement.isNamed) {
-        parameters.add('${paramType} ${paramName}');
+        parameters.add('$paramType $paramName');
       } else {
         String requiredPrefix = '';
         if (parameterElement.isRequired) {
           requiredPrefix = 'required ';
-          namedParameters.add('${requiredPrefix}${paramType} ${paramName}');
+          namedParameters.add('$requiredPrefix$paramType $paramName');
         }
       }
     }
@@ -116,7 +157,7 @@ class ExecutableDeclaration extends Equatable {
     if (typeParameterList.isNotEmpty) {
       typeParameterSuffix = '<${typeParameterList.join(', ')}>';
     }
-    return '${returnType} ${methodName}${typeParameterSuffix}(${parameters.join(', ')})';
+    return '$returnType $methodName$typeParameterSuffix(${parameters.join(', ')})';
   }
 
   @override
@@ -126,36 +167,34 @@ class ExecutableDeclaration extends Equatable {
       ];
 }
 
+/// collector to get all the API relevant information out of an AST
+///
+/// It tracks the found elements in its public properties:
+/// - [classDeclarations]
+/// - [executableDeclarations]
+/// - [fieldDeclarations]
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({this.isOnlyPublic = true});
-
-  final List<String> _things = [];
-  List<String> get things => _things;
-
-  final List<ClassDeclatation> _classDeclarations = [];
-  List<ClassDeclatation> get classDeclarations => _classDeclarations;
-  final List<ExecutableDeclaration> _executableDeclarations = [];
-  List<ExecutableDeclaration> get executableDeclarations =>
-      _executableDeclarations;
-  final List<FieldDeclaration> _fieldDeclarations = [];
-  List<FieldDeclaration> get fieldDeclarations => _fieldDeclarations;
-
-  final bool isOnlyPublic;
 
   ClassElement? _classContext;
   ExecutableElement? _executableContext;
 
-  String _format(String type, String content) {
-    int paddingWidth = 0;
-    if (_classContext != null) {
-      paddingWidth += 4;
-    }
-    if (_executableContext != null) {
-      paddingWidth += 4;
-    }
-    final padding = ''.padLeft(paddingWidth);
-    return '${padding}${type.padRight(15)}: ${content}';
-  }
+  final List<ClassDeclatation> _classDeclarations = [];
+  final List<ExecutableDeclaration> _executableDeclarations = [];
+  final List<FieldDeclaration> _fieldDeclarations = [];
+
+  /// all found class declarations
+  List<ClassDeclatation> get classDeclarations => _classDeclarations;
+
+  /// all found executable declarations (like methods and constructors)
+  List<ExecutableDeclaration> get executableDeclarations =>
+      _executableDeclarations;
+
+  /// all found field declarations (fields, top level variables and properties)
+  List<FieldDeclaration> get fieldDeclarations => _fieldDeclarations;
+
+  /// determines if the collector shall only collect publicly exposed declarations
+  final bool isOnlyPublic;
 
   String _getClassName(ClassElement? element) {
     if (element == null) {
@@ -167,7 +206,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       typeParameterSuffix = '<${typeParameterList.join(', ')}>';
     }
     final className = element.name;
-    return '${className}${typeParameterSuffix}';
+    return '$className$typeParameterSuffix';
   }
 
   @override
@@ -175,7 +214,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    things.add(_format('Class', element.displayName));
     _classDeclarations.add(ClassDeclatation.fromClassElement(
         _getClassName(_classContext), element));
     final prev = _classContext;
@@ -189,8 +227,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    things.add(_format('Field',
-        '${element.displayName} (${element.type.getDisplayString(withNullability: true)})'));
     _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
         _getClassName(_classContext), element));
     super.visitFieldElement(element);
@@ -208,8 +244,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitParameterElement(ParameterElement element) {
-    things.add(_format('Parameter',
-        '${element.displayName} (${element.type.getDisplayString(withNullability: true)})'));
     super.visitParameterElement(element);
   }
 
@@ -218,8 +252,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _things.add(_format('Method',
-        '${element.displayName} (${element.returnType.getDisplayString(withNullability: true)})'));
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
       _getClassName(_classContext),
       element,
