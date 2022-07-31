@@ -1,15 +1,16 @@
+// ignore_for_file: avoid_print
+
 import 'dart:collection';
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:args/args.dart';
-import 'package:dart_apitool/src/ApiRelevantElementsCollector.dart';
-import 'package:dart_apitool/src/ReferencedFilesCollector.dart';
+import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
+import 'package:dart_apitool/src/referenced_files_collector.dart';
 import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) async {

@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:equatable/equatable.dart';
+import 'package:stack/stack.dart';
 
 /// helper function to get the type parameter list from a [TypeParameterizedElement]
 ///
@@ -176,8 +177,23 @@ class ExecutableDeclaration extends Equatable {
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({this.isOnlyPublic = true});
 
-  ClassElement? _classContext;
-  ExecutableElement? _executableContext;
+  final _classContext = Stack<ClassElement>();
+  final _executableContext = Stack<ExecutableElement>();
+
+  ClassElement? get _currentClassContext {
+    if (_classContext.isNotEmpty) {
+      return _classContext.top();
+    }
+    return null;
+  }
+
+  // ignore: unused_element
+  ExecutableElement? get _currentExecutableContext {
+    if (_executableContext.isNotEmpty) {
+      return _executableContext.top();
+    }
+    return null;
+  }
 
   final List<ClassDeclatation> _classDeclarations = [];
   final List<ExecutableDeclaration> _executableDeclarations = [];
@@ -195,6 +211,38 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   /// determines if the collector shall only collect publicly exposed declarations
   final bool isOnlyPublic;
+
+  void _executeInContext({
+    required Function toExecute,
+    required Function onEnter,
+    required Function onExit,
+  }) {
+    onEnter();
+    toExecute();
+    onExit();
+  }
+
+  void _executeInClassContext({
+    required Function toExecute,
+    required ClassElement classContext,
+  }) {
+    _executeInContext(
+      toExecute: toExecute,
+      onEnter: () => _classContext.push(classContext),
+      onExit: () => _classContext.pop(),
+    );
+  }
+
+  void _executeInExecutableContext({
+    required Function toExecute,
+    required ExecutableElement executableContext,
+  }) {
+    _executeInContext(
+      toExecute: toExecute,
+      onEnter: () => _executableContext.push(executableContext),
+      onExit: () => _executableContext.pop(),
+    );
+  }
 
   String _getClassName(ClassElement? element) {
     if (element == null) {
@@ -215,11 +263,13 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _classDeclarations.add(ClassDeclatation.fromClassElement(
-        _getClassName(_classContext), element));
-    final prev = _classContext;
-    _classContext = element;
-    super.visitClassElement(element);
-    _classContext = prev;
+        _getClassName(_currentClassContext), element));
+    _executeInClassContext(
+      toExecute: () {
+        super.visitClassElement(element);
+      },
+      classContext: element,
+    );
   }
 
   @override
@@ -228,7 +278,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
-        _getClassName(_classContext), element));
+        _getClassName(_currentClassContext), element));
     super.visitFieldElement(element);
   }
 
@@ -238,7 +288,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
-        _getClassName(_classContext), element));
+        _getClassName(_currentClassContext), element));
     super.visitTopLevelVariableElement(element);
   }
 
@@ -253,13 +303,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_classContext),
+      _getClassName(_currentClassContext),
       element,
     ));
-    final prev = _executableContext;
-    _executableContext = element;
-    super.visitMethodElement(element);
-    _executableContext = prev;
+    _executeInExecutableContext(
+      toExecute: () {
+        super.visitMethodElement(element);
+      },
+      executableContext: element,
+    );
   }
 
   @override
@@ -268,13 +320,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_classContext),
+      _getClassName(_currentClassContext),
       element,
     ));
-    final prev = _executableContext;
-    _executableContext = element;
-    super.visitFunctionElement(element);
-    _executableContext = prev;
+    _executeInExecutableContext(
+      toExecute: () {
+        super.visitFunctionElement(element);
+      },
+      executableContext: element,
+    );
   }
 
   @override
@@ -284,12 +338,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
 
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_classContext),
+      _getClassName(_currentClassContext),
       element,
     ));
-    final prev = _executableContext;
-    _executableContext = element;
-    super.visitConstructorElement(element);
-    _executableContext = prev;
+
+    _executeInExecutableContext(
+      toExecute: () {
+        super.visitConstructorElement(element);
+      },
+      executableContext: element,
+    );
   }
 }

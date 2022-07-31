@@ -1,5 +1,5 @@
-export 'src/ApiRelevantElementsCollector.dart';
-export 'src/ReferencedFilesCollector.dart';
+export 'src/api_relevant_elements_collector.dart';
+export 'src/referenced_files_collector.dart';
 
 class ClassWithTypeArgument<T> {
   final T member;
