@@ -2,8 +2,6 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:equatable/equatable.dart';
 
-//TODO: check if top level elements are already found (methods, variables)
-
 List<String> _getTypeParameterList(TypeParameterizedElement element) {
   if (element.typeParameters.isNotEmpty) {
     return element.typeParameters
@@ -48,11 +46,11 @@ class FieldDeclaration extends Equatable {
 
   FieldDeclaration(this.signature, this.parentClassName);
 
-  FieldDeclaration.fromFieldElement(
-      this.parentClassName, FieldElement fieldElement)
+  FieldDeclaration.fromPropertyInducingElement(
+      this.parentClassName, PropertyInducingElement fieldElement)
       : signature = _computeSignature(fieldElement);
 
-  static String _computeSignature(FieldElement fieldElement) {
+  static String _computeSignature(PropertyInducingElement fieldElement) {
     final fieldTypeName =
         fieldElement.type.getDisplayString(withNullability: true);
     return '${fieldTypeName} ${fieldElement.name}';
@@ -193,9 +191,19 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
     things.add(_format('Field',
         '${element.displayName} (${element.type.getDisplayString(withNullability: true)})'));
-    _fieldDeclarations.add(FieldDeclaration.fromFieldElement(
+    _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
         _getClassName(_classContext), element));
     super.visitFieldElement(element);
+  }
+
+  @override
+  visitTopLevelVariableElement(TopLevelVariableElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
+    _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
+        _getClassName(_classContext), element));
+    super.visitTopLevelVariableElement(element);
   }
 
   @override
@@ -223,6 +231,21 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   @override
+  visitFunctionElement(FunctionElement element) {
+    if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
+    _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
+      _getClassName(_classContext),
+      element,
+    ));
+    final prev = _executableContext;
+    _executableContext = element;
+    super.visitFunctionElement(element);
+    _executableContext = prev;
+  }
+
+  @override
   visitConstructorElement(ConstructorElement element) {
     if (isOnlyPublic && !element.isPublic) {
       return;
@@ -236,17 +259,5 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _executableContext = element;
     super.visitConstructorElement(element);
     _executableContext = prev;
-  }
-
-  @override
-  void visitTopLevelVariableElement(TopLevelVariableElement element) {
-    things.add(_format('Top-Var', element.displayName));
-    super.visitTopLevelVariableElement(element);
-  }
-
-  @override
-  void visitTypeParameterElement(TypeParameterElement element) {
-    things.add(_format('Type-Param', element.displayName));
-    super.visitTypeParameterElement(element);
   }
 }

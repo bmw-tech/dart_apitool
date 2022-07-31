@@ -10,3 +10,9 @@ class ClassWithTypeArgument<T> {
     return member as R;
   }
 }
+
+ClassWithTypeArgument<String> publicTopLevelVar = ClassWithTypeArgument('test');
+
+R publicTopLevelMethod<T, R>(ClassWithTypeArgument<T> arg) {
+  return arg.castTo<R>();
+}
