@@ -16,8 +16,12 @@ import '../utils/string_utils.dart';
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({this.isOnlyPublic = true});
 
-  final _classContext = Stack<ClassElement>();
-  final _executableContext = Stack<ExecutableElement>();
+  final List<TypeDefiningElement> _visitedTypeElements = [];
+
+  String? _packageIdentifier;
+
+  var _classContext = Stack<ClassElement>();
+  var _executableContext = Stack<ExecutableElement>();
 
   ClassElement? get _currentClassContext {
     if (_classContext.isNotEmpty) {
@@ -50,6 +54,18 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   /// determines if the collector shall only collect publicly exposed declarations
   final bool isOnlyPublic;
+
+  void _executeInRootContext({
+    required Function toExecute,
+  }) {
+    final classContextBackup = _classContext;
+    _classContext = Stack<ClassElement>();
+    final executableContextBackup = _executableContext;
+    _executableContext = Stack<ExecutableElement>();
+    toExecute();
+    _classContext = classContextBackup;
+    _executableContext = executableContextBackup;
+  }
 
   void _executeInContext({
     required Function toExecute,
@@ -93,11 +109,34 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return '$className$typeParameterSuffix';
   }
 
+  void _onTypeUsed(TypeDefiningElement element) {
+    if (_visitedTypeElements.contains(element)) {
+      return;
+    }
+    if (element.library!.identifier == _packageIdentifier) {
+      _executeInRootContext(
+        toExecute: () {
+          element.accept(this);
+        },
+      );
+    }
+  }
+
+  void _onVisitAnyElement(Element element) {
+    // set the package identifier to the first element's package we see
+    _packageIdentifier ??= element.library?.identifier;
+  }
+
   @override
   void visitClassElement(ClassElement element) {
+    _onVisitAnyElement(element);
+    if (_visitedTypeElements.contains(element)) {
+      return;
+    }
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
+    _visitedTypeElements.add(element);
     _classDeclarations.add(ClassDeclatation.fromClassElement(
         _getClassName(_currentClassContext), element));
     _executeInClassContext(
@@ -110,31 +149,45 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitFieldElement(FieldElement element) {
+    _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
     _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
         _getClassName(_currentClassContext), element));
     super.visitFieldElement(element);
+    if (element.type.element != null) {
+      _onTypeUsed(element.type.element as TypeDefiningElement);
+    }
   }
 
   @override
   visitTopLevelVariableElement(TopLevelVariableElement element) {
+    _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
     _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
         _getClassName(_currentClassContext), element));
     super.visitTopLevelVariableElement(element);
+    if (element.type.element != null) {
+      _onTypeUsed(element.type.element as TypeDefiningElement);
+    }
   }
 
   @override
   void visitParameterElement(ParameterElement element) {
+    _onVisitAnyElement(element);
     super.visitParameterElement(element);
+    // this includes method, function and constructor calls
+    if (element.type.element != null) {
+      _onTypeUsed(element.type.element as TypeDefiningElement);
+    }
   }
 
   @override
   void visitMethodElement(MethodElement element) {
+    _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
@@ -148,10 +201,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       },
       executableContext: element,
     );
+    if (element.returnType.element != null) {
+      _onTypeUsed(element.returnType.element as TypeDefiningElement);
+    }
   }
 
   @override
   visitFunctionElement(FunctionElement element) {
+    _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
@@ -165,10 +222,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       },
       executableContext: element,
     );
+    if (element.returnType.element != null) {
+      _onTypeUsed(element.returnType.element as TypeDefiningElement);
+    }
   }
 
   @override
   visitConstructorElement(ConstructorElement element) {
+    _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
@@ -184,5 +245,23 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       },
       executableContext: element,
     );
+  }
+
+  @override
+  visitTypeAliasElement(TypeAliasElement element) {
+    _onVisitAnyElement(element);
+    super.visitTypeAliasElement(element);
+    if (element.aliasedType.element != null) {
+      _onTypeUsed(element.aliasedType.element as TypeDefiningElement);
+    }
+  }
+
+  @override
+  visitTypeParameterElement(TypeParameterElement element) {
+    _onVisitAnyElement(element);
+    super.visitTypeParameterElement(element);
+    if (element.bound?.element != null) {
+      _onTypeUsed(element.bound!.element as TypeDefiningElement);
+    }
   }
 }
