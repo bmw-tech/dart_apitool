@@ -132,17 +132,25 @@ Future _handleListCommand(ArgResults cmd) async {
           //   print('    ${thing}');
           // }
           for (final classDeclaration in collector.classDeclarations) {
-            print(
-                'class: ${classDeclaration.parentClassName}: ${classDeclaration.signature}');
+            final classContextString = classDeclaration.parentClassName == null
+                ? ''
+                : "${classDeclaration.parentClassName!}::";
+            print('class: $classContextString${classDeclaration.signature}');
           }
           for (final executableDeclaration
               in collector.executableDeclarations) {
+            final classContextString =
+                executableDeclaration.parentClassName == null
+                    ? ''
+                    : "${executableDeclaration.parentClassName!}::";
             print(
-                '${executableDeclaration.type.name}: ${executableDeclaration.parentClassName}: ${executableDeclaration.signature}');
+                '${executableDeclaration.type.name}: $classContextString${executableDeclaration.signature}');
           }
           for (final fieldDeclaration in collector.fieldDeclarations) {
-            print(
-                'field: ${fieldDeclaration.parentClassName}: ${fieldDeclaration.signature}');
+            final classContextString = fieldDeclaration.parentClassName == null
+                ? ''
+                : "${fieldDeclaration.parentClassName!}::";
+            print('field: $classContextString${fieldDeclaration.signature}');
           }
         }
 
