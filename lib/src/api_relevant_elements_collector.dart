@@ -1,172 +1,11 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
-import 'package:equatable/equatable.dart';
 import 'package:stack/stack.dart';
 
-/// helper function to get the type parameter list from a [TypeParameterizedElement]
-///
-/// the parameter [withNullability] gets passed on to [TypeParameterElement.getDisplayString]
-List<String> _getTypeParameterList(
-  TypeParameterizedElement element, {
-  bool withNullability = true,
-}) {
-  if (element.typeParameters.isNotEmpty) {
-    return element.typeParameters
-        .map((e) => e.getDisplayString(withNullability: withNullability))
-        .toList(growable: false);
-  }
-  return [];
-}
-
-/// Represents a found class declaration
-class ClassDeclatation extends Equatable {
-  /// the signature of this class condensed to one String
-  /// contains Type arguments as well as base classes or implemented interfaces
-  final String signature;
-
-  /// class name of the parent class or [null] if there is no parent class
-  final String? parentClassName;
-
-  const ClassDeclatation._(this.signature, this.parentClassName);
-
-  /// creates a new ClassDeclaration from an given ClassElement
-  ///
-  /// [parentClassName] gets passed on to the ClassDeclaration
-  ClassDeclatation.fromClassElement(
-      String? parentClassName, ClassElement classElement)
-      : this._(_computeSignature(classElement), parentClassName);
-
-  static String _computeSignature(ClassElement classElement) {
-    String superTypeSuffix = '';
-    if (classElement.allSupertypes.isNotEmpty) {
-      superTypeSuffix =
-          ' : ${classElement.allSupertypes.map((e) => e.getDisplayString(withNullability: true)).join(', ')}';
-    }
-    final className = classElement.getDisplayString(withNullability: true);
-    return '$className$superTypeSuffix';
-  }
-
-  @override
-  List<Object?> get props => [
-        parentClassName,
-        signature,
-      ];
-}
-
-/// represents a found FieldDeclaration
-class FieldDeclaration extends Equatable {
-  /// the signature of this field declaration.
-  ///
-  /// Contains the type (including type parameters and nullability) as well as the name of this field
-  final String signature;
-
-  /// class name of the parent class or [null] if there is no parent class
-  final String? parentClassName;
-
-  const FieldDeclaration._(this.signature, this.parentClassName);
-
-  /// creates a [FieldDeclaration] from an [PropertyInducingElement].
-  ///
-  /// Typically [PropertyInducingElement] are properties, fields and top level variables
-  FieldDeclaration.fromPropertyInducingElement(
-      String? parentClassName, PropertyInducingElement fieldElement)
-      : this._(_computeSignature(fieldElement), parentClassName);
-
-  /// helper to compute the signature of a field
-  static String _computeSignature(PropertyInducingElement fieldElement) {
-    final fieldTypeName =
-        fieldElement.type.getDisplayString(withNullability: true);
-    return '$fieldTypeName ${fieldElement.name}';
-  }
-
-  @override
-  List<Object?> get props => [
-        parentClassName,
-        signature,
-      ];
-}
-
-/// Represents the type of executable found
-enum ExecutableType {
-  /// method declaration
-  method,
-  // constructor declaration
-  constructor,
-}
-
-/// Represents an executable declaration
-class ExecutableDeclaration extends Equatable {
-  /// signature of the executable declaration.
-  ///
-  /// Contains the return type, name of the executable as well as all its parameters
-  final String signature;
-
-  /// parent class name or [null] if there is none
-  final String? parentClassName;
-
-  /// type of executable (e.g. method or constructor)
-  final ExecutableType type;
-
-  const ExecutableDeclaration._(
-      this.parentClassName, this.signature, this.type);
-
-  /// creates a new ExecutableDeclaration from the given [executableElement]
-  ///
-  /// [parentClassName] gets directly passed into [ExecutableDeclaration]
-  ExecutableDeclaration.fromExecutableElement(
-      String? parentClassName, ExecutableElement executableElement)
-      : this._(parentClassName, _computeSignature(executableElement),
-            _computeExecutableType(executableElement));
-
-  /// retrieves the type of executable from the given [executableElement]
-  static ExecutableType _computeExecutableType(
-      ExecutableElement executableElement) {
-    if (executableElement is ConstructorElement) {
-      return ExecutableType.constructor;
-    }
-    return ExecutableType.method;
-  }
-
-  /// computes the executable signature.
-  ///
-  /// The signature contains all public facing aspects of the executable like return value, name and parameters
-  static String _computeSignature(ExecutableElement executableElement) {
-    final returnType =
-        executableElement.returnType.getDisplayString(withNullability: true);
-    final methodName = executableElement.name;
-    List<String> parameters = [];
-    List<String> namedParameters = [];
-    for (final parameterElement in executableElement.parameters) {
-      final paramType =
-          parameterElement.type.getDisplayString(withNullability: true);
-      final paramName = parameterElement.name;
-      if (!parameterElement.isNamed) {
-        parameters.add('$paramType $paramName');
-      } else {
-        String requiredPrefix = '';
-        if (parameterElement.isRequired) {
-          requiredPrefix = 'required ';
-          namedParameters.add('$requiredPrefix$paramType $paramName');
-        }
-      }
-    }
-    if (namedParameters.isNotEmpty) {
-      parameters.add('{${namedParameters.join(', ')}}');
-    }
-    String typeParameterSuffix = '';
-    final typeParameterList = _getTypeParameterList(executableElement);
-    if (typeParameterList.isNotEmpty) {
-      typeParameterSuffix = '<${typeParameterList.join(', ')}>';
-    }
-    return '$returnType $methodName$typeParameterSuffix(${parameters.join(', ')})';
-  }
-
-  @override
-  List<Object?> get props => [
-        parentClassName,
-        signature,
-      ];
-}
+import '../model/class_declaration.dart';
+import '../model/executable_declaration.dart';
+import '../model/field_declaration.dart';
+import '../utils/string_utils.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
@@ -248,11 +87,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (element == null) {
       return '';
     }
-    String typeParameterSuffix = '';
-    final typeParameterList = _getTypeParameterList(element);
-    if (typeParameterList.isNotEmpty) {
-      typeParameterSuffix = '<${typeParameterList.join(', ')}>';
-    }
+    String typeParameterSuffix = getTypeParameterSuffix(
+        element.typeParameters.map((tpe) => tpe.name).toList());
     final className = element.name;
     return '$className$typeParameterSuffix';
   }
