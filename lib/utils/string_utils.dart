@@ -6,3 +6,15 @@ String getTypeParameterSuffix(List<String> typeParameterNames) {
   }
   return typeParameterSuffix;
 }
+
+String getPackageNameFromLibraryIdentifier(String libraryIdentifier) {
+  if (!libraryIdentifier.startsWith('package:')) {
+    return '';
+  }
+  int endIndex = libraryIdentifier.length;
+  if (libraryIdentifier.contains('/')) {
+    endIndex = libraryIdentifier.indexOf('/');
+  }
+
+  return libraryIdentifier.substring('package:'.length, endIndex);
+}

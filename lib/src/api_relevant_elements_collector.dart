@@ -18,7 +18,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   final List<TypeDefiningElement> _visitedTypeElements = [];
 
-  String? _packageIdentifier;
+  String? _packageName;
 
   var _classContext = Stack<ClassElement>();
   var _executableContext = Stack<ExecutableElement>();
@@ -113,7 +113,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (_visitedTypeElements.contains(element)) {
       return;
     }
-    if (element.library!.identifier == _packageIdentifier) {
+    final packageName =
+        getPackageNameFromLibraryIdentifier(element.library!.identifier);
+    if (packageName == _packageName) {
       _executeInRootContext(
         toExecute: () {
           element.accept(this);
@@ -123,8 +125,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   void _onVisitAnyElement(Element element) {
-    // set the package identifier to the first element's package we see
-    _packageIdentifier ??= element.library?.identifier;
+    // set the package name to the first element's package we see
+    _packageName ??= element.library?.identifier != null
+        ? getPackageNameFromLibraryIdentifier(element.library!.identifier)
+        : null;
   }
 
   @override
@@ -262,6 +266,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     super.visitTypeParameterElement(element);
     if (element.bound?.element != null) {
       _onTypeUsed(element.bound!.element as TypeDefiningElement);
+    }
+  }
+
+  @override
+  void visitExtensionElement(ExtensionElement element) {
+    _onVisitAnyElement(element);
+    super.visitExtensionElement(element);
+    if (element.extendedType.element != null) {
+      _onTypeUsed(element.extendedType.element as TypeDefiningElement);
     }
   }
 }

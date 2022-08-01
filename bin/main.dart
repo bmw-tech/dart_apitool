@@ -11,6 +11,7 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:args/args.dart';
 import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/referenced_files_collector.dart';
+import 'package:dart_apitool/utils/string_utils.dart';
 import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) async {
@@ -55,18 +56,6 @@ String _makePackageSubPath(String projectPath, List<String> directories) {
   );
 }
 
-String _getPackageNameFromLibraryIdentifier(String libraryIdentifier) {
-  if (!libraryIdentifier.startsWith('package:')) {
-    return '';
-  }
-  int endIndex = libraryIdentifier.length;
-  if (libraryIdentifier.contains('/')) {
-    endIndex = libraryIdentifier.indexOf('/');
-  }
-
-  return libraryIdentifier.substring('package:'.length, endIndex);
-}
-
 String _getRelativeUriFromLibraryIdentifier(String libraryIdentifier) {
   if (!libraryIdentifier.contains('package:')) {
     return libraryIdentifier;
@@ -85,9 +74,9 @@ bool _isInternalRef(
     return true;
   }
   final origPackageName =
-      _getPackageNameFromLibraryIdentifier(originLibrary.identifier);
+      getPackageNameFromLibraryIdentifier(originLibrary.identifier);
   final refPackageName =
-      _getPackageNameFromLibraryIdentifier(refLibrary.identifier);
+      getPackageNameFromLibraryIdentifier(refLibrary.identifier);
 
   return origPackageName == refPackageName;
 }
