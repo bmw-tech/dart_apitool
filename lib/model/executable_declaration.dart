@@ -143,7 +143,7 @@ class ExecutableDeclaration extends Equatable {
       parameterStrings.add('{${namedParameterStrings.join(', ')}}');
     }
     String typeParameterSuffix = getTypeParameterSuffix(typeParameterNames);
-    return '$returnTypeString $name$typeParameterSuffix(${parameters.join(', ')})';
+    return '$returnTypeString $name$typeParameterSuffix(${parameterStrings.join(', ')})';
   }
 
   static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
