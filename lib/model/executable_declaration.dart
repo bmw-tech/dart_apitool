@@ -17,15 +17,25 @@ class ExecutablParameterDeclaration extends Equatable {
   final bool isNamed;
   final String name;
   final DartType type;
+  final int? parentClassId;
 
-  const ExecutablParameterDeclaration(
-      this.isRequired, this.isNamed, this.name, this.type);
+  const ExecutablParameterDeclaration({
+    required this.isRequired,
+    required this.isNamed,
+    required this.name,
+    required this.type,
+    required this.parentClassId,
+  });
 
   ExecutablParameterDeclaration.fromParameterElement(ParameterElement element)
-      : isRequired = element.isRequired,
-        isNamed = element.isNamed,
-        name = element.name,
-        type = element.type;
+      : this(
+            isRequired: element.isRequired,
+            isNamed: element.isNamed,
+            name: element.name,
+            type: element.type,
+            parentClassId: _getParentClassIdFromEnclosingElement(
+              element.enclosingElement2,
+            ));
 
   @override
   List<Object?> get props => [
@@ -33,7 +43,15 @@ class ExecutablParameterDeclaration extends Equatable {
         isNamed,
         name,
         type,
+        parentClassId,
       ];
+
+  static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
+    if (enclosingElement == null) {
+      return null;
+    }
+    return enclosingElement.id;
+  }
 }
 
 /// Represents an executable declaration
@@ -49,26 +67,33 @@ class ExecutableDeclaration extends Equatable {
   final List<String> typeParameterNames;
 
   /// parent class name or [null] if there is none
-  final String? parentClassName;
+  final int? parentClassId;
 
   /// type of executable (e.g. method or constructor)
   final ExecutableType type;
 
-  const ExecutableDeclaration._(this.parentClassName, this.returnType,
-      this.name, this.parameters, this.typeParameterNames, this.type);
+  const ExecutableDeclaration._(
+      {required this.parentClassId,
+      required this.returnType,
+      required this.name,
+      required this.parameters,
+      required this.typeParameterNames,
+      required this.type});
 
   /// creates a new ExecutableDeclaration from the given [executableElement]
   ///
   /// [parentClassName] gets directly passed into [ExecutableDeclaration]
   ExecutableDeclaration.fromExecutableElement(
-      String? parentClassName, ExecutableElement executableElement)
+      ExecutableElement executableElement)
       : this._(
-          parentClassName,
-          executableElement.returnType,
-          executableElement.name,
-          _computeParameterList(executableElement.parameters),
-          _computeTypeParameters(executableElement.typeParameters),
-          _computeExecutableType(executableElement),
+          parentClassId: _getParentClassIdFromEnclosingElement(
+              executableElement.enclosingElement2),
+          returnType: executableElement.returnType,
+          name: executableElement.name,
+          parameters: _computeParameterList(executableElement.parameters),
+          typeParameterNames:
+              _computeTypeParameters(executableElement.typeParameters),
+          type: _computeExecutableType(executableElement),
         );
 
   /// retrieves the type of executable from the given [executableElement]
@@ -121,9 +146,16 @@ class ExecutableDeclaration extends Equatable {
     return '$returnTypeString $name$typeParameterSuffix(${parameters.join(', ')})';
   }
 
+  static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
+    if (enclosingElement == null) {
+      return null;
+    }
+    return enclosingElement.id;
+  }
+
   @override
   List<Object?> get props => [
-        parentClassName,
+        parentClassId,
         returnType,
         name,
         parameters,

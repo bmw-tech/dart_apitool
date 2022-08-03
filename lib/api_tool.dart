@@ -2,6 +2,7 @@ import 'package:dart_apitool/test/secret_class.dart';
 
 export 'src/api_relevant_elements_collector.dart';
 export 'src/referenced_files_collector.dart';
+export 'project_api_analyzer.dart';
 
 class ClassWithTypeArgument<T> {
   final T member;

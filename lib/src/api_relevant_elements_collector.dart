@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:stack/stack.dart';
 
@@ -16,19 +17,19 @@ import '../utils/string_utils.dart';
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({this.isOnlyPublic = true});
 
-  final List<TypeDefiningElement> _visitedTypeElements = [];
+  final List<int> _visitedTypeElementIds = [];
 
   String? _packageName;
 
   var _classContext = Stack<ClassElement>();
   var _executableContext = Stack<ExecutableElement>();
 
-  ClassElement? get _currentClassContext {
+  /*ClassElement? get _currentClassContext {
     if (_classContext.isNotEmpty) {
       return _classContext.top();
     }
     return null;
-  }
+  }*/
 
   // ignore: unused_element
   ExecutableElement? get _currentExecutableContext {
@@ -99,28 +100,40 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     );
   }
 
-  String _getClassName(ClassElement? element) {
-    if (element == null) {
-      return '';
+  // String _getClassName(ClassElement? element) {
+  //   if (element == null) {
+  //     return '';
+  //   }
+  //   String typeParameterSuffix = getTypeParameterSuffix(
+  //       element.typeParameters.map((tpe) => tpe.name).toList());
+  //   final className = element.name;
+  //   return '$className$typeParameterSuffix';
+  // }
+
+  void _onTypeUsed(DartType type) {
+    if (type is InterfaceType) {
+      _onInterfaceTypeUsed(type);
     }
-    String typeParameterSuffix = getTypeParameterSuffix(
-        element.typeParameters.map((tpe) => tpe.name).toList());
-    final className = element.name;
-    return '$className$typeParameterSuffix';
   }
 
-  void _onTypeUsed(TypeDefiningElement element) {
-    if (_visitedTypeElements.contains(element)) {
+  void _onInterfaceTypeUsed(InterfaceType type) {
+    final directElement = type.element;
+    if (_visitedTypeElementIds.contains(type.element.id)) {
       return;
     }
     final packageName =
-        getPackageNameFromLibraryIdentifier(element.library!.identifier);
+        getPackageNameFromLibraryIdentifier(directElement.library.identifier);
     if (packageName == _packageName) {
       _executeInRootContext(
         toExecute: () {
-          element.accept(this);
+          directElement.accept(this);
         },
       );
+    }
+    for (final ta in type.typeArguments) {
+      if (ta is InterfaceType) {
+        _onTypeUsed(ta);
+      }
     }
   }
 
@@ -134,15 +147,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitClassElement(ClassElement element) {
     _onVisitAnyElement(element);
-    if (_visitedTypeElements.contains(element)) {
+    if (_visitedTypeElementIds.contains(element.id)) {
       return;
     }
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _visitedTypeElements.add(element);
-    _classDeclarations.add(ClassDeclatation.fromClassElement(
-        _getClassName(_currentClassContext), element));
+    _visitedTypeElementIds.add(element.id);
+    _classDeclarations.add(ClassDeclatation.fromClassElement(element));
     _executeInClassContext(
       toExecute: () {
         super.visitClassElement(element);
@@ -157,11 +169,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
-        _getClassName(_currentClassContext), element));
+    _fieldDeclarations
+        .add(FieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
     if (element.type.element != null) {
-      _onTypeUsed(element.type.element as TypeDefiningElement);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -171,11 +183,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _fieldDeclarations.add(FieldDeclaration.fromPropertyInducingElement(
-        _getClassName(_currentClassContext), element));
+    _fieldDeclarations
+        .add(FieldDeclaration.fromPropertyInducingElement(element));
     super.visitTopLevelVariableElement(element);
     if (element.type.element != null) {
-      _onTypeUsed(element.type.element as TypeDefiningElement);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -185,7 +197,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     super.visitParameterElement(element);
     // this includes method, function and constructor calls
     if (element.type.element != null) {
-      _onTypeUsed(element.type.element as TypeDefiningElement);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -196,7 +208,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_currentClassContext),
       element,
     ));
     _executeInExecutableContext(
@@ -206,7 +217,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       executableContext: element,
     );
     if (element.returnType.element != null) {
-      _onTypeUsed(element.returnType.element as TypeDefiningElement);
+      _onTypeUsed(element.returnType);
     }
   }
 
@@ -217,7 +228,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_currentClassContext),
       element,
     ));
     _executeInExecutableContext(
@@ -227,7 +237,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       executableContext: element,
     );
     if (element.returnType.element != null) {
-      _onTypeUsed(element.returnType.element as TypeDefiningElement);
+      _onTypeUsed(element.returnType);
     }
   }
 
@@ -239,7 +249,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
 
     _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
-      _getClassName(_currentClassContext),
       element,
     ));
 
@@ -256,7 +265,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element != null) {
-      _onTypeUsed(element.aliasedType.element as TypeDefiningElement);
+      _onTypeUsed(element.aliasedType);
     }
   }
 
@@ -265,7 +274,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
     if (element.bound?.element != null) {
-      _onTypeUsed(element.bound!.element as TypeDefiningElement);
+      _onTypeUsed(element.bound!);
     }
   }
 
@@ -274,7 +283,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitExtensionElement(element);
     if (element.extendedType.element != null) {
-      _onTypeUsed(element.extendedType.element as TypeDefiningElement);
+      _onTypeUsed(element.extendedType);
     }
   }
 }

@@ -12,20 +12,24 @@ class FieldDeclaration extends Equatable {
   final DartType type;
   final String name;
 
-  /// class name of the parent class or [null] if there is no parent class
-  final String? parentClassName;
+  final int? parentClassId;
 
-  const FieldDeclaration._(this.type, this.name, this.parentClassName);
+  const FieldDeclaration._({
+    required this.type,
+    required this.name,
+    required this.parentClassId,
+  });
 
   /// creates a [FieldDeclaration] from an [PropertyInducingElement].
   ///
   /// Typically [PropertyInducingElement] are properties, fields and top level variables
   FieldDeclaration.fromPropertyInducingElement(
-      String? parentClassName, PropertyInducingElement fieldElement)
+      PropertyInducingElement fieldElement)
       : this._(
-          fieldElement.type,
-          fieldElement.name,
-          parentClassName,
+          type: fieldElement.type,
+          name: fieldElement.name,
+          parentClassId: _getParentClassIdFromEnclosingElement(
+              fieldElement.enclosingElement2),
         );
 
   /// helper to compute the signature of a field
@@ -34,9 +38,16 @@ class FieldDeclaration extends Equatable {
     return '$fieldTypeName $name';
   }
 
+  static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
+    if (enclosingElement == null) {
+      return null;
+    }
+    return enclosingElement.id;
+  }
+
   @override
   List<Object?> get props => [
-        parentClassName,
+        parentClassId,
         type,
         name,
       ];
