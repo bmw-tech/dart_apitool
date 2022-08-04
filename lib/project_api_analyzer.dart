@@ -17,6 +17,9 @@ import 'package:path/path.dart' as path;
 import 'model/class_declaration.dart';
 import 'model/executable_declaration.dart';
 import 'model/field_declaration.dart';
+import 'src/model/internal_class_declaration.dart';
+import 'src/model/internal_executable_declaration.dart';
+import 'src/model/internal_field_declaration.dart';
 
 class ProjectApiAnalyzer {
   final String projectPath;
@@ -116,7 +119,7 @@ class ProjectApiAnalyzer {
     }
 
     final projectClassDeclarations =
-        List<ClassDeclatation>.empty(growable: true);
+        List<ClassDeclaration>.empty(growable: true);
     final projectExecutableDeclarations =
         List<ExecutableDeclaration>.empty(growable: true);
     final projectFieldDeclarations =
@@ -126,21 +129,24 @@ class ProjectApiAnalyzer {
     for (final classId in collectedClasses.keys) {
       final entry = collectedClasses[classId]!;
       if (entry.classDeclarations.isEmpty) {
-        projectExecutableDeclarations.addAll(entry.executableDeclarations);
-        projectFieldDeclarations.addAll(entry.fieldDeclarations);
+        projectExecutableDeclarations.addAll(
+            entry.executableDeclarations.map((e) => e.executableDeclaration));
+        projectFieldDeclarations
+            .addAll(entry.fieldDeclarations.map((e) => e.fieldDeclaration));
       } else {
         assert(entry.classDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
         final cd = entry.classDeclarations.first;
         projectClassDeclarations.add(
-          cd.copyWith(
+          cd.classDeclaration.copyWith(
             executableDeclarations: [
-              ...cd.executableDeclarations,
-              ...entry.executableDeclarations,
+              ...cd.classDeclaration.executableDeclarations,
+              ...entry.executableDeclarations
+                  .map((e) => e.executableDeclaration),
             ],
             fieldDeclarations: [
-              ...cd.fieldDeclarations,
-              ...entry.fieldDeclarations,
+              ...cd.classDeclaration.fieldDeclarations,
+              ...entry.fieldDeclarations.map((e) => e.fieldDeclaration),
             ],
           ),
         );
@@ -204,8 +210,10 @@ class ProjectApiAnalyzer {
 }
 
 class _ClassCollectionResult {
-  final classDeclarations = List<ClassDeclatation>.empty(growable: true);
+  final classDeclarations =
+      List<InternalClassDeclaration>.empty(growable: true);
   final executableDeclarations =
-      List<ExecutableDeclaration>.empty(growable: true);
-  final fieldDeclarations = List<FieldDeclaration>.empty(growable: true);
+      List<InternalExecutableDeclaration>.empty(growable: true);
+  final fieldDeclarations =
+      List<InternalFieldDeclaration>.empty(growable: true);
 }

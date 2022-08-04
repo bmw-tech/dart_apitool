@@ -6,7 +6,7 @@ class ProjectApi {
   final String projectName;
   final String projectPath;
 
-  final List<ClassDeclatation> classDeclarations;
+  final List<ClassDeclaration> classDeclarations;
   final List<ExecutableDeclaration> executableDeclarations;
   final List<FieldDeclaration> fieldDeclarations;
 

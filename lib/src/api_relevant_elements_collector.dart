@@ -3,10 +3,10 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:stack/stack.dart';
 
-import '../model/class_declaration.dart';
-import '../model/executable_declaration.dart';
-import '../model/field_declaration.dart';
 import '../utils/string_utils.dart';
+import 'model/internal_class_declaration.dart';
+import 'model/internal_executable_declaration.dart';
+import 'model/internal_field_declaration.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
@@ -39,19 +39,19 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return null;
   }
 
-  final List<ClassDeclatation> _classDeclarations = [];
-  final List<ExecutableDeclaration> _executableDeclarations = [];
-  final List<FieldDeclaration> _fieldDeclarations = [];
+  final List<InternalClassDeclaration> _classDeclarations = [];
+  final List<InternalExecutableDeclaration> _executableDeclarations = [];
+  final List<InternalFieldDeclaration> _fieldDeclarations = [];
 
   /// all found class declarations
-  List<ClassDeclatation> get classDeclarations => _classDeclarations;
+  List<InternalClassDeclaration> get classDeclarations => _classDeclarations;
 
   /// all found executable declarations (like methods and constructors)
-  List<ExecutableDeclaration> get executableDeclarations =>
+  List<InternalExecutableDeclaration> get executableDeclarations =>
       _executableDeclarations;
 
   /// all found field declarations (fields, top level variables and properties)
-  List<FieldDeclaration> get fieldDeclarations => _fieldDeclarations;
+  List<InternalFieldDeclaration> get fieldDeclarations => _fieldDeclarations;
 
   /// determines if the collector shall only collect publicly exposed declarations
   final bool isOnlyPublic;
@@ -154,7 +154,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _visitedTypeElementIds.add(element.id);
-    _classDeclarations.add(ClassDeclatation.fromClassElement(element));
+    _classDeclarations.add(InternalClassDeclaration.fromClassElement(element));
     _executeInClassContext(
       toExecute: () {
         super.visitClassElement(element);
@@ -170,7 +170,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _fieldDeclarations
-        .add(FieldDeclaration.fromPropertyInducingElement(element));
+        .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
     if (element.type.element != null) {
       _onTypeUsed(element.type);
@@ -184,7 +184,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _fieldDeclarations
-        .add(FieldDeclaration.fromPropertyInducingElement(element));
+        .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitTopLevelVariableElement(element);
     if (element.type.element != null) {
       _onTypeUsed(element.type);
@@ -207,7 +207,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
+    _executableDeclarations
+        .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
     ));
     _executeInExecutableContext(
@@ -227,7 +228,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
+    _executableDeclarations
+        .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
     ));
     _executeInExecutableContext(
@@ -248,7 +250,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
 
-    _executableDeclarations.add(ExecutableDeclaration.fromExecutableElement(
+    _executableDeclarations
+        .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
     ));
 

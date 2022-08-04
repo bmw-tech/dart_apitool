@@ -1,8 +1,9 @@
-import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/type.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../utils/string_utils.dart';
+
+part 'executable_declaration.freezed.dart';
+part 'executable_declaration.g.dart';
 
 /// Represents the type of executable found
 enum ExecutableType {
@@ -12,121 +13,50 @@ enum ExecutableType {
   constructor,
 }
 
-class ExecutablParameterDeclaration extends Equatable {
-  final bool isRequired;
-  final bool isNamed;
-  final String name;
-  final DartType type;
-  final int? parentClassId;
+@freezed
+class ExecutablParameterDeclaration with _$ExecutablParameterDeclaration {
+  const ExecutablParameterDeclaration._();
 
-  const ExecutablParameterDeclaration({
-    required this.isRequired,
-    required this.isNamed,
-    required this.name,
-    required this.type,
-    required this.parentClassId,
-  });
+  const factory ExecutablParameterDeclaration({
+    required bool isRequired,
+    required bool isNamed,
+    required String name,
+    required String typeName,
+  }) = _ExecutablParameterDeclaration;
 
-  ExecutablParameterDeclaration.fromParameterElement(ParameterElement element)
-      : this(
-            isRequired: element.isRequired,
-            isNamed: element.isNamed,
-            name: element.name,
-            type: element.type,
-            parentClassId: _getParentClassIdFromEnclosingElement(
-              element.enclosingElement2,
-            ));
-
-  @override
-  List<Object?> get props => [
-        isRequired,
-        isNamed,
-        name,
-        type,
-        parentClassId,
-      ];
-
-  static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
-    if (enclosingElement == null) {
-      return null;
-    }
-    return enclosingElement.id;
-  }
+  factory ExecutablParameterDeclaration.fromJson(Map<String, Object?> json) =>
+      _$ExecutablParameterDeclarationFromJson(json);
 }
 
 /// Represents an executable declaration
-class ExecutableDeclaration extends Equatable {
+@freezed
+class ExecutableDeclaration with _$ExecutableDeclaration {
+  const ExecutableDeclaration._();
+
   /// signature of the executable declaration.
   ///
   /// Contains the return type, name of the executable as well as all its parameters
   String get signature => _computeSignature();
 
-  final DartType returnType;
-  final String name;
-  final List<ExecutablParameterDeclaration> parameters;
-  final List<String> typeParameterNames;
+  const factory ExecutableDeclaration({
+    required String returnTypeName,
+    required String name,
+    required List<ExecutablParameterDeclaration> parameters,
+    required List<String> typeParameterNames,
+    required ExecutableType type,
+  }) = _ExecutableDeclaration;
 
-  /// parent class name or [null] if there is none
-  final int? parentClassId;
-
-  /// type of executable (e.g. method or constructor)
-  final ExecutableType type;
-
-  const ExecutableDeclaration._(
-      {required this.parentClassId,
-      required this.returnType,
-      required this.name,
-      required this.parameters,
-      required this.typeParameterNames,
-      required this.type});
-
-  /// creates a new ExecutableDeclaration from the given [executableElement]
-  ///
-  /// [parentClassName] gets directly passed into [ExecutableDeclaration]
-  ExecutableDeclaration.fromExecutableElement(
-      ExecutableElement executableElement)
-      : this._(
-          parentClassId: _getParentClassIdFromEnclosingElement(
-              executableElement.enclosingElement2),
-          returnType: executableElement.returnType,
-          name: executableElement.name,
-          parameters: _computeParameterList(executableElement.parameters),
-          typeParameterNames:
-              _computeTypeParameters(executableElement.typeParameters),
-          type: _computeExecutableType(executableElement),
-        );
-
-  /// retrieves the type of executable from the given [executableElement]
-  static ExecutableType _computeExecutableType(
-      ExecutableElement executableElement) {
-    if (executableElement is ConstructorElement) {
-      return ExecutableType.constructor;
-    }
-    return ExecutableType.method;
-  }
-
-  static List<ExecutablParameterDeclaration> _computeParameterList(
-      List<ParameterElement> parameterElementList) {
-    return parameterElementList
-        .map((e) => ExecutablParameterDeclaration.fromParameterElement(e))
-        .toList();
-  }
-
-  static List<String> _computeTypeParameters(
-      List<TypeParameterElement> paramList) {
-    return paramList.map((pe) => pe.name).toList();
-  }
+  factory ExecutableDeclaration.fromJson(Map<String, Object?> json) =>
+      _$ExecutableDeclarationFromJson(json);
 
   /// computes the executable signature.
   ///
   /// The signature contains all public facing aspects of the executable like return value, name and parameters
   String _computeSignature() {
-    final returnTypeString = returnType.getDisplayString(withNullability: true);
     List<String> parameterStrings = [];
     List<String> namedParameterStrings = [];
     for (final parameter in parameters) {
-      final paramTypeString =
-          parameter.type.getDisplayString(withNullability: true);
+      final paramTypeString = parameter.typeName;
       final paramName = parameter.name;
       if (!parameter.isNamed) {
         parameterStrings.add('$paramTypeString $paramName');
@@ -143,22 +73,6 @@ class ExecutableDeclaration extends Equatable {
       parameterStrings.add('{${namedParameterStrings.join(', ')}}');
     }
     String typeParameterSuffix = getTypeParameterSuffix(typeParameterNames);
-    return '$returnTypeString $name$typeParameterSuffix(${parameterStrings.join(', ')})';
+    return '$returnTypeName $name$typeParameterSuffix(${parameterStrings.join(', ')})';
   }
-
-  static int? _getParentClassIdFromEnclosingElement(Element? enclosingElement) {
-    if (enclosingElement == null) {
-      return null;
-    }
-    return enclosingElement.id;
-  }
-
-  @override
-  List<Object?> get props => [
-        parentClassId,
-        returnType,
-        name,
-        parameters,
-        typeParameterNames,
-      ];
 }

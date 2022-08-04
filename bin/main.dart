@@ -37,7 +37,7 @@ Future _handleListCommand(ArgResults cmd) async {
   _printClasses(projectApi.classDeclarations);
 }
 
-void _printClasses(List<ClassDeclatation> classDeclarations) {
+void _printClasses(List<ClassDeclaration> classDeclarations) {
   print('** Classes:');
   for (final cd in classDeclarations) {
     print('-- ${cd.signature}');

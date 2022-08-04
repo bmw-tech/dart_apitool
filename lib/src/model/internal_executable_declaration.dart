@@ -1,0 +1,56 @@
+import 'package:analyzer/dart/element/element.dart';
+import 'package:dart_apitool/model/executable_declaration.dart';
+import 'package:dart_apitool/src/model/internal_declaration.dart';
+import 'package:dart_apitool/src/model/internal_declaration_utils.dart';
+
+class InternalExecutableDeclaration implements InternalDeclaration {
+  @override
+  final int? parentClassId;
+
+  final ExecutableDeclaration executableDeclaration;
+
+  InternalExecutableDeclaration._({
+    this.parentClassId,
+    required this.executableDeclaration,
+  });
+
+  InternalExecutableDeclaration.fromExecutableElement(
+      ExecutableElement executableElement)
+      : this._(
+            parentClassId: InternalDeclarationUtils.getIdFromElement(
+                executableElement.enclosingElement2),
+            executableDeclaration: ExecutableDeclaration(
+              returnTypeName: executableElement.returnType
+                  .getDisplayString(withNullability: true),
+              name: executableElement.name,
+              parameters: _computeParameterList(executableElement.parameters),
+              typeParameterNames:
+                  _computeTypeParameters(executableElement.typeParameters),
+              type: _computeExecutableType(executableElement),
+            ));
+
+  /// retrieves the type of executable from the given [executableElement]
+  static ExecutableType _computeExecutableType(
+      ExecutableElement executableElement) {
+    if (executableElement is ConstructorElement) {
+      return ExecutableType.constructor;
+    }
+    return ExecutableType.method;
+  }
+
+  static List<ExecutablParameterDeclaration> _computeParameterList(
+      List<ParameterElement> parameterElementList) {
+    return parameterElementList
+        .map((e) => ExecutablParameterDeclaration(
+            isRequired: e.isRequired,
+            isNamed: e.isNamed,
+            name: e.name,
+            typeName: e.type.getDisplayString(withNullability: true)))
+        .toList();
+  }
+
+  static List<String> _computeTypeParameters(
+      List<TypeParameterElement> paramList) {
+    return paramList.map((pe) => pe.name).toList();
+  }
+}
