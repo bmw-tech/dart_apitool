@@ -23,6 +23,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               returnTypeName: executableElement.returnType
                   .getDisplayString(withNullability: true),
               name: executableElement.name,
+              isDeprecated: executableElement.hasDeprecated,
               parameters: _computeParameterList(executableElement.parameters),
               typeParameterNames:
                   _computeTypeParameters(executableElement.typeParameters),
@@ -45,6 +46,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             isRequired: e.isRequired,
             isNamed: e.isNamed,
             name: e.name,
+            isDeprecated: e.hasDeprecated,
             typeName: e.type.getDisplayString(withNullability: true)))
         .toList();
   }

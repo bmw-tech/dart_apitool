@@ -1,20 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'class_declaration.dart';
+part of 'project_api.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ClassDeclaration _$$_ClassDeclarationFromJson(Map<String, dynamic> json) =>
-    _$_ClassDeclaration(
-      name: json['name'] as String,
-      isDeprecated: json['isDeprecated'] as bool,
-      typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      superTypeNames: (json['superTypeNames'] as List<dynamic>)
-          .map((e) => e as String)
+_$_ProjectApi _$$_ProjectApiFromJson(Map<String, dynamic> json) =>
+    _$_ProjectApi(
+      projectName: json['projectName'] as String,
+      projectPath: json['projectPath'] as String,
+      classDeclarations: (json['classDeclarations'] as List<dynamic>)
+          .map((e) => ClassDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       executableDeclarations: (json['executableDeclarations'] as List<dynamic>)
           .map((e) => ExecutableDeclaration.fromJson(e as Map<String, dynamic>))
@@ -24,12 +21,11 @@ _$_ClassDeclaration _$$_ClassDeclarationFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_ClassDeclarationToJson(_$_ClassDeclaration instance) =>
+Map<String, dynamic> _$$_ProjectApiToJson(_$_ProjectApi instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'isDeprecated': instance.isDeprecated,
-      'typeParameterNames': instance.typeParameterNames,
-      'superTypeNames': instance.superTypeNames,
+      'projectName': instance.projectName,
+      'projectPath': instance.projectPath,
+      'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
     };

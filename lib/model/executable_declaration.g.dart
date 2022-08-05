@@ -12,6 +12,7 @@ _$_ExecutablParameterDeclaration _$$_ExecutablParameterDeclarationFromJson(
       isRequired: json['isRequired'] as bool,
       isNamed: json['isNamed'] as bool,
       name: json['name'] as String,
+      isDeprecated: json['isDeprecated'] as bool,
       typeName: json['typeName'] as String,
     );
 
@@ -21,6 +22,7 @@ Map<String, dynamic> _$$_ExecutablParameterDeclarationToJson(
       'isRequired': instance.isRequired,
       'isNamed': instance.isNamed,
       'name': instance.name,
+      'isDeprecated': instance.isDeprecated,
       'typeName': instance.typeName,
     };
 
@@ -29,6 +31,7 @@ _$_ExecutableDeclaration _$$_ExecutableDeclarationFromJson(
     _$_ExecutableDeclaration(
       returnTypeName: json['returnTypeName'] as String,
       name: json['name'] as String,
+      isDeprecated: json['isDeprecated'] as bool,
       parameters: (json['parameters'] as List<dynamic>)
           .map((e) =>
               ExecutablParameterDeclaration.fromJson(e as Map<String, dynamic>))
@@ -44,6 +47,7 @@ Map<String, dynamic> _$$_ExecutableDeclarationToJson(
     <String, dynamic>{
       'returnTypeName': instance.returnTypeName,
       'name': instance.name,
+      'isDeprecated': instance.isDeprecated,
       'parameters': instance.parameters,
       'typeParameterNames': instance.typeParameterNames,
       'type': _$ExecutableTypeEnumMap[instance.type]!,

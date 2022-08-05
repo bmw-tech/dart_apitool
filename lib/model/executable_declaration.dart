@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../utils/string_utils.dart';
+import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
 part 'executable_declaration.g.dart';
@@ -17,10 +18,12 @@ enum ExecutableType {
 class ExecutablParameterDeclaration with _$ExecutablParameterDeclaration {
   const ExecutablParameterDeclaration._();
 
+  @Implements<Declaration>()
   const factory ExecutablParameterDeclaration({
     required bool isRequired,
     required bool isNamed,
     required String name,
+    required bool isDeprecated,
     required String typeName,
   }) = _ExecutablParameterDeclaration;
 
@@ -41,6 +44,7 @@ class ExecutableDeclaration with _$ExecutableDeclaration {
   const factory ExecutableDeclaration({
     required String returnTypeName,
     required String name,
+    required bool isDeprecated,
     required List<ExecutablParameterDeclaration> parameters,
     required List<String> typeParameterNames,
     required ExecutableType type,

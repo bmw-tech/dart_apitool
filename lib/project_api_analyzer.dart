@@ -152,9 +152,10 @@ class ProjectApiAnalyzer {
         );
       }
     }
+    final normalizedProjectPath = path.normalize(path.absolute(projectPath));
     return ProjectApi(
-      projectName: 'projectName',
-      projectPath: projectPath,
+      projectName: _getProjectNameFromPath(normalizedProjectPath),
+      projectPath: normalizedProjectPath,
       classDeclarations: projectClassDeclarations,
       executableDeclarations: projectExecutableDeclarations,
       fieldDeclarations: projectFieldDeclarations,
@@ -206,6 +207,10 @@ class ProjectApiAnalyzer {
         getPackageNameFromLibraryIdentifier(refLibrary.identifier);
 
     return origPackageName == refPackageName;
+  }
+
+  String _getProjectNameFromPath(String normalizedProjectPath) {
+    return path.basename(normalizedProjectPath);
   }
 }
 

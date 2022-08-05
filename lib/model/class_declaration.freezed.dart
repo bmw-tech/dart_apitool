@@ -21,6 +21,7 @@ ClassDeclaration _$ClassDeclarationFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ClassDeclaration {
   String get name => throw _privateConstructorUsedError;
+  bool get isDeprecated => throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   List<String> get superTypeNames => throw _privateConstructorUsedError;
   List<ExecutableDeclaration> get executableDeclarations =>
@@ -41,6 +42,7 @@ abstract class $ClassDeclarationCopyWith<$Res> {
       _$ClassDeclarationCopyWithImpl<$Res>;
   $Res call(
       {String name,
+      bool isDeprecated,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -59,6 +61,7 @@ class _$ClassDeclarationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? typeParameterNames = freezed,
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
@@ -69,6 +72,10 @@ class _$ClassDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeParameterNames: typeParameterNames == freezed
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -98,6 +105,7 @@ abstract class _$$_ClassDeclarationCopyWith<$Res>
   @override
   $Res call(
       {String name,
+      bool isDeprecated,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -118,6 +126,7 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? typeParameterNames = freezed,
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
@@ -128,6 +137,10 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeParameterNames: typeParameterNames == freezed
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -153,6 +166,7 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
 class _$_ClassDeclaration extends _ClassDeclaration {
   const _$_ClassDeclaration(
       {required this.name,
+      required this.isDeprecated,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -168,6 +182,8 @@ class _$_ClassDeclaration extends _ClassDeclaration {
 
   @override
   final String name;
+  @override
+  final bool isDeprecated;
   final List<String> _typeParameterNames;
   @override
   List<String> get typeParameterNames {
@@ -198,7 +214,7 @@ class _$_ClassDeclaration extends _ClassDeclaration {
 
   @override
   String toString() {
-    return 'ClassDeclaration(name: $name, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'ClassDeclaration(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
@@ -207,6 +223,8 @@ class _$_ClassDeclaration extends _ClassDeclaration {
         (other.runtimeType == runtimeType &&
             other is _$_ClassDeclaration &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.isDeprecated, isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality()
@@ -222,6 +240,7 @@ class _$_ClassDeclaration extends _ClassDeclaration {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isDeprecated),
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -240,9 +259,11 @@ class _$_ClassDeclaration extends _ClassDeclaration {
   }
 }
 
-abstract class _ClassDeclaration extends ClassDeclaration {
+abstract class _ClassDeclaration extends ClassDeclaration
+    implements Declaration {
   const factory _ClassDeclaration(
           {required final String name,
+          required final bool isDeprecated,
           required final List<String> typeParameterNames,
           required final List<String> superTypeNames,
           required final List<ExecutableDeclaration> executableDeclarations,
@@ -255,6 +276,8 @@ abstract class _ClassDeclaration extends ClassDeclaration {
 
   @override
   String get name;
+  @override
+  bool get isDeprecated;
   @override
   List<String> get typeParameterNames;
   @override

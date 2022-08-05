@@ -5,6 +5,8 @@ import 'package:dart_apitool/model/field_declaration.dart';
 import 'package:dart_apitool/utils/string_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'declaration.dart';
+
 part 'class_declaration.freezed.dart';
 part 'class_declaration.g.dart';
 
@@ -17,8 +19,10 @@ class ClassDeclaration with _$ClassDeclaration {
 
   const ClassDeclaration._();
 
+  @Implements<Declaration>()
   const factory ClassDeclaration({
     required String name,
+    required bool isDeprecated,
     required List<String> typeParameterNames,
     required List<String> superTypeNames,
     required List<ExecutableDeclaration> executableDeclarations,

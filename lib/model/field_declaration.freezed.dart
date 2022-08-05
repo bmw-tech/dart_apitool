@@ -22,6 +22,7 @@ FieldDeclaration _$FieldDeclarationFromJson(Map<String, dynamic> json) {
 mixin _$FieldDeclaration {
   String get typeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  bool get isDeprecated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $FieldDeclarationCopyWith<$Res> {
   factory $FieldDeclarationCopyWith(
           FieldDeclaration value, $Res Function(FieldDeclaration) then) =
       _$FieldDeclarationCopyWithImpl<$Res>;
-  $Res call({String typeName, String name});
+  $Res call({String typeName, String name, bool isDeprecated});
 }
 
 /// @nodoc
@@ -50,6 +51,7 @@ class _$FieldDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? typeName = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
   }) {
     return _then(_value.copyWith(
       typeName: typeName == freezed
@@ -60,6 +62,10 @@ class _$FieldDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -71,7 +77,7 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
           _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
       __$$_FieldDeclarationCopyWithImpl<$Res>;
   @override
-  $Res call({String typeName, String name});
+  $Res call({String typeName, String name, bool isDeprecated});
 }
 
 /// @nodoc
@@ -89,6 +95,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? typeName = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
   }) {
     return _then(_$_FieldDeclaration(
       typeName: typeName == freezed
@@ -99,6 +106,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -106,7 +117,8 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_FieldDeclaration extends _FieldDeclaration {
-  const _$_FieldDeclaration({required this.typeName, required this.name})
+  const _$_FieldDeclaration(
+      {required this.typeName, required this.name, required this.isDeprecated})
       : super._();
 
   factory _$_FieldDeclaration.fromJson(Map<String, dynamic> json) =>
@@ -116,10 +128,12 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   final String typeName;
   @override
   final String name;
+  @override
+  final bool isDeprecated;
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name)';
+    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated)';
   }
 
   @override
@@ -128,7 +142,9 @@ class _$_FieldDeclaration extends _FieldDeclaration {
         (other.runtimeType == runtimeType &&
             other is _$_FieldDeclaration &&
             const DeepCollectionEquality().equals(other.typeName, typeName) &&
-            const DeepCollectionEquality().equals(other.name, name));
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.isDeprecated, isDeprecated));
   }
 
   @JsonKey(ignore: true)
@@ -136,7 +152,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(typeName),
-      const DeepCollectionEquality().hash(name));
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isDeprecated));
 
   @JsonKey(ignore: true)
   @override
@@ -151,10 +168,12 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   }
 }
 
-abstract class _FieldDeclaration extends FieldDeclaration {
+abstract class _FieldDeclaration extends FieldDeclaration
+    implements Declaration {
   const factory _FieldDeclaration(
       {required final String typeName,
-      required final String name}) = _$_FieldDeclaration;
+      required final String name,
+      required final bool isDeprecated}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
 
   factory _FieldDeclaration.fromJson(Map<String, dynamic> json) =
@@ -164,6 +183,8 @@ abstract class _FieldDeclaration extends FieldDeclaration {
   String get typeName;
   @override
   String get name;
+  @override
+  bool get isDeprecated;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>

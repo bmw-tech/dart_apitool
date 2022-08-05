@@ -22,5 +22,6 @@ class InternalFieldDeclaration implements InternalDeclaration {
               typeName:
                   fieldElement.type.getDisplayString(withNullability: true),
               name: fieldElement.name,
+              isDeprecated: fieldElement.hasDeprecated,
             ));
 }

@@ -24,6 +24,7 @@ mixin _$ExecutablParameterDeclaration {
   bool get isRequired => throw _privateConstructorUsedError;
   bool get isNamed => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  bool get isDeprecated => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,12 @@ abstract class $ExecutablParameterDeclarationCopyWith<$Res> {
           ExecutablParameterDeclaration value,
           $Res Function(ExecutablParameterDeclaration) then) =
       _$ExecutablParameterDeclarationCopyWithImpl<$Res>;
-  $Res call({bool isRequired, bool isNamed, String name, String typeName});
+  $Res call(
+      {bool isRequired,
+      bool isNamed,
+      String name,
+      bool isDeprecated,
+      String typeName});
 }
 
 /// @nodoc
@@ -55,6 +61,7 @@ class _$ExecutablParameterDeclarationCopyWithImpl<$Res>
     Object? isRequired = freezed,
     Object? isNamed = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? typeName = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,6 +77,10 @@ class _$ExecutablParameterDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -86,7 +97,12 @@ abstract class _$$_ExecutablParameterDeclarationCopyWith<$Res>
           $Res Function(_$_ExecutablParameterDeclaration) then) =
       __$$_ExecutablParameterDeclarationCopyWithImpl<$Res>;
   @override
-  $Res call({bool isRequired, bool isNamed, String name, String typeName});
+  $Res call(
+      {bool isRequired,
+      bool isNamed,
+      String name,
+      bool isDeprecated,
+      String typeName});
 }
 
 /// @nodoc
@@ -107,6 +123,7 @@ class __$$_ExecutablParameterDeclarationCopyWithImpl<$Res>
     Object? isRequired = freezed,
     Object? isNamed = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? typeName = freezed,
   }) {
     return _then(_$_ExecutablParameterDeclaration(
@@ -122,6 +139,10 @@ class __$$_ExecutablParameterDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -137,6 +158,7 @@ class _$_ExecutablParameterDeclaration extends _ExecutablParameterDeclaration {
       {required this.isRequired,
       required this.isNamed,
       required this.name,
+      required this.isDeprecated,
       required this.typeName})
       : super._();
 
@@ -151,11 +173,13 @@ class _$_ExecutablParameterDeclaration extends _ExecutablParameterDeclaration {
   @override
   final String name;
   @override
+  final bool isDeprecated;
+  @override
   final String typeName;
 
   @override
   String toString() {
-    return 'ExecutablParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, typeName: $typeName)';
+    return 'ExecutablParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
   }
 
   @override
@@ -167,6 +191,8 @@ class _$_ExecutablParameterDeclaration extends _ExecutablParameterDeclaration {
                 .equals(other.isRequired, isRequired) &&
             const DeepCollectionEquality().equals(other.isNamed, isNamed) &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.isDeprecated, isDeprecated) &&
             const DeepCollectionEquality().equals(other.typeName, typeName));
   }
 
@@ -177,6 +203,7 @@ class _$_ExecutablParameterDeclaration extends _ExecutablParameterDeclaration {
       const DeepCollectionEquality().hash(isRequired),
       const DeepCollectionEquality().hash(isNamed),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isDeprecated),
       const DeepCollectionEquality().hash(typeName));
 
   @JsonKey(ignore: true)
@@ -194,11 +221,12 @@ class _$_ExecutablParameterDeclaration extends _ExecutablParameterDeclaration {
 }
 
 abstract class _ExecutablParameterDeclaration
-    extends ExecutablParameterDeclaration {
+    extends ExecutablParameterDeclaration implements Declaration {
   const factory _ExecutablParameterDeclaration(
       {required final bool isRequired,
       required final bool isNamed,
       required final String name,
+      required final bool isDeprecated,
       required final String typeName}) = _$_ExecutablParameterDeclaration;
   const _ExecutablParameterDeclaration._() : super._();
 
@@ -211,6 +239,8 @@ abstract class _ExecutablParameterDeclaration
   bool get isNamed;
   @override
   String get name;
+  @override
+  bool get isDeprecated;
   @override
   String get typeName;
   @override
@@ -228,6 +258,7 @@ ExecutableDeclaration _$ExecutableDeclarationFromJson(
 mixin _$ExecutableDeclaration {
   String get returnTypeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  bool get isDeprecated => throw _privateConstructorUsedError;
   List<ExecutablParameterDeclaration> get parameters =>
       throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
@@ -247,6 +278,7 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
   $Res call(
       {String returnTypeName,
       String name,
+      bool isDeprecated,
       List<ExecutablParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type});
@@ -265,6 +297,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? returnTypeName = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? parameters = freezed,
     Object? typeParameterNames = freezed,
     Object? type = freezed,
@@ -278,6 +311,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       parameters: parameters == freezed
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
@@ -304,6 +341,7 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
   $Res call(
       {String returnTypeName,
       String name,
+      bool isDeprecated,
       List<ExecutablParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type});
@@ -325,6 +363,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? returnTypeName = freezed,
     Object? name = freezed,
+    Object? isDeprecated = freezed,
     Object? parameters = freezed,
     Object? typeParameterNames = freezed,
     Object? type = freezed,
@@ -338,6 +377,10 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      isDeprecated: isDeprecated == freezed
+          ? _value.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
       parameters: parameters == freezed
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
@@ -360,6 +403,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   const _$_ExecutableDeclaration(
       {required this.returnTypeName,
       required this.name,
+      required this.isDeprecated,
       required final List<ExecutablParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required this.type})
@@ -374,6 +418,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   final String returnTypeName;
   @override
   final String name;
+  @override
+  final bool isDeprecated;
   final List<ExecutablParameterDeclaration> _parameters;
   @override
   List<ExecutablParameterDeclaration> get parameters {
@@ -393,7 +439,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type)';
   }
 
   @override
@@ -404,6 +450,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
             const DeepCollectionEquality()
                 .equals(other.returnTypeName, returnTypeName) &&
             const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.isDeprecated, isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters) &&
             const DeepCollectionEquality()
@@ -417,6 +465,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       runtimeType,
       const DeepCollectionEquality().hash(returnTypeName),
       const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isDeprecated),
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(type));
@@ -439,6 +488,7 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   const factory _ExecutableDeclaration(
       {required final String returnTypeName,
       required final String name,
+      required final bool isDeprecated,
       required final List<ExecutablParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required final ExecutableType type}) = _$_ExecutableDeclaration;
@@ -451,6 +501,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   String get returnTypeName;
   @override
   String get name;
+  @override
+  bool get isDeprecated;
   @override
   List<ExecutablParameterDeclaration> get parameters;
   @override

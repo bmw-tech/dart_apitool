@@ -27,6 +27,7 @@ class InternalClassDeclaration implements InternalDeclaration {
               classElement.enclosingElement2),
           classDeclaration: ClassDeclaration(
             name: classElement.name,
+            isDeprecated: classElement.hasDeprecated,
             typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
                 classElement.typeParameters),
             superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
