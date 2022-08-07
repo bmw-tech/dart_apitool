@@ -3,6 +3,11 @@ import 'package:dart_apitool/test/secret_class.dart';
 export 'src/api_relevant_elements_collector.dart';
 export 'src/referenced_files_collector.dart';
 export 'project_api_analyzer.dart';
+export 'src/model/declaration.dart';
+export 'src/model/project_api.dart';
+export 'src/model/class_declaration.dart';
+export 'src/model/executable_declaration.dart';
+export 'src/model/field_declaration.dart';
 
 class ClassWithTypeArgument<T> {
   final T member;

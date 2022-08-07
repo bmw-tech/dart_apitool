@@ -8,18 +8,21 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:dart_apitool/model/project_api.dart';
 import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/referenced_files_collector.dart';
 import 'package:dart_apitool/utils/string_utils.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 
-import 'model/class_declaration.dart';
-import 'model/executable_declaration.dart';
-import 'model/field_declaration.dart';
-import 'src/model/internal_class_declaration.dart';
-import 'src/model/internal_executable_declaration.dart';
-import 'src/model/internal_field_declaration.dart';
+import 'src/model/class_declaration.dart';
+import 'src/model/executable_declaration.dart';
+import 'src/model/field_declaration.dart';
+import 'src/model/internal/internal_class_declaration.dart';
+import 'src/model/internal/internal_executable_declaration.dart';
+import 'src/model/internal/internal_field_declaration.dart';
+import 'src/model/project_api.dart';
+
+part 'project_api_analyzer.freezed.dart';
 
 class ProjectApiAnalyzer {
   final String projectPath;
@@ -41,8 +44,8 @@ class ProjectApiAnalyzer {
 
     final collectedClasses = <int?, _ClassCollectionResult>{};
 
-    final analyzedFiles = List<String>.empty(growable: true);
-    final filesToAnalyze = Queue<String>();
+    final analyzedFiles = List<_FileToAnalyzeEntry>.empty(growable: true);
+    final filesToAnalyze = Queue<_FileToAnalyzeEntry>();
     filesToAnalyze.addAll(
         _findPublicFilesInProject(normalizedAbsolutePublicEntrypointPath));
 
@@ -52,13 +55,16 @@ class ProjectApiAnalyzer {
       analyzedFiles.add(fileToAnalyze);
 
       try {
-        final context = contextCollection.contextFor(fileToAnalyze);
+        final context = contextCollection.contextFor(fileToAnalyze.filePath);
 
-        final unitResult =
-            await context.currentSession.getResolvedUnit(fileToAnalyze);
+        final unitResult = await context.currentSession
+            .getResolvedUnit(fileToAnalyze.filePath);
         if (unitResult is ResolvedUnitResult) {
           if (!unitResult.isPart) {
-            final collector = APIRelevantElementsCollector();
+            final collector = APIRelevantElementsCollector(
+              shownNames: fileToAnalyze.shownNames,
+              hiddenNames: fileToAnalyze.hiddenNames,
+            );
             unitResult.libraryElement.accept(collector);
             final skippedClasses = <int>[];
             for (final cd in collector.classDeclarations) {
@@ -105,11 +111,16 @@ class ProjectApiAnalyzer {
             }
             final relativeUri =
                 _getRelativeUriFromLibraryIdentifier(fileRef.uri);
-            final referencedFilePath = path
-                .normalize(path.join(path.dirname(fileToAnalyze), relativeUri));
-            if (!analyzedFiles.contains(referencedFilePath) &&
-                !filesToAnalyze.contains(referencedFilePath)) {
-              filesToAnalyze.add(referencedFilePath);
+            final referencedFilePath = path.normalize(
+                path.join(path.dirname(fileToAnalyze.filePath), relativeUri));
+            final analyzeEntry = _FileToAnalyzeEntry(
+              filePath: referencedFilePath,
+              shownNames: fileRef.shownNames,
+              hiddenNames: fileRef.hiddenNames,
+            );
+            if (!analyzedFiles.contains(analyzeEntry) &&
+                !filesToAnalyze.contains(analyzeEntry)) {
+              filesToAnalyze.add(analyzeEntry);
             }
           }
         }
@@ -166,11 +177,14 @@ class ProjectApiAnalyzer {
     return path.normalize(path.absolute(pathToNormalize));
   }
 
-  Iterable<String> _findPublicFilesInProject(String normalizedAbsolutePath) {
+  Iterable<_FileToAnalyzeEntry> _findPublicFilesInProject(
+      String normalizedAbsolutePath) {
     return Directory(normalizedAbsolutePath)
         .listSync(recursive: false)
         .where((file) => path.extension(file.path) == '.dart')
-        .map((file) => path.normalize(path.absolute(file.path)));
+        .map((file) => _FileToAnalyzeEntry(
+              filePath: path.normalize(path.absolute(file.path)),
+            ));
   }
 
   AnalysisContextCollection _createAnalysisContextCollection({
@@ -221,4 +235,12 @@ class _ClassCollectionResult {
       List<InternalExecutableDeclaration>.empty(growable: true);
   final fieldDeclarations =
       List<InternalFieldDeclaration>.empty(growable: true);
+}
+
+@freezed
+class _FileToAnalyzeEntry with _$_FileToAnalyzeEntry {
+  const factory _FileToAnalyzeEntry(
+      {required String filePath,
+      @Default([]) List<String> shownNames,
+      @Default([]) List<String> hiddenNames}) = __FileToAnalyzeEntry;
 }

@@ -4,9 +4,9 @@ import 'package:analyzer/dart/element/visitor.dart';
 import 'package:stack/stack.dart';
 
 import '../utils/string_utils.dart';
-import 'model/internal_class_declaration.dart';
-import 'model/internal_executable_declaration.dart';
-import 'model/internal_field_declaration.dart';
+import 'model/internal/internal_class_declaration.dart';
+import 'model/internal/internal_executable_declaration.dart';
+import 'model/internal/internal_field_declaration.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
@@ -15,7 +15,11 @@ import 'model/internal_field_declaration.dart';
 /// - [executableDeclarations]
 /// - [fieldDeclarations]
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
-  APIRelevantElementsCollector({this.isOnlyPublic = true});
+  APIRelevantElementsCollector({
+    this.isOnlyPublic = true,
+    this.shownNames = const [],
+    this.hiddenNames = const [],
+  });
 
   final List<int> _visitedTypeElementIds = [];
 
@@ -55,6 +59,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   /// determines if the collector shall only collect publicly exposed declarations
   final bool isOnlyPublic;
+  List<String> shownNames;
+  List<String> hiddenNames;
 
   void _executeInRootContext({
     required Function toExecute,
@@ -144,9 +150,19 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         : null;
   }
 
+  bool _isNameExported(String name) {
+    if (shownNames.isNotEmpty) {
+      return shownNames.contains(name);
+    }
+    return !hiddenNames.contains(name);
+  }
+
   @override
   void visitClassElement(ClassElement element) {
     _onVisitAnyElement(element);
+    if (!_isNameExported(element.name)) {
+      return;
+    }
     if (_visitedTypeElementIds.contains(element.id)) {
       return;
     }

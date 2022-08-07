@@ -1,7 +1,8 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:dart_apitool/model/executable_declaration.dart';
-import 'package:dart_apitool/src/model/internal_declaration.dart';
-import 'package:dart_apitool/src/model/internal_declaration_utils.dart';
+
+import '../executable_declaration.dart';
+import 'internal_declaration.dart';
+import 'internal_declaration_utils.dart';
 
 class InternalExecutableDeclaration implements InternalDeclaration {
   @override

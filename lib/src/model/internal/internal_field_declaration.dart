@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:dart_apitool/model/field_declaration.dart';
-import 'package:dart_apitool/src/model/internal_declaration.dart';
 
+import '../field_declaration.dart';
+import 'internal_declaration.dart';
 import 'internal_declaration_utils.dart';
 
 class InternalFieldDeclaration implements InternalDeclaration {

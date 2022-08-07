@@ -1,7 +1,8 @@
-import 'package:dart_apitool/model/class_declaration.dart';
-import 'package:dart_apitool/model/executable_declaration.dart';
-import 'package:dart_apitool/model/field_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'class_declaration.dart';
+import 'executable_declaration.dart';
+import 'field_declaration.dart';
 
 part 'project_api.freezed.dart';
 part 'project_api.g.dart';

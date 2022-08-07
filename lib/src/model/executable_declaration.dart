@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../utils/string_utils.dart';
+import '../../utils/string_utils.dart';
 import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
