@@ -7,10 +7,14 @@ import 'package:dart_apitool/api_tool.dart';
 
 void main(List<String> arguments) async {
   final listArgParser = ArgParser();
+  final dumpArgParser = ArgParser();
 
   final parser = ArgParser();
   final listCommandParser = parser.addCommand('list', listArgParser);
   listCommandParser.addOption('root',
+      abbr: 'r', mandatory: true, help: 'root directory');
+  final dumpCommandParser = parser.addCommand('dump', dumpArgParser);
+  dumpCommandParser.addOption('root',
       abbr: 'r', mandatory: true, help: 'root directory');
 
   final argResults = parser.parse(arguments);
