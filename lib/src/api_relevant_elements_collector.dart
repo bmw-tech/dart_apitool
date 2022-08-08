@@ -22,19 +22,21 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     List<String> shownNames = const [],
     List<String> hiddenNames = const [],
     OnTypeUsedHandler? onTypeUsedHandler,
-    List<int>? visitedTypeElementIds,
+
+    /// [visitedElementIds] is the set of element ids that are already visited and therefore should not be visited by this visitor
+    Set<int>? visitedElementIds,
   }) : _context = _AnalysisContext(
           shownNames: shownNames,
           hiddenNames: hiddenNames,
         ) {
     _onTypeUsedHandler = onTypeUsedHandler ?? _onTypeUsed;
-    this.visitedTypeElementIds = List<int>.empty(growable: true);
-    if (visitedTypeElementIds != null) {
-      this.visitedTypeElementIds.addAll(visitedTypeElementIds);
+    _visitedElementIds = <int>{};
+    if (visitedElementIds != null) {
+      _visitedElementIds.addAll(visitedElementIds);
     }
   }
 
-  late final List<int> visitedTypeElementIds;
+  late final Set<int> _visitedElementIds;
   final _AnalysisContext _context;
 
   String? _packageName;
@@ -97,16 +99,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     );
   }
 
-  // String _getClassName(ClassElement? element) {
-  //   if (element == null) {
-  //     return '';
-  //   }
-  //   String typeParameterSuffix = getTypeParameterSuffix(
-  //       element.typeParameters.map((tpe) => tpe.name).toList());
-  //   final className = element.name;
-  //   return '$className$typeParameterSuffix';
-  // }
-
   void _onTypeUsed(DartType type) {
     if (type is InterfaceType) {
       _onInterfaceTypeUsed(type);
@@ -115,7 +107,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   void _onInterfaceTypeUsed(InterfaceType type) {
     final directElement = type.element;
-    if (visitedTypeElementIds.contains(type.element.id)) {
+    if (_visitedElementIds.contains(type.element.id)) {
       return;
     }
     final packageName =
@@ -124,33 +116,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       //create new collector with isOnlyPublic = false as we know that this type use used directly and therefore gets exported implicitly (e.g. private mixins (Freezed))
       final collector = APIRelevantElementsCollector(
         isOnlyPublic: false,
-        visitedTypeElementIds: visitedTypeElementIds,
+        visitedElementIds: _visitedElementIds,
       );
       directElement.accept(collector);
       // merge result with this result
-      visitedTypeElementIds.addAll(collector.visitedTypeElementIds);
-      List<int> blockedClassIds = [];
-      for (final cd in collector.classDeclarations) {
-        if (classDeclarations.any((e) => e.id == cd.id)) {
-          blockedClassIds.add(cd.id);
-          continue;
-        }
-        classDeclarations.add(cd);
-      }
-      for (final exd in collector.executableDeclarations) {
-        if (exd.parentClassId != null &&
-            blockedClassIds.contains(exd.parentClassId)) {
-          continue;
-        }
-        executableDeclarations.add(exd);
-      }
-      for (final fd in collector.fieldDeclarations) {
-        if (fd.parentClassId != null &&
-            blockedClassIds.contains(fd.parentClassId!)) {
-          continue;
-        }
-        fieldDeclarations.add(fd);
-      }
+      _visitedElementIds.addAll(collector._visitedElementIds);
+      classDeclarations.addAll(collector.classDeclarations);
+      executableDeclarations.addAll(collector.executableDeclarations);
+      fieldDeclarations.addAll(collector.fieldDeclarations);
     }
     for (final ta in type.typeArguments) {
       if (ta is InterfaceType) {
@@ -173,19 +146,28 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return !_context.hiddenNames.contains(name);
   }
 
+  /// marks the given element as visited.
+  /// Returns [true] if it got marked, returns [false] if it is already marked as visited
+  bool _markElementAsVisited(Element element) {
+    if (_visitedElementIds.contains(element.id)) {
+      return false;
+    }
+    _visitedElementIds.add(element.id);
+    return true;
+  }
+
   @override
   void visitClassElement(ClassElement element) {
     _onVisitAnyElement(element);
     if (!_isNameExported(element.name)) {
       return;
     }
-    if (visitedTypeElementIds.contains(element.id)) {
-      return;
-    }
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
-    visitedTypeElementIds.add(element.id);
+    if (!_markElementAsVisited(element)) {
+      return;
+    }
     _classDeclarations.add(InternalClassDeclaration.fromClassElement(element));
     for (final st in element.allSupertypes) {
       if (!st.element.isDartCoreObject && !st.element.isDartCoreEnum) {
@@ -206,6 +188,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
+    if (!_markElementAsVisited(element)) {
+      return;
+    }
     _fieldDeclarations
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
@@ -218,6 +203,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   visitTopLevelVariableElement(TopLevelVariableElement element) {
     _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
+    if (!_markElementAsVisited(element)) {
       return;
     }
     _fieldDeclarations
@@ -244,6 +232,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
+    if (!_markElementAsVisited(element)) {
+      return;
+    }
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
@@ -265,6 +256,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (isOnlyPublic && !element.isPublic) {
       return;
     }
+    if (!_markElementAsVisited(element)) {
+      return;
+    }
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
@@ -284,6 +278,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   visitConstructorElement(ConstructorElement element) {
     _onVisitAnyElement(element);
     if (isOnlyPublic && !element.isPublic) {
+      return;
+    }
+    if (!_markElementAsVisited(element)) {
       return;
     }
 
