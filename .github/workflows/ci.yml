@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, labeled, unlabeled, synchronize]
+  push:
+    branches: [ main ]
+
+jobs:
+  check_label:
+    runs-on: sh_devmil_mac
+    steps:
+      - uses: mheap/github-action-required-labels@v1
+        if: github.ref != 'refs/heads/main'
+        with:
+          mode: exactly
+          count: 0
+          labels: "not ready"
+
+  analysis:
+    needs: check_label
+    runs-on: sh_devmil_mac
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: kuhnroyal/flutter-fvm-config-action@v1
+        with:
+          path: 'tool/.fvm/fvm_config.json'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
+
+      - name: Verify formatting
+        run: cd tool && dart format --set-exit-if-changed .
+
+      - name: Install dependencies
+        run: cd tool && dart pub get
+
+      - name: Analyze project source
+        run: cd tool && dart analyze
+
+  test:
+    needs: check_label
+    strategy:
+      matrix:
+        platform: [sh_devmil_mac] # , ubuntu-latest
+    runs-on: ${{ matrix.platform }}
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: kuhnroyal/flutter-fvm-config-action@v1
+        with:
+          path: 'tool/.fvm/fvm_config.json'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
+
+      - name: Install dependencies
+        run: cd tool && dart pub get
+
+      - name: Run tests
+        run: cd tool &&  dart test 
