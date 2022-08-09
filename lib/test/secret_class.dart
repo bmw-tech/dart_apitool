@@ -1,3 +1,0 @@
-class SecretClass {
-  String someProp = '';
-}

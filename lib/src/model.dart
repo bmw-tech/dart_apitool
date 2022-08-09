@@ -1,5 +1,5 @@
-export 'declaration.dart';
-export 'package_api.dart';
-export 'class_declaration.dart';
-export 'executable_declaration.dart';
-export 'field_declaration.dart';
+export 'model/declaration.dart';
+export 'model/package_api.dart';
+export 'model/class_declaration.dart';
+export 'model/executable_declaration.dart';
+export 'model/field_declaration.dart';
