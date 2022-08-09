@@ -38,6 +38,9 @@ jobs:
       - name: Verify formatting
         run: cd tool && dart format --set-exit-if-changed .
 
+      - name: Install dependencies
+        run: cd tool && dart pub get
+
       - name: Analyze project source
         run: cd tool && dart analyze
 
