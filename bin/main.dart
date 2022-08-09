@@ -63,18 +63,19 @@ void _printFields(
 
 Future _handleListCommand(ArgResults cmd) async {
   final String rootDir = cmd['root'];
-  final analyzer = ProjectApiAnalyzer(projectPath: rootDir);
-  final projectApi = await analyzer.analyze();
+  final analyzer = PackageApiAnalyzer(projectPath: rootDir);
+  final packageApi = await analyzer.analyze();
 
-  print('----- Package ${projectApi.packageName} -----');
-  _printFields(projectApi.fieldDeclarations);
-  _printExecutables(projectApi.executableDeclarations);
-  _printClasses(projectApi.classDeclarations);
+  print(
+      '----- Package ${packageApi.packageName} (${packageApi.packageVersion}) -----');
+  _printFields(packageApi.fieldDeclarations);
+  _printExecutables(packageApi.executableDeclarations);
+  _printClasses(packageApi.classDeclarations);
 }
 
 Future _handleDumpCommand(ArgResults cmd) async {
   final String rootDir = cmd['root'];
-  final analyzer = ProjectApiAnalyzer(projectPath: rootDir);
+  final analyzer = PackageApiAnalyzer(projectPath: rootDir);
   final projectApi = await analyzer.analyze();
 
   const encoder = JsonEncoder.withIndent('    ');

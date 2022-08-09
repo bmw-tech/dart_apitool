@@ -6,13 +6,14 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/referenced_files_collector.dart';
 import 'package:dart_apitool/utils/string_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 import 'src/model/class_declaration.dart';
 import 'src/model/executable_declaration.dart';
@@ -20,20 +21,28 @@ import 'src/model/field_declaration.dart';
 import 'src/model/internal/internal_class_declaration.dart';
 import 'src/model/internal/internal_executable_declaration.dart';
 import 'src/model/internal/internal_field_declaration.dart';
-import 'src/model/project_api.dart';
+import 'src/model/package_api.dart';
 
-part 'project_api_analyzer.freezed.dart';
+part 'package_api_analyzer.freezed.dart';
 
-class ProjectApiAnalyzer {
+class PackageApiAnalyzer {
   final String projectPath;
 
-  ProjectApiAnalyzer({required this.projectPath});
+  PackageApiAnalyzer({required this.projectPath}) {
+    _checkProjectPathValidity();
+  }
 
-  Future<ProjectApi> analyze() async {
-    final resourceProvider = PhysicalResourceProvider.INSTANCE;
-
+  Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
         _getNormalizedAbsolutePath(projectPath);
+
+    final yamlContent =
+        await File(path.join(normalizedAbsoluteProjectPath, 'pubspec.yaml'))
+            .readAsString();
+    final pubSpec = Pubspec.parse(yamlContent);
+
+    final resourceProvider = PhysicalResourceProvider.INSTANCE;
+
     final normalizedAbsolutePublicEntrypointPath = _getNormalizedAbsolutePath(
         path.join(normalizedAbsoluteProjectPath, 'lib'));
 
@@ -49,8 +58,6 @@ class ProjectApiAnalyzer {
     filesToAnalyze.addAll(
         _findPublicFilesInProject(normalizedAbsolutePublicEntrypointPath));
 
-    String? packageName;
-
     while (filesToAnalyze.isNotEmpty) {
       final fileToAnalyze = filesToAnalyze.first;
       filesToAnalyze.removeFirst();
@@ -62,7 +69,6 @@ class ProjectApiAnalyzer {
         final unitResult = await context.currentSession
             .getResolvedUnit(fileToAnalyze.filePath);
         if (unitResult is ResolvedUnitResult) {
-          packageName ??= getPackageNameFromLibrary(unitResult.libraryElement);
           if (!unitResult.isPart) {
             final collector = APIRelevantElementsCollector(
               shownNames: fileToAnalyze.shownNames,
@@ -167,8 +173,9 @@ class ProjectApiAnalyzer {
       }
     }
     final normalizedProjectPath = path.normalize(path.absolute(projectPath));
-    return ProjectApi(
-      packageName: packageName ?? '<UNKNOWN>',
+    return PackageApi(
+      packageName: pubSpec.name,
+      packageVersion: pubSpec.version?.toString(),
       projectPath: normalizedProjectPath,
       classDeclarations: projectClassDeclarations,
       executableDeclarations: projectExecutableDeclarations,
@@ -222,6 +229,17 @@ class ProjectApiAnalyzer {
     final refPackageName = getPackageNameFromLibrary(refLibrary);
 
     return origPackageName == refPackageName;
+  }
+
+  void _checkProjectPathValidity() {
+    final absoluteNormalizedPackagePath =
+        path.normalize(path.absolute(projectPath));
+    assert(Directory(absoluteNormalizedPackagePath).existsSync(),
+        'Given package path doesn\'t exist ($absoluteNormalizedPackagePath)');
+    final pubspecPath =
+        path.join(absoluteNormalizedPackagePath, 'pubspec.yaml');
+    assert(File(pubspecPath).existsSync(),
+        'Given package path doesn\'t contain a pubspec.yaml ($absoluteNormalizedPackagePath)');
   }
 }
 

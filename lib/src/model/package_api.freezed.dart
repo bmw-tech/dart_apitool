@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'project_api.dart';
+part of 'package_api.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,14 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ProjectApi _$ProjectApiFromJson(Map<String, dynamic> json) {
-  return _ProjectApi.fromJson(json);
+PackageApi _$PackageApiFromJson(Map<String, dynamic> json) {
+  return _PackageApi.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ProjectApi {
+mixin _$PackageApi {
   String get packageName => throw _privateConstructorUsedError;
+  String? get packageVersion => throw _privateConstructorUsedError;
   String get projectPath => throw _privateConstructorUsedError;
   List<ClassDeclaration> get classDeclarations =>
       throw _privateConstructorUsedError;
@@ -31,17 +32,18 @@ mixin _$ProjectApi {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ProjectApiCopyWith<ProjectApi> get copyWith =>
+  $PackageApiCopyWith<PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ProjectApiCopyWith<$Res> {
-  factory $ProjectApiCopyWith(
-          ProjectApi value, $Res Function(ProjectApi) then) =
-      _$ProjectApiCopyWithImpl<$Res>;
+abstract class $PackageApiCopyWith<$Res> {
+  factory $PackageApiCopyWith(
+          PackageApi value, $Res Function(PackageApi) then) =
+      _$PackageApiCopyWithImpl<$Res>;
   $Res call(
       {String packageName,
+      String? packageVersion,
       String projectPath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
@@ -49,16 +51,17 @@ abstract class $ProjectApiCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ProjectApiCopyWithImpl<$Res> implements $ProjectApiCopyWith<$Res> {
-  _$ProjectApiCopyWithImpl(this._value, this._then);
+class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
+  _$PackageApiCopyWithImpl(this._value, this._then);
 
-  final ProjectApi _value;
+  final PackageApi _value;
   // ignore: unused_field
-  final $Res Function(ProjectApi) _then;
+  final $Res Function(PackageApi) _then;
 
   @override
   $Res call({
     Object? packageName = freezed,
+    Object? packageVersion = freezed,
     Object? projectPath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
@@ -69,6 +72,10 @@ class _$ProjectApiCopyWithImpl<$Res> implements $ProjectApiCopyWith<$Res> {
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
+      packageVersion: packageVersion == freezed
+          ? _value.packageVersion
+          : packageVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       projectPath: projectPath == freezed
           ? _value.projectPath
           : projectPath // ignore: cast_nullable_to_non_nullable
@@ -90,14 +97,15 @@ class _$ProjectApiCopyWithImpl<$Res> implements $ProjectApiCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_ProjectApiCopyWith<$Res>
-    implements $ProjectApiCopyWith<$Res> {
-  factory _$$_ProjectApiCopyWith(
-          _$_ProjectApi value, $Res Function(_$_ProjectApi) then) =
-      __$$_ProjectApiCopyWithImpl<$Res>;
+abstract class _$$_PackageApiCopyWith<$Res>
+    implements $PackageApiCopyWith<$Res> {
+  factory _$$_PackageApiCopyWith(
+          _$_PackageApi value, $Res Function(_$_PackageApi) then) =
+      __$$_PackageApiCopyWithImpl<$Res>;
   @override
   $Res call(
       {String packageName,
+      String? packageVersion,
       String projectPath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
@@ -105,28 +113,33 @@ abstract class _$$_ProjectApiCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ProjectApiCopyWithImpl<$Res> extends _$ProjectApiCopyWithImpl<$Res>
-    implements _$$_ProjectApiCopyWith<$Res> {
-  __$$_ProjectApiCopyWithImpl(
-      _$_ProjectApi _value, $Res Function(_$_ProjectApi) _then)
-      : super(_value, (v) => _then(v as _$_ProjectApi));
+class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
+    implements _$$_PackageApiCopyWith<$Res> {
+  __$$_PackageApiCopyWithImpl(
+      _$_PackageApi _value, $Res Function(_$_PackageApi) _then)
+      : super(_value, (v) => _then(v as _$_PackageApi));
 
   @override
-  _$_ProjectApi get _value => super._value as _$_ProjectApi;
+  _$_PackageApi get _value => super._value as _$_PackageApi;
 
   @override
   $Res call({
     Object? packageName = freezed,
+    Object? packageVersion = freezed,
     Object? projectPath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
   }) {
-    return _then(_$_ProjectApi(
+    return _then(_$_PackageApi(
       packageName: packageName == freezed
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
+      packageVersion: packageVersion == freezed
+          ? _value.packageVersion
+          : packageVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       projectPath: projectPath == freezed
           ? _value.projectPath
           : projectPath // ignore: cast_nullable_to_non_nullable
@@ -149,9 +162,10 @@ class __$$_ProjectApiCopyWithImpl<$Res> extends _$ProjectApiCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ProjectApi implements _ProjectApi {
-  const _$_ProjectApi(
+class _$_PackageApi implements _PackageApi {
+  const _$_PackageApi(
       {required this.packageName,
+      required this.packageVersion,
       required this.projectPath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -160,11 +174,13 @@ class _$_ProjectApi implements _ProjectApi {
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations;
 
-  factory _$_ProjectApi.fromJson(Map<String, dynamic> json) =>
-      _$$_ProjectApiFromJson(json);
+  factory _$_PackageApi.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageApiFromJson(json);
 
   @override
   final String packageName;
+  @override
+  final String? packageVersion;
   @override
   final String projectPath;
   final List<ClassDeclaration> _classDeclarations;
@@ -190,16 +206,18 @@ class _$_ProjectApi implements _ProjectApi {
 
   @override
   String toString() {
-    return 'ProjectApi(packageName: $packageName, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ProjectApi &&
+            other is _$_PackageApi &&
             const DeepCollectionEquality()
                 .equals(other.packageName, packageName) &&
+            const DeepCollectionEquality()
+                .equals(other.packageVersion, packageVersion) &&
             const DeepCollectionEquality()
                 .equals(other.projectPath, projectPath) &&
             const DeepCollectionEquality()
@@ -215,6 +233,7 @@ class _$_ProjectApi implements _ProjectApi {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(packageName),
+      const DeepCollectionEquality().hash(packageVersion),
       const DeepCollectionEquality().hash(projectPath),
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -222,30 +241,33 @@ class _$_ProjectApi implements _ProjectApi {
 
   @JsonKey(ignore: true)
   @override
-  _$$_ProjectApiCopyWith<_$_ProjectApi> get copyWith =>
-      __$$_ProjectApiCopyWithImpl<_$_ProjectApi>(this, _$identity);
+  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
+      __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ProjectApiToJson(
+    return _$$_PackageApiToJson(
       this,
     );
   }
 }
 
-abstract class _ProjectApi implements ProjectApi {
-  const factory _ProjectApi(
+abstract class _PackageApi implements PackageApi {
+  const factory _PackageApi(
       {required final String packageName,
+      required final String? packageVersion,
       required final String projectPath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations}) = _$_ProjectApi;
+      required final List<FieldDeclaration> fieldDeclarations}) = _$_PackageApi;
 
-  factory _ProjectApi.fromJson(Map<String, dynamic> json) =
-      _$_ProjectApi.fromJson;
+  factory _PackageApi.fromJson(Map<String, dynamic> json) =
+      _$_PackageApi.fromJson;
 
   @override
   String get packageName;
+  @override
+  String? get packageVersion;
   @override
   String get projectPath;
   @override
@@ -256,6 +278,6 @@ abstract class _ProjectApi implements ProjectApi {
   List<FieldDeclaration> get fieldDeclarations;
   @override
   @JsonKey(ignore: true)
-  _$$_ProjectApiCopyWith<_$_ProjectApi> get copyWith =>
+  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
 }

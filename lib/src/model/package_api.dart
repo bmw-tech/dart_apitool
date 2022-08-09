@@ -4,19 +4,20 @@ import 'class_declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
 
-part 'project_api.freezed.dart';
-part 'project_api.g.dart';
+part 'package_api.freezed.dart';
+part 'package_api.g.dart';
 
 @freezed
-class ProjectApi with _$ProjectApi {
-  const factory ProjectApi({
+class PackageApi with _$PackageApi {
+  const factory PackageApi({
     required String packageName,
+    required String? packageVersion,
     required String projectPath,
     required List<ClassDeclaration> classDeclarations,
     required List<ExecutableDeclaration> executableDeclarations,
     required List<FieldDeclaration> fieldDeclarations,
-  }) = _ProjectApi;
+  }) = _PackageApi;
 
-  factory ProjectApi.fromJson(Map<String, Object?> json) =>
-      _$ProjectApiFromJson(json);
+  factory PackageApi.fromJson(Map<String, Object?> json) =>
+      _$PackageApiFromJson(json);
 }

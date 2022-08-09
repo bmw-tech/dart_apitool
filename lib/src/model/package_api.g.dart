@@ -1,14 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project_api.dart';
+part of 'package_api.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ProjectApi _$$_ProjectApiFromJson(Map<String, dynamic> json) =>
-    _$_ProjectApi(
+_$_PackageApi _$$_PackageApiFromJson(Map<String, dynamic> json) =>
+    _$_PackageApi(
       packageName: json['packageName'] as String,
+      packageVersion: json['packageVersion'] as String?,
       projectPath: json['projectPath'] as String,
       classDeclarations: (json['classDeclarations'] as List<dynamic>)
           .map((e) => ClassDeclaration.fromJson(e as Map<String, dynamic>))
@@ -21,9 +22,10 @@ _$_ProjectApi _$$_ProjectApiFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_ProjectApiToJson(_$_ProjectApi instance) =>
+Map<String, dynamic> _$$_PackageApiToJson(_$_PackageApi instance) =>
     <String, dynamic>{
       'packageName': instance.packageName,
+      'packageVersion': instance.packageVersion,
       'projectPath': instance.projectPath,
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
