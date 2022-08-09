@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/dart_apitool.iml" filepath="$PROJECT_DIR$/dart_apitool.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/dart_apitool_android.iml" filepath="$PROJECT_DIR$/android/dart_apitool_android.iml" />
-    </modules>
-  </component>
-</project>

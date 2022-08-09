@@ -26,15 +26,15 @@ import 'src/model/package_api.dart';
 part 'package_api_analyzer.freezed.dart';
 
 class PackageApiAnalyzer {
-  final String projectPath;
+  final String packagePath;
 
-  PackageApiAnalyzer({required this.projectPath}) {
+  PackageApiAnalyzer({required this.packagePath}) {
     _checkProjectPathValidity();
   }
 
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
-        _getNormalizedAbsolutePath(projectPath);
+        _getNormalizedAbsolutePath(packagePath);
 
     final yamlContent =
         await File(path.join(normalizedAbsoluteProjectPath, 'pubspec.yaml'))
@@ -172,7 +172,7 @@ class PackageApiAnalyzer {
         );
       }
     }
-    final normalizedProjectPath = path.normalize(path.absolute(projectPath));
+    final normalizedProjectPath = path.normalize(path.absolute(packagePath));
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
@@ -233,7 +233,7 @@ class PackageApiAnalyzer {
 
   void _checkProjectPathValidity() {
     final absoluteNormalizedPackagePath =
-        path.normalize(path.absolute(projectPath));
+        path.normalize(path.absolute(packagePath));
     assert(Directory(absoluteNormalizedPackagePath).existsSync(),
         'Given package path doesn\'t exist ($absoluteNormalizedPackagePath)');
     final pubspecPath =

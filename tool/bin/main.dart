@@ -63,7 +63,7 @@ void _printFields(
 
 Future _handleListCommand(ArgResults cmd) async {
   final String rootDir = cmd['root'];
-  final analyzer = PackageApiAnalyzer(projectPath: rootDir);
+  final analyzer = PackageApiAnalyzer(packagePath: rootDir);
   final packageApi = await analyzer.analyze();
 
   print(
@@ -75,7 +75,7 @@ Future _handleListCommand(ArgResults cmd) async {
 
 Future _handleDumpCommand(ArgResults cmd) async {
   final String rootDir = cmd['root'];
-  final analyzer = PackageApiAnalyzer(projectPath: rootDir);
+  final analyzer = PackageApiAnalyzer(packagePath: rootDir);
   final projectApi = await analyzer.analyze();
 
   const encoder = JsonEncoder.withIndent('    ');
