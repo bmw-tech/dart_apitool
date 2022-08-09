@@ -9,7 +9,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
-import 'package:dart_apitool/src/referenced_files_collector.dart';
+import 'package:dart_apitool/src/exported_files_collector.dart';
 import 'package:dart_apitool/utils/string_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
@@ -110,7 +110,7 @@ class PackageApiAnalyzer {
             }
           }
 
-          final referencedFilesCollector = ReferencedFilesCollector();
+          final referencedFilesCollector = ExportedFilesCollector();
           unitResult.libraryElement.accept(referencedFilesCollector);
           for (final fileRef in referencedFilesCollector.fileReferences) {
             if (!_isInternalRef(

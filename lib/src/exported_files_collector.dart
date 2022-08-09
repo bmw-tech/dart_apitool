@@ -24,7 +24,7 @@ class FileReference {
   });
 }
 
-class ReferencedFilesCollector extends RecursiveElementVisitor<void> {
+class ExportedFilesCollector extends RecursiveElementVisitor<void> {
   final fileReferences = List<FileReference>.empty(growable: true);
 
   @override
@@ -37,17 +37,6 @@ class ReferencedFilesCollector extends RecursiveElementVisitor<void> {
       combinators: element.combinators,
     );
     super.visitLibraryExportElement(element);
-  }
-
-  @override
-  visitLibraryImportElement(LibraryImportElement element) {
-    // _addUri(
-    //   uri: element.uri,
-    //   originLibrary: element.library,
-    //   referencedLibrary: element.importedLibrary,
-    //   type: FileReferenceType.import,
-    // );
-    super.visitLibraryImportElement(element);
   }
 
   void _addUri({
