@@ -36,10 +36,10 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
 
       - name: Verify formatting
-        run: cd tool && flutter format --set-exit-if-changed .
+        run: cd tool && dart format --set-exit-if-changed .
 
       - name: Analyze project source
-        run: cd tool && flutter analyze
+        run: cd tool && dart analyze
 
   test:
     needs: check_label
