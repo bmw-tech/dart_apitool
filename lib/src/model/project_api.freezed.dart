@@ -20,7 +20,7 @@ ProjectApi _$ProjectApiFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ProjectApi {
-  String get projectName => throw _privateConstructorUsedError;
+  String get packageName => throw _privateConstructorUsedError;
   String get projectPath => throw _privateConstructorUsedError;
   List<ClassDeclaration> get classDeclarations =>
       throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $ProjectApiCopyWith<$Res> {
           ProjectApi value, $Res Function(ProjectApi) then) =
       _$ProjectApiCopyWithImpl<$Res>;
   $Res call(
-      {String projectName,
+      {String packageName,
       String projectPath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
@@ -58,16 +58,16 @@ class _$ProjectApiCopyWithImpl<$Res> implements $ProjectApiCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? projectName = freezed,
+    Object? packageName = freezed,
     Object? projectPath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
   }) {
     return _then(_value.copyWith(
-      projectName: projectName == freezed
-          ? _value.projectName
-          : projectName // ignore: cast_nullable_to_non_nullable
+      packageName: packageName == freezed
+          ? _value.packageName
+          : packageName // ignore: cast_nullable_to_non_nullable
               as String,
       projectPath: projectPath == freezed
           ? _value.projectPath
@@ -97,7 +97,7 @@ abstract class _$$_ProjectApiCopyWith<$Res>
       __$$_ProjectApiCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String projectName,
+      {String packageName,
       String projectPath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
@@ -116,16 +116,16 @@ class __$$_ProjectApiCopyWithImpl<$Res> extends _$ProjectApiCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? projectName = freezed,
+    Object? packageName = freezed,
     Object? projectPath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
   }) {
     return _then(_$_ProjectApi(
-      projectName: projectName == freezed
-          ? _value.projectName
-          : projectName // ignore: cast_nullable_to_non_nullable
+      packageName: packageName == freezed
+          ? _value.packageName
+          : packageName // ignore: cast_nullable_to_non_nullable
               as String,
       projectPath: projectPath == freezed
           ? _value.projectPath
@@ -151,7 +151,7 @@ class __$$_ProjectApiCopyWithImpl<$Res> extends _$ProjectApiCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ProjectApi implements _ProjectApi {
   const _$_ProjectApi(
-      {required this.projectName,
+      {required this.packageName,
       required this.projectPath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -164,7 +164,7 @@ class _$_ProjectApi implements _ProjectApi {
       _$$_ProjectApiFromJson(json);
 
   @override
-  final String projectName;
+  final String packageName;
   @override
   final String projectPath;
   final List<ClassDeclaration> _classDeclarations;
@@ -190,7 +190,7 @@ class _$_ProjectApi implements _ProjectApi {
 
   @override
   String toString() {
-    return 'ProjectApi(projectName: $projectName, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'ProjectApi(packageName: $packageName, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
@@ -199,7 +199,7 @@ class _$_ProjectApi implements _ProjectApi {
         (other.runtimeType == runtimeType &&
             other is _$_ProjectApi &&
             const DeepCollectionEquality()
-                .equals(other.projectName, projectName) &&
+                .equals(other.packageName, packageName) &&
             const DeepCollectionEquality()
                 .equals(other.projectPath, projectPath) &&
             const DeepCollectionEquality()
@@ -214,7 +214,7 @@ class _$_ProjectApi implements _ProjectApi {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(projectName),
+      const DeepCollectionEquality().hash(packageName),
       const DeepCollectionEquality().hash(projectPath),
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -235,7 +235,7 @@ class _$_ProjectApi implements _ProjectApi {
 
 abstract class _ProjectApi implements ProjectApi {
   const factory _ProjectApi(
-      {required final String projectName,
+      {required final String packageName,
       required final String projectPath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -245,7 +245,7 @@ abstract class _ProjectApi implements ProjectApi {
       _$_ProjectApi.fromJson;
 
   @override
-  String get projectName;
+  String get packageName;
   @override
   String get projectPath;
   @override

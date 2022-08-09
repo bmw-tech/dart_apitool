@@ -8,7 +8,7 @@ part of 'project_api.dart';
 
 _$_ProjectApi _$$_ProjectApiFromJson(Map<String, dynamic> json) =>
     _$_ProjectApi(
-      projectName: json['projectName'] as String,
+      packageName: json['packageName'] as String,
       projectPath: json['projectPath'] as String,
       classDeclarations: (json['classDeclarations'] as List<dynamic>)
           .map((e) => ClassDeclaration.fromJson(e as Map<String, dynamic>))
@@ -23,7 +23,7 @@ _$_ProjectApi _$$_ProjectApiFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_ProjectApiToJson(_$_ProjectApi instance) =>
     <String, dynamic>{
-      'projectName': instance.projectName,
+      'packageName': instance.packageName,
       'projectPath': instance.projectPath,
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,

@@ -10,7 +10,7 @@ part 'project_api.g.dart';
 @freezed
 class ProjectApi with _$ProjectApi {
   const factory ProjectApi({
-    required String projectName,
+    required String packageName,
     required String projectPath,
     required List<ClassDeclaration> classDeclarations,
     required List<ExecutableDeclaration> executableDeclarations,

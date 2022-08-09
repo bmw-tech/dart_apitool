@@ -49,6 +49,8 @@ class ProjectApiAnalyzer {
     filesToAnalyze.addAll(
         _findPublicFilesInProject(normalizedAbsolutePublicEntrypointPath));
 
+    String? packageName;
+
     while (filesToAnalyze.isNotEmpty) {
       final fileToAnalyze = filesToAnalyze.first;
       filesToAnalyze.removeFirst();
@@ -60,6 +62,7 @@ class ProjectApiAnalyzer {
         final unitResult = await context.currentSession
             .getResolvedUnit(fileToAnalyze.filePath);
         if (unitResult is ResolvedUnitResult) {
+          packageName ??= getPackageNameFromLibrary(unitResult.libraryElement);
           if (!unitResult.isPart) {
             final collector = APIRelevantElementsCollector(
               shownNames: fileToAnalyze.shownNames,
@@ -165,7 +168,7 @@ class ProjectApiAnalyzer {
     }
     final normalizedProjectPath = path.normalize(path.absolute(projectPath));
     return ProjectApi(
-      projectName: _getProjectNameFromPath(normalizedProjectPath),
+      packageName: packageName ?? '<UNKNOWN>',
       projectPath: normalizedProjectPath,
       classDeclarations: projectClassDeclarations,
       executableDeclarations: projectExecutableDeclarations,
@@ -215,16 +218,10 @@ class ProjectApiAnalyzer {
     if (refLibrary == null) {
       return true;
     }
-    final origPackageName =
-        getPackageNameFromLibraryIdentifier(originLibrary.identifier);
-    final refPackageName =
-        getPackageNameFromLibraryIdentifier(refLibrary.identifier);
+    final origPackageName = getPackageNameFromLibrary(originLibrary);
+    final refPackageName = getPackageNameFromLibrary(refLibrary);
 
     return origPackageName == refPackageName;
-  }
-
-  String _getProjectNameFromPath(String normalizedProjectPath) {
-    return path.basename(normalizedProjectPath);
   }
 }
 

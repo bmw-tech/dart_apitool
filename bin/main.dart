@@ -66,7 +66,7 @@ Future _handleListCommand(ArgResults cmd) async {
   final analyzer = ProjectApiAnalyzer(projectPath: rootDir);
   final projectApi = await analyzer.analyze();
 
-  print('----- Project root:');
+  print('----- Package ${projectApi.packageName} -----');
   _printFields(projectApi.fieldDeclarations);
   _printExecutables(projectApi.executableDeclarations);
   _printClasses(projectApi.classDeclarations);

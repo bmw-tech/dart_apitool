@@ -110,10 +110,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (_visitedElementIds.contains(type.element.id)) {
       return;
     }
-    final packageName =
-        getPackageNameFromLibraryIdentifier(directElement.library.identifier);
+    final packageName = getPackageNameFromLibrary(directElement.library);
     if (packageName == _packageName) {
-      //create new collector with isOnlyPublic = false as we know that this type use used directly and therefore gets exported implicitly (e.g. private mixins (Freezed))
+      //create new collector with isOnlyPublic = false as we know that this type is used directly and therefore gets exported implicitly (e.g. private mixins (Freezed))
       final collector = APIRelevantElementsCollector(
         isOnlyPublic: false,
         visitedElementIds: _visitedElementIds,
@@ -135,7 +134,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   void _onVisitAnyElement(Element element) {
     // set the package name to the first element's package we see
     _packageName ??= element.library?.identifier != null
-        ? getPackageNameFromLibraryIdentifier(element.library!.identifier)
+        ? getPackageNameFromLibrary(element.library!)
         : null;
   }
 
