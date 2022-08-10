@@ -16,9 +16,7 @@ void main() {
         workingDirectory: packageDirectory,
         runInShell: true,
       );
-      expect(result.exitCode, 0, reason: result.stdout);
-    });
-    setUp(() async {
+      expect(result.exitCode, 0, reason: result.stderr);
       final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
       packageApi = await analyzer.analyze();
     });
