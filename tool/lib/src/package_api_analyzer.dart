@@ -15,13 +15,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import 'src/model/class_declaration.dart';
-import 'src/model/executable_declaration.dart';
-import 'src/model/field_declaration.dart';
-import 'src/model/internal/internal_class_declaration.dart';
-import 'src/model/internal/internal_executable_declaration.dart';
-import 'src/model/internal/internal_field_declaration.dart';
-import 'src/model/package_api.dart';
+import 'model/class_declaration.dart';
+import 'model/executable_declaration.dart';
+import 'model/field_declaration.dart';
+import 'model/internal/internal_class_declaration.dart';
+import 'model/internal/internal_executable_declaration.dart';
+import 'model/internal/internal_field_declaration.dart';
+import 'model/package_api.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
