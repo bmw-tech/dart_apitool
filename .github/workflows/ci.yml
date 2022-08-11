@@ -72,7 +72,7 @@ jobs:
 
   pana:
     needs: check_label
-    runs-on: ubuntu-latest #sh_devmil_mac
+    runs-on: sh_devmil_mac
 
     steps:
       - uses: actions/checkout@v3
