@@ -92,7 +92,7 @@ jobs:
         run: |
           cd tool
           dart pub get
-          dart pub global activate pana
+          dart pub global activate pana 0.21.14
 
       - name: Verify Pub Score
         run: |
