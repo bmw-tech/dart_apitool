@@ -75,4 +75,4 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/pana.yml@9067dfacc9d6e126a7159c172b9bc6fe94d8c836
     with:
       working_directory: tool
-      runs-on: sh_devmil_mac
+      runs_on: sh_devmil_mac
