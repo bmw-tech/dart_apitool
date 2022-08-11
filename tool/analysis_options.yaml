@@ -1,4 +1,4 @@
-include: package:flutter_lints/flutter.yaml
+include: package:lints/recommended.yaml
 
 linter:
   rules:
@@ -6,4 +6,7 @@ linter:
 
 analyzer:
   errors:
-    invalid_annotation_target: ignore # freezed
+    invalid_annotation_target: ignore # freezed    
+  exclude:
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
