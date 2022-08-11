@@ -71,7 +71,8 @@ jobs:
         run: cd tool &&  dart test 
 
   pana:
-    runs-on: ubuntu-latest
+    needs: check_label
+    runs-on: sh_devmil_mac
 
     steps:
       - uses: actions/checkout@v3
