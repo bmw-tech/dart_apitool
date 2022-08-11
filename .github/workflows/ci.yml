@@ -90,6 +90,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          cd tool
           flutter packages get
           flutter pub global activate pana
 
