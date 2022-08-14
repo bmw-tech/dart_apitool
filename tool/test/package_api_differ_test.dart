@@ -102,16 +102,11 @@ void main() {
     });
   });
   group('Deprecated Flag handling', () {
-    final packageDeprecatedClassAApi = packageClassAApi.copyWith(
-      classDeclarations: packageClassAApi.classDeclarations
-          .map((cd) => cd.copyWith(isDeprecated: true))
-          .toList(),
-    );
     test('Class deprecated flag added is detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageClassAApi,
-        newApi: packageDeprecatedClassAApi,
+        newApi: packageClassADeprecatedApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
@@ -125,7 +120,7 @@ void main() {
     test('Class deprecated flag removed is detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
-        oldApi: packageDeprecatedClassAApi,
+        oldApi: packageClassADeprecatedApi,
         newApi: packageClassAApi,
       );
       expect(diffResult.apiChanges.length, 1);
@@ -212,16 +207,11 @@ void main() {
   });
 
   group('Type parameter handling', () {
-    final packageTypeParameterClassAApi = packageClassAApi.copyWith(
-      classDeclarations: packageClassAApi.classDeclarations
-          .map((cd) => cd.copyWith(typeParameterNames: ['T']))
-          .toList(),
-    );
     test('Class type parameter adding detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageClassAApi,
-        newApi: packageTypeParameterClassAApi,
+        newApi: packageClassAWithTypeParameterApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
@@ -235,7 +225,7 @@ void main() {
     test('Class type parameter removal detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
-        oldApi: packageTypeParameterClassAApi,
+        oldApi: packageClassAWithTypeParameterApi,
         newApi: packageClassAApi,
       );
       expect(diffResult.apiChanges.length, 1);
@@ -248,17 +238,11 @@ void main() {
           contains('Type Parameter T'));
     });
 
-    final packageTypeParameterExecutable1Api = packageExecutable1Api.copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations
-          .map((cd) => cd.copyWith(typeParameterNames: ['T']))
-          .toList(),
-    );
-
     test('Executable type parameter adding detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageExecutable1Api,
-        newApi: packageTypeParameterExecutable1Api,
+        newApi: packageExecutable1WithTypeParameterApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
@@ -272,7 +256,7 @@ void main() {
     test('Executable type parameter removal detected', () {
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
-        oldApi: packageTypeParameterExecutable1Api,
+        oldApi: packageExecutable1WithTypeParameterApi,
         newApi: packageExecutable1Api,
       );
       expect(diffResult.apiChanges.length, 1);
@@ -287,16 +271,10 @@ void main() {
   });
   group('Type change handling', () {
     test('Field type change detected', () {
-      final packageApiTypeFieldAChanged = packageFieldA.copyWith(
-        fieldDeclarations: packageFieldA.fieldDeclarations
-            .map((fd) => fd.copyWith(typeName: 'NewType'))
-            .toList(),
-      );
-
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageFieldA,
-        newApi: packageApiTypeFieldAChanged,
+        newApi: packageFieldATypeChangedApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final typeChange = diffResult.apiChanges.first;
@@ -306,17 +284,10 @@ void main() {
       expect(typeChange.type, ApiChangeType.change);
     });
     test('Return type change detected', () {
-      final packageApiReturnTypeExecutable1Changed =
-          packageExecutable1Api.copyWith(
-        executableDeclarations: packageExecutable1Api.executableDeclarations
-            .map((exd) => exd.copyWith(returnTypeName: 'NewType'))
-            .toList(),
-      );
-
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageExecutable1Api,
-        newApi: packageApiReturnTypeExecutable1Changed,
+        newApi: packageExecutable1ReturnTypeChangedApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final typeChange = diffResult.apiChanges.first;
@@ -326,32 +297,10 @@ void main() {
       expect(typeChange.type, ApiChangeType.change);
     });
     test('Parameter type change detected', () {
-      bool parameterChanged = false;
-      final packageApiReturnTypeExecutable1Changed =
-          packageExecutable1Api.copyWith(
-        executableDeclarations: packageExecutable1Api.executableDeclarations
-            .map(
-              (exd) => exd.copyWith(
-                parameters: exd.parameters.map(
-                  (param) {
-                    if (parameterChanged) {
-                      return param;
-                    }
-                    parameterChanged = true;
-                    return param.copyWith(
-                      typeName: 'NewType',
-                    );
-                  },
-                ).toList(),
-              ),
-            )
-            .toList(),
-      );
-
       final differ = PackageApiDiffer();
       final diffResult = differ.diff(
         oldApi: packageExecutable1Api,
-        newApi: packageApiReturnTypeExecutable1Changed,
+        newApi: packageExecutable1ParameterTypeChangedApi,
       );
       expect(diffResult.apiChanges.length, 1);
       final typeChange = diffResult.apiChanges.first;
@@ -361,5 +310,13 @@ void main() {
       expect(typeChange.context, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.change);
     });
+  });
+  group('Executable parameter changes', () {
+    test('New, optional, positional parameter added', () {});
+    test('New, optional named parameter added', () {});
+    test('New, required named parameter added', () {});
+    test('optional, positional parameter removed', () {});
+    test('optional named parameter removed', () {});
+    test('required named parameter removed', () {});
   });
 }

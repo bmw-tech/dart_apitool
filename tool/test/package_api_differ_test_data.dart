@@ -43,6 +43,18 @@ final packageClassAApi = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
 );
+// Package ClassA variations
+final packageClassADeprecatedApi = packageClassAApi.copyWith(
+  classDeclarations: packageClassAApi.classDeclarations
+      .map((cd) => cd.copyWith(isDeprecated: true))
+      .toList(),
+);
+final packageClassAWithTypeParameterApi = packageClassAApi.copyWith(
+  classDeclarations: packageClassAApi.classDeclarations
+      .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+      .toList(),
+);
+// END Package ClassA variations
 
 final packageClassAClassBApi = PackageApi(
   packageName: 'simple_package',
@@ -92,6 +104,42 @@ final packageExecutable1Api = PackageApi(
   fieldDeclarations: const [],
 );
 
+// Package Executable1 variations
+final packageExecutable1WithTypeParameterApi = packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations
+      .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+      .toList(),
+);
+final packageExecutable1ReturnTypeChangedApi = packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations
+      .map((exd) => exd.copyWith(returnTypeName: 'NewType'))
+      .toList(),
+);
+final packageExecutable1ParameterTypeChangedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      bool parameterChanged = false;
+      return exd.copyWith(
+        parameters: exd.parameters.map(
+          (param) {
+            // only change the first param
+            if (parameterChanged) {
+              return param;
+            }
+            parameterChanged = true;
+            return param.copyWith(
+              typeName: 'NewType',
+            );
+          },
+        ).toList(),
+      );
+    },
+  ).toList(),
+);
+
+// END Package Executable1 variations
+
 final packageExecutable1Executable2Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
@@ -125,6 +173,14 @@ final packageFieldA = PackageApi(
     simpleFieldDeclarationA,
   ],
 );
+
+// Package FieldA variations
+final packageFieldATypeChangedApi = packageFieldA.copyWith(
+  fieldDeclarations: packageFieldA.fieldDeclarations
+      .map((fd) => fd.copyWith(typeName: 'NewType'))
+      .toList(),
+);
+// END Package FieldA variations
 
 final packageFieldAFieldB = PackageApi(
   packageName: 'simple_package',
