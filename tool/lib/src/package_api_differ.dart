@@ -1,6 +1,8 @@
 import 'model/model.dart';
 
+/// can calculate a diff between two PackageApis
 class PackageApiDiffer {
+  /// calculates a diff between [oldApi] and [newApi]
   PackageApiDifResult diff({
     required PackageApi oldApi,
     required PackageApi newApi,
@@ -56,7 +58,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
         affectedDeclaration: addedClass,
         context: null,
-        type: ApiChangeType.add,
+        type: ApiChangeType.addCompatible,
         changeDescription: 'Class ${addedClass.name} added',
       ));
     }
@@ -117,7 +119,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
         affectedDeclaration: addedExecutable,
         context: context,
-        type: ApiChangeType.add,
+        type: ApiChangeType.addCompatible,
         changeDescription: 'Executable ${addedExecutable.name} added',
       ));
     }
@@ -182,8 +184,8 @@ class PackageApiDiffer {
         affectedDeclaration: context,
         context: context,
         type: addedParameter.isRequired || !addedParameter.isNamed
-            ? ApiChangeType.addRequired
-            : ApiChangeType.add,
+            ? ApiChangeType.addBreaking
+            : ApiChangeType.addCompatible,
         changeDescription: 'Parameter ${addedParameter.name} added',
       ));
     }
@@ -237,6 +239,10 @@ class PackageApiDiffer {
     List<String> newTypeParameterNames,
     Declaration context,
   ) {
+    //TODO: probably only the number of type parameters is important?
+    // we might check for special cases like switching the order of type arguments though
+    // or we stay safe and track even a naming change here.
+    // safest option: make this a diff command parameter
     final tpnListDiff = _diffLists<String>(oldTypeParameterNames,
         newTypeParameterNames, (oldTpn, newTpn) => oldTpn == newTpn);
     final changes = <ApiChange>[];
@@ -251,7 +257,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
           affectedDeclaration: context,
           context: context,
-          type: ApiChangeType.addRequired,
+          type: ApiChangeType.addBreaking,
           changeDescription: 'Type Parameter $addedTypeParameter added'));
     }
     return changes;
@@ -276,7 +282,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
           affectedDeclaration: context,
           context: context,
-          type: ApiChangeType.add,
+          type: ApiChangeType.addCompatible,
           changeDescription: 'Super Type $addedSuperType added'));
     }
     return changes;
@@ -307,7 +313,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
           affectedDeclaration: addedField,
           context: context,
-          type: ApiChangeType.add,
+          type: ApiChangeType.addCompatible,
           changeDescription: 'Field ${addedField.name} added'));
     }
     return changes;
@@ -354,7 +360,7 @@ class PackageApiDiffer {
         context: context,
         type: isCompatibleChange
             ? ApiChangeType.changeCompatible
-            : ApiChangeType.change,
+            : ApiChangeType.changeBreaking,
         changeDescription: changeDescription,
       ));
     }
@@ -389,18 +395,29 @@ class _ListDiffResult<T> {
   _ListDiffResult(this.remainingOld, this.remainingNew, this.matches);
 }
 
+/// Error that gets thrown when an Error happens during diffing two [PackageApi]s
 class PackageApiDiffError extends Error {
   final String message;
 
   PackageApiDiffError({required this.message});
 }
 
+/// Represents one API change
 class ApiChange {
+  /// the context of this change. This can be the class the changed method belongs to or the method the changed parameter belongs to.
+  /// is null for situations where there is no context (like root level functions)
   Declaration? context;
+
+  /// The affected declaration. This is the declaration that got changed
   Declaration affectedDeclaration;
+
+  /// Type of change
   ApiChangeType type;
+
+  /// A textual description of the change
   String changeDescription;
 
+  /// creates a new ApiChange instance
   ApiChange({
     required this.context,
     required this.affectedDeclaration,
@@ -409,15 +426,27 @@ class ApiChange {
   });
 }
 
+/// represents the type of API change
 enum ApiChangeType {
-  change,
+  /// breaking change
+  changeBreaking,
+
+  /// non-breaking change
   changeCompatible,
+
+  /// removal (is always breaking)
   remove,
-  add,
-  addRequired,
+
+  /// non-breaking addition
+  addCompatible,
+
+  /// breaking addition (like adding a required parameter)
+  addBreaking,
 }
 
+/// represents the result of a diff run
 class PackageApiDifResult {
+  /// API changes that the diff run detected
   final List<ApiChange> apiChanges;
 
   PackageApiDifResult(this.apiChanges);

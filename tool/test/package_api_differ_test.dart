@@ -25,7 +25,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final newClassApiChange = diffResult.apiChanges.first;
       expect(newClassApiChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(newClassApiChange.type, ApiChangeType.add);
+      expect(newClassApiChange.type, ApiChangeType.addCompatible);
       expect(newClassApiChange.changeDescription, contains('ClassB'));
       expect(newClassApiChange.context, isNull);
     });
@@ -53,7 +53,7 @@ void main() {
       final newExecutableApiChange = diffResult.apiChanges.first;
       expect(newExecutableApiChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(newExecutableApiChange.type, ApiChangeType.add);
+      expect(newExecutableApiChange.type, ApiChangeType.addCompatible);
       expect(
           newExecutableApiChange.changeDescription, contains('doSomething2'));
       expect(newExecutableApiChange.context, isNull);
@@ -82,7 +82,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final newFieldApiChange = diffResult.apiChanges.first;
       expect(newFieldApiChange.affectedDeclaration, isA<FieldDeclaration>());
-      expect(newFieldApiChange.type, ApiChangeType.add);
+      expect(newFieldApiChange.type, ApiChangeType.addCompatible);
       expect(newFieldApiChange.changeDescription, contains('fieldB'));
       expect(newFieldApiChange.context, isNull);
     });
@@ -218,7 +218,7 @@ void main() {
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
       expect(deprecatedAddedChange.context, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.addRequired);
+      expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
       expect(deprecatedAddedChange.changeDescription,
           contains('Type Parameter T'));
     });
@@ -249,7 +249,7 @@ void main() {
       expect(deprecatedAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.context, isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.addRequired);
+      expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
       expect(deprecatedAddedChange.changeDescription,
           contains('Type Parameter T'));
     });
@@ -281,7 +281,7 @@ void main() {
       expect(typeChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
       expect(typeChange.context, isNull);
-      expect(typeChange.type, ApiChangeType.change);
+      expect(typeChange.type, ApiChangeType.changeBreaking);
     });
     test('Return type change detected', () {
       final differ = PackageApiDiffer();
@@ -294,7 +294,7 @@ void main() {
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
       expect(typeChange.context, isNull);
-      expect(typeChange.type, ApiChangeType.change);
+      expect(typeChange.type, ApiChangeType.changeBreaking);
     });
     test('Parameter type change detected', () {
       final differ = PackageApiDiffer();
@@ -308,7 +308,7 @@ void main() {
           typeChange.affectedDeclaration, isA<ExecutablParameterDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
       expect(typeChange.context, isA<ExecutableDeclaration>());
-      expect(typeChange.type, ApiChangeType.change);
+      expect(typeChange.type, ApiChangeType.changeBreaking);
     });
   });
   group('Executable parameter changes', () {
