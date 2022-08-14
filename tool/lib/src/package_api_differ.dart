@@ -140,7 +140,7 @@ class PackageApiDiffer {
       newExecutable.isDeprecated,
       context,
       newExecutable,
-      'Deprecation Flag for Executable ${newExecutable.name} changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
+      'Deprecated Flag for Executable ${newExecutable.name} changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
       changes,
       isCompatibleChange: true,
     );
@@ -201,7 +201,7 @@ class PackageApiDiffer {
       newParam.isDeprecated,
       context,
       newParam,
-      'Deprecation Flag of ${newParam.name} changed',
+      'Deprecated Flag of ${newParam.name} changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
       changes,
       isCompatibleChange: true,
     );
@@ -210,7 +210,7 @@ class PackageApiDiffer {
       newParam.isNamed,
       context,
       newParam,
-      'Kind of parameter ${newParam.name} changed',
+      'Kind of parameter ${newParam.name} changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -218,7 +218,7 @@ class PackageApiDiffer {
       newParam.isRequired,
       context,
       newParam,
-      'Requiredness of parameter ${newParam.name} changed',
+      'Requiredness of parameter ${newParam.name} changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -226,7 +226,7 @@ class PackageApiDiffer {
       newParam.typeName,
       context,
       newParam,
-      'Type of parameter ${newParam.name} changed',
+      'Type of parameter ${newParam.name} changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
     );
     return changes;
@@ -324,7 +324,7 @@ class PackageApiDiffer {
       newField.isDeprecated,
       context,
       newField,
-      'Deprecation Flag changed',
+      'Deprecated Flag of field ${newField.name} changed',
       changes,
       isCompatibleChange: true,
     );
@@ -333,7 +333,7 @@ class PackageApiDiffer {
       newField.typeName,
       context,
       newField,
-      'Type changed',
+      'Type of field ${newField.name} changed. ${oldField.typeName} -> ${newField.typeName}',
       changes,
     );
     return changes;

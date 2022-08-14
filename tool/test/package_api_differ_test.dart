@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/package_api_differ.dart';
 import 'package:test/test.dart';
@@ -138,6 +136,230 @@ void main() {
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('ClassA'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
+    });
+
+    final packageDeprecatedExecutable1Api = packageExecutable1Api.copyWith(
+      executableDeclarations: packageExecutable1Api.executableDeclarations
+          .map((ed) => ed.copyWith(isDeprecated: true))
+          .toList(),
+    );
+    test('Executable deprecated flag added is detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageDeprecatedExecutable1Api,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.changeDescription, contains('doSomething1'));
+      expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
+    });
+    test('Executable deprecated flag removed is detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageDeprecatedExecutable1Api,
+        newApi: packageExecutable1Api,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.changeDescription, contains('doSomething1'));
+      expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
+    });
+
+    final packageDeprecatedFieldAApi = packageFieldA.copyWith(
+      fieldDeclarations: packageFieldA.fieldDeclarations
+          .map((ed) => ed.copyWith(isDeprecated: true))
+          .toList(),
+    );
+    test('Field deprecated flag added is detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldA,
+        newApi: packageDeprecatedFieldAApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(
+          deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.changeDescription, contains('fieldA'));
+      expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
+    });
+    test('Field deprecated flag removed is detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageDeprecatedFieldAApi,
+        newApi: packageFieldA,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(
+          deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.changeDescription, contains('fieldA'));
+      expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
+    });
+  });
+
+  group('Type parameter handling', () {
+    final packageTypeParameterClassAApi = packageClassAApi.copyWith(
+      classDeclarations: packageClassAApi.classDeclarations
+          .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+          .toList(),
+    );
+    test('Class type parameter adding detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageClassAApi,
+        newApi: packageTypeParameterClassAApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(
+          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.context, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.addRequired);
+      expect(deprecatedAddedChange.changeDescription,
+          contains('Type Parameter T'));
+    });
+    test('Class type parameter removal detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageTypeParameterClassAApi,
+        newApi: packageClassAApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(
+          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.context, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.remove);
+      expect(deprecatedAddedChange.changeDescription,
+          contains('Type Parameter T'));
+    });
+
+    final packageTypeParameterExecutable1Api = packageExecutable1Api.copyWith(
+      executableDeclarations: packageExecutable1Api.executableDeclarations
+          .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+          .toList(),
+    );
+
+    test('Executable type parameter adding detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageTypeParameterExecutable1Api,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.context, isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.addRequired);
+      expect(deprecatedAddedChange.changeDescription,
+          contains('Type Parameter T'));
+    });
+    test('Executable type parameter removal detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageTypeParameterExecutable1Api,
+        newApi: packageExecutable1Api,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.context, isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.remove);
+      expect(deprecatedAddedChange.changeDescription,
+          contains('Type Parameter T'));
+    });
+  });
+  group('Type change handling', () {
+    test('Field type change detected', () {
+      final packageApiTypeFieldAChanged = packageFieldA.copyWith(
+        fieldDeclarations: packageFieldA.fieldDeclarations
+            .map((fd) => fd.copyWith(typeName: 'NewType'))
+            .toList(),
+      );
+
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldA,
+        newApi: packageApiTypeFieldAChanged,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final typeChange = diffResult.apiChanges.first;
+      expect(typeChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(typeChange.changeDescription, contains('NewType'));
+      expect(typeChange.context, isNull);
+      expect(typeChange.type, ApiChangeType.change);
+    });
+    test('Return type change detected', () {
+      final packageApiReturnTypeExecutable1Changed =
+          packageExecutable1Api.copyWith(
+        executableDeclarations: packageExecutable1Api.executableDeclarations
+            .map((exd) => exd.copyWith(returnTypeName: 'NewType'))
+            .toList(),
+      );
+
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageApiReturnTypeExecutable1Changed,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final typeChange = diffResult.apiChanges.first;
+      expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(typeChange.changeDescription, contains('NewType'));
+      expect(typeChange.context, isNull);
+      expect(typeChange.type, ApiChangeType.change);
+    });
+    test('Parameter type change detected', () {
+      bool parameterChanged = false;
+      final packageApiReturnTypeExecutable1Changed =
+          packageExecutable1Api.copyWith(
+        executableDeclarations: packageExecutable1Api.executableDeclarations
+            .map(
+              (exd) => exd.copyWith(
+                parameters: exd.parameters.map(
+                  (param) {
+                    if (parameterChanged) {
+                      return param;
+                    }
+                    parameterChanged = true;
+                    return param.copyWith(
+                      typeName: 'NewType',
+                    );
+                  },
+                ).toList(),
+              ),
+            )
+            .toList(),
+      );
+
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageApiReturnTypeExecutable1Changed,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final typeChange = diffResult.apiChanges.first;
+      expect(
+          typeChange.affectedDeclaration, isA<ExecutablParameterDeclaration>());
+      expect(typeChange.changeDescription, contains('NewType'));
+      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.type, ApiChangeType.change);
     });
   });
 }

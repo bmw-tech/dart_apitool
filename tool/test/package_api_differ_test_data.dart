@@ -60,7 +60,14 @@ final simpleExecutable1 = ExecutableDeclaration(
   returnTypeName: '',
   name: 'doSomething1',
   isDeprecated: false,
-  parameters: const [],
+  parameters: const [
+    ExecutablParameterDeclaration(
+        isRequired: true,
+        isNamed: true,
+        name: 'firstParam',
+        isDeprecated: false,
+        typeName: 'String'),
+  ],
   typeParameterNames: const [],
   type: ExecutableType.method,
 );
