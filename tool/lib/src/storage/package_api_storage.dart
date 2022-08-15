@@ -12,9 +12,11 @@ abstract class PackageApiStorage {
     return _readFromVersion(storageVersion, packageApi);
   }
 
-  static String packageApitoStorageJson(PackageApi packageApi) {
+  static String packageApitoStorageJson(PackageApi packageApi,
+      {bool pretty = false}) {
     final packageApiStorage = _packageApiToStorage(packageApi);
-    return jsonEncode({
+    final encoder = pretty ? JsonEncoder.withIndent('    ') : JsonEncoder();
+    return encoder.convert({
       'version': 1,
       'packageApi': packageApiStorage.toJson(),
     });

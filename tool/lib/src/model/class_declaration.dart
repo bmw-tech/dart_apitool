@@ -8,7 +8,6 @@ import 'executable_declaration.dart';
 import 'field_declaration.dart';
 
 part 'class_declaration.freezed.dart';
-part 'class_declaration.g.dart';
 
 /// Represents a found class declaration
 @freezed
@@ -28,9 +27,6 @@ class ClassDeclaration with _$ClassDeclaration implements Declaration {
     required List<ExecutableDeclaration> executableDeclarations,
     required List<FieldDeclaration> fieldDeclarations,
   }) = _ClassDeclaration;
-
-  factory ClassDeclaration.fromJson(Map<String, Object?> json) =>
-      _$ClassDeclarationFromJson(json);
 
   String _computeSignature() {
     String superTypeSuffix = '';

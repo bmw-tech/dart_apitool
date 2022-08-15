@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'declaration.dart';
 
 part 'field_declaration.freezed.dart';
-part 'field_declaration.g.dart';
 
 /// represents a found FieldDeclaration
 @freezed
@@ -21,9 +20,6 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     required String name,
     required bool isDeprecated,
   }) = _FieldDeclaration;
-
-  factory FieldDeclaration.fromJson(Map<String, Object?> json) =>
-      _$FieldDeclarationFromJson(json);
 
   /// helper to compute the signature of a field
   String _computeSignature() {

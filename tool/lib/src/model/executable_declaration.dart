@@ -4,7 +4,6 @@ import '../utils/string_utils.dart';
 import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
-part 'executable_declaration.g.dart';
 
 /// Represents the type of executable found
 enum ExecutableType {
@@ -28,9 +27,6 @@ class ExecutableParameterDeclaration
     required bool isDeprecated,
     required String typeName,
   }) = _ExecutableParameterDeclaration;
-
-  factory ExecutableParameterDeclaration.fromJson(Map<String, Object?> json) =>
-      _$ExecutableParameterDeclarationFromJson(json);
 }
 
 /// Represents an executable declaration
@@ -53,9 +49,6 @@ class ExecutableDeclaration
     required List<String> typeParameterNames,
     required ExecutableType type,
   }) = _ExecutableDeclaration;
-
-  factory ExecutableDeclaration.fromJson(Map<String, Object?> json) =>
-      _$ExecutableDeclarationFromJson(json);
 
   /// computes the executable signature.
   ///

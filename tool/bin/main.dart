@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
-
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 
@@ -78,8 +76,7 @@ Future _handleDumpCommand(ArgResults cmd) async {
   final analyzer = PackageApiAnalyzer(packagePath: rootDir);
   final projectApi = await analyzer.analyze();
 
-  const encoder = JsonEncoder.withIndent('    ');
-
-  final jsonString = encoder.convert(projectApi.toJson());
+  final jsonString =
+      PackageApiStorage.packageApitoStorageJson(projectApi, pretty: true);
   print(jsonString);
 }

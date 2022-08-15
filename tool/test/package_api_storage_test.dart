@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dart_apitool/api_tool.dart';
-import 'package:dart_apitool/src/storage/package_api_storage.dart';
 import 'package:test/test.dart';
 
 void main() {

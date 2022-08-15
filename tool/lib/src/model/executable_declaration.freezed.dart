@@ -14,11 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ExecutableParameterDeclaration _$ExecutableParameterDeclarationFromJson(
-    Map<String, dynamic> json) {
-  return _ExecutableParameterDeclaration.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ExecutableParameterDeclaration {
   bool get isRequired => throw _privateConstructorUsedError;
@@ -27,7 +22,6 @@ mixin _$ExecutableParameterDeclaration {
   bool get isDeprecated => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
       get copyWith => throw _privateConstructorUsedError;
@@ -152,7 +146,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_ExecutableParameterDeclaration
     extends _ExecutableParameterDeclaration {
   const _$_ExecutableParameterDeclaration(
@@ -162,10 +156,6 @@ class _$_ExecutableParameterDeclaration
       required this.isDeprecated,
       required this.typeName})
       : super._();
-
-  factory _$_ExecutableParameterDeclaration.fromJson(
-          Map<String, dynamic> json) =>
-      _$$_ExecutableParameterDeclarationFromJson(json);
 
   @override
   final bool isRequired;
@@ -197,7 +187,6 @@ class _$_ExecutableParameterDeclaration
             const DeepCollectionEquality().equals(other.typeName, typeName));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -212,13 +201,6 @@ class _$_ExecutableParameterDeclaration
   _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
       get copyWith => __$$_ExecutableParameterDeclarationCopyWithImpl<
           _$_ExecutableParameterDeclaration>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ExecutableParameterDeclarationToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ExecutableParameterDeclaration
@@ -230,9 +212,6 @@ abstract class _ExecutableParameterDeclaration
       required final bool isDeprecated,
       required final String typeName}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
-
-  factory _ExecutableParameterDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_ExecutableParameterDeclaration.fromJson;
 
   @override
   bool get isRequired;
@@ -250,11 +229,6 @@ abstract class _ExecutableParameterDeclaration
       get copyWith => throw _privateConstructorUsedError;
 }
 
-ExecutableDeclaration _$ExecutableDeclarationFromJson(
-    Map<String, dynamic> json) {
-  return _ExecutableDeclaration.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ExecutableDeclaration {
   String get returnTypeName => throw _privateConstructorUsedError;
@@ -265,7 +239,6 @@ mixin _$ExecutableDeclaration {
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   ExecutableType get type => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -399,7 +372,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   const _$_ExecutableDeclaration(
       {required this.returnTypeName,
@@ -411,9 +384,6 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         super._();
-
-  factory _$_ExecutableDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$$_ExecutableDeclarationFromJson(json);
 
   @override
   final String returnTypeName;
@@ -460,7 +430,6 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
             const DeepCollectionEquality().equals(other.type, type));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -476,13 +445,6 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
       __$$_ExecutableDeclarationCopyWithImpl<_$_ExecutableDeclaration>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ExecutableDeclarationToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ExecutableDeclaration extends ExecutableDeclaration {
@@ -494,9 +456,6 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final List<String> typeParameterNames,
       required final ExecutableType type}) = _$_ExecutableDeclaration;
   const _ExecutableDeclaration._() : super._();
-
-  factory _ExecutableDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_ExecutableDeclaration.fromJson;
 
   @override
   String get returnTypeName;

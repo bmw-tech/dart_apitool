@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-PackageApi _$PackageApiFromJson(Map<String, dynamic> json) {
-  return _PackageApi.fromJson(json);
-}
-
 /// @nodoc
 mixin _$PackageApi {
   String get packageName => throw _privateConstructorUsedError;
@@ -30,7 +26,6 @@ mixin _$PackageApi {
   List<FieldDeclaration> get fieldDeclarations =>
       throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PackageApiCopyWith<PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
@@ -161,7 +156,7 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_PackageApi implements _PackageApi {
   const _$_PackageApi(
       {required this.packageName,
@@ -173,9 +168,6 @@ class _$_PackageApi implements _PackageApi {
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations;
-
-  factory _$_PackageApi.fromJson(Map<String, dynamic> json) =>
-      _$$_PackageApiFromJson(json);
 
   @override
   final String packageName;
@@ -228,7 +220,6 @@ class _$_PackageApi implements _PackageApi {
                 .equals(other._fieldDeclarations, _fieldDeclarations));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -243,13 +234,6 @@ class _$_PackageApi implements _PackageApi {
   @override
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
       __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_PackageApiToJson(
-      this,
-    );
-  }
 }
 
 abstract class _PackageApi implements PackageApi {
@@ -260,9 +244,6 @@ abstract class _PackageApi implements PackageApi {
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations}) = _$_PackageApi;
-
-  factory _PackageApi.fromJson(Map<String, dynamic> json) =
-      _$_PackageApi.fromJson;
 
   @override
   String get packageName;

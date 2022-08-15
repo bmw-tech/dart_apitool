@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ClassDeclaration _$ClassDeclarationFromJson(Map<String, dynamic> json) {
-  return _ClassDeclaration.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ClassDeclaration {
   String get name => throw _privateConstructorUsedError;
@@ -29,7 +25,6 @@ mixin _$ClassDeclaration {
   List<FieldDeclaration> get fieldDeclarations =>
       throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ClassDeclarationCopyWith<ClassDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -162,7 +157,7 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_ClassDeclaration extends _ClassDeclaration {
   const _$_ClassDeclaration(
       {required this.name,
@@ -176,9 +171,6 @@ class _$_ClassDeclaration extends _ClassDeclaration {
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
         super._();
-
-  factory _$_ClassDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$$_ClassDeclarationFromJson(json);
 
   @override
   final String name;
@@ -235,7 +227,6 @@ class _$_ClassDeclaration extends _ClassDeclaration {
                 .equals(other._fieldDeclarations, _fieldDeclarations));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -250,13 +241,6 @@ class _$_ClassDeclaration extends _ClassDeclaration {
   @override
   _$$_ClassDeclarationCopyWith<_$_ClassDeclaration> get copyWith =>
       __$$_ClassDeclarationCopyWithImpl<_$_ClassDeclaration>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ClassDeclarationToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ClassDeclaration extends ClassDeclaration
@@ -270,9 +254,6 @@ abstract class _ClassDeclaration extends ClassDeclaration
           required final List<FieldDeclaration> fieldDeclarations}) =
       _$_ClassDeclaration;
   const _ClassDeclaration._() : super._();
-
-  factory _ClassDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_ClassDeclaration.fromJson;
 
   @override
   String get name;

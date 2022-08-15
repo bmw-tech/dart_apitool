@@ -14,17 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-FieldDeclaration _$FieldDeclarationFromJson(Map<String, dynamic> json) {
-  return _FieldDeclaration.fromJson(json);
-}
-
 /// @nodoc
 mixin _$FieldDeclaration {
   String get typeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -115,14 +110,11 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_FieldDeclaration extends _FieldDeclaration {
   const _$_FieldDeclaration(
       {required this.typeName, required this.name, required this.isDeprecated})
       : super._();
-
-  factory _$_FieldDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$$_FieldDeclarationFromJson(json);
 
   @override
   final String typeName;
@@ -147,7 +139,6 @@ class _$_FieldDeclaration extends _FieldDeclaration {
                 .equals(other.isDeprecated, isDeprecated));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -159,13 +150,6 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   @override
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
       __$$_FieldDeclarationCopyWithImpl<_$_FieldDeclaration>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_FieldDeclarationToJson(
-      this,
-    );
-  }
 }
 
 abstract class _FieldDeclaration extends FieldDeclaration
@@ -175,9 +159,6 @@ abstract class _FieldDeclaration extends FieldDeclaration
       required final String name,
       required final bool isDeprecated}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
-
-  factory _FieldDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_FieldDeclaration.fromJson;
 
   @override
   String get typeName;
