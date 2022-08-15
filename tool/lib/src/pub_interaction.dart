@@ -34,11 +34,14 @@ abstract class PubInteraction {
 
   /// returns the cache path of a package with the given [packageName] and [version]
   static String getPackagePathInCache(String packageName, String version) {
-    final homeDir = Platform.environment['HOME']; //TODO: Windows
+    String? cacheDir = Platform.environment['PUB_CACHE'];
+    if (cacheDir == null) {
+      final homeDir = Platform.environment['HOME']; //TODO: Windows
+      cacheDir = path.join(homeDir!, '.pub-cache');
+    }
     final envHosted = Platform.environment['PUB_HOSTED'];
     final hostedUrl = envHosted ?? 'pub.dartlang.org';
-    return path.join(
-        homeDir!, '.pub-cache', 'hosted', hostedUrl, '$packageName-$version');
+    return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
   }
 
   static Future<String> _runDart({List<String> args = const []}) async {
