@@ -62,6 +62,16 @@ void main() {
       expect(classFieldDeclaration['name'], 'printDebug');
       expect(classFieldDeclaration['isDeprecated'], false);
     });
+    test('Storage v1 gets imported correctly', () {
+      final loadedPackageApi = PackageApiStorage.readFrom(package1JsonString);
+      expect(loadedPackageApi, testPackageApi);
+    });
+    test('Saved PackageApi equals loaded one', () {
+      final storageJson = PackageApiStorage.getStorageJson(testPackageApi);
+      final jsonString = jsonEncode(storageJson);
+      final loadedPackageApi = PackageApiStorage.readFrom(jsonString);
+      expect(testPackageApi, loadedPackageApi);
+    });
   });
 }
 
@@ -108,3 +118,62 @@ final testPackageApi = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
 );
+
+final package1JsonString = '''
+{
+    "version": 1,
+    "packageApi": {
+        "packageName": "storage_test_package",
+        "packageVersion": "1.0.0",
+        "packagePath": ".",
+        "classDeclarations": [
+            {
+                "name": "StorageTestClass",
+                "isDeprecated": false,
+                "typeParameterNames": [
+                    "T"
+                ],
+                "superTypeNames": [
+                    "SuperType"
+                ],
+                "executableDeclarations": [
+                    {
+                        "returnTypeName": "String",
+                        "name": "getString",
+                        "isDeprecated": false,
+                        "parameters": [
+                            {
+                                "isRequired": true,
+                                "isNamed": true,
+                                "name": "input",
+                                "isDeprecated": false,
+                                "typeName": "T"
+                            },
+                            {
+                                "isRequired": true,
+                                "isNamed": true,
+                                "name": "mode",
+                                "isDeprecated": false,
+                                "typeName": "GetStringMode"
+                            }
+                        ],
+                        "typeParameterNames": [
+                            "T"
+                        ],
+                        "type": "method"
+                    }
+                ],
+                "fieldDeclarations": [
+                    {
+                        "typeName": "bool",
+                        "name": "printDebug",
+                        "isDeprecated": false
+                    }
+                ]
+            }
+        ],
+        "executableDeclarations": [],
+        "fieldDeclarations": []
+    }
+}
+''';
