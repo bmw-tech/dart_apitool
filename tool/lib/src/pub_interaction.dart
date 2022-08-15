@@ -5,13 +5,14 @@ import 'package:path/path.dart' as path;
 
 /// helper class for interactions with pub
 abstract class PubInteraction {
-  /// installs a package to the pub cache and returns the path to it (or [null] when the installation was not successful)
-  static Future<String?> installPackageToCache(
+  /// installs a package to the pub cache and returns the path to it throws [RunDartError] on failure
+  static Future<String> installPackageToCache(
       String packageName, String version) async {
     try {
       await _runDart(args: ['pub', 'cache', 'add', packageName, '-v $version']);
-    } catch (error) {
-      return null;
+    } on RunDartError catch (error) {
+      stderr.write(error.stdErr);
+      rethrow;
     }
     return getPackagePathInCache(packageName, version);
   }
