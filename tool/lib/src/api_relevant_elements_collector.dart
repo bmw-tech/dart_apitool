@@ -3,7 +3,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:stack/stack.dart';
 
-import '../utils/string_utils.dart';
+import 'utils/string_utils.dart';
 import 'model/internal/internal_class_declaration.dart';
 import 'model/internal/internal_executable_declaration.dart';
 import 'model/internal/internal_field_declaration.dart';

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../utils/string_utils.dart';
+import '../utils/string_utils.dart';
 import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
@@ -15,7 +15,9 @@ enum ExecutableType {
 }
 
 @freezed
-class ExecutablParameterDeclaration with _$ExecutablParameterDeclaration {
+class ExecutablParameterDeclaration
+    with _$ExecutablParameterDeclaration
+    implements Declaration {
   const ExecutablParameterDeclaration._();
 
   @Implements<Declaration>()
@@ -33,7 +35,9 @@ class ExecutablParameterDeclaration with _$ExecutablParameterDeclaration {
 
 /// Represents an executable declaration
 @freezed
-class ExecutableDeclaration with _$ExecutableDeclaration {
+class ExecutableDeclaration
+    with _$ExecutableDeclaration
+    implements Declaration {
   const ExecutableDeclaration._();
 
   /// signature of the executable declaration.
