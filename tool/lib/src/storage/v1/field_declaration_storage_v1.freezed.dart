@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'field_declaration.dart';
+part of 'field_declaration_storage_v1.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,33 +14,39 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+FieldDeclarationStorageV1 _$FieldDeclarationStorageV1FromJson(
+    Map<String, dynamic> json) {
+  return _FieldDeclarationStorageV1.fromJson(json);
+}
+
 /// @nodoc
-mixin _$FieldDeclaration {
+mixin _$FieldDeclarationStorageV1 {
   String get typeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
+  $FieldDeclarationStorageV1CopyWith<FieldDeclarationStorageV1> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FieldDeclarationCopyWith<$Res> {
-  factory $FieldDeclarationCopyWith(
-          FieldDeclaration value, $Res Function(FieldDeclaration) then) =
-      _$FieldDeclarationCopyWithImpl<$Res>;
+abstract class $FieldDeclarationStorageV1CopyWith<$Res> {
+  factory $FieldDeclarationStorageV1CopyWith(FieldDeclarationStorageV1 value,
+          $Res Function(FieldDeclarationStorageV1) then) =
+      _$FieldDeclarationStorageV1CopyWithImpl<$Res>;
   $Res call({String typeName, String name, bool isDeprecated});
 }
 
 /// @nodoc
-class _$FieldDeclarationCopyWithImpl<$Res>
-    implements $FieldDeclarationCopyWith<$Res> {
-  _$FieldDeclarationCopyWithImpl(this._value, this._then);
+class _$FieldDeclarationStorageV1CopyWithImpl<$Res>
+    implements $FieldDeclarationStorageV1CopyWith<$Res> {
+  _$FieldDeclarationStorageV1CopyWithImpl(this._value, this._then);
 
-  final FieldDeclaration _value;
+  final FieldDeclarationStorageV1 _value;
   // ignore: unused_field
-  final $Res Function(FieldDeclaration) _then;
+  final $Res Function(FieldDeclarationStorageV1) _then;
 
   @override
   $Res call({
@@ -66,25 +72,28 @@ class _$FieldDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_FieldDeclarationCopyWith<$Res>
-    implements $FieldDeclarationCopyWith<$Res> {
-  factory _$$_FieldDeclarationCopyWith(
-          _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
-      __$$_FieldDeclarationCopyWithImpl<$Res>;
+abstract class _$$_FieldDeclarationStorageV1CopyWith<$Res>
+    implements $FieldDeclarationStorageV1CopyWith<$Res> {
+  factory _$$_FieldDeclarationStorageV1CopyWith(
+          _$_FieldDeclarationStorageV1 value,
+          $Res Function(_$_FieldDeclarationStorageV1) then) =
+      __$$_FieldDeclarationStorageV1CopyWithImpl<$Res>;
   @override
   $Res call({String typeName, String name, bool isDeprecated});
 }
 
 /// @nodoc
-class __$$_FieldDeclarationCopyWithImpl<$Res>
-    extends _$FieldDeclarationCopyWithImpl<$Res>
-    implements _$$_FieldDeclarationCopyWith<$Res> {
-  __$$_FieldDeclarationCopyWithImpl(
-      _$_FieldDeclaration _value, $Res Function(_$_FieldDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_FieldDeclaration));
+class __$$_FieldDeclarationStorageV1CopyWithImpl<$Res>
+    extends _$FieldDeclarationStorageV1CopyWithImpl<$Res>
+    implements _$$_FieldDeclarationStorageV1CopyWith<$Res> {
+  __$$_FieldDeclarationStorageV1CopyWithImpl(
+      _$_FieldDeclarationStorageV1 _value,
+      $Res Function(_$_FieldDeclarationStorageV1) _then)
+      : super(_value, (v) => _then(v as _$_FieldDeclarationStorageV1));
 
   @override
-  _$_FieldDeclaration get _value => super._value as _$_FieldDeclaration;
+  _$_FieldDeclarationStorageV1 get _value =>
+      super._value as _$_FieldDeclarationStorageV1;
 
   @override
   $Res call({
@@ -92,7 +101,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
   }) {
-    return _then(_$_FieldDeclaration(
+    return _then(_$_FieldDeclarationStorageV1(
       typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -110,11 +119,14 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-class _$_FieldDeclaration extends _FieldDeclaration {
-  const _$_FieldDeclaration(
+@JsonSerializable()
+class _$_FieldDeclarationStorageV1 extends _FieldDeclarationStorageV1 {
+  const _$_FieldDeclarationStorageV1(
       {required this.typeName, required this.name, required this.isDeprecated})
       : super._();
+
+  factory _$_FieldDeclarationStorageV1.fromJson(Map<String, dynamic> json) =>
+      _$$_FieldDeclarationStorageV1FromJson(json);
 
   @override
   final String typeName;
@@ -125,20 +137,21 @@ class _$_FieldDeclaration extends _FieldDeclaration {
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated)';
+    return 'FieldDeclarationStorageV1(typeName: $typeName, name: $name, isDeprecated: $isDeprecated)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FieldDeclaration &&
+            other is _$_FieldDeclarationStorageV1 &&
             const DeepCollectionEquality().equals(other.typeName, typeName) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -148,17 +161,27 @@ class _$_FieldDeclaration extends _FieldDeclaration {
 
   @JsonKey(ignore: true)
   @override
-  _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
-      __$$_FieldDeclarationCopyWithImpl<_$_FieldDeclaration>(this, _$identity);
+  _$$_FieldDeclarationStorageV1CopyWith<_$_FieldDeclarationStorageV1>
+      get copyWith => __$$_FieldDeclarationStorageV1CopyWithImpl<
+          _$_FieldDeclarationStorageV1>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FieldDeclarationStorageV1ToJson(
+      this,
+    );
+  }
 }
 
-abstract class _FieldDeclaration extends FieldDeclaration
-    implements Declaration {
-  const factory _FieldDeclaration(
+abstract class _FieldDeclarationStorageV1 extends FieldDeclarationStorageV1 {
+  const factory _FieldDeclarationStorageV1(
       {required final String typeName,
       required final String name,
-      required final bool isDeprecated}) = _$_FieldDeclaration;
-  const _FieldDeclaration._() : super._();
+      required final bool isDeprecated}) = _$_FieldDeclarationStorageV1;
+  const _FieldDeclarationStorageV1._() : super._();
+
+  factory _FieldDeclarationStorageV1.fromJson(Map<String, dynamic> json) =
+      _$_FieldDeclarationStorageV1.fromJson;
 
   @override
   String get typeName;
@@ -168,6 +191,6 @@ abstract class _FieldDeclaration extends FieldDeclaration
   bool get isDeprecated;
   @override
   @JsonKey(ignore: true)
-  _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_FieldDeclarationStorageV1CopyWith<_$_FieldDeclarationStorageV1>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'class_declaration.dart';
+part of 'class_declaration_storage_v1.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ClassDeclaration _$$_ClassDeclarationFromJson(Map<String, dynamic> json) =>
-    _$_ClassDeclaration(
+_$_ClassDeclarationStorageV1 _$$_ClassDeclarationStorageV1FromJson(
+        Map<String, dynamic> json) =>
+    _$_ClassDeclarationStorageV1(
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
@@ -17,14 +18,17 @@ _$_ClassDeclaration _$$_ClassDeclarationFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       executableDeclarations: (json['executableDeclarations'] as List<dynamic>)
-          .map((e) => ExecutableDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) => ExecutableDeclarationStorageV1.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       fieldDeclarations: (json['fieldDeclarations'] as List<dynamic>)
-          .map((e) => FieldDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              FieldDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_ClassDeclarationToJson(_$_ClassDeclaration instance) =>
+Map<String, dynamic> _$$_ClassDeclarationStorageV1ToJson(
+        _$_ClassDeclarationStorageV1 instance) =>
     <String, dynamic>{
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,

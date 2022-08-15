@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'class_declaration.dart';
+part of 'class_declaration_storage_v1.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,44 +14,50 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+ClassDeclarationStorageV1 _$ClassDeclarationStorageV1FromJson(
+    Map<String, dynamic> json) {
+  return _ClassDeclarationStorageV1.fromJson(json);
+}
+
 /// @nodoc
-mixin _$ClassDeclaration {
+mixin _$ClassDeclarationStorageV1 {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   List<String> get superTypeNames => throw _privateConstructorUsedError;
-  List<ExecutableDeclaration> get executableDeclarations =>
+  List<ExecutableDeclarationStorageV1> get executableDeclarations =>
       throw _privateConstructorUsedError;
-  List<FieldDeclaration> get fieldDeclarations =>
+  List<FieldDeclarationStorageV1> get fieldDeclarations =>
       throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ClassDeclarationCopyWith<ClassDeclaration> get copyWith =>
+  $ClassDeclarationStorageV1CopyWith<ClassDeclarationStorageV1> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ClassDeclarationCopyWith<$Res> {
-  factory $ClassDeclarationCopyWith(
-          ClassDeclaration value, $Res Function(ClassDeclaration) then) =
-      _$ClassDeclarationCopyWithImpl<$Res>;
+abstract class $ClassDeclarationStorageV1CopyWith<$Res> {
+  factory $ClassDeclarationStorageV1CopyWith(ClassDeclarationStorageV1 value,
+          $Res Function(ClassDeclarationStorageV1) then) =
+      _$ClassDeclarationStorageV1CopyWithImpl<$Res>;
   $Res call(
       {String name,
       bool isDeprecated,
       List<String> typeParameterNames,
       List<String> superTypeNames,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<ExecutableDeclarationStorageV1> executableDeclarations,
+      List<FieldDeclarationStorageV1> fieldDeclarations});
 }
 
 /// @nodoc
-class _$ClassDeclarationCopyWithImpl<$Res>
-    implements $ClassDeclarationCopyWith<$Res> {
-  _$ClassDeclarationCopyWithImpl(this._value, this._then);
+class _$ClassDeclarationStorageV1CopyWithImpl<$Res>
+    implements $ClassDeclarationStorageV1CopyWith<$Res> {
+  _$ClassDeclarationStorageV1CopyWithImpl(this._value, this._then);
 
-  final ClassDeclaration _value;
+  final ClassDeclarationStorageV1 _value;
   // ignore: unused_field
-  final $Res Function(ClassDeclaration) _then;
+  final $Res Function(ClassDeclarationStorageV1) _then;
 
   @override
   $Res call({
@@ -82,41 +88,44 @@ class _$ClassDeclarationCopyWithImpl<$Res>
       executableDeclarations: executableDeclarations == freezed
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV1>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV1>,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_ClassDeclarationCopyWith<$Res>
-    implements $ClassDeclarationCopyWith<$Res> {
-  factory _$$_ClassDeclarationCopyWith(
-          _$_ClassDeclaration value, $Res Function(_$_ClassDeclaration) then) =
-      __$$_ClassDeclarationCopyWithImpl<$Res>;
+abstract class _$$_ClassDeclarationStorageV1CopyWith<$Res>
+    implements $ClassDeclarationStorageV1CopyWith<$Res> {
+  factory _$$_ClassDeclarationStorageV1CopyWith(
+          _$_ClassDeclarationStorageV1 value,
+          $Res Function(_$_ClassDeclarationStorageV1) then) =
+      __$$_ClassDeclarationStorageV1CopyWithImpl<$Res>;
   @override
   $Res call(
       {String name,
       bool isDeprecated,
       List<String> typeParameterNames,
       List<String> superTypeNames,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<ExecutableDeclarationStorageV1> executableDeclarations,
+      List<FieldDeclarationStorageV1> fieldDeclarations});
 }
 
 /// @nodoc
-class __$$_ClassDeclarationCopyWithImpl<$Res>
-    extends _$ClassDeclarationCopyWithImpl<$Res>
-    implements _$$_ClassDeclarationCopyWith<$Res> {
-  __$$_ClassDeclarationCopyWithImpl(
-      _$_ClassDeclaration _value, $Res Function(_$_ClassDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ClassDeclaration));
+class __$$_ClassDeclarationStorageV1CopyWithImpl<$Res>
+    extends _$ClassDeclarationStorageV1CopyWithImpl<$Res>
+    implements _$$_ClassDeclarationStorageV1CopyWith<$Res> {
+  __$$_ClassDeclarationStorageV1CopyWithImpl(
+      _$_ClassDeclarationStorageV1 _value,
+      $Res Function(_$_ClassDeclarationStorageV1) _then)
+      : super(_value, (v) => _then(v as _$_ClassDeclarationStorageV1));
 
   @override
-  _$_ClassDeclaration get _value => super._value as _$_ClassDeclaration;
+  _$_ClassDeclarationStorageV1 get _value =>
+      super._value as _$_ClassDeclarationStorageV1;
 
   @override
   $Res call({
@@ -127,7 +136,7 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
   }) {
-    return _then(_$_ClassDeclaration(
+    return _then(_$_ClassDeclarationStorageV1(
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -147,30 +156,34 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
       executableDeclarations: executableDeclarations == freezed
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV1>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV1>,
     ));
   }
 }
 
 /// @nodoc
-
-class _$_ClassDeclaration extends _ClassDeclaration {
-  const _$_ClassDeclaration(
+@JsonSerializable()
+class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
+  const _$_ClassDeclarationStorageV1(
       {required this.name,
       required this.isDeprecated,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations})
+      required final List<ExecutableDeclarationStorageV1>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV1> fieldDeclarations})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
         super._();
+
+  factory _$_ClassDeclarationStorageV1.fromJson(Map<String, dynamic> json) =>
+      _$$_ClassDeclarationStorageV1FromJson(json);
 
   @override
   final String name;
@@ -190,30 +203,30 @@ class _$_ClassDeclaration extends _ClassDeclaration {
     return EqualUnmodifiableListView(_superTypeNames);
   }
 
-  final List<ExecutableDeclaration> _executableDeclarations;
+  final List<ExecutableDeclarationStorageV1> _executableDeclarations;
   @override
-  List<ExecutableDeclaration> get executableDeclarations {
+  List<ExecutableDeclarationStorageV1> get executableDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
 
-  final List<FieldDeclaration> _fieldDeclarations;
+  final List<FieldDeclarationStorageV1> _fieldDeclarations;
   @override
-  List<FieldDeclaration> get fieldDeclarations {
+  List<FieldDeclarationStorageV1> get fieldDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
   @override
   String toString() {
-    return 'ClassDeclaration(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'ClassDeclarationStorageV1(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ClassDeclaration &&
+            other is _$_ClassDeclarationStorageV1 &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated) &&
@@ -227,6 +240,7 @@ class _$_ClassDeclaration extends _ClassDeclaration {
                 .equals(other._fieldDeclarations, _fieldDeclarations));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -239,21 +253,32 @@ class _$_ClassDeclaration extends _ClassDeclaration {
 
   @JsonKey(ignore: true)
   @override
-  _$$_ClassDeclarationCopyWith<_$_ClassDeclaration> get copyWith =>
-      __$$_ClassDeclarationCopyWithImpl<_$_ClassDeclaration>(this, _$identity);
+  _$$_ClassDeclarationStorageV1CopyWith<_$_ClassDeclarationStorageV1>
+      get copyWith => __$$_ClassDeclarationStorageV1CopyWithImpl<
+          _$_ClassDeclarationStorageV1>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ClassDeclarationStorageV1ToJson(
+      this,
+    );
+  }
 }
 
-abstract class _ClassDeclaration extends ClassDeclaration
-    implements Declaration {
-  const factory _ClassDeclaration(
+abstract class _ClassDeclarationStorageV1 extends ClassDeclarationStorageV1 {
+  const factory _ClassDeclarationStorageV1(
           {required final String name,
           required final bool isDeprecated,
           required final List<String> typeParameterNames,
           required final List<String> superTypeNames,
-          required final List<ExecutableDeclaration> executableDeclarations,
-          required final List<FieldDeclaration> fieldDeclarations}) =
-      _$_ClassDeclaration;
-  const _ClassDeclaration._() : super._();
+          required final List<ExecutableDeclarationStorageV1>
+              executableDeclarations,
+          required final List<FieldDeclarationStorageV1> fieldDeclarations}) =
+      _$_ClassDeclarationStorageV1;
+  const _ClassDeclarationStorageV1._() : super._();
+
+  factory _ClassDeclarationStorageV1.fromJson(Map<String, dynamic> json) =
+      _$_ClassDeclarationStorageV1.fromJson;
 
   @override
   String get name;
@@ -264,11 +289,11 @@ abstract class _ClassDeclaration extends ClassDeclaration
   @override
   List<String> get superTypeNames;
   @override
-  List<ExecutableDeclaration> get executableDeclarations;
+  List<ExecutableDeclarationStorageV1> get executableDeclarations;
   @override
-  List<FieldDeclaration> get fieldDeclarations;
+  List<FieldDeclarationStorageV1> get fieldDeclarations;
   @override
   @JsonKey(ignore: true)
-  _$$_ClassDeclarationCopyWith<_$_ClassDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_ClassDeclarationStorageV1CopyWith<_$_ClassDeclarationStorageV1>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -36,7 +36,7 @@ final simpleClassB = ClassDeclaration(
 final packageClassAApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: [
     simpleClassA,
   ],
@@ -64,7 +64,7 @@ final packageClassAWithTypeParameterRApi = packageClassAApi.copyWith(
 final packageClassAClassBApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: [
     simpleClassA,
     simpleClassB,
@@ -78,7 +78,7 @@ final simpleExecutable1 = ExecutableDeclaration(
   name: 'doSomething1',
   isDeprecated: false,
   parameters: const [
-    ExecutablParameterDeclaration(
+    ExecutableParameterDeclaration(
         isRequired: true,
         isNamed: true,
         name: 'firstParam',
@@ -101,7 +101,7 @@ final simpleExecutable2 = ExecutableDeclaration(
 final packageExecutable1Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
@@ -154,7 +154,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: false,
             isNamed: false,
             name: 'optionalPositional',
@@ -173,7 +173,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: false,
             isNamed: true,
             name: 'optionalNamed',
@@ -192,7 +192,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: true,
             isNamed: false,
             name: 'requiredPositional',
@@ -211,7 +211,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: true,
             isNamed: true,
             name: 'requiredNamed',
@@ -228,7 +228,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
 final packageExecutable1Executable2Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
@@ -251,7 +251,7 @@ final simpleFieldDeclarationB = FieldDeclaration(
 final packageFieldA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
@@ -270,7 +270,7 @@ final packageFieldATypeChangedApi = packageFieldA.copyWith(
 final packageFieldAFieldB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
-  projectPath: '.',
+  packagePath: '.',
   classDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [

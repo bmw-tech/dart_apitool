@@ -1,32 +1,37 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'package_api.dart';
+part of 'package_api_storage_v1.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PackageApi _$$_PackageApiFromJson(Map<String, dynamic> json) =>
-    _$_PackageApi(
+_$_PackageApiStorageV1 _$$_PackageApiStorageV1FromJson(
+        Map<String, dynamic> json) =>
+    _$_PackageApiStorageV1(
       packageName: json['packageName'] as String,
       packageVersion: json['packageVersion'] as String?,
-      projectPath: json['projectPath'] as String,
+      packagePath: json['packagePath'] as String,
       classDeclarations: (json['classDeclarations'] as List<dynamic>)
-          .map((e) => ClassDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              ClassDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
       executableDeclarations: (json['executableDeclarations'] as List<dynamic>)
-          .map((e) => ExecutableDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) => ExecutableDeclarationStorageV1.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       fieldDeclarations: (json['fieldDeclarations'] as List<dynamic>)
-          .map((e) => FieldDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              FieldDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_PackageApiToJson(_$_PackageApi instance) =>
+Map<String, dynamic> _$$_PackageApiStorageV1ToJson(
+        _$_PackageApiStorageV1 instance) =>
     <String, dynamic>{
       'packageName': instance.packageName,
       'packageVersion': instance.packageVersion,
-      'projectPath': instance.projectPath,
+      'packagePath': instance.packagePath,
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,

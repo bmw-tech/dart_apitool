@@ -176,7 +176,7 @@ class PackageApiAnalyzer {
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
-      projectPath: normalizedProjectPath,
+      packagePath: normalizedProjectPath,
       classDeclarations: projectClassDeclarations,
       executableDeclarations: projectExecutableDeclarations,
       fieldDeclarations: projectFieldDeclarations,
