@@ -7,7 +7,8 @@ import 'package:test/test.dart';
 void main() {
   group('PackageApi storage tests', () {
     test('Storage v1 gets exported correctly', () {
-      final typedJson = PackageApiStorage.getStorageJson(testPackageApi);
+      final typedJson =
+          PackageApiStorage.packageApitoStorageJson(testPackageApi);
       final json = jsonDecode(jsonEncode(typedJson));
 
       expect(json['version'], 1);
@@ -63,13 +64,15 @@ void main() {
       expect(classFieldDeclaration['isDeprecated'], false);
     });
     test('Storage v1 gets imported correctly', () {
-      final loadedPackageApi = PackageApiStorage.readFrom(package1JsonString);
+      final loadedPackageApi =
+          PackageApiStorage.packageApiFromStorageJson(package1JsonString);
       expect(loadedPackageApi, testPackageApi);
     });
     test('Saved PackageApi equals loaded one', () {
-      final storageJson = PackageApiStorage.getStorageJson(testPackageApi);
-      final jsonString = jsonEncode(storageJson);
-      final loadedPackageApi = PackageApiStorage.readFrom(jsonString);
+      final storageJson =
+          PackageApiStorage.packageApitoStorageJson(testPackageApi);
+      final loadedPackageApi =
+          PackageApiStorage.packageApiFromStorageJson(storageJson);
       expect(testPackageApi, loadedPackageApi);
     });
   });

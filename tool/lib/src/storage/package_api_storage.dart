@@ -5,19 +5,19 @@ import 'package:dart_apitool/src/storage/v1/storage_v1.dart';
 import '../model/model.dart';
 
 abstract class PackageApiStorage {
-  static PackageApi readFrom(String jsonString) {
+  static PackageApi packageApiFromStorageJson(String jsonString) {
     final jsonDom = jsonDecode(jsonString);
     final storageVersion = jsonDom['version'] as int;
     final packageApi = jsonDom['packageApi'] as Map<String, dynamic>;
     return _readFromVersion(storageVersion, packageApi);
   }
 
-  static Map<String, dynamic> getStorageJson(PackageApi packageApi) {
+  static String packageApitoStorageJson(PackageApi packageApi) {
     final packageApiStorage = _packageApiToStorage(packageApi);
-    return {
+    return jsonEncode({
       'version': 1,
       'packageApi': packageApiStorage.toJson(),
-    };
+    });
   }
 
   static PackageApi _readFromVersion(
