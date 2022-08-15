@@ -461,8 +461,8 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeChange = diffResult.apiChanges.first;
-      expect(
-          typeChange.affectedDeclaration, isA<ExecutablParameterDeclaration>());
+      expect(typeChange.affectedDeclaration,
+          isA<ExecutableParameterDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
       expect(typeChange.context, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.changeBreaking);

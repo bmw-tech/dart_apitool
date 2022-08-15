@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'executable_declaration.dart';
+part of 'executable_declaration_storage_v1.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,14 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ExecutableParameterDeclaration _$ExecutableParameterDeclarationFromJson(
-    Map<String, dynamic> json) {
-  return _ExecutableParameterDeclaration.fromJson(json);
+ExecutableParameterDeclarationStorageV1
+    _$ExecutableParameterDeclarationStorageV1FromJson(
+        Map<String, dynamic> json) {
+  return _ExecutableParameterDeclarationStorageV1.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ExecutableParameterDeclaration {
+mixin _$ExecutableParameterDeclarationStorageV1 {
   bool get isRequired => throw _privateConstructorUsedError;
   bool get isNamed => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -29,16 +30,17 @@ mixin _$ExecutableParameterDeclaration {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
+  $ExecutableParameterDeclarationStorageV1CopyWith<
+          ExecutableParameterDeclarationStorageV1>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
-  factory $ExecutableParameterDeclarationCopyWith(
-          ExecutableParameterDeclaration value,
-          $Res Function(ExecutableParameterDeclaration) then) =
-      _$ExecutableParameterDeclarationCopyWithImpl<$Res>;
+abstract class $ExecutableParameterDeclarationStorageV1CopyWith<$Res> {
+  factory $ExecutableParameterDeclarationStorageV1CopyWith(
+          ExecutableParameterDeclarationStorageV1 value,
+          $Res Function(ExecutableParameterDeclarationStorageV1) then) =
+      _$ExecutableParameterDeclarationStorageV1CopyWithImpl<$Res>;
   $Res call(
       {bool isRequired,
       bool isNamed,
@@ -48,13 +50,14 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
-    implements $ExecutableParameterDeclarationCopyWith<$Res> {
-  _$ExecutableParameterDeclarationCopyWithImpl(this._value, this._then);
+class _$ExecutableParameterDeclarationStorageV1CopyWithImpl<$Res>
+    implements $ExecutableParameterDeclarationStorageV1CopyWith<$Res> {
+  _$ExecutableParameterDeclarationStorageV1CopyWithImpl(
+      this._value, this._then);
 
-  final ExecutableParameterDeclaration _value;
+  final ExecutableParameterDeclarationStorageV1 _value;
   // ignore: unused_field
-  final $Res Function(ExecutableParameterDeclaration) _then;
+  final $Res Function(ExecutableParameterDeclarationStorageV1) _then;
 
   @override
   $Res call({
@@ -90,12 +93,12 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
-    implements $ExecutableParameterDeclarationCopyWith<$Res> {
-  factory _$$_ExecutableParameterDeclarationCopyWith(
-          _$_ExecutableParameterDeclaration value,
-          $Res Function(_$_ExecutableParameterDeclaration) then) =
-      __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>;
+abstract class _$$_ExecutableParameterDeclarationStorageV1CopyWith<$Res>
+    implements $ExecutableParameterDeclarationStorageV1CopyWith<$Res> {
+  factory _$$_ExecutableParameterDeclarationStorageV1CopyWith(
+          _$_ExecutableParameterDeclarationStorageV1 value,
+          $Res Function(_$_ExecutableParameterDeclarationStorageV1) then) =
+      __$$_ExecutableParameterDeclarationStorageV1CopyWithImpl<$Res>;
   @override
   $Res call(
       {bool isRequired,
@@ -106,17 +109,18 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
-    extends _$ExecutableParameterDeclarationCopyWithImpl<$Res>
-    implements _$$_ExecutableParameterDeclarationCopyWith<$Res> {
-  __$$_ExecutableParameterDeclarationCopyWithImpl(
-      _$_ExecutableParameterDeclaration _value,
-      $Res Function(_$_ExecutableParameterDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ExecutableParameterDeclaration));
+class __$$_ExecutableParameterDeclarationStorageV1CopyWithImpl<$Res>
+    extends _$ExecutableParameterDeclarationStorageV1CopyWithImpl<$Res>
+    implements _$$_ExecutableParameterDeclarationStorageV1CopyWith<$Res> {
+  __$$_ExecutableParameterDeclarationStorageV1CopyWithImpl(
+      _$_ExecutableParameterDeclarationStorageV1 _value,
+      $Res Function(_$_ExecutableParameterDeclarationStorageV1) _then)
+      : super(_value,
+            (v) => _then(v as _$_ExecutableParameterDeclarationStorageV1));
 
   @override
-  _$_ExecutableParameterDeclaration get _value =>
-      super._value as _$_ExecutableParameterDeclaration;
+  _$_ExecutableParameterDeclarationStorageV1 get _value =>
+      super._value as _$_ExecutableParameterDeclarationStorageV1;
 
   @override
   $Res call({
@@ -126,7 +130,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? isDeprecated = freezed,
     Object? typeName = freezed,
   }) {
-    return _then(_$_ExecutableParameterDeclaration(
+    return _then(_$_ExecutableParameterDeclarationStorageV1(
       isRequired: isRequired == freezed
           ? _value.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
@@ -153,9 +157,9 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ExecutableParameterDeclaration
-    extends _ExecutableParameterDeclaration {
-  const _$_ExecutableParameterDeclaration(
+class _$_ExecutableParameterDeclarationStorageV1
+    extends _ExecutableParameterDeclarationStorageV1 {
+  const _$_ExecutableParameterDeclarationStorageV1(
       {required this.isRequired,
       required this.isNamed,
       required this.name,
@@ -163,9 +167,9 @@ class _$_ExecutableParameterDeclaration
       required this.typeName})
       : super._();
 
-  factory _$_ExecutableParameterDeclaration.fromJson(
+  factory _$_ExecutableParameterDeclarationStorageV1.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ExecutableParameterDeclarationFromJson(json);
+      _$$_ExecutableParameterDeclarationStorageV1FromJson(json);
 
   @override
   final bool isRequired;
@@ -180,14 +184,14 @@ class _$_ExecutableParameterDeclaration
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
+    return 'ExecutableParameterDeclarationStorageV1(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableParameterDeclaration &&
+            other is _$_ExecutableParameterDeclarationStorageV1 &&
             const DeepCollectionEquality()
                 .equals(other.isRequired, isRequired) &&
             const DeepCollectionEquality().equals(other.isNamed, isNamed) &&
@@ -209,30 +213,33 @@ class _$_ExecutableParameterDeclaration
 
   @JsonKey(ignore: true)
   @override
-  _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
-      get copyWith => __$$_ExecutableParameterDeclarationCopyWithImpl<
-          _$_ExecutableParameterDeclaration>(this, _$identity);
+  _$$_ExecutableParameterDeclarationStorageV1CopyWith<
+          _$_ExecutableParameterDeclarationStorageV1>
+      get copyWith => __$$_ExecutableParameterDeclarationStorageV1CopyWithImpl<
+          _$_ExecutableParameterDeclarationStorageV1>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExecutableParameterDeclarationToJson(
+    return _$$_ExecutableParameterDeclarationStorageV1ToJson(
       this,
     );
   }
 }
 
-abstract class _ExecutableParameterDeclaration
-    extends ExecutableParameterDeclaration implements Declaration {
-  const factory _ExecutableParameterDeclaration(
-      {required final bool isRequired,
-      required final bool isNamed,
-      required final String name,
-      required final bool isDeprecated,
-      required final String typeName}) = _$_ExecutableParameterDeclaration;
-  const _ExecutableParameterDeclaration._() : super._();
+abstract class _ExecutableParameterDeclarationStorageV1
+    extends ExecutableParameterDeclarationStorageV1 {
+  const factory _ExecutableParameterDeclarationStorageV1(
+          {required final bool isRequired,
+          required final bool isNamed,
+          required final String name,
+          required final bool isDeprecated,
+          required final String typeName}) =
+      _$_ExecutableParameterDeclarationStorageV1;
+  const _ExecutableParameterDeclarationStorageV1._() : super._();
 
-  factory _ExecutableParameterDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_ExecutableParameterDeclaration.fromJson;
+  factory _ExecutableParameterDeclarationStorageV1.fromJson(
+          Map<String, dynamic> json) =
+      _$_ExecutableParameterDeclarationStorageV1.fromJson;
 
   @override
   bool get isRequired;
@@ -246,53 +253,55 @@ abstract class _ExecutableParameterDeclaration
   String get typeName;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
+  _$$_ExecutableParameterDeclarationStorageV1CopyWith<
+          _$_ExecutableParameterDeclarationStorageV1>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-ExecutableDeclaration _$ExecutableDeclarationFromJson(
+ExecutableDeclarationStorageV1 _$ExecutableDeclarationStorageV1FromJson(
     Map<String, dynamic> json) {
-  return _ExecutableDeclaration.fromJson(json);
+  return _ExecutableDeclarationStorageV1.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ExecutableDeclaration {
+mixin _$ExecutableDeclarationStorageV1 {
   String get returnTypeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
-  List<ExecutableParameterDeclaration> get parameters =>
+  List<ExecutableParameterDeclarationStorageV1> get parameters =>
       throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
-  ExecutableType get type => throw _privateConstructorUsedError;
+  ExecutableTypeStorageV1 get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  $ExecutableDeclarationStorageV1CopyWith<ExecutableDeclarationStorageV1>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExecutableDeclarationCopyWith<$Res> {
-  factory $ExecutableDeclarationCopyWith(ExecutableDeclaration value,
-          $Res Function(ExecutableDeclaration) then) =
-      _$ExecutableDeclarationCopyWithImpl<$Res>;
+abstract class $ExecutableDeclarationStorageV1CopyWith<$Res> {
+  factory $ExecutableDeclarationStorageV1CopyWith(
+          ExecutableDeclarationStorageV1 value,
+          $Res Function(ExecutableDeclarationStorageV1) then) =
+      _$ExecutableDeclarationStorageV1CopyWithImpl<$Res>;
   $Res call(
       {String returnTypeName,
       String name,
       bool isDeprecated,
-      List<ExecutableParameterDeclaration> parameters,
+      List<ExecutableParameterDeclarationStorageV1> parameters,
       List<String> typeParameterNames,
-      ExecutableType type});
+      ExecutableTypeStorageV1 type});
 }
 
 /// @nodoc
-class _$ExecutableDeclarationCopyWithImpl<$Res>
-    implements $ExecutableDeclarationCopyWith<$Res> {
-  _$ExecutableDeclarationCopyWithImpl(this._value, this._then);
+class _$ExecutableDeclarationStorageV1CopyWithImpl<$Res>
+    implements $ExecutableDeclarationStorageV1CopyWith<$Res> {
+  _$ExecutableDeclarationStorageV1CopyWithImpl(this._value, this._then);
 
-  final ExecutableDeclaration _value;
+  final ExecutableDeclarationStorageV1 _value;
   // ignore: unused_field
-  final $Res Function(ExecutableDeclaration) _then;
+  final $Res Function(ExecutableDeclarationStorageV1) _then;
 
   @override
   $Res call({
@@ -319,7 +328,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
       parameters: parameters == freezed
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableParameterDeclaration>,
+              as List<ExecutableParameterDeclarationStorageV1>,
       typeParameterNames: typeParameterNames == freezed
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -327,38 +336,40 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ExecutableType,
+              as ExecutableTypeStorageV1,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_ExecutableDeclarationCopyWith<$Res>
-    implements $ExecutableDeclarationCopyWith<$Res> {
-  factory _$$_ExecutableDeclarationCopyWith(_$_ExecutableDeclaration value,
-          $Res Function(_$_ExecutableDeclaration) then) =
-      __$$_ExecutableDeclarationCopyWithImpl<$Res>;
+abstract class _$$_ExecutableDeclarationStorageV1CopyWith<$Res>
+    implements $ExecutableDeclarationStorageV1CopyWith<$Res> {
+  factory _$$_ExecutableDeclarationStorageV1CopyWith(
+          _$_ExecutableDeclarationStorageV1 value,
+          $Res Function(_$_ExecutableDeclarationStorageV1) then) =
+      __$$_ExecutableDeclarationStorageV1CopyWithImpl<$Res>;
   @override
   $Res call(
       {String returnTypeName,
       String name,
       bool isDeprecated,
-      List<ExecutableParameterDeclaration> parameters,
+      List<ExecutableParameterDeclarationStorageV1> parameters,
       List<String> typeParameterNames,
-      ExecutableType type});
+      ExecutableTypeStorageV1 type});
 }
 
 /// @nodoc
-class __$$_ExecutableDeclarationCopyWithImpl<$Res>
-    extends _$ExecutableDeclarationCopyWithImpl<$Res>
-    implements _$$_ExecutableDeclarationCopyWith<$Res> {
-  __$$_ExecutableDeclarationCopyWithImpl(_$_ExecutableDeclaration _value,
-      $Res Function(_$_ExecutableDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ExecutableDeclaration));
+class __$$_ExecutableDeclarationStorageV1CopyWithImpl<$Res>
+    extends _$ExecutableDeclarationStorageV1CopyWithImpl<$Res>
+    implements _$$_ExecutableDeclarationStorageV1CopyWith<$Res> {
+  __$$_ExecutableDeclarationStorageV1CopyWithImpl(
+      _$_ExecutableDeclarationStorageV1 _value,
+      $Res Function(_$_ExecutableDeclarationStorageV1) _then)
+      : super(_value, (v) => _then(v as _$_ExecutableDeclarationStorageV1));
 
   @override
-  _$_ExecutableDeclaration get _value =>
-      super._value as _$_ExecutableDeclaration;
+  _$_ExecutableDeclarationStorageV1 get _value =>
+      super._value as _$_ExecutableDeclarationStorageV1;
 
   @override
   $Res call({
@@ -369,7 +380,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? typeParameterNames = freezed,
     Object? type = freezed,
   }) {
-    return _then(_$_ExecutableDeclaration(
+    return _then(_$_ExecutableDeclarationStorageV1(
       returnTypeName: returnTypeName == freezed
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
@@ -385,7 +396,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
       parameters: parameters == freezed
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableParameterDeclaration>,
+              as List<ExecutableParameterDeclarationStorageV1>,
       typeParameterNames: typeParameterNames == freezed
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -393,27 +404,29 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ExecutableType,
+              as ExecutableTypeStorageV1,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_ExecutableDeclaration extends _ExecutableDeclaration {
-  const _$_ExecutableDeclaration(
+class _$_ExecutableDeclarationStorageV1
+    extends _ExecutableDeclarationStorageV1 {
+  const _$_ExecutableDeclarationStorageV1(
       {required this.returnTypeName,
       required this.name,
       required this.isDeprecated,
-      required final List<ExecutableParameterDeclaration> parameters,
+      required final List<ExecutableParameterDeclarationStorageV1> parameters,
       required final List<String> typeParameterNames,
       required this.type})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         super._();
 
-  factory _$_ExecutableDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$$_ExecutableDeclarationFromJson(json);
+  factory _$_ExecutableDeclarationStorageV1.fromJson(
+          Map<String, dynamic> json) =>
+      _$$_ExecutableDeclarationStorageV1FromJson(json);
 
   @override
   final String returnTypeName;
@@ -421,9 +434,9 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   final String name;
   @override
   final bool isDeprecated;
-  final List<ExecutableParameterDeclaration> _parameters;
+  final List<ExecutableParameterDeclarationStorageV1> _parameters;
   @override
-  List<ExecutableParameterDeclaration> get parameters {
+  List<ExecutableParameterDeclarationStorageV1> get parameters {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_parameters);
   }
@@ -436,18 +449,18 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   }
 
   @override
-  final ExecutableType type;
+  final ExecutableTypeStorageV1 type;
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type)';
+    return 'ExecutableDeclarationStorageV1(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableDeclaration &&
+            other is _$_ExecutableDeclarationStorageV1 &&
             const DeepCollectionEquality()
                 .equals(other.returnTypeName, returnTypeName) &&
             const DeepCollectionEquality().equals(other.name, name) &&
@@ -473,30 +486,32 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
 
   @JsonKey(ignore: true)
   @override
-  _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
-      __$$_ExecutableDeclarationCopyWithImpl<_$_ExecutableDeclaration>(
-          this, _$identity);
+  _$$_ExecutableDeclarationStorageV1CopyWith<_$_ExecutableDeclarationStorageV1>
+      get copyWith => __$$_ExecutableDeclarationStorageV1CopyWithImpl<
+          _$_ExecutableDeclarationStorageV1>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExecutableDeclarationToJson(
+    return _$$_ExecutableDeclarationStorageV1ToJson(
       this,
     );
   }
 }
 
-abstract class _ExecutableDeclaration extends ExecutableDeclaration {
-  const factory _ExecutableDeclaration(
+abstract class _ExecutableDeclarationStorageV1
+    extends ExecutableDeclarationStorageV1 {
+  const factory _ExecutableDeclarationStorageV1(
       {required final String returnTypeName,
       required final String name,
       required final bool isDeprecated,
-      required final List<ExecutableParameterDeclaration> parameters,
+      required final List<ExecutableParameterDeclarationStorageV1> parameters,
       required final List<String> typeParameterNames,
-      required final ExecutableType type}) = _$_ExecutableDeclaration;
-  const _ExecutableDeclaration._() : super._();
+      required final ExecutableTypeStorageV1
+          type}) = _$_ExecutableDeclarationStorageV1;
+  const _ExecutableDeclarationStorageV1._() : super._();
 
-  factory _ExecutableDeclaration.fromJson(Map<String, dynamic> json) =
-      _$_ExecutableDeclaration.fromJson;
+  factory _ExecutableDeclarationStorageV1.fromJson(Map<String, dynamic> json) =
+      _$_ExecutableDeclarationStorageV1.fromJson;
 
   @override
   String get returnTypeName;
@@ -505,13 +520,13 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   @override
   bool get isDeprecated;
   @override
-  List<ExecutableParameterDeclaration> get parameters;
+  List<ExecutableParameterDeclarationStorageV1> get parameters;
   @override
   List<String> get typeParameterNames;
   @override
-  ExecutableType get type;
+  ExecutableTypeStorageV1 get type;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_ExecutableDeclarationStorageV1CopyWith<_$_ExecutableDeclarationStorageV1>
+      get copyWith => throw _privateConstructorUsedError;
 }

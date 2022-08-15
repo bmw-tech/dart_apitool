@@ -166,11 +166,11 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateParametersDiff(
-    List<ExecutablParameterDeclaration> oldParameters,
-    List<ExecutablParameterDeclaration> newParameters,
+    List<ExecutableParameterDeclaration> oldParameters,
+    List<ExecutableParameterDeclaration> newParameters,
     Declaration context,
   ) {
-    final parametersListDiff = _diffLists<ExecutablParameterDeclaration>(
+    final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
         oldParameters,
         newParameters,
         (oldParam, newParam) => oldParam.name == newParam.name);
@@ -201,8 +201,8 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateParameterDiff(
-    ExecutablParameterDeclaration oldParam,
-    ExecutablParameterDeclaration newParam,
+    ExecutableParameterDeclaration oldParam,
+    ExecutableParameterDeclaration newParam,
     Declaration? context,
   ) {
     final changes = <ApiChange>[];

@@ -78,7 +78,7 @@ final simpleExecutable1 = ExecutableDeclaration(
   name: 'doSomething1',
   isDeprecated: false,
   parameters: const [
-    ExecutablParameterDeclaration(
+    ExecutableParameterDeclaration(
         isRequired: true,
         isNamed: true,
         name: 'firstParam',
@@ -154,7 +154,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: false,
             isNamed: false,
             name: 'optionalPositional',
@@ -173,7 +173,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: false,
             isNamed: true,
             name: 'optionalNamed',
@@ -192,7 +192,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: true,
             isNamed: false,
             name: 'requiredPositional',
@@ -211,7 +211,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
       return exd.copyWith(
         parameters: [
           ...exd.parameters,
-          ExecutablParameterDeclaration(
+          ExecutableParameterDeclaration(
             isRequired: true,
             isNamed: true,
             name: 'requiredNamed',

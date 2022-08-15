@@ -40,10 +40,10 @@ class InternalExecutableDeclaration implements InternalDeclaration {
     return ExecutableType.method;
   }
 
-  static List<ExecutablParameterDeclaration> _computeParameterList(
+  static List<ExecutableParameterDeclaration> _computeParameterList(
       List<ParameterElement> parameterElementList) {
     return parameterElementList
-        .map((e) => ExecutablParameterDeclaration(
+        .map((e) => ExecutableParameterDeclaration(
             isRequired: e.isRequired,
             isNamed: e.isNamed,
             name: e.name,

@@ -6,9 +6,9 @@ part of 'executable_declaration.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ExecutablParameterDeclaration _$$_ExecutablParameterDeclarationFromJson(
+_$_ExecutableParameterDeclaration _$$_ExecutableParameterDeclarationFromJson(
         Map<String, dynamic> json) =>
-    _$_ExecutablParameterDeclaration(
+    _$_ExecutableParameterDeclaration(
       isRequired: json['isRequired'] as bool,
       isNamed: json['isNamed'] as bool,
       name: json['name'] as String,
@@ -16,8 +16,8 @@ _$_ExecutablParameterDeclaration _$$_ExecutablParameterDeclarationFromJson(
       typeName: json['typeName'] as String,
     );
 
-Map<String, dynamic> _$$_ExecutablParameterDeclarationToJson(
-        _$_ExecutablParameterDeclaration instance) =>
+Map<String, dynamic> _$$_ExecutableParameterDeclarationToJson(
+        _$_ExecutableParameterDeclaration instance) =>
     <String, dynamic>{
       'isRequired': instance.isRequired,
       'isNamed': instance.isNamed,
@@ -33,8 +33,8 @@ _$_ExecutableDeclaration _$$_ExecutableDeclarationFromJson(
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       parameters: (json['parameters'] as List<dynamic>)
-          .map((e) =>
-              ExecutablParameterDeclaration.fromJson(e as Map<String, dynamic>))
+          .map((e) => ExecutableParameterDeclaration.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
           .map((e) => e as String)

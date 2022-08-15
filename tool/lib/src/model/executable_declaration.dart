@@ -15,22 +15,22 @@ enum ExecutableType {
 }
 
 @freezed
-class ExecutablParameterDeclaration
-    with _$ExecutablParameterDeclaration
+class ExecutableParameterDeclaration
+    with _$ExecutableParameterDeclaration
     implements Declaration {
-  const ExecutablParameterDeclaration._();
+  const ExecutableParameterDeclaration._();
 
   @Implements<Declaration>()
-  const factory ExecutablParameterDeclaration({
+  const factory ExecutableParameterDeclaration({
     required bool isRequired,
     required bool isNamed,
     required String name,
     required bool isDeprecated,
     required String typeName,
-  }) = _ExecutablParameterDeclaration;
+  }) = _ExecutableParameterDeclaration;
 
-  factory ExecutablParameterDeclaration.fromJson(Map<String, Object?> json) =>
-      _$ExecutablParameterDeclarationFromJson(json);
+  factory ExecutableParameterDeclaration.fromJson(Map<String, Object?> json) =>
+      _$ExecutableParameterDeclarationFromJson(json);
 }
 
 /// Represents an executable declaration
@@ -49,7 +49,7 @@ class ExecutableDeclaration
     required String returnTypeName,
     required String name,
     required bool isDeprecated,
-    required List<ExecutablParameterDeclaration> parameters,
+    required List<ExecutableParameterDeclaration> parameters,
     required List<String> typeParameterNames,
     required ExecutableType type,
   }) = _ExecutableDeclaration;
