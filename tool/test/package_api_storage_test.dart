@@ -8,7 +8,7 @@ void main() {
     test('Storage v1 gets exported correctly', () {
       final typedJson =
           PackageApiStorage.packageApitoStorageJson(testPackageApi);
-      final json = jsonDecode(jsonEncode(typedJson));
+      final json = jsonDecode(typedJson);
 
       expect(json['version'], 1);
       final packageApiJson = json['packageApi'];
