@@ -39,7 +39,9 @@ abstract class PubInteraction {
       final homeDir = Platform.environment['HOME']; //TODO: Windows
       cacheDir = path.join(homeDir!, '.pub-cache');
     }
-    final envHosted = Platform.environment['PUB_HOSTED'];
+    final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
+    final envHosted =
+        envHostedUrl == null ? null : Uri.parse(envHostedUrl).host;
     final hostedUrl = envHosted ?? 'pub.dartlang.org';
     return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
   }
