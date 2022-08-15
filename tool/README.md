@@ -18,7 +18,7 @@ that got changed to
 ```dart
 class MyClass<T> {
   String doSomething(T arg) {
-    final castedArg = arg as SomeOtherClass;
+    final castedArg = arg as SomeOtherBaseClass;
     return castedArg.otherBaseClassMethod();
   }
 }
