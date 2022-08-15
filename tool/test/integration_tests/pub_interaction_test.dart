@@ -16,8 +16,12 @@ void main() {
       final packagePath =
           await PubInteraction.installPackageToCache('every_test', '1.0.0');
       expect(packagePath, isNotNull);
-      expect(Directory(packagePath).existsSync(), isTrue);
-      expect(File(path.join(packagePath, 'pubspec.yaml')).existsSync(), isTrue);
+      expect(Directory(packagePath).existsSync(), isTrue,
+          reason:
+              'Check if installed package is at the expected location ($packagePath)');
+      expect(File(path.join(packagePath, 'pubspec.yaml')).existsSync(), isTrue,
+          reason:
+              'Check if the package path contains a pubspec.yaml which is an indication for a legit package.');
     });
   });
 }
