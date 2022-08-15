@@ -16,7 +16,7 @@ void main() {
       final packagePath =
           await PubInteraction.installPackageToCache('every_test', '1.0.0');
       expect(packagePath, isNotNull);
-      expect(Directory(packagePath!).existsSync(), isTrue);
+      expect(Directory(packagePath).existsSync(), isTrue);
       expect(File(path.join(packagePath, 'pubspec.yaml')).existsSync(), isTrue);
     });
   });
