@@ -2,6 +2,14 @@ import 'model/model.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
+  final PackageApiDifferOptions options;
+
+  PackageApiDiffer({
+    this.options = const PackageApiDifferOptions(
+      ignoreTypeParameterNameChanges: true,
+    ),
+  });
+
   /// calculates a diff between [oldApi] and [newApi]
   PackageApiDifResult diff({
     required PackageApi oldApi,
@@ -183,7 +191,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
         affectedDeclaration: context,
         context: context,
-        type: addedParameter.isRequired || !addedParameter.isNamed
+        type: addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
         changeDescription: 'Parameter ${addedParameter.name} added',
@@ -239,28 +247,43 @@ class PackageApiDiffer {
     List<String> newTypeParameterNames,
     Declaration context,
   ) {
-    //TODO: probably only the number of type parameters is important?
-    // we might check for special cases like switching the order of type arguments though
-    // or we stay safe and track even a naming change here.
-    // safest option: make this a diff command parameter
-    final tpnListDiff = _diffLists<String>(oldTypeParameterNames,
-        newTypeParameterNames, (oldTpn, newTpn) => oldTpn == newTpn);
-    final changes = <ApiChange>[];
-    for (final removedTypeParameter in tpnListDiff.remainingOld) {
-      changes.add(ApiChange(
-          affectedDeclaration: context,
-          context: context,
-          type: ApiChangeType.remove,
-          changeDescription: 'Type Parameter $removedTypeParameter removed'));
+    if (options.ignoreTypeParameterNameChanges) {
+      // we only care for the number of type parameters
+      if (oldTypeParameterNames.length != newTypeParameterNames.length) {
+        return [
+          ApiChange(
+            context: context,
+            affectedDeclaration: context,
+            changeDescription:
+                'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"',
+            type: oldTypeParameterNames.length < newTypeParameterNames.length
+                ? ApiChangeType.addBreaking
+                : ApiChangeType.remove,
+          ),
+        ];
+      }
+    } else {
+      // we have an exact look at the type parameters and even only a name change leads to an API change
+      final tpnListDiff = _diffLists<String>(oldTypeParameterNames,
+          newTypeParameterNames, (oldTpn, newTpn) => oldTpn == newTpn);
+      final changes = <ApiChange>[];
+      for (final removedTypeParameter in tpnListDiff.remainingOld) {
+        changes.add(ApiChange(
+            affectedDeclaration: context,
+            context: context,
+            type: ApiChangeType.remove,
+            changeDescription: 'Type Parameter $removedTypeParameter removed'));
+      }
+      for (final addedTypeParameter in tpnListDiff.remainingNew) {
+        changes.add(ApiChange(
+            affectedDeclaration: context,
+            context: context,
+            type: ApiChangeType.addBreaking,
+            changeDescription: 'Type Parameter $addedTypeParameter added'));
+      }
+      return changes;
     }
-    for (final addedTypeParameter in tpnListDiff.remainingNew) {
-      changes.add(ApiChange(
-          affectedDeclaration: context,
-          context: context,
-          type: ApiChangeType.addBreaking,
-          changeDescription: 'Type Parameter $addedTypeParameter added'));
-    }
-    return changes;
+    return const [];
   }
 
   List<ApiChange> _calculateSuperTypesDiff(
@@ -429,19 +452,23 @@ class ApiChange {
 /// represents the type of API change
 enum ApiChangeType {
   /// breaking change
-  changeBreaking,
+  changeBreaking(isBreaking: true),
 
   /// non-breaking change
-  changeCompatible,
+  changeCompatible(isBreaking: false),
 
   /// removal (is always breaking)
-  remove,
+  remove(isBreaking: true),
 
   /// non-breaking addition
-  addCompatible,
+  addCompatible(isBreaking: false),
 
   /// breaking addition (like adding a required parameter)
-  addBreaking,
+  addBreaking(isBreaking: true);
+
+  final bool isBreaking;
+
+  const ApiChangeType({required this.isBreaking});
 }
 
 /// represents the result of a diff run
@@ -450,4 +477,10 @@ class PackageApiDifResult {
   final List<ApiChange> apiChanges;
 
   PackageApiDifResult(this.apiChanges);
+}
+
+class PackageApiDifferOptions {
+  final bool ignoreTypeParameterNameChanges;
+
+  const PackageApiDifferOptions({this.ignoreTypeParameterNameChanges = true});
 }
