@@ -10,12 +10,12 @@ part 'package_api_storage_v1.g.dart';
 
 @freezed
 class PackageApiStorageV1 with _$PackageApiStorageV1 {
-  PackageApiStorageV1._();
+  const PackageApiStorageV1._();
 
   const factory PackageApiStorageV1({
     required String packageName,
     required String? packageVersion,
-    required String projectPath,
+    required String packagePath,
     required List<ClassDeclarationStorageV1> classDeclarations,
     required List<ExecutableDeclarationStorageV1> executableDeclarations,
     required List<FieldDeclarationStorageV1> fieldDeclarations,
@@ -28,7 +28,7 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
     return PackageApi(
       packageName: packageName,
       packageVersion: packageVersion,
-      projectPath: projectPath,
+      packagePath: packagePath,
       classDeclarations:
           classDeclarations.map((cd) => cd.toClassDeclaration()).toList(),
       executableDeclarations: executableDeclarations
@@ -43,7 +43,7 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
     return PackageApiStorageV1(
       packageName: packageApi.packageName,
       packageVersion: packageApi.packageVersion,
-      projectPath: packageApi.projectPath,
+      packagePath: packageApi.packagePath,
       classDeclarations: packageApi.classDeclarations
           .map((c) => ClassDeclarationStorageV1.fromClassDeclaration(c))
           .toList(),

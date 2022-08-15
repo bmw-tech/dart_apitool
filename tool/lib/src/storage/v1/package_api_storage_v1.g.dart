@@ -11,7 +11,7 @@ _$_PackageApiStorageV1 _$$_PackageApiStorageV1FromJson(
     _$_PackageApiStorageV1(
       packageName: json['packageName'] as String,
       packageVersion: json['packageVersion'] as String?,
-      projectPath: json['projectPath'] as String,
+      packagePath: json['packagePath'] as String,
       classDeclarations: (json['classDeclarations'] as List<dynamic>)
           .map((e) =>
               ClassDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
@@ -31,7 +31,7 @@ Map<String, dynamic> _$$_PackageApiStorageV1ToJson(
     <String, dynamic>{
       'packageName': instance.packageName,
       'packageVersion': instance.packageVersion,
-      'projectPath': instance.projectPath,
+      'packagePath': instance.packagePath,
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,

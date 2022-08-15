@@ -12,7 +12,7 @@ class PackageApi with _$PackageApi {
   const factory PackageApi({
     required String packageName,
     required String? packageVersion,
-    required String projectPath,
+    required String packagePath,
     required List<ClassDeclaration> classDeclarations,
     required List<ExecutableDeclaration> executableDeclarations,
     required List<FieldDeclaration> fieldDeclarations,

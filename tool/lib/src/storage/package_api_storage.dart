@@ -14,7 +14,10 @@ abstract class PackageApiStorage {
 
   static Map<String, dynamic> getStorageJson(PackageApi packageApi) {
     final packageApiStorage = _packageApiToStorage(packageApi);
-    return packageApiStorage.toJson();
+    return {
+      'version': 1,
+      'packageApi': packageApiStorage.toJson(),
+    };
   }
 
   static PackageApi _readFromVersion(

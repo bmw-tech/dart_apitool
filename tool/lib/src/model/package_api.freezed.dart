@@ -22,7 +22,7 @@ PackageApi _$PackageApiFromJson(Map<String, dynamic> json) {
 mixin _$PackageApi {
   String get packageName => throw _privateConstructorUsedError;
   String? get packageVersion => throw _privateConstructorUsedError;
-  String get projectPath => throw _privateConstructorUsedError;
+  String get packagePath => throw _privateConstructorUsedError;
   List<ClassDeclaration> get classDeclarations =>
       throw _privateConstructorUsedError;
   List<ExecutableDeclaration> get executableDeclarations =>
@@ -44,7 +44,7 @@ abstract class $PackageApiCopyWith<$Res> {
   $Res call(
       {String packageName,
       String? packageVersion,
-      String projectPath,
+      String packagePath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations});
@@ -62,7 +62,7 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
   $Res call({
     Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? projectPath = freezed,
+    Object? packagePath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
@@ -76,9 +76,9 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      projectPath: projectPath == freezed
-          ? _value.projectPath
-          : projectPath // ignore: cast_nullable_to_non_nullable
+      packagePath: packagePath == freezed
+          ? _value.packagePath
+          : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
       classDeclarations: classDeclarations == freezed
           ? _value.classDeclarations
@@ -106,7 +106,7 @@ abstract class _$$_PackageApiCopyWith<$Res>
   $Res call(
       {String packageName,
       String? packageVersion,
-      String projectPath,
+      String packagePath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations});
@@ -126,7 +126,7 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
   $Res call({
     Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? projectPath = freezed,
+    Object? packagePath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
@@ -140,9 +140,9 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      projectPath: projectPath == freezed
-          ? _value.projectPath
-          : projectPath // ignore: cast_nullable_to_non_nullable
+      packagePath: packagePath == freezed
+          ? _value.packagePath
+          : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
       classDeclarations: classDeclarations == freezed
           ? _value._classDeclarations
@@ -166,7 +166,7 @@ class _$_PackageApi implements _PackageApi {
   const _$_PackageApi(
       {required this.packageName,
       required this.packageVersion,
-      required this.projectPath,
+      required this.packagePath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations})
@@ -182,7 +182,7 @@ class _$_PackageApi implements _PackageApi {
   @override
   final String? packageVersion;
   @override
-  final String projectPath;
+  final String packagePath;
   final List<ClassDeclaration> _classDeclarations;
   @override
   List<ClassDeclaration> get classDeclarations {
@@ -206,7 +206,7 @@ class _$_PackageApi implements _PackageApi {
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
@@ -219,7 +219,7 @@ class _$_PackageApi implements _PackageApi {
             const DeepCollectionEquality()
                 .equals(other.packageVersion, packageVersion) &&
             const DeepCollectionEquality()
-                .equals(other.projectPath, projectPath) &&
+                .equals(other.packagePath, packagePath) &&
             const DeepCollectionEquality()
                 .equals(other._classDeclarations, _classDeclarations) &&
             const DeepCollectionEquality().equals(
@@ -234,7 +234,7 @@ class _$_PackageApi implements _PackageApi {
       runtimeType,
       const DeepCollectionEquality().hash(packageName),
       const DeepCollectionEquality().hash(packageVersion),
-      const DeepCollectionEquality().hash(projectPath),
+      const DeepCollectionEquality().hash(packagePath),
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations));
@@ -256,7 +256,7 @@ abstract class _PackageApi implements PackageApi {
   const factory _PackageApi(
       {required final String packageName,
       required final String? packageVersion,
-      required final String projectPath,
+      required final String packagePath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations}) = _$_PackageApi;
@@ -269,7 +269,7 @@ abstract class _PackageApi implements PackageApi {
   @override
   String? get packageVersion;
   @override
-  String get projectPath;
+  String get packagePath;
   @override
   List<ClassDeclaration> get classDeclarations;
   @override

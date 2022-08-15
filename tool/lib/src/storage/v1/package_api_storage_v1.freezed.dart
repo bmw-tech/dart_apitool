@@ -22,7 +22,7 @@ PackageApiStorageV1 _$PackageApiStorageV1FromJson(Map<String, dynamic> json) {
 mixin _$PackageApiStorageV1 {
   String get packageName => throw _privateConstructorUsedError;
   String? get packageVersion => throw _privateConstructorUsedError;
-  String get projectPath => throw _privateConstructorUsedError;
+  String get packagePath => throw _privateConstructorUsedError;
   List<ClassDeclarationStorageV1> get classDeclarations =>
       throw _privateConstructorUsedError;
   List<ExecutableDeclarationStorageV1> get executableDeclarations =>
@@ -44,7 +44,7 @@ abstract class $PackageApiStorageV1CopyWith<$Res> {
   $Res call(
       {String packageName,
       String? packageVersion,
-      String projectPath,
+      String packagePath,
       List<ClassDeclarationStorageV1> classDeclarations,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
       List<FieldDeclarationStorageV1> fieldDeclarations});
@@ -63,7 +63,7 @@ class _$PackageApiStorageV1CopyWithImpl<$Res>
   $Res call({
     Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? projectPath = freezed,
+    Object? packagePath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
@@ -77,9 +77,9 @@ class _$PackageApiStorageV1CopyWithImpl<$Res>
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      projectPath: projectPath == freezed
-          ? _value.projectPath
-          : projectPath // ignore: cast_nullable_to_non_nullable
+      packagePath: packagePath == freezed
+          ? _value.packagePath
+          : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
       classDeclarations: classDeclarations == freezed
           ? _value.classDeclarations
@@ -107,7 +107,7 @@ abstract class _$$_PackageApiStorageV1CopyWith<$Res>
   $Res call(
       {String packageName,
       String? packageVersion,
-      String projectPath,
+      String packagePath,
       List<ClassDeclarationStorageV1> classDeclarations,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
       List<FieldDeclarationStorageV1> fieldDeclarations});
@@ -128,7 +128,7 @@ class __$$_PackageApiStorageV1CopyWithImpl<$Res>
   $Res call({
     Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? projectPath = freezed,
+    Object? packagePath = freezed,
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
@@ -142,9 +142,9 @@ class __$$_PackageApiStorageV1CopyWithImpl<$Res>
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      projectPath: projectPath == freezed
-          ? _value.projectPath
-          : projectPath // ignore: cast_nullable_to_non_nullable
+      packagePath: packagePath == freezed
+          ? _value.packagePath
+          : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
       classDeclarations: classDeclarations == freezed
           ? _value._classDeclarations
@@ -168,7 +168,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
   const _$_PackageApiStorageV1(
       {required this.packageName,
       required this.packageVersion,
-      required this.projectPath,
+      required this.packagePath,
       required final List<ClassDeclarationStorageV1> classDeclarations,
       required final List<ExecutableDeclarationStorageV1>
           executableDeclarations,
@@ -186,7 +186,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
   @override
   final String? packageVersion;
   @override
-  final String projectPath;
+  final String packagePath;
   final List<ClassDeclarationStorageV1> _classDeclarations;
   @override
   List<ClassDeclarationStorageV1> get classDeclarations {
@@ -210,7 +210,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
 
   @override
   String toString() {
-    return 'PackageApiStorageV1(packageName: $packageName, packageVersion: $packageVersion, projectPath: $projectPath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'PackageApiStorageV1(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
   }
 
   @override
@@ -223,7 +223,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
             const DeepCollectionEquality()
                 .equals(other.packageVersion, packageVersion) &&
             const DeepCollectionEquality()
-                .equals(other.projectPath, projectPath) &&
+                .equals(other.packagePath, packagePath) &&
             const DeepCollectionEquality()
                 .equals(other._classDeclarations, _classDeclarations) &&
             const DeepCollectionEquality().equals(
@@ -238,7 +238,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
       runtimeType,
       const DeepCollectionEquality().hash(packageName),
       const DeepCollectionEquality().hash(packageVersion),
-      const DeepCollectionEquality().hash(projectPath),
+      const DeepCollectionEquality().hash(packagePath),
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations));
@@ -261,7 +261,7 @@ abstract class _PackageApiStorageV1 extends PackageApiStorageV1 {
   const factory _PackageApiStorageV1(
           {required final String packageName,
           required final String? packageVersion,
-          required final String projectPath,
+          required final String packagePath,
           required final List<ClassDeclarationStorageV1> classDeclarations,
           required final List<ExecutableDeclarationStorageV1>
               executableDeclarations,
@@ -277,7 +277,7 @@ abstract class _PackageApiStorageV1 extends PackageApiStorageV1 {
   @override
   String? get packageVersion;
   @override
-  String get projectPath;
+  String get packagePath;
   @override
   List<ClassDeclarationStorageV1> get classDeclarations;
   @override
