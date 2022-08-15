@@ -9,9 +9,11 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "list",
-                "--root",
-                "."
+                "diff",
+                "--old",
+                "pub://device_info_plus_platform_interface/2.2.0",
+                "--new",
+                "pub://device_info_plus_platform_interface/2.4.0"
             ]
         }
     ]
