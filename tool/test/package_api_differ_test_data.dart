@@ -49,9 +49,14 @@ final packageClassADeprecatedApi = packageClassAApi.copyWith(
       .map((cd) => cd.copyWith(isDeprecated: true))
       .toList(),
 );
-final packageClassAWithTypeParameterApi = packageClassAApi.copyWith(
+final packageClassAWithTypeParameterTApi = packageClassAApi.copyWith(
   classDeclarations: packageClassAApi.classDeclarations
       .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+      .toList(),
+);
+final packageClassAWithTypeParameterRApi = packageClassAApi.copyWith(
+  classDeclarations: packageClassAApi.classDeclarations
+      .map((cd) => cd.copyWith(typeParameterNames: ['R']))
       .toList(),
 );
 // END Package ClassA variations
@@ -105,9 +110,14 @@ final packageExecutable1Api = PackageApi(
 );
 
 // Package Executable1 variations
-final packageExecutable1WithTypeParameterApi = packageExecutable1Api.copyWith(
+final packageExecutable1WithTypeParameterTApi = packageExecutable1Api.copyWith(
   executableDeclarations: packageExecutable1Api.executableDeclarations
       .map((cd) => cd.copyWith(typeParameterNames: ['T']))
+      .toList(),
+);
+final packageExecutable1WithTypeParameterRApi = packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations
+      .map((cd) => cd.copyWith(typeParameterNames: ['R']))
       .toList(),
 );
 final packageExecutable1ReturnTypeChangedApi = packageExecutable1Api.copyWith(
@@ -137,7 +147,82 @@ final packageExecutable1ParameterTypeChangedApi =
     },
   ).toList(),
 );
-
+final packageExecutable1OptionalPositionalParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutablParameterDeclaration(
+            isRequired: false,
+            isNamed: false,
+            name: 'optionalPositional',
+            isDeprecated: false,
+            typeName: 'bool',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
+final packageExecutable1OptionalNamedParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutablParameterDeclaration(
+            isRequired: false,
+            isNamed: true,
+            name: 'optionalNamed',
+            isDeprecated: false,
+            typeName: 'bool',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
+final packageExecutable1RequiredPositionalParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutablParameterDeclaration(
+            isRequired: true,
+            isNamed: false,
+            name: 'requiredPositional',
+            isDeprecated: false,
+            typeName: 'bool',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
+final packageExecutable1RequiredNamedParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutablParameterDeclaration(
+            isRequired: true,
+            isNamed: true,
+            name: 'requiredNamed',
+            isDeprecated: false,
+            typeName: 'bool',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
 // END Package Executable1 variations
 
 final packageExecutable1Executable2Api = PackageApi(
