@@ -26,7 +26,7 @@ void main() {
       expect(newClassApiChange.affectedDeclaration, isA<ClassDeclaration>());
       expect(newClassApiChange.type, ApiChangeType.addCompatible);
       expect(newClassApiChange.changeDescription, contains('ClassB'));
-      expect(newClassApiChange.context, isNull);
+      expect(newClassApiChange.contextTrace, isEmpty);
     });
     test('removed class is detected', () {
       final differ = PackageApiDiffer();
@@ -40,7 +40,7 @@ void main() {
           removedClassApiChange.affectedDeclaration, isA<ClassDeclaration>());
       expect(removedClassApiChange.type, ApiChangeType.remove);
       expect(removedClassApiChange.changeDescription, contains('ClassB'));
-      expect(removedClassApiChange.context, isNull);
+      expect(removedClassApiChange.contextTrace, isEmpty);
     });
     test('new root level executable is detected', () {
       final differ = PackageApiDiffer();
@@ -55,7 +55,7 @@ void main() {
       expect(newExecutableApiChange.type, ApiChangeType.addCompatible);
       expect(
           newExecutableApiChange.changeDescription, contains('doSomething2'));
-      expect(newExecutableApiChange.context, isNull);
+      expect(newExecutableApiChange.contextTrace, isEmpty);
     });
     test('removed root level executable is detected', () {
       final differ = PackageApiDiffer();
@@ -70,7 +70,7 @@ void main() {
       expect(removedExecutableApiChange.type, ApiChangeType.remove);
       expect(removedExecutableApiChange.changeDescription,
           contains('doSomething2'));
-      expect(removedExecutableApiChange.context, isNull);
+      expect(removedExecutableApiChange.contextTrace, isEmpty);
     });
     test('new root level field is detected', () {
       final differ = PackageApiDiffer();
@@ -83,7 +83,7 @@ void main() {
       expect(newFieldApiChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(newFieldApiChange.type, ApiChangeType.addCompatible);
       expect(newFieldApiChange.changeDescription, contains('fieldB'));
-      expect(newFieldApiChange.context, isNull);
+      expect(newFieldApiChange.contextTrace, isEmpty);
     });
     test('removed root level field is detected', () {
       final differ = PackageApiDiffer();
@@ -97,7 +97,7 @@ void main() {
           removedFieldApiChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(removedFieldApiChange.type, ApiChangeType.remove);
       expect(removedFieldApiChange.changeDescription, contains('fieldB'));
-      expect(removedFieldApiChange.context, isNull);
+      expect(removedFieldApiChange.contextTrace, isEmpty);
     });
   });
   group('Deprecated Flag handling', () {
@@ -111,7 +111,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('ClassA'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -126,7 +126,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('ClassA'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -147,7 +147,8 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(deprecatedAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('doSomething1'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -162,7 +163,8 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(deprecatedAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('doSomething1'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -183,7 +185,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('fieldA'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -198,7 +200,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
-      expect(deprecatedAddedChange.context, isNull);
+      expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('fieldA'));
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -220,7 +222,8 @@ void main() {
       final typeParameterAddedChange = diffResult.apiChanges.first;
       expect(typeParameterAddedChange.affectedDeclaration,
           isA<ClassDeclaration>());
-      expect(typeParameterAddedChange.context, isA<ClassDeclaration>());
+      expect(
+          typeParameterAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(typeParameterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParameterAddedChange.changeDescription,
           contains('Type Parameter T'));
@@ -239,7 +242,8 @@ void main() {
       final typeParameterRemovedChange = diffResult.apiChanges.first;
       expect(typeParameterRemovedChange.affectedDeclaration,
           isA<ClassDeclaration>());
-      expect(typeParameterRemovedChange.context, isA<ClassDeclaration>());
+      expect(typeParameterRemovedChange.contextTrace.first,
+          isA<ClassDeclaration>());
       expect(typeParameterRemovedChange.type, ApiChangeType.remove);
       expect(typeParameterRemovedChange.changeDescription,
           contains('Type Parameter T'));
@@ -259,7 +263,8 @@ void main() {
       final typeParameterAddedChange = diffResult.apiChanges.first;
       expect(typeParameterAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(typeParameterAddedChange.context, isA<ExecutableDeclaration>());
+      expect(typeParameterAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParameterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParameterAddedChange.changeDescription,
           contains('Type Parameter T'));
@@ -278,7 +283,8 @@ void main() {
       final typeParameterRemovedChange = diffResult.apiChanges.first;
       expect(typeParameterRemovedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(typeParameterRemovedChange.context, isA<ExecutableDeclaration>());
+      expect(typeParameterRemovedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParameterRemovedChange.type, ApiChangeType.remove);
       expect(typeParameterRemovedChange.changeDescription,
           contains('Type Parameter T'));
@@ -302,13 +308,15 @@ void main() {
           .single;
       expect(
           typeParmeterAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(typeParmeterAddedChange.context, isA<ClassDeclaration>());
+      expect(
+          typeParmeterAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(typeParmeterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParmeterAddedChange.changeDescription,
           contains('Type Parameter R'));
       expect(typeParmeterRemovedChange.affectedDeclaration,
           isA<ClassDeclaration>());
-      expect(typeParmeterRemovedChange.context, isA<ClassDeclaration>());
+      expect(typeParmeterRemovedChange.contextTrace.first,
+          isA<ClassDeclaration>());
       expect(typeParmeterRemovedChange.type, ApiChangeType.remove);
       expect(typeParmeterRemovedChange.changeDescription,
           contains('Type Parameter T'));
@@ -332,13 +340,15 @@ void main() {
           .single;
       expect(typeParmeterAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(typeParmeterAddedChange.context, isA<ExecutableDeclaration>());
+      expect(typeParmeterAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParmeterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParmeterAddedChange.changeDescription,
           contains('Type Parameter R'));
       expect(typeParmeterRemovedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(typeParmeterRemovedChange.context, isA<ExecutableDeclaration>());
+      expect(typeParmeterRemovedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParmeterRemovedChange.type, ApiChangeType.remove);
       expect(typeParmeterRemovedChange.changeDescription,
           contains('Type Parameter T'));
@@ -359,7 +369,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.context, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -379,7 +389,7 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.context, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.remove);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -400,7 +410,8 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(deprecatedAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.context, isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -420,7 +431,8 @@ void main() {
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(deprecatedAddedChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.context, isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.remove);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -436,7 +448,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
-      expect(typeChange.context, isNull);
+      expect(typeChange.contextTrace.first, isA<FieldDeclaration>());
       expect(typeChange.type, ApiChangeType.changeBreaking);
     });
     test('Return type change detected', () {
@@ -449,7 +461,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
-      expect(typeChange.context, isNull);
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.changeBreaking);
     });
     test('Parameter type change detected', () {
@@ -463,7 +475,7 @@ void main() {
       expect(typeChange.affectedDeclaration,
           isA<ExecutableParameterDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.changeBreaking);
     });
   });
@@ -478,7 +490,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalPositional'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.addCompatible);
     });
     test('New, optional named parameter added', () {
@@ -491,7 +503,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalNamed'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.addCompatible);
     });
     test('New, required positional parameter added', () {
@@ -504,7 +516,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('requiredPositional'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.addBreaking);
     });
     test('New, required named parameter added', () {
@@ -517,7 +529,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('requiredNamed'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.addBreaking);
     });
     test('optional, positional parameter removed', () {
@@ -530,7 +542,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalPositional'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.remove);
     });
     test('optional named parameter removed', () {
@@ -543,7 +555,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalNamed'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.remove);
     });
     test('required positional parameter removed', () {
@@ -556,7 +568,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('requiredPositional'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.remove);
     });
     test('required named parameter removed', () {
@@ -569,7 +581,7 @@ void main() {
       final typeChange = diffResult.apiChanges.first;
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('requiredNamed'));
-      expect(typeChange.context, isA<ExecutableDeclaration>());
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.remove);
     });
   });

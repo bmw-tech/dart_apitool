@@ -8,20 +8,20 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:dart_apitool/src/api_relevant_elements_collector.dart';
-import 'package:dart_apitool/src/exported_files_collector.dart';
+import 'package:dart_apitool/src/analyze/api_relevant_elements_collector.dart';
+import 'package:dart_apitool/src/analyze/exported_files_collector.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import 'model/class_declaration.dart';
-import 'model/executable_declaration.dart';
-import 'model/field_declaration.dart';
-import 'model/internal/internal_class_declaration.dart';
-import 'model/internal/internal_executable_declaration.dart';
-import 'model/internal/internal_field_declaration.dart';
-import 'model/package_api.dart';
-import 'utils/string_utils.dart';
+import '../model/class_declaration.dart';
+import '../model/executable_declaration.dart';
+import '../model/field_declaration.dart';
+import '../model/internal/internal_class_declaration.dart';
+import '../model/internal/internal_executable_declaration.dart';
+import '../model/internal/internal_field_declaration.dart';
+import '../model/package_api.dart';
+import '../utils/string_utils.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
