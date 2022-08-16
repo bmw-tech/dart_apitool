@@ -18,7 +18,7 @@ typedef OnTypeUsedHandler = void Function(DartType onTypeUsed);
 /// - [fieldDeclarations]
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({
-    this.isOnlyPublic = true,
+    this.isOnlyPublicClasses = true,
     List<String> shownNames = const [],
     List<String> hiddenNames = const [],
     OnTypeUsedHandler? onTypeUsedHandler,
@@ -64,7 +64,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   List<InternalFieldDeclaration> get fieldDeclarations => _fieldDeclarations;
 
   /// determines if the collector shall only collect publicly exposed declarations
-  final bool isOnlyPublic;
+  final bool isOnlyPublicClasses;
   late final OnTypeUsedHandler _onTypeUsedHandler;
 
   void _executeInContext({
@@ -114,7 +114,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (packageName == _packageName) {
       //create new collector with isOnlyPublic = false as we know that this type is used directly and therefore gets exported implicitly (e.g. private mixins (Freezed))
       final collector = APIRelevantElementsCollector(
-        isOnlyPublic: false,
+        isOnlyPublicClasses: false,
         visitedElementIds: _visitedElementIds,
       );
       directElement.accept(collector);
@@ -161,7 +161,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isNameExported(element.name)) {
       return;
     }
-    if (isOnlyPublic && !element.isPublic) {
+    if (isOnlyPublicClasses && !element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -184,7 +184,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitFieldElement(FieldElement element) {
     _onVisitAnyElement(element);
-    if (isOnlyPublic && !element.isPublic) {
+    if (!element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -201,7 +201,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitTopLevelVariableElement(TopLevelVariableElement element) {
     _onVisitAnyElement(element);
-    if (isOnlyPublic && !element.isPublic) {
+    if (!element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -228,7 +228,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitMethodElement(MethodElement element) {
     _onVisitAnyElement(element);
-    if (isOnlyPublic && !element.isPublic) {
+    if (!element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -252,7 +252,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitFunctionElement(FunctionElement element) {
     _onVisitAnyElement(element);
-    if (isOnlyPublic && !element.isPublic) {
+    if (!element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -276,7 +276,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitConstructorElement(ConstructorElement element) {
     _onVisitAnyElement(element);
-    if (isOnlyPublic && !element.isPublic) {
+    if (!element.isPublic) {
       return;
     }
     if (!_markElementAsVisited(element)) {
