@@ -1,5 +1,5 @@
-export 'src/package_api_analyzer.dart';
+export 'src/analyze/analyze.dart';
 export 'src/model/model.dart';
 export 'src/storage/storage.dart';
-export 'src/pub_interaction.dart';
-export 'src/package_api_differ.dart';
+export 'src/pub/pub.dart';
+export 'src/diff/diff.dart';

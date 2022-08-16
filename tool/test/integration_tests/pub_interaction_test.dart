@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dart_apitool/src/pub_interaction.dart';
+import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' as path;
 

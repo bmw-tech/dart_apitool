@@ -1,4 +1,4 @@
-import 'model/model.dart';
+import '../model/model.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
