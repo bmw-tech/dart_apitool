@@ -1,3 +1,5 @@
+import 'package:stack/stack.dart';
+
 import '../model/model.dart';
 
 /// can calculate a diff between two PackageApis
@@ -22,25 +24,25 @@ class PackageApiDiffer {
     }
 
     final changes = [
-      ..._calculateClassesDiff(
-          oldApi.classDeclarations, newApi.classDeclarations),
+      ..._calculateClassesDiff(oldApi.classDeclarations,
+          newApi.classDeclarations, Stack<Declaration>()),
       ..._calculateExecutablesDiff(
         oldApi.executableDeclarations,
         newApi.executableDeclarations,
-        null,
+        Stack<Declaration>(),
       ),
       ..._calculateFieldsDiff(
         oldApi.fieldDeclarations,
         newApi.fieldDeclarations,
-        null,
+        Stack<Declaration>(),
       ),
     ];
 
     return PackageApiDifResult(changes);
   }
 
-  List<ApiChange> _calculateClassesDiff(
-      List<ClassDeclaration> oldClasses, List<ClassDeclaration> newClasses) {
+  List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
+      List<ClassDeclaration> newClasses, Stack<Declaration> context) {
     final classListDiff = _diffLists<ClassDeclaration>(
       oldClasses,
       newClasses,
@@ -51,13 +53,13 @@ class PackageApiDiffer {
       changes.addAll(_calculateClassDiff(
         oldClass,
         classListDiff.matches[oldClass]!,
-        null,
+        context,
       ));
     }
     for (final removedClass in classListDiff.remainingOld) {
       changes.add(ApiChange(
         affectedDeclaration: removedClass,
-        context: null,
+        contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
         changeDescription: 'Class ${removedClass.name} removed',
       ));
@@ -65,7 +67,7 @@ class PackageApiDiffer {
     for (final addedClass in classListDiff.remainingNew) {
       changes.add(ApiChange(
         affectedDeclaration: addedClass,
-        context: null,
+        contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
         changeDescription: 'Class ${addedClass.name} added',
       ));
@@ -76,34 +78,38 @@ class PackageApiDiffer {
   List<ApiChange> _calculateClassDiff(
     ClassDeclaration oldClass,
     ClassDeclaration newClass,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
-    final changes = [
-      ..._calculateExecutablesDiff(oldClass.executableDeclarations,
-          newClass.executableDeclarations, newClass),
-      ..._calculateFieldsDiff(
-          oldClass.fieldDeclarations, newClass.fieldDeclarations, newClass),
-      ..._calculateSuperTypesDiff(
-          oldClass.superTypeNames, newClass.superTypeNames, newClass),
-      ..._calculateTypeParametersDiff(
-          oldClass.typeParameterNames, newClass.typeParameterNames, newClass),
-    ];
-    _comparePropertiesAndAddChange(
-      oldClass.isDeprecated,
-      newClass.isDeprecated,
-      context,
-      newClass,
-      'Deprecated Flag of Class ${newClass.name} changed',
-      changes,
-      isCompatibleChange: true,
-    );
-    return changes;
+    return _executeInContext(context, newClass, (context) {
+      final changes = [
+        ..._calculateExecutablesDiff(oldClass.executableDeclarations,
+            newClass.executableDeclarations, context),
+        ..._calculateFieldsDiff(
+            oldClass.fieldDeclarations, newClass.fieldDeclarations, context),
+        ..._calculateSuperTypesDiff(
+            oldClass.superTypeNames, newClass.superTypeNames, context),
+        ..._calculateTypeParametersDiff(
+            oldClass.typeParameterNames, newClass.typeParameterNames, context),
+      ];
+
+      _comparePropertiesAndAddChange(
+        oldClass.isDeprecated,
+        newClass.isDeprecated,
+        context,
+        newClass,
+        'Deprecated Flag of Class ${newClass.name} changed',
+        changes,
+        isCompatibleChange: true,
+      );
+
+      return changes;
+    });
   }
 
   List<ApiChange> _calculateExecutablesDiff(
     List<ExecutableDeclaration> oldExecutables,
     List<ExecutableDeclaration> newExecutables,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
     final executableListDiff = _diffLists<ExecutableDeclaration>(oldExecutables,
         newExecutables, (oldEx, newEx) => oldEx.name == newEx.name);
@@ -118,7 +124,7 @@ class PackageApiDiffer {
     for (final removedExecutable in executableListDiff.remainingOld) {
       changes.add(ApiChange(
         affectedDeclaration: removedExecutable,
-        context: context,
+        contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
         changeDescription: 'Executable ${removedExecutable.name} removed',
       ));
@@ -126,7 +132,7 @@ class PackageApiDiffer {
     for (final addedExecutable in executableListDiff.remainingNew) {
       changes.add(ApiChange(
         affectedDeclaration: addedExecutable,
-        context: context,
+        contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
         changeDescription: 'Executable ${addedExecutable.name} added',
       ));
@@ -137,38 +143,41 @@ class PackageApiDiffer {
   List<ApiChange> _calculateExecutableDiff(
     ExecutableDeclaration oldExecutable,
     ExecutableDeclaration newExecutable,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
-    final changes = [
-      ..._calculateParametersDiff(
-          oldExecutable.parameters, newExecutable.parameters, newExecutable),
-      ..._calculateTypeParametersDiff(oldExecutable.typeParameterNames,
-          newExecutable.typeParameterNames, newExecutable),
-    ];
-    _comparePropertiesAndAddChange(
-      oldExecutable.isDeprecated,
-      newExecutable.isDeprecated,
-      context,
-      newExecutable,
-      'Deprecated Flag for Executable ${newExecutable.name} changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
-      changes,
-      isCompatibleChange: true,
-    );
-    _comparePropertiesAndAddChange(
-      oldExecutable.returnTypeName,
-      newExecutable.returnTypeName,
-      context,
-      newExecutable,
-      'Return type of Executable ${newExecutable.name} changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
-      changes,
-    );
-    return changes;
+    return _executeInContext(context, newExecutable, (context) {
+      final changes = [
+        ..._calculateParametersDiff(
+            oldExecutable.parameters, newExecutable.parameters, context),
+        ..._calculateTypeParametersDiff(oldExecutable.typeParameterNames,
+            newExecutable.typeParameterNames, context),
+      ];
+      _comparePropertiesAndAddChange(
+        oldExecutable.isDeprecated,
+        newExecutable.isDeprecated,
+        context,
+        newExecutable,
+        'Deprecated Flag for Executable ${newExecutable.name} changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
+        changes,
+        isCompatibleChange: true,
+      );
+      _comparePropertiesAndAddChange(
+        oldExecutable.returnTypeName,
+        newExecutable.returnTypeName,
+        context,
+        newExecutable,
+        'Return type of Executable ${newExecutable.name} changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
+        changes,
+      );
+
+      return changes;
+    });
   }
 
   List<ApiChange> _calculateParametersDiff(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
-    Declaration context,
+    Stack<Declaration> context,
   ) {
     final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
         oldParameters,
@@ -181,16 +190,16 @@ class PackageApiDiffer {
     }
     for (final removedParameter in parametersListDiff.remainingOld) {
       changes.add(ApiChange(
-        affectedDeclaration: context,
-        context: context,
+        affectedDeclaration: context.top(),
+        contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
         changeDescription: 'Parameter ${removedParameter.name} removed',
       ));
     }
     for (final addedParameter in parametersListDiff.remainingNew) {
       changes.add(ApiChange(
-        affectedDeclaration: context,
-        context: context,
+        affectedDeclaration: context.top(),
+        contextTrace: _contextTraceFromStack(context),
         type: addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
@@ -203,7 +212,7 @@ class PackageApiDiffer {
   List<ApiChange> _calculateParameterDiff(
     ExecutableParameterDeclaration oldParam,
     ExecutableParameterDeclaration newParam,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
@@ -245,15 +254,15 @@ class PackageApiDiffer {
   List<ApiChange> _calculateTypeParametersDiff(
     List<String> oldTypeParameterNames,
     List<String> newTypeParameterNames,
-    Declaration context,
+    Stack<Declaration> context,
   ) {
     if (options.ignoreTypeParameterNameChanges) {
       // we only care for the number of type parameters
       if (oldTypeParameterNames.length != newTypeParameterNames.length) {
         return [
           ApiChange(
-            context: context,
-            affectedDeclaration: context,
+            contextTrace: _contextTraceFromStack(context),
+            affectedDeclaration: context.top(),
             changeDescription:
                 'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"',
             type: oldTypeParameterNames.length < newTypeParameterNames.length
@@ -269,15 +278,15 @@ class PackageApiDiffer {
       final changes = <ApiChange>[];
       for (final removedTypeParameter in tpnListDiff.remainingOld) {
         changes.add(ApiChange(
-            affectedDeclaration: context,
-            context: context,
+            affectedDeclaration: context.top(),
+            contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.remove,
             changeDescription: 'Type Parameter $removedTypeParameter removed'));
       }
       for (final addedTypeParameter in tpnListDiff.remainingNew) {
         changes.add(ApiChange(
-            affectedDeclaration: context,
-            context: context,
+            affectedDeclaration: context.top(),
+            contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.addBreaking,
             changeDescription: 'Type Parameter $addedTypeParameter added'));
       }
@@ -289,22 +298,22 @@ class PackageApiDiffer {
   List<ApiChange> _calculateSuperTypesDiff(
     List<String> oldSuperTypes,
     List<String> newSuperTypes,
-    Declaration context,
+    Stack<Declaration> context,
   ) {
     final stpnListDiff = _diffLists<String>(
         oldSuperTypes, newSuperTypes, (oldStpn, newStpn) => oldStpn == newStpn);
     final changes = <ApiChange>[];
     for (final removedSuperType in stpnListDiff.remainingOld) {
       changes.add(ApiChange(
-          affectedDeclaration: context,
-          context: context,
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
           changeDescription: 'Super Type $removedSuperType removed'));
     }
     for (final addedSuperType in stpnListDiff.remainingNew) {
       changes.add(ApiChange(
-          affectedDeclaration: context,
-          context: context,
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
           changeDescription: 'Super Type $addedSuperType added'));
     }
@@ -314,7 +323,7 @@ class PackageApiDiffer {
   List<ApiChange> _calculateFieldsDiff(
     List<FieldDeclaration> oldFieldDeclarations,
     List<FieldDeclaration> newFieldDeclarations,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
     final fieldsDiff = _diffLists<FieldDeclaration>(
         oldFieldDeclarations,
@@ -328,14 +337,14 @@ class PackageApiDiffer {
     for (final removedField in fieldsDiff.remainingOld) {
       changes.add(ApiChange(
           affectedDeclaration: removedField,
-          context: context,
+          contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
           changeDescription: 'Field ${removedField.name} removed'));
     }
     for (final addedField in fieldsDiff.remainingNew) {
       changes.add(ApiChange(
           affectedDeclaration: addedField,
-          context: context,
+          contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
           changeDescription: 'Field ${addedField.name} added'));
     }
@@ -345,33 +354,57 @@ class PackageApiDiffer {
   List<ApiChange> _calculateFieldDiff(
     FieldDeclaration oldField,
     FieldDeclaration newField,
-    Declaration? context,
+    Stack<Declaration> context,
   ) {
-    final changes = <ApiChange>[];
-    _comparePropertiesAndAddChange(
-      oldField.isDeprecated,
-      newField.isDeprecated,
-      context,
-      newField,
-      'Deprecated Flag of field ${newField.name} changed',
-      changes,
-      isCompatibleChange: true,
-    );
-    _comparePropertiesAndAddChange(
-      oldField.typeName,
-      newField.typeName,
-      context,
-      newField,
-      'Type of field ${newField.name} changed. ${oldField.typeName} -> ${newField.typeName}',
-      changes,
-    );
-    return changes;
+    return _executeInContext(context, newField, (context) {
+      final changes = <ApiChange>[];
+      _comparePropertiesAndAddChange(
+        oldField.isDeprecated,
+        newField.isDeprecated,
+        context,
+        newField,
+        'Deprecated Flag of field ${newField.name} changed',
+        changes,
+        isCompatibleChange: true,
+      );
+      _comparePropertiesAndAddChange(
+        oldField.typeName,
+        newField.typeName,
+        context,
+        newField,
+        'Type of field ${newField.name} changed. ${oldField.typeName} -> ${newField.typeName}',
+        changes,
+      );
+      return changes;
+    });
+  }
+
+  List<Declaration> _contextTraceFromStack(Stack<Declaration> stack) {
+    final reverseBackup = Stack<Declaration>();
+    final result = <Declaration>[];
+    while (stack.isNotEmpty) {
+      final contextEntry = stack.pop();
+      reverseBackup.push(contextEntry);
+      result.add(contextEntry);
+    }
+    while (reverseBackup.isNotEmpty) {
+      stack.push(reverseBackup.pop());
+    }
+    return result;
+  }
+
+  T _executeInContext<T>(Stack<Declaration> context, Declaration newContext,
+      T Function(Stack<Declaration> context) fun) {
+    context.push(newContext);
+    final result = fun(context);
+    context.pop();
+    return result;
   }
 
   _comparePropertiesAndAddChange<T>(
     T oldValue,
     T newValue,
-    Declaration? context,
+    Stack<Declaration> context,
     Declaration affectedDeclaration,
     String changeDescription,
     List<ApiChange> changes, {
@@ -380,7 +413,7 @@ class PackageApiDiffer {
     if (oldValue != newValue) {
       changes.add(ApiChange(
         affectedDeclaration: affectedDeclaration,
-        context: context,
+        contextTrace: _contextTraceFromStack(context),
         type: isCompatibleChange
             ? ApiChangeType.changeCompatible
             : ApiChangeType.changeBreaking,
@@ -429,20 +462,20 @@ class PackageApiDiffError extends Error {
 class ApiChange {
   /// the context of this change. This can be the class the changed method belongs to or the method the changed parameter belongs to.
   /// is null for situations where there is no context (like root level functions)
-  Declaration? context;
+  final List<Declaration> contextTrace;
 
   /// The affected declaration. This is the declaration that got changed
-  Declaration affectedDeclaration;
+  final Declaration affectedDeclaration;
 
   /// Type of change
-  ApiChangeType type;
+  final ApiChangeType type;
 
   /// A textual description of the change
-  String changeDescription;
+  final String changeDescription;
 
   /// creates a new ApiChange instance
   ApiChange({
-    required this.context,
+    required this.contextTrace,
     required this.affectedDeclaration,
     required this.changeDescription,
     required this.type,
