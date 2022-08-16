@@ -38,7 +38,7 @@ class PackageApiDiffer {
       ),
     ];
 
-    return PackageApiDifResult(changes);
+    return PackageApiDifResult()..addApiChanges(changes);
   }
 
   List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
@@ -504,12 +504,50 @@ enum ApiChangeType {
   const ApiChangeType({required this.isBreaking});
 }
 
+class ApiChangeTreeNode {
+  final Declaration? nodeDeclaration;
+  final List<ApiChange> changes;
+  final Map<Declaration, ApiChangeTreeNode> children;
+
+  ApiChangeTreeNode({
+    required this.nodeDeclaration,
+    List<ApiChange>? changes,
+  })  : changes = changes ?? [],
+        children = {};
+}
+
 /// represents the result of a diff run
 class PackageApiDifResult {
   /// API changes that the diff run detected
   final List<ApiChange> apiChanges;
 
-  PackageApiDifResult(this.apiChanges);
+  bool get hasChanges {
+    return apiChanges.isNotEmpty;
+  }
+
+  final rootNode = ApiChangeTreeNode(nodeDeclaration: null);
+
+  void addApiChange(ApiChange change) {
+    var currentNode = rootNode;
+    for (int i = change.contextTrace.length - 1; i >= 0; i--) {
+      final currentContext = change.contextTrace[i];
+      if (!currentNode.children.containsKey(currentContext)) {
+        currentNode.children[currentContext] =
+            ApiChangeTreeNode(nodeDeclaration: currentContext);
+      }
+      currentNode = currentNode.children[currentContext]!;
+    }
+    currentNode.changes.add(change);
+    apiChanges.add(change);
+  }
+
+  void addApiChanges(Iterable<ApiChange> changes) {
+    for (final change in changes) {
+      addApiChange(change);
+    }
+  }
+
+  PackageApiDifResult() : apiChanges = [];
 }
 
 class PackageApiDifferOptions {
