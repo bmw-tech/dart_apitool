@@ -1,5 +1,4 @@
 import 'package:dart_apitool/api_tool.dart';
-import 'package:dart_apitool/src/package_api_differ.dart';
 import 'package:test/test.dart';
 
 part 'package_api_differ_test_data.dart';
