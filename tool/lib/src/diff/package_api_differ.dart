@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:stack/stack.dart';
+import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 
@@ -187,22 +188,41 @@ class PackageApiDiffer {
     });
   }
 
-  Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+  /// returns a [Tuple2] containing
+  /// - a [bool] indicating that the order between old and new changed amd
+  /// - a [Map] between old parameters and new parameters that match
+  Tuple2<bool,
+          Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>>
       _findMatchesByName(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
   ) {
+    bool reordered = false;
+    final oldParametersWithoutNamed =
+        oldParameters.where((oldParameter) => !oldParameter.isNamed).toList();
+    final newParametersWithoutNamed =
+        newParameters.where((newParameter) => !newParameter.isNamed).toList();
+
     final result =
         <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
+
     for (final oldParameter in oldParameters) {
       for (final matchingNewParameter in newParameters
           .where((newParameter) => newParameter.name == oldParameter.name)) {
+        // Only for positional arguments: check the order
+        if (!oldParameter.isNamed &&
+            !matchingNewParameter.isNamed &&
+            oldParametersWithoutNamed.indexOf(oldParameter) !=
+                newParametersWithoutNamed.indexOf(matchingNewParameter)) {
+          reordered = true;
+        }
         result[oldParameter] = matchingNewParameter;
       }
     }
-    return result;
+    return Tuple2(reordered, result);
   }
 
+  /// returns a [Map] between old parameters and new parameters that match
   Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
       _findMatchesByTypeOrder(
     List<ExecutableParameterDeclaration> oldParameters,
@@ -213,7 +233,7 @@ class PackageApiDiffer {
     int length = min(oldParameters.length, newParameters.length);
     for (int i = 0; i < length; i++) {
       if (oldParameters[i].typeName != newParameters[i].typeName) {
-        // if we find a mismatch, immediately stop as we might face a reordering
+        // if we find a mismatch, immediately stop as we might face a reordering (but doesn't have to be, could also be a type change)
         return result;
       }
       result[oldParameters[i]] = newParameters[i];
@@ -221,7 +241,11 @@ class PackageApiDiffer {
     return result;
   }
 
-  Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+  /// returns a [Tuple2] containing
+  /// - a [bool] indicating that the order between old and new changed amd
+  /// - a [Map] between old parameters and new parameters that match
+  Tuple2<bool,
+          Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>>
       _findMatchingParameters(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
@@ -229,8 +253,10 @@ class PackageApiDiffer {
     final oldParametersCopy = [...oldParameters];
     final newParametersCopy = [...newParameters];
     // 1st, find matching names
-    final matchedByName =
+    final matchedByNameTuple =
         _findMatchesByName(oldParametersCopy, newParametersCopy);
+    final reordered = matchedByNameTuple.item1;
+    final matchedByName = matchedByNameTuple.item2;
     // 2. remove them from the list
     for (final matchedOldParameter in matchedByName.keys) {
       oldParametersCopy.remove(matchedOldParameter);
@@ -243,7 +269,7 @@ class PackageApiDiffer {
         <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
     result.addAll(matchedByName);
     result.addAll(matchedByTypeOrder);
-    return result;
+    return Tuple2(reordered, result);
   }
 
   List<ApiChange> _calculateParametersDiff(
@@ -251,8 +277,10 @@ class PackageApiDiffer {
     List<ExecutableParameterDeclaration> newParameters,
     Stack<Declaration> context,
   ) {
-    final parameterMatches =
+    final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
+    final parameterMatches = parameterMatchesTuple.item2;
+    final reordered = parameterMatchesTuple.item1;
 
     final changes = <ApiChange>[];
     final oldParametersCopy = [...oldParameters];
@@ -266,16 +294,10 @@ class PackageApiDiffer {
           _calculateParameterDiff(matchingOldParam, matchingNewParam, context));
     }
 
-    // treat the rest classically
-    final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
-        oldParametersCopy,
-        newParametersCopy,
-        (oldParam, newParam) => oldParam.name == newParam.name);
-    for (final oldParam in parametersListDiff.matches.keys) {
-      changes.addAll(_calculateParameterDiff(
-          oldParam, parametersListDiff.matches[oldParam]!, context));
-    }
-    for (final removedParameter in parametersListDiff.remainingOld) {
+    // the remaining old parameters have most probably be removed and the remaining
+    // new parameters have most probably been added as parameters with equal name
+    // already got matched by [_findMatchingParameters]
+    for (final removedParameter in oldParametersCopy) {
       changes.add(ApiChange(
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
@@ -283,7 +305,7 @@ class PackageApiDiffer {
         changeDescription: 'Parameter "${removedParameter.name}" removed',
       ));
     }
-    for (final addedParameter in parametersListDiff.remainingNew) {
+    for (final addedParameter in newParametersCopy) {
       changes.add(ApiChange(
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
@@ -294,36 +316,13 @@ class PackageApiDiffer {
       ));
     }
 
-    final orderCheckOldParameters = [...oldParameters];
-    final orderCheckNewParameters = [...newParameters];
-
-    // remove removed parameters from oldParameters
-    for (final removedParameter in parametersListDiff.remainingOld) {
-      orderCheckOldParameters.remove(removedParameter);
-    }
-    // remove added parameters from newParameters
-    for (final addedParameter in parametersListDiff.remainingNew) {
-      orderCheckNewParameters.remove(addedParameter);
-    }
-    assert(orderCheckNewParameters.length == orderCheckOldParameters.length,
-        'Huston, we have a problem. Something in the parameter matching is badly wrong');
-
-    // check order
-    for (int i = 0; i < orderCheckNewParameters.length; i++) {
-      if (orderCheckNewParameters[i].name != orderCheckOldParameters[i].name) {
-        if (orderCheckNewParameters[i].typeName ==
-            orderCheckOldParameters[i].typeName) {
-          // we assume a name change, order is unaffected
-          continue;
-        }
-        changes.add(ApiChange(
-          affectedDeclaration: context.top(),
-          contextTrace: _contextTraceFromStack(context),
-          type: ApiChangeType.changeBreaking,
-          changeDescription: 'Order of parameters changed',
-        ));
-        break;
-      }
+    if (reordered) {
+      changes.add(ApiChange(
+        affectedDeclaration: context.top(),
+        contextTrace: _contextTraceFromStack(context),
+        type: ApiChangeType.changeBreaking,
+        changeDescription: 'Order of parameters changed',
+      ));
     }
 
     return changes;
@@ -369,6 +368,8 @@ class PackageApiDiffer {
       newParam,
       'Requiredness of parameter "${oldParam.name}" changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
       changes,
+      isCompatibleChange: oldParam
+          .isRequired, // if we change from required to not required then this change is compatible
     );
     _comparePropertiesAndAddChange(
       oldParam.typeName,
