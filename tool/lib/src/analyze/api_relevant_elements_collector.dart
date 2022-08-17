@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
@@ -106,8 +108,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   void _onInterfaceTypeUsed(InterfaceType type) {
-    final directElement = type.element;
-    if (_visitedElementIds.contains(type.element.id)) {
+    final directElement = type.element2;
+    if (_visitedElementIds.contains(type.element2.id)) {
       return;
     }
     final packageName = getPackageNameFromLibrary(directElement.library);
@@ -268,7 +270,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       },
       executableContext: element,
     );
-    if (element.returnType.element != null) {
+    if (element.returnType.element2 != null) {
       _onTypeUsedHandler(element.returnType);
     }
   }
@@ -284,10 +286,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
 
     _executableDeclarations
-        .add(InternalExecutableDeclaration.fromExecutableElement(
-      element,
-      'constructor',
-    ));
+        .add(InternalExecutableDeclaration.fromExecutableElement(element));
 
     _executeInExecutableContext(
       toExecute: () {

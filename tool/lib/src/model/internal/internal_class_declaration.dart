@@ -24,7 +24,7 @@ class InternalClassDeclaration implements InternalDeclaration {
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(classElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromElement(
-              classElement.enclosingElement2),
+              classElement.enclosingElement3),
           classDeclaration: ClassDeclaration(
             name: classElement.name,
             isDeprecated: classElement.hasDeprecated,

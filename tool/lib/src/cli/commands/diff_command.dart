@@ -74,13 +74,29 @@ class DiffCommand extends Command with CommandMixin {
       return List<String>.filled(level * 4, ' ').join('');
     }
 
+    String getDeclarationNodeHeadline(Declaration declaration) {
+      var prefix = '';
+      if (declaration is ExecutableDeclaration) {
+        switch (declaration.type) {
+          case ExecutableType.constructor:
+            prefix = 'Constructor ';
+            break;
+          case ExecutableType.method:
+            prefix = 'Method ';
+            break;
+        }
+      }
+      return prefix + declaration.name;
+    }
+
     void ensureHeadline() {
       if (headlinePrinted) {
         return;
       }
       if (node.nodeDeclaration != null) {
         currentOutput.write(getIndent(level));
-        currentOutput.writeln(node.nodeDeclaration!.name);
+        currentOutput
+            .writeln(getDeclarationNodeHeadline(node.nodeDeclaration!));
       }
       headlinePrinted = true;
     }

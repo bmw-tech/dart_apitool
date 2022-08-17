@@ -61,7 +61,7 @@ class PackageApiDiffer {
         affectedDeclaration: removedClass,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
-        changeDescription: 'Class ${removedClass.name} removed',
+        changeDescription: 'Class "${removedClass.name}" removed',
       ));
     }
     for (final addedClass in classListDiff.remainingNew) {
@@ -69,7 +69,7 @@ class PackageApiDiffer {
         affectedDeclaration: addedClass,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
-        changeDescription: 'Class ${addedClass.name} added',
+        changeDescription: 'Class "${addedClass.name}" added',
       ));
     }
     return changes;
@@ -97,7 +97,7 @@ class PackageApiDiffer {
         newClass.isDeprecated,
         context,
         newClass,
-        'Deprecated Flag of Class ${newClass.name} changed',
+        'Deprecated Flag changed. ${oldClass.isDeprecated} -> ${newClass.isDeprecated}',
         changes,
         isCompatibleChange: true,
       );
@@ -126,7 +126,8 @@ class PackageApiDiffer {
         affectedDeclaration: removedExecutable,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
-        changeDescription: 'Executable ${removedExecutable.name} removed',
+        changeDescription:
+            '${_getExecutableTypeName(removedExecutable.type, context.isNotEmpty)} "${removedExecutable.name}" removed',
       ));
     }
     for (final addedExecutable in executableListDiff.remainingNew) {
@@ -134,10 +135,20 @@ class PackageApiDiffer {
         affectedDeclaration: addedExecutable,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
-        changeDescription: 'Executable ${addedExecutable.name} added',
+        changeDescription:
+            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added',
       ));
     }
     return changes;
+  }
+
+  String _getExecutableTypeName(ExecutableType type, bool inClassContext) {
+    switch (type) {
+      case ExecutableType.constructor:
+        return 'Constructor';
+      case ExecutableType.method:
+        return inClassContext ? 'Method' : 'Function';
+    }
   }
 
   List<ApiChange> _calculateExecutableDiff(
@@ -157,7 +168,7 @@ class PackageApiDiffer {
         newExecutable.isDeprecated,
         context,
         newExecutable,
-        'Deprecated Flag for Executable ${newExecutable.name} changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
+        'Deprecated Flag changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
         changes,
         isCompatibleChange: true,
       );
@@ -166,7 +177,7 @@ class PackageApiDiffer {
         newExecutable.returnTypeName,
         context,
         newExecutable,
-        'Return type of Executable ${newExecutable.name} changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
+        'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
       );
 
@@ -179,6 +190,10 @@ class PackageApiDiffer {
     List<ExecutableParameterDeclaration> newParameters,
     Stack<Declaration> context,
   ) {
+    //TODO: be more smart about parameter renaming.
+    // Currently renaming a parameter always leads to remove + add
+    // this is fine for named parameters (as the effect is not only locally) but a problem for unnamed parameters.
+    // Even for named parameters a rename change would be better than a remove + add change
     final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
         oldParameters,
         newParameters,
@@ -193,7 +208,7 @@ class PackageApiDiffer {
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
-        changeDescription: 'Parameter ${removedParameter.name} removed',
+        changeDescription: 'Parameter "${removedParameter.name}" removed',
       ));
     }
     for (final addedParameter in parametersListDiff.remainingNew) {
@@ -203,7 +218,7 @@ class PackageApiDiffer {
         type: addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
-        changeDescription: 'Parameter ${addedParameter.name} added',
+        changeDescription: 'Parameter "${addedParameter.name}" added',
       ));
     }
     return changes;
@@ -220,7 +235,7 @@ class PackageApiDiffer {
       newParam.isDeprecated,
       context,
       newParam,
-      'Deprecated Flag of ${newParam.name} changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
+      'Deprecated Flag changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
       changes,
       isCompatibleChange: true,
     );
@@ -229,7 +244,7 @@ class PackageApiDiffer {
       newParam.isNamed,
       context,
       newParam,
-      'Kind of parameter ${newParam.name} changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
+      'Kind of parameter changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -237,7 +252,7 @@ class PackageApiDiffer {
       newParam.isRequired,
       context,
       newParam,
-      'Requiredness of parameter ${newParam.name} changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
+      'Requiredness of parameter changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -245,7 +260,7 @@ class PackageApiDiffer {
       newParam.typeName,
       context,
       newParam,
-      'Type of parameter ${newParam.name} changed. ${oldParam.typeName} -> ${newParam.typeName}',
+      'Type of parameter changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
     );
     return changes;
@@ -281,14 +296,15 @@ class PackageApiDiffer {
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.remove,
-            changeDescription: 'Type Parameter $removedTypeParameter removed'));
+            changeDescription:
+                'Type Parameter "$removedTypeParameter" removed'));
       }
       for (final addedTypeParameter in tpnListDiff.remainingNew) {
         changes.add(ApiChange(
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.addBreaking,
-            changeDescription: 'Type Parameter $addedTypeParameter added'));
+            changeDescription: 'Type Parameter "$addedTypeParameter" added'));
       }
       return changes;
     }
@@ -308,14 +324,14 @@ class PackageApiDiffer {
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
-          changeDescription: 'Super Type $removedSuperType removed'));
+          changeDescription: 'Super Type "$removedSuperType" removed'));
     }
     for (final addedSuperType in stpnListDiff.remainingNew) {
       changes.add(ApiChange(
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
-          changeDescription: 'Super Type $addedSuperType added'));
+          changeDescription: 'Super Type "$addedSuperType" added'));
     }
     return changes;
   }
@@ -339,14 +355,14 @@ class PackageApiDiffer {
           affectedDeclaration: removedField,
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
-          changeDescription: 'Field ${removedField.name} removed'));
+          changeDescription: 'Field "${removedField.name}" removed'));
     }
     for (final addedField in fieldsDiff.remainingNew) {
       changes.add(ApiChange(
           affectedDeclaration: addedField,
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
-          changeDescription: 'Field ${addedField.name} added'));
+          changeDescription: 'Field "${addedField.name}" added'));
     }
     return changes;
   }
@@ -363,7 +379,7 @@ class PackageApiDiffer {
         newField.isDeprecated,
         context,
         newField,
-        'Deprecated Flag of field ${newField.name} changed',
+        'Deprecated Flag changed. ${oldField.isDeprecated} -> ${newField.isDeprecated}',
         changes,
         isCompatibleChange: true,
       );
@@ -372,7 +388,7 @@ class PackageApiDiffer {
         newField.typeName,
         context,
         newField,
-        'Type of field ${newField.name} changed. ${oldField.typeName} -> ${newField.typeName}',
+        'Type of field changed. ${oldField.typeName} -> ${newField.typeName}',
         changes,
       );
       return changes;
