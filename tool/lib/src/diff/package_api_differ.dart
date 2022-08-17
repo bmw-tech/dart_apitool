@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:stack/stack.dart';
 
 import '../model/model.dart';
@@ -185,20 +187,90 @@ class PackageApiDiffer {
     });
   }
 
+  Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+      _findMatchesByName(
+    List<ExecutableParameterDeclaration> oldParameters,
+    List<ExecutableParameterDeclaration> newParameters,
+  ) {
+    final result =
+        <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
+    for (final oldParameter in oldParameters) {
+      for (final matchingNewParameter in newParameters
+          .where((newParameter) => newParameter.name == oldParameter.name)) {
+        result[oldParameter] = matchingNewParameter;
+      }
+    }
+    return result;
+  }
+
+  Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+      _findMatchesByTypeOrder(
+    List<ExecutableParameterDeclaration> oldParameters,
+    List<ExecutableParameterDeclaration> newParameters,
+  ) {
+    final result =
+        <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
+    int length = min(oldParameters.length, newParameters.length);
+    for (int i = 0; i < length; i++) {
+      if (oldParameters[i].typeName != newParameters[i].typeName) {
+        // if we find a mismatch, immediately stop as we might face a reordering
+        return result;
+      }
+      result[oldParameters[i]] = newParameters[i];
+    }
+    return result;
+  }
+
+  Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+      _findMatchingParameters(
+    List<ExecutableParameterDeclaration> oldParameters,
+    List<ExecutableParameterDeclaration> newParameters,
+  ) {
+    final oldParametersCopy = [...oldParameters];
+    final newParametersCopy = [...newParameters];
+    // 1st, find matching names
+    final matchedByName =
+        _findMatchesByName(oldParametersCopy, newParametersCopy);
+    // 2. remove them from the list
+    for (final matchedOldParameter in matchedByName.keys) {
+      oldParametersCopy.remove(matchedOldParameter);
+      newParametersCopy.remove(matchedByName[matchedOldParameter]!);
+    }
+    // 2. find matching types in order
+    final matchedByTypeOrder =
+        _findMatchesByTypeOrder(oldParametersCopy, newParametersCopy);
+    final result =
+        <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
+    result.addAll(matchedByName);
+    result.addAll(matchedByTypeOrder);
+    return result;
+  }
+
   List<ApiChange> _calculateParametersDiff(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
     Stack<Declaration> context,
   ) {
-    //TODO: be more smart about parameter renaming.
-    // Currently renaming a parameter always leads to remove + add
-    // this is fine for named parameters (as the effect is not only locally) but a problem for unnamed parameters.
-    // Even for named parameters a rename change would be better than a remove + add change
-    final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
-        oldParameters,
-        newParameters,
-        (oldParam, newParam) => oldParam.name == newParam.name);
+    final parameterMatches =
+        _findMatchingParameters(oldParameters, newParameters);
+
     final changes = <ApiChange>[];
+    final oldParametersCopy = [...oldParameters];
+    final newParametersCopy = [...newParameters];
+
+    for (final matchingOldParam in parameterMatches.keys) {
+      final matchingNewParam = parameterMatches[matchingOldParam]!;
+      oldParametersCopy.remove(matchingOldParam);
+      newParametersCopy.remove(matchingNewParam);
+      changes.addAll(
+          _calculateParameterDiff(matchingOldParam, matchingNewParam, context));
+    }
+
+    // treat the rest classically
+    final parametersListDiff = _diffLists<ExecutableParameterDeclaration>(
+        oldParametersCopy,
+        newParametersCopy,
+        (oldParam, newParam) => oldParam.name == newParam.name);
     for (final oldParam in parametersListDiff.matches.keys) {
       changes.addAll(_calculateParameterDiff(
           oldParam, parametersListDiff.matches[oldParam]!, context));
@@ -221,6 +293,39 @@ class PackageApiDiffer {
         changeDescription: 'Parameter "${addedParameter.name}" added',
       ));
     }
+
+    final orderCheckOldParameters = [...oldParameters];
+    final orderCheckNewParameters = [...newParameters];
+
+    // remove removed parameters from oldParameters
+    for (final removedParameter in parametersListDiff.remainingOld) {
+      orderCheckOldParameters.remove(removedParameter);
+    }
+    // remove added parameters from newParameters
+    for (final addedParameter in parametersListDiff.remainingNew) {
+      orderCheckNewParameters.remove(addedParameter);
+    }
+    assert(orderCheckNewParameters.length == orderCheckOldParameters.length,
+        'Huston, we have a problem. Something in the parameter matching is badly wrong');
+
+    // check order
+    for (int i = 0; i < orderCheckNewParameters.length; i++) {
+      if (orderCheckNewParameters[i].name != orderCheckOldParameters[i].name) {
+        if (orderCheckNewParameters[i].typeName ==
+            orderCheckOldParameters[i].typeName) {
+          // we assume a name change, order is unaffected
+          continue;
+        }
+        changes.add(ApiChange(
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.changeBreaking,
+          changeDescription: 'Order of parameters changed',
+        ));
+        break;
+      }
+    }
+
     return changes;
   }
 
@@ -231,11 +336,21 @@ class PackageApiDiffer {
   ) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
+      oldParam.name,
+      newParam.name,
+      context,
+      newParam,
+      'Name of parameter "${oldParam.name}" changed. ${oldParam.name} -> ${newParam.name}',
+      changes,
+      isCompatibleChange: !oldParam
+          .isNamed, // as long as the parameter isn't named a name change is not breaking
+    );
+    _comparePropertiesAndAddChange(
       oldParam.isDeprecated,
       newParam.isDeprecated,
       context,
       newParam,
-      'Deprecated Flag changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
+      'Deprecated Flag of parameter "${oldParam.name}" changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
       changes,
       isCompatibleChange: true,
     );
@@ -244,7 +359,7 @@ class PackageApiDiffer {
       newParam.isNamed,
       context,
       newParam,
-      'Kind of parameter changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
+      'Kind of parameter "${oldParam.name}" changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -252,7 +367,7 @@ class PackageApiDiffer {
       newParam.isRequired,
       context,
       newParam,
-      'Requiredness of parameter changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
+      'Requiredness of parameter "${oldParam.name}" changed. ${oldParam.isRequired ? 'required' : 'not required'} -> ${newParam.isRequired ? 'required' : 'not required'}',
       changes,
     );
     _comparePropertiesAndAddChange(
@@ -260,7 +375,7 @@ class PackageApiDiffer {
       newParam.typeName,
       context,
       newParam,
-      'Type of parameter changed. ${oldParam.typeName} -> ${newParam.typeName}',
+      'Type of parameter "${oldParam.name}" changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
     );
     return changes;

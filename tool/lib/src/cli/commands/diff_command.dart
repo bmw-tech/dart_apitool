@@ -85,6 +85,10 @@ class DiffCommand extends Command with CommandMixin {
             prefix = 'Method ';
             break;
         }
+      } else if (declaration is FieldDeclaration) {
+        prefix = 'Field ';
+      } else if (declaration is ClassDeclaration) {
+        prefix = 'Class ';
       }
       return prefix + declaration.name;
     }
