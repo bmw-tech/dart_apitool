@@ -16,15 +16,14 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
-      ExecutableElement executableElement,
-      [String? nameOverride])
+      ExecutableElement executableElement)
       : this._(
             parentClassId: InternalDeclarationUtils.getIdFromElement(
-                executableElement.enclosingElement2),
+                executableElement.enclosingElement3),
             executableDeclaration: ExecutableDeclaration(
               returnTypeName: executableElement.returnType
                   .getDisplayString(withNullability: true),
-              name: nameOverride ?? executableElement.name,
+              name: executableElement.displayName,
               isDeprecated: executableElement.hasDeprecated,
               parameters: _computeParameterList(executableElement.parameters),
               typeParameterNames:

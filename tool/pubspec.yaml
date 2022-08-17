@@ -18,6 +18,7 @@ dependencies:
   pub_semver: ^2.1.1
   pubspec_parse: ^1.2.0
   stack: ^0.2.1
+  tuple: ^2.0.0
 
 dev_dependencies: 
   build_runner: ^2.2.0

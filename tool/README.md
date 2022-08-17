@@ -5,6 +5,8 @@ This model can be stored and later compared against a new version of the package
 
 ## Limitations
 It doesn't cover all potential API changes that might lead to breaking changes.
+
+### It does not look into implementations
 Imagine a class:
 ```dart
 class MyClass<T> {
@@ -23,5 +25,5 @@ class MyClass<T> {
   }
 }
 ```
-This change is not detected currently. 
+Changes in the implementation are not detected.
 So you have to keep your eyes 👀 open and always remember the public API! 😉
