@@ -40,8 +40,9 @@ class ExtractCommand extends Command with CommandMixin {
         await outFile.delete();
       }
       await outFile.writeAsString(jsonString, mode: FileMode.write);
+      stdout.writeln('Public API of "$packageRef" written to $outFilePath');
     } else {
-      print(jsonString);
+      stdout.writeln(jsonString);
     }
   }
 }

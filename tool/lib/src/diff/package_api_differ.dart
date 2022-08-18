@@ -4,6 +4,7 @@ import 'package:stack/stack.dart';
 import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
+import '../errors/errors.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
@@ -581,13 +582,6 @@ class _ListDiffResult<T> {
   final Map<T, T> matches;
 
   _ListDiffResult(this.remainingOld, this.remainingNew, this.matches);
-}
-
-/// Error that gets thrown when an Error happens during diffing two [PackageApi]s
-class PackageApiDiffError extends Error {
-  final String message;
-
-  PackageApiDiffError({required this.message});
 }
 
 /// Represents one API change

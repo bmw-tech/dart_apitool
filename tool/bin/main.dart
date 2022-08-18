@@ -1,9 +1,26 @@
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
+import 'package:colorize/colorize.dart';
 import 'package:dart_apitool/api_tool_cli.dart';
 
 void main(List<String> arguments) async {
-  CommandRunner('dart run dart_apitool', 'A set of utilities for Package APIs')
-    ..addCommand(DiffCommand())
-    ..addCommand(ExtractCommand())
-    ..run(arguments);
+  final runner =
+      CommandRunner('dart-apitool', 'A set of utilities for Package APIs')
+        ..addCommand(DiffCommand())
+        ..addCommand(ExtractCommand());
+  try {
+    await runner.run(arguments);
+  } catch (e) {
+    bool colorize = true;
+    if (e is UsageException) {
+      colorize = false;
+    }
+    final errorMessage =
+        colorize ? Colorize(e.toString()).red() : Colorize(e.toString());
+    final errorPrefix =
+        colorize ? Colorize('Error:').red().bold() : Colorize('Error:');
+    stderr.writeln('$errorPrefix $errorMessage');
+    exit(1);
+  }
 }

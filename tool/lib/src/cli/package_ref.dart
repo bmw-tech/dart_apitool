@@ -33,4 +33,17 @@ class PackageRef {
     final uri = Uri.parse(ref);
     return uri.path.replaceAll('/', '');
   }
+
+  @override
+  String toString() {
+    var kind = 'Unknown';
+    if (isDirectoryPath) {
+      kind = 'Directory';
+    } else if (isPackageApiFile) {
+      kind = 'Extracted Package API';
+    } else if (isPubRef) {
+      kind = 'Pub ref';
+    }
+    return '$ref ($kind)';
+  }
 }

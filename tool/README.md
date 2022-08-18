@@ -1,7 +1,21 @@
 # Dart API Tool
 
-Create a model of the public API of a given package.
+A tool to analyze the public API of a package and create a model of it.
 This model can be stored and later compared against a new version of the package to get the needed semantic version jump.
+
+##Installation
+
+To install activate the tool via dart pub:
+```bash
+dart pub global activate dart_apitool
+```
+
+##Usage
+
+After activation the tool is usable via
+```bash
+dart-apitool
+```
 
 ## Limitations
 It doesn't cover all potential API changes that might lead to breaking changes.

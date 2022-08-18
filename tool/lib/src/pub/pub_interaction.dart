@@ -2,18 +2,14 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
+import '../errors/run_dart_error.dart';
 
 /// helper class for interactions with pub
 abstract class PubInteraction {
   /// installs a package to the pub cache and returns the path to it throws [RunDartError] on failure
   static Future<String> installPackageToCache(
       String packageName, String version) async {
-    try {
-      await _runDart(args: ['pub', 'cache', 'add', packageName, '-v $version']);
-    } on RunDartError catch (error) {
-      stderr.write(error.stdErr);
-      rethrow;
-    }
+    await _runDart(args: ['pub', 'cache', 'add', packageName, '-v $version']);
     return getPackagePathInCache(packageName, version);
   }
 
@@ -58,10 +54,4 @@ abstract class PubInteraction {
   static String _getDartExecutablePath() {
     return path.normalize(path.absolute(Platform.resolvedExecutable));
   }
-}
-
-class RunDartError extends Error {
-  final String stdErr;
-
-  RunDartError(this.stdErr);
 }
