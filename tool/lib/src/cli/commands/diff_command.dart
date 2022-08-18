@@ -1,12 +1,18 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:colorize/colorize.dart';
 import 'package:dart_apitool/api_tool.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../package_ref.dart';
 import 'command_mixin.dart';
 
-class DiffCommand extends Command with CommandMixin {
+String _optionNameOld = 'old';
+String _optionNameNew = 'new';
+String _optionNameCheckVersions = 'check-versions';
+
+class DiffCommand extends Command<int> with CommandMixin {
   @override
   final name = "diff";
   @override
@@ -14,21 +20,29 @@ class DiffCommand extends Command with CommandMixin {
 
   DiffCommand() {
     argParser.addOption(
-      'old',
+      _optionNameOld,
       mandatory: true,
       help: 'Old package reference. $packageRefExplanation',
     );
     argParser.addOption(
-      'new',
+      _optionNameNew,
       mandatory: true,
       help: 'New package reference. $packageRefExplanation',
+    );
+    argParser.addFlag(
+      _optionNameCheckVersions,
+      help:
+          'Determines if the version change matches the actual changes. Influences tool return value',
+      defaultsTo: true,
+      negatable: true,
     );
   }
 
   @override
-  Future run() async {
-    final oldPackageRef = PackageRef(argResults!['old']);
-    final newPackageRef = PackageRef(argResults!['new']);
+  Future<int> run() async {
+    final oldPackageRef = PackageRef(argResults![_optionNameOld]);
+    final newPackageRef = PackageRef(argResults![_optionNameNew]);
+    final checkVersions = argResults![_optionNameCheckVersions] as bool;
 
     await prepare(oldPackageRef);
     await prepare(newPackageRef);
@@ -40,7 +54,7 @@ class DiffCommand extends Command with CommandMixin {
     final diffResult =
         differ.diff(oldApi: oldPackageApi, newApi: newPackageApi);
 
-    // for now just print the diffs
+    // print the diffs
     if (diffResult.hasChanges) {
       final breakingChanges = _printApiChangeNode(diffResult.rootNode, true);
       if (breakingChanges == null) {
@@ -60,6 +74,16 @@ class DiffCommand extends Command with CommandMixin {
     } else {
       stdout.writeln('No changes detected!');
     }
+
+    if (checkVersions &&
+        !_versionChangeMatchesChanges(
+            diffResult: diffResult,
+            oldPackageApi: oldPackageApi,
+            newPackageApi: newPackageApi)) {
+      return -1;
+    }
+
+    return 0;
   }
 
   String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking,
@@ -123,5 +147,54 @@ class DiffCommand extends Command with CommandMixin {
       }
     }
     return currentOutput.isEmpty ? null : currentOutput.toString();
+  }
+
+  bool _versionChangeMatchesChanges({
+    required PackageApiDifResult diffResult,
+    required PackageApi oldPackageApi,
+    required PackageApi newPackageApi,
+  }) {
+    stdout.writeln('');
+    stdout.writeln('Checking Package version');
+    stdout.writeln('');
+    if (oldPackageApi.packageVersion == null) {
+      throw PackageApiDiffError(
+          message: 'Old package doesn\'t contain a version]');
+    }
+    if (newPackageApi.packageVersion == null) {
+      throw PackageApiDiffError(
+          message: 'New package doesn\'t contain a version]');
+    }
+    final oldVersion = Version.parse(oldPackageApi.packageVersion!);
+    final newVersion = Version.parse(newPackageApi.packageVersion!);
+
+    bool containsAnyChanges = diffResult.hasChanges;
+    bool containsBreakingChanges =
+        diffResult.apiChanges.any((change) => change.type.isBreaking);
+
+    Version expectedMinVersion = oldVersion.nextPatch;
+    String versionExplanation = 'no changes';
+    if (containsBreakingChanges) {
+      expectedMinVersion = oldVersion.nextBreaking;
+      versionExplanation = 'breaking changes';
+    } else if (containsAnyChanges) {
+      expectedMinVersion = oldVersion.nextMinor;
+      versionExplanation = 'non-breaking changes';
+    }
+
+    stdout.writeln('Old version: "$oldVersion"');
+    stdout.writeln(
+        'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
+    if (newVersion <= expectedMinVersion) {
+      stdout.writeln(Colorize('New Version is too low!').red());
+      stdout.writeln(
+          'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}"');
+      return false;
+    } else {
+      stdout.writeln(Colorize('New version is OK!').green());
+      stdout.writeln(
+          'Got "${Colorize(newVersion.toString()).bold()}" which is >= "${Colorize(expectedMinVersion.toString()).bold()}"');
+      return true;
+    }
   }
 }

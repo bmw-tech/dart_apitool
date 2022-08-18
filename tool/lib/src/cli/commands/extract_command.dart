@@ -6,7 +6,7 @@ import 'package:dart_apitool/src/storage/storage.dart';
 import '../package_ref.dart';
 import 'command_mixin.dart';
 
-class ExtractCommand extends Command with CommandMixin {
+class ExtractCommand extends Command<int> with CommandMixin {
   @override
   String get description => 'Extracts the API from the given package ref.';
 
@@ -26,7 +26,7 @@ class ExtractCommand extends Command with CommandMixin {
   }
 
   @override
-  Future run() async {
+  Future<int> run() async {
     final packageRef = PackageRef(argResults!['input']);
 
     await prepare(packageRef);
@@ -44,5 +44,6 @@ class ExtractCommand extends Command with CommandMixin {
     } else {
       stdout.writeln(jsonString);
     }
+    return 0;
   }
 }
