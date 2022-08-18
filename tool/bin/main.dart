@@ -6,11 +6,12 @@ import 'package:dart_apitool/api_tool_cli.dart';
 
 void main(List<String> arguments) async {
   final runner =
-      CommandRunner('dart-apitool', 'A set of utilities for Package APIs')
+      CommandRunner<int>('dart-apitool', 'A set of utilities for Package APIs')
         ..addCommand(DiffCommand())
         ..addCommand(ExtractCommand());
   try {
-    await runner.run(arguments);
+    final exitCode = await runner.run(arguments);
+    exit(exitCode!);
   } catch (e) {
     bool colorize = true;
     if (e is UsageException) {
