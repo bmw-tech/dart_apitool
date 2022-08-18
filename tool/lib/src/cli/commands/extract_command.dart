@@ -8,7 +8,7 @@ import 'command_mixin.dart';
 
 class ExtractCommand extends Command with CommandMixin {
   @override
-  String get description => 'Extracts the API from the given Package ref.';
+  String get description => 'Extracts the API from the given package ref.';
 
   @override
   String get name => 'extract';
