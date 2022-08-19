@@ -11,7 +11,7 @@ void main(List<String> arguments) async {
         ..addCommand(ExtractCommand());
   try {
     final exitCode = await runner.run(arguments);
-    exit(exitCode!);
+    exit(exitCode ?? -1);
   } catch (e) {
     bool colorize = true;
     if (e is UsageException) {
