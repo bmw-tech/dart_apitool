@@ -48,7 +48,7 @@ jobs:
     needs: check_label
     strategy:
       matrix:
-        platform: [sh_devmil_mac] # , ubuntu-latest
+        platform: [sh_devmil_mac, sh_devmil_win] # , ubuntu-latest
     runs-on: ${{ matrix.platform }}
     
     steps:
