@@ -100,11 +100,17 @@ class MyClass<T> {
 ```
 Changes in the implementation are not detected.
 
-### It has no idea what a plugin, Swift or Kotlin is
+### It has no idea what a Plugin, Swift or Kotlin is
 Any changes on platform-specific level are not detected.
-Changing the minSdkVersion? 
-Updating your Podspec with breaking changes? 
-dart-apitool won't care! 🤷
 
+🪛 Changing the minSdkVersion?
 
-So you have to keep your eyes 👀 open and always remember the public API! 😉
+🪓 Updating your Podspec with breaking changes? 
+
+`dart-apitool` won't care! 🤷
+
+### Verdict
+
+You have to keep your eyes 👀 open and always remember the public API! 
+
+`dart-apitool` can help you find problematic changes on Dart API level, but it can't detect everything. 😉
