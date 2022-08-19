@@ -32,8 +32,12 @@ abstract class PubInteraction {
   static String getPackagePathInCache(String packageName, String version) {
     String? cacheDir = Platform.environment['PUB_CACHE'];
     if (cacheDir == null) {
-      final homeDir = Platform.environment['HOME']; //TODO: Windows
-      cacheDir = path.join(homeDir!, '.pub-cache');
+      if (Platform.isWindows) {
+        cacheDir =
+            path.join(Platform.environment['LOCALAPPDATA']!, 'Pub', 'Cache');
+      } else {
+        cacheDir = path.join(Platform.environment['HOME']!, '.pub-cache');
+      }
     }
     final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
     final envHosted =
