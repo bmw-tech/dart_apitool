@@ -21,7 +21,10 @@ class ExtractCommand extends Command<int> with CommandMixin {
     );
     argParser.addOption(
       'output',
-      help: 'Output file for the extracted Package API',
+      help: '''
+Output file for the extracted Package API.
+If not specified the extracted API will be printed to the console.
+''',
     );
   }
 

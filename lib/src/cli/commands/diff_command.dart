@@ -31,8 +31,10 @@ class DiffCommand extends Command<int> with CommandMixin {
     );
     argParser.addFlag(
       _optionNameCheckVersions,
-      help:
-          'Determines if the version change matches the actual changes. Influences tool return value',
+      help: '''
+Determines if the version change matches the actual changes. 
+Influences tool return value.
+''',
       defaultsTo: true,
       negatable: true,
     );
