@@ -65,10 +65,10 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
 
       - name: Install dependencies
-        run: cd dart pub get
+        run: dart pub get
 
       - name: Run tests
-        run: cd dart test 
+        run: dart test 
 
   pana:
     needs: check_label
