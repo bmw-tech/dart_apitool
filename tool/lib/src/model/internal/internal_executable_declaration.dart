@@ -29,6 +29,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               typeParameterNames:
                   _computeTypeParameters(executableElement.typeParameters),
               type: _computeExecutableType(executableElement),
+              isStatic: executableElement.isStatic,
             ));
 
   /// retrieves the type of executable from the given [executableElement]

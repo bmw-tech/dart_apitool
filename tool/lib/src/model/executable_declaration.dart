@@ -48,6 +48,7 @@ class ExecutableDeclaration
     required List<ExecutableParameterDeclaration> parameters,
     required List<String> typeParameterNames,
     required ExecutableType type,
+    required bool isStatic,
   }) = _ExecutableDeclaration;
 
   /// computes the executable signature.

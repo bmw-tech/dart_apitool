@@ -184,6 +184,14 @@ class PackageApiDiffer {
         'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
       );
+      _comparePropertiesAndAddChange(
+        oldExecutable.isStatic,
+        newExecutable.isStatic,
+        context,
+        newExecutable,
+        'Static specifier changed. ${oldExecutable.isStatic} -> ${newExecutable.isStatic}',
+        changes,
+      );
 
       return changes;
     });
@@ -506,6 +514,14 @@ class PackageApiDiffer {
         context,
         newField,
         'Type of field changed. ${oldField.typeName} -> ${newField.typeName}',
+        changes,
+      );
+      _comparePropertiesAndAddChange(
+        oldField.typeName,
+        newField.typeName,
+        context,
+        newField,
+        'Static specifier changed. ${oldField.isStatic} -> ${newField.isStatic}',
         changes,
       );
       return changes;

@@ -238,6 +238,7 @@ mixin _$ExecutableDeclaration {
       throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   ExecutableType get type => throw _privateConstructorUsedError;
+  bool get isStatic => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
@@ -255,7 +256,8 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
       bool isDeprecated,
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
-      ExecutableType type});
+      ExecutableType type,
+      bool isStatic});
 }
 
 /// @nodoc
@@ -275,6 +277,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
     Object? parameters = freezed,
     Object? typeParameterNames = freezed,
     Object? type = freezed,
+    Object? isStatic = freezed,
   }) {
     return _then(_value.copyWith(
       returnTypeName: returnTypeName == freezed
@@ -301,6 +304,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ExecutableType,
+      isStatic: isStatic == freezed
+          ? _value.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -318,7 +325,8 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
       bool isDeprecated,
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
-      ExecutableType type});
+      ExecutableType type,
+      bool isStatic});
 }
 
 /// @nodoc
@@ -341,6 +349,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? parameters = freezed,
     Object? typeParameterNames = freezed,
     Object? type = freezed,
+    Object? isStatic = freezed,
   }) {
     return _then(_$_ExecutableDeclaration(
       returnTypeName: returnTypeName == freezed
@@ -367,6 +376,10 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ExecutableType,
+      isStatic: isStatic == freezed
+          ? _value.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -380,7 +393,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       required this.isDeprecated,
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
-      required this.type})
+      required this.type,
+      required this.isStatic})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         super._();
@@ -407,10 +421,12 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
 
   @override
   final ExecutableType type;
+  @override
+  final bool isStatic;
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic)';
   }
 
   @override
@@ -427,7 +443,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
                 .equals(other._parameters, _parameters) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality().equals(other.isStatic, isStatic));
   }
 
   @override
@@ -438,7 +455,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       const DeepCollectionEquality().hash(isDeprecated),
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
-      const DeepCollectionEquality().hash(type));
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(isStatic));
 
   @JsonKey(ignore: true)
   @override
@@ -454,7 +472,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final bool isDeprecated,
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
-      required final ExecutableType type}) = _$_ExecutableDeclaration;
+      required final ExecutableType type,
+      required final bool isStatic}) = _$_ExecutableDeclaration;
   const _ExecutableDeclaration._() : super._();
 
   @override
@@ -469,6 +488,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   List<String> get typeParameterNames;
   @override
   ExecutableType get type;
+  @override
+  bool get isStatic;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>

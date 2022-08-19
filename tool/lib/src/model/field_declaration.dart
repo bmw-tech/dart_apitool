@@ -19,6 +19,7 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     required String typeName,
     required String name,
     required bool isDeprecated,
+    required bool isStatic,
   }) = _FieldDeclaration;
 
   /// helper to compute the signature of a field
