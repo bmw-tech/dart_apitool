@@ -41,6 +41,7 @@ _$_ExecutableDeclarationStorageV1 _$$_ExecutableDeclarationStorageV1FromJson(
           .map((e) => e as String)
           .toList(),
       type: $enumDecode(_$ExecutableTypeStorageV1EnumMap, json['type']),
+      isStatic: json['isStatic'] as bool,
     );
 
 Map<String, dynamic> _$$_ExecutableDeclarationStorageV1ToJson(
@@ -52,6 +53,7 @@ Map<String, dynamic> _$$_ExecutableDeclarationStorageV1ToJson(
       'parameters': instance.parameters,
       'typeParameterNames': instance.typeParameterNames,
       'type': _$ExecutableTypeStorageV1EnumMap[instance.type]!,
+      'isStatic': instance.isStatic,
     };
 
 const _$ExecutableTypeStorageV1EnumMap = {

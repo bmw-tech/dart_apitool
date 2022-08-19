@@ -14,6 +14,7 @@ class FieldDeclarationStorageV1 with _$FieldDeclarationStorageV1 {
     required String typeName,
     required String name,
     required bool isDeprecated,
+    required bool isStatic,
   }) = _FieldDeclarationStorageV1;
 
   factory FieldDeclarationStorageV1.fromJson(Map<String, Object?> json) =>
@@ -24,6 +25,7 @@ class FieldDeclarationStorageV1 with _$FieldDeclarationStorageV1 {
       typeName: typeName,
       name: name,
       isDeprecated: isDeprecated,
+      isStatic: isStatic,
     );
   }
 
@@ -33,6 +35,7 @@ class FieldDeclarationStorageV1 with _$FieldDeclarationStorageV1 {
       typeName: fieldDeclaration.typeName,
       name: fieldDeclaration.name,
       isDeprecated: fieldDeclaration.isDeprecated,
+      isStatic: fieldDeclaration.isStatic,
     );
   }
 }

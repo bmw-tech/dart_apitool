@@ -473,6 +473,34 @@ void main() {
       expect(typeChange.type, ApiChangeType.changeBreaking);
     });
   });
+  group('Static flag change handling', () {
+    test('Field static flag change detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldA,
+        newApi: packageFieldAStaticChangedApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final typeChange = diffResult.apiChanges.first;
+      expect(typeChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(typeChange.changeDescription, contains('Static'));
+      expect(typeChange.contextTrace.first, isA<FieldDeclaration>());
+      expect(typeChange.type, ApiChangeType.changeBreaking);
+    });
+    test('Executable static flag change detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageExecutable1StaticChangedApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final typeChange = diffResult.apiChanges.first;
+      expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(typeChange.changeDescription, contains('Static'));
+      expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
+      expect(typeChange.type, ApiChangeType.changeBreaking);
+    });
+  });
   group('Executable parameter changes', () {
     test('New, optional, positional parameter added', () {
       final differ = PackageApiDiffer();

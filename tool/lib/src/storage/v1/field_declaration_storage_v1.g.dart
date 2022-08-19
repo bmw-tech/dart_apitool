@@ -12,6 +12,7 @@ _$_FieldDeclarationStorageV1 _$$_FieldDeclarationStorageV1FromJson(
       typeName: json['typeName'] as String,
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
+      isStatic: json['isStatic'] as bool,
     );
 
 Map<String, dynamic> _$$_FieldDeclarationStorageV1ToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_FieldDeclarationStorageV1ToJson(
       'typeName': instance.typeName,
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
+      'isStatic': instance.isStatic,
     };

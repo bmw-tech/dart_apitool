@@ -7,12 +7,14 @@ final simpleClassA = ClassDeclaration(
   superTypeNames: const [],
   executableDeclarations: const [
     ExecutableDeclaration(
-        returnTypeName: 'ClassA',
-        name: 'ClassA',
-        isDeprecated: false,
-        parameters: [],
-        typeParameterNames: [],
-        type: ExecutableType.constructor),
+      returnTypeName: 'ClassA',
+      name: 'ClassA',
+      isDeprecated: false,
+      parameters: [],
+      typeParameterNames: [],
+      type: ExecutableType.constructor,
+      isStatic: false,
+    ),
   ],
   fieldDeclarations: const [],
 );
@@ -23,12 +25,14 @@ final simpleClassB = ClassDeclaration(
   superTypeNames: const [],
   executableDeclarations: const [
     ExecutableDeclaration(
-        returnTypeName: 'ClassB',
-        name: 'ClassB',
-        isDeprecated: false,
-        parameters: [],
-        typeParameterNames: [],
-        type: ExecutableType.constructor),
+      returnTypeName: 'ClassB',
+      name: 'ClassB',
+      isDeprecated: false,
+      parameters: [],
+      typeParameterNames: [],
+      type: ExecutableType.constructor,
+      isStatic: false,
+    ),
   ],
   fieldDeclarations: const [],
 );
@@ -85,6 +89,7 @@ final simpleExecutable1 = ExecutableDeclaration(
         isDeprecated: false,
         typeName: 'String'),
   ],
+  isStatic: false,
   typeParameterNames: const [],
   type: ExecutableType.method,
 );
@@ -96,6 +101,7 @@ final simpleExecutable2 = ExecutableDeclaration(
   parameters: const [],
   typeParameterNames: const [],
   type: ExecutableType.method,
+  isStatic: false,
 );
 
 final packageExecutable1Api = PackageApi(
@@ -123,6 +129,11 @@ final packageExecutable1WithTypeParameterRApi = packageExecutable1Api.copyWith(
 final packageExecutable1ReturnTypeChangedApi = packageExecutable1Api.copyWith(
   executableDeclarations: packageExecutable1Api.executableDeclarations
       .map((exd) => exd.copyWith(returnTypeName: 'NewType'))
+      .toList(),
+);
+final packageExecutable1StaticChangedApi = packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations
+      .map((exd) => exd.copyWith(isStatic: true))
       .toList(),
 );
 final packageExecutable1ParameterTypeChangedApi =
@@ -241,11 +252,13 @@ final simpleFieldDeclarationA = FieldDeclaration(
   typeName: 'String',
   name: 'fieldA',
   isDeprecated: false,
+  isStatic: false,
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
   name: 'fieldB',
   isDeprecated: false,
+  isStatic: false,
 );
 
 final packageFieldA = PackageApi(
@@ -263,6 +276,11 @@ final packageFieldA = PackageApi(
 final packageFieldATypeChangedApi = packageFieldA.copyWith(
   fieldDeclarations: packageFieldA.fieldDeclarations
       .map((fd) => fd.copyWith(typeName: 'NewType'))
+      .toList(),
+);
+final packageFieldAStaticChangedApi = packageFieldA.copyWith(
+  fieldDeclarations: packageFieldA.fieldDeclarations
+      .map((fd) => fd.copyWith(isStatic: true))
       .toList(),
 );
 // END Package FieldA variations

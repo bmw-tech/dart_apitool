@@ -19,6 +19,7 @@ mixin _$FieldDeclaration {
   String get typeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isStatic => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $FieldDeclarationCopyWith<$Res> {
   factory $FieldDeclarationCopyWith(
           FieldDeclaration value, $Res Function(FieldDeclaration) then) =
       _$FieldDeclarationCopyWithImpl<$Res>;
-  $Res call({String typeName, String name, bool isDeprecated});
+  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$FieldDeclarationCopyWithImpl<$Res>
     Object? typeName = freezed,
     Object? name = freezed,
     Object? isDeprecated = freezed,
+    Object? isStatic = freezed,
   }) {
     return _then(_value.copyWith(
       typeName: typeName == freezed
@@ -61,6 +63,10 @@ class _$FieldDeclarationCopyWithImpl<$Res>
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isStatic: isStatic == freezed
+          ? _value.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -72,7 +78,7 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
           _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
       __$$_FieldDeclarationCopyWithImpl<$Res>;
   @override
-  $Res call({String typeName, String name, bool isDeprecated});
+  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? typeName = freezed,
     Object? name = freezed,
     Object? isDeprecated = freezed,
+    Object? isStatic = freezed,
   }) {
     return _then(_$_FieldDeclaration(
       typeName: typeName == freezed
@@ -105,6 +112,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isStatic: isStatic == freezed
+          ? _value.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -113,7 +124,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
 
 class _$_FieldDeclaration extends _FieldDeclaration {
   const _$_FieldDeclaration(
-      {required this.typeName, required this.name, required this.isDeprecated})
+      {required this.typeName,
+      required this.name,
+      required this.isDeprecated,
+      required this.isStatic})
       : super._();
 
   @override
@@ -122,10 +136,12 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   final String name;
   @override
   final bool isDeprecated;
+  @override
+  final bool isStatic;
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated)';
+    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic)';
   }
 
   @override
@@ -136,7 +152,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
             const DeepCollectionEquality().equals(other.typeName, typeName) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated));
+                .equals(other.isDeprecated, isDeprecated) &&
+            const DeepCollectionEquality().equals(other.isStatic, isStatic));
   }
 
   @override
@@ -144,7 +161,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       runtimeType,
       const DeepCollectionEquality().hash(typeName),
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated));
+      const DeepCollectionEquality().hash(isDeprecated),
+      const DeepCollectionEquality().hash(isStatic));
 
   @JsonKey(ignore: true)
   @override
@@ -157,7 +175,8 @@ abstract class _FieldDeclaration extends FieldDeclaration
   const factory _FieldDeclaration(
       {required final String typeName,
       required final String name,
-      required final bool isDeprecated}) = _$_FieldDeclaration;
+      required final bool isDeprecated,
+      required final bool isStatic}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
 
   @override
@@ -166,6 +185,8 @@ abstract class _FieldDeclaration extends FieldDeclaration
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isStatic;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>

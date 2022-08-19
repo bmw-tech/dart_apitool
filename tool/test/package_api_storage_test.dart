@@ -32,6 +32,7 @@ void main() {
       expect(classExecutableDeclaration['returnTypeName'], 'String');
       expect(classExecutableDeclaration['name'], 'getString');
       expect(classExecutableDeclaration['isDeprecated'], false);
+      expect(classExecutableDeclaration['isStatic'], false);
       expect(classExecutableDeclaration['typeParameterNames'], ['T']);
       expect(classExecutableDeclaration['type'], 'method');
       final executableParameterDeclarations =
@@ -61,6 +62,7 @@ void main() {
       expect(classFieldDeclaration['typeName'], 'bool');
       expect(classFieldDeclaration['name'], 'printDebug');
       expect(classFieldDeclaration['isDeprecated'], false);
+      expect(classFieldDeclaration['isStatic'], false);
     });
     test('Storage v1 gets imported correctly', () {
       final loadedPackageApi =
@@ -92,6 +94,7 @@ final testPackageApi = PackageApi(
             returnTypeName: 'String',
             name: 'getString',
             isDeprecated: false,
+            isStatic: false,
             parameters: [
               ExecutableParameterDeclaration(
                 isRequired: true,
@@ -113,7 +116,11 @@ final testPackageApi = PackageApi(
       ],
       fieldDeclarations: [
         FieldDeclaration(
-            typeName: 'bool', name: 'printDebug', isDeprecated: false),
+          typeName: 'bool',
+          name: 'printDebug',
+          isDeprecated: false,
+          isStatic: false,
+        ),
       ],
     )
   ],
@@ -143,6 +150,7 @@ final package1JsonString = '''
                         "returnTypeName": "String",
                         "name": "getString",
                         "isDeprecated": false,
+                        "isStatic": false,
                         "parameters": [
                             {
                                 "isRequired": true,
@@ -169,7 +177,8 @@ final package1JsonString = '''
                     {
                         "typeName": "bool",
                         "name": "printDebug",
-                        "isDeprecated": false
+                        "isDeprecated": false,
+                        "isStatic": false
                     }
                 ]
             }
