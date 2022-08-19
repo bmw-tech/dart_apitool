@@ -148,6 +148,7 @@ final package1JsonString = '''
                         "returnTypeName": "String",
                         "name": "getString",
                         "isDeprecated": false,
+                        "isStatic": false,
                         "parameters": [
                             {
                                 "isRequired": true,
@@ -174,7 +175,8 @@ final package1JsonString = '''
                     {
                         "typeName": "bool",
                         "name": "printDebug",
-                        "isDeprecated": false
+                        "isDeprecated": false,
+                        "isStatic": false
                     }
                 ]
             }
