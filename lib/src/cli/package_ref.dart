@@ -6,11 +6,19 @@ class PackageRef {
   PackageRef(this.ref);
 
   bool get isPackageApiFile {
-    return File(ref).existsSync();
+    try {
+      return File(ref).existsSync();
+    } catch (_) {
+      return false;
+    }
   }
 
   bool get isDirectoryPath {
-    return Directory(ref).existsSync();
+    try {
+      return Directory(ref).existsSync();
+    } catch (_) {
+      return false;
+    }
   }
 
   bool get isPubRef {
