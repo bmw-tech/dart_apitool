@@ -1,22 +1,18 @@
-import 'dart:io';
 import 'package:dart_apitool/api_tool.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 void main() {
-  final packageDirectory = path.join(Directory.current.absolute.path, '..',
-      'sample_packages', 'from_pub', 'device_info_plus_platform_interface');
   group('device_info_plus_platform_interface gets analyzed correctly', () {
     late PackageApi packageApi;
     setUpAll(() async {
-      // execute flutter pub get
-      final result = await Process.run(
-        'flutter',
-        ['pub', 'get'],
-        workingDirectory: packageDirectory,
-        runInShell: true,
+      final packageName = 'device_info_plus_platform_interface';
+      final packageVersion = '2.4.0';
+      //download from pub
+      final packageDirectory = await PubInteraction.installPackageToCache(
+        packageName,
+        packageVersion,
       );
-      expect(result.exitCode, 0, reason: result.stderr);
+
       final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
       packageApi = await analyzer.analyze();
     });
