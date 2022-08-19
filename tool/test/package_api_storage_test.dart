@@ -92,6 +92,7 @@ final testPackageApi = PackageApi(
             returnTypeName: 'String',
             name: 'getString',
             isDeprecated: false,
+            isStatic: false,
             parameters: [
               ExecutableParameterDeclaration(
                 isRequired: true,
@@ -113,7 +114,11 @@ final testPackageApi = PackageApi(
       ],
       fieldDeclarations: [
         FieldDeclaration(
-            typeName: 'bool', name: 'printDebug', isDeprecated: false),
+          typeName: 'bool',
+          name: 'printDebug',
+          isDeprecated: false,
+          isStatic: false,
+        ),
       ],
     )
   ],
