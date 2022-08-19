@@ -131,6 +131,11 @@ final packageExecutable1ReturnTypeChangedApi = packageExecutable1Api.copyWith(
       .map((exd) => exd.copyWith(returnTypeName: 'NewType'))
       .toList(),
 );
+final packageExecutable1StaticChangedApi = packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations
+      .map((exd) => exd.copyWith(isStatic: true))
+      .toList(),
+);
 final packageExecutable1ParameterTypeChangedApi =
     packageExecutable1Api.copyWith(
   executableDeclarations: packageExecutable1Api.executableDeclarations.map(
@@ -271,6 +276,11 @@ final packageFieldA = PackageApi(
 final packageFieldATypeChangedApi = packageFieldA.copyWith(
   fieldDeclarations: packageFieldA.fieldDeclarations
       .map((fd) => fd.copyWith(typeName: 'NewType'))
+      .toList(),
+);
+final packageFieldAStaticChangedApi = packageFieldA.copyWith(
+  fieldDeclarations: packageFieldA.fieldDeclarations
+      .map((fd) => fd.copyWith(isStatic: true))
       .toList(),
 );
 // END Package FieldA variations
