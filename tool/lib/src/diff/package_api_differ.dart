@@ -517,8 +517,8 @@ class PackageApiDiffer {
         changes,
       );
       _comparePropertiesAndAddChange(
-        oldField.typeName,
-        newField.typeName,
+        oldField.isStatic,
+        newField.isStatic,
         context,
         newField,
         'Static specifier changed. ${oldField.isStatic} -> ${newField.isStatic}',
