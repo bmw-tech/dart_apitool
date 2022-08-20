@@ -15,14 +15,34 @@ Package reference can be one of:
   (e.g. pub://package_name/version)
 ''';
 
+  Future _runPubGet(String directory) async {
+    final runResult = await Process.run(
+      Platform.resolvedExecutable,
+      [
+        'pub',
+        'get',
+      ],
+      workingDirectory: directory,
+    );
+    if (runResult.exitCode != 0) {
+      throw RunDartError(
+          'Error running dart pub get in $directory:\n${runResult.stderr}');
+    }
+  }
+
   Future prepare(PackageRef ref) async {
-    if (ref.isPackageApiFile || ref.isDirectoryPath) {
+    if (ref.isPackageApiFile) {
+      return;
+    }
+    if (ref.isDirectoryPath) {
+      _runPubGet(ref.ref);
       return;
     }
     if (ref.isPubRef) {
       stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
-      await PubInteraction.installPackageToCache(
+      final packageDir = await PubInteraction.installPackageToCache(
           ref.pubPackage!, ref.pubVersion!);
+      _runPubGet(packageDir);
       return;
     }
     throw ArgumentError('Unknown package ref: ${ref.ref}');
