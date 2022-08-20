@@ -64,7 +64,7 @@ jobs:
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
     with:
       runs_on: sh_devmil_mac
-      old: ${{ needs.get-latest-version.outputs.lastVersion }}
+      old: "pub://dart_apitool/${{ needs.get-latest-version.outputs.lastVersion }}"
       new: "."
 
   test:
