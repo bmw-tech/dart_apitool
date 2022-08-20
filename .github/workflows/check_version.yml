@@ -34,7 +34,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: '${{ inputs.flutter_channel }}''
+          channel: '${{ inputs.flutter_channel }}'
           cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter_channel }}'
 
       - name: Install dart-apitool
