@@ -65,6 +65,7 @@ jobs:
     with:
       runs_on: sh_devmil_mac
       old: ${{ needs.get-latest-version.lastVersion }}
+      new: "."
 
   test:
     needs: check_label
