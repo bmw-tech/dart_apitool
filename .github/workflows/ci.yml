@@ -44,6 +44,29 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
+  get-latest-version:
+    needs: check_label
+    runs-on: sh_devmil_mac
+
+    outputs:
+      lastVersion: ${{ steps.step1.outputs.lastVersion }}
+
+    steps:
+      - id: step1
+        name: Get latest version
+        run: |
+          LAST_VERSION=$(cat last_version.txt)
+          echo "::set-output name=lastVersion::${LAST_VERSION}"
+#          echo "{LAST_VERSION}=${LAST_VERSION}" >> $GITHUB_ENV
+
+  semver:
+    needs: [analysis, get-latest-version]
+    uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
+    with:
+      runs_on: sh_devmil_mac
+      old: "pub://dart_apitool/${{ needs.get-latest-version.outputs.lastVersion }}"
+      new: "."
+
   test:
     needs: check_label
     strategy:

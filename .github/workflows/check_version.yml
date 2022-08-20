@@ -7,7 +7,6 @@ on:
         type: string
         description: 'The old package ref to compare to'
       new:
-        required: true
         type: string
         description: 'The new package ref that gets compared'
         default: "."
