@@ -109,7 +109,7 @@ Package reference can be one of:
     final analyzer = PackageApiAnalyzer(packagePath: tempPath ?? path);
     final apiResult = await analyzer.analyze();
     if (tempPath != null) {
-      await Directory(tempPath).delete();
+      await Directory(tempPath).delete(recursive: true);
     }
     return apiResult;
   }
