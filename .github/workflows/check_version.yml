@@ -1,0 +1,44 @@
+name: Check Version Workflow (dart-apitool)
+on:
+  workflow_call:
+    inputs:
+      old:
+        required: true
+        type: string
+        description: 'The old package ref to compare to'
+      new:
+        required: true
+        type: string
+        description: 'The new package ref that gets compared'
+        default: "."
+      runs_on:
+        required: false
+        type: string
+        default: "ubuntu-latest"
+      flutter_channel:
+        required: false
+        type: string
+        default: "stable"
+      dart_apitool_version:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ${{ inputs.runs_on }}
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: '${{ inputs.flutter_channel }}''
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter_channel }}'
+
+      - name: Install dart-apitool
+        run: flutter pub global activate dart_apitool ${{inputs.dart_apitool_version}}
+
+      - name: check version
+        run: dart-apitool diff --old ${{ inputs.old }} --new ${{ inputs.new }}
