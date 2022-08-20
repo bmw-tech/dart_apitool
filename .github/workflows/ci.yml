@@ -44,6 +44,9 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
+      - name: Analyze Semver
+        uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
+
   test:
     needs: check_label
     strategy:
