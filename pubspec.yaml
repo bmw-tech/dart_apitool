@@ -2,7 +2,6 @@ name: dart_apitool
 description: A tool for Dart APIs. It allows to create a model of the public API of a given package as well as comparing two different models and provide the needed version jump.
 homepage: https://devmil.de
 repository: https://github.com/devmil/dart_apitool
-publish_to: 'none'
 
 version: 0.0.1-dev.1
 
