@@ -46,11 +46,11 @@ Influences tool return value.
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
 
-    await prepare(oldPackageRef);
-    await prepare(newPackageRef);
+    final oldTempPath = await prepare(oldPackageRef);
+    final newTempPath = await prepare(newPackageRef);
 
-    final oldPackageApi = await analyze(oldPackageRef);
-    final newPackageApi = await analyze(newPackageRef);
+    final oldPackageApi = await analyze(oldPackageRef, oldTempPath);
+    final newPackageApi = await analyze(newPackageRef, newTempPath);
 
     final differ = PackageApiDiffer();
     final diffResult =

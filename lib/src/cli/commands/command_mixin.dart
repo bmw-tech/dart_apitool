@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_apitool/api_tool.dart';
+import 'package:path/path.dart' as p;
 
 import '../package_ref.dart';
 
@@ -30,25 +31,64 @@ Package reference can be one of:
     }
   }
 
-  Future prepare(PackageRef ref) async {
-    if (ref.isPackageApiFile) {
+  bool _doNothing(String from, String to) {
+    if (p.canonicalize(from) == p.canonicalize(to)) {
+      return true;
+    }
+    if (p.isWithin(from, to)) {
+      throw ArgumentError('Cannot copy from $from to $to');
+    }
+    return false;
+  }
+
+  Future<void> _copyPath(String from, String to) async {
+    if (_doNothing(from, to)) {
       return;
     }
+    if (await Directory(to).exists()) {
+      await Directory(to).delete();
+    }
+    await Directory(to).create(recursive: true);
+    await for (final file in Directory(from).list(recursive: true)) {
+      final copyTo = p.join(to, p.relative(file.path, from: from));
+      if (file is Directory) {
+        await Directory(copyTo).create(recursive: true);
+      } else if (file is File) {
+        await File(file.path).copy(copyTo);
+      } else if (file is Link) {
+        await Link(copyTo).create(await file.target(), recursive: true);
+      }
+    }
+  }
+
+  /// prepares given [ref] and retuns a temporary path when it had to copy the package to
+  /// a temporary path. Once you are finished it is up to you to clean up!
+  Future<String?> prepare(PackageRef ref) async {
+    if (ref.isPackageApiFile) {
+      return null;
+    }
     if (ref.isDirectoryPath) {
-      _runPubGet(ref.ref);
-      return;
+      await _runPubGet(ref.ref);
+      return null;
     }
     if (ref.isPubRef) {
       stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
-      final packageDir = await PubInteraction.installPackageToCache(
+      final cachePath = await PubInteraction.installPackageToCache(
           ref.pubPackage!, ref.pubVersion!);
-      _runPubGet(packageDir);
-      return;
+      //Workaround. It seems that the analyzer has problems with no pub get run and it is not possible to run pub get in the cache directory
+      final tempDir = await Directory.systemTemp.createTemp();
+      await _copyPath(cachePath, tempDir.path);
+      await _runPubGet(tempDir.path);
+      return tempDir.path;
     }
     throw ArgumentError('Unknown package ref: ${ref.ref}');
   }
 
-  Future<PackageApi> analyze(PackageRef ref) async {
+  /// Analyzes the given Package [ref].
+  /// If [tempPath] is set then this path is analyzed instead of the information from [ref]
+  /// and the temporary directory gets deleted afterwards.
+  /// [tempPath] is the result of a [prepare] call which created the temporary directory
+  Future<PackageApi> analyze(PackageRef ref, String? tempPath) async {
     if (ref.isPackageApiFile) {
       stdout.writeln('Reading $ref');
       final fileContent = await File(ref.ref).readAsString();
@@ -66,7 +106,11 @@ Package reference can be one of:
       throw ArgumentError('Don\'t know how to handle ${ref.ref}');
     }
     stdout.writeln('Analyzing $path');
-    final analyzer = PackageApiAnalyzer(packagePath: path);
-    return await analyzer.analyze();
+    final analyzer = PackageApiAnalyzer(packagePath: tempPath ?? path);
+    final apiResult = await analyzer.analyze();
+    if (tempPath != null) {
+      await Directory(tempPath).delete();
+    }
+    return apiResult;
   }
 }

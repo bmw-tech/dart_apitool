@@ -23,3 +23,4 @@ doc/api/
 .idea
 .DS_Store
 .vscode/launch.json
+.vscode/ltex.dictionary.*.txt
