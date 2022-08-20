@@ -187,6 +187,9 @@ Influences tool return value.
     stdout.writeln('Old version: "$oldVersion"');
     stdout.writeln(
         'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
+    if (newVersion.isPreRelease) {
+      expectedMinVersion.preRelease.add(0);
+    }
     if (newVersion <= expectedMinVersion) {
       stdout.writeln(Colorize('New Version is too low!').red());
       stdout.writeln(
