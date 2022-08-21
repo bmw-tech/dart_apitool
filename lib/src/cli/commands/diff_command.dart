@@ -191,6 +191,7 @@ You may want to do this if you want to make sure
 
     if (ignorePrerelease) {
       // if we want to ignore pre-release then we just remove the prerelease part of the Version
+      stdout.writeln('ignoring prerelease');
       newVersion.preRelease.clear();
     }
 
