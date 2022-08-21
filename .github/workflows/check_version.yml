@@ -10,25 +10,25 @@ on:
         type: string
         description: 'The new package ref that gets compared'
         default: "."
-      runs_on:
+      runs-on:
         required: false
         type: string
         default: "ubuntu-latest"
-      flutter_channel:
+      flutter-channel:
         required: false
         type: string
         default: "stable"
-      flutter_version:
+      flutter-version:
         required: false
         type: string
         default: "any"
-      dart_apitool_version:
+      apitool-version:
         required: false
         type: string
 
 jobs:
   build:
-    runs-on: ${{ inputs.runs_on }}
+    runs-on: ${{ inputs.runs-on }}
 
     steps:
       - name: Git Checkout
@@ -37,12 +37,12 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '${{ inputs.flutter_version }}'
-          channel: '${{ inputs.flutter_channel }}'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter_channel }}-${{ inputs.flutter_version }}'
+          flutter-version: '${{ inputs.flutter-version }}'
+          channel: '${{ inputs.flutter-channel }}'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter-version }}-${{ inputs.flutter-channel }}'
 
       - name: Install dart-apitool
-        run: flutter pub global activate dart_apitool ${{inputs.dart_apitool_version}}
+        run: flutter pub global activate dart_apitool ${{inputs.apitool-version}}
 
       - name: check version
         run: dart-apitool diff --old ${{ inputs.old }} --new ${{ inputs.new }}
