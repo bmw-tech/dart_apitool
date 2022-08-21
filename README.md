@@ -36,7 +36,7 @@ Run "dart-apitool help <command>" for more information about a command.
 
 ### extract
 
-```
+```plain
 Extracts the API from the given package ref.
 
 Usage: dart-apitool extract [arguments]
@@ -54,7 +54,7 @@ Usage: dart-apitool extract [arguments]
 
 ### diff
 
-```
+```plain
 Creates a diff of 2 given packages.
 
 Usage: dart-apitool diff [arguments]
@@ -81,6 +81,49 @@ Usage: dart-apitool diff [arguments]
                                 You may want to do this if you want to make sure
                                 (in your CI) that the version - once ready - matches semver.
 ```
+
+## Integration
+
+How to best integrate `dart-apitool` in your CI and release process highly depends on your setup.
+
+In general, you need to have a reference of what has been released before in order to do a diff to the new sources.
+
+To do that you have several options:
+1. store the last released version next to your source code
+2. store the extracted public API next to your source code
+3. use whatever knowledge your release process has to get a copy of the previously released version
+
+Depending on what you have as a reference you can call `dart-apitool` using the appropriate package ref for the `old` parameter:
+1. pub://<package_name>/<package-version> if you know the last released version and your package is hosted at pub
+2. <path-to-extract.json> to load the stored public API model
+3. <path-to-copy> to get the public API model from the obtained reference copy
+
+### CI
+
+For an example how to integrate `dart-apitool` in your CI (to make sure that the current pre-release version is targeting the right version number) you can refer to the [workflow](.github/workflows/ci.yml#L77) used by this repository.
+`dart-apitool` uses approach 1 (store the last released version next to the source code)
+For your convenience there is a reusable workflow that you can integrate in your workflow.
+```yml
+  semver:
+    uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
+    with:
+      runs-on: <your build node> # defaults to ubuntu-latest
+      old: <package ref to old> # required, e.g. "pub://dart_apitool/<old version>"
+      new: <package ref to new> e.g. # "."
+      ignore-prerelease: <'on' if you want to check against the future version (without pre-release), defaults to 'off'> # e.g. 'on'
+      flutter-channel: <flutter channel to use, defaults to 'stable'> # e.g. 'stable'
+      flutter-version: <flutter version to use, defaults to 'any'> # e.g. 'any'
+```
+
+### Release
+
+Your release process has to make sure that the reference is stored somehow. The easiest way to do that is to store a file containing the last released version next to the source code (`dart-apitool` does that).
+The release process can also use `dart-apitool` to make sure that the new version matches the changes it contains.
+
+## Contributions
+Any kind of contribution is very welcome. 
+Either you have found a false positive or you miss something in the public API model that needs to be analyzed or if you want to contribute directly.
+Feel free to use the [issues](https://github.com/devmil/dart_apitool/issues) to create requests.
 
 ## Limitations
 It doesn't cover all potential API changes that might lead to breaking changes.
