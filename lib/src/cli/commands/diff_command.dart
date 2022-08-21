@@ -174,6 +174,24 @@ Influences tool return value.
     bool containsBreakingChanges =
         diffResult.apiChanges.any((change) => change.type.isBreaking);
 
+    if (oldVersion.isPreRelease) {
+      // pre-release. We don't look at differentiation between breaking and non-breaking changes
+      stdout.writeln(
+          'We got a pre release. We only check if there are any changes');
+      if (containsAnyChanges && oldVersion >= newVersion) {
+        stdout.writeln(
+            'Got "${Colorize(newVersion.toString()).bold()}" expected > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)');
+        return false;
+      }
+      stdout.writeln(Colorize('New version is OK!').green());
+      final explaination = containsAnyChanges
+          ? 'which is > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)'
+          : 'and no changes';
+      stdout.writeln(
+          'Got "${Colorize(newVersion.toString()).bold()}" $explaination');
+      return true;
+    }
+
     Version expectedMinVersion = oldVersion.nextPatch;
     String versionExplanation = 'no changes';
     if (containsBreakingChanges) {
@@ -187,9 +205,6 @@ Influences tool return value.
     stdout.writeln('Old version: "$oldVersion"');
     stdout.writeln(
         'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
-    if (newVersion.isPreRelease) {
-      expectedMinVersion.preRelease.add(0);
-    }
     if (newVersion <= expectedMinVersion) {
       stdout.writeln(Colorize('New Version is too low!').red());
       stdout.writeln(
