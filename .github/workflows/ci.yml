@@ -80,6 +80,7 @@ jobs:
       runs-on: sh_devmil_mac
       old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }}"
       new: "."
+      ignore-prerelease: 'on'
       flutter-channel: 'any'
       flutter-version: ${{ needs.get_flutter_version.outputs.flutter-version }}
 
