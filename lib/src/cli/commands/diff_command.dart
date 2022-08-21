@@ -11,6 +11,7 @@ import 'command_mixin.dart';
 String _optionNameOld = 'old';
 String _optionNameNew = 'new';
 String _optionNameCheckVersions = 'check-versions';
+String _optionNameIgnorePrerelease = 'ignore-prerelease';
 
 class DiffCommand extends Command<int> with CommandMixin {
   @override
@@ -38,6 +39,17 @@ Influences tool return value.
       defaultsTo: true,
       negatable: true,
     );
+    argParser.addFlag(
+      _optionNameIgnorePrerelease,
+      help: '''
+Determines if the pre-release aspect of the version shall be ignored when checking versions. 
+This only makes sense in combination with --$_optionNameCheckVersions.
+You may want to do this if you want to make sure 
+(in your CI) that the version - once ready - matches semver.
+''',
+      defaultsTo: false,
+      negatable: true,
+    );
   }
 
   @override
@@ -45,6 +57,7 @@ Influences tool return value.
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
+    final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
 
     final oldTempPath = await prepare(oldPackageRef);
     final newTempPath = await prepare(newPackageRef);
@@ -81,7 +94,8 @@ Influences tool return value.
         !_versionChangeMatchesChanges(
             diffResult: diffResult,
             oldPackageApi: oldPackageApi,
-            newPackageApi: newPackageApi)) {
+            newPackageApi: newPackageApi,
+            ignorePrerelease: ignorePrerelease)) {
       return -1;
     }
 
@@ -155,6 +169,7 @@ Influences tool return value.
     required PackageApiDifResult diffResult,
     required PackageApi oldPackageApi,
     required PackageApi newPackageApi,
+    required bool ignorePrerelease,
   }) {
     stdout.writeln('');
     stdout.writeln('Checking Package version');
@@ -173,6 +188,11 @@ Influences tool return value.
     bool containsAnyChanges = diffResult.hasChanges;
     bool containsBreakingChanges =
         diffResult.apiChanges.any((change) => change.type.isBreaking);
+
+    if (ignorePrerelease) {
+      // if we want to ignore pre-release then we just remove the prerelease part of the Version
+      newVersion.preRelease.clear();
+    }
 
     if (newVersion.isPreRelease) {
       // pre-release. We don't look at differentiation between breaking and non-breaking changes
