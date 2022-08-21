@@ -16,18 +16,18 @@ fvm dart analyze
 echo "Tests"
 fvm dart test
 echo "Semver"
-if [ -f last_version.txt ]; then
-    LAST_VERSION=$(cat last_version.txt)
+if [ -f last_released_version.txt ]; then
+    LAST_VERSION=$(cat last_released_version.txt)
     echo "Last version: $LAST_VERSION";
     fvm dart bin/main.dart diff --old pub://dart_apitool/$LAST_VERSION --new .
 else
-    echo "no last_version.txt Skipping Semver checks"
+    echo "no last_released_version.txt Skipping Semver checks"
 fi
 
 # publish
 fvm dart pub publish
 current_version=$(grep "version\: " ./pubspec.yaml | sed 's/version\: //g')
-echo $current_version > last_version.txt
+echo $current_version > last_released_version.txt
 
 git add .
 git commit -m"Version $current_version"
