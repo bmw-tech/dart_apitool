@@ -94,9 +94,9 @@ To do that you have several options:
 3. use whatever knowledge your release process has to get a copy of the previously released version
 
 Depending on what you have as a reference you can call `dart-apitool` using the appropriate package ref for the `old` parameter:
-1. pub://<package_name>/<package-version> if you know the last released version and your package is hosted at pub
-2. <path-to-extract.json> to load the stored public API model
-3. <path-to-copy> to get the public API model from the obtained reference copy
+1. pub://[package_name]/[package-version] if you know the last released version and your package is hosted at pub
+2. [path-to-extract.json] to load the stored public API model
+3. [path-to-copy] to get the public API model from the obtained reference copy
 
 ### CI
 
@@ -107,12 +107,12 @@ For your convenience there is a reusable workflow that you can integrate in your
   semver:
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
     with:
-      runs-on: <your build node> # defaults to ubuntu-latest
-      old: <package ref to old> # required, e.g. "pub://dart_apitool/<old version>"
-      new: <package ref to new> e.g. # "."
-      ignore-prerelease: <'on' if you want to check against the future version (without pre-release), defaults to 'off'> # e.g. 'on'
-      flutter-channel: <flutter channel to use, defaults to 'stable'> # e.g. 'stable'
-      flutter-version: <flutter version to use, defaults to 'any'> # e.g. 'any'
+      runs-on: [your build node] # defaults to ubuntu-latest
+      old: [package ref to old] # required, e.g. "pub://dart_apitool/<old version>"
+      new: [package ref to new] e.g. # "."
+      ignore-prerelease: ['on' if you want to check against the future version (without pre-release), defaults to 'off'] # e.g. 'on'
+      flutter-channel: [flutter channel to use, defaults to 'stable'] # e.g. 'stable'
+      flutter-version: [flutter version to use, defaults to 'any'] # e.g. 'any'
 ```
 
 ### Release
