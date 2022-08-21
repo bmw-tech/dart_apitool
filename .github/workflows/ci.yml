@@ -9,7 +9,7 @@ on:
 
 jobs:
   check_label:
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
     steps:
       - uses: mheap/github-action-required-labels@v1
         if: github.ref != 'refs/heads/main'
@@ -20,7 +20,7 @@ jobs:
 
   get_flutter_version:
     needs: check_label
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     outputs:
       flutter-version: ${{ steps.step_extract_version.outputs.flutter-version }}
@@ -39,12 +39,13 @@ jobs:
 
   get_last_released_version:
     needs: check_label
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     outputs:
       last_released_version: ${{ steps.step1.outputs.last_released_version }}
 
     steps:
+      - uses: actions/checkout@v3
       - id: step1
         name: Get latest version
         run: |
@@ -75,11 +76,12 @@ jobs:
 
   semver:
     needs: [analysis, get_last_released_version, get_flutter_version]
-    uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
+    uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
     with:
       runs-on: sh_devmil_mac
       old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }}"
       new: "."
+      ignore-prerelease: 'on'
       flutter-channel: 'any'
       flutter-version: ${{ needs.get_flutter_version.outputs.flutter-version }}
 
@@ -87,7 +89,7 @@ jobs:
     needs: [check_label, get_flutter_version]
     strategy:
       matrix:
-        platform: [sh_devmil_mac, sh_devmil_win] # , ubuntu-latest
+        platform: [sh_devmil_mac, sh_devmil_win, ubuntu-latest] # , ubuntu-latest
     runs-on: ${{ matrix.platform }}
     
     steps:
