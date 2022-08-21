@@ -174,7 +174,7 @@ Influences tool return value.
     bool containsBreakingChanges =
         diffResult.apiChanges.any((change) => change.type.isBreaking);
 
-    if (oldVersion.isPreRelease) {
+    if (newVersion.isPreRelease) {
       // pre-release. We don't look at differentiation between breaking and non-breaking changes
       stdout.writeln(
           'We got a pre release. We only check if there are any changes');
