@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.1.2
-- adds `--ignore-prerelease` to diff command
+- Adds `--ignore-prerelease` to diff command
 
 ## Version 0.1.1
 - Fixes pre-release handling (old version was checked)
