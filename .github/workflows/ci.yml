@@ -18,9 +18,12 @@ jobs:
           count: 0
           labels: "not ready"
 
-  analysis:
+  get_flutter_version:
     needs: check_label
     runs-on: sh_devmil_mac
+
+    outputs:
+      flutter_version: ${{ steps.step_extract_version.outputs.flutter_version }}
 
     steps:
       - uses: actions/checkout@v3
@@ -29,22 +32,12 @@ jobs:
         with:
           path: '.fvm/fvm_config.json'
 
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
+      - id: step_extract_version
+        run: |
+          FLUTTER_VERSION=${{ env.FLUTTER_VERSION }}
+          echo "::set-output name=flutter_version::${FLUTTER_VERSION}"
 
-      - name: Verify formatting
-        run: dart format --set-exit-if-changed .
-
-      - name: Install dependencies
-        run: dart pub get
-
-      - name: Analyze project source
-        run: dart analyze
-
-  get-latest-version:
+  get_latest_version:
     needs: check_label
     runs-on: sh_devmil_mac
 
@@ -59,16 +52,41 @@ jobs:
           echo "::set-output name=lastVersion::${LAST_VERSION}"
 #          echo "{LAST_VERSION}=${LAST_VERSION}" >> $GITHUB_ENV
 
+
+  analysis:
+    needs: [check_label, get_flutter_version]
+    runs-on: sh_devmil_mac
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+          channel: 'any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze project source
+        run: dart analyze
+
   semver:
-    needs: [analysis, get-latest-version]
+    needs: [analysis, get_latest_version, get_flutter_version]
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
     with:
       runs_on: sh_devmil_mac
-      old: "pub://dart_apitool/${{ needs.get-latest-version.outputs.lastVersion }}"
+      old: "pub://dart_apitool/${{ needs.get_latest_version.outputs.lastVersion }}"
       new: "."
+      flutter_channel: 'any'
+      flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
 
   test:
-    needs: check_label
+    needs: [check_label, get_flutter_version]
     strategy:
       matrix:
         platform: [sh_devmil_mac, sh_devmil_win] # , ubuntu-latest
@@ -77,15 +95,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: kuhnroyal/flutter-fvm-config-action@v1
-        with:
-          path: '.fvm/fvm_config.json'
-
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
           channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
 
       - name: Install dependencies
         run: dart pub get
@@ -94,22 +108,17 @@ jobs:
         run: dart test 
 
   pana:
-    needs: check_label
+    needs: [check_label, get_flutter_version]
     runs-on: sh_devmil_mac
 
     steps:
       - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v1.5.3
-
-      - uses: kuhnroyal/flutter-fvm-config-action@v1
-        with:
-          path: '.fvm/fvm_config.json'
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
           channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ env.FLUTTER_VERSION }}'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
 
       - name: Install Dependencies
         run: |
