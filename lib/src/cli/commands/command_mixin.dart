@@ -4,6 +4,7 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:path/path.dart' as p;
 
 import '../package_ref.dart';
+import '../prepared_package_ref.dart';
 
 mixin CommandMixin {
   final packageRefExplanation = '''
@@ -61,15 +62,18 @@ Package reference can be one of:
     }
   }
 
-  /// prepares given [ref] and retuns a temporary path when it had to copy the package to
-  /// a temporary path. Once you are finished it is up to you to clean up!
-  Future<String?> prepare(PackageRef ref) async {
+  /// prepares given [ref]. Depending on the type of ref this can include
+  /// - copying the package to a temporary directory
+  /// - running pub get
+  /// If you use [analyze] with this result then it will take care to clean up
+  /// everything (e.g. removing temp directory)
+  Future<PreparedPackageRef> prepare(PackageRef ref) async {
     if (ref.isPackageApiFile) {
-      return null;
+      return PreparedPackageRef(packageRef: ref);
     }
     if (ref.isDirectoryPath) {
       await _runPubGet(ref.ref);
-      return null;
+      return PreparedPackageRef(packageRef: ref);
     }
     if (ref.isPubRef) {
       stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
@@ -79,37 +83,39 @@ Package reference can be one of:
       final tempDir = await Directory.systemTemp.createTemp();
       await _copyPath(cachePath, tempDir.path);
       await _runPubGet(tempDir.path);
-      return tempDir.path;
+      return PreparedPackageRef(packageRef: ref, tempDirectory: tempDir.path);
     }
     throw ArgumentError('Unknown package ref: ${ref.ref}');
   }
 
-  /// Analyzes the given Package [ref].
-  /// If [tempPath] is set then this path is analyzed instead of the information from [ref]
-  /// and the temporary directory gets deleted afterwards.
-  /// [tempPath] is the result of a [prepare] call which created the temporary directory
-  Future<PackageApi> analyze(PackageRef ref, String? tempPath) async {
-    if (ref.isPackageApiFile) {
-      stdout.writeln('Reading $ref');
-      final fileContent = await File(ref.ref).readAsString();
+  /// Analyzes the given prepared Package [ref].
+  /// If the prepared package contains anything that has to be cleaned up
+  /// (like created temp directories) then [analyze] takes care of that
+  Future<PackageApi> analyze(PreparedPackageRef preparedRef) async {
+    if (preparedRef.packageRef.isPackageApiFile) {
+      stdout.writeln('Reading ${preparedRef.packageRef}');
+      final fileContent = await File(preparedRef.packageRef.ref).readAsString();
       return PackageApiStorage.packageApiFromStorageJson(fileContent);
     }
     String? path;
-    if (ref.isDirectoryPath) {
-      path = ref.ref;
+    if (preparedRef.packageRef.isDirectoryPath) {
+      path = preparedRef.packageRef.ref;
     }
-    if (ref.isPubRef) {
+    if (preparedRef.packageRef.isPubRef) {
       path = PubInteraction.getPackagePathInCache(
-          ref.pubPackage!, ref.pubVersion!);
+          preparedRef.packageRef.pubPackage!,
+          preparedRef.packageRef.pubVersion!);
     }
     if (path == null) {
-      throw ArgumentError('Don\'t know how to handle ${ref.ref}');
+      throw ArgumentError(
+          'Don\'t know how to handle ${preparedRef.packageRef.ref}');
     }
     stdout.writeln('Analyzing $path');
-    final analyzer = PackageApiAnalyzer(packagePath: tempPath ?? path);
+    final analyzer =
+        PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
     final apiResult = await analyzer.analyze();
-    if (tempPath != null) {
-      await Directory(tempPath).delete(recursive: true);
+    if (preparedRef.tempDirectory != null) {
+      await Directory(preparedRef.tempDirectory!).delete(recursive: true);
     }
     return apiResult;
   }

@@ -32,8 +32,8 @@ If not specified the extracted API will be printed to the console.
   Future<int> run() async {
     final packageRef = PackageRef(argResults!['input']);
 
-    final tempPath = await prepare(packageRef);
-    final packageApi = await analyze(packageRef, tempPath);
+    final preparedPackageRef = await prepare(packageRef);
+    final packageApi = await analyze(preparedPackageRef);
     final jsonString =
         PackageApiStorage.packageApitoStorageJson(packageApi, pretty: true);
     final outFilePath = argResults!['output'] as String?;

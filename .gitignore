@@ -24,3 +24,4 @@ doc/api/
 .DS_Store
 .vscode/launch.json
 .vscode/ltex.dictionary.*.txt
+.vscode/ltex.disabledRules.*.txt
