@@ -27,8 +27,8 @@ on:
         type: string
       ignore-prerelease:
         required: false
-        type: bool
-        default: false
+        type: string
+        default: 'off'
 
 jobs:
   build:
