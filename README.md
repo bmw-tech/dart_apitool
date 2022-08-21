@@ -1,7 +1,7 @@
 # Dart API Tool
 
 A tool to analyze the public API of a package and create a model of it.
-This model can be stored and later compared against a new version of the package to get the needed semantic version jump.
+It also allows to use that model to compare the public API with a newer version and check if the version follows [semver](https://semver.org) correctly.
 
 [![CI](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml) [![pub package](https://img.shields.io/pub/v/dart_apitool.svg)](https://pub.dev/packages/dart_apitool)
 
@@ -12,6 +12,9 @@ To install activate the tool via dart pub:
 dart pub global activate dart_apitool
 ```
 
+## Screenshot
+![dart-apitool screenshot of CI integration](readme/screenshot_dart-apitool_ci.png)
+
 ## Usage
 
 After activation the tool is usable via
@@ -19,7 +22,7 @@ After activation the tool is usable via
 dart-apitool
 ```
 
-```
+```plain
 A set of utilities for Package APIs
 
 Usage: dart-apitool <command> [arguments]
@@ -73,7 +76,8 @@ Usage: dart-apitool diff [arguments]
                                   (e.g. packageApi.json)
                                 - any package from pub
                                   (e.g. pub://package_name/version)
-    --[no-]check-versions       Determines if the version change matches the actual changes.
+    --[no-]check-versions       Determines if the version of the new package should be checked.
+                                Takes the changes of the diff and checks if the new version follows the semver rules.
                                 Influences tool return value.
                                 (defaults to on)
     --[no-]ignore-prerelease    Determines if the pre-release aspect of the version shall be ignored when checking versions.
@@ -109,7 +113,7 @@ For your convenience there is a reusable workflow that you can integrate in your
     with:
       runs-on: [your build node] # defaults to ubuntu-latest
       old: [package ref to old] # required, e.g. "pub://dart_apitool/<old version>"
-      new: [package ref to new] e.g. # "."
+      new: [package ref to new] # e.g. "."
       ignore-prerelease: ['on' if you want to check against the future version (without pre-release), defaults to 'off'] # e.g. 'on'
       flutter-channel: [flutter channel to use, defaults to 'stable'] # e.g. 'stable'
       flutter-version: [flutter version to use, defaults to 'any'] # e.g. 'any'

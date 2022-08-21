@@ -33,7 +33,8 @@ class DiffCommand extends Command<int> with CommandMixin {
     argParser.addFlag(
       _optionNameCheckVersions,
       help: '''
-Determines if the version change matches the actual changes. 
+Determines if the version of the new package should be checked.
+Takes the changes of the diff and checks if the new version follows the semver rules. 
 Influences tool return value.
 ''',
       defaultsTo: true,
