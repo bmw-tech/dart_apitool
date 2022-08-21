@@ -18,12 +18,12 @@ jobs:
           count: 0
           labels: "not ready"
 
-  get_flutter_version:
+  get_flutter-version:
     needs: check_label
     runs-on: sh_devmil_mac
 
     outputs:
-      flutter_version: ${{ steps.step_extract_version.outputs.flutter_version }}
+      flutter-version: ${{ steps.step_extract_version.outputs.flutter-version }}
 
     steps:
       - uses: actions/checkout@v3
@@ -34,27 +34,27 @@ jobs:
 
       - id: step_extract_version
         run: |
-          FLUTTER_VERSION=${{ env.FLUTTER_VERSION }}
-          echo "::set-output name=flutter_version::${FLUTTER_VERSION}"
+          flutter-version=${{ env.flutter-version }}
+          echo "::set-output name=flutter-version::${flutter-version}"
 
   get_last_released_version:
     needs: check_label
     runs-on: sh_devmil_mac
 
     outputs:
-      lastVersion: ${{ steps.step1.outputs.lastVersion }}
+      last_released_version: ${{ steps.step1.outputs.last_released_version }}
 
     steps:
       - id: step1
         name: Get latest version
         run: |
           LAST_VERSION=$(cat last_version.txt)
-          echo "::set-output name=lastVersion::${LAST_VERSION}"
+          echo "::set-output name=last_released_version::${LAST_VERSION}"
 #          echo "{LAST_VERSION}=${LAST_VERSION}" >> $GITHUB_ENV
 
 
   analysis:
-    needs: [check_label, get_flutter_version]
+    needs: [check_label, get_flutter-version]
     runs-on: sh_devmil_mac
 
     steps:
@@ -62,9 +62,9 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+          flutter-version: ${{ needs.get_flutter-version.outputs.flutter-version }}
           channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter-version.outputs.flutter-version }}-any'
 
       - name: Verify formatting
         run: dart format --set-exit-if-changed .
@@ -76,17 +76,17 @@ jobs:
         run: dart analyze
 
   semver:
-    needs: [analysis, get_last_released_version, get_flutter_version]
+    needs: [analysis, get_last_released_version, get_flutter-version]
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
     with:
-      runs_on: sh_devmil_mac
-      old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.lastVersion }}"
+      runs-on: sh_devmil_mac
+      old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }}"
       new: "."
-      flutter_channel: 'any'
-      flutter_version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+      flutter-channel: 'any'
+      flutter-version: ${{ needs.get_flutter-version.outputs.flutter-version }}
 
   test:
-    needs: [check_label, get_flutter_version]
+    needs: [check_label, get_flutter-version]
     strategy:
       matrix:
         platform: [sh_devmil_mac, sh_devmil_win] # , ubuntu-latest
@@ -97,9 +97,9 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+          flutter-version: ${{ needs.get_flutter-version.outputs.flutter-version }}
           channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter-version.outputs.flutter-version }}-any'
 
       - name: Install dependencies
         run: dart pub get
@@ -108,7 +108,7 @@ jobs:
         run: dart test 
 
   pana:
-    needs: [check_label, get_flutter_version]
+    needs: [check_label, get_flutter-version]
     runs-on: sh_devmil_mac
 
     steps:
@@ -116,9 +116,9 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+          flutter-version: ${{ needs.get_flutter-version.outputs.flutter-version }}
           channel: 'any'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter_version }}-any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter-version.outputs.flutter-version }}-any'
 
       - name: Install Dependencies
         run: |
