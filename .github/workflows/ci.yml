@@ -9,7 +9,7 @@ on:
 
 jobs:
   check_label:
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
     steps:
       - uses: mheap/github-action-required-labels@v1
         if: github.ref != 'refs/heads/main'
@@ -20,7 +20,7 @@ jobs:
 
   get_flutter_version:
     needs: check_label
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     outputs:
       flutter-version: ${{ steps.step_extract_version.outputs.flutter-version }}
@@ -39,7 +39,7 @@ jobs:
 
   get_last_released_version:
     needs: check_label
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     outputs:
       last_released_version: ${{ steps.step1.outputs.last_released_version }}
