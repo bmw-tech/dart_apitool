@@ -37,7 +37,7 @@ jobs:
           FLUTTER_VERSION=${{ env.FLUTTER_VERSION }}
           echo "::set-output name=flutter_version::${FLUTTER_VERSION}"
 
-  get_latest_version:
+  get_last_released_version:
     needs: check_label
     runs-on: sh_devmil_mac
 
@@ -76,11 +76,11 @@ jobs:
         run: dart analyze
 
   semver:
-    needs: [analysis, get_latest_version, get_flutter_version]
+    needs: [analysis, get_last_released_version, get_flutter_version]
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflowv1
     with:
       runs_on: sh_devmil_mac
-      old: "pub://dart_apitool/${{ needs.get_latest_version.outputs.lastVersion }}"
+      old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.lastVersion }}"
       new: "."
       flutter_channel: 'any'
       flutter_version: ${{ needs.get_flutter_version.outputs.flutter_version }}
