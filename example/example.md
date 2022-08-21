@@ -1,4 +1,4 @@
-# dart-apitool examples
+# Examples for dart-apitool
 
 ## Installation
 ```bash
