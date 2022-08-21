@@ -83,7 +83,7 @@ jobs:
       old: "pub://dart_apitool/${{ needs.get_latest_version.outputs.lastVersion }}"
       new: "."
       flutter_channel: 'any'
-      flutter-version: ${{ needs.get_flutter_version.outputs.flutter_version }}
+      flutter_version: ${{ needs.get_flutter_version.outputs.flutter_version }}
 
   test:
     needs: [check_label, get_flutter_version]
