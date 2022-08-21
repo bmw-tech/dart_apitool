@@ -18,6 +18,10 @@ on:
         required: false
         type: string
         default: "stable"
+      flutter-version:
+        required: false
+        type: string
+        default: "any"
       dart_apitool_version:
         required: false
         type: string
@@ -33,8 +37,9 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '${{ inputs.flutter-version }}'
           channel: '${{ inputs.flutter_channel }}'
-          cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter_channel }}'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ inputs.flutter_channel }}-${{ inputs.flutter-version }}'
 
       - name: Install dart-apitool
         run: flutter pub global activate dart_apitool ${{inputs.dart_apitool_version}}
