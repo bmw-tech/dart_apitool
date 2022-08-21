@@ -87,7 +87,7 @@ jobs:
     needs: [check_label, get_flutter_version]
     strategy:
       matrix:
-        platform: [sh_devmil_mac, sh_devmil_win] # , ubuntu-latest
+        platform: [sh_devmil_mac, sh_devmil_win, ubuntu-latest] # , ubuntu-latest
     runs-on: ${{ matrix.platform }}
     
     steps:
