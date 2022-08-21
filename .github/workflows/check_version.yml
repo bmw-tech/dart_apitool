@@ -25,6 +25,10 @@ on:
       apitool-version:
         required: false
         type: string
+      ignore-prerelease:
+        required: false
+        type: bool
+        default: false
 
 jobs:
   build:
@@ -45,4 +49,4 @@ jobs:
         run: flutter pub global activate dart_apitool ${{inputs.apitool-version}}
 
       - name: check version
-        run: dart-apitool diff --old ${{ inputs.old }} --new ${{ inputs.new }}
+        run: dart-apitool diff --old ${{ inputs.old }} --new ${{ inputs.new }} --ignore-prerelease ${{ inputs.ignore-prerelease }}
