@@ -48,10 +48,8 @@ jobs:
       - id: step1
         name: Get latest version
         run: |
-          LAST_VERSION=$(cat last_version.txt)
+          LAST_VERSION=$(cat last_released_version.txt)
           echo "::set-output name=last_released_version::${LAST_VERSION}"
-#          echo "{LAST_VERSION}=${LAST_VERSION}" >> $GITHUB_ENV
-
 
   analysis:
     needs: [check_label, get_flutter_version]
