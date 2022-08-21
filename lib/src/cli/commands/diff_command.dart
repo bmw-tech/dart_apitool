@@ -205,7 +205,7 @@ Influences tool return value.
     stdout.writeln('Old version: "$oldVersion"');
     stdout.writeln(
         'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
-    if (newVersion <= expectedMinVersion) {
+    if (newVersion < expectedMinVersion) {
       stdout.writeln(Colorize('New Version is too low!').red());
       stdout.writeln(
           'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}"');
