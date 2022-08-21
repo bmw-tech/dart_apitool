@@ -45,6 +45,7 @@ jobs:
       last_released_version: ${{ steps.step1.outputs.last_released_version }}
 
     steps:
+      - uses: actions/checkout@v3
       - id: step1
         name: Get latest version
         run: |
