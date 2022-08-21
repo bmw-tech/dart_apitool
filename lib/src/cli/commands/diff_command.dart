@@ -59,11 +59,11 @@ You may want to do this if you want to make sure
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
 
-    final oldTempPath = await prepare(oldPackageRef);
-    final newTempPath = await prepare(newPackageRef);
+    final preparedOldPackageRef = await prepare(oldPackageRef);
+    final preparedNewPackageRef = await prepare(newPackageRef);
 
-    final oldPackageApi = await analyze(oldPackageRef, oldTempPath);
-    final newPackageApi = await analyze(newPackageRef, newTempPath);
+    final oldPackageApi = await analyze(preparedOldPackageRef);
+    final newPackageApi = await analyze(preparedNewPackageRef);
 
     final differ = PackageApiDiffer();
     final diffResult =
