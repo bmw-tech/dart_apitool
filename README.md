@@ -3,6 +3,8 @@
 A tool to analyze the public API of a package and create a model of it.
 This model can be stored and later compared against a new version of the package to get the needed semantic version jump.
 
+[![CI](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml) [![pub package](https://img.shields.io/pub/v/dart_apitool.svg)](https://pub.dev/packages/dart_apitool)
+
 ## Installation
 
 To install activate the tool via dart pub:
