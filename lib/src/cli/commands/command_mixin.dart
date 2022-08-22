@@ -49,7 +49,8 @@ Package reference can be one of:
       workingDirectory: directory,
     );
     if (runResult.exitCode != 0) {
-      throw RunDartError('Error running flutter pub get in $directory:\n${runResult.stderr}');
+      throw RunDartError(
+          'Error running flutter pub get in $directory:\n${runResult.stderr}');
     }
   }
 
@@ -63,7 +64,8 @@ Package reference can be one of:
       workingDirectory: directory,
     );
     if (runResult.exitCode != 0) {
-      throw RunDartError('Error running dart pub get in $directory:\n${runResult.stderr}');
+      throw RunDartError(
+          'Error running dart pub get in $directory:\n${runResult.stderr}');
     }
   }
 
@@ -71,7 +73,8 @@ Package reference can be one of:
     final pubspecPath = p.join(directory, 'pubspec.yaml');
     final pubspecExists = await File(pubspecPath).exists();
     if (!pubspecExists) {
-      throw RunDartError('Error running pub get in $directory:\nThis is not a valid dart package directory');
+      throw RunDartError(
+          'Error running pub get in $directory:\nThis is not a valid dart package directory');
     }
     final yamlContent = await File(pubspecPath).readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
@@ -127,7 +130,8 @@ Package reference can be one of:
     }
     if (ref.isPubRef) {
       stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
-      final cachePath = await PubInteraction.installPackageToCache(ref.pubPackage!, ref.pubVersion!);
+      final cachePath = await PubInteraction.installPackageToCache(
+          ref.pubPackage!, ref.pubVersion!);
       //Workaround. It seems that the analyzer has problems with no pub get run and it is not possible to run pub get in the cache directory
       final tempDir = await Directory.systemTemp.createTemp();
       await _copyPath(cachePath, tempDir.path);
@@ -151,14 +155,17 @@ Package reference can be one of:
       path = preparedRef.packageRef.ref;
     }
     if (preparedRef.packageRef.isPubRef) {
-      path =
-          PubInteraction.getPackagePathInCache(preparedRef.packageRef.pubPackage!, preparedRef.packageRef.pubVersion!);
+      path = PubInteraction.getPackagePathInCache(
+          preparedRef.packageRef.pubPackage!,
+          preparedRef.packageRef.pubVersion!);
     }
     if (path == null) {
-      throw ArgumentError('Don\'t know how to handle ${preparedRef.packageRef.ref}');
+      throw ArgumentError(
+          'Don\'t know how to handle ${preparedRef.packageRef.ref}');
     }
     stdout.writeln('Analyzing $path');
-    final analyzer = PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
+    final analyzer =
+        PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
     final apiResult = await analyzer.analyze();
     if (preparedRef.tempDirectory != null) {
       await Directory(preparedRef.tempDirectory!).delete(recursive: true);
