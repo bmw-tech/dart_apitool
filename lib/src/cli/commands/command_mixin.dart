@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:path/path.dart' as p;
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -17,7 +18,42 @@ Package reference can be one of:
   (e.g. pub://package_name/version)
 ''';
 
-  Future _runPubGet(String directory) async {
+  Future<String> _findFlutterExecutable() async {
+    final dartExecutableDirPath = p.dirname(Platform.resolvedExecutable);
+
+    // trying to search in the first bin folder from the dart executable path
+    // we have to search for it this way as we want to find the matching flutter executable.
+    // if the user is using e.g. fvm then we can't just run the first flutter executable visible
+    // on PATH
+    final parts = p.split(dartExecutableDirPath).toList(growable: true);
+    int binIndex = parts.lastIndexOf('bin');
+    while (binIndex >= 0) {
+      final binPath = p.joinAll(parts.take(binIndex + 1));
+      final flutterFilePath = p.join(binPath, 'flutter');
+      if (await File(flutterFilePath).exists()) {
+        return flutterFilePath;
+      }
+      parts.removeRange(binIndex, parts.length);
+      binIndex = parts.lastIndexOf('bin');
+    }
+    throw RunDartError('No flutter executable found!');
+  }
+
+  Future _runFlutterPubGet(String directory) async {
+    final runResult = await Process.run(
+      await _findFlutterExecutable(),
+      [
+        'pub',
+        'get',
+      ],
+      workingDirectory: directory,
+    );
+    if (runResult.exitCode != 0) {
+      throw RunDartError('Error running flutter pub get in $directory:\n${runResult.stderr}');
+    }
+  }
+
+  Future _runDartPubGet(String directory) async {
     final runResult = await Process.run(
       Platform.resolvedExecutable,
       [
@@ -27,8 +63,22 @@ Package reference can be one of:
       workingDirectory: directory,
     );
     if (runResult.exitCode != 0) {
-      throw RunDartError(
-          'Error running dart pub get in $directory:\n${runResult.stderr}');
+      throw RunDartError('Error running dart pub get in $directory:\n${runResult.stderr}');
+    }
+  }
+
+  Future _runPubGet(String directory) async {
+    final pubspecPath = p.join(directory, 'pubspec.yaml');
+    final pubspecExists = await File(pubspecPath).exists();
+    if (!pubspecExists) {
+      throw RunDartError('Error running pub get in $directory:\nThis is not a valid dart package directory');
+    }
+    final yamlContent = await File(pubspecPath).readAsString();
+    final pubSpec = Pubspec.parse(yamlContent);
+    if (pubSpec.dependencies.containsKey('flutter')) {
+      return _runFlutterPubGet(directory);
+    } else {
+      return _runDartPubGet(directory);
     }
   }
 
@@ -77,8 +127,7 @@ Package reference can be one of:
     }
     if (ref.isPubRef) {
       stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
-      final cachePath = await PubInteraction.installPackageToCache(
-          ref.pubPackage!, ref.pubVersion!);
+      final cachePath = await PubInteraction.installPackageToCache(ref.pubPackage!, ref.pubVersion!);
       //Workaround. It seems that the analyzer has problems with no pub get run and it is not possible to run pub get in the cache directory
       final tempDir = await Directory.systemTemp.createTemp();
       await _copyPath(cachePath, tempDir.path);
@@ -102,17 +151,14 @@ Package reference can be one of:
       path = preparedRef.packageRef.ref;
     }
     if (preparedRef.packageRef.isPubRef) {
-      path = PubInteraction.getPackagePathInCache(
-          preparedRef.packageRef.pubPackage!,
-          preparedRef.packageRef.pubVersion!);
+      path =
+          PubInteraction.getPackagePathInCache(preparedRef.packageRef.pubPackage!, preparedRef.packageRef.pubVersion!);
     }
     if (path == null) {
-      throw ArgumentError(
-          'Don\'t know how to handle ${preparedRef.packageRef.ref}');
+      throw ArgumentError('Don\'t know how to handle ${preparedRef.packageRef.ref}');
     }
     stdout.writeln('Analyzing $path');
-    final analyzer =
-        PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
+    final analyzer = PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
     final apiResult = await analyzer.analyze();
     if (preparedRef.tempDirectory != null) {
       await Directory(preparedRef.tempDirectory!).delete(recursive: true);
