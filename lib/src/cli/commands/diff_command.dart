@@ -13,6 +13,7 @@ String _optionNameNew = 'new';
 String _optionNameCheckVersions = 'check-versions';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
 
+/// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
   @override
   final name = "diff";

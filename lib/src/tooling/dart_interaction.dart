@@ -5,7 +5,11 @@ import 'package:path/path.dart' as path;
 
 import '../errors/errors.dart';
 
+/// Helper class for interacting with Dart and Flutter
 abstract class DartInteraction {
+  /// runs the dart or flutter command with the given [args].
+  /// The decision which command to run is taken from the pubspeck.yaml file in
+  /// [forDirectory]
   static Future runDartOrFlutterCommand(String forDirectory,
       {List<String> args = const []}) async {
     final pubspecPath = path.join(forDirectory, 'pubspec.yaml');
@@ -25,6 +29,9 @@ abstract class DartInteraction {
     }
   }
 
+  /// runs the dart command with the given [args].
+  /// If [workingDirectory] is given then this directory will be passed to the
+  /// Process as working directory
   static Future<String> runDartCommand(
       {String? workingDirectory, List<String> args = const []}) {
     return _runDartOrFlutterCommand(_getDartExecutablePath(),
@@ -46,7 +53,7 @@ abstract class DartInteraction {
   }
 
   static Future<String> _findFlutterExecutablePath() async {
-    final dartExecutableDirPath = path.dirname(Platform.resolvedExecutable);
+    final dartExecutableDirPath = path.dirname(_getDartExecutablePath());
 
     // trying to search in the first bin folder from the dart executable path
     // we have to search for it this way as we want to find the matching flutter executable.

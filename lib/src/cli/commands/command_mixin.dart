@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
 
+/// mixin for all dart-apitool commands that provides common information and functionality
 mixin CommandMixin {
   final packageRefExplanation = '''
 Package reference can be one of:

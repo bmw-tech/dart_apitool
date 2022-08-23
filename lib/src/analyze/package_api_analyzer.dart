@@ -25,13 +25,17 @@ import '../utils/string_utils.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
+/// this class analyzes the public package API of a given package ([packagePath])
 class PackageApiAnalyzer {
+  /// path to the package to analyze
   final String packagePath;
 
+  /// constructor
   PackageApiAnalyzer({required this.packagePath}) {
     _checkProjectPathValidity();
   }
 
+  /// analyzes the configured package and returns a model of its public API
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
         _getNormalizedAbsolutePath(packagePath);

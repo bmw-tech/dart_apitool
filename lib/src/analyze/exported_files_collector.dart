@@ -1,19 +1,36 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 
+/// represents the type of the file reference
 enum FileReferenceType {
+  /// file got referenced via import
   import,
+
+  /// file got referenced via export
   export,
 }
 
+/// represents a file reference extracted from a dart source file
 class FileReference {
+  /// uri of the file
   final String uri;
+
+  /// library the reference comes from
   final LibraryElement originLibrary;
+
+  /// library the reference points to
   final LibraryElement? referencedLibrary;
+
+  /// type of this file reference
   final FileReferenceType type;
+
+  /// list of show parameters for this reference
   final List<String> shownNames;
+
+  /// list of hide parameters for this reference
   final List<String> hiddenNames;
 
+  /// constructor
   FileReference({
     required this.uri,
     required this.originLibrary,
@@ -24,6 +41,9 @@ class FileReference {
   });
 }
 
+/// connector to collect exported files from an Element
+///
+/// it will collect all encountered export elements and store them to [fileReferences]
 class ExportedFilesCollector extends RecursiveElementVisitor<void> {
   final fileReferences = List<FileReference>.empty(growable: true);
 

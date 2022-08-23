@@ -48,6 +48,8 @@ abstract class PubInteraction {
     return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
   }
 
+  /// runs pub get in the given [packageDirectory]
+  /// depending or the package either `dart` or `flutter` is executed
   static Future runPubGet(String packageDirectory) async {
     return DartInteraction.runDartOrFlutterCommand(packageDirectory, args: [
       'pub',

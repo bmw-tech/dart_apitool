@@ -6,6 +6,8 @@ import 'package:dart_apitool/src/storage/storage.dart';
 import '../package_ref.dart';
 import 'command_mixin.dart';
 
+/// command to extract the public API of a package.
+/// This is used when, for example, the public API needs to be stored on disk
 class ExtractCommand extends Command<int> with CommandMixin {
   @override
   String get description => 'Extracts the API from the given package ref.';
