@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -18,103 +17,6 @@ Package reference can be one of:
   (e.g. pub://package_name/version)
 ''';
 
-  Future<String> _findFlutterExecutable() async {
-    final dartExecutableDirPath = p.dirname(Platform.resolvedExecutable);
-
-    // trying to search in the first bin folder from the dart executable path
-    // we have to search for it this way as we want to find the matching flutter executable.
-    // if the user is using e.g. fvm then we can't just run the first flutter executable visible
-    // on PATH
-    final parts = p.split(dartExecutableDirPath).toList(growable: true);
-    int binIndex = parts.lastIndexOf('bin');
-    while (binIndex >= 0) {
-      final binPath = p.joinAll(parts.take(binIndex + 1));
-      final flutterFilePath = p.join(binPath, 'flutter');
-      if (await File(flutterFilePath).exists()) {
-        return flutterFilePath;
-      }
-      parts.removeRange(binIndex, parts.length);
-      binIndex = parts.lastIndexOf('bin');
-    }
-    throw RunDartError('No flutter executable found!');
-  }
-
-  Future _runFlutterPubGet(String directory) async {
-    final runResult = await Process.run(
-      await _findFlutterExecutable(),
-      [
-        'pub',
-        'get',
-      ],
-      workingDirectory: directory,
-    );
-    if (runResult.exitCode != 0) {
-      throw RunDartError(
-          'Error running flutter pub get in $directory:\n${runResult.stderr}');
-    }
-  }
-
-  Future _runDartPubGet(String directory) async {
-    final runResult = await Process.run(
-      Platform.resolvedExecutable,
-      [
-        'pub',
-        'get',
-      ],
-      workingDirectory: directory,
-    );
-    if (runResult.exitCode != 0) {
-      throw RunDartError(
-          'Error running dart pub get in $directory:\n${runResult.stderr}');
-    }
-  }
-
-  Future _runPubGet(String directory) async {
-    final pubspecPath = p.join(directory, 'pubspec.yaml');
-    final pubspecExists = await File(pubspecPath).exists();
-    if (!pubspecExists) {
-      throw RunDartError(
-          'Error running pub get in $directory:\nThis is not a valid dart package directory');
-    }
-    final yamlContent = await File(pubspecPath).readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
-    if (pubSpec.dependencies.containsKey('flutter')) {
-      return _runFlutterPubGet(directory);
-    } else {
-      return _runDartPubGet(directory);
-    }
-  }
-
-  bool _doNothing(String from, String to) {
-    if (p.canonicalize(from) == p.canonicalize(to)) {
-      return true;
-    }
-    if (p.isWithin(from, to)) {
-      throw ArgumentError('Cannot copy from $from to $to');
-    }
-    return false;
-  }
-
-  Future<void> _copyPath(String from, String to) async {
-    if (_doNothing(from, to)) {
-      return;
-    }
-    if (await Directory(to).exists()) {
-      await Directory(to).delete();
-    }
-    await Directory(to).create(recursive: true);
-    await for (final file in Directory(from).list(recursive: true)) {
-      final copyTo = p.join(to, p.relative(file.path, from: from));
-      if (file is Directory) {
-        await Directory(copyTo).create(recursive: true);
-      } else if (file is File) {
-        await File(file.path).copy(copyTo);
-      } else if (file is Link) {
-        await Link(copyTo).create(await file.target(), recursive: true);
-      }
-    }
-  }
-
   /// prepares given [ref]. Depending on the type of ref this can include
   /// - copying the package to a temporary directory
   /// - running pub get
@@ -125,7 +27,7 @@ Package reference can be one of:
       return PreparedPackageRef(packageRef: ref);
     }
     if (ref.isDirectoryPath) {
-      await _runPubGet(ref.ref);
+      await PubInteraction.runPubGet(ref.ref);
       return PreparedPackageRef(packageRef: ref);
     }
     if (ref.isPubRef) {
@@ -135,7 +37,7 @@ Package reference can be one of:
       //Workaround. It seems that the analyzer has problems with no pub get run and it is not possible to run pub get in the cache directory
       final tempDir = await Directory.systemTemp.createTemp();
       await _copyPath(cachePath, tempDir.path);
-      await _runPubGet(tempDir.path);
+      await PubInteraction.runPubGet(tempDir.path);
       return PreparedPackageRef(packageRef: ref, tempDirectory: tempDir.path);
     }
     throw ArgumentError('Unknown package ref: ${ref.ref}');
@@ -171,5 +73,35 @@ Package reference can be one of:
       await Directory(preparedRef.tempDirectory!).delete(recursive: true);
     }
     return apiResult;
+  }
+
+  bool _doNothing(String from, String to) {
+    if (p.canonicalize(from) == p.canonicalize(to)) {
+      return true;
+    }
+    if (p.isWithin(from, to)) {
+      throw ArgumentError('Cannot copy from $from to $to');
+    }
+    return false;
+  }
+
+  Future<void> _copyPath(String from, String to) async {
+    if (_doNothing(from, to)) {
+      return;
+    }
+    if (await Directory(to).exists()) {
+      await Directory(to).delete();
+    }
+    await Directory(to).create(recursive: true);
+    await for (final file in Directory(from).list(recursive: true)) {
+      final copyTo = p.join(to, p.relative(file.path, from: from));
+      if (file is Directory) {
+        await Directory(copyTo).create(recursive: true);
+      } else if (file is File) {
+        await File(file.path).copy(copyTo);
+      } else if (file is Link) {
+        await Link(copyTo).create(await file.target(), recursive: true);
+      }
+    }
   }
 }
