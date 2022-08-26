@@ -147,13 +147,6 @@ You may want to do this if you want to make sure
       headlinePrinted = true;
     }
 
-    for (final child in node.children.values) {
-      final childOutput = _printApiChangeNode(child, breaking, level + 1);
-      if (childOutput != null) {
-        ensureHeadline();
-        currentOutput.write(childOutput);
-      }
-    }
     final filteredChanges =
         node.changes.where((change) => change.type.isBreaking == breaking);
     if (filteredChanges.isNotEmpty) {
@@ -162,6 +155,14 @@ You may want to do this if you want to make sure
         currentOutput.write(getIndent(level));
         currentOutput.write('- ');
         currentOutput.writeln(change.changeDescription);
+      }
+    }
+
+    for (final child in node.children.values) {
+      final childOutput = _printApiChangeNode(child, breaking, level + 1);
+      if (childOutput != null) {
+        ensureHeadline();
+        currentOutput.write(childOutput);
       }
     }
     return currentOutput.isEmpty ? null : currentOutput.toString();

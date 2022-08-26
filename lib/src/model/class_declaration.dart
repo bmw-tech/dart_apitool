@@ -26,6 +26,7 @@ class ClassDeclaration with _$ClassDeclaration implements Declaration {
     required List<String> superTypeNames,
     required List<ExecutableDeclaration> executableDeclarations,
     required List<FieldDeclaration> fieldDeclarations,
+    Set<String>? entryPoints,
   }) = _ClassDeclaration;
 
   String _computeSignature() {

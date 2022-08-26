@@ -29,6 +29,7 @@ mixin _$ClassDeclarationStorageV1 {
       throw _privateConstructorUsedError;
   List<FieldDeclarationStorageV1> get fieldDeclarations =>
       throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $ClassDeclarationStorageV1CopyWith<$Res> {
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
-      List<FieldDeclarationStorageV1> fieldDeclarations});
+      List<FieldDeclarationStorageV1> fieldDeclarations,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$ClassDeclarationStorageV1CopyWithImpl<$Res>
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -93,6 +96,10 @@ class _$ClassDeclarationStorageV1CopyWithImpl<$Res>
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclarationStorageV1>,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -111,7 +118,8 @@ abstract class _$$_ClassDeclarationStorageV1CopyWith<$Res>
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
-      List<FieldDeclarationStorageV1> fieldDeclarations});
+      List<FieldDeclarationStorageV1> fieldDeclarations,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -135,6 +143,7 @@ class __$$_ClassDeclarationStorageV1CopyWithImpl<$Res>
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_ClassDeclarationStorageV1(
       name: name == freezed
@@ -161,6 +170,10 @@ class __$$_ClassDeclarationStorageV1CopyWithImpl<$Res>
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclarationStorageV1>,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -175,11 +188,13 @@ class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
       required final List<String> superTypeNames,
       required final List<ExecutableDeclarationStorageV1>
           executableDeclarations,
-      required final List<FieldDeclarationStorageV1> fieldDeclarations})
+      required final List<FieldDeclarationStorageV1> fieldDeclarations,
+      final Set<String>? entryPoints})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
+        _entryPoints = entryPoints,
         super._();
 
   factory _$_ClassDeclarationStorageV1.fromJson(Map<String, dynamic> json) =>
@@ -217,9 +232,18 @@ class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
+
   @override
   String toString() {
-    return 'ClassDeclarationStorageV1(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'ClassDeclarationStorageV1(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
   }
 
   @override
@@ -237,7 +261,9 @@ class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
             const DeepCollectionEquality().equals(
                 other._executableDeclarations, _executableDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._fieldDeclarations, _fieldDeclarations));
+                .equals(other._fieldDeclarations, _fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @JsonKey(ignore: true)
@@ -249,7 +275,8 @@ class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
-      const DeepCollectionEquality().hash(_fieldDeclarations));
+      const DeepCollectionEquality().hash(_fieldDeclarations),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -267,14 +294,14 @@ class _$_ClassDeclarationStorageV1 extends _ClassDeclarationStorageV1 {
 
 abstract class _ClassDeclarationStorageV1 extends ClassDeclarationStorageV1 {
   const factory _ClassDeclarationStorageV1(
-          {required final String name,
-          required final bool isDeprecated,
-          required final List<String> typeParameterNames,
-          required final List<String> superTypeNames,
-          required final List<ExecutableDeclarationStorageV1>
-              executableDeclarations,
-          required final List<FieldDeclarationStorageV1> fieldDeclarations}) =
-      _$_ClassDeclarationStorageV1;
+      {required final String name,
+      required final bool isDeprecated,
+      required final List<String> typeParameterNames,
+      required final List<String> superTypeNames,
+      required final List<ExecutableDeclarationStorageV1>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV1> fieldDeclarations,
+      final Set<String>? entryPoints}) = _$_ClassDeclarationStorageV1;
   const _ClassDeclarationStorageV1._() : super._();
 
   factory _ClassDeclarationStorageV1.fromJson(Map<String, dynamic> json) =
@@ -292,6 +319,8 @@ abstract class _ClassDeclarationStorageV1 extends ClassDeclarationStorageV1 {
   List<ExecutableDeclarationStorageV1> get executableDeclarations;
   @override
   List<FieldDeclarationStorageV1> get fieldDeclarations;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ClassDeclarationStorageV1CopyWith<_$_ClassDeclarationStorageV1>

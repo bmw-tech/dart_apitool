@@ -21,6 +21,7 @@ class ClassDeclarationStorageV1 with _$ClassDeclarationStorageV1 {
     required List<String> superTypeNames,
     required List<ExecutableDeclarationStorageV1> executableDeclarations,
     required List<FieldDeclarationStorageV1> fieldDeclarations,
+    Set<String>? entryPoints,
   }) = _ClassDeclarationStorageV1;
 
   factory ClassDeclarationStorageV1.fromJson(Map<String, Object?> json) =>
@@ -37,6 +38,7 @@ class ClassDeclarationStorageV1 with _$ClassDeclarationStorageV1 {
           .toList(),
       fieldDeclarations:
           fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
+      entryPoints: entryPoints,
     );
   }
 
@@ -54,6 +56,7 @@ class ClassDeclarationStorageV1 with _$ClassDeclarationStorageV1 {
       fieldDeclarations: classDeclaration.fieldDeclarations
           .map((f) => FieldDeclarationStorageV1.fromFieldDeclaration(f))
           .toList(),
+      entryPoints: classDeclaration.entryPoints,
     );
   }
 }

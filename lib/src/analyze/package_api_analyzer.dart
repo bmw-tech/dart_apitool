@@ -35,6 +35,10 @@ class PackageApiAnalyzer {
     _checkProjectPathValidity();
   }
 
+  bool _isPublicEntryPoint(String relativeFilePath) {
+    return !relativeFilePath.startsWith('src');
+  }
+
   /// analyzes the configured package and returns a model of its public API
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
@@ -67,6 +71,9 @@ class PackageApiAnalyzer {
       filesToAnalyze.removeFirst();
       analyzedFiles.add(fileToAnalyze);
 
+      final relativeFilePath = path.relative(fileToAnalyze.filePath,
+          from: normalizedAbsolutePublicEntrypointPath);
+
       try {
         final context = contextCollection.contextFor(fileToAnalyze.filePath);
 
@@ -91,6 +98,23 @@ class PackageApiAnalyzer {
               } else {
                 skippedClasses.add(cd.id);
               }
+              // set entry point
+              final existingEntry = collectedClasses[cd.id]!
+                  .classDeclarations
+                  .singleWhere((element) => element.id == cd.id);
+              collectedClasses[cd.id]!.classDeclarations.remove(existingEntry);
+              collectedClasses[cd.id]!.classDeclarations.add(
+                    existingEntry.copyWith(
+                      newClassDeclaration:
+                          existingEntry.classDeclaration.copyWith(entryPoints: {
+                        ...existingEntry.classDeclaration.entryPoints ??
+                            <String>{},
+                        if (_isPublicEntryPoint(relativeFilePath))
+                          relativeFilePath,
+                        ...fileToAnalyze.exportedBy
+                      }),
+                    ),
+                  );
             }
             for (final exd in collector.executableDeclarations) {
               if (skippedClasses.contains(exd.parentClassId)) {
@@ -102,6 +126,9 @@ class PackageApiAnalyzer {
               collectedClasses[exd.parentClassId]!
                   .executableDeclarations
                   .add(exd);
+              if (exd.parentClassId == null) {
+                //TODO: add entry point
+              }
             }
             for (final fd in collector.fieldDeclarations) {
               if (skippedClasses.contains(fd.parentClassId)) {
@@ -111,6 +138,9 @@ class PackageApiAnalyzer {
                 collectedClasses[fd.parentClassId] = _ClassCollectionResult();
               }
               collectedClasses[fd.parentClassId]!.fieldDeclarations.add(fd);
+              if (fd.parentClassId == null) {
+                //TODO: add entry point
+              }
             }
           }
 
@@ -130,6 +160,10 @@ class PackageApiAnalyzer {
               filePath: referencedFilePath,
               shownNames: fileRef.shownNames,
               hiddenNames: fileRef.hiddenNames,
+              exportedBy: {
+                ...fileToAnalyze.exportedBy,
+                if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+              },
             );
             if (!analyzedFiles.contains(analyzeEntry) &&
                 !filesToAnalyze.contains(analyzeEntry)) {
@@ -198,6 +232,7 @@ class PackageApiAnalyzer {
         .where((file) => path.extension(file.path) == '.dart')
         .map((file) => _FileToAnalyzeEntry(
               filePath: path.normalize(path.absolute(file.path)),
+              exportedBy: {},
             ));
   }
 
@@ -258,8 +293,10 @@ class _ClassCollectionResult {
 
 @freezed
 class _FileToAnalyzeEntry with _$_FileToAnalyzeEntry {
-  const factory _FileToAnalyzeEntry(
-      {required String filePath,
-      @Default([]) List<String> shownNames,
-      @Default([]) List<String> hiddenNames}) = __FileToAnalyzeEntry;
+  const factory _FileToAnalyzeEntry({
+    required String filePath,
+    @Default([]) List<String> shownNames,
+    @Default([]) List<String> hiddenNames,
+    required Set<String> exportedBy,
+  }) = __FileToAnalyzeEntry;
 }

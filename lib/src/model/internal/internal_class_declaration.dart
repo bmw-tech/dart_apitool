@@ -38,17 +38,18 @@ class InternalClassDeclaration implements InternalDeclaration {
         );
 
   InternalClassDeclaration copyWith({
-    List<ExecutableDeclaration>? executableDeclarations,
-    List<FieldDeclaration>? fieldDeclarations,
+    List<ExecutableDeclaration>? newExecutableDeclarations,
+    List<FieldDeclaration>? newFieldDeclarations,
+    ClassDeclaration? newClassDeclaration,
   }) {
+    final cd = newClassDeclaration ?? classDeclaration;
     return InternalClassDeclaration._(
       id: id,
       parentClassId: parentClassId,
-      classDeclaration: classDeclaration.copyWith(
+      classDeclaration: cd.copyWith(
         executableDeclarations:
-            executableDeclarations ?? classDeclaration.executableDeclarations,
-        fieldDeclarations:
-            fieldDeclarations ?? classDeclaration.fieldDeclarations,
+            newExecutableDeclarations ?? cd.executableDeclarations,
+        fieldDeclarations: newFieldDeclarations ?? cd.fieldDeclarations,
       ),
     );
   }

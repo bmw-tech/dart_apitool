@@ -20,6 +20,7 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     required String name,
     required bool isDeprecated,
     required bool isStatic,
+    Set<String>? entryPoints,
   }) = _FieldDeclaration;
 
   /// helper to compute the signature of a field

@@ -47,7 +47,7 @@ class PackageApiDiffer {
 
   List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
       List<ClassDeclaration> newClasses, Stack<Declaration> context) {
-    final classListDiff = _diffLists<ClassDeclaration>(
+    final classListDiff = _diffIterables<ClassDeclaration>(
       oldClasses,
       newClasses,
       (oldClass, newClass) => oldClass.name == newClass.name,
@@ -94,6 +94,8 @@ class PackageApiDiffer {
             oldClass.superTypeNames, newClass.superTypeNames, context),
         ..._calculateTypeParametersDiff(
             oldClass.typeParameterNames, newClass.typeParameterNames, context),
+        ..._calculateEntryPointsDiff(
+            oldClass.entryPoints, newClass.entryPoints, context)
       ];
 
       _comparePropertiesAndAddChange(
@@ -115,8 +117,10 @@ class PackageApiDiffer {
     List<ExecutableDeclaration> newExecutables,
     Stack<Declaration> context,
   ) {
-    final executableListDiff = _diffLists<ExecutableDeclaration>(oldExecutables,
-        newExecutables, (oldEx, newEx) => oldEx.name == newEx.name);
+    final executableListDiff = _diffIterables<ExecutableDeclaration>(
+        oldExecutables,
+        newExecutables,
+        (oldEx, newEx) => oldEx.name == newEx.name);
     final changes = <ApiChange>[];
     for (final oldEx in executableListDiff.matches.keys) {
       changes.addAll(_calculateExecutableDiff(
@@ -391,6 +395,34 @@ class PackageApiDiffer {
     return changes;
   }
 
+  List<ApiChange> _calculateEntryPointsDiff(Set<String>? oldEntryPoints,
+      Set<String>? newEntryPoints, Stack<Declaration> context) {
+    if (oldEntryPoints == null || newEntryPoints == null) {
+      // either old or new entry points are not known => we can't compare them
+      return [];
+    }
+    final changes = List<ApiChange>.empty(growable: true);
+    final diffResult = _diffIterables(
+        oldEntryPoints, newEntryPoints, (oldT, newT) => oldT == newT);
+    for (final newEntryPoint in diffResult.remainingNew) {
+      changes.add(ApiChange(
+        contextTrace: _contextTraceFromStack(context),
+        affectedDeclaration: context.top(),
+        changeDescription: 'New entry point: $newEntryPoint',
+        type: ApiChangeType.addCompatible,
+      ));
+    }
+    for (final oldEntryPoint in diffResult.remainingOld) {
+      changes.add(ApiChange(
+        contextTrace: _contextTraceFromStack(context),
+        affectedDeclaration: context.top(),
+        changeDescription: 'Entry point removed: $oldEntryPoint',
+        type: ApiChangeType.remove,
+      ));
+    }
+    return changes;
+  }
+
   List<ApiChange> _calculateTypeParametersDiff(
     List<String> oldTypeParameterNames,
     List<String> newTypeParameterNames,
@@ -413,7 +445,7 @@ class PackageApiDiffer {
       }
     } else {
       // we have an exact look at the type parameters and even only a name change leads to an API change
-      final tpnListDiff = _diffLists<String>(oldTypeParameterNames,
+      final tpnListDiff = _diffIterables<String>(oldTypeParameterNames,
           newTypeParameterNames, (oldTpn, newTpn) => oldTpn == newTpn);
       final changes = <ApiChange>[];
       for (final removedTypeParameter in tpnListDiff.remainingOld) {
@@ -441,7 +473,7 @@ class PackageApiDiffer {
     List<String> newSuperTypes,
     Stack<Declaration> context,
   ) {
-    final stpnListDiff = _diffLists<String>(
+    final stpnListDiff = _diffIterables<String>(
         oldSuperTypes, newSuperTypes, (oldStpn, newStpn) => oldStpn == newStpn);
     final changes = <ApiChange>[];
     for (final removedSuperType in stpnListDiff.remainingOld) {
@@ -466,7 +498,7 @@ class PackageApiDiffer {
     List<FieldDeclaration> newFieldDeclarations,
     Stack<Declaration> context,
   ) {
-    final fieldsDiff = _diffLists<FieldDeclaration>(
+    final fieldsDiff = _diffIterables<FieldDeclaration>(
         oldFieldDeclarations,
         newFieldDeclarations,
         (oldField, newField) => oldField.name == newField.name);
@@ -571,7 +603,7 @@ class PackageApiDiffer {
     }
   }
 
-  _ListDiffResult<T> _diffLists<T>(List<T> oldList, List<T> newList,
+  _ListDiffResult<T> _diffIterables<T>(Iterable<T> oldList, Iterable<T> newList,
       bool Function(T oldT, T newT) isSameFun) {
     final remainingOld = [...oldList];
     final remainingNew = [...newList];

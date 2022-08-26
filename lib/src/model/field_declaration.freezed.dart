@@ -20,6 +20,7 @@ mixin _$FieldDeclaration {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
@@ -31,7 +32,12 @@ abstract class $FieldDeclarationCopyWith<$Res> {
   factory $FieldDeclarationCopyWith(
           FieldDeclaration value, $Res Function(FieldDeclaration) then) =
       _$FieldDeclarationCopyWithImpl<$Res>;
-  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
+  $Res call(
+      {String typeName,
+      String name,
+      bool isDeprecated,
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -49,6 +55,7 @@ class _$FieldDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       typeName: typeName == freezed
@@ -67,6 +74,10 @@ class _$FieldDeclarationCopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -78,7 +89,12 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
           _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
       __$$_FieldDeclarationCopyWithImpl<$Res>;
   @override
-  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
+  $Res call(
+      {String typeName,
+      String name,
+      bool isDeprecated,
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -98,6 +114,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_FieldDeclaration(
       typeName: typeName == freezed
@@ -116,6 +133,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -127,8 +148,10 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
-      required this.isStatic})
-      : super._();
+      required this.isStatic,
+      final Set<String>? entryPoints})
+      : _entryPoints = entryPoints,
+        super._();
 
   @override
   final String typeName;
@@ -138,10 +161,18 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   final bool isDeprecated;
   @override
   final bool isStatic;
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic)';
+    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -153,7 +184,9 @@ class _$_FieldDeclaration extends _FieldDeclaration {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.isStatic, isStatic));
+            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @override
@@ -162,7 +195,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       const DeepCollectionEquality().hash(typeName),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(isStatic));
+      const DeepCollectionEquality().hash(isStatic),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -176,7 +210,8 @@ abstract class _FieldDeclaration extends FieldDeclaration
       {required final String typeName,
       required final String name,
       required final bool isDeprecated,
-      required final bool isStatic}) = _$_FieldDeclaration;
+      required final bool isStatic,
+      final Set<String>? entryPoints}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
 
   @override
@@ -187,6 +222,8 @@ abstract class _FieldDeclaration extends FieldDeclaration
   bool get isDeprecated;
   @override
   bool get isStatic;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
