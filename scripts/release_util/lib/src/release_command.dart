@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
@@ -22,20 +23,22 @@ class ReleaseCommand extends Command {
   }
 
   @override
-  void run() {
-    //final isPrerelease = argResults!['prerelease'] as bool;
+  Future run() async {
+    final isPrerelease = argResults!['prerelease'] as bool;
 
     _checkIfEverythingIsCommited();
     _getPackageDependencies();
     _runAnalyzer();
     _runTests();
     _checkSemver();
-    _removePrereleaseFlagFromPubspec();
-    // _commit();
-    // _createTag();
-    // _publish();
-    // _setNextPrereleaseVersion();
-    // _commit();
+    if (!isPrerelease) {
+      _removePrereleaseFlagFromPubspec();
+      _commit('Version ${_getCurrentVersion()}');
+    }
+    _createTag('releases/${_getCurrentVersion()}');
+    await _publishAsync();
+    _setNextPrereleaseVersion();
+    _commit('Version ${_getCurrentVersion()}');
   }
 
   String _getApiToolRootPath() {
@@ -51,6 +54,21 @@ class ReleaseCommand extends Command {
 
   String _getLastReleasedVersionFilePath() {
     return path.join(_getApiToolRootPath(), 'last_released_version.txt');
+  }
+
+  String _getLastReleasedVersion() {
+    final lastReleasedVersionFilePath = _getLastReleasedVersionFilePath();
+    if (!File(lastReleasedVersionFilePath).existsSync()) {
+      print('Missing last_released_version.txt file.');
+      exit(1);
+    }
+    return File(lastReleasedVersionFilePath).readAsLinesSync()[0];
+  }
+
+  String _getCurrentVersion() {
+    final pubspecFilePath = path.join(_getApiToolRootPath(), 'pubspec.yaml');
+    final pubspec = Pubspec.parse(File(pubspecFilePath).readAsStringSync());
+    return pubspec.version.toString();
   }
 
   void _checkIfEverythingIsCommited() {
@@ -133,13 +151,7 @@ class ReleaseCommand extends Command {
   void _checkSemver() {
     print('checking semver');
     final apiToolRootPath = _getApiToolRootPath();
-    final lastReleasedVersionFilePath = _getLastReleasedVersionFilePath();
-    if (!File(lastReleasedVersionFilePath).existsSync()) {
-      print('Missing last_released_version.txt file.');
-      exit(1);
-    }
-    final lastReleaseVersion =
-        File(lastReleasedVersionFilePath).readAsLinesSync()[0];
+    final lastReleaseVersion = _getLastReleasedVersion();
     final semverStatus = Process.runSync(
       'fvm',
       [
@@ -183,6 +195,85 @@ class ReleaseCommand extends Command {
       'version: $newVersionString',
     );
 
+    File(pubspecPath).writeAsStringSync(newPubspecContent);
+  }
+
+  void _commit(String message) {
+    print('commiting: $message');
+    final apiToolRootPath = _getApiToolRootPath();
+    final commitStatus = Process.runSync(
+      'git',
+      [
+        'commit',
+        '-am',
+        message,
+      ],
+      workingDirectory: apiToolRootPath,
+    );
+    if (commitStatus.exitCode != 0) {
+      print('commit failed:');
+      print(commitStatus.stderr);
+      print(commitStatus.stdout);
+      exit(1);
+    }
+  }
+
+  void _createTag(String tag) {
+    print('creating tag: $tag');
+    final apiToolRootPath = _getApiToolRootPath();
+    final tagStatus = Process.runSync(
+      'git',
+      [
+        'tag',
+        tag,
+      ],
+      workingDirectory: apiToolRootPath,
+    );
+    if (tagStatus.exitCode != 0) {
+      print('creating tag failed:');
+      print(tagStatus.stderr);
+      print(tagStatus.stdout);
+      exit(1);
+    }
+  }
+
+  Future _publishAsync() async {
+    print('publishing');
+    final apiToolRootPath = _getApiToolRootPath();
+    final pubProcess = await Process.start(
+      'fvm',
+      [
+        'dart',
+        'pub',
+        'publish',
+        '--dry-run',
+      ],
+      workingDirectory: apiToolRootPath,
+    );
+    pubProcess.stdout.transform(utf8.decoder).forEach(print);
+    pubProcess.stderr.transform(utf8.decoder).forEach(print);
+    final subscription = stdin.listen(pubProcess.stdin.add);
+    final pubExitCode = await pubProcess.exitCode;
+    subscription.cancel();
+    if (pubExitCode != 0) {
+      print('publish failed!');
+      exit(1);
+    }
+  }
+
+  void _setNextPrereleaseVersion() {
+    final apiToolRootPath = _getApiToolRootPath();
+    final pubspecPath = path.join(apiToolRootPath, 'pubspec.yaml');
+    final pubspecContent = File(pubspecPath).readAsStringSync();
+    final pubspec = Pubspec.parse(pubspecContent);
+    final currentVersion = pubspec.version!;
+    final newVersion = currentVersion.nextPatch;
+    final currentVersionString = pubspec.version!.canonicalizedVersion;
+    final newVersionString = '${newVersion.canonicalizedVersion}-dev';
+    final newPubspecContent = pubspecContent.replaceAll(
+      'version: $currentVersionString',
+      'version: $newVersionString',
+    );
     File(pubspecPath).writeAsStringSync(newPubspecContent);
   }
 }
