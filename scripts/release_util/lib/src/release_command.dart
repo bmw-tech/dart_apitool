@@ -37,6 +37,7 @@ class ReleaseCommand extends Command {
     }
     _createTag('releases/${_getCurrentVersion()}');
     await _publishAsync();
+    _writeLastReleasedVersion();
     _setNextPrereleaseVersion();
     _commit('Version ${_getCurrentVersion()}');
   }
@@ -274,5 +275,13 @@ class ReleaseCommand extends Command {
       'version: $newVersionString',
     );
     File(pubspecPath).writeAsStringSync(newPubspecContent);
+  }
+
+  void _writeLastReleasedVersion() {
+    final lastReleasedVersionFile = File(_getLastReleasedVersionFilePath());
+    lastReleasedVersionFile.writeAsStringSync(
+      _getCurrentVersion(),
+      mode: FileMode.write,
+    );
   }
 }
