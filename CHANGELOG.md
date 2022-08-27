@@ -5,6 +5,7 @@
 "dart_apitool" will detect that, but it is not possible to diff an old model with a new one. (can only happen if you saved the model, doesn't affect live analysis of pub or directory references).  
 To deactivate that behavior you can use the `--no-merge-base-classes` option.
 - fixes entry point handling
+- fixes minimum version handling for versions with major == 0
 
 ## Version 0.2.1
 - fixes getting own version in `pub global` context
