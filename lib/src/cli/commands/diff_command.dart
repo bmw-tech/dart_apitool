@@ -12,6 +12,7 @@ String _optionNameOld = 'old';
 String _optionNameNew = 'new';
 String _optionNameCheckVersions = 'check-versions';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
+String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -52,6 +53,12 @@ You may want to do this if you want to make sure
       defaultsTo: false,
       negatable: true,
     );
+    argParser.addFlag(
+      _optionNameNoMergeBaseClasses,
+      help: 'Disables base class merging.',
+      defaultsTo: false,
+      negatable: false,
+    );
   }
 
   @override
@@ -60,12 +67,20 @@ You may want to do this if you want to make sure
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
+    final noMergeBaseClasses =
+        argResults![_optionNameNoMergeBaseClasses] as bool;
 
     final preparedOldPackageRef = await prepare(oldPackageRef);
     final preparedNewPackageRef = await prepare(newPackageRef);
 
-    final oldPackageApi = await analyze(preparedOldPackageRef);
-    final newPackageApi = await analyze(preparedNewPackageRef);
+    final oldPackageApi = await analyze(
+      preparedOldPackageRef,
+      mergeBaseClasses: !noMergeBaseClasses,
+    );
+    final newPackageApi = await analyze(
+      preparedNewPackageRef,
+      mergeBaseClasses: !noMergeBaseClasses,
+    );
 
     final differ = PackageApiDiffer();
     final diffResult =

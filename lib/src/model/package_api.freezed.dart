@@ -16,15 +16,29 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PackageApi {
+  /// name of the package
   String get packageName => throw _privateConstructorUsedError;
+
+  /// version of the package
   String? get packageVersion => throw _privateConstructorUsedError;
+
+  /// path to the package
   String get packagePath => throw _privateConstructorUsedError;
+
+  /// class declarations this package has
   List<ClassDeclaration> get classDeclarations =>
       throw _privateConstructorUsedError;
+
+  /// root level executable declarations this package has
   List<ExecutableDeclaration> get executableDeclarations =>
       throw _privateConstructorUsedError;
+
+  /// root level field declarations this package has
   List<FieldDeclaration> get fieldDeclarations =>
       throw _privateConstructorUsedError;
+
+  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
+  Set<String> get semantics => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PackageApiCopyWith<PackageApi> get copyWith =>
@@ -42,7 +56,8 @@ abstract class $PackageApiCopyWith<$Res> {
       String packagePath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<FieldDeclaration> fieldDeclarations,
+      Set<String> semantics});
 }
 
 /// @nodoc
@@ -61,6 +76,7 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? semantics = freezed,
   }) {
     return _then(_value.copyWith(
       packageName: packageName == freezed
@@ -87,6 +103,10 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
+      semantics: semantics == freezed
+          ? _value.semantics
+          : semantics // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
     ));
   }
 }
@@ -104,7 +124,8 @@ abstract class _$$_PackageApiCopyWith<$Res>
       String packagePath,
       List<ClassDeclaration> classDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<FieldDeclaration> fieldDeclarations,
+      Set<String> semantics});
 }
 
 /// @nodoc
@@ -125,6 +146,7 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
     Object? classDeclarations = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? semantics = freezed,
   }) {
     return _then(_$_PackageApi(
       packageName: packageName == freezed
@@ -151,54 +173,87 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
+      semantics: semantics == freezed
+          ? _value._semantics
+          : semantics // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_PackageApi implements _PackageApi {
+class _$_PackageApi extends _PackageApi {
   const _$_PackageApi(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations})
+      required final List<FieldDeclaration> fieldDeclarations,
+      final Set<String> semantics = const <String>{}})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
-        _fieldDeclarations = fieldDeclarations;
+        _fieldDeclarations = fieldDeclarations,
+        _semantics = semantics,
+        super._();
 
+  /// name of the package
   @override
   final String packageName;
+
+  /// version of the package
   @override
   final String? packageVersion;
+
+  /// path to the package
   @override
   final String packagePath;
+
+  /// class declarations this package has
   final List<ClassDeclaration> _classDeclarations;
+
+  /// class declarations this package has
   @override
   List<ClassDeclaration> get classDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_classDeclarations);
   }
 
+  /// root level executable declarations this package has
   final List<ExecutableDeclaration> _executableDeclarations;
+
+  /// root level executable declarations this package has
   @override
   List<ExecutableDeclaration> get executableDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
 
+  /// root level field declarations this package has
   final List<FieldDeclaration> _fieldDeclarations;
+
+  /// root level field declarations this package has
   @override
   List<FieldDeclaration> get fieldDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
+  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
+  final Set<String> _semantics;
+
+  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
+  @override
+  @JsonKey()
+  Set<String> get semantics {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_semantics);
+  }
+
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, semantics: $semantics)';
   }
 
   @override
@@ -217,7 +272,9 @@ class _$_PackageApi implements _PackageApi {
             const DeepCollectionEquality().equals(
                 other._executableDeclarations, _executableDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._fieldDeclarations, _fieldDeclarations));
+                .equals(other._fieldDeclarations, _fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other._semantics, _semantics));
   }
 
   @override
@@ -228,7 +285,8 @@ class _$_PackageApi implements _PackageApi {
       const DeepCollectionEquality().hash(packagePath),
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
-      const DeepCollectionEquality().hash(_fieldDeclarations));
+      const DeepCollectionEquality().hash(_fieldDeclarations),
+      const DeepCollectionEquality().hash(_semantics));
 
   @JsonKey(ignore: true)
   @override
@@ -236,27 +294,45 @@ class _$_PackageApi implements _PackageApi {
       __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
 }
 
-abstract class _PackageApi implements PackageApi {
+abstract class _PackageApi extends PackageApi {
   const factory _PackageApi(
       {required final String packageName,
       required final String? packageVersion,
       required final String packagePath,
       required final List<ClassDeclaration> classDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations}) = _$_PackageApi;
+      required final List<FieldDeclaration> fieldDeclarations,
+      final Set<String> semantics}) = _$_PackageApi;
+  const _PackageApi._() : super._();
 
   @override
+
+  /// name of the package
   String get packageName;
   @override
+
+  /// version of the package
   String? get packageVersion;
   @override
+
+  /// path to the package
   String get packagePath;
   @override
+
+  /// class declarations this package has
   List<ClassDeclaration> get classDeclarations;
   @override
+
+  /// root level executable declarations this package has
   List<ExecutableDeclaration> get executableDeclarations;
   @override
+
+  /// root level field declarations this package has
   List<FieldDeclaration> get fieldDeclarations;
+  @override
+
+  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
+  Set<String> get semantics;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>

@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:collection/collection.dart';
 
 import '../class_declaration.dart';
 import '../executable_declaration.dart';
@@ -15,6 +16,7 @@ class InternalClassDeclaration implements InternalDeclaration {
 
   // class declaration data
   final String name;
+  final bool isPrivate;
   final bool isDeprecated;
   final List<String> typeParameterNames;
   final List<String> superTypeNames;
@@ -22,17 +24,20 @@ class InternalClassDeclaration implements InternalDeclaration {
   final List<FieldDeclaration> fieldDeclarations;
   @override
   final Set<String>? entryPoints;
+  final List<int> superClassIds;
 
   InternalClassDeclaration._({
     required this.id,
     this.parentClassId,
     required this.name,
+    required this.isPrivate,
     required this.isDeprecated,
     required this.typeParameterNames,
     required this.superTypeNames,
     required this.executableDeclarations,
     required this.fieldDeclarations,
     required this.entryPoints,
+    required this.superClassIds,
   });
 
   InternalClassDeclaration.fromClassElement(ClassElement classElement)
@@ -41,6 +46,7 @@ class InternalClassDeclaration implements InternalDeclaration {
           parentClassId: InternalDeclarationUtils.getIdFromElement(
               classElement.enclosingElement3),
           name: classElement.name,
+          isPrivate: classElement.isPrivate,
           isDeprecated: classElement.hasDeprecated,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               classElement.typeParameters),
@@ -49,6 +55,10 @@ class InternalClassDeclaration implements InternalDeclaration {
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
+          superClassIds: classElement.allSupertypes
+              .map((e) => InternalDeclarationUtils.getIdFromElement(e.element2))
+              .whereNotNull()
+              .toList(),
         );
 
   ClassDeclaration toClassDeclaration() {
@@ -59,6 +69,7 @@ class InternalClassDeclaration implements InternalDeclaration {
       superTypeNames: superTypeNames,
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
+      entryPoints: entryPoints,
     );
   }
 }

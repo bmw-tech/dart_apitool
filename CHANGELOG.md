@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.3.0
+- *BREAKING*: by default base class elements get now merged with the derived class. This makes previously saved models incompatible.  
+"dart_apitool" will detect that, but it is not possible to diff an old model with a new one. (can only happen if you saved the model, doesn't affect live analysis of pub or directory references).  
+To deactivate that behavior you can use the `--no-merge-base-classes` option.
+- fixes entry point handling
+
 ## Version 0.2.1
 - fixes getting own version in `pub global` context
 

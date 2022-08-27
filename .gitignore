@@ -25,4 +25,5 @@ doc/api/
 .vscode/launch.json
 .vscode/ltex.dictionary.*.txt
 .vscode/ltex.disabledRules.*.txt
+.vscode/ltex.hiddenFalsePositives.*.txt
 scripts/release_util/.vscode/launch.json

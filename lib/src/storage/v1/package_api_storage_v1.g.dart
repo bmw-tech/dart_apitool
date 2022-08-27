@@ -24,6 +24,9 @@ _$_PackageApiStorageV1 _$$_PackageApiStorageV1FromJson(
           .map((e) =>
               FieldDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
+      semantics: (json['semantics'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toSet(),
     );
 
 Map<String, dynamic> _$$_PackageApiStorageV1ToJson(
@@ -35,4 +38,5 @@ Map<String, dynamic> _$$_PackageApiStorageV1ToJson(
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
+      'semantics': instance.semantics?.toList(),
     };

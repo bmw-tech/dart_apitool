@@ -47,7 +47,11 @@ Package reference can be one of:
   /// Analyzes the given prepared Package [ref].
   /// If the prepared package contains anything that has to be cleaned up
   /// (like created temp directories) then [analyze] takes care of that
-  Future<PackageApi> analyze(PreparedPackageRef preparedRef) async {
+  /// [mergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  Future<PackageApi> analyze(
+    PreparedPackageRef preparedRef, {
+    bool mergeBaseClasses = true,
+  }) async {
     if (preparedRef.packageRef.isPackageApiFile) {
       stdout.writeln('Reading ${preparedRef.packageRef}');
       final fileContent = await File(preparedRef.packageRef.ref).readAsString();
@@ -67,8 +71,9 @@ Package reference can be one of:
           'Don\'t know how to handle ${preparedRef.packageRef.ref}');
     }
     stdout.writeln('Analyzing $path');
-    final analyzer =
-        PackageApiAnalyzer(packagePath: preparedRef.tempDirectory ?? path);
+    final analyzer = PackageApiAnalyzer(
+        packagePath: preparedRef.tempDirectory ?? path,
+        mergeBaseClasses: mergeBaseClasses);
     final apiResult = await analyzer.analyze();
     if (preparedRef.tempDirectory != null) {
       await Directory(preparedRef.tempDirectory!).delete(recursive: true);
