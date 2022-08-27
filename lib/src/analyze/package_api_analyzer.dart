@@ -186,20 +186,20 @@ class PackageApiAnalyzer {
       }
     }
 
-    final projectClassDeclarations =
+    final packageClassDeclarations =
         List<ClassDeclaration>.empty(growable: true);
-    final projectExecutableDeclarations =
+    final packageExecutableDeclarations =
         List<ExecutableDeclaration>.empty(growable: true);
-    final projectFieldDeclarations =
+    final packageFieldDeclarations =
         List<FieldDeclaration>.empty(growable: true);
 
     // aggregate class declarations
     for (final classId in collectedClasses.keys) {
       final entry = collectedClasses[classId]!;
       if (entry.classDeclarations.isEmpty) {
-        projectExecutableDeclarations.addAll(entry.executableDeclarations
+        packageExecutableDeclarations.addAll(entry.executableDeclarations
             .map((e) => e.toExecutableDeclaration()));
-        projectFieldDeclarations
+        packageFieldDeclarations
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
       } else {
         assert(entry.classDeclarations.length == 1,
@@ -209,7 +209,7 @@ class PackageApiAnalyzer {
             .map((e) => e.toExecutableDeclaration()));
         cd.fieldDeclarations
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
-        projectClassDeclarations.add(cd.toClassDeclaration());
+        packageClassDeclarations.add(cd.toClassDeclaration());
       }
     }
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
@@ -217,9 +217,9 @@ class PackageApiAnalyzer {
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
       packagePath: normalizedProjectPath,
-      classDeclarations: projectClassDeclarations,
-      executableDeclarations: projectExecutableDeclarations,
-      fieldDeclarations: projectFieldDeclarations,
+      classDeclarations: packageClassDeclarations,
+      executableDeclarations: packageExecutableDeclarations,
+      fieldDeclarations: packageFieldDeclarations,
     );
   }
 
