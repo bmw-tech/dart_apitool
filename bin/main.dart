@@ -8,15 +8,37 @@ import 'package:dart_apitool/api_tool_cli.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
 import 'package:path/path.dart' as p;
+import 'package:yaml/yaml.dart';
+
+Future<String> _getOwnVersion() async {
+  String? result;
+  final mainFilePath = Platform.script.toFilePath();
+  final pubspecFile =
+      File(p.join(p.dirname(mainFilePath), '..', 'pubspec.yaml'));
+  if (await pubspecFile.exists()) {
+    final yamlContent = await pubspecFile.readAsString();
+    final pubSpec = Pubspec.parse(yamlContent);
+    result = pubSpec.version?.canonicalizedVersion;
+  }
+  if (result == null) {
+    // if we are in a pub global environment we have to read our version from the pubspec.lock file
+    final pubspecLockFile =
+        File(p.join(p.dirname(mainFilePath), '..', 'pubspec.lock'));
+    if (await pubspecLockFile.exists()) {
+      final pubspecLockContent = await pubspecLockFile.readAsString();
+      final pubspecLockDom = loadYaml(pubspecLockContent);
+      result = pubspecLockDom['packages']['dart_apitool']['version'];
+    }
+  }
+  if (result == null) {
+    return 'UNKNOWN VERSION';
+  }
+  return result;
+}
 
 void main(List<String> arguments) async {
-  final mainFilePath = Platform.script.toFilePath();
-  final yamlContent =
-      await File(p.join(p.dirname(mainFilePath), '..', 'pubspec.yaml'))
-          .readAsString();
-  final pubSpec = Pubspec.parse(yamlContent);
   final runner = CommandRunner<int>('dart-apitool', '''
-dart-apitool (${Colorize(pubSpec.version.toString()).bold()})
+dart-apitool (${Colorize(await _getOwnVersion()).bold()})
 
 A set of utilities for Package APIs.
 ''')

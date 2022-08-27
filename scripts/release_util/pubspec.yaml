@@ -1,0 +1,18 @@
+name: release_util
+description: A sample command-line application.
+version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.17.5 <3.0.0'
+
+dependencies:
+  args: ^2.3.1
+  path: ^1.8.0
+  pub_semver: ^2.1.1
+  pubspec_parse: ^1.2.1
+  
+  
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0

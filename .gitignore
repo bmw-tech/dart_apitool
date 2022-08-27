@@ -25,3 +25,4 @@ doc/api/
 .vscode/launch.json
 .vscode/ltex.dictionary.*.txt
 .vscode/ltex.disabledRules.*.txt
+scripts/release_util/.vscode/launch.json

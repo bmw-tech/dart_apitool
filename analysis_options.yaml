@@ -8,5 +8,6 @@ analyzer:
   errors:
     invalid_annotation_target: ignore # freezed    
   exclude:
-    - lib/**/*.g.dart
-    - lib/**/*.freezed.dart
+    - lib/**.g.dart
+    - lib/**.freezed.dart
+    - scripts/**
