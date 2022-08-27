@@ -20,7 +20,6 @@ Future<String> _getOwnVersion() async {
     final pubSpec = Pubspec.parse(yamlContent);
     result = pubSpec.version?.canonicalizedVersion;
   }
-  result = null;
   if (result == null) {
     // if we are in a pub global environment we have to read our version from the pubspec.lock file
     final pubspecLockFile =
