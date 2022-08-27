@@ -6,11 +6,14 @@ import 'internal_declaration_utils.dart';
 
 class InternalExecutableDeclaration implements InternalDeclaration {
   @override
+  final int id;
+  @override
   final int? parentClassId;
 
   final ExecutableDeclaration executableDeclaration;
 
   InternalExecutableDeclaration._({
+    required this.id,
     this.parentClassId,
     required this.executableDeclaration,
   });
@@ -18,6 +21,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   InternalExecutableDeclaration.fromExecutableElement(
       ExecutableElement executableElement)
       : this._(
+            id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromElement(
                 executableElement.enclosingElement3),
             executableDeclaration: ExecutableDeclaration(
@@ -31,6 +35,17 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               type: _computeExecutableType(executableElement),
               isStatic: executableElement.isStatic,
             ));
+
+  InternalExecutableDeclaration copyWith({
+    ExecutableDeclaration? newExecutableDeclaration,
+  }) {
+    final exd = newExecutableDeclaration ?? executableDeclaration;
+    return InternalExecutableDeclaration._(
+      id: id,
+      parentClassId: parentClassId,
+      executableDeclaration: exd,
+    );
+  }
 
   /// retrieves the type of executable from the given [executableElement]
   static ExecutableType _computeExecutableType(

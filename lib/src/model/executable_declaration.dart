@@ -26,6 +26,7 @@ class ExecutableParameterDeclaration
     required String name,
     required bool isDeprecated,
     required String typeName,
+    Set<String>? entryPoints,
   }) = _ExecutableParameterDeclaration;
 }
 
@@ -49,6 +50,7 @@ class ExecutableDeclaration
     required List<String> typeParameterNames,
     required ExecutableType type,
     required bool isStatic,
+    Set<String>? entryPoints,
   }) = _ExecutableDeclaration;
 
   /// computes the executable signature.

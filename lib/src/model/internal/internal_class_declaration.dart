@@ -8,6 +8,7 @@ import 'internal_declaration_utils.dart';
 
 /// Internal extension of [ClassDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
 class InternalClassDeclaration implements InternalDeclaration {
+  @override
   final int id;
   @override
   final int? parentClassId;
@@ -38,17 +39,18 @@ class InternalClassDeclaration implements InternalDeclaration {
         );
 
   InternalClassDeclaration copyWith({
-    List<ExecutableDeclaration>? executableDeclarations,
-    List<FieldDeclaration>? fieldDeclarations,
+    List<ExecutableDeclaration>? newExecutableDeclarations,
+    List<FieldDeclaration>? newFieldDeclarations,
+    ClassDeclaration? newClassDeclaration,
   }) {
+    final cd = newClassDeclaration ?? classDeclaration;
     return InternalClassDeclaration._(
       id: id,
       parentClassId: parentClassId,
-      classDeclaration: classDeclaration.copyWith(
+      classDeclaration: cd.copyWith(
         executableDeclarations:
-            executableDeclarations ?? classDeclaration.executableDeclarations,
-        fieldDeclarations:
-            fieldDeclarations ?? classDeclaration.fieldDeclarations,
+            newExecutableDeclarations ?? cd.executableDeclarations,
+        fieldDeclarations: newFieldDeclarations ?? cd.fieldDeclarations,
       ),
     );
   }

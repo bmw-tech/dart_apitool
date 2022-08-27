@@ -2,6 +2,9 @@
 
 ## Version 0.2.0
 - Command cleanup
+- Calls `dart pub` or `flutter pub` depending on the package dependencies
+- Refactor Dart and Pub Interaction helpers
+- Entry points are now analyzed and diffed as well (List of publicly available import destinations that this element can be reached with)
 
 ## Version 0.1.2
 - Adds `--ignore-prerelease` to diff command

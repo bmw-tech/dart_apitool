@@ -19,6 +19,7 @@ mixin _$_FileToAnalyzeEntry {
   String get filePath => throw _privateConstructorUsedError;
   List<String> get shownNames => throw _privateConstructorUsedError;
   List<String> get hiddenNames => throw _privateConstructorUsedError;
+  Set<String> get exportedBy => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   _$FileToAnalyzeEntryCopyWith<_FileToAnalyzeEntry> get copyWith =>
@@ -31,7 +32,10 @@ abstract class _$FileToAnalyzeEntryCopyWith<$Res> {
           _FileToAnalyzeEntry value, $Res Function(_FileToAnalyzeEntry) then) =
       __$FileToAnalyzeEntryCopyWithImpl<$Res>;
   $Res call(
-      {String filePath, List<String> shownNames, List<String> hiddenNames});
+      {String filePath,
+      List<String> shownNames,
+      List<String> hiddenNames,
+      Set<String> exportedBy});
 }
 
 /// @nodoc
@@ -48,6 +52,7 @@ class __$FileToAnalyzeEntryCopyWithImpl<$Res>
     Object? filePath = freezed,
     Object? shownNames = freezed,
     Object? hiddenNames = freezed,
+    Object? exportedBy = freezed,
   }) {
     return _then(_value.copyWith(
       filePath: filePath == freezed
@@ -62,6 +67,10 @@ class __$FileToAnalyzeEntryCopyWithImpl<$Res>
           ? _value.hiddenNames
           : hiddenNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      exportedBy: exportedBy == freezed
+          ? _value.exportedBy
+          : exportedBy // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
     ));
   }
 }
@@ -74,7 +83,10 @@ abstract class _$$__FileToAnalyzeEntryCopyWith<$Res>
       __$$__FileToAnalyzeEntryCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String filePath, List<String> shownNames, List<String> hiddenNames});
+      {String filePath,
+      List<String> shownNames,
+      List<String> hiddenNames,
+      Set<String> exportedBy});
 }
 
 /// @nodoc
@@ -93,6 +105,7 @@ class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
     Object? filePath = freezed,
     Object? shownNames = freezed,
     Object? hiddenNames = freezed,
+    Object? exportedBy = freezed,
   }) {
     return _then(_$__FileToAnalyzeEntry(
       filePath: filePath == freezed
@@ -107,6 +120,10 @@ class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
           ? _value._hiddenNames
           : hiddenNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      exportedBy: exportedBy == freezed
+          ? _value._exportedBy
+          : exportedBy // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
     ));
   }
 }
@@ -117,9 +134,11 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
   const _$__FileToAnalyzeEntry(
       {required this.filePath,
       final List<String> shownNames = const [],
-      final List<String> hiddenNames = const []})
+      final List<String> hiddenNames = const [],
+      required final Set<String> exportedBy})
       : _shownNames = shownNames,
-        _hiddenNames = hiddenNames;
+        _hiddenNames = hiddenNames,
+        _exportedBy = exportedBy;
 
   @override
   final String filePath;
@@ -139,9 +158,16 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
     return EqualUnmodifiableListView(_hiddenNames);
   }
 
+  final Set<String> _exportedBy;
+  @override
+  Set<String> get exportedBy {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_exportedBy);
+  }
+
   @override
   String toString() {
-    return '_FileToAnalyzeEntry(filePath: $filePath, shownNames: $shownNames, hiddenNames: $hiddenNames)';
+    return '_FileToAnalyzeEntry(filePath: $filePath, shownNames: $shownNames, hiddenNames: $hiddenNames, exportedBy: $exportedBy)';
   }
 
   @override
@@ -153,7 +179,9 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
             const DeepCollectionEquality()
                 .equals(other._shownNames, _shownNames) &&
             const DeepCollectionEquality()
-                .equals(other._hiddenNames, _hiddenNames));
+                .equals(other._hiddenNames, _hiddenNames) &&
+            const DeepCollectionEquality()
+                .equals(other._exportedBy, _exportedBy));
   }
 
   @override
@@ -161,7 +189,8 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
       runtimeType,
       const DeepCollectionEquality().hash(filePath),
       const DeepCollectionEquality().hash(_shownNames),
-      const DeepCollectionEquality().hash(_hiddenNames));
+      const DeepCollectionEquality().hash(_hiddenNames),
+      const DeepCollectionEquality().hash(_exportedBy));
 
   @JsonKey(ignore: true)
   @override
@@ -174,7 +203,8 @@ abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
   const factory __FileToAnalyzeEntry(
       {required final String filePath,
       final List<String> shownNames,
-      final List<String> hiddenNames}) = _$__FileToAnalyzeEntry;
+      final List<String> hiddenNames,
+      required final Set<String> exportedBy}) = _$__FileToAnalyzeEntry;
 
   @override
   String get filePath;
@@ -182,6 +212,8 @@ abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
   List<String> get shownNames;
   @override
   List<String> get hiddenNames;
+  @override
+  Set<String> get exportedBy;
   @override
   @JsonKey(ignore: true)
   _$$__FileToAnalyzeEntryCopyWith<_$__FileToAnalyzeEntry> get copyWith =>

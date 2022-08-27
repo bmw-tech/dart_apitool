@@ -24,6 +24,7 @@ mixin _$ClassDeclaration {
       throw _privateConstructorUsedError;
   List<FieldDeclaration> get fieldDeclarations =>
       throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ClassDeclarationCopyWith<ClassDeclaration> get copyWith =>
@@ -41,7 +42,8 @@ abstract class $ClassDeclarationCopyWith<$Res> {
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<FieldDeclaration> fieldDeclarations,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$ClassDeclarationCopyWithImpl<$Res>
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -87,6 +90,10 @@ class _$ClassDeclarationCopyWithImpl<$Res>
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$_ClassDeclarationCopyWith<$Res>
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations});
+      List<FieldDeclaration> fieldDeclarations,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -126,6 +134,7 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
     Object? superTypeNames = freezed,
     Object? executableDeclarations = freezed,
     Object? fieldDeclarations = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_ClassDeclaration(
       name: name == freezed
@@ -152,6 +161,10 @@ class __$$_ClassDeclarationCopyWithImpl<$Res>
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -165,11 +178,13 @@ class _$_ClassDeclaration extends _ClassDeclaration {
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations})
+      required final List<FieldDeclaration> fieldDeclarations,
+      final Set<String>? entryPoints})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
+        _entryPoints = entryPoints,
         super._();
 
   @override
@@ -204,9 +219,18 @@ class _$_ClassDeclaration extends _ClassDeclaration {
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
+
   @override
   String toString() {
-    return 'ClassDeclaration(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations)';
+    return 'ClassDeclaration(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
   }
 
   @override
@@ -224,7 +248,9 @@ class _$_ClassDeclaration extends _ClassDeclaration {
             const DeepCollectionEquality().equals(
                 other._executableDeclarations, _executableDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._fieldDeclarations, _fieldDeclarations));
+                .equals(other._fieldDeclarations, _fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @override
@@ -235,7 +261,8 @@ class _$_ClassDeclaration extends _ClassDeclaration {
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
-      const DeepCollectionEquality().hash(_fieldDeclarations));
+      const DeepCollectionEquality().hash(_fieldDeclarations),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -246,13 +273,13 @@ class _$_ClassDeclaration extends _ClassDeclaration {
 abstract class _ClassDeclaration extends ClassDeclaration
     implements Declaration {
   const factory _ClassDeclaration(
-          {required final String name,
-          required final bool isDeprecated,
-          required final List<String> typeParameterNames,
-          required final List<String> superTypeNames,
-          required final List<ExecutableDeclaration> executableDeclarations,
-          required final List<FieldDeclaration> fieldDeclarations}) =
-      _$_ClassDeclaration;
+      {required final String name,
+      required final bool isDeprecated,
+      required final List<String> typeParameterNames,
+      required final List<String> superTypeNames,
+      required final List<ExecutableDeclaration> executableDeclarations,
+      required final List<FieldDeclaration> fieldDeclarations,
+      final Set<String>? entryPoints}) = _$_ClassDeclaration;
   const _ClassDeclaration._() : super._();
 
   @override
@@ -267,6 +294,8 @@ abstract class _ClassDeclaration extends ClassDeclaration
   List<ExecutableDeclaration> get executableDeclarations;
   @override
   List<FieldDeclaration> get fieldDeclarations;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ClassDeclarationCopyWith<_$_ClassDeclaration> get copyWith =>

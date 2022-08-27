@@ -21,6 +21,7 @@ mixin _$ExecutableParameterDeclaration {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
@@ -38,7 +39,8 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       bool isNamed,
       String name,
       bool isDeprecated,
-      String typeName});
+      String typeName,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? typeName = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       isRequired: isRequired == freezed
@@ -79,6 +82,10 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -96,7 +103,8 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       bool isNamed,
       String name,
       bool isDeprecated,
-      String typeName});
+      String typeName,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -119,6 +127,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? typeName = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
       isRequired: isRequired == freezed
@@ -141,6 +150,10 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -154,8 +167,10 @@ class _$_ExecutableParameterDeclaration
       required this.isNamed,
       required this.name,
       required this.isDeprecated,
-      required this.typeName})
-      : super._();
+      required this.typeName,
+      final Set<String>? entryPoints})
+      : _entryPoints = entryPoints,
+        super._();
 
   @override
   final bool isRequired;
@@ -167,10 +182,18 @@ class _$_ExecutableParameterDeclaration
   final bool isDeprecated;
   @override
   final String typeName;
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName, entryPoints: $entryPoints)';
   }
 
   @override
@@ -184,7 +207,9 @@ class _$_ExecutableParameterDeclaration
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.typeName, typeName));
+            const DeepCollectionEquality().equals(other.typeName, typeName) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @override
@@ -194,7 +219,8 @@ class _$_ExecutableParameterDeclaration
       const DeepCollectionEquality().hash(isNamed),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(typeName));
+      const DeepCollectionEquality().hash(typeName),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -210,7 +236,8 @@ abstract class _ExecutableParameterDeclaration
       required final bool isNamed,
       required final String name,
       required final bool isDeprecated,
-      required final String typeName}) = _$_ExecutableParameterDeclaration;
+      required final String typeName,
+      final Set<String>? entryPoints}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
 
   @override
@@ -223,6 +250,8 @@ abstract class _ExecutableParameterDeclaration
   bool get isDeprecated;
   @override
   String get typeName;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
@@ -239,6 +268,7 @@ mixin _$ExecutableDeclaration {
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   ExecutableType get type => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
@@ -257,7 +287,8 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type,
-      bool isStatic});
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -278,6 +309,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
     Object? typeParameterNames = freezed,
     Object? type = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       returnTypeName: returnTypeName == freezed
@@ -308,6 +340,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -326,7 +362,8 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type,
-      bool isStatic});
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -350,6 +387,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? typeParameterNames = freezed,
     Object? type = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_ExecutableDeclaration(
       returnTypeName: returnTypeName == freezed
@@ -380,6 +418,10 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -394,9 +436,11 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required this.type,
-      required this.isStatic})
+      required this.isStatic,
+      final Set<String>? entryPoints})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
+        _entryPoints = entryPoints,
         super._();
 
   @override
@@ -423,10 +467,18 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   final ExecutableType type;
   @override
   final bool isStatic;
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -444,7 +496,9 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.isStatic, isStatic));
+            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @override
@@ -456,7 +510,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(isStatic));
+      const DeepCollectionEquality().hash(isStatic),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -473,7 +528,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required final ExecutableType type,
-      required final bool isStatic}) = _$_ExecutableDeclaration;
+      required final bool isStatic,
+      final Set<String>? entryPoints}) = _$_ExecutableDeclaration;
   const _ExecutableDeclaration._() : super._();
 
   @override
@@ -490,6 +546,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   ExecutableType get type;
   @override
   bool get isStatic;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>

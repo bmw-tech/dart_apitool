@@ -25,6 +25,9 @@ _$_ClassDeclarationStorageV1 _$$_ClassDeclarationStorageV1FromJson(
           .map((e) =>
               FieldDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
+      entryPoints: (json['entryPoints'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toSet(),
     );
 
 Map<String, dynamic> _$$_ClassDeclarationStorageV1ToJson(
@@ -36,4 +39,5 @@ Map<String, dynamic> _$$_ClassDeclarationStorageV1ToJson(
       'superTypeNames': instance.superTypeNames,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
+      'entryPoints': instance.entryPoints?.toList(),
     };

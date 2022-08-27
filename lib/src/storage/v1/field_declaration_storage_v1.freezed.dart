@@ -25,6 +25,7 @@ mixin _$FieldDeclarationStorageV1 {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,12 @@ abstract class $FieldDeclarationStorageV1CopyWith<$Res> {
   factory $FieldDeclarationStorageV1CopyWith(FieldDeclarationStorageV1 value,
           $Res Function(FieldDeclarationStorageV1) then) =
       _$FieldDeclarationStorageV1CopyWithImpl<$Res>;
-  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
+  $Res call(
+      {String typeName,
+      String name,
+      bool isDeprecated,
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -55,6 +61,7 @@ class _$FieldDeclarationStorageV1CopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       typeName: typeName == freezed
@@ -73,6 +80,10 @@ class _$FieldDeclarationStorageV1CopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value.entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -85,7 +96,12 @@ abstract class _$$_FieldDeclarationStorageV1CopyWith<$Res>
           $Res Function(_$_FieldDeclarationStorageV1) then) =
       __$$_FieldDeclarationStorageV1CopyWithImpl<$Res>;
   @override
-  $Res call({String typeName, String name, bool isDeprecated, bool isStatic});
+  $Res call(
+      {String typeName,
+      String name,
+      bool isDeprecated,
+      bool isStatic,
+      Set<String>? entryPoints});
 }
 
 /// @nodoc
@@ -107,6 +123,7 @@ class __$$_FieldDeclarationStorageV1CopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_FieldDeclarationStorageV1(
       typeName: typeName == freezed
@@ -125,6 +142,10 @@ class __$$_FieldDeclarationStorageV1CopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      entryPoints: entryPoints == freezed
+          ? _value._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
     ));
   }
 }
@@ -136,8 +157,10 @@ class _$_FieldDeclarationStorageV1 extends _FieldDeclarationStorageV1 {
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
-      required this.isStatic})
-      : super._();
+      required this.isStatic,
+      final Set<String>? entryPoints})
+      : _entryPoints = entryPoints,
+        super._();
 
   factory _$_FieldDeclarationStorageV1.fromJson(Map<String, dynamic> json) =>
       _$$_FieldDeclarationStorageV1FromJson(json);
@@ -150,10 +173,18 @@ class _$_FieldDeclarationStorageV1 extends _FieldDeclarationStorageV1 {
   final bool isDeprecated;
   @override
   final bool isStatic;
+  final Set<String>? _entryPoints;
+  @override
+  Set<String>? get entryPoints {
+    final value = _entryPoints;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
 
   @override
   String toString() {
-    return 'FieldDeclarationStorageV1(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic)';
+    return 'FieldDeclarationStorageV1(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -165,7 +196,9 @@ class _$_FieldDeclarationStorageV1 extends _FieldDeclarationStorageV1 {
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.isStatic, isStatic));
+            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
+            const DeepCollectionEquality()
+                .equals(other._entryPoints, _entryPoints));
   }
 
   @JsonKey(ignore: true)
@@ -175,7 +208,8 @@ class _$_FieldDeclarationStorageV1 extends _FieldDeclarationStorageV1 {
       const DeepCollectionEquality().hash(typeName),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(isStatic));
+      const DeepCollectionEquality().hash(isStatic),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -196,7 +230,8 @@ abstract class _FieldDeclarationStorageV1 extends FieldDeclarationStorageV1 {
       {required final String typeName,
       required final String name,
       required final bool isDeprecated,
-      required final bool isStatic}) = _$_FieldDeclarationStorageV1;
+      required final bool isStatic,
+      final Set<String>? entryPoints}) = _$_FieldDeclarationStorageV1;
   const _FieldDeclarationStorageV1._() : super._();
 
   factory _FieldDeclarationStorageV1.fromJson(Map<String, dynamic> json) =
@@ -210,6 +245,8 @@ abstract class _FieldDeclarationStorageV1 extends FieldDeclarationStorageV1 {
   bool get isDeprecated;
   @override
   bool get isStatic;
+  @override
+  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationStorageV1CopyWith<_$_FieldDeclarationStorageV1>
