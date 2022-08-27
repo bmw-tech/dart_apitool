@@ -10,12 +10,28 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   @override
   final int? parentClassId;
 
-  final ExecutableDeclaration executableDeclaration;
+  // executable declaration data
+  String returnTypeName;
+  String name;
+  bool isDeprecated;
+  List<ExecutableParameterDeclaration> parameters;
+  List<String> typeParameterNames;
+  ExecutableType type;
+  bool isStatic;
+  @override
+  Set<String>? entryPoints;
 
   InternalExecutableDeclaration._({
     required this.id,
     this.parentClassId,
-    required this.executableDeclaration,
+    required this.returnTypeName,
+    required this.name,
+    required this.isDeprecated,
+    required this.parameters,
+    required this.typeParameterNames,
+    required this.type,
+    required this.isStatic,
+    required this.entryPoints,
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
@@ -24,26 +40,26 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromElement(
                 executableElement.enclosingElement3),
-            executableDeclaration: ExecutableDeclaration(
-              returnTypeName: executableElement.returnType
-                  .getDisplayString(withNullability: true),
-              name: executableElement.displayName,
-              isDeprecated: executableElement.hasDeprecated,
-              parameters: _computeParameterList(executableElement.parameters),
-              typeParameterNames:
-                  _computeTypeParameters(executableElement.typeParameters),
-              type: _computeExecutableType(executableElement),
-              isStatic: executableElement.isStatic,
-            ));
+            returnTypeName: executableElement.returnType
+                .getDisplayString(withNullability: true),
+            name: executableElement.displayName,
+            isDeprecated: executableElement.hasDeprecated,
+            parameters: _computeParameterList(executableElement.parameters),
+            typeParameterNames:
+                _computeTypeParameters(executableElement.typeParameters),
+            type: _computeExecutableType(executableElement),
+            isStatic: executableElement.isStatic,
+            entryPoints: {});
 
-  InternalExecutableDeclaration copyWith({
-    ExecutableDeclaration? newExecutableDeclaration,
-  }) {
-    final exd = newExecutableDeclaration ?? executableDeclaration;
-    return InternalExecutableDeclaration._(
-      id: id,
-      parentClassId: parentClassId,
-      executableDeclaration: exd,
+  ExecutableDeclaration toExecutableDeclaration() {
+    return ExecutableDeclaration(
+      returnTypeName: returnTypeName,
+      name: name,
+      isDeprecated: isDeprecated,
+      parameters: parameters,
+      typeParameterNames: typeParameterNames,
+      type: type,
+      isStatic: isStatic,
     );
   }
 

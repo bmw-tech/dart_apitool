@@ -10,12 +10,22 @@ class InternalFieldDeclaration implements InternalDeclaration {
   @override
   final int? parentClassId;
 
-  final FieldDeclaration fieldDeclaration;
+  // field declaration data
+  String typeName;
+  String name;
+  bool isDeprecated;
+  bool isStatic;
+  @override
+  Set<String>? entryPoints;
 
   InternalFieldDeclaration._({
     required this.id,
     this.parentClassId,
-    required this.fieldDeclaration,
+    required this.typeName,
+    required this.name,
+    required this.isDeprecated,
+    required this.isStatic,
+    required this.entryPoints,
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
@@ -24,22 +34,19 @@ class InternalFieldDeclaration implements InternalDeclaration {
             id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromElement(
                 fieldElement.enclosingElement3),
-            fieldDeclaration: FieldDeclaration(
-              typeName:
-                  fieldElement.type.getDisplayString(withNullability: true),
-              name: fieldElement.name,
-              isDeprecated: fieldElement.hasDeprecated,
-              isStatic: fieldElement.isStatic,
-            ));
+            typeName: fieldElement.type.getDisplayString(withNullability: true),
+            name: fieldElement.name,
+            isDeprecated: fieldElement.hasDeprecated,
+            isStatic: fieldElement.isStatic,
+            entryPoints: {});
 
-  InternalFieldDeclaration copyWith({
-    FieldDeclaration? newFieldDeclaration,
-  }) {
-    final fd = newFieldDeclaration ?? fieldDeclaration;
-    return InternalFieldDeclaration._(
-      id: id,
-      parentClassId: parentClassId,
-      fieldDeclaration: fd,
+  FieldDeclaration toFieldDeclaration() {
+    return FieldDeclaration(
+      typeName: typeName,
+      name: name,
+      isDeprecated: isDeprecated,
+      isStatic: isStatic,
+      entryPoints: {},
     );
   }
 }

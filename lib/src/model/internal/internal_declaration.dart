@@ -5,4 +5,7 @@ abstract class InternalDeclaration {
 
   /// [id] of the parent class or [null] if there is none
   int? get parentClassId;
+
+  /// entry points of this element
+  Set<String>? get entryPoints;
 }
