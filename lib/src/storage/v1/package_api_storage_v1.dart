@@ -19,6 +19,7 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
     required List<ClassDeclarationStorageV1> classDeclarations,
     required List<ExecutableDeclarationStorageV1> executableDeclarations,
     required List<FieldDeclarationStorageV1> fieldDeclarations,
+    Set<String>? semantics,
   }) = _PackageApiStorageV1;
 
   factory PackageApiStorageV1.fromJson(Map<String, Object?> json) =>
@@ -36,6 +37,7 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
           .toList(),
       fieldDeclarations:
           fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
+      semantics: semantics ?? {},
     );
   }
 
@@ -54,6 +56,7 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
       fieldDeclarations: packageApi.fieldDeclarations
           .map((f) => FieldDeclarationStorageV1.fromFieldDeclaration(f))
           .toList(),
+      semantics: packageApi.semantics,
     );
   }
 }

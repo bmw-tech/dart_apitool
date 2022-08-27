@@ -60,6 +60,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
       typeParameterNames: typeParameterNames,
       type: type,
       isStatic: isStatic,
+      entryPoints: entryPoints,
     );
   }
 

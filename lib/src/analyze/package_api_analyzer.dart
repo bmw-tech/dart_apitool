@@ -30,9 +30,22 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
+  final bool mergeBaseClasses;
+
+  final String semanticNameMergeBaseClasses = 'mergeBaseClasses';
+
+  /// the semantics of package API models this analyzer produces.
+  /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
+  final semantics = <String>{};
 
   /// constructor
-  PackageApiAnalyzer({required this.packagePath}) {
+  PackageApiAnalyzer({
+    required this.packagePath,
+    this.mergeBaseClasses = true,
+  }) {
+    if (mergeBaseClasses) {
+      semantics.add(semanticNameMergeBaseClasses);
+    }
     _checkProjectPathValidity();
   }
 
@@ -196,6 +209,25 @@ class PackageApiAnalyzer {
     // aggregate class declarations
     for (final classId in collectedClasses.keys) {
       final entry = collectedClasses[classId]!;
+      // for all non-root elements add the fields and executables to its class
+      if (entry.classDeclarations.isNotEmpty) {
+        assert(entry.classDeclarations.length == 1,
+            'We found multiple classes sharing the same classId!');
+        final cd = entry.classDeclarations.single;
+        cd.executableDeclarations.addAll(entry.executableDeclarations
+            .map((e) => e.toExecutableDeclaration()));
+        cd.fieldDeclarations
+            .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
+      }
+    }
+
+    if (mergeBaseClasses) {
+      _mergeSuperTypes(collectedClasses);
+    }
+
+    // extract package declarations
+    for (final classId in collectedClasses.keys) {
+      final entry = collectedClasses[classId]!;
       if (entry.classDeclarations.isEmpty) {
         packageExecutableDeclarations.addAll(entry.executableDeclarations
             .map((e) => e.toExecutableDeclaration()));
@@ -204,14 +236,11 @@ class PackageApiAnalyzer {
       } else {
         assert(entry.classDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
-        final cd = entry.classDeclarations.first;
-        cd.executableDeclarations.addAll(entry.executableDeclarations
-            .map((e) => e.toExecutableDeclaration()));
-        cd.fieldDeclarations
-            .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
+        final cd = entry.classDeclarations.single;
         packageClassDeclarations.add(cd.toClassDeclaration());
       }
     }
+
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
     return PackageApi(
       packageName: pubSpec.name,
@@ -220,6 +249,7 @@ class PackageApiAnalyzer {
       classDeclarations: packageClassDeclarations,
       executableDeclarations: packageExecutableDeclarations,
       fieldDeclarations: packageFieldDeclarations,
+      semantics: semantics,
     );
   }
 
@@ -290,6 +320,66 @@ class PackageApiAnalyzer {
         path.join(absoluteNormalizedPackagePath, 'pubspec.yaml');
     assert(File(pubspecPath).existsSync(),
         'Given package path doesn\'t contain a pubspec.yaml ($absoluteNormalizedPackagePath)');
+  }
+
+  void _mergeSuperTypes(Map<int?, _ClassCollectionResult> collectedClasses) {
+    final mergedSuperTypeIds = <int>{};
+    // we merge all super class elements into the derived classes
+    for (final classId in collectedClasses.keys) {
+      final entry = collectedClasses[classId]!;
+      final classDeclaration = entry.classDeclarations.single;
+      mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
+          collectedClasses, classDeclaration.superClassIds, classDeclaration));
+    }
+    // now we remove all private classes that got merged into their derived classes
+    for (final mergedSuperTypeId in mergedSuperTypeIds) {
+      final entry = collectedClasses[mergedSuperTypeId]!;
+      final classDeclaration = entry.classDeclarations.single;
+      if (classDeclaration.isPrivate) {
+        collectedClasses.remove(mergedSuperTypeId);
+      }
+    }
+  }
+
+  List<int> _mergeSuperTypesInto(
+      Map<int?, _ClassCollectionResult> collectedClasses,
+      List<int> superTypeIds,
+      InternalClassDeclaration target,
+      {bool isTransitive = false}) {
+    final mergedSuperTypeIds = List<int>.empty(growable: true);
+    for (final superClassId in superTypeIds) {
+      final superClassEntry = collectedClasses[superClassId];
+      if (superClassEntry == null) {
+        continue;
+      }
+
+      // if we are in a transitive merge, we only merge super types that are not merged already.
+      // this check can only be done if we are in a transitive merge because the direct merge will contain entries of all direct super types in the superClassIds list.
+      if (isTransitive && target.superClassIds.contains(superClassId)) {
+        continue;
+      }
+      // mark the super type as merged
+      if (!target.superClassIds.contains(superClassId)) {
+        target.superClassIds.add(superClassId);
+      }
+
+      mergedSuperTypeIds.add(superClassId);
+
+      final superClassDeclaration = superClassEntry.classDeclarations.single;
+
+      // now merge all executable and field declarations into the merge target.
+      // constructors don't get merged
+      target.executableDeclarations.addAll(superClassDeclaration
+          .executableDeclarations
+          .where((element) => element.type != ExecutableType.constructor));
+      target.fieldDeclarations.addAll(superClassDeclaration.fieldDeclarations);
+
+      // for all super types this type has we also merge
+      mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
+          collectedClasses, superClassDeclaration.superClassIds, target,
+          isTransitive: true));
+    }
+    return mergedSuperTypeIds;
   }
 }
 

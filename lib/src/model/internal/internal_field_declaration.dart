@@ -46,7 +46,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
       name: name,
       isDeprecated: isDeprecated,
       isStatic: isStatic,
-      entryPoints: {},
+      entryPoints: entryPoints,
     );
   }
 }

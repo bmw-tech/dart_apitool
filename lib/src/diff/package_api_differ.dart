@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:stack/stack.dart';
 import 'package:tuple/tuple.dart';
 
@@ -25,6 +26,12 @@ class PackageApiDiffer {
       throw PackageApiDiffError(
           message:
               'Got different packages. Can\'t create diff. Old Package = "${oldApi.packageName}", New Package = "${newApi.packageName}"');
+    }
+
+    if (!SetEquality<String>().equals(oldApi.semantics, newApi.semantics)) {
+      throw PackageApiDiffError(
+          message:
+              'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');
     }
 
     final changes = [

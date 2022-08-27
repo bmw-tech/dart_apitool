@@ -6,6 +6,10 @@ import 'package:dart_apitool/src/storage/storage.dart';
 import '../package_ref.dart';
 import 'command_mixin.dart';
 
+String _optionNameInput = 'input';
+String _optionNameOutput = 'output';
+String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
+
 /// command to extract the public API of a package.
 /// This is used when, for example, the public API needs to be stored on disk
 class ExtractCommand extends Command<int> with CommandMixin {
@@ -17,28 +21,37 @@ class ExtractCommand extends Command<int> with CommandMixin {
 
   ExtractCommand() {
     argParser.addOption(
-      'input',
+      _optionNameInput,
       help: 'Input package ref. $packageRefExplanation',
       mandatory: true,
     );
     argParser.addOption(
-      'output',
+      _optionNameOutput,
       help: '''
 Output file for the extracted Package API.
 If not specified the extracted API will be printed to the console.
 ''',
     );
+    argParser.addFlag(
+      _optionNameNoMergeBaseClasses,
+      help: 'Disables base class merging.',
+      defaultsTo: false,
+      negatable: false,
+    );
   }
 
   @override
   Future<int> run() async {
-    final packageRef = PackageRef(argResults!['input']);
+    final packageRef = PackageRef(argResults![_optionNameInput]);
+    final noMergeBaseClasses =
+        argResults![_optionNameNoMergeBaseClasses] as bool;
 
     final preparedPackageRef = await prepare(packageRef);
-    final packageApi = await analyze(preparedPackageRef);
+    final packageApi = await analyze(preparedPackageRef,
+        mergeBaseClasses: !noMergeBaseClasses);
     final jsonString =
         PackageApiStorage.packageApitoStorageJson(packageApi, pretty: true);
-    final outFilePath = argResults!['output'] as String?;
+    final outFilePath = argResults![_optionNameOutput] as String?;
     if (outFilePath != null) {
       final outFile = File(outFilePath);
       if (await outFile.exists()) {
