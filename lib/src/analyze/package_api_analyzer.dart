@@ -99,24 +99,16 @@ class PackageApiAnalyzer {
               } else {
                 skippedClasses.add(cd.id);
               }
+
               // set entry point
               _addEntryPoints<InternalClassDeclaration>(
-                  collectedClasses[cd.id]!.classDeclarations,
-                  cd.id,
-                  {
-                    if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
-                    ...fileToAnalyze.exportedBy
-                  },
-                  (cdToClone, entryPointsToAdd) => cdToClone.copyWith(
-                        newClassDeclaration:
-                            cdToClone.classDeclaration.copyWith(
-                          entryPoints: {
-                            ...cdToClone.classDeclaration.entryPoints ??
-                                <String>{},
-                            ...entryPointsToAdd,
-                          },
-                        ),
-                      ));
+                collectedClasses[cd.id]!.classDeclarations,
+                cd.id,
+                {
+                  if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+                  ...fileToAnalyze.exportedBy
+                },
+              );
             }
             for (final exd in collector.executableDeclarations) {
               if (skippedClasses.contains(exd.parentClassId)) {
@@ -131,23 +123,13 @@ class PackageApiAnalyzer {
               if (exd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalExecutableDeclaration>(
-                    collectedClasses[exd.parentClassId]!.executableDeclarations,
-                    exd.id,
-                    {
-                      if (_isPublicEntryPoint(relativeFilePath))
-                        relativeFilePath,
-                      ...fileToAnalyze.exportedBy
-                    },
-                    (exdToClone, entryPointsToAdd) => exdToClone.copyWith(
-                          newExecutableDeclaration:
-                              exdToClone.executableDeclaration.copyWith(
-                            entryPoints: {
-                              ...exdToClone.executableDeclaration.entryPoints ??
-                                  <String>{},
-                              ...entryPointsToAdd,
-                            },
-                          ),
-                        ));
+                  collectedClasses[exd.parentClassId]!.executableDeclarations,
+                  exd.id,
+                  {
+                    if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+                    ...fileToAnalyze.exportedBy
+                  },
+                );
               }
             }
             for (final fd in collector.fieldDeclarations) {
@@ -161,23 +143,13 @@ class PackageApiAnalyzer {
               if (fd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalFieldDeclaration>(
-                    collectedClasses[fd.parentClassId]!.fieldDeclarations,
-                    fd.id,
-                    {
-                      if (_isPublicEntryPoint(relativeFilePath))
-                        relativeFilePath,
-                      ...fileToAnalyze.exportedBy
-                    },
-                    (fdToClone, entryPointsToAdd) => fdToClone.copyWith(
-                          newFieldDeclaration:
-                              fdToClone.fieldDeclaration.copyWith(
-                            entryPoints: {
-                              ...fdToClone.fieldDeclaration.entryPoints ??
-                                  <String>{},
-                              ...entryPointsToAdd,
-                            },
-                          ),
-                        ));
+                  collectedClasses[fd.parentClassId]!.fieldDeclarations,
+                  fd.id,
+                  {
+                    if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+                    ...fileToAnalyze.exportedBy
+                  },
+                );
               }
             }
           }
@@ -221,31 +193,23 @@ class PackageApiAnalyzer {
     final projectFieldDeclarations =
         List<FieldDeclaration>.empty(growable: true);
 
-    // aggregate class declrations
+    // aggregate class declarations
     for (final classId in collectedClasses.keys) {
       final entry = collectedClasses[classId]!;
       if (entry.classDeclarations.isEmpty) {
-        projectExecutableDeclarations.addAll(
-            entry.executableDeclarations.map((e) => e.executableDeclaration));
+        projectExecutableDeclarations.addAll(entry.executableDeclarations
+            .map((e) => e.toExecutableDeclaration()));
         projectFieldDeclarations
-            .addAll(entry.fieldDeclarations.map((e) => e.fieldDeclaration));
+            .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
       } else {
         assert(entry.classDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
         final cd = entry.classDeclarations.first;
-        projectClassDeclarations.add(
-          cd.classDeclaration.copyWith(
-            executableDeclarations: [
-              ...cd.classDeclaration.executableDeclarations,
-              ...entry.executableDeclarations
-                  .map((e) => e.executableDeclaration),
-            ],
-            fieldDeclarations: [
-              ...cd.classDeclaration.fieldDeclarations,
-              ...entry.fieldDeclarations.map((e) => e.fieldDeclaration),
-            ],
-          ),
-        );
+        cd.executableDeclarations.addAll(entry.executableDeclarations
+            .map((e) => e.toExecutableDeclaration()));
+        cd.fieldDeclarations
+            .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
+        projectClassDeclarations.add(cd.toClassDeclaration());
       }
     }
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
@@ -262,12 +226,10 @@ class PackageApiAnalyzer {
   void _addEntryPoints<TDec extends InternalDeclaration>(
       List<TDec> collectedDeclarations,
       int elementId,
-      Set<String> entryPointsToAdd,
-      TDec Function(TDec original, Set<String> entryPointsToAdd) cloneFun) {
+      Set<String> entryPointsToAdd) {
     final existingEntry =
         collectedDeclarations.singleWhere((element) => element.id == elementId);
-    collectedDeclarations.remove(existingEntry);
-    collectedDeclarations.add(cloneFun(existingEntry, entryPointsToAdd));
+    existingEntry.entryPoints?.addAll(entryPointsToAdd);
   }
 
   String _getNormalizedAbsolutePath(String pathToNormalize) {
