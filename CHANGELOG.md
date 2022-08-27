@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.1
+- fixes getting own version in `pub global` context
+
 ## Version 0.2.0
 - Command cleanup
 - Calls `dart pub` or `flutter pub` depending on the package dependencies
