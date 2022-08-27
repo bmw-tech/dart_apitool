@@ -246,7 +246,6 @@ class ReleaseCommand extends Command {
         'dart',
         'pub',
         'publish',
-        '--dry-run',
       ],
       workingDirectory: apiToolRootPath,
     );
