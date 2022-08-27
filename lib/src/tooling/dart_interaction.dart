@@ -20,7 +20,7 @@ abstract class DartInteraction {
     }
     final yamlContent = await File(pubspecPath).readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
-    if (pubSpec.dependencies.containsKey('flutter')) {
+    if (!pubSpec.dependencies.containsKey('flutter')) {
       return _runDartOrFlutterCommand(_getDartExecutablePath(),
           workingDirectory: forDirectory, args: args);
     } else {
@@ -53,7 +53,7 @@ abstract class DartInteraction {
   }
 
   static Future<String> _findFlutterExecutablePath() async {
-    final dartExecutableDirPath = path.dirname(_getDartExecutablePath());
+    final dartExecutableDirPath = _getDartExecutablePath();
 
     // trying to search in the first bin folder from the dart executable path
     // we have to search for it this way as we want to find the matching flutter executable.

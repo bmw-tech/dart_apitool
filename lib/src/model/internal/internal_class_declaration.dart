@@ -8,6 +8,7 @@ import 'internal_declaration_utils.dart';
 
 /// Internal extension of [ClassDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
 class InternalClassDeclaration implements InternalDeclaration {
+  @override
   final int id;
   @override
   final int? parentClassId;

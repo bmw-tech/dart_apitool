@@ -403,7 +403,11 @@ class PackageApiDiffer {
     }
     final changes = List<ApiChange>.empty(growable: true);
     final diffResult = _diffIterables(
-        oldEntryPoints, newEntryPoints, (oldT, newT) => oldT == newT);
+      oldEntryPoints,
+      newEntryPoints,
+      (oldT, newT) => oldT == newT,
+      doOrderBeforeComparing: true,
+    );
     for (final newEntryPoint in diffResult.remainingNew) {
       changes.add(ApiChange(
         contextTrace: _contextTraceFromStack(context),
@@ -603,10 +607,18 @@ class PackageApiDiffer {
     }
   }
 
-  _ListDiffResult<T> _diffIterables<T>(Iterable<T> oldList, Iterable<T> newList,
-      bool Function(T oldT, T newT) isSameFun) {
+  _ListDiffResult<T> _diffIterables<T>(
+    Iterable<T> oldList,
+    Iterable<T> newList,
+    bool Function(T oldT, T newT) isSameFun, {
+    bool doOrderBeforeComparing = false,
+  }) {
     final remainingOld = [...oldList];
     final remainingNew = [...newList];
+    if (doOrderBeforeComparing) {
+      remainingOld.sort();
+      remainingNew.sort();
+    }
     final matches = <T, T>{};
 
     for (final oldItem in oldList) {
