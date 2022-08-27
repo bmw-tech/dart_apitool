@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart';
-import 'package:yaml_writer/yaml_writer.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 class ReleaseCommand extends Command {
   @override
@@ -24,7 +23,7 @@ class ReleaseCommand extends Command {
 
   @override
   void run() {
-    final isPrerelease = argResults!['prerelease'] as bool;
+    //final isPrerelease = argResults!['prerelease'] as bool;
 
     _checkIfEverythingIsCommited();
     _getPackageDependencies();
@@ -32,12 +31,18 @@ class ReleaseCommand extends Command {
     _runTests();
     _checkSemver();
     _removePrereleaseFlagFromPubspec();
+    // _commit();
+    // _createTag();
+    // _publish();
+    // _setNextPrereleaseVersion();
+    // _commit();
   }
 
   String _getApiToolRootPath() {
     return path.normalize(
       path.join(
         path.dirname(path.absolute(Platform.script.path)),
+        '..',
         '..',
         '..',
       ),
@@ -53,7 +58,10 @@ class ReleaseCommand extends Command {
     final apiToolRootPath = _getApiToolRootPath();
     final gitStatus = Process.runSync(
       'git',
-      ['status', '--porcelain'],
+      [
+        'diff',
+        '--quiet',
+      ],
       workingDirectory: apiToolRootPath,
     );
     if (gitStatus.exitCode != 0) {
@@ -77,6 +85,7 @@ class ReleaseCommand extends Command {
     if (pubGetStatus.exitCode != 0) {
       print('pub get failed:');
       print(pubGetStatus.stderr);
+      print(pubGetStatus.stdout);
       exit(1);
     }
   }
@@ -97,6 +106,7 @@ class ReleaseCommand extends Command {
     if (analyzerStatus.exitCode != 0) {
       print('analyzer failed:');
       print(analyzerStatus.stderr);
+      print(analyzerStatus.stdout);
       exit(1);
     }
   }
@@ -115,6 +125,7 @@ class ReleaseCommand extends Command {
     if (testStatus.exitCode != 0) {
       print('tests failed:');
       print(testStatus.stderr);
+      print(testStatus.stdout);
       exit(1);
     }
   }
@@ -128,20 +139,24 @@ class ReleaseCommand extends Command {
       exit(1);
     }
     final lastReleaseVersion =
-        File(lastReleasedVersionFilePath).readAsStringSync();
+        File(lastReleasedVersionFilePath).readAsLinesSync()[0];
     final semverStatus = Process.runSync(
       'fvm',
       [
         'dart',
         'bin/main.dart',
-        '--old pub://dart_apitool/$lastReleaseVersion',
-        '--new .',
+        'diff',
+        '--old',
+        'pub://dart_apitool/$lastReleaseVersion',
+        '--new',
+        '.',
       ],
       workingDirectory: apiToolRootPath,
     );
     if (semverStatus.exitCode != 0) {
       print('semver check failed:');
       print(semverStatus.stderr);
+      print(semverStatus.stdout);
       exit(1);
     }
   }
@@ -149,14 +164,25 @@ class ReleaseCommand extends Command {
   void _removePrereleaseFlagFromPubspec() {
     final String pubspecPath = path.join(_getApiToolRootPath(), 'pubspec.yaml');
     final pubspecContent = File(pubspecPath).readAsStringSync();
-    final pubspec = loadYaml(pubspecContent);
-    final versionString = pubspec['version'] as String;
-    final version = Version.parse(versionString);
-    final newVersion = version.preRelease.isNotEmpty
-        ? Version(version.major, version.minor, version.patch)
-        : version;
-    pubspec['version'] = newVersion.canonicalizedVersion;
-    final newPubspecContent = YAMLWriter().write(pubspec);
+
+    final pubspec = Pubspec.parse(pubspecContent);
+    final currentVersion = pubspec.version!;
+
+    if (currentVersion.preRelease.isEmpty) {
+      return;
+    }
+
+    final currentVersionString = currentVersion.canonicalizedVersion;
+
+    final newVersion = Version(
+        currentVersion.major, currentVersion.minor, currentVersion.patch);
+    final newVersionString = newVersion.canonicalizedVersion;
+
+    final newPubspecContent = pubspecContent.replaceAll(
+      'version: $currentVersionString',
+      'version: $newVersionString',
+    );
+
     File(pubspecPath).writeAsStringSync(newPubspecContent);
   }
 }
