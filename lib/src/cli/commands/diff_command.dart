@@ -237,7 +237,10 @@ You may want to do this if you want to make sure
       expectedMinVersion = oldVersion.nextBreaking;
       versionExplanation = 'breaking changes';
     } else if (containsAnyChanges) {
-      expectedMinVersion = oldVersion.nextMinor;
+      // Only for major > 0: expect the minor version to be incremented if any changes in the public API happen
+      if (oldVersion.major > 0) {
+        expectedMinVersion = oldVersion.nextMinor;
+      }
       versionExplanation = 'non-breaking changes';
     }
 
