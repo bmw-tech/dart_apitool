@@ -371,8 +371,14 @@ class PackageApiAnalyzer {
       // constructors don't get merged
       target.executableDeclarations.addAll(superClassDeclaration
           .executableDeclarations
-          .where((element) => element.type != ExecutableType.constructor));
-      target.fieldDeclarations.addAll(superClassDeclaration.fieldDeclarations);
+          .where((element) => element.type != ExecutableType.constructor)
+          // only executables that are not already declared in the target class get merged
+          .where((element) => !target.executableDeclarations
+              .any((targetElement) => targetElement.name == element.name)));
+      target.fieldDeclarations.addAll(superClassDeclaration.fieldDeclarations
+          // only fields that are not already declared in the target class get merged
+          .where((element) => !target.fieldDeclarations
+              .any((targetElement) => targetElement.name == element.name)));
 
       // for all super types this type has we also merge
       mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
