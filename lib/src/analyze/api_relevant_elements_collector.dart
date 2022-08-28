@@ -5,6 +5,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:stack/stack.dart';
 
+import '../model/internal/internal_type_alias_declaration.dart';
 import '../utils/string_utils.dart';
 import '../model/internal/internal_class_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
@@ -54,6 +55,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalClassDeclaration> _classDeclarations = [];
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
+  final List<InternalTypeAliasDeclaration> _typeAliases = [];
 
   /// all found class declarations
   List<InternalClassDeclaration> get classDeclarations => _classDeclarations;
@@ -64,6 +66,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   /// all found field declarations (fields, top level variables and properties)
   List<InternalFieldDeclaration> get fieldDeclarations => _fieldDeclarations;
+
+  /// all found type alias declarations
+  List<InternalTypeAliasDeclaration> get typeAliases => _typeAliases;
 
   /// determines if the collector shall only collect publicly exposed declarations
   final bool isOnlyPublicClasses;
@@ -299,6 +304,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitTypeAliasElement(TypeAliasElement element) {
     _onVisitAnyElement(element);
+    if (!element.isPublic) {
+      return;
+    }
+    if (!_markElementAsVisited(element)) {
+      return;
+    }
+    _typeAliases
+        .add(InternalTypeAliasDeclaration.fromTypeAliasElement(element));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element != null) {
       _onTypeUsedHandler(element.aliasedType);

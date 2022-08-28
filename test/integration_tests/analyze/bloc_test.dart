@@ -38,5 +38,13 @@ void main() {
       expect(eventField.name, 'event');
       expect(eventField.typeName, 'Event');
     });
+    test('EventHandler typedef is available', () {
+      final eventHandlerTypedef = packageApi.typeAliasDeclarations
+          .singleWhere((element) => element.name == 'EventHandler');
+
+      expect(eventHandlerTypedef.name, 'EventHandler');
+      expect(eventHandlerTypedef.aliasedTypeName,
+          'FutureOr<void> Function(Event, Emitter<State>)');
+    });
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_apitool/src/storage/v1/storage_v1.dart';
+import 'package:dart_apitool/src/storage/v2/storage_v2.dart';
 
 import '../model/model.dart';
 
@@ -17,7 +18,7 @@ abstract class PackageApiStorage {
     final packageApiStorage = _packageApiToStorage(packageApi);
     final encoder = pretty ? JsonEncoder.withIndent('    ') : JsonEncoder();
     return encoder.convert({
-      'version': 1,
+      'version': 2,
       'packageApi': packageApiStorage.toJson(),
     });
   }
@@ -28,6 +29,9 @@ abstract class PackageApiStorage {
       case 1:
         final packageApiStorage = PackageApiStorageV1.fromJson(packageApiDom);
         return _packageApiStoreV1ToPackageApi(packageApiStorage);
+      case 2:
+        final packageApiStorage = PackageApiStorageV2.fromJson(packageApiDom);
+        return _packageApiStoreV2ToPackageApi(packageApiStorage);
       default:
         throw UnsupportedError(
             'Storage version $storageVersion not supported!');
@@ -39,7 +43,12 @@ abstract class PackageApiStorage {
     return packageApiStorage.toPackageApi();
   }
 
-  static PackageApiStorageV1 _packageApiToStorage(PackageApi packageApi) {
-    return PackageApiStorageV1.fromPackageAPi(packageApi);
+  static PackageApi _packageApiStoreV2ToPackageApi(
+      PackageApiStorageV2 packageApiStorage) {
+    return packageApiStorage.toPackageApi();
+  }
+
+  static PackageApiStorageV2 _packageApiToStorage(PackageApi packageApi) {
+    return PackageApiStorageV2.fromPackageAPi(packageApi);
   }
 }

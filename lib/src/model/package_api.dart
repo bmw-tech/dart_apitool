@@ -1,3 +1,4 @@
+import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'class_declaration.dart';
@@ -29,6 +30,9 @@ class PackageApi with _$PackageApi {
 
     /// root level field declarations this package has
     required List<FieldDeclaration> fieldDeclarations,
+
+    /// type alias declarations this package has
+    required List<TypeAliasDeclaration> typeAliasDeclarations,
 
     /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
     @Default(<String>{}) Set<String> semantics,
