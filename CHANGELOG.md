@@ -1,6 +1,7 @@
 # Changelog
 
-## Version 0.3.3
+## Version 0.4.0
+- fixed typo in `PackageApiDiffResult`
 - fixes missing entry points for root level fields and functions
 
 ## Version 0.3.2
