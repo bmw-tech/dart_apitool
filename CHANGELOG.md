@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.3.2
+- fixes base class merge (root level elements)
+
 ## Version 0.3.1
 - fixes base class merge (override duplicates)
 
