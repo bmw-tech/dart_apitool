@@ -206,6 +206,10 @@ class PackageApiAnalyzer {
     final packageFieldDeclarations =
         List<FieldDeclaration>.empty(growable: true);
 
+    if (!collectedClasses.containsKey(null)) {
+      collectedClasses[null] = _ClassCollectionResult();
+    }
+
     // aggregate class declarations
     for (final classId in collectedClasses.keys) {
       final entry = collectedClasses[classId]!;
@@ -218,10 +222,19 @@ class PackageApiAnalyzer {
             .map((e) => e.toExecutableDeclaration()));
         cd.fieldDeclarations
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
+      } else if (classId != null) {
+        // here we collected an element in the context of a class but the class is not available
+        // in this case we add the elements to the root level
+        collectedClasses[null]!
+            .executableDeclarations
+            .addAll(entry.executableDeclarations);
+        collectedClasses[null]!
+            .fieldDeclarations
+            .addAll(entry.fieldDeclarations);
       }
     }
 
-    // remove collected elements that don't have their class collected
+    // remove collected elements that don't have their class collected (we merged the elements with root already)
     collectedClasses.removeWhere(
         (key, value) => key != null && value.classDeclarations.isEmpty);
 
@@ -330,6 +343,10 @@ class PackageApiAnalyzer {
     final mergedSuperTypeIds = <int>{};
     // we merge all super class elements into the derived classes
     for (final classId in collectedClasses.keys) {
+      // no class info available for root elements
+      if (classId == null) {
+        continue;
+      }
       final entry = collectedClasses[classId]!;
       final classDeclaration = entry.classDeclarations.single;
       mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
