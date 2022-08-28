@@ -13,8 +13,10 @@ dependencies:
   args: ^2.3.1
   collection: ^1.16.0
   colorize: ^3.0.0
+  colorize_lumberdash: ^3.0.0
   freezed_annotation: ^2.1.0
   json_annotation: ^4.6.0
+  lumberdash: ^3.0.0
   path: ^1.8.2
   pub_semver: ^2.1.1
   pubspec_parse: ^1.2.0

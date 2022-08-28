@@ -32,8 +32,10 @@ class InternalFieldDeclaration implements InternalDeclaration {
       PropertyInducingElement fieldElement)
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
-            parentClassId: InternalDeclarationUtils.getIdFromElement(
-                fieldElement.enclosingElement3),
+            parentClassId: fieldElement.enclosingElement3 is ClassElement
+                ? InternalDeclarationUtils.getIdFromElement(
+                    fieldElement.enclosingElement3)
+                : null,
             typeName: fieldElement.type.getDisplayString(withNullability: true),
             name: fieldElement.name,
             isDeprecated: fieldElement.hasDeprecated,

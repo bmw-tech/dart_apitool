@@ -12,6 +12,7 @@ import 'package:dart_apitool/src/analyze/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/analyze/exported_files_collector.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:lumberdash/lumberdash.dart';
 import 'package:path/path.dart' as path;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
@@ -195,7 +196,7 @@ class PackageApiAnalyzer {
           }
         }
       } on StateError catch (e) {
-        print('Problem parsing $fileToAnalyze: $e');
+        logError('Problem parsing $fileToAnalyze: $e');
       }
     }
 
@@ -224,7 +225,9 @@ class PackageApiAnalyzer {
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
       } else if (classId != null) {
         // here we collected an element in the context of a class but the class is not available
-        // in this case we add the elements to the root level
+        // in this case we add the elements to the root level and print a warning
+        logWarning(
+            'We encountered elements that are marked to belong to a class but the class is not collected!');
         collectedClasses[null]!
             .executableDeclarations
             .addAll(entry.executableDeclarations);
