@@ -221,6 +221,10 @@ class PackageApiAnalyzer {
       }
     }
 
+    // remove collected elements that don't have their class collected
+    collectedClasses.removeWhere(
+        (key, value) => key != null && value.classDeclarations.isEmpty);
+
     if (mergeBaseClasses) {
       _mergeSuperTypes(collectedClasses);
     }
