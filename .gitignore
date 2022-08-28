@@ -27,3 +27,4 @@ doc/api/
 .vscode/ltex.disabledRules.*.txt
 .vscode/ltex.hiddenFalsePositives.*.txt
 scripts/release_util/.vscode/launch.json
+coverage
