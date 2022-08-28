@@ -85,7 +85,7 @@ class ExecutableDeclarationStorageV2 with _$ExecutableDeclarationStorageV2 {
     required List<String> typeParameterNames,
     required ExecutableTypeStorageV2 type,
     required bool isStatic,
-    Set<String>? entryPoints,
+    required Set<String> entryPoints,
   }) = _ExecutableDeclarationStorageV2;
 
   factory ExecutableDeclarationStorageV2.fromJson(Map<String, Object?> json) =>
@@ -119,7 +119,7 @@ class ExecutableDeclarationStorageV2 with _$ExecutableDeclarationStorageV2 {
       type: ExecutableTypeStorageV2.fromExecutableType(
           executableDeclaration.type),
       isStatic: executableDeclaration.isStatic,
-      entryPoints: executableDeclaration.entryPoints,
+      entryPoints: executableDeclaration.entryPoints!,
     );
   }
 }

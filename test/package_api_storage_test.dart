@@ -213,28 +213,30 @@ final testPackage2Api = PackageApi(
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
         ExecutableDeclaration(
-            returnTypeName: 'String',
-            name: 'getString',
-            isDeprecated: false,
-            isStatic: false,
-            parameters: [
-              ExecutableParameterDeclaration(
-                isRequired: true,
-                isNamed: true,
-                name: 'input',
-                isDeprecated: false,
-                typeName: 'T',
-              ),
-              ExecutableParameterDeclaration(
-                isRequired: true,
-                isNamed: true,
-                name: 'mode',
-                isDeprecated: false,
-                typeName: 'GetStringMode',
-              ),
-            ],
-            typeParameterNames: ['T'],
-            type: ExecutableType.method),
+          returnTypeName: 'String',
+          name: 'getString',
+          isDeprecated: false,
+          isStatic: false,
+          parameters: [
+            ExecutableParameterDeclaration(
+              isRequired: true,
+              isNamed: true,
+              name: 'input',
+              isDeprecated: false,
+              typeName: 'T',
+            ),
+            ExecutableParameterDeclaration(
+              isRequired: true,
+              isNamed: true,
+              name: 'mode',
+              isDeprecated: false,
+              typeName: 'GetStringMode',
+            ),
+          ],
+          typeParameterNames: ['T'],
+          type: ExecutableType.method,
+          entryPoints: {},
+        ),
       ],
       fieldDeclarations: [
         FieldDeclaration(
@@ -242,8 +244,10 @@ final testPackage2Api = PackageApi(
           name: 'printDebug',
           isDeprecated: false,
           isStatic: false,
+          entryPoints: {},
         ),
       ],
+      entryPoints: {},
     )
   ],
   executableDeclarations: const [],
@@ -253,6 +257,9 @@ final testPackage2Api = PackageApi(
       name: 'name',
       aliasedTypeName: 'aliasedTypeName',
       isDeprecated: false,
+      entryPoints: {
+        'entrypoint.dart',
+      },
     )
   ],
 );
@@ -299,7 +306,9 @@ final package2JsonString = '''
                         "typeParameterNames": [
                             "T"
                         ],
-                        "type": "method"
+                        "type": "method",
+                        "entryPoints": [
+                        ]
                     }
                 ],
                 "fieldDeclarations": [
@@ -307,9 +316,14 @@ final package2JsonString = '''
                         "typeName": "bool",
                         "name": "printDebug",
                         "isDeprecated": false,
-                        "isStatic": false
+                        "isStatic": false,
+                        "entryPoints": [
+                        ]
                     }
+                ],
+                "entryPoints": [
                 ]
+
             }
         ],
         "executableDeclarations": [],
@@ -318,7 +332,10 @@ final package2JsonString = '''
             {
                 "name": "name",
                 "aliasedTypeName": "aliasedTypeName",
-                "isDeprecated": false
+                "isDeprecated": false,
+                "entryPoints": [
+                    "entrypoint.dart"
+                ]
             }
         ]
     }

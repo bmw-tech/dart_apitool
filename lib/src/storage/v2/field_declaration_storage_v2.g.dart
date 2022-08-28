@@ -13,8 +13,8 @@ _$_FieldDeclarationStorageV2 _$$_FieldDeclarationStorageV2FromJson(
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       isStatic: json['isStatic'] as bool,
-      entryPoints: (json['entryPoints'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      entryPoints: (json['entryPoints'] as List<dynamic>)
+          .map((e) => e as String)
           .toSet(),
     );
 
@@ -25,5 +25,5 @@ Map<String, dynamic> _$$_FieldDeclarationStorageV2ToJson(
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
       'isStatic': instance.isStatic,
-      'entryPoints': instance.entryPoints?.toList(),
+      'entryPoints': instance.entryPoints.toList(),
     };

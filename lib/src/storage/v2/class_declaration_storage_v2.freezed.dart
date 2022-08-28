@@ -29,7 +29,7 @@ mixin _$ClassDeclarationStorageV2 {
       throw _privateConstructorUsedError;
   List<FieldDeclarationStorageV2> get fieldDeclarations =>
       throw _privateConstructorUsedError;
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String> get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +49,7 @@ abstract class $ClassDeclarationStorageV2CopyWith<$Res> {
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV2> executableDeclarations,
       List<FieldDeclarationStorageV2> fieldDeclarations,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class _$ClassDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -119,7 +119,7 @@ abstract class _$$_ClassDeclarationStorageV2CopyWith<$Res>
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV2> executableDeclarations,
       List<FieldDeclarationStorageV2> fieldDeclarations,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -173,7 +173,7 @@ class __$$_ClassDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -189,7 +189,7 @@ class _$_ClassDeclarationStorageV2 extends _ClassDeclarationStorageV2 {
       required final List<ExecutableDeclarationStorageV2>
           executableDeclarations,
       required final List<FieldDeclarationStorageV2> fieldDeclarations,
-      final Set<String>? entryPoints})
+      required final Set<String> entryPoints})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
@@ -232,13 +232,11 @@ class _$_ClassDeclarationStorageV2 extends _ClassDeclarationStorageV2 {
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
-  final Set<String>? _entryPoints;
+  final Set<String> _entryPoints;
   @override
-  Set<String>? get entryPoints {
-    final value = _entryPoints;
-    if (value == null) return null;
+  Set<String> get entryPoints {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
+    return EqualUnmodifiableSetView(_entryPoints);
   }
 
   @override
@@ -301,7 +299,7 @@ abstract class _ClassDeclarationStorageV2 extends ClassDeclarationStorageV2 {
       required final List<ExecutableDeclarationStorageV2>
           executableDeclarations,
       required final List<FieldDeclarationStorageV2> fieldDeclarations,
-      final Set<String>? entryPoints}) = _$_ClassDeclarationStorageV2;
+      required final Set<String> entryPoints}) = _$_ClassDeclarationStorageV2;
   const _ClassDeclarationStorageV2._() : super._();
 
   factory _ClassDeclarationStorageV2.fromJson(Map<String, dynamic> json) =
@@ -320,7 +318,7 @@ abstract class _ClassDeclarationStorageV2 extends ClassDeclarationStorageV2 {
   @override
   List<FieldDeclarationStorageV2> get fieldDeclarations;
   @override
-  Set<String>? get entryPoints;
+  Set<String> get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ClassDeclarationStorageV2CopyWith<_$_ClassDeclarationStorageV2>

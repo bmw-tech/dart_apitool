@@ -42,8 +42,8 @@ _$_ExecutableDeclarationStorageV2 _$$_ExecutableDeclarationStorageV2FromJson(
           .toList(),
       type: $enumDecode(_$ExecutableTypeStorageV2EnumMap, json['type']),
       isStatic: json['isStatic'] as bool,
-      entryPoints: (json['entryPoints'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      entryPoints: (json['entryPoints'] as List<dynamic>)
+          .map((e) => e as String)
           .toSet(),
     );
 
@@ -57,7 +57,7 @@ Map<String, dynamic> _$$_ExecutableDeclarationStorageV2ToJson(
       'typeParameterNames': instance.typeParameterNames,
       'type': _$ExecutableTypeStorageV2EnumMap[instance.type]!,
       'isStatic': instance.isStatic,
-      'entryPoints': instance.entryPoints?.toList(),
+      'entryPoints': instance.entryPoints.toList(),
     };
 
 const _$ExecutableTypeStorageV2EnumMap = {

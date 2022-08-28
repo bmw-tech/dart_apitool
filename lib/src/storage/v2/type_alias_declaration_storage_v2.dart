@@ -14,7 +14,7 @@ class TypeAliasDeclarationStorageV2 with _$TypeAliasDeclarationStorageV2 {
     required String name,
     required String aliasedTypeName,
     required bool isDeprecated,
-    Set<String>? entryPoints,
+    required Set<String> entryPoints,
   }) = _TypeAliasDeclarationStorageV2;
 
   factory TypeAliasDeclarationStorageV2.fromJson(Map<String, Object?> json) =>
@@ -35,7 +35,7 @@ class TypeAliasDeclarationStorageV2 with _$TypeAliasDeclarationStorageV2 {
       name: typeAliasDeclaration.name,
       aliasedTypeName: typeAliasDeclaration.aliasedTypeName,
       isDeprecated: typeAliasDeclaration.isDeprecated,
-      entryPoints: typeAliasDeclaration.entryPoints,
+      entryPoints: typeAliasDeclaration.entryPoints!,
     );
   }
 }

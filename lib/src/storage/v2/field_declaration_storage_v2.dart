@@ -15,7 +15,7 @@ class FieldDeclarationStorageV2 with _$FieldDeclarationStorageV2 {
     required String name,
     required bool isDeprecated,
     required bool isStatic,
-    Set<String>? entryPoints,
+    required Set<String> entryPoints,
   }) = _FieldDeclarationStorageV2;
 
   factory FieldDeclarationStorageV2.fromJson(Map<String, Object?> json) =>
@@ -38,7 +38,7 @@ class FieldDeclarationStorageV2 with _$FieldDeclarationStorageV2 {
       name: fieldDeclaration.name,
       isDeprecated: fieldDeclaration.isDeprecated,
       isStatic: fieldDeclaration.isStatic,
-      entryPoints: fieldDeclaration.entryPoints,
+      entryPoints: fieldDeclaration.entryPoints!,
     );
   }
 }

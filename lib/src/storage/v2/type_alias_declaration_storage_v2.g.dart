@@ -12,8 +12,8 @@ _$_TypeAliasDeclarationStorageV2 _$$_TypeAliasDeclarationStorageV2FromJson(
       name: json['name'] as String,
       aliasedTypeName: json['aliasedTypeName'] as String,
       isDeprecated: json['isDeprecated'] as bool,
-      entryPoints: (json['entryPoints'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      entryPoints: (json['entryPoints'] as List<dynamic>)
+          .map((e) => e as String)
           .toSet(),
     );
 
@@ -23,5 +23,5 @@ Map<String, dynamic> _$$_TypeAliasDeclarationStorageV2ToJson(
       'name': instance.name,
       'aliasedTypeName': instance.aliasedTypeName,
       'isDeprecated': instance.isDeprecated,
-      'entryPoints': instance.entryPoints?.toList(),
+      'entryPoints': instance.entryPoints.toList(),
     };

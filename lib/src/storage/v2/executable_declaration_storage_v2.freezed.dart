@@ -273,7 +273,7 @@ mixin _$ExecutableDeclarationStorageV2 {
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   ExecutableTypeStorageV2 get type => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String> get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -295,7 +295,7 @@ abstract class $ExecutableDeclarationStorageV2CopyWith<$Res> {
       List<String> typeParameterNames,
       ExecutableTypeStorageV2 type,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -350,7 +350,7 @@ class _$ExecutableDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -371,7 +371,7 @@ abstract class _$$_ExecutableDeclarationStorageV2CopyWith<$Res>
       List<String> typeParameterNames,
       ExecutableTypeStorageV2 type,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -430,7 +430,7 @@ class __$$_ExecutableDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -447,7 +447,7 @@ class _$_ExecutableDeclarationStorageV2
       required final List<String> typeParameterNames,
       required this.type,
       required this.isStatic,
-      final Set<String>? entryPoints})
+      required final Set<String> entryPoints})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         _entryPoints = entryPoints,
@@ -481,13 +481,11 @@ class _$_ExecutableDeclarationStorageV2
   final ExecutableTypeStorageV2 type;
   @override
   final bool isStatic;
-  final Set<String>? _entryPoints;
+  final Set<String> _entryPoints;
   @override
-  Set<String>? get entryPoints {
-    final value = _entryPoints;
-    if (value == null) return null;
+  Set<String> get entryPoints {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
+    return EqualUnmodifiableSetView(_entryPoints);
   }
 
   @override
@@ -552,7 +550,8 @@ abstract class _ExecutableDeclarationStorageV2
       required final List<String> typeParameterNames,
       required final ExecutableTypeStorageV2 type,
       required final bool isStatic,
-      final Set<String>? entryPoints}) = _$_ExecutableDeclarationStorageV2;
+      required final Set<String>
+          entryPoints}) = _$_ExecutableDeclarationStorageV2;
   const _ExecutableDeclarationStorageV2._() : super._();
 
   factory _ExecutableDeclarationStorageV2.fromJson(Map<String, dynamic> json) =
@@ -573,7 +572,7 @@ abstract class _ExecutableDeclarationStorageV2
   @override
   bool get isStatic;
   @override
-  Set<String>? get entryPoints;
+  Set<String> get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableDeclarationStorageV2CopyWith<_$_ExecutableDeclarationStorageV2>

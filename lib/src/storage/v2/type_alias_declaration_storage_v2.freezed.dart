@@ -24,7 +24,7 @@ mixin _$TypeAliasDeclarationStorageV2 {
   String get name => throw _privateConstructorUsedError;
   String get aliasedTypeName => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String> get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +42,7 @@ abstract class $TypeAliasDeclarationStorageV2CopyWith<$Res> {
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -77,7 +77,7 @@ class _$TypeAliasDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -94,7 +94,7 @@ abstract class _$$_TypeAliasDeclarationStorageV2CopyWith<$Res>
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -133,7 +133,7 @@ class __$$_TypeAliasDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -145,7 +145,7 @@ class _$_TypeAliasDeclarationStorageV2 extends _TypeAliasDeclarationStorageV2 {
       {required this.name,
       required this.aliasedTypeName,
       required this.isDeprecated,
-      final Set<String>? entryPoints})
+      required final Set<String> entryPoints})
       : _entryPoints = entryPoints,
         super._();
 
@@ -159,13 +159,11 @@ class _$_TypeAliasDeclarationStorageV2 extends _TypeAliasDeclarationStorageV2 {
   final String aliasedTypeName;
   @override
   final bool isDeprecated;
-  final Set<String>? _entryPoints;
+  final Set<String> _entryPoints;
   @override
-  Set<String>? get entryPoints {
-    final value = _entryPoints;
-    if (value == null) return null;
+  Set<String> get entryPoints {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
+    return EqualUnmodifiableSetView(_entryPoints);
   }
 
   @override
@@ -213,10 +211,11 @@ class _$_TypeAliasDeclarationStorageV2 extends _TypeAliasDeclarationStorageV2 {
 abstract class _TypeAliasDeclarationStorageV2
     extends TypeAliasDeclarationStorageV2 {
   const factory _TypeAliasDeclarationStorageV2(
-      {required final String name,
-      required final String aliasedTypeName,
-      required final bool isDeprecated,
-      final Set<String>? entryPoints}) = _$_TypeAliasDeclarationStorageV2;
+          {required final String name,
+          required final String aliasedTypeName,
+          required final bool isDeprecated,
+          required final Set<String> entryPoints}) =
+      _$_TypeAliasDeclarationStorageV2;
   const _TypeAliasDeclarationStorageV2._() : super._();
 
   factory _TypeAliasDeclarationStorageV2.fromJson(Map<String, dynamic> json) =
@@ -229,7 +228,7 @@ abstract class _TypeAliasDeclarationStorageV2
   @override
   bool get isDeprecated;
   @override
-  Set<String>? get entryPoints;
+  Set<String> get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_TypeAliasDeclarationStorageV2CopyWith<_$_TypeAliasDeclarationStorageV2>

@@ -25,7 +25,7 @@ mixin _$FieldDeclarationStorageV2 {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String> get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,7 @@ abstract class $FieldDeclarationStorageV2CopyWith<$Res> {
       String name,
       bool isDeprecated,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -83,7 +83,7 @@ class _$FieldDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -101,7 +101,7 @@ abstract class _$$_FieldDeclarationStorageV2CopyWith<$Res>
       String name,
       bool isDeprecated,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String> entryPoints});
 }
 
 /// @nodoc
@@ -145,7 +145,7 @@ class __$$_FieldDeclarationStorageV2CopyWithImpl<$Res>
       entryPoints: entryPoints == freezed
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<String>,
     ));
   }
 }
@@ -158,7 +158,7 @@ class _$_FieldDeclarationStorageV2 extends _FieldDeclarationStorageV2 {
       required this.name,
       required this.isDeprecated,
       required this.isStatic,
-      final Set<String>? entryPoints})
+      required final Set<String> entryPoints})
       : _entryPoints = entryPoints,
         super._();
 
@@ -173,13 +173,11 @@ class _$_FieldDeclarationStorageV2 extends _FieldDeclarationStorageV2 {
   final bool isDeprecated;
   @override
   final bool isStatic;
-  final Set<String>? _entryPoints;
+  final Set<String> _entryPoints;
   @override
-  Set<String>? get entryPoints {
-    final value = _entryPoints;
-    if (value == null) return null;
+  Set<String> get entryPoints {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
+    return EqualUnmodifiableSetView(_entryPoints);
   }
 
   @override
@@ -231,7 +229,7 @@ abstract class _FieldDeclarationStorageV2 extends FieldDeclarationStorageV2 {
       required final String name,
       required final bool isDeprecated,
       required final bool isStatic,
-      final Set<String>? entryPoints}) = _$_FieldDeclarationStorageV2;
+      required final Set<String> entryPoints}) = _$_FieldDeclarationStorageV2;
   const _FieldDeclarationStorageV2._() : super._();
 
   factory _FieldDeclarationStorageV2.fromJson(Map<String, dynamic> json) =
@@ -246,7 +244,7 @@ abstract class _FieldDeclarationStorageV2 extends FieldDeclarationStorageV2 {
   @override
   bool get isStatic;
   @override
-  Set<String>? get entryPoints;
+  Set<String> get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationStorageV2CopyWith<_$_FieldDeclarationStorageV2>
