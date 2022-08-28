@@ -18,7 +18,7 @@ class PackageApiDiffer {
   });
 
   /// calculates a diff between [oldApi] and [newApi]
-  PackageApiDifResult diff({
+  PackageApiDiffResult diff({
     required PackageApi oldApi,
     required PackageApi newApi,
   }) {
@@ -49,7 +49,7 @@ class PackageApiDiffer {
       ),
     ];
 
-    return PackageApiDifResult()..addApiChanges(changes);
+    return PackageApiDiffResult()..addApiChanges(changes);
   }
 
   List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
@@ -710,7 +710,7 @@ class ApiChangeTreeNode {
 }
 
 /// represents the result of a diff run
-class PackageApiDifResult {
+class PackageApiDiffResult {
   /// API changes that the diff run detected
   final List<ApiChange> apiChanges;
 
@@ -740,7 +740,7 @@ class PackageApiDifResult {
     }
   }
 
-  PackageApiDifResult() : apiChanges = [];
+  PackageApiDiffResult() : apiChanges = [];
 }
 
 class PackageApiDifferOptions {
