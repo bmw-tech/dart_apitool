@@ -37,6 +37,8 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
           .toList(),
       fieldDeclarations:
           fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
+      // not supported by this storage version
+      typeAliasDeclarations: [],
       semantics: semantics ?? {},
     );
   }

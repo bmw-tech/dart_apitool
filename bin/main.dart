@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
+import 'package:colorize_lumberdash/colorize_lumberdash.dart';
 import 'package:dart_apitool/api_tool_cli.dart';
+import 'package:lumberdash/lumberdash.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
 import 'package:path/path.dart' as p;
@@ -37,6 +39,7 @@ Future<String> _getOwnVersion() async {
 }
 
 void main(List<String> arguments) async {
+  putLumberdashToWork(withClients: [ColorizeLumberdash()]);
   final runner = CommandRunner<int>('dart-apitool', '''
 dart-apitool (${Colorize(await _getOwnVersion()).bold()})
 

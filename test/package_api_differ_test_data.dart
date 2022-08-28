@@ -46,6 +46,7 @@ final packageClassAApi = PackageApi(
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
+  typeAliasDeclarations: const [],
 );
 // Package ClassA variations
 final packageClassADeprecatedApi = packageClassAApi.copyWith(
@@ -75,6 +76,7 @@ final packageClassAClassBApi = PackageApi(
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
+  typeAliasDeclarations: const [],
 );
 
 final simpleExecutable1 = ExecutableDeclaration(
@@ -113,6 +115,7 @@ final packageExecutable1Api = PackageApi(
     simpleExecutable1,
   ],
   fieldDeclarations: const [],
+  typeAliasDeclarations: const [],
 );
 
 // Package Executable1 variations
@@ -246,6 +249,7 @@ final packageExecutable1Executable2Api = PackageApi(
     simpleExecutable2,
   ],
   fieldDeclarations: const [],
+  typeAliasDeclarations: const [],
 );
 
 final simpleFieldDeclarationA = FieldDeclaration(
@@ -270,6 +274,7 @@ final packageFieldA = PackageApi(
   fieldDeclarations: [
     simpleFieldDeclarationA,
   ],
+  typeAliasDeclarations: const [],
 );
 
 // Package FieldA variations
@@ -295,4 +300,5 @@ final packageFieldAFieldB = PackageApi(
     simpleFieldDeclarationA,
     simpleFieldDeclarationB,
   ],
+  typeAliasDeclarations: const [],
 );

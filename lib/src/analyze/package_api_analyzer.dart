@@ -11,7 +11,10 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:dart_apitool/src/analyze/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/analyze/exported_files_collector.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration.dart';
+import 'package:dart_apitool/src/model/internal/internal_type_alias_declaration.dart';
+import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:lumberdash/lumberdash.dart';
 import 'package:path/path.dart' as path;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
@@ -165,6 +168,28 @@ class PackageApiAnalyzer {
                 );
               }
             }
+            for (final tad in collector.typeAliases) {
+              if (skippedClasses.contains(tad.parentClassId)) {
+                continue;
+              }
+              if (!collectedClasses.containsKey(tad.parentClassId)) {
+                collectedClasses[tad.parentClassId] = _ClassCollectionResult();
+              }
+              collectedClasses[tad.parentClassId]!
+                  .typeAliasDeclarations
+                  .add(tad);
+              if (tad.parentClassId == null) {
+                //we only store the entry point on root elements
+                _addEntryPoints<InternalTypeAliasDeclaration>(
+                  collectedClasses[tad.parentClassId]!.typeAliasDeclarations,
+                  tad.id,
+                  {
+                    if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+                    ...fileToAnalyze.exportedBy
+                  },
+                );
+              }
+            }
           }
 
           final referencedFilesCollector = ExportedFilesCollector();
@@ -195,7 +220,7 @@ class PackageApiAnalyzer {
           }
         }
       } on StateError catch (e) {
-        print('Problem parsing $fileToAnalyze: $e');
+        logError('Problem parsing $fileToAnalyze: $e');
       }
     }
 
@@ -205,6 +230,8 @@ class PackageApiAnalyzer {
         List<ExecutableDeclaration>.empty(growable: true);
     final packageFieldDeclarations =
         List<FieldDeclaration>.empty(growable: true);
+    final packageTypeAliasDeclarations =
+        List<TypeAliasDeclaration>.empty(growable: true);
 
     if (!collectedClasses.containsKey(null)) {
       collectedClasses[null] = _ClassCollectionResult();
@@ -224,13 +251,18 @@ class PackageApiAnalyzer {
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
       } else if (classId != null) {
         // here we collected an element in the context of a class but the class is not available
-        // in this case we add the elements to the root level
+        // in this case we add the elements to the root level and print a warning
+        logWarning(
+            'We encountered elements that are marked to belong to a class but the class is not collected!');
         collectedClasses[null]!
             .executableDeclarations
             .addAll(entry.executableDeclarations);
         collectedClasses[null]!
             .fieldDeclarations
             .addAll(entry.fieldDeclarations);
+        collectedClasses[null]!
+            .typeAliasDeclarations
+            .addAll(entry.typeAliasDeclarations);
       }
     }
 
@@ -250,6 +282,8 @@ class PackageApiAnalyzer {
             .map((e) => e.toExecutableDeclaration()));
         packageFieldDeclarations
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
+        packageTypeAliasDeclarations.addAll(
+            entry.typeAliasDeclarations.map((e) => e.toTypeAliasDeclaration()));
       } else {
         assert(entry.classDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
@@ -266,6 +300,7 @@ class PackageApiAnalyzer {
       classDeclarations: packageClassDeclarations,
       executableDeclarations: packageExecutableDeclarations,
       fieldDeclarations: packageFieldDeclarations,
+      typeAliasDeclarations: packageTypeAliasDeclarations,
       semantics: semantics,
     );
   }
@@ -417,6 +452,8 @@ class _ClassCollectionResult {
       List<InternalExecutableDeclaration>.empty(growable: true);
   final fieldDeclarations =
       List<InternalFieldDeclaration>.empty(growable: true);
+  final typeAliasDeclarations =
+      List<InternalTypeAliasDeclaration>.empty(growable: true);
 }
 
 @freezed

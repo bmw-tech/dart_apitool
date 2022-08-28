@@ -184,7 +184,7 @@ You may want to do this if you want to make sure
   }
 
   bool _versionChangeMatchesChanges({
-    required PackageApiDifResult diffResult,
+    required PackageApiDiffResult diffResult,
     required PackageApi oldPackageApi,
     required PackageApi newPackageApi,
     required bool ignorePrerelease,

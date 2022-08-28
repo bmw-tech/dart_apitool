@@ -5,12 +5,12 @@ import 'package:test/test.dart';
 
 void main() {
   group('PackageApi storage tests', () {
-    test('Storage v1 gets exported correctly', () {
+    test('Storage v2 gets exported correctly', () {
       final typedJson =
-          PackageApiStorage.packageApitoStorageJson(testPackageApi);
+          PackageApiStorage.packageApitoStorageJson(testPackage2Api);
       final json = jsonDecode(typedJson);
 
-      expect(json['version'], 1);
+      expect(json['version'], 2);
       final packageApiJson = json['packageApi'];
       expect(packageApiJson, isNotNull);
       expect(packageApiJson['packageName'], 'storage_test_package');
@@ -63,23 +63,34 @@ void main() {
       expect(classFieldDeclaration['name'], 'printDebug');
       expect(classFieldDeclaration['isDeprecated'], false);
       expect(classFieldDeclaration['isStatic'], false);
+      final typeAliasDeclarationsJson = packageApiJson['typeAliasDeclarations'];
+      expect(typeAliasDeclarationsJson, isNotNull);
+      final typeAliasDeclaration = typeAliasDeclarationsJson.first;
+      expect(typeAliasDeclaration['name'], 'name');
+      expect(typeAliasDeclaration['aliasedTypeName'], 'aliasedTypeName');
+      expect(typeAliasDeclaration['isDeprecated'], false);
     });
     test('Storage v1 gets imported correctly', () {
       final loadedPackageApi =
           PackageApiStorage.packageApiFromStorageJson(package1JsonString);
-      expect(loadedPackageApi, testPackageApi);
+      expect(loadedPackageApi, testPackage1Api);
+    });
+    test('Storage v2 gets imported correctly', () {
+      final loadedPackageApi =
+          PackageApiStorage.packageApiFromStorageJson(package2JsonString);
+      expect(loadedPackageApi, testPackage2Api);
     });
     test('Saved PackageApi equals loaded one', () {
       final storageJson =
-          PackageApiStorage.packageApitoStorageJson(testPackageApi);
+          PackageApiStorage.packageApitoStorageJson(testPackage2Api);
       final loadedPackageApi =
           PackageApiStorage.packageApiFromStorageJson(storageJson);
-      expect(testPackageApi, loadedPackageApi);
+      expect(testPackage2Api, loadedPackageApi);
     });
   });
 }
 
-final testPackageApi = PackageApi(
+final testPackage1Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
@@ -126,6 +137,7 @@ final testPackageApi = PackageApi(
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
+  typeAliasDeclarations: const [],
 );
 
 final package1JsonString = '''
@@ -185,6 +197,147 @@ final package1JsonString = '''
         ],
         "executableDeclarations": [],
         "fieldDeclarations": []
+    }
+}
+''';
+
+final testPackage2Api = PackageApi(
+  packageName: 'storage_test_package',
+  packageVersion: '1.0.0',
+  packagePath: '.',
+  classDeclarations: [
+    ClassDeclaration(
+      name: 'StorageTestClass',
+      isDeprecated: false,
+      typeParameterNames: const ['T'],
+      superTypeNames: const ['SuperType'],
+      executableDeclarations: [
+        ExecutableDeclaration(
+          returnTypeName: 'String',
+          name: 'getString',
+          isDeprecated: false,
+          isStatic: false,
+          parameters: [
+            ExecutableParameterDeclaration(
+              isRequired: true,
+              isNamed: true,
+              name: 'input',
+              isDeprecated: false,
+              typeName: 'T',
+            ),
+            ExecutableParameterDeclaration(
+              isRequired: true,
+              isNamed: true,
+              name: 'mode',
+              isDeprecated: false,
+              typeName: 'GetStringMode',
+            ),
+          ],
+          typeParameterNames: ['T'],
+          type: ExecutableType.method,
+          entryPoints: {},
+        ),
+      ],
+      fieldDeclarations: [
+        FieldDeclaration(
+          typeName: 'bool',
+          name: 'printDebug',
+          isDeprecated: false,
+          isStatic: false,
+          entryPoints: {},
+        ),
+      ],
+      entryPoints: {},
+    )
+  ],
+  executableDeclarations: const [],
+  fieldDeclarations: const [],
+  typeAliasDeclarations: [
+    TypeAliasDeclaration(
+      name: 'name',
+      aliasedTypeName: 'aliasedTypeName',
+      isDeprecated: false,
+      entryPoints: {
+        'entrypoint.dart',
+      },
+    )
+  ],
+);
+
+final package2JsonString = '''
+{
+    "version": 2,
+    "packageApi": {
+        "packageName": "storage_test_package",
+        "packageVersion": "1.0.0",
+        "packagePath": ".",
+        "classDeclarations": [
+            {
+                "name": "StorageTestClass",
+                "isDeprecated": false,
+                "typeParameterNames": [
+                    "T"
+                ],
+                "superTypeNames": [
+                    "SuperType"
+                ],
+                "executableDeclarations": [
+                    {
+                        "returnTypeName": "String",
+                        "name": "getString",
+                        "isDeprecated": false,
+                        "isStatic": false,
+                        "parameters": [
+                            {
+                                "isRequired": true,
+                                "isNamed": true,
+                                "name": "input",
+                                "isDeprecated": false,
+                                "typeName": "T"
+                            },
+                            {
+                                "isRequired": true,
+                                "isNamed": true,
+                                "name": "mode",
+                                "isDeprecated": false,
+                                "typeName": "GetStringMode"
+                            }
+                        ],
+                        "typeParameterNames": [
+                            "T"
+                        ],
+                        "type": "method",
+                        "entryPoints": [
+                        ]
+                    }
+                ],
+                "fieldDeclarations": [
+                    {
+                        "typeName": "bool",
+                        "name": "printDebug",
+                        "isDeprecated": false,
+                        "isStatic": false,
+                        "entryPoints": [
+                        ]
+                    }
+                ],
+                "entryPoints": [
+                ]
+
+            }
+        ],
+        "executableDeclarations": [],
+        "fieldDeclarations": [],
+        "typeAliasDeclarations": [
+            {
+                "name": "name",
+                "aliasedTypeName": "aliasedTypeName",
+                "isDeprecated": false,
+                "entryPoints": [
+                    "entrypoint.dart"
+                ]
+            }
+        ]
     }
 }
 ''';

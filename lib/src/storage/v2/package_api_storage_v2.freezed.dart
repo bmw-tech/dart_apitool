@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'package_api.dart';
+part of 'package_api_storage_v2.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,64 +14,55 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PackageApiStorageV2 _$PackageApiStorageV2FromJson(Map<String, dynamic> json) {
+  return _PackageApiStorageV2.fromJson(json);
+}
+
 /// @nodoc
-mixin _$PackageApi {
-  /// name of the package
+mixin _$PackageApiStorageV2 {
   String get packageName => throw _privateConstructorUsedError;
-
-  /// version of the package
   String? get packageVersion => throw _privateConstructorUsedError;
-
-  /// path to the package
   String get packagePath => throw _privateConstructorUsedError;
-
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations =>
+  List<ClassDeclarationStorageV2> get classDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations =>
+  List<ExecutableDeclarationStorageV2> get executableDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations =>
+  List<FieldDeclarationStorageV2> get fieldDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations =>
+  List<TypeAliasDeclarationStorageV2> get typeAliasDeclarations =>
       throw _privateConstructorUsedError;
+  Set<String>? get semantics => throw _privateConstructorUsedError;
 
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<String> get semantics => throw _privateConstructorUsedError;
-
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PackageApiCopyWith<PackageApi> get copyWith =>
+  $PackageApiStorageV2CopyWith<PackageApiStorageV2> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PackageApiCopyWith<$Res> {
-  factory $PackageApiCopyWith(
-          PackageApi value, $Res Function(PackageApi) then) =
-      _$PackageApiCopyWithImpl<$Res>;
+abstract class $PackageApiStorageV2CopyWith<$Res> {
+  factory $PackageApiStorageV2CopyWith(
+          PackageApiStorageV2 value, $Res Function(PackageApiStorageV2) then) =
+      _$PackageApiStorageV2CopyWithImpl<$Res>;
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<String> semantics});
+      List<ClassDeclarationStorageV2> classDeclarations,
+      List<ExecutableDeclarationStorageV2> executableDeclarations,
+      List<FieldDeclarationStorageV2> fieldDeclarations,
+      List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
+      Set<String>? semantics});
 }
 
 /// @nodoc
-class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
-  _$PackageApiCopyWithImpl(this._value, this._then);
+class _$PackageApiStorageV2CopyWithImpl<$Res>
+    implements $PackageApiStorageV2CopyWith<$Res> {
+  _$PackageApiStorageV2CopyWithImpl(this._value, this._then);
 
-  final PackageApi _value;
+  final PackageApiStorageV2 _value;
   // ignore: unused_field
-  final $Res Function(PackageApi) _then;
+  final $Res Function(PackageApiStorageV2) _then;
 
   @override
   $Res call({
@@ -100,54 +91,55 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
       classDeclarations: classDeclarations == freezed
           ? _value.classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
+              as List<ClassDeclarationStorageV2>,
       executableDeclarations: executableDeclarations == freezed
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV2>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV2>,
       typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value.typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<TypeAliasDeclaration>,
+              as List<TypeAliasDeclarationStorageV2>,
       semantics: semantics == freezed
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<String>?,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_PackageApiCopyWith<$Res>
-    implements $PackageApiCopyWith<$Res> {
-  factory _$$_PackageApiCopyWith(
-          _$_PackageApi value, $Res Function(_$_PackageApi) then) =
-      __$$_PackageApiCopyWithImpl<$Res>;
+abstract class _$$_PackageApiStorageV2CopyWith<$Res>
+    implements $PackageApiStorageV2CopyWith<$Res> {
+  factory _$$_PackageApiStorageV2CopyWith(_$_PackageApiStorageV2 value,
+          $Res Function(_$_PackageApiStorageV2) then) =
+      __$$_PackageApiStorageV2CopyWithImpl<$Res>;
   @override
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<String> semantics});
+      List<ClassDeclarationStorageV2> classDeclarations,
+      List<ExecutableDeclarationStorageV2> executableDeclarations,
+      List<FieldDeclarationStorageV2> fieldDeclarations,
+      List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
+      Set<String>? semantics});
 }
 
 /// @nodoc
-class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
-    implements _$$_PackageApiCopyWith<$Res> {
-  __$$_PackageApiCopyWithImpl(
-      _$_PackageApi _value, $Res Function(_$_PackageApi) _then)
-      : super(_value, (v) => _then(v as _$_PackageApi));
+class __$$_PackageApiStorageV2CopyWithImpl<$Res>
+    extends _$PackageApiStorageV2CopyWithImpl<$Res>
+    implements _$$_PackageApiStorageV2CopyWith<$Res> {
+  __$$_PackageApiStorageV2CopyWithImpl(_$_PackageApiStorageV2 _value,
+      $Res Function(_$_PackageApiStorageV2) _then)
+      : super(_value, (v) => _then(v as _$_PackageApiStorageV2));
 
   @override
-  _$_PackageApi get _value => super._value as _$_PackageApi;
+  _$_PackageApiStorageV2 get _value => super._value as _$_PackageApiStorageV2;
 
   @override
   $Res call({
@@ -160,7 +152,7 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
   }) {
-    return _then(_$_PackageApi(
+    return _then(_$_PackageApiStorageV2(
       packageName: packageName == freezed
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -176,39 +168,40 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
       classDeclarations: classDeclarations == freezed
           ? _value._classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
+              as List<ClassDeclarationStorageV2>,
       executableDeclarations: executableDeclarations == freezed
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV2>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV2>,
       typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value._typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<TypeAliasDeclaration>,
+              as List<TypeAliasDeclarationStorageV2>,
       semantics: semantics == freezed
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<String>?,
     ));
   }
 }
 
 /// @nodoc
-
-class _$_PackageApi extends _PackageApi {
-  const _$_PackageApi(
+@JsonSerializable()
+class _$_PackageApiStorageV2 extends _PackageApiStorageV2 {
+  const _$_PackageApiStorageV2(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
-      required final List<ClassDeclaration> classDeclarations,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<String> semantics = const <String>{}})
+      required final List<ClassDeclarationStorageV2> classDeclarations,
+      required final List<ExecutableDeclarationStorageV2>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV2> fieldDeclarations,
+      required final List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
+      final Set<String>? semantics})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -216,79 +209,62 @@ class _$_PackageApi extends _PackageApi {
         _semantics = semantics,
         super._();
 
-  /// name of the package
+  factory _$_PackageApiStorageV2.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageApiStorageV2FromJson(json);
+
   @override
   final String packageName;
-
-  /// version of the package
   @override
   final String? packageVersion;
-
-  /// path to the package
   @override
   final String packagePath;
-
-  /// class declarations this package has
-  final List<ClassDeclaration> _classDeclarations;
-
-  /// class declarations this package has
+  final List<ClassDeclarationStorageV2> _classDeclarations;
   @override
-  List<ClassDeclaration> get classDeclarations {
+  List<ClassDeclarationStorageV2> get classDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_classDeclarations);
   }
 
-  /// root level executable declarations this package has
-  final List<ExecutableDeclaration> _executableDeclarations;
-
-  /// root level executable declarations this package has
+  final List<ExecutableDeclarationStorageV2> _executableDeclarations;
   @override
-  List<ExecutableDeclaration> get executableDeclarations {
+  List<ExecutableDeclarationStorageV2> get executableDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
 
-  /// root level field declarations this package has
-  final List<FieldDeclaration> _fieldDeclarations;
-
-  /// root level field declarations this package has
+  final List<FieldDeclarationStorageV2> _fieldDeclarations;
   @override
-  List<FieldDeclaration> get fieldDeclarations {
+  List<FieldDeclarationStorageV2> get fieldDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
-  /// type alias declarations this package has
-  final List<TypeAliasDeclaration> _typeAliasDeclarations;
-
-  /// type alias declarations this package has
+  final List<TypeAliasDeclarationStorageV2> _typeAliasDeclarations;
   @override
-  List<TypeAliasDeclaration> get typeAliasDeclarations {
+  List<TypeAliasDeclarationStorageV2> get typeAliasDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeAliasDeclarations);
   }
 
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  final Set<String> _semantics;
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
+  final Set<String>? _semantics;
   @override
-  @JsonKey()
-  Set<String> get semantics {
+  Set<String>? get semantics {
+    final value = _semantics;
+    if (value == null) return null;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_semantics);
+    return EqualUnmodifiableSetView(value);
   }
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics)';
+    return 'PackageApiStorageV2(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageApi &&
+            other is _$_PackageApiStorageV2 &&
             const DeepCollectionEquality()
                 .equals(other.packageName, packageName) &&
             const DeepCollectionEquality()
@@ -307,6 +283,7 @@ class _$_PackageApi extends _PackageApi {
                 .equals(other._semantics, _semantics));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -321,56 +298,52 @@ class _$_PackageApi extends _PackageApi {
 
   @JsonKey(ignore: true)
   @override
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
-      __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
+  _$$_PackageApiStorageV2CopyWith<_$_PackageApiStorageV2> get copyWith =>
+      __$$_PackageApiStorageV2CopyWithImpl<_$_PackageApiStorageV2>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageApiStorageV2ToJson(
+      this,
+    );
+  }
 }
 
-abstract class _PackageApi extends PackageApi {
-  const factory _PackageApi(
+abstract class _PackageApiStorageV2 extends PackageApiStorageV2 {
+  const factory _PackageApiStorageV2(
       {required final String packageName,
       required final String? packageVersion,
       required final String packagePath,
-      required final List<ClassDeclaration> classDeclarations,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<String> semantics}) = _$_PackageApi;
-  const _PackageApi._() : super._();
+      required final List<ClassDeclarationStorageV2> classDeclarations,
+      required final List<ExecutableDeclarationStorageV2>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV2> fieldDeclarations,
+      required final List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
+      final Set<String>? semantics}) = _$_PackageApiStorageV2;
+  const _PackageApiStorageV2._() : super._();
+
+  factory _PackageApiStorageV2.fromJson(Map<String, dynamic> json) =
+      _$_PackageApiStorageV2.fromJson;
 
   @override
-
-  /// name of the package
   String get packageName;
   @override
-
-  /// version of the package
   String? get packageVersion;
   @override
-
-  /// path to the package
   String get packagePath;
   @override
-
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations;
+  List<ClassDeclarationStorageV2> get classDeclarations;
   @override
-
-  /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations;
+  List<ExecutableDeclarationStorageV2> get executableDeclarations;
   @override
-
-  /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations;
+  List<FieldDeclarationStorageV2> get fieldDeclarations;
   @override
-
-  /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations;
+  List<TypeAliasDeclarationStorageV2> get typeAliasDeclarations;
   @override
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<String> get semantics;
+  Set<String>? get semantics;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
+  _$$_PackageApiStorageV2CopyWith<_$_PackageApiStorageV2> get copyWith =>
       throw _privateConstructorUsedError;
 }
