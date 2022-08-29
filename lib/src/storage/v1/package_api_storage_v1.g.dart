@@ -25,7 +25,7 @@ _$_PackageApiStorageV1 _$$_PackageApiStorageV1FromJson(
               FieldDeclarationStorageV1.fromJson(e as Map<String, dynamic>))
           .toList(),
       semantics: (json['semantics'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => $enumDecode(_$PackageApiSemanticsEnumMap, e))
           .toSet(),
     );
 
@@ -38,5 +38,11 @@ Map<String, dynamic> _$$_PackageApiStorageV1ToJson(
       'classDeclarations': instance.classDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
-      'semantics': instance.semantics?.toList(),
+      'semantics': instance.semantics
+          ?.map((e) => _$PackageApiSemanticsEnumMap[e]!)
+          .toList(),
     };
+
+const _$PackageApiSemanticsEnumMap = {
+  PackageApiSemantics.mergeBaseClasses: 'mergeBaseClasses',
+};

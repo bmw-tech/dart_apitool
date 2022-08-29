@@ -25,6 +25,7 @@ import '../model/internal/internal_class_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
 import '../model/package_api.dart';
+import '../model/package_api_semantics.dart';
 import '../utils/string_utils.dart';
 
 part 'package_api_analyzer.freezed.dart';
@@ -35,11 +36,9 @@ class PackageApiAnalyzer {
   final String packagePath;
   final bool mergeBaseClasses;
 
-  final String semanticNameMergeBaseClasses = 'mergeBaseClasses';
-
   /// the semantics of package API models this analyzer produces.
   /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
-  final semantics = <String>{};
+  final semantics = <PackageApiSemantics>{};
 
   /// constructor
   PackageApiAnalyzer({
@@ -47,7 +46,7 @@ class PackageApiAnalyzer {
     this.mergeBaseClasses = true,
   }) {
     if (mergeBaseClasses) {
-      semantics.add(semanticNameMergeBaseClasses);
+      semantics.add(PackageApiSemantics.mergeBaseClasses);
     }
     _checkProjectPathValidity();
   }

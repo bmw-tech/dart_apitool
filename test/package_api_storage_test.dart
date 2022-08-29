@@ -337,7 +337,8 @@ final package2JsonString = '''
                     "entrypoint.dart"
                 ]
             }
-        ]
+        ],
+        "semantics": []
     }
 }
 ''';

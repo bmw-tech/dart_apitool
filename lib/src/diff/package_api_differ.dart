@@ -6,6 +6,7 @@ import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 import '../errors/errors.dart';
+import '../model/package_api_semantics.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
@@ -28,7 +29,8 @@ class PackageApiDiffer {
               'Got different packages. Can\'t create diff. Old Package = "${oldApi.packageName}", New Package = "${newApi.packageName}"');
     }
 
-    if (!SetEquality<String>().equals(oldApi.semantics, newApi.semantics)) {
+    if (!SetEquality<PackageApiSemantics>()
+        .equals(oldApi.semantics, newApi.semantics)) {
       throw PackageApiDiffError(
           message:
               'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');

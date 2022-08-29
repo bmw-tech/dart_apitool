@@ -28,8 +28,8 @@ _$_PackageApiStorageV2 _$$_PackageApiStorageV2FromJson(
           .map((e) =>
               TypeAliasDeclarationStorageV2.fromJson(e as Map<String, dynamic>))
           .toList(),
-      semantics: (json['semantics'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      semantics: (json['semantics'] as List<dynamic>)
+          .map((e) => $enumDecode(_$PackageApiSemanticsEnumMap, e))
           .toSet(),
     );
 
@@ -43,5 +43,11 @@ Map<String, dynamic> _$$_PackageApiStorageV2ToJson(
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
       'typeAliasDeclarations': instance.typeAliasDeclarations,
-      'semantics': instance.semantics?.toList(),
+      'semantics': instance.semantics
+          .map((e) => _$PackageApiSemanticsEnumMap[e]!)
+          .toList(),
     };
+
+const _$PackageApiSemanticsEnumMap = {
+  PackageApiSemantics.mergeBaseClasses: 'mergeBaseClasses',
+};

@@ -29,7 +29,7 @@ mixin _$PackageApiStorageV1 {
       throw _privateConstructorUsedError;
   List<FieldDeclarationStorageV1> get fieldDeclarations =>
       throw _privateConstructorUsedError;
-  Set<String>? get semantics => throw _privateConstructorUsedError;
+  Set<PackageApiSemantics>? get semantics => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +49,7 @@ abstract class $PackageApiStorageV1CopyWith<$Res> {
       List<ClassDeclarationStorageV1> classDeclarations,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
       List<FieldDeclarationStorageV1> fieldDeclarations,
-      Set<String>? semantics});
+      Set<PackageApiSemantics>? semantics});
 }
 
 /// @nodoc
@@ -99,7 +99,7 @@ class _$PackageApiStorageV1CopyWithImpl<$Res>
       semantics: semantics == freezed
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<PackageApiSemantics>?,
     ));
   }
 }
@@ -118,7 +118,7 @@ abstract class _$$_PackageApiStorageV1CopyWith<$Res>
       List<ClassDeclarationStorageV1> classDeclarations,
       List<ExecutableDeclarationStorageV1> executableDeclarations,
       List<FieldDeclarationStorageV1> fieldDeclarations,
-      Set<String>? semantics});
+      Set<PackageApiSemantics>? semantics});
 }
 
 /// @nodoc
@@ -170,7 +170,7 @@ class __$$_PackageApiStorageV1CopyWithImpl<$Res>
       semantics: semantics == freezed
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
+              as Set<PackageApiSemantics>?,
     ));
   }
 }
@@ -186,7 +186,7 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
       required final List<ExecutableDeclarationStorageV1>
           executableDeclarations,
       required final List<FieldDeclarationStorageV1> fieldDeclarations,
-      final Set<String>? semantics})
+      final Set<PackageApiSemantics>? semantics})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -223,9 +223,9 @@ class _$_PackageApiStorageV1 extends _PackageApiStorageV1 {
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
-  final Set<String>? _semantics;
+  final Set<PackageApiSemantics>? _semantics;
   @override
-  Set<String>? get semantics {
+  Set<PackageApiSemantics>? get semantics {
     final value = _semantics;
     if (value == null) return null;
     // ignore: implicit_dynamic_type
@@ -293,7 +293,7 @@ abstract class _PackageApiStorageV1 extends PackageApiStorageV1 {
       required final List<ExecutableDeclarationStorageV1>
           executableDeclarations,
       required final List<FieldDeclarationStorageV1> fieldDeclarations,
-      final Set<String>? semantics}) = _$_PackageApiStorageV1;
+      final Set<PackageApiSemantics>? semantics}) = _$_PackageApiStorageV1;
   const _PackageApiStorageV1._() : super._();
 
   factory _PackageApiStorageV1.fromJson(Map<String, dynamic> json) =
@@ -312,7 +312,7 @@ abstract class _PackageApiStorageV1 extends PackageApiStorageV1 {
   @override
   List<FieldDeclarationStorageV1> get fieldDeclarations;
   @override
-  Set<String>? get semantics;
+  Set<PackageApiSemantics>? get semantics;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiStorageV1CopyWith<_$_PackageApiStorageV1> get copyWith =>
