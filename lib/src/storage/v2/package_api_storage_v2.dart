@@ -1,6 +1,7 @@
 import 'package:dart_apitool/src/model/package_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../model/package_api_semantics.dart';
 import 'class_declaration_storage_v2.dart';
 import 'executable_declaration_storage_v2.dart';
 import 'field_declaration_storage_v2.dart';
@@ -21,7 +22,7 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
     required List<ExecutableDeclarationStorageV2> executableDeclarations,
     required List<FieldDeclarationStorageV2> fieldDeclarations,
     required List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
-    Set<String>? semantics,
+    required Set<PackageApiSemantics> semantics,
   }) = _PackageApiStorageV2;
 
   factory PackageApiStorageV2.fromJson(Map<String, Object?> json) =>

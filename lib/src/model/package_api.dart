@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'class_declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
+import 'package_api_semantics.dart';
 
 part 'package_api.freezed.dart';
 
@@ -35,6 +36,6 @@ class PackageApi with _$PackageApi {
     required List<TypeAliasDeclaration> typeAliasDeclarations,
 
     /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-    @Default(<String>{}) Set<String> semantics,
+    @Default(<PackageApiSemantics>{}) Set<PackageApiSemantics> semantics,
   }) = _PackageApi;
 }

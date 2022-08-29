@@ -42,7 +42,7 @@ mixin _$PackageApi {
       throw _privateConstructorUsedError;
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<String> get semantics => throw _privateConstructorUsedError;
+  Set<PackageApiSemantics> get semantics => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PackageApiCopyWith<PackageApi> get copyWith =>
@@ -62,7 +62,7 @@ abstract class $PackageApiCopyWith<$Res> {
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<String> semantics});
+      Set<PackageApiSemantics> semantics});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
       semantics: semantics == freezed
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<PackageApiSemantics>,
     ));
   }
 }
@@ -136,7 +136,7 @@ abstract class _$$_PackageApiCopyWith<$Res>
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<String> semantics});
+      Set<PackageApiSemantics> semantics});
 }
 
 /// @nodoc
@@ -192,7 +192,7 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
       semantics: semantics == freezed
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<PackageApiSemantics>,
     ));
   }
 }
@@ -208,7 +208,7 @@ class _$_PackageApi extends _PackageApi {
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<String> semantics = const <String>{}})
+      final Set<PackageApiSemantics> semantics = const <PackageApiSemantics>{}})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -269,12 +269,12 @@ class _$_PackageApi extends _PackageApi {
   }
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  final Set<String> _semantics;
+  final Set<PackageApiSemantics> _semantics;
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   @override
   @JsonKey()
-  Set<String> get semantics {
+  Set<PackageApiSemantics> get semantics {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_semantics);
   }
@@ -334,7 +334,7 @@ abstract class _PackageApi extends PackageApi {
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<String> semantics}) = _$_PackageApi;
+      final Set<PackageApiSemantics> semantics}) = _$_PackageApi;
   const _PackageApi._() : super._();
 
   @override
@@ -368,7 +368,7 @@ abstract class _PackageApi extends PackageApi {
   @override
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<String> get semantics;
+  Set<PackageApiSemantics> get semantics;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
