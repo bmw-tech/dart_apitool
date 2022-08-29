@@ -16,12 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ExecutableParameterDeclaration {
+  /// whether the parameter is required
   bool get isRequired => throw _privateConstructorUsedError;
+
+  /// whether the parameter is named
   bool get isNamed => throw _privateConstructorUsedError;
+
+  /// the name of the parameter
   String get name => throw _privateConstructorUsedError;
+
+  /// whether the parameter is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// type name of this parameter
   String get typeName => throw _privateConstructorUsedError;
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
@@ -39,8 +47,7 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       bool isNamed,
       String name,
       bool isDeprecated,
-      String typeName,
-      Set<String>? entryPoints});
+      String typeName});
 }
 
 /// @nodoc
@@ -59,7 +66,6 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? typeName = freezed,
-    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
       isRequired: isRequired == freezed
@@ -82,10 +88,6 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      entryPoints: entryPoints == freezed
-          ? _value.entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
     ));
   }
 }
@@ -103,8 +105,7 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       bool isNamed,
       String name,
       bool isDeprecated,
-      String typeName,
-      Set<String>? entryPoints});
+      String typeName});
 }
 
 /// @nodoc
@@ -127,7 +128,6 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? name = freezed,
     Object? isDeprecated = freezed,
     Object? typeName = freezed,
-    Object? entryPoints = freezed,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
       isRequired: isRequired == freezed
@@ -150,10 +150,6 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      entryPoints: entryPoints == freezed
-          ? _value._entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
     ));
   }
 }
@@ -167,33 +163,32 @@ class _$_ExecutableParameterDeclaration
       required this.isNamed,
       required this.name,
       required this.isDeprecated,
-      required this.typeName,
-      final Set<String>? entryPoints})
-      : _entryPoints = entryPoints,
-        super._();
+      required this.typeName})
+      : super._();
 
+  /// whether the parameter is required
   @override
   final bool isRequired;
+
+  /// whether the parameter is named
   @override
   final bool isNamed;
+
+  /// the name of the parameter
   @override
   final String name;
+
+  /// whether the parameter is deprecated
   @override
   final bool isDeprecated;
+
+  /// type name of this parameter
   @override
   final String typeName;
-  final Set<String>? _entryPoints;
-  @override
-  Set<String>? get entryPoints {
-    final value = _entryPoints;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
-  }
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName, entryPoints: $entryPoints)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
   }
 
   @override
@@ -207,9 +202,7 @@ class _$_ExecutableParameterDeclaration
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.typeName, typeName) &&
-            const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+            const DeepCollectionEquality().equals(other.typeName, typeName));
   }
 
   @override
@@ -219,8 +212,7 @@ class _$_ExecutableParameterDeclaration
       const DeepCollectionEquality().hash(isNamed),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(typeName),
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(typeName));
 
   @JsonKey(ignore: true)
   @override
@@ -236,22 +228,29 @@ abstract class _ExecutableParameterDeclaration
       required final bool isNamed,
       required final String name,
       required final bool isDeprecated,
-      required final String typeName,
-      final Set<String>? entryPoints}) = _$_ExecutableParameterDeclaration;
+      required final String typeName}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
 
   @override
+
+  /// whether the parameter is required
   bool get isRequired;
   @override
+
+  /// whether the parameter is named
   bool get isNamed;
   @override
+
+  /// the name of the parameter
   String get name;
   @override
+
+  /// whether the parameter is deprecated
   bool get isDeprecated;
   @override
+
+  /// type name of this parameter
   String get typeName;
-  @override
-  Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>

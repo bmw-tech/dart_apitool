@@ -699,11 +699,18 @@ enum ApiChangeType {
   const ApiChangeType({required this.isBreaking});
 }
 
+/// represents a tree node in the hierarchical change representation
 class ApiChangeTreeNode {
+  /// the declaration represented by this node
   final Declaration? nodeDeclaration;
+
+  /// the changes [nodeDeclaration] has
   final List<ApiChange> changes;
+
+  /// the children of this node
   final Map<Declaration, ApiChangeTreeNode> children;
 
+  /// creates a new ApiChangeTreeNode instance
   ApiChangeTreeNode({
     required this.nodeDeclaration,
     List<ApiChange>? changes,
@@ -716,12 +723,16 @@ class PackageApiDiffResult {
   /// API changes that the diff run detected
   final List<ApiChange> apiChanges;
 
+  /// whether this diff result contains any changes
   bool get hasChanges {
     return apiChanges.isNotEmpty;
   }
 
+  /// root node of the hierarchical representation of the changes
   final rootNode = ApiChangeTreeNode(nodeDeclaration: null);
 
+  /// adds an API change. This is used by the [PackageApiDiffer] to add API changes.
+  /// This method makes sure that the change is added to the list of changes as well as getting inserted into the hierarchical representation
   void addApiChange(ApiChange change) {
     var currentNode = rootNode;
     for (int i = change.contextTrace.length - 1; i >= 0; i--) {
@@ -736,6 +747,7 @@ class PackageApiDiffResult {
     apiChanges.add(change);
   }
 
+  /// calls [addApiChange] for all [ApiChange]s in [changes]
   void addApiChanges(Iterable<ApiChange> changes) {
     for (final change in changes) {
       addApiChange(change);
@@ -745,8 +757,11 @@ class PackageApiDiffResult {
   PackageApiDiffResult() : apiChanges = [];
 }
 
+/// represents options for the [PackageApiDiffer]
 class PackageApiDifferOptions {
+  /// whether to ignore type parameter changes
   final bool ignoreTypeParameterNameChanges;
 
+  /// creates a new PackageApiDifferOptions instance
   const PackageApiDifferOptions({this.ignoreTypeParameterNameChanges = true});
 }

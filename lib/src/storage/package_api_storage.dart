@@ -5,7 +5,11 @@ import 'package:dart_apitool/src/storage/v2/storage_v2.dart';
 
 import '../model/model.dart';
 
+/// provides access to the storage functionality for [PackageApi]s
+/// makes sure to use the right version of the storage model when reading from storage
+/// and uses the latest storage version when writing to storage
 abstract class PackageApiStorage {
+  /// reads the [PackageApi] from storage (JSON string)
   static PackageApi packageApiFromStorageJson(String jsonString) {
     final jsonDom = jsonDecode(jsonString);
     final storageVersion = jsonDom['version'] as int;
@@ -13,6 +17,7 @@ abstract class PackageApiStorage {
     return _readFromVersion(storageVersion, packageApi);
   }
 
+  /// writes the [packageApi] to storage (JSON string)
   static String packageApitoStorageJson(PackageApi packageApi,
       {bool pretty = false}) {
     final packageApiStorage = _packageApiToStorage(packageApi);

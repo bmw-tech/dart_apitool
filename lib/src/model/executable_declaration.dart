@@ -13,6 +13,7 @@ enum ExecutableType {
   constructor,
 }
 
+/// Represents an executable parameter declaration
 @freezed
 class ExecutableParameterDeclaration
     with _$ExecutableParameterDeclaration
@@ -21,13 +22,25 @@ class ExecutableParameterDeclaration
 
   @Implements<Declaration>()
   const factory ExecutableParameterDeclaration({
+    /// whether the parameter is required
     required bool isRequired,
+
+    /// whether the parameter is named
     required bool isNamed,
+
+    /// the name of the parameter
     required String name,
+
+    /// whether the parameter is deprecated
     required bool isDeprecated,
+
+    /// type name of this parameter
     required String typeName,
-    Set<String>? entryPoints,
   }) = _ExecutableParameterDeclaration;
+
+  /// [ExecutableParameterDeclaration]s can't have entry points
+  @override
+  Set<String>? get entryPoints => null;
 }
 
 /// Represents an executable declaration
