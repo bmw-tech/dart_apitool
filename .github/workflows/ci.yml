@@ -75,7 +75,7 @@ jobs:
         run: dart analyze
 
   semver:
-    needs: [analysis, get_last_released_version, get_flutter_version]
+    needs: [get_last_released_version, get_flutter_version]
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
     with:
       runs-on: sh_devmil_mac
