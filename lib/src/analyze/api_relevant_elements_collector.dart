@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
@@ -21,7 +22,7 @@ typedef OnTypeUsedHandler = void Function(DartType onTypeUsed);
 /// - [fieldDeclarations]
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({
-    this.isOnlyPublicClasses = true,
+    this.privateElementExceptions = const [],
     List<String> shownNames = const [],
     List<String> hiddenNames = const [],
     OnTypeUsedHandler? onTypeUsedHandler,
@@ -71,7 +72,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   List<InternalTypeAliasDeclaration> get typeAliases => _typeAliases;
 
   /// determines if the collector shall only collect publicly exposed declarations
-  final bool isOnlyPublicClasses;
+  final List<int> privateElementExceptions;
   late final OnTypeUsedHandler _onTypeUsedHandler;
 
   void _executeInContext({
@@ -107,21 +108,19 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   void _onTypeUsed(DartType type) {
-    if (type is InterfaceType) {
-      _onInterfaceTypeUsed(type);
-    }
-  }
-
-  void _onInterfaceTypeUsed(InterfaceType type) {
     final directElement = type.element2;
-    if (_visitedElementIds.contains(type.element2.id)) {
+    final directElementLibrary = directElement?.library;
+    if (directElement == null || directElementLibrary == null) {
       return;
     }
-    final packageName = getPackageNameFromLibrary(directElement.library);
+    if (_visitedElementIds.contains(directElement.id)) {
+      return;
+    }
+    final packageName = getPackageNameFromLibrary(directElementLibrary);
     if (packageName == _packageName) {
-      //create new collector with isOnlyPublic = false as we know that this type is used directly and therefore gets exported implicitly (e.g. private mixins (Freezed))
+      //create new collector with the used type as an exception from the public element restrictions
       final collector = APIRelevantElementsCollector(
-        isOnlyPublicClasses: false,
+        privateElementExceptions: [directElement.id],
         visitedElementIds: _visitedElementIds,
       );
       directElement.accept(collector);
@@ -130,10 +129,18 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       classDeclarations.addAll(collector.classDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
+      typeAliases.addAll(collector.typeAliases);
     }
-    for (final ta in type.typeArguments) {
-      if (ta is InterfaceType) {
-        _onTypeUsedHandler(ta);
+    if (type is InterfaceType) {
+      for (final ta in type.typeArguments) {
+        if (ta is InterfaceType) {
+          _onTypeUsedHandler(ta);
+        }
+      }
+    } else if (type is TypeAlias) {
+      final aliasedType = type.alias?.element.aliasedType;
+      if (aliasedType != null) {
+        _onTypeUsedHandler(aliasedType);
       }
     }
   }
@@ -152,6 +159,13 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return !_context.hiddenNames.contains(name);
   }
 
+  bool _isElementAllowedToBeCollected(Element element) {
+    if (element.isPublic) {
+      return true;
+    }
+    return privateElementExceptions.contains(element.id);
+  }
+
   /// marks the given element as visited.
   /// Returns [true] if it got marked, returns [false] if it is already marked as visited
   bool _markElementAsVisited(Element element) {
@@ -168,7 +182,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isNameExported(element.name)) {
       return;
     }
-    if (isOnlyPublicClasses && !element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -191,7 +205,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitFieldElement(FieldElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -208,7 +222,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitTopLevelVariableElement(TopLevelVariableElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -235,7 +249,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitMethodElement(MethodElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -259,7 +273,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitFunctionElement(FunctionElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -283,7 +297,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitConstructorElement(ConstructorElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
@@ -304,7 +318,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   visitTypeAliasElement(TypeAliasElement element) {
     _onVisitAnyElement(element);
-    if (!element.isPublic) {
+    if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
     if (!_markElementAsVisited(element)) {
