@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.4.1
+## Version 0.5.0
 - PackageAPI semantics are now an enum
 
 ## Version 0.4.0
