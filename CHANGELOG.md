@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.4.1
+- PackageAPI semantics are now an enum
+
 ## Version 0.4.0
 - adds type aliases to Package API model
 - fixes missing entry points for root level fields and functions
