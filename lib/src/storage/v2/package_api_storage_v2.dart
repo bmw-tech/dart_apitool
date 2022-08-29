@@ -42,7 +42,7 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
           fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
       typeAliasDeclarations:
           typeAliasDeclarations.map((t) => t.toTypeAliasDeclaration()).toList(),
-      semantics: semantics ?? {},
+      semantics: semantics,
     );
   }
 
