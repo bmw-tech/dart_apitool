@@ -1,5 +1,5 @@
 name: dart_apitool
-description: A tool to analyze the public API of a package and create a model of it. It also allows to use that model to compare the public API with a newer version and check if the version follows [semver](https://semver.org) correctly.
+description: A tool to analyze the public API of a package, create a model of it and diff it against another version to check semver.
 homepage: https://devmil.de
 repository: https://github.com/devmil/dart_apitool
 
