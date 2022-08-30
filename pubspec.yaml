@@ -1,5 +1,5 @@
 name: dart_apitool
-description: A tool for Dart APIs. It allows to create a model of the public API of a given package as well as comparing two different models and provide the needed version jump.
+description: A tool to analyze the public API of a package and create a model of it. It also allows to use that model to compare the public API with a newer version and check if the version follows [semver](https://semver.org) correctly.
 homepage: https://devmil.de
 repository: https://github.com/devmil/dart_apitool
 
