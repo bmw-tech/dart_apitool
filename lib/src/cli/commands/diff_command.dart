@@ -118,33 +118,7 @@ You may want to do this if you want to make sure
     return 0;
   }
 
-  String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
-    Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
-      return {
-        'label': Colorize(labelOverride ??
-                (n.nodeDeclaration == null
-                    ? ''
-                    : getDeclarationNodeHeadline(n.nodeDeclaration!)))
-            .bold()
-            .toString(),
-        'nodes': [
-          ...n.changes
-              .map((c) => Colorize(c.changeDescription).italic().toString()),
-          ...n.children.values.map((value) => nodeToTree(value))
-        ],
-      };
-    }
-
-    return createTree({
-      'nodes': [
-        nodeToTree(node,
-            labelOverride:
-                breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes')
-      ],
-    });
-  }
-
-  String getDeclarationNodeHeadline(Declaration declaration) {
+  String _getDeclarationNodeHeadline(Declaration declaration) {
     var prefix = '';
     if (declaration is ExecutableDeclaration) {
       switch (declaration.type) {
@@ -161,6 +135,42 @@ You may want to do this if you want to make sure
       prefix = 'Class ';
     }
     return prefix + declaration.name;
+  }
+
+  String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
+    Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
+      final relevantChanges =
+          n.changes.where((c) => c.type.isBreaking == breaking);
+      final changeNodes = relevantChanges
+          .map((c) => Colorize(c.changeDescription).italic().toString());
+      final childNodes = n.children.values
+          .map((value) => nodeToTree(value))
+          .where((element) => element.isNotEmpty);
+      final allChildren = [
+        ...changeNodes,
+        ...childNodes,
+      ];
+      if (allChildren.isEmpty) {
+        return {};
+      }
+      return {
+        'label': Colorize(labelOverride ??
+                (n.nodeDeclaration == null
+                    ? ''
+                    : _getDeclarationNodeHeadline(n.nodeDeclaration!)))
+            .bold()
+            .toString(),
+        'nodes': allChildren,
+      };
+    }
+
+    return createTree({
+      'nodes': [
+        nodeToTree(node,
+            labelOverride:
+                breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes')
+      ],
+    });
   }
 
   bool _versionChangeMatchesChanges({
