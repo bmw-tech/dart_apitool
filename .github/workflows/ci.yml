@@ -100,6 +100,9 @@ jobs:
           channel: '${{ inputs.flutter-channel }}'
           cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter-version }}-any'
 
+      - name: Install dependencies
+        run: dart pub get
+        
       - name: check version
         run: dart bin/main.dart diff --old pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }} --new . --ignore-prerelease on
 
