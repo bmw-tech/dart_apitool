@@ -85,6 +85,27 @@ jobs:
       flutter-channel: 'any'
       flutter-version: ${{ needs.get_flutter_version.outputs.flutter-version }}
 
+  semver-dogfood:
+    needs: [get_last_released_version, get_flutter_version]
+    runs-on: sh_devmil_mac
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '${{ inputs.flutter-version }}'
+          channel: '${{ inputs.flutter-channel }}'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter-version }}-any'
+
+      - name: Install dependencies
+        run: dart pub get
+        
+      - name: check version
+        run: dart bin/main.dart diff --old pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }} --new . --ignore-prerelease on
+
   test:
     needs: [check_label, get_flutter_version]
     strategy:
