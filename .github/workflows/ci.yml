@@ -54,7 +54,7 @@ jobs:
 
   analysis:
     needs: [check_label, get_flutter_version]
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -78,7 +78,7 @@ jobs:
     needs: [get_last_released_version, get_flutter_version]
     uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
     with:
-      runs-on: sh_devmil_mac
+      runs-on: ubuntu-latest
       old: "pub://dart_apitool/${{ needs.get_last_released_version.outputs.last_released_version }}"
       new: "."
       ignore-prerelease: 'on'
@@ -87,7 +87,7 @@ jobs:
 
   semver-dogfood:
     needs: [get_last_released_version, get_flutter_version]
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -110,7 +110,7 @@ jobs:
     needs: [check_label, get_flutter_version]
     strategy:
       matrix:
-        platform: [sh_devmil_mac, sh_devmil_win, ubuntu-latest] # , ubuntu-latest
+        platform: [ubuntu-latest, macOS-latest, windows-latest, sh_devmil_mac]
     runs-on: ${{ matrix.platform }}
     
     steps:
@@ -130,7 +130,7 @@ jobs:
 
   pana:
     needs: [check_label, get_flutter_version]
-    runs-on: sh_devmil_mac
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
