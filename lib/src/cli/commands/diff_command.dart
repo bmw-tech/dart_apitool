@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
+import 'package:console/console.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:pub_semver/pub_semver.dart';
 
@@ -92,7 +93,6 @@ You may want to do this if you want to make sure
       if (breakingChanges == null) {
         stdout.writeln('No breaking changes!');
       } else {
-        stdout.writeln('BREAKING CHANGES:');
         stdout.write(breakingChanges);
       }
       final nonBreakingChanges =
@@ -100,7 +100,6 @@ You may want to do this if you want to make sure
       if (nonBreakingChanges == null) {
         stdout.writeln('No non-breaking changes!');
       } else {
-        stdout.writeln('Non-Breaking changes');
         stdout.write(nonBreakingChanges);
       }
     } else {
@@ -119,68 +118,49 @@ You may want to do this if you want to make sure
     return 0;
   }
 
-  String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking,
-      [int level = 0]) {
-    final currentOutput = StringBuffer();
-    bool headlinePrinted = false;
-
-    String getIndent(int level) {
-      if (level < 0) {
-        return '';
-      }
-      return List<String>.filled(level * 4, ' ').join('');
+  String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
+    Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
+      return {
+        'label': Colorize(labelOverride ??
+                (n.nodeDeclaration == null
+                    ? ''
+                    : getDeclarationNodeHeadline(n.nodeDeclaration!)))
+            .bold()
+            .toString(),
+        'nodes': [
+          ...n.changes
+              .map((c) => Colorize(c.changeDescription).italic().toString()),
+          ...n.children.values.map((value) => nodeToTree(value))
+        ],
+      };
     }
 
-    String getDeclarationNodeHeadline(Declaration declaration) {
-      var prefix = '';
-      if (declaration is ExecutableDeclaration) {
-        switch (declaration.type) {
-          case ExecutableType.constructor:
-            prefix = 'Constructor ';
-            break;
-          case ExecutableType.method:
-            prefix = 'Method ';
-            break;
-        }
-      } else if (declaration is FieldDeclaration) {
-        prefix = 'Field ';
-      } else if (declaration is ClassDeclaration) {
-        prefix = 'Class ';
-      }
-      return prefix + declaration.name;
-    }
+    return createTree({
+      'nodes': [
+        nodeToTree(node,
+            labelOverride:
+                breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes')
+      ],
+    });
+  }
 
-    void ensureHeadline() {
-      if (headlinePrinted) {
-        return;
+  String getDeclarationNodeHeadline(Declaration declaration) {
+    var prefix = '';
+    if (declaration is ExecutableDeclaration) {
+      switch (declaration.type) {
+        case ExecutableType.constructor:
+          prefix = 'Constructor ';
+          break;
+        case ExecutableType.method:
+          prefix = 'Method ';
+          break;
       }
-      if (node.nodeDeclaration != null) {
-        currentOutput.write(getIndent(level));
-        currentOutput
-            .writeln(getDeclarationNodeHeadline(node.nodeDeclaration!));
-      }
-      headlinePrinted = true;
+    } else if (declaration is FieldDeclaration) {
+      prefix = 'Field ';
+    } else if (declaration is ClassDeclaration) {
+      prefix = 'Class ';
     }
-
-    final filteredChanges =
-        node.changes.where((change) => change.type.isBreaking == breaking);
-    if (filteredChanges.isNotEmpty) {
-      for (final change in filteredChanges) {
-        ensureHeadline();
-        currentOutput.write(getIndent(level));
-        currentOutput.write('- ');
-        currentOutput.writeln(change.changeDescription);
-      }
-    }
-
-    for (final child in node.children.values) {
-      final childOutput = _printApiChangeNode(child, breaking, level + 1);
-      if (childOutput != null) {
-        ensureHeadline();
-        currentOutput.write(childOutput);
-      }
-    }
-    return currentOutput.isEmpty ? null : currentOutput.toString();
+    return prefix + declaration.name;
   }
 
   bool _versionChangeMatchesChanges({
