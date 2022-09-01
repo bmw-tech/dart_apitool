@@ -607,4 +607,163 @@ void main() {
       expect(typeChange.type, ApiChangeType.remove);
     });
   });
+  group('EntryPoint handling', () {
+    test('EntryPoint change in field detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldAEntryPointA,
+        newApi: packageFieldAEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 2);
+      final addChange = diffResult.apiChanges.singleWhere(
+          (element) => element.type == ApiChangeType.addCompatible);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
+      expect(removeChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<FieldDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+
+      expect(addChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<FieldDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint add in field detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldAEntryPointA,
+        newApi: packageFieldAEntryPointAB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final addChange = diffResult.apiChanges.single;
+
+      expect(addChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<FieldDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint remove in field detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageFieldAEntryPointAB,
+        newApi: packageFieldAEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final removeChange = diffResult.apiChanges.single;
+      expect(removeChange.affectedDeclaration, isA<FieldDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<FieldDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+    });
+    test('EntryPoint change in executable detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1ApiEntryPointA,
+        newApi: packageExecutable1ApiEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 2);
+      final addChange = diffResult.apiChanges.singleWhere(
+          (element) => element.type == ApiChangeType.addCompatible);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
+      expect(removeChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<ExecutableDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+
+      expect(addChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<ExecutableDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint add in executable detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1ApiEntryPointA,
+        newApi: packageExecutable1ApiEntryPointAB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final addChange = diffResult.apiChanges.single;
+
+      expect(addChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<ExecutableDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint remove in executable detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1ApiEntryPointAB,
+        newApi: packageExecutable1ApiEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final removeChange = diffResult.apiChanges.single;
+      expect(removeChange.affectedDeclaration, isA<ExecutableDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<ExecutableDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+    });
+    test('EntryPoint change in class detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageClassAApiEntryPointA,
+        newApi: packageClassAApiEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 2);
+      final addChange = diffResult.apiChanges.singleWhere(
+          (element) => element.type == ApiChangeType.addCompatible);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
+      expect(removeChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+
+      expect(addChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint add in class detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageClassAApiEntryPointA,
+        newApi: packageClassAApiEntryPointAB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final addChange = diffResult.apiChanges.single;
+
+      expect(addChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(addChange.changeDescription, contains('entry point'));
+      expect(addChange.changeDescription, contains('b.dart'));
+      expect(addChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(addChange.type, ApiChangeType.addCompatible);
+    });
+    test('EntryPoint remove in class detected', () {
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: packageClassAApiEntryPointAB,
+        newApi: packageClassAApiEntryPointB,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final removeChange = diffResult.apiChanges.single;
+
+      expect(removeChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(removeChange.changeDescription, contains('Entry point'));
+      expect(removeChange.changeDescription, contains('a.dart'));
+      expect(removeChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(removeChange.type, ApiChangeType.remove);
+    });
+  });
 }
