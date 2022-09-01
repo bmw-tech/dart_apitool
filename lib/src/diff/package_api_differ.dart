@@ -205,6 +205,11 @@ class PackageApiDiffer {
         'Static specifier changed. ${oldExecutable.isStatic} -> ${newExecutable.isStatic}',
         changes,
       );
+      changes.addAll(_calculateEntryPointsDiff(
+        oldExecutable.entryPoints,
+        newExecutable.entryPoints,
+        context,
+      ));
 
       return changes;
     });
@@ -569,6 +574,12 @@ class PackageApiDiffer {
         'Static specifier changed. ${oldField.isStatic} -> ${newField.isStatic}',
         changes,
       );
+      changes.addAll(_calculateEntryPointsDiff(
+        oldField.entryPoints,
+        newField.entryPoints,
+        context,
+      ));
+
       return changes;
     });
   }

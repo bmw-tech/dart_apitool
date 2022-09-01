@@ -2,7 +2,7 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('mockito get analyzed correctly', () {
+  group('mockito gets analyzed correctly', () {
     late PackageApi packageApi;
     setUpAll(() async {
       final packageName = 'mockito';
