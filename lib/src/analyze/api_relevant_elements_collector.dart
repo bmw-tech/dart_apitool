@@ -4,7 +4,6 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
-import 'package:stack/stack.dart';
 
 import '../model/internal/internal_type_alias_declaration.dart';
 import '../utils/string_utils.dart';
@@ -45,14 +44,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   String? _packageName;
 
-  // ignore: unused_element
-  ExecutableElement? get _currentExecutableContext {
-    if (_context.executablesStack.isNotEmpty) {
-      return _context.executablesStack.top();
-    }
-    return null;
-  }
-
   final List<InternalClassDeclaration> _classDeclarations = [];
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
@@ -74,38 +65,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   /// determines if the collector shall only collect publicly exposed declarations
   final List<int> privateElementExceptions;
   late final OnTypeUsedHandler _onTypeUsedHandler;
-
-  void _executeInContext({
-    required Function toExecute,
-    required Function onEnter,
-    required Function onExit,
-  }) {
-    onEnter();
-    toExecute();
-    onExit();
-  }
-
-  void _executeInClassContext({
-    required Function toExecute,
-    required ClassElement classContext,
-  }) {
-    _executeInContext(
-      toExecute: toExecute,
-      onEnter: () => _context.classesStack.push(classContext),
-      onExit: () => _context.classesStack.pop(),
-    );
-  }
-
-  void _executeInExecutableContext({
-    required Function toExecute,
-    required ExecutableElement executableContext,
-  }) {
-    _executeInContext(
-      toExecute: toExecute,
-      onEnter: () => _context.executablesStack.push(executableContext),
-      onExit: () => _context.executablesStack.pop(),
-    );
-  }
 
   void _onTypeUsed(DartType type) {
     final directElement = type.element2;
@@ -194,12 +153,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         _onTypeUsedHandler(st);
       }
     }
-    _executeInClassContext(
-      toExecute: () {
-        super.visitClassElement(element);
-      },
-      classContext: element,
-    );
+    super.visitClassElement(element);
   }
 
   @override
@@ -259,12 +213,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
     ));
-    _executeInExecutableContext(
-      toExecute: () {
-        super.visitMethodElement(element);
-      },
-      executableContext: element,
-    );
+    super.visitMethodElement(element);
     if (element.returnType.element != null) {
       _onTypeUsedHandler(element.returnType);
     }
@@ -283,12 +232,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
     ));
-    _executeInExecutableContext(
-      toExecute: () {
-        super.visitFunctionElement(element);
-      },
-      executableContext: element,
-    );
+    super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
       _onTypeUsedHandler(element.returnType);
     }
@@ -307,12 +251,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(element));
 
-    _executeInExecutableContext(
-      toExecute: () {
-        super.visitConstructorElement(element);
-      },
-      executableContext: element,
-    );
+    super.visitConstructorElement(element);
   }
 
   @override
@@ -354,9 +293,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 class _AnalysisContext {
   final List<String> shownNames;
   final List<String> hiddenNames;
-
-  final Stack<ClassElement> classesStack = Stack<ClassElement>();
-  final Stack<ExecutableElement> executablesStack = Stack<ExecutableElement>();
 
   _AnalysisContext({
     this.shownNames = const [],
