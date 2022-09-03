@@ -21,22 +21,26 @@ import '../model/internal/internal_field_declaration.dart';
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({
     this.privateElementExceptions = const [],
+
+    /// [shownNames] are all element names that are marked as "shown" when the visited item got exported
     List<String> shownNames = const [],
+
+    /// [hiddenNames] are all element names that are marked as "hidden" when the visited item got exported
     List<String> hiddenNames = const [],
 
-    /// [visitedElementIds] is the set of element ids that are already visited and therefore should not be visited by this visitor
-    Set<int>? visitedElementIds,
+    /// [collectedElementIds] is the set of element ids that are already collected and therefore should not be collected (again) by this visitor
+    Set<int>? collectedElementIds,
   }) : _context = _AnalysisContext(
           shownNames: shownNames,
           hiddenNames: hiddenNames,
         ) {
-    _visitedElementIds = <int>{};
-    if (visitedElementIds != null) {
-      _visitedElementIds.addAll(visitedElementIds);
+    _collectedElementIds = <int>{};
+    if (collectedElementIds != null) {
+      _collectedElementIds.addAll(collectedElementIds);
     }
   }
 
-  late final Set<int> _visitedElementIds;
+  late final Set<int> _collectedElementIds;
   final _AnalysisContext _context;
 
   String? _packageName;
@@ -69,7 +73,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (directElement == null || directElementLibrary == null) {
       return;
     }
-    if (_visitedElementIds.contains(directElement.id)) {
+    if (_collectedElementIds.contains(directElement.id)) {
       return;
     }
     final packageName = getPackageNameFromLibrary(directElementLibrary);
@@ -77,11 +81,12 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       //create new collector with the used type as an exception from the public element restrictions
       final collector = APIRelevantElementsCollector(
         privateElementExceptions: [directElement.id],
-        visitedElementIds: _visitedElementIds,
+        // pass on the already collected elements to make sure that we don't collect elements twice even if we are going down the usage tree
+        collectedElementIds: _collectedElementIds,
       );
       directElement.accept(collector);
       // merge result with this result
-      _visitedElementIds.addAll(collector._visitedElementIds);
+      _collectedElementIds.addAll(collector._collectedElementIds);
       classDeclarations.addAll(collector.classDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
@@ -122,13 +127,13 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return privateElementExceptions.contains(element.id);
   }
 
-  /// marks the given element as visited.
-  /// Returns [true] if it got marked, returns [false] if it is already marked as visited
-  bool _markElementAsVisited(Element element) {
-    if (_visitedElementIds.contains(element.id)) {
+  /// marks the given element as collected.
+  /// Returns [true] if it got marked, returns [false] if it is already marked as collected
+  bool _markElementAsCollected(Element element) {
+    if (_collectedElementIds.contains(element.id)) {
       return false;
     }
-    _visitedElementIds.add(element.id);
+    _collectedElementIds.add(element.id);
     return true;
   }
 
@@ -141,7 +146,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _classDeclarations.add(InternalClassDeclaration.fromClassElement(element));
@@ -159,7 +164,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _fieldDeclarations
@@ -176,7 +181,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _fieldDeclarations
@@ -203,7 +208,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _executableDeclarations
@@ -222,7 +227,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _executableDeclarations
@@ -241,7 +246,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
 
@@ -257,7 +262,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
-    if (!_markElementAsVisited(element)) {
+    if (!_markElementAsCollected(element)) {
       return;
     }
     _typeAliasDeclarations
