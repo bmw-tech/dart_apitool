@@ -167,7 +167,7 @@ class PackageApiAnalyzer {
                 );
               }
             }
-            for (final tad in collector.typeAliases) {
+            for (final tad in collector.typeAliasDeclarations) {
               if (skippedClasses.contains(tad.parentClassId)) {
                 continue;
               }
