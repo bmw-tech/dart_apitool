@@ -11,20 +11,18 @@ import '../model/internal/internal_class_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
 
-typedef OnTypeUsedHandler = void Function(DartType onTypeUsed);
-
 /// collector to get all the API relevant information out of an AST
 ///
 /// It tracks the found elements in its public properties:
 /// - [classDeclarations]
 /// - [executableDeclarations]
 /// - [fieldDeclarations]
+/// - [typeAliasDeclarations]
 class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   APIRelevantElementsCollector({
     this.privateElementExceptions = const [],
     List<String> shownNames = const [],
     List<String> hiddenNames = const [],
-    OnTypeUsedHandler? onTypeUsedHandler,
 
     /// [visitedElementIds] is the set of element ids that are already visited and therefore should not be visited by this visitor
     Set<int>? visitedElementIds,
@@ -32,7 +30,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
           shownNames: shownNames,
           hiddenNames: hiddenNames,
         ) {
-    _onTypeUsedHandler = onTypeUsedHandler ?? _onTypeUsed;
     _visitedElementIds = <int>{};
     if (visitedElementIds != null) {
       _visitedElementIds.addAll(visitedElementIds);
@@ -47,7 +44,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalClassDeclaration> _classDeclarations = [];
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
-  final List<InternalTypeAliasDeclaration> _typeAliases = [];
+  final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
 
   /// all found class declarations
   List<InternalClassDeclaration> get classDeclarations => _classDeclarations;
@@ -60,11 +57,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   List<InternalFieldDeclaration> get fieldDeclarations => _fieldDeclarations;
 
   /// all found type alias declarations
-  List<InternalTypeAliasDeclaration> get typeAliases => _typeAliases;
+  List<InternalTypeAliasDeclaration> get typeAliasDeclarations =>
+      _typeAliasDeclarations;
 
-  /// determines if the collector shall only collect publicly exposed declarations
+  /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
-  late final OnTypeUsedHandler _onTypeUsedHandler;
 
   void _onTypeUsed(DartType type) {
     final directElement = type.element2;
@@ -88,18 +85,18 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       classDeclarations.addAll(collector.classDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
-      typeAliases.addAll(collector.typeAliases);
+      typeAliasDeclarations.addAll(collector.typeAliasDeclarations);
     }
     if (type is InterfaceType) {
       for (final ta in type.typeArguments) {
         if (ta is InterfaceType) {
-          _onTypeUsedHandler(ta);
+          _onTypeUsed(ta);
         }
       }
     } else if (type is TypeAlias) {
       final aliasedType = type.alias?.element.aliasedType;
       if (aliasedType != null) {
-        _onTypeUsedHandler(aliasedType);
+        _onTypeUsed(aliasedType);
       }
     }
   }
@@ -150,7 +147,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _classDeclarations.add(InternalClassDeclaration.fromClassElement(element));
     for (final st in element.allSupertypes) {
       if (!st.element.isDartCoreObject && !st.element.isDartCoreEnum) {
-        _onTypeUsedHandler(st);
+        _onTypeUsed(st);
       }
     }
     super.visitClassElement(element);
@@ -169,7 +166,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
     if (element.type.element != null) {
-      _onTypeUsedHandler(element.type);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -186,7 +183,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitTopLevelVariableElement(element);
     if (element.type.element != null) {
-      _onTypeUsedHandler(element.type);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -196,7 +193,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     super.visitParameterElement(element);
     // this includes method, function and constructor calls
     if (element.type.element != null) {
-      _onTypeUsedHandler(element.type);
+      _onTypeUsed(element.type);
     }
   }
 
@@ -215,7 +212,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitMethodElement(element);
     if (element.returnType.element != null) {
-      _onTypeUsedHandler(element.returnType);
+      _onTypeUsed(element.returnType);
     }
   }
 
@@ -234,7 +231,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
-      _onTypeUsedHandler(element.returnType);
+      _onTypeUsed(element.returnType);
     }
   }
 
@@ -263,11 +260,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsVisited(element)) {
       return;
     }
-    _typeAliases
+    _typeAliasDeclarations
         .add(InternalTypeAliasDeclaration.fromTypeAliasElement(element));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element != null) {
-      _onTypeUsedHandler(element.aliasedType);
+      _onTypeUsed(element.aliasedType);
     }
   }
 
@@ -276,7 +273,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
     if (element.bound?.element != null) {
-      _onTypeUsedHandler(element.bound!);
+      _onTypeUsed(element.bound!);
     }
   }
 
@@ -285,7 +282,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitExtensionElement(element);
     if (element.extendedType.element != null) {
-      _onTypeUsedHandler(element.extendedType);
+      _onTypeUsed(element.extendedType);
     }
   }
 }
