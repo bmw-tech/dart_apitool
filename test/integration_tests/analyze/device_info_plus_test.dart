@@ -22,7 +22,7 @@ void main() {
     test('Version is correct', () {
       expect(packageApi.packageVersion, '2.4.0');
     });
-    void _testField(
+    void testField(
       ClassDeclaration Function() getHostClass,
       String fieldName, {
       required String expectedTypeName,
@@ -43,13 +43,13 @@ void main() {
         return packageApi.classDeclarations
             .firstWhere((element) => element.name == 'WindowsDeviceInfo');
       };
-      _testField(getHostClass, 'computerName',
+      testField(getHostClass, 'computerName',
           expectedTypeName: 'String', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'numberOfCores',
+      testField(getHostClass, 'numberOfCores',
           expectedTypeName: 'int', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'systemMemoryInMegabytes',
+      testField(getHostClass, 'systemMemoryInMegabytes',
           expectedTypeName: 'int', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'userName',
+      testField(getHostClass, 'userName',
           expectedTypeName: 'String', expectedIsDeprecatedFlag: false);
       test('does contain overwritten toMap() from super class', () {
         expect(
@@ -76,13 +76,13 @@ void main() {
         return packageApi.classDeclarations
             .firstWhere((element) => element.name == 'AndroidDeviceInfo');
       };
-      _testField(getHostClass, 'board',
+      testField(getHostClass, 'board',
           expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'device',
+      testField(getHostClass, 'device',
           expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'host',
+      testField(getHostClass, 'host',
           expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
-      _testField(getHostClass, 'isPhysicalDevice',
+      testField(getHostClass, 'isPhysicalDevice',
           expectedTypeName: 'bool?', expectedIsDeprecatedFlag: false);
       test('does contain overwritten toMap() from super class', () {
         expect(
