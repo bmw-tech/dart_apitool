@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.5.1
+
 ## Version 0.5.0
 - PackageAPI semantics are now an enum
 - Fixes issues with entry points for fields and executables (differ ignored them)
