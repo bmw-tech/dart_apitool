@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.5.1
+- Fixes Analyzer problem when visiting elements multiple times
 
 ## Version 0.5.0
 - PackageAPI semantics are now an enum
