@@ -1,13 +1,9 @@
 include: package:lints/recommended.yaml
 
-linter:
-  rules:
-    non_constant_identifier_names: false # freezed
-
 analyzer:
   errors:
     invalid_annotation_target: ignore # freezed    
   exclude:
-    - lib/**.g.dart
-    - lib/**.freezed.dart
+    - '**.g.dart'
+    - '**.freezed.dart'
     - scripts/**
