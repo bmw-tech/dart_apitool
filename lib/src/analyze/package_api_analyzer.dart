@@ -132,9 +132,14 @@ class PackageApiAnalyzer {
               if (!collectedClasses.containsKey(exd.parentClassId)) {
                 collectedClasses[exd.parentClassId] = _ClassCollectionResult();
               }
-              collectedClasses[exd.parentClassId]!
+              final exdAlreadyExists = collectedClasses[exd.parentClassId]!
                   .executableDeclarations
-                  .add(exd);
+                  .any((element) => element.id == exd.id);
+              if (!exdAlreadyExists) {
+                collectedClasses[exd.parentClassId]!
+                    .executableDeclarations
+                    .add(exd);
+              }
               if (exd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalExecutableDeclaration>(
@@ -154,7 +159,12 @@ class PackageApiAnalyzer {
               if (!collectedClasses.containsKey(fd.parentClassId)) {
                 collectedClasses[fd.parentClassId] = _ClassCollectionResult();
               }
-              collectedClasses[fd.parentClassId]!.fieldDeclarations.add(fd);
+              final fdAlreadyExists = collectedClasses[fd.parentClassId]!
+                  .fieldDeclarations
+                  .any((element) => element.id == fd.id);
+              if (!fdAlreadyExists) {
+                collectedClasses[fd.parentClassId]!.fieldDeclarations.add(fd);
+              }
               if (fd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalFieldDeclaration>(
@@ -174,9 +184,14 @@ class PackageApiAnalyzer {
               if (!collectedClasses.containsKey(tad.parentClassId)) {
                 collectedClasses[tad.parentClassId] = _ClassCollectionResult();
               }
-              collectedClasses[tad.parentClassId]!
+              final tadAlreadyExists = collectedClasses[tad.parentClassId]!
                   .typeAliasDeclarations
-                  .add(tad);
+                  .any((element) => element.id == tad.id);
+              if (!tadAlreadyExists) {
+                collectedClasses[tad.parentClassId]!
+                    .typeAliasDeclarations
+                    .add(tad);
+              }
               if (tad.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalTypeAliasDeclaration>(
