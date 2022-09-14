@@ -1,21 +1,19 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('bloc get analyzed correctly', () {
+    final packageName = 'bloc';
+    final packageVersion = '8.1.0';
+    final retriever = PackageApiRetriever(packageName, packageVersion);
     late PackageApi packageApi;
-    setUpAll(() async {
-      final packageName = 'bloc';
-      final packageVersion = '8.1.0';
-      //download from pub
-      final packageDirectory = await PubInteraction.installPackageToCache(
-        packageName,
-        packageVersion,
-      );
 
-      final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
-      packageApi = await analyzer.analyze();
+    setUpAll(() async {
+      packageApi = await retriever.retrieve();
     });
+
     test('Bloc class is available', () {
       final blocClass = packageApi.classDeclarations
           .singleWhere((element) => element.name == 'Bloc');

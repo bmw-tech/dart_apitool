@@ -1,21 +1,19 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('device_info_plus_platform_interface gets analyzed correctly', () {
     late PackageApi packageApi;
-    setUpAll(() async {
-      final packageName = 'device_info_plus_platform_interface';
-      final packageVersion = '2.4.0';
-      //download from pub
-      final packageDirectory = await PubInteraction.installPackageToCache(
-        packageName,
-        packageVersion,
-      );
+    final packageName = 'device_info_plus_platform_interface';
+    final packageVersion = '2.4.0';
+    final retriever = PackageApiRetriever(packageName, packageVersion);
 
-      final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
-      packageApi = await analyzer.analyze();
+    setUpAll(() async {
+      packageApi = await retriever.retrieve();
     });
+
     test('Package name is correct', () {
       expect(packageApi.packageName, 'device_info_plus_platform_interface');
     });

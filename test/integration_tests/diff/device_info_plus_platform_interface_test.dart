@@ -3,43 +3,32 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('device_info_plus_platform_interface', () {
-    late PackageApi packageApi_2_2_0;
-    late PackageApi packageApi_2_4_0;
-    late PackageApiDiffResult diffResult;
-    setUpAll(() async {
-      final packageName = 'device_info_plus_platform_interface';
-      //download from pub
-      final packageDirectory_2_2_0 = await PubInteraction.installPackageToCache(
-        packageName,
-        '2.2.0',
-      );
-      final packageDirectory_2_4_0 = await PubInteraction.installPackageToCache(
-        packageName,
-        '2.4.0',
-      );
+    final packageName = 'device_info_plus_platform_interface';
 
-      final analyzer_2_2_0 =
-          PackageApiAnalyzer(packagePath: packageDirectory_2_2_0);
-      packageApi_2_2_0 = await analyzer_2_2_0.analyze();
-      final analyzer_2_4_0 =
-          PackageApiAnalyzer(packagePath: packageDirectory_2_4_0);
-      packageApi_2_4_0 = await analyzer_2_4_0.analyze();
+    group('2.2.0 to 2.4.0', () {
+      final retriever_2_2_0 = PackageApiRetriever(packageName, '2.2.0');
+      final retriever_2_4_0 = PackageApiRetriever(packageName, '2.4.0');
+      late PackageApiDiffResult diffResult;
+      setUpAll(() async {
+        diffResult = PackageApiDiffer().diff(
+            oldApi: await retriever_2_2_0.retrieve(),
+            newApi: await retriever_2_4_0.retrieve());
+      });
 
-      diffResult = PackageApiDiffer()
-          .diff(oldApi: packageApi_2_2_0, newApi: packageApi_2_4_0);
-    });
-
-    test('Any breaking changes are detected', () {
-      expect(diffResult.apiChanges.any((element) => element.type.isBreaking),
-          isTrue);
-    });
-    test('adding username breaking change is detected', () {
-      final userNameChange = diffResult.apiChanges
-          .where((change) => change.changeDescription.contains('userName'))
-          .first;
-      expect(userNameChange.type, ApiChangeType.addBreaking);
+      test('any breaking changes are detected', () {
+        expect(diffResult.apiChanges.any((element) => element.type.isBreaking),
+            isTrue);
+      });
+      test('adding username breaking change is detected', () {
+        final userNameChange = diffResult.apiChanges
+            .where((change) => change.changeDescription.contains('userName'))
+            .first;
+        expect(userNameChange.type, ApiChangeType.addBreaking);
+      });
     });
   });
 }
