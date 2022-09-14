@@ -1,21 +1,19 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('mockito gets analyzed correctly', () {
     late PackageApi packageApi;
-    setUpAll(() async {
-      final packageName = 'mockito';
-      final packageVersion = '5.3.0';
-      //download from pub
-      final packageDirectory = await PubInteraction.installPackageToCache(
-        packageName,
-        packageVersion,
-      );
+    final packageName = 'mockito';
+    final packageVersion = '5.3.0';
+    final retriever = PackageApiRetriever(packageName, packageVersion);
 
-      final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
-      packageApi = await analyzer.analyze();
+    setUpAll(() async {
+      packageApi = await retriever.retrieve();
     });
+
     test('Root level field "any" is available', () {
       final anyField = packageApi.fieldDeclarations
           .singleWhere((element) => element.name == 'any');
