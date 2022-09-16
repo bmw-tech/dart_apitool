@@ -83,6 +83,9 @@ You may want to do this if you want to make sure
       mergeBaseClasses: !noMergeBaseClasses,
     );
 
+    await cleanUp(preparedOldPackageRef);
+    await cleanUp(preparedNewPackageRef);
+
     final differ = PackageApiDiffer();
     final diffResult =
         differ.diff(oldApi: oldPackageApi, newApi: newPackageApi);

@@ -49,6 +49,7 @@ If not specified the extracted API will be printed to the console.
     final preparedPackageRef = await prepare(packageRef);
     final packageApi = await analyze(preparedPackageRef,
         mergeBaseClasses: !noMergeBaseClasses);
+    await cleanUp(preparedPackageRef);
     final jsonString =
         PackageApiStorage.packageApitoStorageJson(packageApi, pretty: true);
     final outFilePath = argResults![_optionNameOutput] as String?;
