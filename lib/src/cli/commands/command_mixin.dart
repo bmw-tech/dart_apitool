@@ -74,11 +74,15 @@ Package reference can be one of:
     final analyzer = PackageApiAnalyzer(
         packagePath: preparedRef.tempDirectory ?? path,
         mergeBaseClasses: mergeBaseClasses);
-    final apiResult = await analyzer.analyze();
-    if (preparedRef.tempDirectory != null) {
-      await Directory(preparedRef.tempDirectory!).delete(recursive: true);
+    return await analyzer.analyze();
+  }
+
+  Future cleanUp(PreparedPackageRef preparedPackageRef) {
+    if (preparedPackageRef.tempDirectory != null) {
+      return Directory(preparedPackageRef.tempDirectory!)
+          .delete(recursive: true);
     }
-    return apiResult;
+    return Future.value();
   }
 
   bool _doNothing(String from, String to) {
