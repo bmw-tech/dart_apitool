@@ -90,6 +90,8 @@ You may want to do this if you want to make sure
     final diffResult =
         differ.diff(oldApi: oldPackageApi, newApi: newPackageApi);
 
+    stdout.writeln();
+
     // print the diffs
     if (diffResult.hasChanges) {
       final breakingChanges = _printApiChangeNode(diffResult.rootNode, true);
@@ -167,13 +169,14 @@ You may want to do this if you want to make sure
       };
     }
 
-    return createTree({
-      'nodes': [
-        nodeToTree(node,
-            labelOverride:
-                breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes')
-      ],
-    });
+    final nodes = nodeToTree(node,
+        labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes');
+
+    if (nodes.isEmpty) {
+      return null;
+    }
+
+    return createTree(nodes);
   }
 
   bool _versionChangeMatchesChanges({

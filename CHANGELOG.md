@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.5.2
+## Version 0.6.0
+- Improve diff tree output
+- CommandMixin's "analyze" no longer does clean up preparation results. For this the newly introduced "cleanUp" method has to be called
 
 ## Version 0.5.1
 - Fixes Analyzer problem when visiting elements multiple times
