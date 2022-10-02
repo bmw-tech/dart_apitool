@@ -5,4 +5,6 @@ enum PackageApiSemantics {
   /// base classes have been merged into the derived classes
   @JsonValue("mergeBaseClasses")
   mergeBaseClasses,
+  @JsonValue("containsPlatformConstraints")
+  containsPlatformConstraints,
 }

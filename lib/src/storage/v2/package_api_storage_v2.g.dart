@@ -62,4 +62,6 @@ Map<String, dynamic> _$$_PackageApiStorageV2ToJson(
 
 const _$PackageApiSemanticsEnumMap = {
   PackageApiSemantics.mergeBaseClasses: 'mergeBaseClasses',
+  PackageApiSemantics.containsPlatformConstraints:
+      'containsPlatformConstraints',
 };

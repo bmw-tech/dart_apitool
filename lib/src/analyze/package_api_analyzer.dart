@@ -37,6 +37,7 @@ class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
   final bool mergeBaseClasses;
+  final bool analyzePlatformConstraints;
 
   /// the semantics of package API models this analyzer produces.
   /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
@@ -46,9 +47,13 @@ class PackageApiAnalyzer {
   PackageApiAnalyzer({
     required this.packagePath,
     this.mergeBaseClasses = true,
+    this.analyzePlatformConstraints = true,
   }) {
     if (mergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
+    }
+    if (analyzePlatformConstraints) {
+      semantics.add(PackageApiSemantics.containsPlatformConstraints);
     }
     _checkProjectPathValidity();
   }
@@ -309,14 +314,16 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
-    final androidPlatformConstraints =
-        await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
-      packagePath: normalizedProjectPath,
-    );
-    final iosPlatformConstraints =
-        await IOSPlatformConstraintsHelper.getIOSPlatformConstraints(
-      packagePath: normalizedProjectPath,
-    );
+    final androidPlatformConstraints = analyzePlatformConstraints
+        ? await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
+            packagePath: normalizedProjectPath,
+          )
+        : null;
+    final iosPlatformConstraints = analyzePlatformConstraints
+        ? await IOSPlatformConstraintsHelper.getIOSPlatformConstraints(
+            packagePath: normalizedProjectPath,
+          )
+        : null;
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
