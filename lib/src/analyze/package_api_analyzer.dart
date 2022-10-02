@@ -27,6 +27,8 @@ import '../model/internal/internal_field_declaration.dart';
 import '../model/package_api.dart';
 import '../model/package_api_semantics.dart';
 import '../utils/string_utils.dart';
+import 'constraints/android_platform_constraints_helper.dart';
+import 'constraints/ios_platform_contraints_helper.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
@@ -307,6 +309,14 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
+    final androidPlatformConstraints =
+        await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
+      packagePath: normalizedProjectPath,
+    );
+    final iosPlatformConstraints =
+        await IOSPlatformConstraintsHelper.getIOSPlatformConstraints(
+      packagePath: normalizedProjectPath,
+    );
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
@@ -316,6 +326,8 @@ class PackageApiAnalyzer {
       fieldDeclarations: packageFieldDeclarations,
       typeAliasDeclarations: packageTypeAliasDeclarations,
       semantics: semantics,
+      androidPlatformConstraints: androidPlatformConstraints,
+      iosPlatformConstraints: iosPlatformConstraints,
     );
   }
 

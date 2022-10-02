@@ -33,6 +33,14 @@ _$_PackageApiStorageV2 _$$_PackageApiStorageV2FromJson(
       semantics: (json['semantics'] as List<dynamic>)
           .map((e) => $enumDecode(_$PackageApiSemanticsEnumMap, e))
           .toSet(),
+      iosPlatformConstraints: json['iosPlatformConstraints'] == null
+          ? null
+          : IOSPlatformConstraintsStorageV2.fromJson(
+              json['iosPlatformConstraints'] as Map<String, dynamic>),
+      androidPlatformConstraints: json['androidPlatformConstraints'] == null
+          ? null
+          : AndroidPlatformConstraintsStorageV2.fromJson(
+              json['androidPlatformConstraints'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_PackageApiStorageV2ToJson(
@@ -48,6 +56,8 @@ Map<String, dynamic> _$$_PackageApiStorageV2ToJson(
       'semantics': instance.semantics
           .map((e) => _$PackageApiSemanticsEnumMap[e]!)
           .toList(),
+      'iosPlatformConstraints': instance.iosPlatformConstraints,
+      'androidPlatformConstraints': instance.androidPlatformConstraints,
     };
 
 const _$PackageApiSemanticsEnumMap = {

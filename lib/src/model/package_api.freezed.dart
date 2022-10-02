@@ -44,6 +44,14 @@ mixin _$PackageApi {
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   Set<PackageApiSemantics> get semantics => throw _privateConstructorUsedError;
 
+  /// used Android platform constraints
+  AndroidPlatformConstraints? get androidPlatformConstraints =>
+      throw _privateConstructorUsedError;
+
+  /// used iOS platform constraints
+  IOSPlatformConstraints? get iosPlatformConstraints =>
+      throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $PackageApiCopyWith<PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
@@ -62,7 +70,12 @@ abstract class $PackageApiCopyWith<$Res> {
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<PackageApiSemantics> semantics});
+      Set<PackageApiSemantics> semantics,
+      AndroidPlatformConstraints? androidPlatformConstraints,
+      IOSPlatformConstraints? iosPlatformConstraints});
+
+  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
+  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
 }
 
 /// @nodoc
@@ -83,6 +96,8 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
+    Object? androidPlatformConstraints = freezed,
+    Object? iosPlatformConstraints = freezed,
   }) {
     return _then(_value.copyWith(
       packageName: packageName == freezed
@@ -117,7 +132,39 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraints?,
+      iosPlatformConstraints: iosPlatformConstraints == freezed
+          ? _value.iosPlatformConstraints
+          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as IOSPlatformConstraints?,
     ));
+  }
+
+  @override
+  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
+    if (_value.androidPlatformConstraints == null) {
+      return null;
+    }
+
+    return $AndroidPlatformConstraintsCopyWith<$Res>(
+        _value.androidPlatformConstraints!, (value) {
+      return _then(_value.copyWith(androidPlatformConstraints: value));
+    });
+  }
+
+  @override
+  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
+    if (_value.iosPlatformConstraints == null) {
+      return null;
+    }
+
+    return $IOSPlatformConstraintsCopyWith<$Res>(_value.iosPlatformConstraints!,
+        (value) {
+      return _then(_value.copyWith(iosPlatformConstraints: value));
+    });
   }
 }
 
@@ -136,7 +183,14 @@ abstract class _$$_PackageApiCopyWith<$Res>
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<PackageApiSemantics> semantics});
+      Set<PackageApiSemantics> semantics,
+      AndroidPlatformConstraints? androidPlatformConstraints,
+      IOSPlatformConstraints? iosPlatformConstraints});
+
+  @override
+  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
+  @override
+  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
 }
 
 /// @nodoc
@@ -159,6 +213,8 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
+    Object? androidPlatformConstraints = freezed,
+    Object? iosPlatformConstraints = freezed,
   }) {
     return _then(_$_PackageApi(
       packageName: packageName == freezed
@@ -193,6 +249,14 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraints?,
+      iosPlatformConstraints: iosPlatformConstraints == freezed
+          ? _value.iosPlatformConstraints
+          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as IOSPlatformConstraints?,
     ));
   }
 }
@@ -208,7 +272,9 @@ class _$_PackageApi extends _PackageApi {
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<PackageApiSemantics> semantics = const <PackageApiSemantics>{}})
+      final Set<PackageApiSemantics> semantics = const <PackageApiSemantics>{},
+      this.androidPlatformConstraints,
+      this.iosPlatformConstraints})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -279,9 +345,17 @@ class _$_PackageApi extends _PackageApi {
     return EqualUnmodifiableSetView(_semantics);
   }
 
+  /// used Android platform constraints
+  @override
+  final AndroidPlatformConstraints? androidPlatformConstraints;
+
+  /// used iOS platform constraints
+  @override
+  final IOSPlatformConstraints? iosPlatformConstraints;
+
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints)';
   }
 
   @override
@@ -304,7 +378,11 @@ class _$_PackageApi extends _PackageApi {
             const DeepCollectionEquality()
                 .equals(other._typeAliasDeclarations, _typeAliasDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._semantics, _semantics));
+                .equals(other._semantics, _semantics) &&
+            const DeepCollectionEquality().equals(
+                other.androidPlatformConstraints, androidPlatformConstraints) &&
+            const DeepCollectionEquality()
+                .equals(other.iosPlatformConstraints, iosPlatformConstraints));
   }
 
   @override
@@ -317,7 +395,9 @@ class _$_PackageApi extends _PackageApi {
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
       const DeepCollectionEquality().hash(_typeAliasDeclarations),
-      const DeepCollectionEquality().hash(_semantics));
+      const DeepCollectionEquality().hash(_semantics),
+      const DeepCollectionEquality().hash(androidPlatformConstraints),
+      const DeepCollectionEquality().hash(iosPlatformConstraints));
 
   @JsonKey(ignore: true)
   @override
@@ -334,7 +414,9 @@ abstract class _PackageApi extends PackageApi {
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<PackageApiSemantics> semantics}) = _$_PackageApi;
+      final Set<PackageApiSemantics> semantics,
+      final AndroidPlatformConstraints? androidPlatformConstraints,
+      final IOSPlatformConstraints? iosPlatformConstraints}) = _$_PackageApi;
   const _PackageApi._() : super._();
 
   @override
@@ -369,6 +451,14 @@ abstract class _PackageApi extends PackageApi {
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   Set<PackageApiSemantics> get semantics;
+  @override
+
+  /// used Android platform constraints
+  AndroidPlatformConstraints? get androidPlatformConstraints;
+  @override
+
+  /// used iOS platform constraints
+  IOSPlatformConstraints? get iosPlatformConstraints;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>

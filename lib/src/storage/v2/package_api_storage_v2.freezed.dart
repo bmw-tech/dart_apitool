@@ -32,6 +32,10 @@ mixin _$PackageApiStorageV2 {
   List<TypeAliasDeclarationStorageV2> get typeAliasDeclarations =>
       throw _privateConstructorUsedError;
   Set<PackageApiSemantics> get semantics => throw _privateConstructorUsedError;
+  IOSPlatformConstraintsStorageV2? get iosPlatformConstraints =>
+      throw _privateConstructorUsedError;
+  AndroidPlatformConstraintsStorageV2? get androidPlatformConstraints =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -52,7 +56,13 @@ abstract class $PackageApiStorageV2CopyWith<$Res> {
       List<ExecutableDeclarationStorageV2> executableDeclarations,
       List<FieldDeclarationStorageV2> fieldDeclarations,
       List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
-      Set<PackageApiSemantics> semantics});
+      Set<PackageApiSemantics> semantics,
+      IOSPlatformConstraintsStorageV2? iosPlatformConstraints,
+      AndroidPlatformConstraintsStorageV2? androidPlatformConstraints});
+
+  $IOSPlatformConstraintsStorageV2CopyWith<$Res>? get iosPlatformConstraints;
+  $AndroidPlatformConstraintsStorageV2CopyWith<$Res>?
+      get androidPlatformConstraints;
 }
 
 /// @nodoc
@@ -74,6 +84,8 @@ class _$PackageApiStorageV2CopyWithImpl<$Res>
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
+    Object? iosPlatformConstraints = freezed,
+    Object? androidPlatformConstraints = freezed,
   }) {
     return _then(_value.copyWith(
       packageName: packageName == freezed
@@ -108,7 +120,40 @@ class _$PackageApiStorageV2CopyWithImpl<$Res>
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
+      iosPlatformConstraints: iosPlatformConstraints == freezed
+          ? _value.iosPlatformConstraints
+          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as IOSPlatformConstraintsStorageV2?,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraintsStorageV2?,
     ));
+  }
+
+  @override
+  $IOSPlatformConstraintsStorageV2CopyWith<$Res>? get iosPlatformConstraints {
+    if (_value.iosPlatformConstraints == null) {
+      return null;
+    }
+
+    return $IOSPlatformConstraintsStorageV2CopyWith<$Res>(
+        _value.iosPlatformConstraints!, (value) {
+      return _then(_value.copyWith(iosPlatformConstraints: value));
+    });
+  }
+
+  @override
+  $AndroidPlatformConstraintsStorageV2CopyWith<$Res>?
+      get androidPlatformConstraints {
+    if (_value.androidPlatformConstraints == null) {
+      return null;
+    }
+
+    return $AndroidPlatformConstraintsStorageV2CopyWith<$Res>(
+        _value.androidPlatformConstraints!, (value) {
+      return _then(_value.copyWith(androidPlatformConstraints: value));
+    });
   }
 }
 
@@ -127,7 +172,15 @@ abstract class _$$_PackageApiStorageV2CopyWith<$Res>
       List<ExecutableDeclarationStorageV2> executableDeclarations,
       List<FieldDeclarationStorageV2> fieldDeclarations,
       List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
-      Set<PackageApiSemantics> semantics});
+      Set<PackageApiSemantics> semantics,
+      IOSPlatformConstraintsStorageV2? iosPlatformConstraints,
+      AndroidPlatformConstraintsStorageV2? androidPlatformConstraints});
+
+  @override
+  $IOSPlatformConstraintsStorageV2CopyWith<$Res>? get iosPlatformConstraints;
+  @override
+  $AndroidPlatformConstraintsStorageV2CopyWith<$Res>?
+      get androidPlatformConstraints;
 }
 
 /// @nodoc
@@ -151,6 +204,8 @@ class __$$_PackageApiStorageV2CopyWithImpl<$Res>
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
+    Object? iosPlatformConstraints = freezed,
+    Object? androidPlatformConstraints = freezed,
   }) {
     return _then(_$_PackageApiStorageV2(
       packageName: packageName == freezed
@@ -185,6 +240,14 @@ class __$$_PackageApiStorageV2CopyWithImpl<$Res>
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
+      iosPlatformConstraints: iosPlatformConstraints == freezed
+          ? _value.iosPlatformConstraints
+          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as IOSPlatformConstraintsStorageV2?,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraintsStorageV2?,
     ));
   }
 }
@@ -201,7 +264,9 @@ class _$_PackageApiStorageV2 extends _PackageApiStorageV2 {
           executableDeclarations,
       required final List<FieldDeclarationStorageV2> fieldDeclarations,
       required final List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
-      required final Set<PackageApiSemantics> semantics})
+      required final Set<PackageApiSemantics> semantics,
+      this.iosPlatformConstraints,
+      this.androidPlatformConstraints})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -254,8 +319,13 @@ class _$_PackageApiStorageV2 extends _PackageApiStorageV2 {
   }
 
   @override
+  final IOSPlatformConstraintsStorageV2? iosPlatformConstraints;
+  @override
+  final AndroidPlatformConstraintsStorageV2? androidPlatformConstraints;
+
+  @override
   String toString() {
-    return 'PackageApiStorageV2(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics)';
+    return 'PackageApiStorageV2(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, iosPlatformConstraints: $iosPlatformConstraints, androidPlatformConstraints: $androidPlatformConstraints)';
   }
 
   @override
@@ -278,7 +348,11 @@ class _$_PackageApiStorageV2 extends _PackageApiStorageV2 {
             const DeepCollectionEquality()
                 .equals(other._typeAliasDeclarations, _typeAliasDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._semantics, _semantics));
+                .equals(other._semantics, _semantics) &&
+            const DeepCollectionEquality()
+                .equals(other.iosPlatformConstraints, iosPlatformConstraints) &&
+            const DeepCollectionEquality().equals(
+                other.androidPlatformConstraints, androidPlatformConstraints));
   }
 
   @JsonKey(ignore: true)
@@ -292,7 +366,9 @@ class _$_PackageApiStorageV2 extends _PackageApiStorageV2 {
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
       const DeepCollectionEquality().hash(_typeAliasDeclarations),
-      const DeepCollectionEquality().hash(_semantics));
+      const DeepCollectionEquality().hash(_semantics),
+      const DeepCollectionEquality().hash(iosPlatformConstraints),
+      const DeepCollectionEquality().hash(androidPlatformConstraints));
 
   @JsonKey(ignore: true)
   @override
@@ -318,8 +394,10 @@ abstract class _PackageApiStorageV2 extends PackageApiStorageV2 {
           executableDeclarations,
       required final List<FieldDeclarationStorageV2> fieldDeclarations,
       required final List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
-      required final Set<PackageApiSemantics>
-          semantics}) = _$_PackageApiStorageV2;
+      required final Set<PackageApiSemantics> semantics,
+      final IOSPlatformConstraintsStorageV2? iosPlatformConstraints,
+      final AndroidPlatformConstraintsStorageV2?
+          androidPlatformConstraints}) = _$_PackageApiStorageV2;
   const _PackageApiStorageV2._() : super._();
 
   factory _PackageApiStorageV2.fromJson(Map<String, dynamic> json) =
@@ -341,6 +419,10 @@ abstract class _PackageApiStorageV2 extends PackageApiStorageV2 {
   List<TypeAliasDeclarationStorageV2> get typeAliasDeclarations;
   @override
   Set<PackageApiSemantics> get semantics;
+  @override
+  IOSPlatformConstraintsStorageV2? get iosPlatformConstraints;
+  @override
+  AndroidPlatformConstraintsStorageV2? get androidPlatformConstraints;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiStorageV2CopyWith<_$_PackageApiStorageV2> get copyWith =>

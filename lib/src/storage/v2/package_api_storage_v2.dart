@@ -1,4 +1,6 @@
+import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/model/package_api.dart';
+import 'package:dart_apitool/src/storage/v2/platform_constraints_storage_v2.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../model/package_api_semantics.dart';
@@ -23,6 +25,8 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
     required List<FieldDeclarationStorageV2> fieldDeclarations,
     required List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
     required Set<PackageApiSemantics> semantics,
+    IOSPlatformConstraintsStorageV2? iosPlatformConstraints,
+    AndroidPlatformConstraintsStorageV2? androidPlatformConstraints,
   }) = _PackageApiStorageV2;
 
   factory PackageApiStorageV2.fromJson(Map<String, Object?> json) =>
@@ -43,6 +47,10 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
       typeAliasDeclarations:
           typeAliasDeclarations.map((t) => t.toTypeAliasDeclaration()).toList(),
       semantics: semantics,
+      iosPlatformConstraints:
+          iosPlatformConstraints?.toIOSPlatformConstraints(),
+      androidPlatformConstraints:
+          androidPlatformConstraints?.toAndroidPlatformConstraints(),
     );
   }
 
@@ -65,6 +73,12 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
           .map((t) => TypeAliasDeclarationStorageV2.fromTypeAliasDeclaration(t))
           .toList(),
       semantics: packageApi.semantics,
+      iosPlatformConstraints:
+          IOSPlatformConstraintsStorageV2.fromIOSPlatformConstraints(
+              packageApi.iosPlatformConstraints),
+      androidPlatformConstraints:
+          AndroidPlatformConstraintsStorageV2.fromAndroidPlatformConstraints(
+              packageApi.androidPlatformConstraints),
     );
   }
 }
