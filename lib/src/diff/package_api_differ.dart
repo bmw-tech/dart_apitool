@@ -49,6 +49,14 @@ class PackageApiDiffer {
         newApi.fieldDeclarations,
         Stack<Declaration>(),
       ),
+      ..._calculateIOSPlatformConstraintsDiff(
+        oldApi.iosPlatformConstraints,
+        newApi.iosPlatformConstraints,
+      ),
+      ..._calculateAndroidPlatformConstraintsDiff(
+        oldApi.androidPlatformConstraints,
+        newApi.androidPlatformConstraints,
+      ),
     ];
 
     return PackageApiDiffResult()..addApiChanges(changes);
@@ -584,6 +592,133 @@ class PackageApiDiffer {
     });
   }
 
+  List<ApiChange> _calculateIOSPlatformConstraintsDiff(
+      IOSPlatformConstraints? oldConstraints,
+      IOSPlatformConstraints? newConstraints) {
+    if (oldConstraints == null && newConstraints == null) {
+      return [];
+    }
+    if (oldConstraints == null) {
+      return [
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.addBreaking,
+          changeDescription: 'iOS platform added',
+        ),
+      ];
+    }
+    if (newConstraints == null) {
+      return [
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.remove,
+          changeDescription: 'iOS platform removed',
+        ),
+      ];
+    }
+    if (oldConstraints.minimumOsVersion != newConstraints.minimumOsVersion) {
+      bool isBreaking = true;
+      // lowering the minimum OS version is not breaking. The rest is
+      if (oldConstraints.minimumOsVersion != null &&
+          newConstraints.minimumOsVersion != null &&
+          oldConstraints.minimumOsVersion! > newConstraints.minimumOsVersion!) {
+        isBreaking = false;
+      }
+      return [
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: isBreaking
+              ? ApiChangeType.changeBreaking
+              : ApiChangeType.changeCompatible,
+          changeDescription:
+              'iOS platform minimum version changed from ${oldConstraints.minimumOsVersion} to ${newConstraints.minimumOsVersion}',
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<ApiChange> _calculateAndroidPlatformConstraintsDiff(
+      AndroidPlatformConstraints? oldConstraints,
+      AndroidPlatformConstraints? newConstraints) {
+    if (oldConstraints == null && newConstraints == null) {
+      return [];
+    }
+    if (oldConstraints == null) {
+      return [
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.addBreaking,
+          changeDescription: 'Android platform added',
+        ),
+      ];
+    }
+    if (newConstraints == null) {
+      return [
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.remove,
+          changeDescription: 'Android platform removed',
+        ),
+      ];
+    }
+
+    addIfChanged(
+        int? oldVal, int? newVal, String valName, List<ApiChange> changes) {
+      if (oldVal == newVal) {
+        return;
+      }
+      if (oldVal == null) {
+        changes.add(ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.addBreaking,
+          changeDescription: 'Android platform $valName added',
+        ));
+        return;
+      }
+      if (newVal == null) {
+        changes.add(ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.remove,
+          changeDescription: 'Android platform $valName removed',
+        ));
+        return;
+      }
+      bool isBreaking = true;
+      // lowering the value is not breaking, the rest is
+      if (oldVal > newVal) {
+        isBreaking = false;
+      }
+      changes.add(ApiChange(
+        affectedDeclaration: null,
+        contextTrace: [],
+        type: isBreaking
+            ? ApiChangeType.changeBreaking
+            : ApiChangeType.changeCompatible,
+        changeDescription:
+            'Android platform $valName changed from $oldVal to $newVal',
+      ));
+    }
+
+    List<ApiChange> changes = [];
+
+    addIfChanged(oldConstraints.minSdkVersion, newConstraints.minSdkVersion,
+        'minSdkVersion', changes);
+    addIfChanged(oldConstraints.targetSdkVersion,
+        newConstraints.targetSdkVersion, 'targetSdkVersion', changes);
+    addIfChanged(oldConstraints.compileSdkVersion,
+        newConstraints.compileSdkVersion, 'compileSdkVersion', changes);
+
+    return changes;
+  }
+
   List<Declaration> _contextTraceFromStack(Stack<Declaration> stack) {
     final reverseBackup = Stack<Declaration>();
     final result = <Declaration>[];
@@ -671,7 +806,7 @@ class ApiChange {
   final List<Declaration> contextTrace;
 
   /// The affected declaration. This is the declaration that got changed
-  final Declaration affectedDeclaration;
+  final Declaration? affectedDeclaration;
 
   /// Type of change
   final ApiChangeType type;
@@ -682,7 +817,7 @@ class ApiChange {
   /// creates a new ApiChange instance
   ApiChange({
     required this.contextTrace,
-    required this.affectedDeclaration,
+    this.affectedDeclaration,
     required this.changeDescription,
     required this.type,
   });
