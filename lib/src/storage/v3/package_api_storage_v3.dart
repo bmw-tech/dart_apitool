@@ -1,37 +1,38 @@
 import 'package:dart_apitool/api_tool.dart';
-import 'package:dart_apitool/src/storage/v2/platform_constraints_storage_v2.dart';
+import 'package:dart_apitool/src/model/package_api.dart';
+import 'package:dart_apitool/src/storage/v3/storage_v3.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../model/package_api_semantics.dart';
-import 'class_declaration_storage_v2.dart';
-import 'executable_declaration_storage_v2.dart';
-import 'field_declaration_storage_v2.dart';
-import 'type_alias_declaration_storage_v2.dart';
+import '../utils/version_json_converter.dart';
 
-part 'package_api_storage_v2.freezed.dart';
-part 'package_api_storage_v2.g.dart';
+part 'package_api_storage_v3.freezed.dart';
+part 'package_api_storage_v3.g.dart';
 
 @freezed
-class PackageApiStorageV2 with _$PackageApiStorageV2 {
-  const PackageApiStorageV2._();
+class PackageApiStorageV3 with _$PackageApiStorageV3 {
+  const PackageApiStorageV3._();
 
-  const factory PackageApiStorageV2({
+  const factory PackageApiStorageV3({
     required String packageName,
     required String? packageVersion,
     required String packagePath,
-    required List<ClassDeclarationStorageV2> classDeclarations,
-    required List<ExecutableDeclarationStorageV2> executableDeclarations,
-    required List<FieldDeclarationStorageV2> fieldDeclarations,
-    required List<TypeAliasDeclarationStorageV2> typeAliasDeclarations,
+    required List<ClassDeclarationStorageV3> classDeclarations,
+    required List<ExecutableDeclarationStorageV3> executableDeclarations,
+    required List<FieldDeclarationStorageV3> fieldDeclarations,
+    required List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
     required Set<PackageApiSemantics> semantics,
-    IOSPlatformConstraintsStorageV2? iosPlatformConstraints,
-    AndroidPlatformConstraintsStorageV2? androidPlatformConstraints,
-  }) = _PackageApiStorageV2;
+    IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
+    AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
+    required SdkTypeStorageV3 sdkType,
+    @VersionJsonConverter() required Version minSdkVersion,
+  }) = _PackageApiStorageV3;
 
-  factory PackageApiStorageV2.fromJson(Map<String, Object?> json) =>
-      _$PackageApiStorageV2FromJson(json);
+  factory PackageApiStorageV3.fromJson(Map<String, Object?> json) =>
+      _$PackageApiStorageV3FromJson(json);
 
+  /// Converts this storage object to a [PackageApi].
   PackageApi toPackageApi() {
     return PackageApi(
       packageName: packageName,
@@ -51,36 +52,39 @@ class PackageApiStorageV2 with _$PackageApiStorageV2 {
           iosPlatformConstraints?.toIOSPlatformConstraints(),
       androidPlatformConstraints:
           androidPlatformConstraints?.toAndroidPlatformConstraints(),
-      sdkType: SdkType.unknown,
-      minSdkVersion: Version.none,
+      sdkType: sdkType.toSdkType(),
+      minSdkVersion: minSdkVersion,
     );
   }
 
-  static PackageApiStorageV2 fromPackageAPi(PackageApi packageApi) {
-    return PackageApiStorageV2(
+  /// Returns a [PackageApiStorageV3] from a [PackageApi].
+  static PackageApiStorageV3 fromPackageAPi(PackageApi packageApi) {
+    return PackageApiStorageV3(
       packageName: packageApi.packageName,
       packageVersion: packageApi.packageVersion,
       packagePath: packageApi.packagePath,
       classDeclarations: packageApi.classDeclarations
-          .map((c) => ClassDeclarationStorageV2.fromClassDeclaration(c))
+          .map((c) => ClassDeclarationStorageV3.fromClassDeclaration(c))
           .toList(),
       executableDeclarations: packageApi.executableDeclarations
           .map((e) =>
-              ExecutableDeclarationStorageV2.fromExecutableDeclaration(e))
+              ExecutableDeclarationStorageV3.fromExecutableDeclaration(e))
           .toList(),
       fieldDeclarations: packageApi.fieldDeclarations
-          .map((f) => FieldDeclarationStorageV2.fromFieldDeclaration(f))
+          .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))
           .toList(),
       typeAliasDeclarations: packageApi.typeAliasDeclarations
-          .map((t) => TypeAliasDeclarationStorageV2.fromTypeAliasDeclaration(t))
+          .map((t) => TypeAliasDeclarationStorageV3.fromTypeAliasDeclaration(t))
           .toList(),
       semantics: packageApi.semantics,
       iosPlatformConstraints:
-          IOSPlatformConstraintsStorageV2.fromIOSPlatformConstraints(
+          IOSPlatformConstraintsStorageV3.fromIOSPlatformConstraints(
               packageApi.iosPlatformConstraints),
       androidPlatformConstraints:
-          AndroidPlatformConstraintsStorageV2.fromAndroidPlatformConstraints(
+          AndroidPlatformConstraintsStorageV3.fromAndroidPlatformConstraints(
               packageApi.androidPlatformConstraints),
+      sdkType: SdkTypeStorageV3.fromSdkType(packageApi.sdkType),
+      minSdkVersion: packageApi.minSdkVersion,
     );
   }
 }

@@ -1,5 +1,6 @@
-import 'package:dart_apitool/src/model/package_api.dart';
+import 'package:dart_apitool/api_tool.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../../model/package_api_semantics.dart';
 import 'class_declaration_storage_v1.dart';
@@ -41,6 +42,8 @@ class PackageApiStorageV1 with _$PackageApiStorageV1 {
       // not supported by this storage version
       typeAliasDeclarations: [],
       semantics: semantics ?? {},
+      sdkType: SdkType.unknown,
+      minSdkVersion: Version.none,
     );
   }
 

@@ -57,6 +57,10 @@ class PackageApiDiffer {
         oldApi.androidPlatformConstraints,
         newApi.androidPlatformConstraints,
       ),
+      ..._calculateSdkDiff(
+        oldApi,
+        newApi,
+      ),
     ];
 
     return PackageApiDiffResult()..addApiChanges(changes);
@@ -717,6 +721,34 @@ class PackageApiDiffer {
         newConstraints.compileSdkVersion, 'compileSdkVersion', changes);
 
     return changes;
+  }
+
+  List<ApiChange> _calculateSdkDiff(PackageApi oldApi, PackageApi newApi) {
+    final result = <ApiChange>[];
+    if (oldApi.sdkType != newApi.sdkType) {
+      result.add(
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.changeBreaking,
+          changeDescription:
+              'SDK type changed from ${oldApi.sdkType} to ${newApi.sdkType}',
+        ),
+      );
+    }
+    // lowering the version is no problem => check if new version is higher
+    if (oldApi.minSdkVersion < newApi.minSdkVersion) {
+      result.add(
+        ApiChange(
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: ApiChangeType.changeBreaking,
+          changeDescription:
+              'Minimum SDK version changed from ${oldApi.minSdkVersion} to ${newApi.minSdkVersion}',
+        ),
+      );
+    }
+    return result;
   }
 
   List<Declaration> _contextTraceFromStack(Stack<Declaration> stack) {

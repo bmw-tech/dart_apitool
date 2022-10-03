@@ -8,23 +8,20 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/analyze/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/analyze/exported_files_collector.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration.dart';
 import 'package:dart_apitool/src/model/internal/internal_type_alias_declaration.dart';
-import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:path/path.dart' as path;
+import 'package:pub_semver/pub_semver.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import '../model/class_declaration.dart';
-import '../model/executable_declaration.dart';
-import '../model/field_declaration.dart';
 import '../model/internal/internal_class_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
-import '../model/package_api.dart';
 import '../model/package_api_semantics.dart';
 import '../utils/string_utils.dart';
 import 'constraints/android_platform_constraints_helper.dart';
@@ -324,6 +321,16 @@ class PackageApiAnalyzer {
             packagePath: normalizedProjectPath,
           )
         : null;
+
+    final sdkVersion = pubSpec.environment?['sdk'];
+    Version? minSdkVersion;
+    if (sdkVersion is VersionRange) {
+      minSdkVersion = sdkVersion.min;
+    } else if (sdkVersion is Version) {
+      minSdkVersion = sdkVersion;
+    }
+    final isFlutter = pubSpec.dependencies.containsKey('flutter');
+
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
@@ -335,6 +342,8 @@ class PackageApiAnalyzer {
       semantics: semantics,
       androidPlatformConstraints: androidPlatformConstraints,
       iosPlatformConstraints: iosPlatformConstraints,
+      sdkType: isFlutter ? SdkType.flutter : SdkType.dart,
+      minSdkVersion: minSdkVersion ?? Version.none,
     );
   }
 

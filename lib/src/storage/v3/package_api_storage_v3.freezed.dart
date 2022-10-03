@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'package_api.dart';
+part of 'package_api_storage_v3.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,85 +14,70 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PackageApiStorageV3 _$PackageApiStorageV3FromJson(Map<String, dynamic> json) {
+  return _PackageApiStorageV3.fromJson(json);
+}
+
 /// @nodoc
-mixin _$PackageApi {
-  /// name of the package
+mixin _$PackageApiStorageV3 {
   String get packageName => throw _privateConstructorUsedError;
-
-  /// version of the package
   String? get packageVersion => throw _privateConstructorUsedError;
-
-  /// path to the package
   String get packagePath => throw _privateConstructorUsedError;
-
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations =>
+  List<ClassDeclarationStorageV3> get classDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations =>
+  List<ExecutableDeclarationStorageV3> get executableDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations =>
+  List<FieldDeclarationStorageV3> get fieldDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations =>
+  List<TypeAliasDeclarationStorageV3> get typeAliasDeclarations =>
       throw _privateConstructorUsedError;
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   Set<PackageApiSemantics> get semantics => throw _privateConstructorUsedError;
-
-  /// used Android platform constraints
-  AndroidPlatformConstraints? get androidPlatformConstraints =>
+  IOSPlatformConstraintsStorageV3? get iosPlatformConstraints =>
       throw _privateConstructorUsedError;
-
-  /// used iOS platform constraints
-  IOSPlatformConstraints? get iosPlatformConstraints =>
+  AndroidPlatformConstraintsStorageV3? get androidPlatformConstraints =>
       throw _privateConstructorUsedError;
-
-  /// type of sdk needed
-  SdkType get sdkType => throw _privateConstructorUsedError;
-
-  /// minimum sdk version
+  SdkTypeStorageV3 get sdkType => throw _privateConstructorUsedError;
+  @VersionJsonConverter()
   Version get minSdkVersion => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PackageApiCopyWith<PackageApi> get copyWith =>
+  $PackageApiStorageV3CopyWith<PackageApiStorageV3> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PackageApiCopyWith<$Res> {
-  factory $PackageApiCopyWith(
-          PackageApi value, $Res Function(PackageApi) then) =
-      _$PackageApiCopyWithImpl<$Res>;
+abstract class $PackageApiStorageV3CopyWith<$Res> {
+  factory $PackageApiStorageV3CopyWith(
+          PackageApiStorageV3 value, $Res Function(PackageApiStorageV3) then) =
+      _$PackageApiStorageV3CopyWithImpl<$Res>;
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      List<TypeAliasDeclaration> typeAliasDeclarations,
+      List<ClassDeclarationStorageV3> classDeclarations,
+      List<ExecutableDeclarationStorageV3> executableDeclarations,
+      List<FieldDeclarationStorageV3> fieldDeclarations,
+      List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
       Set<PackageApiSemantics> semantics,
-      AndroidPlatformConstraints? androidPlatformConstraints,
-      IOSPlatformConstraints? iosPlatformConstraints,
-      SdkType sdkType,
-      Version minSdkVersion});
+      IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
+      AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
+      SdkTypeStorageV3 sdkType,
+      @VersionJsonConverter() Version minSdkVersion});
 
-  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
-  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
+  $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints;
+  $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
+      get androidPlatformConstraints;
 }
 
 /// @nodoc
-class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
-  _$PackageApiCopyWithImpl(this._value, this._then);
+class _$PackageApiStorageV3CopyWithImpl<$Res>
+    implements $PackageApiStorageV3CopyWith<$Res> {
+  _$PackageApiStorageV3CopyWithImpl(this._value, this._then);
 
-  final PackageApi _value;
+  final PackageApiStorageV3 _value;
   // ignore: unused_field
-  final $Res Function(PackageApi) _then;
+  final $Res Function(PackageApiStorageV3) _then;
 
   @override
   $Res call({
@@ -104,8 +89,8 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
-    Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
+    Object? androidPlatformConstraints = freezed,
     Object? sdkType = freezed,
     Object? minSdkVersion = freezed,
   }) {
@@ -125,35 +110,35 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
       classDeclarations: classDeclarations == freezed
           ? _value.classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
+              as List<ClassDeclarationStorageV3>,
       executableDeclarations: executableDeclarations == freezed
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV3>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV3>,
       typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value.typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<TypeAliasDeclaration>,
+              as List<TypeAliasDeclarationStorageV3>,
       semantics: semantics == freezed
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      androidPlatformConstraints: androidPlatformConstraints == freezed
-          ? _value.androidPlatformConstraints
-          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as AndroidPlatformConstraints?,
       iosPlatformConstraints: iosPlatformConstraints == freezed
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as IOSPlatformConstraints?,
+              as IOSPlatformConstraintsStorageV3?,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraintsStorageV3?,
       sdkType: sdkType == freezed
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
-              as SdkType,
+              as SdkTypeStorageV3,
       minSdkVersion: minSdkVersion == freezed
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
@@ -162,66 +147,69 @@ class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
   }
 
   @override
-  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
-    if (_value.androidPlatformConstraints == null) {
-      return null;
-    }
-
-    return $AndroidPlatformConstraintsCopyWith<$Res>(
-        _value.androidPlatformConstraints!, (value) {
-      return _then(_value.copyWith(androidPlatformConstraints: value));
-    });
-  }
-
-  @override
-  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
+  $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints {
     if (_value.iosPlatformConstraints == null) {
       return null;
     }
 
-    return $IOSPlatformConstraintsCopyWith<$Res>(_value.iosPlatformConstraints!,
-        (value) {
+    return $IOSPlatformConstraintsStorageV3CopyWith<$Res>(
+        _value.iosPlatformConstraints!, (value) {
       return _then(_value.copyWith(iosPlatformConstraints: value));
+    });
+  }
+
+  @override
+  $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
+      get androidPlatformConstraints {
+    if (_value.androidPlatformConstraints == null) {
+      return null;
+    }
+
+    return $AndroidPlatformConstraintsStorageV3CopyWith<$Res>(
+        _value.androidPlatformConstraints!, (value) {
+      return _then(_value.copyWith(androidPlatformConstraints: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$_PackageApiCopyWith<$Res>
-    implements $PackageApiCopyWith<$Res> {
-  factory _$$_PackageApiCopyWith(
-          _$_PackageApi value, $Res Function(_$_PackageApi) then) =
-      __$$_PackageApiCopyWithImpl<$Res>;
+abstract class _$$_PackageApiStorageV3CopyWith<$Res>
+    implements $PackageApiStorageV3CopyWith<$Res> {
+  factory _$$_PackageApiStorageV3CopyWith(_$_PackageApiStorageV3 value,
+          $Res Function(_$_PackageApiStorageV3) then) =
+      __$$_PackageApiStorageV3CopyWithImpl<$Res>;
   @override
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      List<TypeAliasDeclaration> typeAliasDeclarations,
+      List<ClassDeclarationStorageV3> classDeclarations,
+      List<ExecutableDeclarationStorageV3> executableDeclarations,
+      List<FieldDeclarationStorageV3> fieldDeclarations,
+      List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
       Set<PackageApiSemantics> semantics,
-      AndroidPlatformConstraints? androidPlatformConstraints,
-      IOSPlatformConstraints? iosPlatformConstraints,
-      SdkType sdkType,
-      Version minSdkVersion});
+      IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
+      AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
+      SdkTypeStorageV3 sdkType,
+      @VersionJsonConverter() Version minSdkVersion});
 
   @override
-  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
+  $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints;
   @override
-  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
+  $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
+      get androidPlatformConstraints;
 }
 
 /// @nodoc
-class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
-    implements _$$_PackageApiCopyWith<$Res> {
-  __$$_PackageApiCopyWithImpl(
-      _$_PackageApi _value, $Res Function(_$_PackageApi) _then)
-      : super(_value, (v) => _then(v as _$_PackageApi));
+class __$$_PackageApiStorageV3CopyWithImpl<$Res>
+    extends _$PackageApiStorageV3CopyWithImpl<$Res>
+    implements _$$_PackageApiStorageV3CopyWith<$Res> {
+  __$$_PackageApiStorageV3CopyWithImpl(_$_PackageApiStorageV3 _value,
+      $Res Function(_$_PackageApiStorageV3) _then)
+      : super(_value, (v) => _then(v as _$_PackageApiStorageV3));
 
   @override
-  _$_PackageApi get _value => super._value as _$_PackageApi;
+  _$_PackageApiStorageV3 get _value => super._value as _$_PackageApiStorageV3;
 
   @override
   $Res call({
@@ -233,12 +221,12 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
     Object? fieldDeclarations = freezed,
     Object? typeAliasDeclarations = freezed,
     Object? semantics = freezed,
-    Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
+    Object? androidPlatformConstraints = freezed,
     Object? sdkType = freezed,
     Object? minSdkVersion = freezed,
   }) {
-    return _then(_$_PackageApi(
+    return _then(_$_PackageApiStorageV3(
       packageName: packageName == freezed
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -254,35 +242,35 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
       classDeclarations: classDeclarations == freezed
           ? _value._classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
+              as List<ClassDeclarationStorageV3>,
       executableDeclarations: executableDeclarations == freezed
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
+              as List<ExecutableDeclarationStorageV3>,
       fieldDeclarations: fieldDeclarations == freezed
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
+              as List<FieldDeclarationStorageV3>,
       typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value._typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<TypeAliasDeclaration>,
+              as List<TypeAliasDeclarationStorageV3>,
       semantics: semantics == freezed
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      androidPlatformConstraints: androidPlatformConstraints == freezed
-          ? _value.androidPlatformConstraints
-          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as AndroidPlatformConstraints?,
       iosPlatformConstraints: iosPlatformConstraints == freezed
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as IOSPlatformConstraints?,
+              as IOSPlatformConstraintsStorageV3?,
+      androidPlatformConstraints: androidPlatformConstraints == freezed
+          ? _value.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraintsStorageV3?,
       sdkType: sdkType == freezed
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
-              as SdkType,
+              as SdkTypeStorageV3,
       minSdkVersion: minSdkVersion == freezed
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
@@ -292,21 +280,22 @@ class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-class _$_PackageApi extends _PackageApi {
-  const _$_PackageApi(
+@JsonSerializable()
+class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
+  const _$_PackageApiStorageV3(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
-      required final List<ClassDeclaration> classDeclarations,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<PackageApiSemantics> semantics = const <PackageApiSemantics>{},
-      this.androidPlatformConstraints,
+      required final List<ClassDeclarationStorageV3> classDeclarations,
+      required final List<ExecutableDeclarationStorageV3>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV3> fieldDeclarations,
+      required final List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
+      required final Set<PackageApiSemantics> semantics,
       this.iosPlatformConstraints,
+      this.androidPlatformConstraints,
       required this.sdkType,
-      required this.minSdkVersion})
+      @VersionJsonConverter() required this.minSdkVersion})
       : _classDeclarations = classDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -314,95 +303,70 @@ class _$_PackageApi extends _PackageApi {
         _semantics = semantics,
         super._();
 
-  /// name of the package
+  factory _$_PackageApiStorageV3.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageApiStorageV3FromJson(json);
+
   @override
   final String packageName;
-
-  /// version of the package
   @override
   final String? packageVersion;
-
-  /// path to the package
   @override
   final String packagePath;
-
-  /// class declarations this package has
-  final List<ClassDeclaration> _classDeclarations;
-
-  /// class declarations this package has
+  final List<ClassDeclarationStorageV3> _classDeclarations;
   @override
-  List<ClassDeclaration> get classDeclarations {
+  List<ClassDeclarationStorageV3> get classDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_classDeclarations);
   }
 
-  /// root level executable declarations this package has
-  final List<ExecutableDeclaration> _executableDeclarations;
-
-  /// root level executable declarations this package has
+  final List<ExecutableDeclarationStorageV3> _executableDeclarations;
   @override
-  List<ExecutableDeclaration> get executableDeclarations {
+  List<ExecutableDeclarationStorageV3> get executableDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
 
-  /// root level field declarations this package has
-  final List<FieldDeclaration> _fieldDeclarations;
-
-  /// root level field declarations this package has
+  final List<FieldDeclarationStorageV3> _fieldDeclarations;
   @override
-  List<FieldDeclaration> get fieldDeclarations {
+  List<FieldDeclarationStorageV3> get fieldDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
-  /// type alias declarations this package has
-  final List<TypeAliasDeclaration> _typeAliasDeclarations;
-
-  /// type alias declarations this package has
+  final List<TypeAliasDeclarationStorageV3> _typeAliasDeclarations;
   @override
-  List<TypeAliasDeclaration> get typeAliasDeclarations {
+  List<TypeAliasDeclarationStorageV3> get typeAliasDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeAliasDeclarations);
   }
 
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   final Set<PackageApiSemantics> _semantics;
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   @override
-  @JsonKey()
   Set<PackageApiSemantics> get semantics {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_semantics);
   }
 
-  /// used Android platform constraints
   @override
-  final AndroidPlatformConstraints? androidPlatformConstraints;
-
-  /// used iOS platform constraints
+  final IOSPlatformConstraintsStorageV3? iosPlatformConstraints;
   @override
-  final IOSPlatformConstraints? iosPlatformConstraints;
-
-  /// type of sdk needed
+  final AndroidPlatformConstraintsStorageV3? androidPlatformConstraints;
   @override
-  final SdkType sdkType;
-
-  /// minimum sdk version
+  final SdkTypeStorageV3 sdkType;
   @override
+  @VersionJsonConverter()
   final Version minSdkVersion;
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
+    return 'PackageApiStorageV3(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, iosPlatformConstraints: $iosPlatformConstraints, androidPlatformConstraints: $androidPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageApi &&
+            other is _$_PackageApiStorageV3 &&
             const DeepCollectionEquality()
                 .equals(other.packageName, packageName) &&
             const DeepCollectionEquality()
@@ -419,15 +383,16 @@ class _$_PackageApi extends _PackageApi {
                 .equals(other._typeAliasDeclarations, _typeAliasDeclarations) &&
             const DeepCollectionEquality()
                 .equals(other._semantics, _semantics) &&
-            const DeepCollectionEquality().equals(
-                other.androidPlatformConstraints, androidPlatformConstraints) &&
             const DeepCollectionEquality()
                 .equals(other.iosPlatformConstraints, iosPlatformConstraints) &&
+            const DeepCollectionEquality().equals(
+                other.androidPlatformConstraints, androidPlatformConstraints) &&
             const DeepCollectionEquality().equals(other.sdkType, sdkType) &&
             const DeepCollectionEquality()
                 .equals(other.minSdkVersion, minSdkVersion));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -439,83 +404,73 @@ class _$_PackageApi extends _PackageApi {
       const DeepCollectionEquality().hash(_fieldDeclarations),
       const DeepCollectionEquality().hash(_typeAliasDeclarations),
       const DeepCollectionEquality().hash(_semantics),
-      const DeepCollectionEquality().hash(androidPlatformConstraints),
       const DeepCollectionEquality().hash(iosPlatformConstraints),
+      const DeepCollectionEquality().hash(androidPlatformConstraints),
       const DeepCollectionEquality().hash(sdkType),
       const DeepCollectionEquality().hash(minSdkVersion));
 
   @JsonKey(ignore: true)
   @override
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
-      __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
+  _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>
+      __$$_PackageApiStorageV3CopyWithImpl<_$_PackageApiStorageV3>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageApiStorageV3ToJson(
+      this,
+    );
+  }
 }
 
-abstract class _PackageApi extends PackageApi {
-  const factory _PackageApi(
+abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
+  const factory _PackageApiStorageV3(
       {required final String packageName,
       required final String? packageVersion,
       required final String packagePath,
-      required final List<ClassDeclaration> classDeclarations,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<PackageApiSemantics> semantics,
-      final AndroidPlatformConstraints? androidPlatformConstraints,
-      final IOSPlatformConstraints? iosPlatformConstraints,
-      required final SdkType sdkType,
-      required final Version minSdkVersion}) = _$_PackageApi;
-  const _PackageApi._() : super._();
+      required final List<ClassDeclarationStorageV3> classDeclarations,
+      required final List<ExecutableDeclarationStorageV3>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV3> fieldDeclarations,
+      required final List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
+      required final Set<PackageApiSemantics> semantics,
+      final IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
+      final AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
+      required final SdkTypeStorageV3 sdkType,
+      @VersionJsonConverter()
+          required final Version minSdkVersion}) = _$_PackageApiStorageV3;
+  const _PackageApiStorageV3._() : super._();
+
+  factory _PackageApiStorageV3.fromJson(Map<String, dynamic> json) =
+      _$_PackageApiStorageV3.fromJson;
 
   @override
-
-  /// name of the package
   String get packageName;
   @override
-
-  /// version of the package
   String? get packageVersion;
   @override
-
-  /// path to the package
   String get packagePath;
   @override
-
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations;
+  List<ClassDeclarationStorageV3> get classDeclarations;
   @override
-
-  /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations;
+  List<ExecutableDeclarationStorageV3> get executableDeclarations;
   @override
-
-  /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations;
+  List<FieldDeclarationStorageV3> get fieldDeclarations;
   @override
-
-  /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations;
+  List<TypeAliasDeclarationStorageV3> get typeAliasDeclarations;
   @override
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
   Set<PackageApiSemantics> get semantics;
   @override
-
-  /// used Android platform constraints
-  AndroidPlatformConstraints? get androidPlatformConstraints;
+  IOSPlatformConstraintsStorageV3? get iosPlatformConstraints;
   @override
-
-  /// used iOS platform constraints
-  IOSPlatformConstraints? get iosPlatformConstraints;
+  AndroidPlatformConstraintsStorageV3? get androidPlatformConstraints;
   @override
-
-  /// type of sdk needed
-  SdkType get sdkType;
+  SdkTypeStorageV3 get sdkType;
   @override
-
-  /// minimum sdk version
+  @VersionJsonConverter()
   Version get minSdkVersion;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
+  _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>
       throw _privateConstructorUsedError;
 }
