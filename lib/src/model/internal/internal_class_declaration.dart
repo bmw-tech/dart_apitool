@@ -16,6 +16,7 @@ class InternalClassDeclaration implements InternalDeclaration {
 
   // class declaration data
   final String name;
+  final String? namespace;
   final bool isPrivate;
   final bool isDeprecated;
   final List<String> typeParameterNames;
@@ -30,6 +31,7 @@ class InternalClassDeclaration implements InternalDeclaration {
     required this.id,
     this.parentClassId,
     required this.name,
+    required this.namespace,
     required this.isPrivate,
     required this.isDeprecated,
     required this.typeParameterNames,
@@ -40,12 +42,14 @@ class InternalClassDeclaration implements InternalDeclaration {
     required this.superClassIds,
   });
 
-  InternalClassDeclaration.fromClassElement(ClassElement classElement)
+  InternalClassDeclaration.fromClassElement(ClassElement classElement,
+      {String? namespace})
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(classElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromElement(
               classElement.enclosingElement3),
           name: classElement.name,
+          namespace: namespace,
           isPrivate: classElement.isPrivate,
           isDeprecated: classElement.hasDeprecated,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
@@ -62,8 +66,9 @@ class InternalClassDeclaration implements InternalDeclaration {
         );
 
   ClassDeclaration toClassDeclaration() {
+    final namespacePrefix = namespace == null ? '' : '$namespace.';
     return ClassDeclaration(
-      name: name,
+      name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       typeParameterNames: typeParameterNames,
       superTypeNames: superTypeNames,
