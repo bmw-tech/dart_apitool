@@ -33,23 +33,25 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
-  final bool mergeBaseClasses;
-  final bool analyzePlatformConstraints;
+  final bool doMergeBaseClasses;
+  final bool doAnalyzePlatformConstraints;
 
   /// the semantics of package API models this analyzer produces.
   /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
   final semantics = <PackageApiSemantics>{};
 
   /// constructor
+  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   PackageApiAnalyzer({
     required this.packagePath,
-    this.mergeBaseClasses = true,
-    this.analyzePlatformConstraints = true,
+    this.doMergeBaseClasses = true,
+    this.doAnalyzePlatformConstraints = true,
   }) {
-    if (mergeBaseClasses) {
+    if (doMergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
     }
-    if (analyzePlatformConstraints) {
+    if (doAnalyzePlatformConstraints) {
       semantics.add(PackageApiSemantics.containsPlatformConstraints);
     }
     _checkProjectPathValidity();
@@ -288,7 +290,7 @@ class PackageApiAnalyzer {
     collectedClasses.removeWhere(
         (key, value) => key != null && value.classDeclarations.isEmpty);
 
-    if (mergeBaseClasses) {
+    if (doMergeBaseClasses) {
       _mergeSuperTypes(collectedClasses);
     }
 
@@ -311,12 +313,12 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
-    final androidPlatformConstraints = analyzePlatformConstraints
+    final androidPlatformConstraints = doAnalyzePlatformConstraints
         ? await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
             packagePath: normalizedProjectPath,
           )
         : null;
-    final iosPlatformConstraints = analyzePlatformConstraints
+    final iosPlatformConstraints = doAnalyzePlatformConstraints
         ? await IOSPlatformConstraintsHelper.getIOSPlatformConstraints(
             packagePath: normalizedProjectPath,
           )

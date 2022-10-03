@@ -47,10 +47,12 @@ Package reference can be one of:
   /// Analyzes the given prepared Package [ref].
   /// If the prepared package contains anything that has to be cleaned up
   /// (like created temp directories) then [analyze] takes care of that
-  /// [mergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   Future<PackageApi> analyze(
     PreparedPackageRef preparedRef, {
-    bool mergeBaseClasses = true,
+    bool doMergeBaseClasses = true,
+    bool doAnalyzePlatformConstraints = true,
   }) async {
     if (preparedRef.packageRef.isPackageApiFile) {
       stdout.writeln('Reading ${preparedRef.packageRef}');
@@ -72,8 +74,10 @@ Package reference can be one of:
     }
     stdout.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
-        packagePath: preparedRef.tempDirectory ?? path,
-        mergeBaseClasses: mergeBaseClasses);
+      packagePath: preparedRef.tempDirectory ?? path,
+      doMergeBaseClasses: doMergeBaseClasses,
+      doAnalyzePlatformConstraints: doAnalyzePlatformConstraints,
+    );
     return await analyzer.analyze();
   }
 

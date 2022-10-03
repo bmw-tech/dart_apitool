@@ -9,6 +9,8 @@ import 'command_mixin.dart';
 String _optionNameInput = 'input';
 String _optionNameOutput = 'output';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
+String _optionNameNoAnalyzePlatformConstraints =
+    'no-analyze-platform-constraints';
 
 /// command to extract the public API of a package.
 /// This is used when, for example, the public API needs to be stored on disk
@@ -38,6 +40,12 @@ If not specified the extracted API will be printed to the console.
       defaultsTo: false,
       negatable: false,
     );
+    argParser.addFlag(
+      _optionNameNoAnalyzePlatformConstraints,
+      help: 'Disables analysis of platform constraints.',
+      defaultsTo: false,
+      negatable: false,
+    );
   }
 
   @override
@@ -45,10 +53,15 @@ If not specified the extracted API will be printed to the console.
     final packageRef = PackageRef(argResults![_optionNameInput]);
     final noMergeBaseClasses =
         argResults![_optionNameNoMergeBaseClasses] as bool;
+    final noAnalyzePlatformConstraints =
+        argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
 
     final preparedPackageRef = await prepare(packageRef);
-    final packageApi = await analyze(preparedPackageRef,
-        mergeBaseClasses: !noMergeBaseClasses);
+    final packageApi = await analyze(
+      preparedPackageRef,
+      doMergeBaseClasses: !noMergeBaseClasses,
+      doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
+    );
     await cleanUp(preparedPackageRef);
     final jsonString =
         PackageApiStorage.packageApitoStorageJson(packageApi, pretty: true);
