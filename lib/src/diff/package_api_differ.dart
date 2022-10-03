@@ -813,7 +813,9 @@ class PackageApiDiffer {
       final sameMatches =
           newList.where((newItem) => isSameFun(oldItem, newItem));
       if (sameMatches.isNotEmpty) {
-        final matchingNewItem = sameMatches.first;
+        // if we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
+        // => we use `single` here to make sure that we crash if this happens
+        final matchingNewItem = sameMatches.single;
         remainingOld.remove(oldItem);
         remainingNew.remove(matchingNewItem);
 
