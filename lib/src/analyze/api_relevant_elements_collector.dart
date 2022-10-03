@@ -212,8 +212,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(element)) {
       return;
     }
-    _fieldDeclarations
-        .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
+    _fieldDeclarations.add(InternalFieldDeclaration.fromPropertyInducingElement(
+      element,
+      namespace: _context.namespace,
+    ));
     super.visitTopLevelVariableElement(element);
     if (element.type.element != null) {
       _onTypeUsed(element.type, element);
@@ -261,6 +263,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
+      namespace: _context.namespace,
     ));
     super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
@@ -294,7 +297,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       return;
     }
     _typeAliasDeclarations
-        .add(InternalTypeAliasDeclaration.fromTypeAliasElement(element));
+        .add(InternalTypeAliasDeclaration.fromTypeAliasElement(
+      element,
+      namespace: _context.namespace,
+    ));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element != null) {
       _onTypeUsed(element.aliasedType, element);

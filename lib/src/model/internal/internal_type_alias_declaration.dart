@@ -11,6 +11,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
   final int? parentClassId;
 
   final String name;
+  final String? namespace;
   final String aliasedTypeName;
   final bool isDeprecated;
 
@@ -21,13 +22,15 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
     required this.id,
     this.parentClassId,
     required this.name,
+    required this.namespace,
     required this.aliasedTypeName,
     required this.isDeprecated,
     required this.entryPoints,
   });
 
   InternalTypeAliasDeclaration.fromTypeAliasElement(
-      TypeAliasElement typeAliasElement)
+      TypeAliasElement typeAliasElement,
+      {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(typeAliasElement)!,
             parentClassId: typeAliasElement.enclosingElement3 is ClassElement
@@ -35,14 +38,16 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
                     typeAliasElement.enclosingElement3)
                 : null,
             name: typeAliasElement.name,
+            namespace: namespace,
             aliasedTypeName: typeAliasElement.aliasedType
                 .getDisplayString(withNullability: true),
             isDeprecated: typeAliasElement.hasDeprecated,
             entryPoints: {});
 
   TypeAliasDeclaration toTypeAliasDeclaration() {
+    final namespacePrefix = namespace == null ? '' : '$namespace.';
     return TypeAliasDeclaration(
-      name: name,
+      name: '$namespacePrefix$name',
       aliasedTypeName: aliasedTypeName,
       isDeprecated: isDeprecated,
       entryPoints: entryPoints,
