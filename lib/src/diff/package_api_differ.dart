@@ -57,10 +57,11 @@ class PackageApiDiffer {
         oldApi.androidPlatformConstraints,
         newApi.androidPlatformConstraints,
       ),
-      ..._calculateSdkDiff(
-        oldApi,
-        newApi,
-      ),
+      if (options.doCheckSdkVersion)
+        ..._calculateSdkDiff(
+          oldApi,
+          newApi,
+        ),
     ];
 
     return PackageApiDiffResult()..addApiChanges(changes);
@@ -940,6 +941,12 @@ class PackageApiDifferOptions {
   /// whether to ignore type parameter changes
   final bool ignoreTypeParameterNameChanges;
 
+  /// whether to ignore sdk version changes
+  final bool doCheckSdkVersion;
+
   /// creates a new PackageApiDifferOptions instance
-  const PackageApiDifferOptions({this.ignoreTypeParameterNameChanges = true});
+  const PackageApiDifferOptions({
+    this.ignoreTypeParameterNameChanges = true,
+    this.doCheckSdkVersion = true,
+  });
 }

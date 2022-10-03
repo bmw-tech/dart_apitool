@@ -14,6 +14,7 @@ String _optionNameNew = 'new';
 String _optionNameCheckVersions = 'check-versions';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
+String _optionNameCheckSdkVersion = 'check-sdk-version';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -44,6 +45,12 @@ Influences tool return value.
       negatable: true,
     );
     argParser.addFlag(
+      _optionNameCheckSdkVersion,
+      help: 'Determines if the SDK version should be checked.',
+      defaultsTo: true,
+      negatable: true,
+    );
+    argParser.addFlag(
       _optionNameIgnorePrerelease,
       help: '''
 Determines if the pre-release aspect of the version shall be ignored when checking versions. 
@@ -68,6 +75,7 @@ You may want to do this if you want to make sure
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
+    final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
     final noMergeBaseClasses =
         argResults![_optionNameNoMergeBaseClasses] as bool;
 
@@ -86,7 +94,11 @@ You may want to do this if you want to make sure
     await cleanUp(preparedOldPackageRef);
     await cleanUp(preparedNewPackageRef);
 
-    final differ = PackageApiDiffer();
+    final differ = PackageApiDiffer(
+      options: PackageApiDifferOptions(
+        doCheckSdkVersion: doCheckSdkVersion,
+      ),
+    );
     final diffResult =
         differ.diff(oldApi: oldPackageApi, newApi: newPackageApi);
 

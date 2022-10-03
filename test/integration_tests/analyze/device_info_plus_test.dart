@@ -207,6 +207,7 @@ void main() {
       expect(packageApi.androidPlatformConstraints!.minSdkVersion, 16);
       expect(packageApi.androidPlatformConstraints!.compileSdkVersion, 31);
       expect(packageApi.androidPlatformConstraints!.targetSdkVersion, isNull);
+      expect(packageApi.sdkType, SdkType.flutter);
     }));
 
     test('iOS Platform constraints get analyzed correctly', (() {

@@ -81,6 +81,8 @@ Usage: dart-apitool diff [arguments]
                                 Takes the changes of the diff and checks if the new version follows the semver rules.
                                 Influences tool return value.
                                 (defaults to on)
+    --[no-]check-sdk-version    Determines if the SDK version should be checked.
+                                (defaults to on)
     --[no-]ignore-prerelease    Determines if the pre-release aspect of the version shall be ignored when checking versions.
                                 This only makes sense in combination with --check-versions.
                                 You may want to do this if you want to make sure
