@@ -8,25 +8,24 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/analyze/api_relevant_elements_collector.dart';
 import 'package:dart_apitool/src/analyze/exported_files_collector.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration.dart';
 import 'package:dart_apitool/src/model/internal/internal_type_alias_declaration.dart';
-import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:path/path.dart' as path;
+import 'package:pub_semver/pub_semver.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import '../model/class_declaration.dart';
-import '../model/executable_declaration.dart';
-import '../model/field_declaration.dart';
 import '../model/internal/internal_class_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
-import '../model/package_api.dart';
 import '../model/package_api_semantics.dart';
 import '../utils/string_utils.dart';
+import 'constraints/android_platform_constraints_helper.dart';
+import 'constraints/ios_platform_contraints_helper.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
@@ -34,19 +33,26 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
-  final bool mergeBaseClasses;
+  final bool doMergeBaseClasses;
+  final bool doAnalyzePlatformConstraints;
 
   /// the semantics of package API models this analyzer produces.
   /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
   final semantics = <PackageApiSemantics>{};
 
   /// constructor
+  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   PackageApiAnalyzer({
     required this.packagePath,
-    this.mergeBaseClasses = true,
+    this.doMergeBaseClasses = true,
+    this.doAnalyzePlatformConstraints = true,
   }) {
-    if (mergeBaseClasses) {
+    if (doMergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
+    }
+    if (doAnalyzePlatformConstraints) {
+      semantics.add(PackageApiSemantics.containsPlatformConstraints);
     }
     _checkProjectPathValidity();
   }
@@ -284,7 +290,7 @@ class PackageApiAnalyzer {
     collectedClasses.removeWhere(
         (key, value) => key != null && value.classDeclarations.isEmpty);
 
-    if (mergeBaseClasses) {
+    if (doMergeBaseClasses) {
       _mergeSuperTypes(collectedClasses);
     }
 
@@ -307,6 +313,26 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
+    final androidPlatformConstraints = doAnalyzePlatformConstraints
+        ? await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
+            packagePath: normalizedProjectPath,
+          )
+        : null;
+    final iosPlatformConstraints = doAnalyzePlatformConstraints
+        ? await IOSPlatformConstraintsHelper.getIOSPlatformConstraints(
+            packagePath: normalizedProjectPath,
+          )
+        : null;
+
+    final sdkVersion = pubSpec.environment?['sdk'];
+    Version? minSdkVersion;
+    if (sdkVersion is VersionRange) {
+      minSdkVersion = sdkVersion.min;
+    } else if (sdkVersion is Version) {
+      minSdkVersion = sdkVersion;
+    }
+    final isFlutter = pubSpec.dependencies.containsKey('flutter');
+
     return PackageApi(
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
@@ -316,6 +342,10 @@ class PackageApiAnalyzer {
       fieldDeclarations: packageFieldDeclarations,
       typeAliasDeclarations: packageTypeAliasDeclarations,
       semantics: semantics,
+      androidPlatformConstraints: androidPlatformConstraints,
+      iosPlatformConstraints: iosPlatformConstraints,
+      sdkType: isFlutter ? SdkType.flutter : SdkType.dart,
+      minSdkVersion: minSdkVersion ?? Version.none,
     );
   }
 

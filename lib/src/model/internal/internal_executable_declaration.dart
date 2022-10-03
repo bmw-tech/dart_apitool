@@ -11,21 +11,23 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   final int? parentClassId;
 
   // executable declaration data
-  String returnTypeName;
-  String name;
-  bool isDeprecated;
-  List<ExecutableParameterDeclaration> parameters;
-  List<String> typeParameterNames;
-  ExecutableType type;
-  bool isStatic;
+  final String returnTypeName;
+  final String name;
+  final String? namespace;
+  final bool isDeprecated;
+  final List<ExecutableParameterDeclaration> parameters;
+  final List<String> typeParameterNames;
+  final ExecutableType type;
+  final bool isStatic;
   @override
-  Set<String>? entryPoints;
+  final Set<String>? entryPoints;
 
   InternalExecutableDeclaration._({
     required this.id,
     this.parentClassId,
     required this.returnTypeName,
     required this.name,
+    required this.namespace,
     required this.isDeprecated,
     required this.parameters,
     required this.typeParameterNames,
@@ -35,7 +37,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
-      ExecutableElement executableElement)
+      ExecutableElement executableElement,
+      {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
             parentClassId: executableElement.enclosingElement3 is ClassElement
@@ -45,6 +48,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             returnTypeName: executableElement.returnType
                 .getDisplayString(withNullability: true),
             name: executableElement.displayName,
+            namespace: namespace,
             isDeprecated: executableElement.hasDeprecated,
             parameters: _computeParameterList(executableElement.parameters),
             typeParameterNames:
@@ -54,9 +58,10 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             entryPoints: {});
 
   ExecutableDeclaration toExecutableDeclaration() {
+    final namespacePrefix = namespace == null ? '' : '$namespace.';
     return ExecutableDeclaration(
       returnTypeName: returnTypeName,
-      name: name,
+      name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       parameters: parameters,
       typeParameterNames: typeParameterNames,

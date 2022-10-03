@@ -1,4 +1,5 @@
 import 'package:dart_apitool/api_tool.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 part 'package_api_differ_test_data.dart';

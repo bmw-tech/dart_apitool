@@ -185,6 +185,34 @@ void main() {
                 .isNotEmpty,
             isTrue);
       });
+      test('Platform constraints are null', () {
+        // this is not a platform dependent package => no platform constraints
+        expect(packageApi.androidPlatformConstraints, isNull);
+        expect(packageApi.iosPlatformConstraints, isNull);
+      });
     });
+  });
+  group('device_info_plus gets analyzed correctly', () {
+    late PackageApi packageApi;
+    final packageName = 'device_info_plus';
+    final packageVersion = '4.1.2';
+    final retriever = PackageApiRetriever(packageName, packageVersion);
+
+    setUpAll(() async {
+      packageApi = await retriever.retrieve();
+    });
+
+    test('Android Platform constraints get analyzed correctly', (() {
+      expect(packageApi.androidPlatformConstraints, isNotNull);
+      expect(packageApi.androidPlatformConstraints!.minSdkVersion, 16);
+      expect(packageApi.androidPlatformConstraints!.compileSdkVersion, 31);
+      expect(packageApi.androidPlatformConstraints!.targetSdkVersion, isNull);
+      expect(packageApi.sdkType, SdkType.flutter);
+    }));
+
+    test('iOS Platform constraints get analyzed correctly', (() {
+      expect(packageApi.iosPlatformConstraints, isNotNull);
+      expect(packageApi.iosPlatformConstraints!.minimumOsVersion, 8.0);
+    }));
   });
 }

@@ -47,6 +47,8 @@ final packageClassAApi = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 // Package ClassA variations
 final packageClassADeprecatedApi = packageClassAApi.copyWith(
@@ -78,6 +80,8 @@ final packageClassAApiEntryPointA = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageClassAApiEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -93,6 +97,8 @@ final packageClassAApiEntryPointB = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageClassAApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -109,6 +115,8 @@ final packageClassAApiEntryPointAB = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 // END Package ClassA variations
 
@@ -123,6 +131,8 @@ final packageClassAClassBApi = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 final simpleExecutable1 = ExecutableDeclaration(
@@ -162,6 +172,8 @@ final packageExecutable1Api = PackageApi(
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 // Package Executable1 variations
@@ -297,6 +309,8 @@ final packageExecutable1ApiEntryPointA = PackageApi(
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageExecutable1ApiEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -312,6 +326,8 @@ final packageExecutable1ApiEntryPointB = PackageApi(
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageExecutable1ApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -328,6 +344,8 @@ final packageExecutable1ApiEntryPointAB = PackageApi(
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 // END Package Executable1 variations
 
@@ -342,6 +360,8 @@ final packageExecutable1Executable2Api = PackageApi(
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 final simpleFieldDeclarationA = FieldDeclaration(
@@ -367,6 +387,8 @@ final packageFieldA = PackageApi(
     simpleFieldDeclarationA,
   ],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 // Package FieldA variations
@@ -394,6 +416,8 @@ final packageFieldAEntryPointA = PackageApi(
     ),
   ],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageFieldAEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -409,6 +433,8 @@ final packageFieldAEntryPointB = PackageApi(
     ),
   ],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 final packageFieldAEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -425,6 +451,8 @@ final packageFieldAEntryPointAB = PackageApi(
     ),
   ],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 // END Package FieldA variations
 
@@ -439,4 +467,6 @@ final packageFieldAFieldB = PackageApi(
     simpleFieldDeclarationB,
   ],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );

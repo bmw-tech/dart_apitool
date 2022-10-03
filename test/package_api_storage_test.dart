@@ -1,16 +1,17 @@
 import 'dart:convert';
 
 import 'package:dart_apitool/api_tool.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('PackageApi storage tests', () {
-    test('Storage v2 gets exported correctly', () {
+    test('Storage v3 gets exported correctly', () {
       final typedJson =
           PackageApiStorage.packageApitoStorageJson(testPackage2Api);
       final json = jsonDecode(typedJson);
 
-      expect(json['version'], 2);
+      expect(json['version'], 3);
       final packageApiJson = json['packageApi'];
       expect(packageApiJson, isNotNull);
       expect(packageApiJson['packageName'], 'storage_test_package');
@@ -69,6 +70,8 @@ void main() {
       expect(typeAliasDeclaration['name'], 'name');
       expect(typeAliasDeclaration['aliasedTypeName'], 'aliasedTypeName');
       expect(typeAliasDeclaration['isDeprecated'], false);
+      expect(packageApiJson['sdkType'], isNotNull);
+      expect(packageApiJson['minSdkVersion'], isNotNull);
     });
     test('Storage v1 gets imported correctly', () {
       final loadedPackageApi =
@@ -138,6 +141,8 @@ final testPackage1Api = PackageApi(
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 final package1JsonString = '''
@@ -262,6 +267,8 @@ final testPackage2Api = PackageApi(
       },
     )
   ],
+  sdkType: SdkType.unknown,
+  minSdkVersion: Version.none,
 );
 
 final package2JsonString = '''

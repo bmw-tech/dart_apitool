@@ -11,25 +11,28 @@ class InternalFieldDeclaration implements InternalDeclaration {
   final int? parentClassId;
 
   // field declaration data
-  String typeName;
-  String name;
-  bool isDeprecated;
-  bool isStatic;
+  final String typeName;
+  final String name;
+  final String? namespace;
+  final bool isDeprecated;
+  final bool isStatic;
   @override
-  Set<String>? entryPoints;
+  final Set<String>? entryPoints;
 
   InternalFieldDeclaration._({
     required this.id,
     this.parentClassId,
     required this.typeName,
     required this.name,
+    required this.namespace,
     required this.isDeprecated,
     required this.isStatic,
     required this.entryPoints,
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
-      PropertyInducingElement fieldElement)
+      PropertyInducingElement fieldElement,
+      {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
             parentClassId: fieldElement.enclosingElement3 is ClassElement
@@ -38,14 +41,16 @@ class InternalFieldDeclaration implements InternalDeclaration {
                 : null,
             typeName: fieldElement.type.getDisplayString(withNullability: true),
             name: fieldElement.name,
+            namespace: namespace,
             isDeprecated: fieldElement.hasDeprecated,
             isStatic: fieldElement.isStatic,
             entryPoints: {});
 
   FieldDeclaration toFieldDeclaration() {
+    final namespacePrefix = namespace == null ? '' : '$namespace.';
     return FieldDeclaration(
       typeName: typeName,
-      name: name,
+      name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       isStatic: isStatic,
       entryPoints: entryPoints,
