@@ -73,16 +73,18 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   String? _getNamespaceForLibrary(
       LibraryElement referredLibrary, Element referringElement) {
-    final library = referringElement.library;
-    if (library == null) {
+    final sourceLibrary = referringElement.library;
+    if (sourceLibrary == null) {
       return null;
     }
-    for (final libraryImport in library.libraryImports) {
+    // search for the import of the referred library
+    for (final libraryImport in sourceLibrary.libraryImports) {
       final importedLibrary = libraryImport.importedLibrary;
       if (importedLibrary == null) {
         continue;
       }
       if (importedLibrary.library.id == referredLibrary.id) {
+        // we found the import => return the given prefix (if specified)
         return libraryImport.prefix?.element.name;
       }
     }
