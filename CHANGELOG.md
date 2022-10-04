@@ -1,11 +1,12 @@
 # Changelog
 
 ## Version 0.6.0
+- *BREAKING*: removes capability to use stored models in diffs
+- *BREAKING*: CommandMixin's "analyze" no longer does clean up preparation results. For this the newly introduced "cleanUp" method has to be called
+- Fixes major issue with equal class names (or top-level variables, functions or type aliases) imported in different namespaces
 - Improve diff tree output
-- CommandMixin's "analyze" no longer does clean up preparation results. For this the newly introduced "cleanUp" method has to be called
 - Analyzes and diffs platform constraints
 - Analyzes and diffs SDK versions
-- Fixes major issue with equal class names (or top-level variables, functions or type aliases) imported in different namespaces
 
 ## Version 0.5.1
 - Fixes Analyzer problem when visiting elements multiple times
