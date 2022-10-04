@@ -6,7 +6,7 @@
 - Analyzes and diffs platform constraints
 - Analyzes and diffs SDK versions
 - Fixes major issue with equal class names (or top-level variables, functions or type aliases) imported in different namespaces
-- BREAKING: removes capability to use stored models in diffs
+- *BREAKING*: removes capability to use stored models in diffs
 
 ## Version 0.5.1
 - Fixes Analyzer problem when visiting elements multiple times
