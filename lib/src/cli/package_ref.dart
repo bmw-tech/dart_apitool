@@ -12,15 +12,6 @@ class PackageRef {
 
   PackageRef(this.ref);
 
-  /// determines if this reference referecences a package API model file
-  bool get isPackageApiFile {
-    try {
-      return File(ref).existsSync();
-    } catch (_) {
-      return false;
-    }
-  }
-
   /// determines if this reference references a package directory
   bool get isDirectoryPath {
     try {
@@ -59,8 +50,6 @@ class PackageRef {
     var kind = 'Unknown';
     if (isDirectoryPath) {
       kind = 'Directory';
-    } else if (isPackageApiFile) {
-      kind = 'Extracted Package API';
     } else if (isPubRef) {
       kind = 'Pub ref';
     }

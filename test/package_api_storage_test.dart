@@ -73,23 +73,6 @@ void main() {
       expect(packageApiJson['sdkType'], isNotNull);
       expect(packageApiJson['minSdkVersion'], isNotNull);
     });
-    test('Storage v1 gets imported correctly', () {
-      final loadedPackageApi =
-          PackageApiStorage.packageApiFromStorageJson(package1JsonString);
-      expect(loadedPackageApi, testPackage1Api);
-    });
-    test('Storage v2 gets imported correctly', () {
-      final loadedPackageApi =
-          PackageApiStorage.packageApiFromStorageJson(package2JsonString);
-      expect(loadedPackageApi, testPackage2Api);
-    });
-    test('Saved PackageApi equals loaded one', () {
-      final storageJson =
-          PackageApiStorage.packageApitoStorageJson(testPackage2Api);
-      final loadedPackageApi =
-          PackageApiStorage.packageApiFromStorageJson(storageJson);
-      expect(testPackage2Api, loadedPackageApi);
-    });
   });
 }
 
