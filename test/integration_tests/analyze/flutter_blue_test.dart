@@ -31,5 +31,22 @@ void main() {
           .toList();
       expect(bluetoothCharacteristicProtoClasses.length, 1);
     });
+
+    test('ScanResult exists two times in different namespaces', () {
+      final scanResultClasses = packageApi.classDeclarations
+          .where((element) => element.name.endsWith('ScanResult'))
+          .toList();
+
+      expect(scanResultClasses.length, 2);
+
+      final scanResultMainClasses = packageApi.classDeclarations
+          .where((element) => element.name == 'ScanResult')
+          .toList();
+      expect(scanResultMainClasses.length, 1);
+      final scanResultProtoClasses = packageApi.classDeclarations
+          .where((element) => element.name == 'protos.ScanResult')
+          .toList();
+      expect(scanResultProtoClasses.length, 1);
+    });
   });
 }
