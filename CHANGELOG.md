@@ -1,7 +1,8 @@
 # Changelog
 
-## Version 0.6.1
-- Fixes Extension handling (are now treated as classes)
+## Version 0.7.0
+- *BREAKING*: renamed "Class" model elements to "Interface" to reflect the abstraction it represents
+- Fixes Extension handling (are now treated as interfaces)
   
 ## Version 0.6.0
 - *BREAKING*: removes capability to use stored models in diffs
