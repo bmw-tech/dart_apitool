@@ -65,6 +65,26 @@ class InternalClassDeclaration implements InternalDeclaration {
               .toList(),
         );
 
+  InternalClassDeclaration.fromExtensionElement(
+      ExtensionElement extensionElement,
+      {String? namespace})
+      : this._(
+          id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromElement(
+              extensionElement.enclosingElement3),
+          name: extensionElement.name ?? extensionElement.displayName,
+          namespace: namespace,
+          isPrivate: extensionElement.isPrivate,
+          isDeprecated: extensionElement.hasDeprecated,
+          typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
+              extensionElement.typeParameters),
+          superTypeNames: const [],
+          executableDeclarations: [],
+          fieldDeclarations: [],
+          entryPoints: {},
+          superClassIds: [],
+        );
+
   ClassDeclaration toClassDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return ClassDeclaration(

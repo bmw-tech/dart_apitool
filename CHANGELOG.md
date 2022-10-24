@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.6.1
+- Fixes Extension handling (are now treated as classes)
+  
 ## Version 0.6.0
 - *BREAKING*: removes capability to use stored models in diffs
 - *BREAKING*: CommandMixin's "analyze" no longer does clean up preparation results. For this the newly introduced "cleanUp" method has to be called

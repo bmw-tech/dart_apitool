@@ -319,10 +319,23 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitExtensionElement(ExtensionElement element) {
     _onVisitAnyElement(element);
-    super.visitExtensionElement(element);
+    if (element.name != null && !_isNameExported(element.name!)) {
+      return;
+    }
+    if (!_isElementAllowedToBeCollected(element)) {
+      return;
+    }
+    if (!_markElementAsCollected(element)) {
+      return;
+    }
+    _classDeclarations.add(InternalClassDeclaration.fromExtensionElement(
+        element,
+        namespace: _context.namespace));
     if (element.extendedType.element != null) {
       _onTypeUsed(element.extendedType, element);
     }
+
+    super.visitExtensionElement(element);
   }
 }
 

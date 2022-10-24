@@ -36,35 +36,40 @@ class PackageApiDiffer {
               'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');
     }
 
-    final changes = [
-      ..._calculateClassesDiff(oldApi.classDeclarations,
-          newApi.classDeclarations, Stack<Declaration>()),
-      ..._calculateExecutablesDiff(
-        oldApi.executableDeclarations,
-        newApi.executableDeclarations,
-        Stack<Declaration>(),
-      ),
-      ..._calculateFieldsDiff(
-        oldApi.fieldDeclarations,
-        newApi.fieldDeclarations,
-        Stack<Declaration>(),
-      ),
-      ..._calculateIOSPlatformConstraintsDiff(
-        oldApi.iosPlatformConstraints,
-        newApi.iosPlatformConstraints,
-      ),
-      ..._calculateAndroidPlatformConstraintsDiff(
-        oldApi.androidPlatformConstraints,
-        newApi.androidPlatformConstraints,
-      ),
-      if (options.doCheckSdkVersion)
-        ..._calculateSdkDiff(
-          oldApi,
-          newApi,
+    try {
+      final changes = [
+        ..._calculateClassesDiff(oldApi.classDeclarations,
+            newApi.classDeclarations, Stack<Declaration>()),
+        ..._calculateExecutablesDiff(
+          oldApi.executableDeclarations,
+          newApi.executableDeclarations,
+          Stack<Declaration>(),
         ),
-    ];
+        ..._calculateFieldsDiff(
+          oldApi.fieldDeclarations,
+          newApi.fieldDeclarations,
+          Stack<Declaration>(),
+        ),
+        ..._calculateIOSPlatformConstraintsDiff(
+          oldApi.iosPlatformConstraints,
+          newApi.iosPlatformConstraints,
+        ),
+        ..._calculateAndroidPlatformConstraintsDiff(
+          oldApi.androidPlatformConstraints,
+          newApi.androidPlatformConstraints,
+        ),
+        if (options.doCheckSdkVersion)
+          ..._calculateSdkDiff(
+            oldApi,
+            newApi,
+          ),
+      ];
 
-    return PackageApiDiffResult()..addApiChanges(changes);
+      return PackageApiDiffResult()..addApiChanges(changes);
+    } on Object catch (e, t) {
+      throw PackageApiDiffError(
+          message: 'Error while creating the diff: $e $t');
+    }
   }
 
   List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
