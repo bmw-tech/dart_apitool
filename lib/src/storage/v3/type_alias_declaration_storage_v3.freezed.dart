@@ -37,7 +37,9 @@ abstract class $TypeAliasDeclarationStorageV3CopyWith<$Res> {
   factory $TypeAliasDeclarationStorageV3CopyWith(
           TypeAliasDeclarationStorageV3 value,
           $Res Function(TypeAliasDeclarationStorageV3) then) =
-      _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res>;
+      _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
+          TypeAliasDeclarationStorageV3>;
+  @useResult
   $Res call(
       {String name,
       String aliasedTypeName,
@@ -46,39 +48,42 @@ abstract class $TypeAliasDeclarationStorageV3CopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
+class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
+        $Val extends TypeAliasDeclarationStorageV3>
     implements $TypeAliasDeclarationStorageV3CopyWith<$Res> {
   _$TypeAliasDeclarationStorageV3CopyWithImpl(this._value, this._then);
 
-  final TypeAliasDeclarationStorageV3 _value;
   // ignore: unused_field
-  final $Res Function(TypeAliasDeclarationStorageV3) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? aliasedTypeName = freezed,
-    Object? isDeprecated = freezed,
-    Object? entryPoints = freezed,
+    Object? name = null,
+    Object? aliasedTypeName = null,
+    Object? isDeprecated = null,
+    Object? entryPoints = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      aliasedTypeName: aliasedTypeName == freezed
+      aliasedTypeName: null == aliasedTypeName
           ? _value.aliasedTypeName
           : aliasedTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: null == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -90,6 +95,7 @@ abstract class _$$_TypeAliasDeclarationStorageV3CopyWith<$Res>
           $Res Function(_$_TypeAliasDeclarationStorageV3) then) =
       __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       String aliasedTypeName,
@@ -99,38 +105,36 @@ abstract class _$$_TypeAliasDeclarationStorageV3CopyWith<$Res>
 
 /// @nodoc
 class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
-    extends _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
+    extends _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
+        _$_TypeAliasDeclarationStorageV3>
     implements _$$_TypeAliasDeclarationStorageV3CopyWith<$Res> {
   __$$_TypeAliasDeclarationStorageV3CopyWithImpl(
       _$_TypeAliasDeclarationStorageV3 _value,
       $Res Function(_$_TypeAliasDeclarationStorageV3) _then)
-      : super(_value, (v) => _then(v as _$_TypeAliasDeclarationStorageV3));
+      : super(_value, _then);
 
-  @override
-  _$_TypeAliasDeclarationStorageV3 get _value =>
-      super._value as _$_TypeAliasDeclarationStorageV3;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? aliasedTypeName = freezed,
-    Object? isDeprecated = freezed,
-    Object? entryPoints = freezed,
+    Object? name = null,
+    Object? aliasedTypeName = null,
+    Object? isDeprecated = null,
+    Object? entryPoints = null,
   }) {
     return _then(_$_TypeAliasDeclarationStorageV3(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      aliasedTypeName: aliasedTypeName == freezed
+      aliasedTypeName: null == aliasedTypeName
           ? _value.aliasedTypeName
           : aliasedTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: null == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
@@ -176,26 +180,23 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TypeAliasDeclarationStorageV3 &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.aliasedTypeName, aliasedTypeName) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.aliasedTypeName, aliasedTypeName) ||
+                other.aliasedTypeName == aliasedTypeName) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(aliasedTypeName),
-      const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(runtimeType, name, aliasedTypeName,
+      isDeprecated, const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TypeAliasDeclarationStorageV3CopyWith<_$_TypeAliasDeclarationStorageV3>
       get copyWith => __$$_TypeAliasDeclarationStorageV3CopyWithImpl<
           _$_TypeAliasDeclarationStorageV3>(this, _$identity);

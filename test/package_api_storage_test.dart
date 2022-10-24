@@ -17,16 +17,16 @@ void main() {
       expect(packageApiJson['packageName'], 'storage_test_package');
       expect(packageApiJson['packageVersion'], '1.0.0');
       expect(packageApiJson['packagePath'], '.');
-      final classDeclarationsJson = packageApiJson['classDeclarations'];
-      expect(classDeclarationsJson, isNotNull);
-      final classDeclarationJson = classDeclarationsJson.first;
-      expect(classDeclarationJson, isNotNull);
-      expect(classDeclarationJson['name'], 'StorageTestClass');
-      expect(classDeclarationJson['isDeprecated'], false);
-      expect(classDeclarationJson['typeParameterNames'], ['T']);
-      expect(classDeclarationJson['superTypeNames'], ['SuperType']);
+      final interfaceDeclarationsJson = packageApiJson['interfaceDeclarations'];
+      expect(interfaceDeclarationsJson, isNotNull);
+      final interfaceDeclarationJson = interfaceDeclarationsJson.first;
+      expect(interfaceDeclarationJson, isNotNull);
+      expect(interfaceDeclarationJson['name'], 'StorageTestClass');
+      expect(interfaceDeclarationJson['isDeprecated'], false);
+      expect(interfaceDeclarationJson['typeParameterNames'], ['T']);
+      expect(interfaceDeclarationJson['superTypeNames'], ['SuperType']);
       final classExecutableDeclarationsJson =
-          classDeclarationJson['executableDeclarations'];
+          interfaceDeclarationJson['executableDeclarations'];
       expect(classExecutableDeclarationsJson, isNotNull);
       final classExecutableDeclaration = classExecutableDeclarationsJson.first;
       expect(classExecutableDeclaration, isNotNull);
@@ -56,7 +56,8 @@ void main() {
       expect(secondExecutableParameterDeclaration['name'], 'mode');
       expect(secondExecutableParameterDeclaration['isDeprecated'], false);
       expect(secondExecutableParameterDeclaration['typeName'], 'GetStringMode');
-      final classFieldDeclarations = classDeclarationJson['fieldDeclarations'];
+      final classFieldDeclarations =
+          interfaceDeclarationJson['fieldDeclarations'];
       expect(classFieldDeclarations, isNotNull);
       final classFieldDeclaration = classFieldDeclarations.first;
       expect(classFieldDeclaration, isNotNull);
@@ -80,8 +81,8 @@ final testPackage1Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
-    ClassDeclaration(
+  interfaceDeclarations: [
+    InterfaceDeclaration(
       name: 'StorageTestClass',
       isDeprecated: false,
       typeParameterNames: const ['T'],
@@ -135,7 +136,7 @@ final package1JsonString = '''
         "packageName": "storage_test_package",
         "packageVersion": "1.0.0",
         "packagePath": ".",
-        "classDeclarations": [
+        "interfaceDeclarations": [
             {
                 "name": "StorageTestClass",
                 "isDeprecated": false,
@@ -193,8 +194,8 @@ final testPackage2Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
-    ClassDeclaration(
+  interfaceDeclarations: [
+    InterfaceDeclaration(
       name: 'StorageTestClass',
       isDeprecated: false,
       typeParameterNames: const ['T'],
@@ -261,7 +262,7 @@ final package2JsonString = '''
         "packageName": "storage_test_package",
         "packageVersion": "1.0.0",
         "packagePath": ".",
-        "classDeclarations": [
+        "interfaceDeclarations": [
             {
                 "name": "StorageTestClass",
                 "isDeprecated": false,

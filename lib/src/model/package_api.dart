@@ -3,7 +3,7 @@ import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import 'class_declaration.dart';
+import 'interface_declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
 import 'package_api_semantics.dart';
@@ -26,8 +26,8 @@ class PackageApi with _$PackageApi {
     /// path to the package
     required String packagePath,
 
-    /// class declarations this package has
-    required List<ClassDeclaration> classDeclarations,
+    /// interface declarations this package has
+    required List<InterfaceDeclaration> interfaceDeclarations,
 
     /// root level executable declarations this package has
     required List<ExecutableDeclaration> executableDeclarations,

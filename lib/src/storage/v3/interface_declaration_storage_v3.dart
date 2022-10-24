@@ -6,15 +6,15 @@ import '../../model/model.dart';
 import 'executable_declaration_storage_v3.dart';
 import 'field_declaration_storage_v3.dart';
 
-part 'class_declaration_storage_v3.freezed.dart';
-part 'class_declaration_storage_v3.g.dart';
+part 'interface_declaration_storage_v3.freezed.dart';
+part 'interface_declaration_storage_v3.g.dart';
 
 /// Represents a found class declaration
 @freezed
-class ClassDeclarationStorageV3 with _$ClassDeclarationStorageV3 {
-  const ClassDeclarationStorageV3._();
+class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
+  const InterfaceDeclarationStorageV3._();
 
-  const factory ClassDeclarationStorageV3({
+  const factory InterfaceDeclarationStorageV3({
     required String name,
     required bool isDeprecated,
     required List<String> typeParameterNames,
@@ -22,13 +22,13 @@ class ClassDeclarationStorageV3 with _$ClassDeclarationStorageV3 {
     required List<ExecutableDeclarationStorageV3> executableDeclarations,
     required List<FieldDeclarationStorageV3> fieldDeclarations,
     required Set<String> entryPoints,
-  }) = _ClassDeclarationStorageV3;
+  }) = _InterfaceDeclarationStorageV3;
 
-  factory ClassDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
-      _$ClassDeclarationStorageV3FromJson(json);
+  factory InterfaceDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
+      _$InterfaceDeclarationStorageV3FromJson(json);
 
-  ClassDeclaration toClassDeclaration() {
-    return ClassDeclaration(
+  InterfaceDeclaration toInterfaceDeclaration() {
+    return InterfaceDeclaration(
       name: name,
       isDeprecated: isDeprecated,
       typeParameterNames: typeParameterNames,
@@ -42,21 +42,21 @@ class ClassDeclarationStorageV3 with _$ClassDeclarationStorageV3 {
     );
   }
 
-  static ClassDeclarationStorageV3 fromClassDeclaration(
-      ClassDeclaration classDeclaration) {
-    return ClassDeclarationStorageV3(
-      name: classDeclaration.name,
-      isDeprecated: classDeclaration.isDeprecated,
-      typeParameterNames: classDeclaration.typeParameterNames,
-      superTypeNames: classDeclaration.superTypeNames,
-      executableDeclarations: classDeclaration.executableDeclarations
+  static InterfaceDeclarationStorageV3 fromInterfaceDeclaration(
+      InterfaceDeclaration interfaceDeclaration) {
+    return InterfaceDeclarationStorageV3(
+      name: interfaceDeclaration.name,
+      isDeprecated: interfaceDeclaration.isDeprecated,
+      typeParameterNames: interfaceDeclaration.typeParameterNames,
+      superTypeNames: interfaceDeclaration.superTypeNames,
+      executableDeclarations: interfaceDeclaration.executableDeclarations
           .map((e) =>
               ExecutableDeclarationStorageV3.fromExecutableDeclaration(e))
           .toList(),
-      fieldDeclarations: classDeclaration.fieldDeclarations
+      fieldDeclarations: interfaceDeclaration.fieldDeclarations
           .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))
           .toList(),
-      entryPoints: classDeclaration.entryPoints!,
+      entryPoints: interfaceDeclaration.entryPoints!,
     );
   }
 }

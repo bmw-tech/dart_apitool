@@ -7,19 +7,19 @@ import 'declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
 
-part 'class_declaration.freezed.dart';
+part 'interface_declaration.freezed.dart';
 
 /// Represents a found class declaration
 @freezed
-class ClassDeclaration with _$ClassDeclaration implements Declaration {
+class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
   /// the signature of this class condensed to one String
   /// contains Type arguments as well as base classes or implemented interfaces
   String get signature => _computeSignature();
 
-  const ClassDeclaration._();
+  const InterfaceDeclaration._();
 
   @Implements<Declaration>()
-  const factory ClassDeclaration({
+  const factory InterfaceDeclaration({
     required String name,
     required bool isDeprecated,
     required List<String> typeParameterNames,
@@ -27,7 +27,7 @@ class ClassDeclaration with _$ClassDeclaration implements Declaration {
     required List<ExecutableDeclaration> executableDeclarations,
     required List<FieldDeclaration> fieldDeclarations,
     Set<String>? entryPoints,
-  }) = _ClassDeclaration;
+  }) = _InterfaceDeclaration;
 
   String _computeSignature() {
     String superTypeSuffix = '';

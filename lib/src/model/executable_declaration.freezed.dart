@@ -41,7 +41,9 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
   factory $ExecutableParameterDeclarationCopyWith(
           ExecutableParameterDeclaration value,
           $Res Function(ExecutableParameterDeclaration) then) =
-      _$ExecutableParameterDeclarationCopyWithImpl<$Res>;
+      _$ExecutableParameterDeclarationCopyWithImpl<$Res,
+          ExecutableParameterDeclaration>;
+  @useResult
   $Res call(
       {bool isRequired,
       bool isNamed,
@@ -51,44 +53,47 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
+class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
+        $Val extends ExecutableParameterDeclaration>
     implements $ExecutableParameterDeclarationCopyWith<$Res> {
   _$ExecutableParameterDeclarationCopyWithImpl(this._value, this._then);
 
-  final ExecutableParameterDeclaration _value;
   // ignore: unused_field
-  final $Res Function(ExecutableParameterDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isRequired = freezed,
-    Object? isNamed = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeName = freezed,
+    Object? isRequired = null,
+    Object? isNamed = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeName = null,
   }) {
     return _then(_value.copyWith(
-      isRequired: isRequired == freezed
+      isRequired: null == isRequired
           ? _value.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
               as bool,
-      isNamed: isNamed == freezed
+      isNamed: null == isNamed
           ? _value.isNamed
           : isNamed // ignore: cast_nullable_to_non_nullable
               as bool,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeName: typeName == freezed
+      typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -100,6 +105,7 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
           $Res Function(_$_ExecutableParameterDeclaration) then) =
       __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool isRequired,
       bool isNamed,
@@ -110,43 +116,41 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
-    extends _$ExecutableParameterDeclarationCopyWithImpl<$Res>
+    extends _$ExecutableParameterDeclarationCopyWithImpl<$Res,
+        _$_ExecutableParameterDeclaration>
     implements _$$_ExecutableParameterDeclarationCopyWith<$Res> {
   __$$_ExecutableParameterDeclarationCopyWithImpl(
       _$_ExecutableParameterDeclaration _value,
       $Res Function(_$_ExecutableParameterDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ExecutableParameterDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_ExecutableParameterDeclaration get _value =>
-      super._value as _$_ExecutableParameterDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isRequired = freezed,
-    Object? isNamed = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeName = freezed,
+    Object? isRequired = null,
+    Object? isNamed = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeName = null,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
-      isRequired: isRequired == freezed
+      isRequired: null == isRequired
           ? _value.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
               as bool,
-      isNamed: isNamed == freezed
+      isNamed: null == isNamed
           ? _value.isNamed
           : isNamed // ignore: cast_nullable_to_non_nullable
               as bool,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeName: typeName == freezed
+      typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
@@ -196,26 +200,23 @@ class _$_ExecutableParameterDeclaration
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ExecutableParameterDeclaration &&
-            const DeepCollectionEquality()
-                .equals(other.isRequired, isRequired) &&
-            const DeepCollectionEquality().equals(other.isNamed, isNamed) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.typeName, typeName));
+            (identical(other.isRequired, isRequired) ||
+                other.isRequired == isRequired) &&
+            (identical(other.isNamed, isNamed) || other.isNamed == isNamed) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.typeName, typeName) ||
+                other.typeName == typeName));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isRequired),
-      const DeepCollectionEquality().hash(isNamed),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(typeName));
+      runtimeType, isRequired, isNamed, name, isDeprecated, typeName);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
       get copyWith => __$$_ExecutableParameterDeclarationCopyWithImpl<
           _$_ExecutableParameterDeclaration>(this, _$identity);
@@ -278,7 +279,8 @@ mixin _$ExecutableDeclaration {
 abstract class $ExecutableDeclarationCopyWith<$Res> {
   factory $ExecutableDeclarationCopyWith(ExecutableDeclaration value,
           $Res Function(ExecutableDeclaration) then) =
-      _$ExecutableDeclarationCopyWithImpl<$Res>;
+      _$ExecutableDeclarationCopyWithImpl<$Res, ExecutableDeclaration>;
+  @useResult
   $Res call(
       {String returnTypeName,
       String name,
@@ -291,59 +293,62 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ExecutableDeclarationCopyWithImpl<$Res>
+class _$ExecutableDeclarationCopyWithImpl<$Res,
+        $Val extends ExecutableDeclaration>
     implements $ExecutableDeclarationCopyWith<$Res> {
   _$ExecutableDeclarationCopyWithImpl(this._value, this._then);
 
-  final ExecutableDeclaration _value;
   // ignore: unused_field
-  final $Res Function(ExecutableDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? returnTypeName = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? parameters = freezed,
-    Object? typeParameterNames = freezed,
-    Object? type = freezed,
-    Object? isStatic = freezed,
+    Object? returnTypeName = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? parameters = null,
+    Object? typeParameterNames = null,
+    Object? type = null,
+    Object? isStatic = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      returnTypeName: returnTypeName == freezed
+      returnTypeName: null == returnTypeName
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      parameters: parameters == freezed
+      parameters: null == parameters
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as List<ExecutableParameterDeclaration>,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ExecutableType,
-      isStatic: isStatic == freezed
+      isStatic: null == isStatic
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -354,6 +359,7 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
           $Res Function(_$_ExecutableDeclaration) then) =
       __$$_ExecutableDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String returnTypeName,
       String name,
@@ -367,57 +373,54 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_ExecutableDeclarationCopyWithImpl<$Res>
-    extends _$ExecutableDeclarationCopyWithImpl<$Res>
+    extends _$ExecutableDeclarationCopyWithImpl<$Res, _$_ExecutableDeclaration>
     implements _$$_ExecutableDeclarationCopyWith<$Res> {
   __$$_ExecutableDeclarationCopyWithImpl(_$_ExecutableDeclaration _value,
       $Res Function(_$_ExecutableDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ExecutableDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_ExecutableDeclaration get _value =>
-      super._value as _$_ExecutableDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? returnTypeName = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? parameters = freezed,
-    Object? typeParameterNames = freezed,
-    Object? type = freezed,
-    Object? isStatic = freezed,
+    Object? returnTypeName = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? parameters = null,
+    Object? typeParameterNames = null,
+    Object? type = null,
+    Object? isStatic = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_ExecutableDeclaration(
-      returnTypeName: returnTypeName == freezed
+      returnTypeName: null == returnTypeName
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      parameters: parameters == freezed
+      parameters: null == parameters
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as List<ExecutableParameterDeclaration>,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ExecutableType,
-      isStatic: isStatic == freezed
+      isStatic: null == isStatic
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
@@ -485,17 +488,18 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ExecutableDeclaration &&
-            const DeepCollectionEquality()
-                .equals(other.returnTypeName, returnTypeName) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
+            (identical(other.returnTypeName, returnTypeName) ||
+                other.returnTypeName == returnTypeName) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.isStatic, isStatic) ||
+                other.isStatic == isStatic) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
@@ -503,17 +507,18 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(returnTypeName),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated),
+      returnTypeName,
+      name,
+      isDeprecated,
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(isStatic),
+      type,
+      isStatic,
       const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
       __$$_ExecutableDeclarationCopyWithImpl<_$_ExecutableDeclaration>(
           this, _$identity);

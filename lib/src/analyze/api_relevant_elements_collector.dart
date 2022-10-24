@@ -7,14 +7,14 @@ import 'package:analyzer/dart/element/visitor.dart';
 
 import '../model/internal/internal_type_alias_declaration.dart';
 import '../utils/string_utils.dart';
-import '../model/internal/internal_class_declaration.dart';
+import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
 /// It tracks the found elements in its public properties:
-/// - [classDeclarations]
+/// - [interfaceDeclarations]
 /// - [executableDeclarations]
 /// - [fieldDeclarations]
 /// - [typeAliasDeclarations]
@@ -49,13 +49,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   String? _packageName;
 
-  final List<InternalClassDeclaration> _classDeclarations = [];
+  final List<InternalInterfaceDeclaration> _interfaceDeclarations = [];
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
 
   /// all found class declarations
-  List<InternalClassDeclaration> get classDeclarations => _classDeclarations;
+  List<InternalInterfaceDeclaration> get interfaceDeclarations =>
+      _interfaceDeclarations;
 
   /// all found executable declarations (like methods and constructors)
   List<InternalExecutableDeclaration> get executableDeclarations =>
@@ -114,7 +115,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       directElement.accept(collector);
       // merge result with this result
       _collectedElementIds.addAll(collector._collectedElementIds);
-      classDeclarations.addAll(collector.classDeclarations);
+      interfaceDeclarations.addAll(collector.interfaceDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
       typeAliasDeclarations.addAll(collector.typeAliasDeclarations);
@@ -164,26 +165,47 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return true;
   }
 
-  @override
-  void visitClassElement(ClassElement element) {
-    _onVisitAnyElement(element);
-    if (!_isNameExported(element.name)) {
-      return;
+  bool _onVisitInterfaceElement(InterfaceElement interfaceElement) {
+    _onVisitAnyElement(interfaceElement);
+    if (!_isNameExported(interfaceElement.name)) {
+      return false;
     }
-    if (!_isElementAllowedToBeCollected(element)) {
-      return;
+    if (!_isElementAllowedToBeCollected(interfaceElement)) {
+      return false;
     }
-    if (!_markElementAsCollected(element)) {
-      return;
+    if (!_markElementAsCollected(interfaceElement)) {
+      return false;
     }
-    _classDeclarations.add(InternalClassDeclaration.fromClassElement(element,
-        namespace: _context.namespace));
-    for (final st in element.allSupertypes) {
-      if (!st.element.isDartCoreObject && !st.element.isDartCoreEnum) {
-        _onTypeUsed(st, element);
+    _interfaceDeclarations.add(
+        InternalInterfaceDeclaration.fromInterfaceElement(interfaceElement,
+            namespace: _context.namespace));
+    for (final st in interfaceElement.allSupertypes) {
+      if (!st.isDartCoreObject && !st.isDartCoreEnum) {
+        _onTypeUsed(st, interfaceElement);
       }
     }
-    super.visitClassElement(element);
+    return true;
+  }
+
+  @override
+  void visitClassElement(ClassElement element) {
+    if (_onVisitInterfaceElement(element)) {
+      super.visitClassElement(element);
+    }
+  }
+
+  @override
+  void visitEnumElement(EnumElement element) {
+    if (_onVisitInterfaceElement(element)) {
+      super.visitEnumElement(element);
+    }
+  }
+
+  @override
+  void visitMixinElement(MixinElement element) {
+    if (_onVisitInterfaceElement(element)) {
+      super.visitMixinElement(element);
+    }
   }
 
   @override
@@ -198,7 +220,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _fieldDeclarations
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -217,7 +239,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       namespace: _context.namespace,
     ));
     super.visitTopLevelVariableElement(element);
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -227,7 +249,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitParameterElement(element);
     // this includes method, function and constructor calls
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -246,7 +268,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       element,
     ));
     super.visitMethodElement(element);
-    if (element.returnType.element != null) {
+    if (element.returnType.element2 != null) {
       _onTypeUsed(element.returnType, element);
     }
   }
@@ -302,7 +324,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       namespace: _context.namespace,
     ));
     super.visitTypeAliasElement(element);
-    if (element.aliasedType.element != null) {
+    if (element.aliasedType.element2 != null) {
       _onTypeUsed(element.aliasedType, element);
     }
   }
@@ -311,7 +333,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   visitTypeParameterElement(TypeParameterElement element) {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
-    if (element.bound?.element != null) {
+    if (element.bound?.element2 != null) {
       _onTypeUsed(element.bound!, element);
     }
   }
@@ -319,10 +341,23 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   @override
   void visitExtensionElement(ExtensionElement element) {
     _onVisitAnyElement(element);
-    super.visitExtensionElement(element);
-    if (element.extendedType.element != null) {
+    if (element.name != null && !_isNameExported(element.name!)) {
+      return;
+    }
+    if (!_isElementAllowedToBeCollected(element)) {
+      return;
+    }
+    if (!_markElementAsCollected(element)) {
+      return;
+    }
+    _interfaceDeclarations.add(
+        InternalInterfaceDeclaration.fromExtensionElement(element,
+            namespace: _context.namespace));
+    if (element.extendedType.element2 != null) {
       _onTypeUsed(element.extendedType, element);
     }
+
+    super.visitExtensionElement(element);
   }
 }
 

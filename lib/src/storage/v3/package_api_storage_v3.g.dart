@@ -14,9 +14,9 @@ _$_PackageApiStorageV3 _$$_PackageApiStorageV3FromJson(
       packageName: json['packageName'] as String,
       packageVersion: json['packageVersion'] as String?,
       packagePath: json['packagePath'] as String,
-      classDeclarations: (json['classDeclarations'] as List<dynamic>)
+      interfaceDeclarations: (json['interfaceDeclarations'] as List<dynamic>)
           .map((e) =>
-              ClassDeclarationStorageV3.fromJson(e as Map<String, dynamic>))
+              InterfaceDeclarationStorageV3.fromJson(e as Map<String, dynamic>))
           .toList(),
       executableDeclarations: (json['executableDeclarations'] as List<dynamic>)
           .map((e) => ExecutableDeclarationStorageV3.fromJson(
@@ -52,7 +52,7 @@ Map<String, dynamic> _$$_PackageApiStorageV3ToJson(
       'packageName': instance.packageName,
       'packageVersion': instance.packageVersion,
       'packagePath': instance.packagePath,
-      'classDeclarations': instance.classDeclarations,
+      'interfaceDeclarations': instance.interfaceDeclarations,
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
       'typeAliasDeclarations': instance.typeAliasDeclarations,

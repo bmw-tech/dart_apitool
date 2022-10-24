@@ -15,7 +15,7 @@ void main() {
     });
 
     test('Bloc class is available', () {
-      final blocClass = packageApi.classDeclarations
+      final blocClass = packageApi.interfaceDeclarations
           .singleWhere((element) => element.name == 'Bloc');
 
       expect(blocClass.name, 'Bloc');
@@ -26,7 +26,7 @@ void main() {
       expect(stateField.typeName, 'State');
     });
     test('Transition class is available', () {
-      final transitionClass = packageApi.classDeclarations
+      final transitionClass = packageApi.interfaceDeclarations
           .singleWhere((element) => element.name == 'Transition');
 
       expect(transitionClass.name, 'Transition');

@@ -35,10 +35,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
       {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
-            parentClassId: fieldElement.enclosingElement3 is ClassElement
-                ? InternalDeclarationUtils.getIdFromElement(
-                    fieldElement.enclosingElement3)
-                : null,
+            parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+                fieldElement.enclosingElement3),
             typeName: fieldElement.type.getDisplayString(withNullability: true),
             name: fieldElement.name,
             namespace: namespace,

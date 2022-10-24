@@ -24,7 +24,8 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final newClassApiChange = diffResult.apiChanges.first;
-      expect(newClassApiChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(
+          newClassApiChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(newClassApiChange.type, ApiChangeType.addCompatible);
       expect(newClassApiChange.changeDescription, contains('ClassB'));
       expect(newClassApiChange.contextTrace, isEmpty);
@@ -37,8 +38,8 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final removedClassApiChange = diffResult.apiChanges.first;
-      expect(
-          removedClassApiChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(removedClassApiChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
       expect(removedClassApiChange.type, ApiChangeType.remove);
       expect(removedClassApiChange.changeDescription, contains('ClassB'));
       expect(removedClassApiChange.contextTrace, isEmpty);
@@ -110,9 +111,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -124,9 +126,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -216,9 +219,9 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final typeParameterAddedChange = diffResult.apiChanges.first;
       expect(typeParameterAddedChange.affectedDeclaration,
-          isA<ClassDeclaration>());
-      expect(
-          typeParameterAddedChange.contextTrace.first, isA<ClassDeclaration>());
+          isA<InterfaceDeclaration>());
+      expect(typeParameterAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParameterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParameterAddedChange.changeDescription,
           contains('Type Parameter "T"'));
@@ -236,9 +239,9 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final typeParameterRemovedChange = diffResult.apiChanges.first;
       expect(typeParameterRemovedChange.affectedDeclaration,
-          isA<ClassDeclaration>());
+          isA<InterfaceDeclaration>());
       expect(typeParameterRemovedChange.contextTrace.first,
-          isA<ClassDeclaration>());
+          isA<InterfaceDeclaration>());
       expect(typeParameterRemovedChange.type, ApiChangeType.remove);
       expect(typeParameterRemovedChange.changeDescription,
           contains('Type Parameter "T"'));
@@ -301,17 +304,17 @@ void main() {
       final typeParmeterRemovedChange = diffResult.apiChanges
           .where((change) => change.type == ApiChangeType.remove)
           .single;
-      expect(
-          typeParmeterAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(
-          typeParmeterAddedChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(typeParmeterAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(typeParmeterAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParmeterAddedChange.type, ApiChangeType.addBreaking);
       expect(typeParmeterAddedChange.changeDescription,
           contains('Type Parameter "R"'));
       expect(typeParmeterRemovedChange.affectedDeclaration,
-          isA<ClassDeclaration>());
+          isA<InterfaceDeclaration>());
       expect(typeParmeterRemovedChange.contextTrace.first,
-          isA<ClassDeclaration>());
+          isA<InterfaceDeclaration>());
       expect(typeParmeterRemovedChange.type, ApiChangeType.remove);
       expect(typeParmeterRemovedChange.changeDescription,
           contains('Type Parameter "T"'));
@@ -362,9 +365,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -382,9 +386,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-          deprecatedAddedChange.affectedDeclaration, isA<ClassDeclaration>());
-      expect(deprecatedAddedChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.remove);
       expect(deprecatedAddedChange.changeDescription, contains('"T"'));
     });
@@ -724,16 +729,16 @@ void main() {
           (element) => element.type == ApiChangeType.addCompatible);
       final removeChange = diffResult.apiChanges
           .singleWhere((element) => element.type == ApiChangeType.remove);
-      expect(removeChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(removeChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(removeChange.changeDescription, contains('Entry point'));
       expect(removeChange.changeDescription, contains('a.dart'));
-      expect(removeChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(removeChange.contextTrace.first, isA<InterfaceDeclaration>());
       expect(removeChange.type, ApiChangeType.remove);
 
-      expect(addChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(addChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
-      expect(addChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(addChange.contextTrace.first, isA<InterfaceDeclaration>());
       expect(addChange.type, ApiChangeType.addCompatible);
     });
     test('EntryPoint add in class detected', () {
@@ -745,10 +750,10 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final addChange = diffResult.apiChanges.single;
 
-      expect(addChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(addChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
-      expect(addChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(addChange.contextTrace.first, isA<InterfaceDeclaration>());
       expect(addChange.type, ApiChangeType.addCompatible);
     });
     test('EntryPoint remove in class detected', () {
@@ -760,10 +765,10 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final removeChange = diffResult.apiChanges.single;
 
-      expect(removeChange.affectedDeclaration, isA<ClassDeclaration>());
+      expect(removeChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(removeChange.changeDescription, contains('Entry point'));
       expect(removeChange.changeDescription, contains('a.dart'));
-      expect(removeChange.contextTrace.first, isA<ClassDeclaration>());
+      expect(removeChange.contextTrace.first, isA<InterfaceDeclaration>());
       expect(removeChange.type, ApiChangeType.remove);
     });
   });

@@ -1,14 +1,14 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:collection/collection.dart';
 
-import '../class_declaration.dart';
+import '../interface_declaration.dart';
 import '../executable_declaration.dart';
 import '../field_declaration.dart';
 import 'internal_declaration.dart';
 import 'internal_declaration_utils.dart';
 
-/// Internal extension of [ClassDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
-class InternalClassDeclaration implements InternalDeclaration {
+/// Internal extension of [InterfaceDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
+class InternalInterfaceDeclaration implements InternalDeclaration {
   @override
   final int id;
   @override
@@ -27,7 +27,7 @@ class InternalClassDeclaration implements InternalDeclaration {
   final Set<String>? entryPoints;
   final List<int> superClassIds;
 
-  InternalClassDeclaration._({
+  InternalInterfaceDeclaration._({
     required this.id,
     this.parentClassId,
     required this.name,
@@ -42,32 +42,53 @@ class InternalClassDeclaration implements InternalDeclaration {
     required this.superClassIds,
   });
 
-  InternalClassDeclaration.fromClassElement(ClassElement classElement,
+  InternalInterfaceDeclaration.fromInterfaceElement(
+      InterfaceElement interfaceElement,
       {String? namespace})
       : this._(
-          id: InternalDeclarationUtils.getIdFromElement(classElement)!,
-          parentClassId: InternalDeclarationUtils.getIdFromElement(
-              classElement.enclosingElement3),
-          name: classElement.name,
+          id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+              interfaceElement.enclosingElement3),
+          name: interfaceElement.name,
           namespace: namespace,
-          isPrivate: classElement.isPrivate,
-          isDeprecated: classElement.hasDeprecated,
+          isPrivate: interfaceElement.isPrivate,
+          isDeprecated: interfaceElement.hasDeprecated,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
-              classElement.typeParameters),
+              interfaceElement.typeParameters),
           superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
-              classElement.allSupertypes),
+              interfaceElement.allSupertypes),
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
-          superClassIds: classElement.allSupertypes
+          superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element2))
               .whereNotNull()
               .toList(),
         );
 
-  ClassDeclaration toClassDeclaration() {
+  InternalInterfaceDeclaration.fromExtensionElement(
+      ExtensionElement extensionElement,
+      {String? namespace})
+      : this._(
+          id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+              extensionElement.enclosingElement3),
+          name: extensionElement.name ?? extensionElement.displayName,
+          namespace: namespace,
+          isPrivate: extensionElement.isPrivate,
+          isDeprecated: extensionElement.hasDeprecated,
+          typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
+              extensionElement.typeParameters),
+          superTypeNames: const [],
+          executableDeclarations: [],
+          fieldDeclarations: [],
+          entryPoints: {},
+          superClassIds: [],
+        );
+
+  InterfaceDeclaration toInterfaceDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
-    return ClassDeclaration(
+    return InterfaceDeclaration(
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       typeParameterNames: typeParameterNames,

@@ -9,6 +9,13 @@ abstract class InternalDeclarationUtils {
     return element.id;
   }
 
+  static int? getIdFromParentElement(Element? element) {
+    if (element is InterfaceElement || element is ExtensionElement) {
+      return getIdFromElement(element);
+    }
+    return null;
+  }
+
   static List<String> computeTypeParameters(
       List<TypeParameterElement> typeParameters) {
     return typeParameters.map((e) => e.name).toList();

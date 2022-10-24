@@ -33,10 +33,8 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
       {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(typeAliasElement)!,
-            parentClassId: typeAliasElement.enclosingElement3 is ClassElement
-                ? InternalDeclarationUtils.getIdFromElement(
-                    typeAliasElement.enclosingElement3)
-                : null,
+            parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+                typeAliasElement.enclosingElement3),
             name: typeAliasElement.name,
             namespace: namespace,
             aliasedTypeName: typeAliasElement.aliasedType

@@ -72,7 +72,9 @@ jobs:
         run: dart pub get
 
       - name: Verify Builder have been run
-        run: dart pub run build_runner build --delete-conflicting-outputs && git diff --quiet HEAD
+        run: |
+          dart pub run build_runner build --delete-conflicting-outputs 
+          git diff --exit-code HEAD
 
       - name: Analyze project source
         run: dart analyze

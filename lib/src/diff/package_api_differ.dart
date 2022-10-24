@@ -36,96 +36,103 @@ class PackageApiDiffer {
               'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');
     }
 
-    final changes = [
-      ..._calculateClassesDiff(oldApi.classDeclarations,
-          newApi.classDeclarations, Stack<Declaration>()),
-      ..._calculateExecutablesDiff(
-        oldApi.executableDeclarations,
-        newApi.executableDeclarations,
-        Stack<Declaration>(),
-      ),
-      ..._calculateFieldsDiff(
-        oldApi.fieldDeclarations,
-        newApi.fieldDeclarations,
-        Stack<Declaration>(),
-      ),
-      ..._calculateIOSPlatformConstraintsDiff(
-        oldApi.iosPlatformConstraints,
-        newApi.iosPlatformConstraints,
-      ),
-      ..._calculateAndroidPlatformConstraintsDiff(
-        oldApi.androidPlatformConstraints,
-        newApi.androidPlatformConstraints,
-      ),
-      if (options.doCheckSdkVersion)
-        ..._calculateSdkDiff(
-          oldApi,
-          newApi,
+    try {
+      final changes = [
+        ..._calculateInterfacesDiff(oldApi.interfaceDeclarations,
+            newApi.interfaceDeclarations, Stack<Declaration>()),
+        ..._calculateExecutablesDiff(
+          oldApi.executableDeclarations,
+          newApi.executableDeclarations,
+          Stack<Declaration>(),
         ),
-    ];
+        ..._calculateFieldsDiff(
+          oldApi.fieldDeclarations,
+          newApi.fieldDeclarations,
+          Stack<Declaration>(),
+        ),
+        ..._calculateIOSPlatformConstraintsDiff(
+          oldApi.iosPlatformConstraints,
+          newApi.iosPlatformConstraints,
+        ),
+        ..._calculateAndroidPlatformConstraintsDiff(
+          oldApi.androidPlatformConstraints,
+          newApi.androidPlatformConstraints,
+        ),
+        if (options.doCheckSdkVersion)
+          ..._calculateSdkDiff(
+            oldApi,
+            newApi,
+          ),
+      ];
 
-    return PackageApiDiffResult()..addApiChanges(changes);
+      return PackageApiDiffResult()..addApiChanges(changes);
+    } on Object catch (e, t) {
+      throw PackageApiDiffError(
+          message: 'Error while creating the diff: $e $t');
+    }
   }
 
-  List<ApiChange> _calculateClassesDiff(List<ClassDeclaration> oldClasses,
-      List<ClassDeclaration> newClasses, Stack<Declaration> context) {
-    final classListDiff = _diffIterables<ClassDeclaration>(
-      oldClasses,
-      newClasses,
-      (oldClass, newClass) => oldClass.name == newClass.name,
+  List<ApiChange> _calculateInterfacesDiff(
+      List<InterfaceDeclaration> oldInterfaces,
+      List<InterfaceDeclaration> newInterfaces,
+      Stack<Declaration> context) {
+    final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
+      oldInterfaces,
+      newInterfaces,
+      (oldInterface, newInterface) => oldInterface.name == newInterface.name,
     );
     final changes = <ApiChange>[];
-    for (final oldClass in classListDiff.matches.keys) {
-      changes.addAll(_calculateClassDiff(
-        oldClass,
-        classListDiff.matches[oldClass]!,
+    for (final oldInterface in interfaceListDiff.matches.keys) {
+      changes.addAll(_calculateInterfaceDiff(
+        oldInterface,
+        interfaceListDiff.matches[oldInterface]!,
         context,
       ));
     }
-    for (final removedClass in classListDiff.remainingOld) {
+    for (final removedInterface in interfaceListDiff.remainingOld) {
       changes.add(ApiChange(
-        affectedDeclaration: removedClass,
+        affectedDeclaration: removedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
-        changeDescription: 'Class "${removedClass.name}" removed',
+        changeDescription: 'Interface "${removedInterface.name}" removed',
       ));
     }
-    for (final addedClass in classListDiff.remainingNew) {
+    for (final addedInterface in interfaceListDiff.remainingNew) {
       changes.add(ApiChange(
-        affectedDeclaration: addedClass,
+        affectedDeclaration: addedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
-        changeDescription: 'Class "${addedClass.name}" added',
+        changeDescription: 'Interface "${addedInterface.name}" added',
       ));
     }
     return changes;
   }
 
-  List<ApiChange> _calculateClassDiff(
-    ClassDeclaration oldClass,
-    ClassDeclaration newClass,
+  List<ApiChange> _calculateInterfaceDiff(
+    InterfaceDeclaration oldInterface,
+    InterfaceDeclaration newInterface,
     Stack<Declaration> context,
   ) {
-    return _executeInContext(context, newClass, (context) {
+    return _executeInContext(context, newInterface, (context) {
       final changes = [
-        ..._calculateExecutablesDiff(oldClass.executableDeclarations,
-            newClass.executableDeclarations, context),
-        ..._calculateFieldsDiff(
-            oldClass.fieldDeclarations, newClass.fieldDeclarations, context),
+        ..._calculateExecutablesDiff(oldInterface.executableDeclarations,
+            newInterface.executableDeclarations, context),
+        ..._calculateFieldsDiff(oldInterface.fieldDeclarations,
+            newInterface.fieldDeclarations, context),
         ..._calculateSuperTypesDiff(
-            oldClass.superTypeNames, newClass.superTypeNames, context),
-        ..._calculateTypeParametersDiff(
-            oldClass.typeParameterNames, newClass.typeParameterNames, context),
+            oldInterface.superTypeNames, newInterface.superTypeNames, context),
+        ..._calculateTypeParametersDiff(oldInterface.typeParameterNames,
+            newInterface.typeParameterNames, context),
         ..._calculateEntryPointsDiff(
-            oldClass.entryPoints, newClass.entryPoints, context)
+            oldInterface.entryPoints, newInterface.entryPoints, context)
       ];
 
       _comparePropertiesAndAddChange(
-        oldClass.isDeprecated,
-        newClass.isDeprecated,
+        oldInterface.isDeprecated,
+        newInterface.isDeprecated,
         context,
-        newClass,
-        'Deprecated Flag changed. ${oldClass.isDeprecated} -> ${newClass.isDeprecated}',
+        newInterface,
+        'Deprecated Flag changed. ${oldInterface.isDeprecated} -> ${newInterface.isDeprecated}',
         changes,
         isCompatibleChange: true,
       );
@@ -172,12 +179,12 @@ class PackageApiDiffer {
     return changes;
   }
 
-  String _getExecutableTypeName(ExecutableType type, bool inClassContext) {
+  String _getExecutableTypeName(ExecutableType type, bool inInterfaceContext) {
     switch (type) {
       case ExecutableType.constructor:
         return 'Constructor';
       case ExecutableType.method:
-        return inClassContext ? 'Method' : 'Function';
+        return inInterfaceContext ? 'Method' : 'Function';
     }
   }
 

@@ -19,7 +19,7 @@ import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import '../model/internal/internal_class_declaration.dart';
+import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
 import '../model/package_api_semantics.dart';
@@ -81,7 +81,7 @@ class PackageApiAnalyzer {
       resourceProvider: resourceProvider,
     );
 
-    final collectedClasses = <int?, _ClassCollectionResult>{};
+    final collectedInterfaces = <int?, _InterfaceCollectionResult>{};
 
     final analyzedFiles = List<_FileToAnalyzeEntry>.empty(growable: true);
     final filesToAnalyze = Queue<_FileToAnalyzeEntry>();
@@ -108,22 +108,22 @@ class PackageApiAnalyzer {
               hiddenNames: fileToAnalyze.hiddenNames,
             );
             unitResult.libraryElement.accept(collector);
-            final skippedClasses = <int>[];
-            for (final cd in collector.classDeclarations) {
-              if (!collectedClasses.containsKey(cd.id)) {
-                collectedClasses[cd.id] = _ClassCollectionResult();
+            final skippedInterfaces = <int>[];
+            for (final cd in collector.interfaceDeclarations) {
+              if (!collectedInterfaces.containsKey(cd.id)) {
+                collectedInterfaces[cd.id] = _InterfaceCollectionResult();
               }
-              if (!collectedClasses[cd.id]!
-                  .classDeclarations
+              if (!collectedInterfaces[cd.id]!
+                  .interfaceDeclarations
                   .any((cdToCheck) => cdToCheck.id == cd.id)) {
-                collectedClasses[cd.id]!.classDeclarations.add(cd);
+                collectedInterfaces[cd.id]!.interfaceDeclarations.add(cd);
               } else {
-                skippedClasses.add(cd.id);
+                skippedInterfaces.add(cd.id);
               }
 
               // set entry point
-              _addEntryPoints<InternalClassDeclaration>(
-                collectedClasses[cd.id]!.classDeclarations,
+              _addEntryPoints<InternalInterfaceDeclaration>(
+                collectedInterfaces[cd.id]!.interfaceDeclarations,
                 cd.id,
                 {
                   if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
@@ -132,24 +132,26 @@ class PackageApiAnalyzer {
               );
             }
             for (final exd in collector.executableDeclarations) {
-              if (skippedClasses.contains(exd.parentClassId)) {
+              if (skippedInterfaces.contains(exd.parentClassId)) {
                 continue;
               }
-              if (!collectedClasses.containsKey(exd.parentClassId)) {
-                collectedClasses[exd.parentClassId] = _ClassCollectionResult();
+              if (!collectedInterfaces.containsKey(exd.parentClassId)) {
+                collectedInterfaces[exd.parentClassId] =
+                    _InterfaceCollectionResult();
               }
-              final exdAlreadyExists = collectedClasses[exd.parentClassId]!
+              final exdAlreadyExists = collectedInterfaces[exd.parentClassId]!
                   .executableDeclarations
                   .any((element) => element.id == exd.id);
               if (!exdAlreadyExists) {
-                collectedClasses[exd.parentClassId]!
+                collectedInterfaces[exd.parentClassId]!
                     .executableDeclarations
                     .add(exd);
               }
               if (exd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalExecutableDeclaration>(
-                  collectedClasses[exd.parentClassId]!.executableDeclarations,
+                  collectedInterfaces[exd.parentClassId]!
+                      .executableDeclarations,
                   exd.id,
                   {
                     if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
@@ -159,22 +161,25 @@ class PackageApiAnalyzer {
               }
             }
             for (final fd in collector.fieldDeclarations) {
-              if (skippedClasses.contains(fd.parentClassId)) {
+              if (skippedInterfaces.contains(fd.parentClassId)) {
                 continue;
               }
-              if (!collectedClasses.containsKey(fd.parentClassId)) {
-                collectedClasses[fd.parentClassId] = _ClassCollectionResult();
+              if (!collectedInterfaces.containsKey(fd.parentClassId)) {
+                collectedInterfaces[fd.parentClassId] =
+                    _InterfaceCollectionResult();
               }
-              final fdAlreadyExists = collectedClasses[fd.parentClassId]!
+              final fdAlreadyExists = collectedInterfaces[fd.parentClassId]!
                   .fieldDeclarations
                   .any((element) => element.id == fd.id);
               if (!fdAlreadyExists) {
-                collectedClasses[fd.parentClassId]!.fieldDeclarations.add(fd);
+                collectedInterfaces[fd.parentClassId]!
+                    .fieldDeclarations
+                    .add(fd);
               }
               if (fd.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalFieldDeclaration>(
-                  collectedClasses[fd.parentClassId]!.fieldDeclarations,
+                  collectedInterfaces[fd.parentClassId]!.fieldDeclarations,
                   fd.id,
                   {
                     if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
@@ -184,24 +189,25 @@ class PackageApiAnalyzer {
               }
             }
             for (final tad in collector.typeAliasDeclarations) {
-              if (skippedClasses.contains(tad.parentClassId)) {
+              if (skippedInterfaces.contains(tad.parentClassId)) {
                 continue;
               }
-              if (!collectedClasses.containsKey(tad.parentClassId)) {
-                collectedClasses[tad.parentClassId] = _ClassCollectionResult();
+              if (!collectedInterfaces.containsKey(tad.parentClassId)) {
+                collectedInterfaces[tad.parentClassId] =
+                    _InterfaceCollectionResult();
               }
-              final tadAlreadyExists = collectedClasses[tad.parentClassId]!
+              final tadAlreadyExists = collectedInterfaces[tad.parentClassId]!
                   .typeAliasDeclarations
                   .any((element) => element.id == tad.id);
               if (!tadAlreadyExists) {
-                collectedClasses[tad.parentClassId]!
+                collectedInterfaces[tad.parentClassId]!
                     .typeAliasDeclarations
                     .add(tad);
               }
               if (tad.parentClassId == null) {
                 //we only store the entry point on root elements
                 _addEntryPoints<InternalTypeAliasDeclaration>(
-                  collectedClasses[tad.parentClassId]!.typeAliasDeclarations,
+                  collectedInterfaces[tad.parentClassId]!.typeAliasDeclarations,
                   tad.id,
                   {
                     if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
@@ -244,8 +250,8 @@ class PackageApiAnalyzer {
       }
     }
 
-    final packageClassDeclarations =
-        List<ClassDeclaration>.empty(growable: true);
+    final packageInterfaceDeclarations =
+        List<InterfaceDeclaration>.empty(growable: true);
     final packageExecutableDeclarations =
         List<ExecutableDeclaration>.empty(growable: true);
     final packageFieldDeclarations =
@@ -253,51 +259,51 @@ class PackageApiAnalyzer {
     final packageTypeAliasDeclarations =
         List<TypeAliasDeclaration>.empty(growable: true);
 
-    if (!collectedClasses.containsKey(null)) {
-      collectedClasses[null] = _ClassCollectionResult();
+    if (!collectedInterfaces.containsKey(null)) {
+      collectedInterfaces[null] = _InterfaceCollectionResult();
     }
 
-    // aggregate class declarations
-    for (final classId in collectedClasses.keys) {
-      final entry = collectedClasses[classId]!;
+    // aggregate interface declarations
+    for (final interfaceId in collectedInterfaces.keys) {
+      final entry = collectedInterfaces[interfaceId]!;
       // for all non-root elements add the fields and executables to its class
-      if (entry.classDeclarations.isNotEmpty) {
-        assert(entry.classDeclarations.length == 1,
+      if (entry.interfaceDeclarations.isNotEmpty) {
+        assert(entry.interfaceDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
-        final cd = entry.classDeclarations.single;
+        final cd = entry.interfaceDeclarations.single;
         cd.executableDeclarations.addAll(entry.executableDeclarations
             .map((e) => e.toExecutableDeclaration()));
         cd.fieldDeclarations
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
-      } else if (classId != null) {
+      } else if (interfaceId != null) {
         // here we collected an element in the context of a class but the class is not available
         // in this case we add the elements to the root level and print a warning
         logWarning(
-            'We encountered elements that are marked to belong to a class but the class is not collected!');
-        collectedClasses[null]!
+            'We encountered elements that are marked to belong to an interface but the interface is not collected!');
+        collectedInterfaces[null]!
             .executableDeclarations
             .addAll(entry.executableDeclarations);
-        collectedClasses[null]!
+        collectedInterfaces[null]!
             .fieldDeclarations
             .addAll(entry.fieldDeclarations);
-        collectedClasses[null]!
+        collectedInterfaces[null]!
             .typeAliasDeclarations
             .addAll(entry.typeAliasDeclarations);
       }
     }
 
     // remove collected elements that don't have their class collected (we merged the elements with root already)
-    collectedClasses.removeWhere(
-        (key, value) => key != null && value.classDeclarations.isEmpty);
+    collectedInterfaces.removeWhere(
+        (key, value) => key != null && value.interfaceDeclarations.isEmpty);
 
     if (doMergeBaseClasses) {
-      _mergeSuperTypes(collectedClasses);
+      _mergeSuperTypes(collectedInterfaces);
     }
 
     // extract package declarations
-    for (final classId in collectedClasses.keys) {
-      final entry = collectedClasses[classId]!;
-      if (entry.classDeclarations.isEmpty) {
+    for (final classId in collectedInterfaces.keys) {
+      final entry = collectedInterfaces[classId]!;
+      if (entry.interfaceDeclarations.isEmpty) {
         packageExecutableDeclarations.addAll(entry.executableDeclarations
             .map((e) => e.toExecutableDeclaration()));
         packageFieldDeclarations
@@ -305,10 +311,10 @@ class PackageApiAnalyzer {
         packageTypeAliasDeclarations.addAll(
             entry.typeAliasDeclarations.map((e) => e.toTypeAliasDeclaration()));
       } else {
-        assert(entry.classDeclarations.length == 1,
+        assert(entry.interfaceDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
-        final cd = entry.classDeclarations.single;
-        packageClassDeclarations.add(cd.toClassDeclaration());
+        final cd = entry.interfaceDeclarations.single;
+        packageInterfaceDeclarations.add(cd.toInterfaceDeclaration());
       }
     }
 
@@ -337,7 +343,7 @@ class PackageApiAnalyzer {
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
       packagePath: normalizedProjectPath,
-      classDeclarations: packageClassDeclarations,
+      interfaceDeclarations: packageInterfaceDeclarations,
       executableDeclarations: packageExecutableDeclarations,
       fieldDeclarations: packageFieldDeclarations,
       typeAliasDeclarations: packageTypeAliasDeclarations,
@@ -418,37 +424,38 @@ class PackageApiAnalyzer {
         'Given package path doesn\'t contain a pubspec.yaml ($absoluteNormalizedPackagePath)');
   }
 
-  void _mergeSuperTypes(Map<int?, _ClassCollectionResult> collectedClasses) {
+  void _mergeSuperTypes(
+      Map<int?, _InterfaceCollectionResult> collectedInterfaces) {
     final mergedSuperTypeIds = <int>{};
     // we merge all super class elements into the derived classes
-    for (final classId in collectedClasses.keys) {
+    for (final interfaceId in collectedInterfaces.keys) {
       // no class info available for root elements
-      if (classId == null) {
+      if (interfaceId == null) {
         continue;
       }
-      final entry = collectedClasses[classId]!;
-      final classDeclaration = entry.classDeclarations.single;
-      mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
-          collectedClasses, classDeclaration.superClassIds, classDeclaration));
+      final entry = collectedInterfaces[interfaceId]!;
+      final interfaceDeclaration = entry.interfaceDeclarations.single;
+      mergedSuperTypeIds.addAll(_mergeSuperTypesInto(collectedInterfaces,
+          interfaceDeclaration.superClassIds, interfaceDeclaration));
     }
     // now we remove all private classes that got merged into their derived classes
     for (final mergedSuperTypeId in mergedSuperTypeIds) {
-      final entry = collectedClasses[mergedSuperTypeId]!;
-      final classDeclaration = entry.classDeclarations.single;
-      if (classDeclaration.isPrivate) {
-        collectedClasses.remove(mergedSuperTypeId);
+      final entry = collectedInterfaces[mergedSuperTypeId]!;
+      final interfaceDeclaration = entry.interfaceDeclarations.single;
+      if (interfaceDeclaration.isPrivate) {
+        collectedInterfaces.remove(mergedSuperTypeId);
       }
     }
   }
 
   List<int> _mergeSuperTypesInto(
-      Map<int?, _ClassCollectionResult> collectedClasses,
+      Map<int?, _InterfaceCollectionResult> collectedInterfaces,
       List<int> superTypeIds,
-      InternalClassDeclaration target,
+      InternalInterfaceDeclaration target,
       {bool isTransitive = false}) {
     final mergedSuperTypeIds = List<int>.empty(growable: true);
     for (final superClassId in superTypeIds) {
-      final superClassEntry = collectedClasses[superClassId];
+      final superClassEntry = collectedInterfaces[superClassId];
       if (superClassEntry == null) {
         continue;
       }
@@ -465,33 +472,35 @@ class PackageApiAnalyzer {
 
       mergedSuperTypeIds.add(superClassId);
 
-      final superClassDeclaration = superClassEntry.classDeclarations.single;
+      final superInterfaceDeclaration =
+          superClassEntry.interfaceDeclarations.single;
 
       // now merge all executable and field declarations into the merge target.
       // constructors don't get merged
-      target.executableDeclarations.addAll(superClassDeclaration
+      target.executableDeclarations.addAll(superInterfaceDeclaration
           .executableDeclarations
           .where((element) => element.type != ExecutableType.constructor)
           // only executables that are not already declared in the target class get merged
           .where((element) => !target.executableDeclarations
               .any((targetElement) => targetElement.name == element.name)));
-      target.fieldDeclarations.addAll(superClassDeclaration.fieldDeclarations
+      target.fieldDeclarations.addAll(superInterfaceDeclaration
+          .fieldDeclarations
           // only fields that are not already declared in the target class get merged
           .where((element) => !target.fieldDeclarations
               .any((targetElement) => targetElement.name == element.name)));
 
       // for all super types this type has we also merge
       mergedSuperTypeIds.addAll(_mergeSuperTypesInto(
-          collectedClasses, superClassDeclaration.superClassIds, target,
+          collectedInterfaces, superInterfaceDeclaration.superClassIds, target,
           isTransitive: true));
     }
     return mergedSuperTypeIds;
   }
 }
 
-class _ClassCollectionResult {
-  final classDeclarations =
-      List<InternalClassDeclaration>.empty(growable: true);
+class _InterfaceCollectionResult {
+  final interfaceDeclarations =
+      List<InternalInterfaceDeclaration>.empty(growable: true);
   final executableDeclarations =
       List<InternalExecutableDeclaration>.empty(growable: true);
   final fieldDeclarations =

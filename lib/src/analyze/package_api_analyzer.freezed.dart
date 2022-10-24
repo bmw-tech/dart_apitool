@@ -30,7 +30,8 @@ mixin _$_FileToAnalyzeEntry {
 abstract class _$FileToAnalyzeEntryCopyWith<$Res> {
   factory _$FileToAnalyzeEntryCopyWith(
           _FileToAnalyzeEntry value, $Res Function(_FileToAnalyzeEntry) then) =
-      __$FileToAnalyzeEntryCopyWithImpl<$Res>;
+      __$FileToAnalyzeEntryCopyWithImpl<$Res, _FileToAnalyzeEntry>;
+  @useResult
   $Res call(
       {String filePath,
       List<String> shownNames,
@@ -39,39 +40,41 @@ abstract class _$FileToAnalyzeEntryCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$FileToAnalyzeEntryCopyWithImpl<$Res>
+class __$FileToAnalyzeEntryCopyWithImpl<$Res, $Val extends _FileToAnalyzeEntry>
     implements _$FileToAnalyzeEntryCopyWith<$Res> {
   __$FileToAnalyzeEntryCopyWithImpl(this._value, this._then);
 
-  final _FileToAnalyzeEntry _value;
   // ignore: unused_field
-  final $Res Function(_FileToAnalyzeEntry) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filePath = freezed,
-    Object? shownNames = freezed,
-    Object? hiddenNames = freezed,
-    Object? exportedBy = freezed,
+    Object? filePath = null,
+    Object? shownNames = null,
+    Object? hiddenNames = null,
+    Object? exportedBy = null,
   }) {
     return _then(_value.copyWith(
-      filePath: filePath == freezed
+      filePath: null == filePath
           ? _value.filePath
           : filePath // ignore: cast_nullable_to_non_nullable
               as String,
-      shownNames: shownNames == freezed
+      shownNames: null == shownNames
           ? _value.shownNames
           : shownNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      hiddenNames: hiddenNames == freezed
+      hiddenNames: null == hiddenNames
           ? _value.hiddenNames
           : hiddenNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      exportedBy: exportedBy == freezed
+      exportedBy: null == exportedBy
           ? _value.exportedBy
           : exportedBy // ignore: cast_nullable_to_non_nullable
               as Set<String>,
-    ));
+    ) as $Val);
   }
 }
 
@@ -82,6 +85,7 @@ abstract class _$$__FileToAnalyzeEntryCopyWith<$Res>
           $Res Function(_$__FileToAnalyzeEntry) then) =
       __$$__FileToAnalyzeEntryCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String filePath,
       List<String> shownNames,
@@ -91,36 +95,34 @@ abstract class _$$__FileToAnalyzeEntryCopyWith<$Res>
 
 /// @nodoc
 class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
-    extends __$FileToAnalyzeEntryCopyWithImpl<$Res>
+    extends __$FileToAnalyzeEntryCopyWithImpl<$Res, _$__FileToAnalyzeEntry>
     implements _$$__FileToAnalyzeEntryCopyWith<$Res> {
   __$$__FileToAnalyzeEntryCopyWithImpl(_$__FileToAnalyzeEntry _value,
       $Res Function(_$__FileToAnalyzeEntry) _then)
-      : super(_value, (v) => _then(v as _$__FileToAnalyzeEntry));
+      : super(_value, _then);
 
-  @override
-  _$__FileToAnalyzeEntry get _value => super._value as _$__FileToAnalyzeEntry;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? filePath = freezed,
-    Object? shownNames = freezed,
-    Object? hiddenNames = freezed,
-    Object? exportedBy = freezed,
+    Object? filePath = null,
+    Object? shownNames = null,
+    Object? hiddenNames = null,
+    Object? exportedBy = null,
   }) {
     return _then(_$__FileToAnalyzeEntry(
-      filePath: filePath == freezed
+      filePath: null == filePath
           ? _value.filePath
           : filePath // ignore: cast_nullable_to_non_nullable
               as String,
-      shownNames: shownNames == freezed
+      shownNames: null == shownNames
           ? _value._shownNames
           : shownNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      hiddenNames: hiddenNames == freezed
+      hiddenNames: null == hiddenNames
           ? _value._hiddenNames
           : hiddenNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      exportedBy: exportedBy == freezed
+      exportedBy: null == exportedBy
           ? _value._exportedBy
           : exportedBy // ignore: cast_nullable_to_non_nullable
               as Set<String>,
@@ -175,7 +177,8 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$__FileToAnalyzeEntry &&
-            const DeepCollectionEquality().equals(other.filePath, filePath) &&
+            (identical(other.filePath, filePath) ||
+                other.filePath == filePath) &&
             const DeepCollectionEquality()
                 .equals(other._shownNames, _shownNames) &&
             const DeepCollectionEquality()
@@ -187,13 +190,14 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(filePath),
+      filePath,
       const DeepCollectionEquality().hash(_shownNames),
       const DeepCollectionEquality().hash(_hiddenNames),
       const DeepCollectionEquality().hash(_exportedBy));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$__FileToAnalyzeEntryCopyWith<_$__FileToAnalyzeEntry> get copyWith =>
       __$$__FileToAnalyzeEntryCopyWithImpl<_$__FileToAnalyzeEntry>(
           this, _$identity);

@@ -41,10 +41,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
       {String? namespace})
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
-            parentClassId: executableElement.enclosingElement3 is ClassElement
-                ? InternalDeclarationUtils.getIdFromElement(
-                    executableElement.enclosingElement3)
-                : null,
+            parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+                executableElement.enclosingElement3),
             returnTypeName: executableElement.returnType
                 .getDisplayString(withNullability: true),
             name: executableElement.displayName,
