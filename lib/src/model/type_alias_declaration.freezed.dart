@@ -30,7 +30,8 @@ mixin _$TypeAliasDeclaration {
 abstract class $TypeAliasDeclarationCopyWith<$Res> {
   factory $TypeAliasDeclarationCopyWith(TypeAliasDeclaration value,
           $Res Function(TypeAliasDeclaration) then) =
-      _$TypeAliasDeclarationCopyWithImpl<$Res>;
+      _$TypeAliasDeclarationCopyWithImpl<$Res, TypeAliasDeclaration>;
+  @useResult
   $Res call(
       {String name,
       String aliasedTypeName,
@@ -39,39 +40,42 @@ abstract class $TypeAliasDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TypeAliasDeclarationCopyWithImpl<$Res>
+class _$TypeAliasDeclarationCopyWithImpl<$Res,
+        $Val extends TypeAliasDeclaration>
     implements $TypeAliasDeclarationCopyWith<$Res> {
   _$TypeAliasDeclarationCopyWithImpl(this._value, this._then);
 
-  final TypeAliasDeclaration _value;
   // ignore: unused_field
-  final $Res Function(TypeAliasDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? aliasedTypeName = freezed,
-    Object? isDeprecated = freezed,
+    Object? name = null,
+    Object? aliasedTypeName = null,
+    Object? isDeprecated = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      aliasedTypeName: aliasedTypeName == freezed
+      aliasedTypeName: null == aliasedTypeName
           ? _value.aliasedTypeName
           : aliasedTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -82,6 +86,7 @@ abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
           $Res Function(_$_TypeAliasDeclaration) then) =
       __$$_TypeAliasDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       String aliasedTypeName,
@@ -91,36 +96,34 @@ abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
-    extends _$TypeAliasDeclarationCopyWithImpl<$Res>
+    extends _$TypeAliasDeclarationCopyWithImpl<$Res, _$_TypeAliasDeclaration>
     implements _$$_TypeAliasDeclarationCopyWith<$Res> {
   __$$_TypeAliasDeclarationCopyWithImpl(_$_TypeAliasDeclaration _value,
       $Res Function(_$_TypeAliasDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_TypeAliasDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_TypeAliasDeclaration get _value => super._value as _$_TypeAliasDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? aliasedTypeName = freezed,
-    Object? isDeprecated = freezed,
+    Object? name = null,
+    Object? aliasedTypeName = null,
+    Object? isDeprecated = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_TypeAliasDeclaration(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      aliasedTypeName: aliasedTypeName == freezed
+      aliasedTypeName: null == aliasedTypeName
           ? _value.aliasedTypeName
           : aliasedTypeName // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
@@ -164,25 +167,22 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TypeAliasDeclaration &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.aliasedTypeName, aliasedTypeName) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.aliasedTypeName, aliasedTypeName) ||
+                other.aliasedTypeName == aliasedTypeName) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(aliasedTypeName),
-      const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(runtimeType, name, aliasedTypeName,
+      isDeprecated, const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TypeAliasDeclarationCopyWith<_$_TypeAliasDeclaration> get copyWith =>
       __$$_TypeAliasDeclarationCopyWithImpl<_$_TypeAliasDeclaration>(
           this, _$identity);

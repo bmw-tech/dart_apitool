@@ -35,7 +35,8 @@ mixin _$InterfaceDeclaration {
 abstract class $InterfaceDeclarationCopyWith<$Res> {
   factory $InterfaceDeclarationCopyWith(InterfaceDeclaration value,
           $Res Function(InterfaceDeclaration) then) =
-      _$InterfaceDeclarationCopyWithImpl<$Res>;
+      _$InterfaceDeclarationCopyWithImpl<$Res, InterfaceDeclaration>;
+  @useResult
   $Res call(
       {String name,
       bool isDeprecated,
@@ -47,54 +48,57 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$InterfaceDeclarationCopyWithImpl<$Res>
+class _$InterfaceDeclarationCopyWithImpl<$Res,
+        $Val extends InterfaceDeclaration>
     implements $InterfaceDeclarationCopyWith<$Res> {
   _$InterfaceDeclarationCopyWithImpl(this._value, this._then);
 
-  final InterfaceDeclaration _value;
   // ignore: unused_field
-  final $Res Function(InterfaceDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeParameterNames = freezed,
-    Object? superTypeNames = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      superTypeNames: superTypeNames == freezed
+      superTypeNames: null == superTypeNames
           ? _value.superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -105,6 +109,7 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
           $Res Function(_$_InterfaceDeclaration) then) =
       __$$_InterfaceDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       bool isDeprecated,
@@ -117,51 +122,49 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_InterfaceDeclarationCopyWithImpl<$Res>
-    extends _$InterfaceDeclarationCopyWithImpl<$Res>
+    extends _$InterfaceDeclarationCopyWithImpl<$Res, _$_InterfaceDeclaration>
     implements _$$_InterfaceDeclarationCopyWith<$Res> {
   __$$_InterfaceDeclarationCopyWithImpl(_$_InterfaceDeclaration _value,
       $Res Function(_$_InterfaceDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_InterfaceDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_InterfaceDeclaration get _value => super._value as _$_InterfaceDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeParameterNames = freezed,
-    Object? superTypeNames = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_InterfaceDeclaration(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      superTypeNames: superTypeNames == freezed
+      superTypeNames: null == superTypeNames
           ? _value._superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
@@ -238,9 +241,9 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_InterfaceDeclaration &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality()
@@ -256,8 +259,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated),
+      name,
+      isDeprecated,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -266,6 +269,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_InterfaceDeclarationCopyWith<_$_InterfaceDeclaration> get copyWith =>
       __$$_InterfaceDeclarationCopyWithImpl<_$_InterfaceDeclaration>(
           this, _$identity);
