@@ -42,24 +42,25 @@ class InternalClassDeclaration implements InternalDeclaration {
     required this.superClassIds,
   });
 
-  InternalClassDeclaration.fromClassElement(ClassElement classElement,
+  InternalClassDeclaration.fromInterfaceElement(
+      InterfaceElement interfaceElement,
       {String? namespace})
       : this._(
-          id: InternalDeclarationUtils.getIdFromElement(classElement)!,
-          parentClassId: InternalDeclarationUtils.getIdFromElement(
-              classElement.enclosingElement3),
-          name: classElement.name,
+          id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+              interfaceElement.enclosingElement3),
+          name: interfaceElement.name,
           namespace: namespace,
-          isPrivate: classElement.isPrivate,
-          isDeprecated: classElement.hasDeprecated,
+          isPrivate: interfaceElement.isPrivate,
+          isDeprecated: interfaceElement.hasDeprecated,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
-              classElement.typeParameters),
+              interfaceElement.typeParameters),
           superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
-              classElement.allSupertypes),
+              interfaceElement.allSupertypes),
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
-          superClassIds: classElement.allSupertypes
+          superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element2))
               .whereNotNull()
               .toList(),
@@ -70,7 +71,7 @@ class InternalClassDeclaration implements InternalDeclaration {
       {String? namespace})
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
-          parentClassId: InternalDeclarationUtils.getIdFromElement(
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               extensionElement.enclosingElement3),
           name: extensionElement.name ?? extensionElement.displayName,
           namespace: namespace,

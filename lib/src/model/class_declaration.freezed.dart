@@ -35,7 +35,8 @@ mixin _$ClassDeclaration {
 abstract class $ClassDeclarationCopyWith<$Res> {
   factory $ClassDeclarationCopyWith(
           ClassDeclaration value, $Res Function(ClassDeclaration) then) =
-      _$ClassDeclarationCopyWithImpl<$Res>;
+      _$ClassDeclarationCopyWithImpl<$Res, ClassDeclaration>;
+  @useResult
   $Res call(
       {String name,
       bool isDeprecated,
@@ -47,54 +48,56 @@ abstract class $ClassDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ClassDeclarationCopyWithImpl<$Res>
+class _$ClassDeclarationCopyWithImpl<$Res, $Val extends ClassDeclaration>
     implements $ClassDeclarationCopyWith<$Res> {
   _$ClassDeclarationCopyWithImpl(this._value, this._then);
 
-  final ClassDeclaration _value;
   // ignore: unused_field
-  final $Res Function(ClassDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeParameterNames = freezed,
-    Object? superTypeNames = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      superTypeNames: superTypeNames == freezed
+      superTypeNames: null == superTypeNames
           ? _value.superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -105,6 +108,7 @@ abstract class _$$_ClassDeclarationCopyWith<$Res>
           _$_ClassDeclaration value, $Res Function(_$_ClassDeclaration) then) =
       __$$_ClassDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String name,
       bool isDeprecated,
@@ -117,51 +121,49 @@ abstract class _$$_ClassDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_ClassDeclarationCopyWithImpl<$Res>
-    extends _$ClassDeclarationCopyWithImpl<$Res>
+    extends _$ClassDeclarationCopyWithImpl<$Res, _$_ClassDeclaration>
     implements _$$_ClassDeclarationCopyWith<$Res> {
   __$$_ClassDeclarationCopyWithImpl(
       _$_ClassDeclaration _value, $Res Function(_$_ClassDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_ClassDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_ClassDeclaration get _value => super._value as _$_ClassDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? typeParameterNames = freezed,
-    Object? superTypeNames = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_ClassDeclaration(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      typeParameterNames: typeParameterNames == freezed
+      typeParameterNames: null == typeParameterNames
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      superTypeNames: superTypeNames == freezed
+      superTypeNames: null == superTypeNames
           ? _value._superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
@@ -238,9 +240,9 @@ class _$_ClassDeclaration extends _ClassDeclaration {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ClassDeclaration &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality()
@@ -256,8 +258,8 @@ class _$_ClassDeclaration extends _ClassDeclaration {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated),
+      name,
+      isDeprecated,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -266,6 +268,7 @@ class _$_ClassDeclaration extends _ClassDeclaration {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ClassDeclarationCopyWith<_$_ClassDeclaration> get copyWith =>
       __$$_ClassDeclarationCopyWithImpl<_$_ClassDeclaration>(this, _$identity);
 }

@@ -50,7 +50,8 @@ mixin _$PackageApiStorageV3 {
 abstract class $PackageApiStorageV3CopyWith<$Res> {
   factory $PackageApiStorageV3CopyWith(
           PackageApiStorageV3 value, $Res Function(PackageApiStorageV3) then) =
-      _$PackageApiStorageV3CopyWithImpl<$Res>;
+      _$PackageApiStorageV3CopyWithImpl<$Res, PackageApiStorageV3>;
+  @useResult
   $Res call(
       {String packageName,
       String? packageVersion,
@@ -71,82 +72,85 @@ abstract class $PackageApiStorageV3CopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PackageApiStorageV3CopyWithImpl<$Res>
+class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
     implements $PackageApiStorageV3CopyWith<$Res> {
   _$PackageApiStorageV3CopyWithImpl(this._value, this._then);
 
-  final PackageApiStorageV3 _value;
   // ignore: unused_field
-  final $Res Function(PackageApiStorageV3) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? packageName = freezed,
+    Object? packageName = null,
     Object? packageVersion = freezed,
-    Object? packagePath = freezed,
-    Object? classDeclarations = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
-    Object? typeAliasDeclarations = freezed,
-    Object? semantics = freezed,
+    Object? packagePath = null,
+    Object? classDeclarations = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
+    Object? typeAliasDeclarations = null,
+    Object? semantics = null,
     Object? iosPlatformConstraints = freezed,
     Object? androidPlatformConstraints = freezed,
-    Object? sdkType = freezed,
-    Object? minSdkVersion = freezed,
+    Object? sdkType = null,
+    Object? minSdkVersion = null,
   }) {
     return _then(_value.copyWith(
-      packageName: packageName == freezed
+      packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: packageVersion == freezed
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      packagePath: packagePath == freezed
+      packagePath: null == packagePath
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      classDeclarations: classDeclarations == freezed
+      classDeclarations: null == classDeclarations
           ? _value.classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ClassDeclarationStorageV3>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclarationStorageV3>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclarationStorageV3>,
-      typeAliasDeclarations: typeAliasDeclarations == freezed
+      typeAliasDeclarations: null == typeAliasDeclarations
           ? _value.typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
               as List<TypeAliasDeclarationStorageV3>,
-      semantics: semantics == freezed
+      semantics: null == semantics
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      iosPlatformConstraints: iosPlatformConstraints == freezed
+      iosPlatformConstraints: freezed == iosPlatformConstraints
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as IOSPlatformConstraintsStorageV3?,
-      androidPlatformConstraints: androidPlatformConstraints == freezed
+      androidPlatformConstraints: freezed == androidPlatformConstraints
           ? _value.androidPlatformConstraints
           : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as AndroidPlatformConstraintsStorageV3?,
-      sdkType: sdkType == freezed
+      sdkType: null == sdkType
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkTypeStorageV3,
-      minSdkVersion: minSdkVersion == freezed
+      minSdkVersion: null == minSdkVersion
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints {
     if (_value.iosPlatformConstraints == null) {
       return null;
@@ -154,11 +158,12 @@ class _$PackageApiStorageV3CopyWithImpl<$Res>
 
     return $IOSPlatformConstraintsStorageV3CopyWith<$Res>(
         _value.iosPlatformConstraints!, (value) {
-      return _then(_value.copyWith(iosPlatformConstraints: value));
+      return _then(_value.copyWith(iosPlatformConstraints: value) as $Val);
     });
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
       get androidPlatformConstraints {
     if (_value.androidPlatformConstraints == null) {
@@ -167,7 +172,7 @@ class _$PackageApiStorageV3CopyWithImpl<$Res>
 
     return $AndroidPlatformConstraintsStorageV3CopyWith<$Res>(
         _value.androidPlatformConstraints!, (value) {
-      return _then(_value.copyWith(androidPlatformConstraints: value));
+      return _then(_value.copyWith(androidPlatformConstraints: value) as $Val);
     });
   }
 }
@@ -179,6 +184,7 @@ abstract class _$$_PackageApiStorageV3CopyWith<$Res>
           $Res Function(_$_PackageApiStorageV3) then) =
       __$$_PackageApiStorageV3CopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String packageName,
       String? packageVersion,
@@ -202,76 +208,74 @@ abstract class _$$_PackageApiStorageV3CopyWith<$Res>
 
 /// @nodoc
 class __$$_PackageApiStorageV3CopyWithImpl<$Res>
-    extends _$PackageApiStorageV3CopyWithImpl<$Res>
+    extends _$PackageApiStorageV3CopyWithImpl<$Res, _$_PackageApiStorageV3>
     implements _$$_PackageApiStorageV3CopyWith<$Res> {
   __$$_PackageApiStorageV3CopyWithImpl(_$_PackageApiStorageV3 _value,
       $Res Function(_$_PackageApiStorageV3) _then)
-      : super(_value, (v) => _then(v as _$_PackageApiStorageV3));
+      : super(_value, _then);
 
-  @override
-  _$_PackageApiStorageV3 get _value => super._value as _$_PackageApiStorageV3;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? packageName = freezed,
+    Object? packageName = null,
     Object? packageVersion = freezed,
-    Object? packagePath = freezed,
-    Object? classDeclarations = freezed,
-    Object? executableDeclarations = freezed,
-    Object? fieldDeclarations = freezed,
-    Object? typeAliasDeclarations = freezed,
-    Object? semantics = freezed,
+    Object? packagePath = null,
+    Object? classDeclarations = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
+    Object? typeAliasDeclarations = null,
+    Object? semantics = null,
     Object? iosPlatformConstraints = freezed,
     Object? androidPlatformConstraints = freezed,
-    Object? sdkType = freezed,
-    Object? minSdkVersion = freezed,
+    Object? sdkType = null,
+    Object? minSdkVersion = null,
   }) {
     return _then(_$_PackageApiStorageV3(
-      packageName: packageName == freezed
+      packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: packageVersion == freezed
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      packagePath: packagePath == freezed
+      packagePath: null == packagePath
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      classDeclarations: classDeclarations == freezed
+      classDeclarations: null == classDeclarations
           ? _value._classDeclarations
           : classDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ClassDeclarationStorageV3>,
-      executableDeclarations: executableDeclarations == freezed
+      executableDeclarations: null == executableDeclarations
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclarationStorageV3>,
-      fieldDeclarations: fieldDeclarations == freezed
+      fieldDeclarations: null == fieldDeclarations
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclarationStorageV3>,
-      typeAliasDeclarations: typeAliasDeclarations == freezed
+      typeAliasDeclarations: null == typeAliasDeclarations
           ? _value._typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
               as List<TypeAliasDeclarationStorageV3>,
-      semantics: semantics == freezed
+      semantics: null == semantics
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      iosPlatformConstraints: iosPlatformConstraints == freezed
+      iosPlatformConstraints: freezed == iosPlatformConstraints
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as IOSPlatformConstraintsStorageV3?,
-      androidPlatformConstraints: androidPlatformConstraints == freezed
+      androidPlatformConstraints: freezed == androidPlatformConstraints
           ? _value.androidPlatformConstraints
           : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as AndroidPlatformConstraintsStorageV3?,
-      sdkType: sdkType == freezed
+      sdkType: null == sdkType
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkTypeStorageV3,
-      minSdkVersion: minSdkVersion == freezed
+      minSdkVersion: null == minSdkVersion
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
@@ -367,12 +371,12 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PackageApiStorageV3 &&
-            const DeepCollectionEquality()
-                .equals(other.packageName, packageName) &&
-            const DeepCollectionEquality()
-                .equals(other.packageVersion, packageVersion) &&
-            const DeepCollectionEquality()
-                .equals(other.packagePath, packagePath) &&
+            (identical(other.packageName, packageName) ||
+                other.packageName == packageName) &&
+            (identical(other.packageVersion, packageVersion) ||
+                other.packageVersion == packageVersion) &&
+            (identical(other.packagePath, packagePath) ||
+                other.packagePath == packagePath) &&
             const DeepCollectionEquality()
                 .equals(other._classDeclarations, _classDeclarations) &&
             const DeepCollectionEquality().equals(
@@ -383,34 +387,37 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
                 .equals(other._typeAliasDeclarations, _typeAliasDeclarations) &&
             const DeepCollectionEquality()
                 .equals(other._semantics, _semantics) &&
-            const DeepCollectionEquality()
-                .equals(other.iosPlatformConstraints, iosPlatformConstraints) &&
-            const DeepCollectionEquality().equals(
-                other.androidPlatformConstraints, androidPlatformConstraints) &&
-            const DeepCollectionEquality().equals(other.sdkType, sdkType) &&
-            const DeepCollectionEquality()
-                .equals(other.minSdkVersion, minSdkVersion));
+            (identical(other.iosPlatformConstraints, iosPlatformConstraints) ||
+                other.iosPlatformConstraints == iosPlatformConstraints) &&
+            (identical(other.androidPlatformConstraints,
+                    androidPlatformConstraints) ||
+                other.androidPlatformConstraints ==
+                    androidPlatformConstraints) &&
+            (identical(other.sdkType, sdkType) || other.sdkType == sdkType) &&
+            (identical(other.minSdkVersion, minSdkVersion) ||
+                other.minSdkVersion == minSdkVersion));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(packageName),
-      const DeepCollectionEquality().hash(packageVersion),
-      const DeepCollectionEquality().hash(packagePath),
+      packageName,
+      packageVersion,
+      packagePath,
       const DeepCollectionEquality().hash(_classDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
       const DeepCollectionEquality().hash(_typeAliasDeclarations),
       const DeepCollectionEquality().hash(_semantics),
-      const DeepCollectionEquality().hash(iosPlatformConstraints),
-      const DeepCollectionEquality().hash(androidPlatformConstraints),
-      const DeepCollectionEquality().hash(sdkType),
-      const DeepCollectionEquality().hash(minSdkVersion));
+      iosPlatformConstraints,
+      androidPlatformConstraints,
+      sdkType,
+      minSdkVersion);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>
       __$$_PackageApiStorageV3CopyWithImpl<_$_PackageApiStorageV3>(
           this, _$identity);

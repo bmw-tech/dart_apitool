@@ -176,14 +176,33 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(element)) {
       return;
     }
-    _classDeclarations.add(InternalClassDeclaration.fromClassElement(element,
+    _classDeclarations.add(InternalClassDeclaration.fromInterfaceElement(
+        element,
         namespace: _context.namespace));
     for (final st in element.allSupertypes) {
-      if (!st.element.isDartCoreObject && !st.element.isDartCoreEnum) {
+      if (!st.isDartCoreObject && !st.isDartCoreEnum) {
         _onTypeUsed(st, element);
       }
     }
     super.visitClassElement(element);
+  }
+
+  @override
+  void visitEnumElement(EnumElement element) {
+    _onVisitAnyElement(element);
+    if (!_isNameExported(element.name)) {
+      return;
+    }
+    if (!_isElementAllowedToBeCollected(element)) {
+      return;
+    }
+    if (!_markElementAsCollected(element)) {
+      return;
+    }
+    _classDeclarations.add(InternalClassDeclaration.fromInterfaceElement(
+        element,
+        namespace: _context.namespace));
+    super.visitEnumElement(element);
   }
 
   @override
@@ -198,7 +217,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _fieldDeclarations
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -217,7 +236,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       namespace: _context.namespace,
     ));
     super.visitTopLevelVariableElement(element);
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -227,7 +246,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitParameterElement(element);
     // this includes method, function and constructor calls
-    if (element.type.element != null) {
+    if (element.type.element2 != null) {
       _onTypeUsed(element.type, element);
     }
   }
@@ -246,7 +265,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       element,
     ));
     super.visitMethodElement(element);
-    if (element.returnType.element != null) {
+    if (element.returnType.element2 != null) {
       _onTypeUsed(element.returnType, element);
     }
   }
@@ -302,7 +321,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       namespace: _context.namespace,
     ));
     super.visitTypeAliasElement(element);
-    if (element.aliasedType.element != null) {
+    if (element.aliasedType.element2 != null) {
       _onTypeUsed(element.aliasedType, element);
     }
   }
@@ -311,7 +330,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   visitTypeParameterElement(TypeParameterElement element) {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
-    if (element.bound?.element != null) {
+    if (element.bound?.element2 != null) {
       _onTypeUsed(element.bound!, element);
     }
   }
@@ -331,7 +350,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _classDeclarations.add(InternalClassDeclaration.fromExtensionElement(
         element,
         namespace: _context.namespace));
-    if (element.extendedType.element != null) {
+    if (element.extendedType.element2 != null) {
       _onTypeUsed(element.extendedType, element);
     }
 

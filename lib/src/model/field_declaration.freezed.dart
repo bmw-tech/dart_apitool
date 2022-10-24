@@ -31,7 +31,8 @@ mixin _$FieldDeclaration {
 abstract class $FieldDeclarationCopyWith<$Res> {
   factory $FieldDeclarationCopyWith(
           FieldDeclaration value, $Res Function(FieldDeclaration) then) =
-      _$FieldDeclarationCopyWithImpl<$Res>;
+      _$FieldDeclarationCopyWithImpl<$Res, FieldDeclaration>;
+  @useResult
   $Res call(
       {String typeName,
       String name,
@@ -41,44 +42,46 @@ abstract class $FieldDeclarationCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FieldDeclarationCopyWithImpl<$Res>
+class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
     implements $FieldDeclarationCopyWith<$Res> {
   _$FieldDeclarationCopyWithImpl(this._value, this._then);
 
-  final FieldDeclaration _value;
   // ignore: unused_field
-  final $Res Function(FieldDeclaration) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? typeName = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? isStatic = freezed,
+    Object? typeName = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isStatic = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      typeName: typeName == freezed
+      typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      isStatic: isStatic == freezed
+      isStatic: null == isStatic
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -89,6 +92,7 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
           _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
       __$$_FieldDeclarationCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String typeName,
       String name,
@@ -99,41 +103,39 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
 
 /// @nodoc
 class __$$_FieldDeclarationCopyWithImpl<$Res>
-    extends _$FieldDeclarationCopyWithImpl<$Res>
+    extends _$FieldDeclarationCopyWithImpl<$Res, _$_FieldDeclaration>
     implements _$$_FieldDeclarationCopyWith<$Res> {
   __$$_FieldDeclarationCopyWithImpl(
       _$_FieldDeclaration _value, $Res Function(_$_FieldDeclaration) _then)
-      : super(_value, (v) => _then(v as _$_FieldDeclaration));
+      : super(_value, _then);
 
-  @override
-  _$_FieldDeclaration get _value => super._value as _$_FieldDeclaration;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? typeName = freezed,
-    Object? name = freezed,
-    Object? isDeprecated = freezed,
-    Object? isStatic = freezed,
+    Object? typeName = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isStatic = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_FieldDeclaration(
-      typeName: typeName == freezed
+      typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: isDeprecated == freezed
+      isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      isStatic: isStatic == freezed
+      isStatic: null == isStatic
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: entryPoints == freezed
+      entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
@@ -180,26 +182,24 @@ class _$_FieldDeclaration extends _FieldDeclaration {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FieldDeclaration &&
-            const DeepCollectionEquality().equals(other.typeName, typeName) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality()
-                .equals(other.isDeprecated, isDeprecated) &&
-            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
+            (identical(other.typeName, typeName) ||
+                other.typeName == typeName) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.isStatic, isStatic) ||
+                other.isStatic == isStatic) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(typeName),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(isDeprecated),
-      const DeepCollectionEquality().hash(isStatic),
-      const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(runtimeType, typeName, name, isDeprecated,
+      isStatic, const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
       __$$_FieldDeclarationCopyWithImpl<_$_FieldDeclaration>(this, _$identity);
 }
