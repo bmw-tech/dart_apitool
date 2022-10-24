@@ -164,45 +164,47 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return true;
   }
 
-  @override
-  void visitClassElement(ClassElement element) {
-    _onVisitAnyElement(element);
-    if (!_isNameExported(element.name)) {
-      return;
+  bool _onVisitInterfaceElement(InterfaceElement interfaceElement) {
+    _onVisitAnyElement(interfaceElement);
+    if (!_isNameExported(interfaceElement.name)) {
+      return false;
     }
-    if (!_isElementAllowedToBeCollected(element)) {
-      return;
+    if (!_isElementAllowedToBeCollected(interfaceElement)) {
+      return false;
     }
-    if (!_markElementAsCollected(element)) {
-      return;
+    if (!_markElementAsCollected(interfaceElement)) {
+      return false;
     }
     _classDeclarations.add(InternalClassDeclaration.fromInterfaceElement(
-        element,
+        interfaceElement,
         namespace: _context.namespace));
-    for (final st in element.allSupertypes) {
+    for (final st in interfaceElement.allSupertypes) {
       if (!st.isDartCoreObject && !st.isDartCoreEnum) {
-        _onTypeUsed(st, element);
+        _onTypeUsed(st, interfaceElement);
       }
     }
-    super.visitClassElement(element);
+    return true;
+  }
+
+  @override
+  void visitClassElement(ClassElement element) {
+    if (_onVisitInterfaceElement(element)) {
+      super.visitClassElement(element);
+    }
   }
 
   @override
   void visitEnumElement(EnumElement element) {
-    _onVisitAnyElement(element);
-    if (!_isNameExported(element.name)) {
-      return;
+    if (_onVisitInterfaceElement(element)) {
+      super.visitEnumElement(element);
     }
-    if (!_isElementAllowedToBeCollected(element)) {
-      return;
+  }
+
+  @override
+  void visitMixinElement(MixinElement element) {
+    if (_onVisitInterfaceElement(element)) {
+      super.visitMixinElement(element);
     }
-    if (!_markElementAsCollected(element)) {
-      return;
-    }
-    _classDeclarations.add(InternalClassDeclaration.fromInterfaceElement(
-        element,
-        namespace: _context.namespace));
-    super.visitEnumElement(element);
   }
 
   @override
