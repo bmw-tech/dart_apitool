@@ -25,8 +25,8 @@ mixin _$PackageApi {
   /// path to the package
   String get packagePath => throw _privateConstructorUsedError;
 
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations =>
+  /// interface declarations this package has
+  List<InterfaceDeclaration> get interfaceDeclarations =>
       throw _privateConstructorUsedError;
 
   /// root level executable declarations this package has
@@ -67,13 +67,12 @@ mixin _$PackageApi {
 abstract class $PackageApiCopyWith<$Res> {
   factory $PackageApiCopyWith(
           PackageApi value, $Res Function(PackageApi) then) =
-      _$PackageApiCopyWithImpl<$Res, PackageApi>;
-  @useResult
+      _$PackageApiCopyWithImpl<$Res>;
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
+      List<InterfaceDeclaration> interfaceDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
@@ -88,85 +87,81 @@ abstract class $PackageApiCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
-    implements $PackageApiCopyWith<$Res> {
+class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
   _$PackageApiCopyWithImpl(this._value, this._then);
 
+  final PackageApi _value;
   // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final $Res Function(PackageApi) _then;
 
-  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? packageName = null,
+    Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? packagePath = null,
-    Object? classDeclarations = null,
-    Object? executableDeclarations = null,
-    Object? fieldDeclarations = null,
-    Object? typeAliasDeclarations = null,
-    Object? semantics = null,
+    Object? packagePath = freezed,
+    Object? interfaceDeclarations = freezed,
+    Object? executableDeclarations = freezed,
+    Object? fieldDeclarations = freezed,
+    Object? typeAliasDeclarations = freezed,
+    Object? semantics = freezed,
     Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
-    Object? sdkType = null,
-    Object? minSdkVersion = null,
+    Object? sdkType = freezed,
+    Object? minSdkVersion = freezed,
   }) {
     return _then(_value.copyWith(
-      packageName: null == packageName
+      packageName: packageName == freezed
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: freezed == packageVersion
+      packageVersion: packageVersion == freezed
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      packagePath: null == packagePath
+      packagePath: packagePath == freezed
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      classDeclarations: null == classDeclarations
-          ? _value.classDeclarations
-          : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
-      executableDeclarations: null == executableDeclarations
+      interfaceDeclarations: interfaceDeclarations == freezed
+          ? _value.interfaceDeclarations
+          : interfaceDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<InterfaceDeclaration>,
+      executableDeclarations: executableDeclarations == freezed
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: null == fieldDeclarations
+      fieldDeclarations: fieldDeclarations == freezed
           ? _value.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      typeAliasDeclarations: null == typeAliasDeclarations
+      typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value.typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
               as List<TypeAliasDeclaration>,
-      semantics: null == semantics
+      semantics: semantics == freezed
           ? _value.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      androidPlatformConstraints: freezed == androidPlatformConstraints
+      androidPlatformConstraints: androidPlatformConstraints == freezed
           ? _value.androidPlatformConstraints
           : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as AndroidPlatformConstraints?,
-      iosPlatformConstraints: freezed == iosPlatformConstraints
+      iosPlatformConstraints: iosPlatformConstraints == freezed
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as IOSPlatformConstraints?,
-      sdkType: null == sdkType
+      sdkType: sdkType == freezed
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkType,
-      minSdkVersion: null == minSdkVersion
+      minSdkVersion: minSdkVersion == freezed
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
-    ) as $Val);
+    ));
   }
 
   @override
-  @pragma('vm:prefer-inline')
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
     if (_value.androidPlatformConstraints == null) {
       return null;
@@ -174,12 +169,11 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
 
     return $AndroidPlatformConstraintsCopyWith<$Res>(
         _value.androidPlatformConstraints!, (value) {
-      return _then(_value.copyWith(androidPlatformConstraints: value) as $Val);
+      return _then(_value.copyWith(androidPlatformConstraints: value));
     });
   }
 
   @override
-  @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
     if (_value.iosPlatformConstraints == null) {
       return null;
@@ -187,7 +181,7 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
 
     return $IOSPlatformConstraintsCopyWith<$Res>(_value.iosPlatformConstraints!,
         (value) {
-      return _then(_value.copyWith(iosPlatformConstraints: value) as $Val);
+      return _then(_value.copyWith(iosPlatformConstraints: value));
     });
   }
 }
@@ -199,12 +193,11 @@ abstract class _$$_PackageApiCopyWith<$Res>
           _$_PackageApi value, $Res Function(_$_PackageApi) then) =
       __$$_PackageApiCopyWithImpl<$Res>;
   @override
-  @useResult
   $Res call(
       {String packageName,
       String? packageVersion,
       String packagePath,
-      List<ClassDeclaration> classDeclarations,
+      List<InterfaceDeclaration> interfaceDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       List<TypeAliasDeclaration> typeAliasDeclarations,
@@ -221,75 +214,76 @@ abstract class _$$_PackageApiCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PackageApiCopyWithImpl<$Res>
-    extends _$PackageApiCopyWithImpl<$Res, _$_PackageApi>
+class __$$_PackageApiCopyWithImpl<$Res> extends _$PackageApiCopyWithImpl<$Res>
     implements _$$_PackageApiCopyWith<$Res> {
   __$$_PackageApiCopyWithImpl(
       _$_PackageApi _value, $Res Function(_$_PackageApi) _then)
-      : super(_value, _then);
+      : super(_value, (v) => _then(v as _$_PackageApi));
 
-  @pragma('vm:prefer-inline')
+  @override
+  _$_PackageApi get _value => super._value as _$_PackageApi;
+
   @override
   $Res call({
-    Object? packageName = null,
+    Object? packageName = freezed,
     Object? packageVersion = freezed,
-    Object? packagePath = null,
-    Object? classDeclarations = null,
-    Object? executableDeclarations = null,
-    Object? fieldDeclarations = null,
-    Object? typeAliasDeclarations = null,
-    Object? semantics = null,
+    Object? packagePath = freezed,
+    Object? interfaceDeclarations = freezed,
+    Object? executableDeclarations = freezed,
+    Object? fieldDeclarations = freezed,
+    Object? typeAliasDeclarations = freezed,
+    Object? semantics = freezed,
     Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
-    Object? sdkType = null,
-    Object? minSdkVersion = null,
+    Object? sdkType = freezed,
+    Object? minSdkVersion = freezed,
   }) {
     return _then(_$_PackageApi(
-      packageName: null == packageName
+      packageName: packageName == freezed
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: freezed == packageVersion
+      packageVersion: packageVersion == freezed
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      packagePath: null == packagePath
+      packagePath: packagePath == freezed
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      classDeclarations: null == classDeclarations
-          ? _value._classDeclarations
-          : classDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ClassDeclaration>,
-      executableDeclarations: null == executableDeclarations
+      interfaceDeclarations: interfaceDeclarations == freezed
+          ? _value._interfaceDeclarations
+          : interfaceDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<InterfaceDeclaration>,
+      executableDeclarations: executableDeclarations == freezed
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
-      fieldDeclarations: null == fieldDeclarations
+      fieldDeclarations: fieldDeclarations == freezed
           ? _value._fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
-      typeAliasDeclarations: null == typeAliasDeclarations
+      typeAliasDeclarations: typeAliasDeclarations == freezed
           ? _value._typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
               as List<TypeAliasDeclaration>,
-      semantics: null == semantics
+      semantics: semantics == freezed
           ? _value._semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
-      androidPlatformConstraints: freezed == androidPlatformConstraints
+      androidPlatformConstraints: androidPlatformConstraints == freezed
           ? _value.androidPlatformConstraints
           : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as AndroidPlatformConstraints?,
-      iosPlatformConstraints: freezed == iosPlatformConstraints
+      iosPlatformConstraints: iosPlatformConstraints == freezed
           ? _value.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as IOSPlatformConstraints?,
-      sdkType: null == sdkType
+      sdkType: sdkType == freezed
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkType,
-      minSdkVersion: null == minSdkVersion
+      minSdkVersion: minSdkVersion == freezed
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
@@ -304,7 +298,7 @@ class _$_PackageApi extends _PackageApi {
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
-      required final List<ClassDeclaration> classDeclarations,
+      required final List<InterfaceDeclaration> interfaceDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
@@ -313,7 +307,7 @@ class _$_PackageApi extends _PackageApi {
       this.iosPlatformConstraints,
       required this.sdkType,
       required this.minSdkVersion})
-      : _classDeclarations = classDeclarations,
+      : _interfaceDeclarations = interfaceDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
         _typeAliasDeclarations = typeAliasDeclarations,
@@ -332,14 +326,14 @@ class _$_PackageApi extends _PackageApi {
   @override
   final String packagePath;
 
-  /// class declarations this package has
-  final List<ClassDeclaration> _classDeclarations;
+  /// interface declarations this package has
+  final List<InterfaceDeclaration> _interfaceDeclarations;
 
-  /// class declarations this package has
+  /// interface declarations this package has
   @override
-  List<ClassDeclaration> get classDeclarations {
+  List<InterfaceDeclaration> get interfaceDeclarations {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_classDeclarations);
+    return EqualUnmodifiableListView(_interfaceDeclarations);
   }
 
   /// root level executable declarations this package has
@@ -401,7 +395,7 @@ class _$_PackageApi extends _PackageApi {
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, classDeclarations: $classDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
   }
 
   @override
@@ -409,14 +403,14 @@ class _$_PackageApi extends _PackageApi {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PackageApi &&
-            (identical(other.packageName, packageName) ||
-                other.packageName == packageName) &&
-            (identical(other.packageVersion, packageVersion) ||
-                other.packageVersion == packageVersion) &&
-            (identical(other.packagePath, packagePath) ||
-                other.packagePath == packagePath) &&
             const DeepCollectionEquality()
-                .equals(other._classDeclarations, _classDeclarations) &&
+                .equals(other.packageName, packageName) &&
+            const DeepCollectionEquality()
+                .equals(other.packageVersion, packageVersion) &&
+            const DeepCollectionEquality()
+                .equals(other.packagePath, packagePath) &&
+            const DeepCollectionEquality()
+                .equals(other._interfaceDeclarations, _interfaceDeclarations) &&
             const DeepCollectionEquality().equals(
                 other._executableDeclarations, _executableDeclarations) &&
             const DeepCollectionEquality()
@@ -425,36 +419,33 @@ class _$_PackageApi extends _PackageApi {
                 .equals(other._typeAliasDeclarations, _typeAliasDeclarations) &&
             const DeepCollectionEquality()
                 .equals(other._semantics, _semantics) &&
-            (identical(other.androidPlatformConstraints,
-                    androidPlatformConstraints) ||
-                other.androidPlatformConstraints ==
-                    androidPlatformConstraints) &&
-            (identical(other.iosPlatformConstraints, iosPlatformConstraints) ||
-                other.iosPlatformConstraints == iosPlatformConstraints) &&
-            (identical(other.sdkType, sdkType) || other.sdkType == sdkType) &&
-            (identical(other.minSdkVersion, minSdkVersion) ||
-                other.minSdkVersion == minSdkVersion));
+            const DeepCollectionEquality().equals(
+                other.androidPlatformConstraints, androidPlatformConstraints) &&
+            const DeepCollectionEquality()
+                .equals(other.iosPlatformConstraints, iosPlatformConstraints) &&
+            const DeepCollectionEquality().equals(other.sdkType, sdkType) &&
+            const DeepCollectionEquality()
+                .equals(other.minSdkVersion, minSdkVersion));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      packageName,
-      packageVersion,
-      packagePath,
-      const DeepCollectionEquality().hash(_classDeclarations),
+      const DeepCollectionEquality().hash(packageName),
+      const DeepCollectionEquality().hash(packageVersion),
+      const DeepCollectionEquality().hash(packagePath),
+      const DeepCollectionEquality().hash(_interfaceDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
       const DeepCollectionEquality().hash(_typeAliasDeclarations),
       const DeepCollectionEquality().hash(_semantics),
-      androidPlatformConstraints,
-      iosPlatformConstraints,
-      sdkType,
-      minSdkVersion);
+      const DeepCollectionEquality().hash(androidPlatformConstraints),
+      const DeepCollectionEquality().hash(iosPlatformConstraints),
+      const DeepCollectionEquality().hash(sdkType),
+      const DeepCollectionEquality().hash(minSdkVersion));
 
   @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
       __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
 }
@@ -464,7 +455,7 @@ abstract class _PackageApi extends PackageApi {
       {required final String packageName,
       required final String? packageVersion,
       required final String packagePath,
-      required final List<ClassDeclaration> classDeclarations,
+      required final List<InterfaceDeclaration> interfaceDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       required final List<TypeAliasDeclaration> typeAliasDeclarations,
@@ -489,8 +480,8 @@ abstract class _PackageApi extends PackageApi {
   String get packagePath;
   @override
 
-  /// class declarations this package has
-  List<ClassDeclaration> get classDeclarations;
+  /// interface declarations this package has
+  List<InterfaceDeclaration> get interfaceDeclarations;
   @override
 
   /// root level executable declarations this package has

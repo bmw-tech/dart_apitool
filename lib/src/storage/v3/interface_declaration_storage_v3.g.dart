@@ -2,15 +2,15 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of 'class_declaration_storage_v3.dart';
+part of 'interface_declaration_storage_v3.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ClassDeclarationStorageV3 _$$_ClassDeclarationStorageV3FromJson(
+_$_InterfaceDeclarationStorageV3 _$$_InterfaceDeclarationStorageV3FromJson(
         Map<String, dynamic> json) =>
-    _$_ClassDeclarationStorageV3(
+    _$_InterfaceDeclarationStorageV3(
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
@@ -32,8 +32,8 @@ _$_ClassDeclarationStorageV3 _$$_ClassDeclarationStorageV3FromJson(
           .toSet(),
     );
 
-Map<String, dynamic> _$$_ClassDeclarationStorageV3ToJson(
-        _$_ClassDeclarationStorageV3 instance) =>
+Map<String, dynamic> _$$_InterfaceDeclarationStorageV3ToJson(
+        _$_InterfaceDeclarationStorageV3 instance) =>
     <String, dynamic>{
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,

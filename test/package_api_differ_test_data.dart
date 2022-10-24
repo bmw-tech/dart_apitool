@@ -1,6 +1,6 @@
 part of 'package_api_differ_test.dart';
 
-final simpleClassA = ClassDeclaration(
+final simpleClassA = InterfaceDeclaration(
   name: 'ClassA',
   isDeprecated: false,
   typeParameterNames: const [],
@@ -18,7 +18,7 @@ final simpleClassA = ClassDeclaration(
   ],
   fieldDeclarations: const [],
 );
-final simpleClassB = ClassDeclaration(
+final simpleClassB = InterfaceDeclaration(
   name: 'ClassB',
   isDeprecated: false,
   typeParameterNames: const [],
@@ -41,7 +41,7 @@ final packageClassAApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
+  interfaceDeclarations: [
     simpleClassA,
   ],
   executableDeclarations: const [],
@@ -52,17 +52,17 @@ final packageClassAApi = PackageApi(
 );
 // Package ClassA variations
 final packageClassADeprecatedApi = packageClassAApi.copyWith(
-  classDeclarations: packageClassAApi.classDeclarations
+  interfaceDeclarations: packageClassAApi.interfaceDeclarations
       .map((cd) => cd.copyWith(isDeprecated: true))
       .toList(),
 );
 final packageClassAWithTypeParameterTApi = packageClassAApi.copyWith(
-  classDeclarations: packageClassAApi.classDeclarations
+  interfaceDeclarations: packageClassAApi.interfaceDeclarations
       .map((cd) => cd.copyWith(typeParameterNames: ['T']))
       .toList(),
 );
 final packageClassAWithTypeParameterRApi = packageClassAApi.copyWith(
-  classDeclarations: packageClassAApi.classDeclarations
+  interfaceDeclarations: packageClassAApi.interfaceDeclarations
       .map((cd) => cd.copyWith(typeParameterNames: ['R']))
       .toList(),
 );
@@ -70,7 +70,7 @@ final packageClassAApiEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
+  interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
         'a.dart',
@@ -87,7 +87,7 @@ final packageClassAApiEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
+  interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
         'b.dart',
@@ -104,7 +104,7 @@ final packageClassAApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
+  interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
         'a.dart',
@@ -124,7 +124,7 @@ final packageClassAClassBApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: [
+  interfaceDeclarations: [
     simpleClassA,
     simpleClassB,
   ],
@@ -166,7 +166,7 @@ final packageExecutable1Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
   ],
@@ -299,7 +299,7 @@ final packageExecutable1ApiEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
       entryPoints: {
@@ -316,7 +316,7 @@ final packageExecutable1ApiEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
       entryPoints: {
@@ -333,7 +333,7 @@ final packageExecutable1ApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
       entryPoints: {
@@ -353,7 +353,7 @@ final packageExecutable1Executable2Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
     simpleExecutable2,
@@ -381,7 +381,7 @@ final packageFieldA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
     simpleFieldDeclarationA,
@@ -406,7 +406,7 @@ final packageFieldAEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
     simpleFieldDeclarationA.copyWith(
@@ -423,7 +423,7 @@ final packageFieldAEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
     simpleFieldDeclarationA.copyWith(
@@ -440,7 +440,7 @@ final packageFieldAEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
     simpleFieldDeclarationA.copyWith(
@@ -460,7 +460,7 @@ final packageFieldAFieldB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  classDeclarations: const [],
+  interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
     simpleFieldDeclarationA,

@@ -21,7 +21,7 @@ void main() {
       expect(packageApi.packageVersion, '2.4.0');
     });
     void testField(
-      ClassDeclaration Function() getHostClass,
+      InterfaceDeclaration Function() getHostClass,
       String fieldName, {
       required String expectedTypeName,
       required bool expectedIsDeprecatedFlag,
@@ -38,7 +38,7 @@ void main() {
     group('WindowsDevice is analyzed correctly', () {
       // ignore: prefer_function_declarations_over_variables
       final getHostClass = () {
-        return packageApi.classDeclarations
+        return packageApi.interfaceDeclarations
             .firstWhere((element) => element.name == 'WindowsDeviceInfo');
       };
       testField(getHostClass, 'computerName',
@@ -71,7 +71,7 @@ void main() {
     group('AndroidDeviceInfo is analyzed correctly', () {
       // ignore: prefer_function_declarations_over_variables
       final getHostClass = () {
-        return packageApi.classDeclarations
+        return packageApi.interfaceDeclarations
             .firstWhere((element) => element.name == 'AndroidDeviceInfo');
       };
       testField(getHostClass, 'board',
@@ -114,7 +114,7 @@ void main() {
         // MethodChannelDeviceInfo gets used in the implementation but is not exposed directly or indirectly via
         // any signatures => not part of the public API
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'MethodChannelDeviceInfo')
                 .isEmpty,
             isTrue);
@@ -123,7 +123,7 @@ void main() {
         // PlatformInterface is used as a super class for DeviceInfoPlatform but does not belong to this package
         // => it is not part of the public API
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'PlatformInterface')
                 .isEmpty,
             isTrue);
@@ -131,56 +131,56 @@ void main() {
 
       test('DeviceInfoPlatform is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'DeviceInfoPlatform')
                 .isNotEmpty,
             isTrue);
       });
       test('BaseDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'BaseDeviceInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('WebBrowserInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'WebBrowserInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('MacOsDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'MacOsDeviceInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('WindowsDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'WindowsDeviceInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('LinuxDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'LinuxDeviceInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('IosDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'IosDeviceInfo')
                 .isNotEmpty,
             isTrue);
       });
       test('AndroidDeviceInfo is part of the public API', () {
         expect(
-            packageApi.classDeclarations
+            packageApi.interfaceDeclarations
                 .where((element) => element.name == 'AndroidDeviceInfo')
                 .isNotEmpty,
             isTrue);

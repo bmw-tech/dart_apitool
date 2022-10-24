@@ -18,7 +18,7 @@ class PackageApiStorageV3 with _$PackageApiStorageV3 {
     required String packageName,
     required String? packageVersion,
     required String packagePath,
-    required List<ClassDeclarationStorageV3> classDeclarations,
+    required List<InterfaceDeclarationStorageV3> interfaceDeclarations,
     required List<ExecutableDeclarationStorageV3> executableDeclarations,
     required List<FieldDeclarationStorageV3> fieldDeclarations,
     required List<TypeAliasDeclarationStorageV3> typeAliasDeclarations,
@@ -38,8 +38,9 @@ class PackageApiStorageV3 with _$PackageApiStorageV3 {
       packageName: packageName,
       packageVersion: packageVersion,
       packagePath: packagePath,
-      classDeclarations:
-          classDeclarations.map((cd) => cd.toClassDeclaration()).toList(),
+      interfaceDeclarations: interfaceDeclarations
+          .map((cd) => cd.toInterfaceDeclaration())
+          .toList(),
       executableDeclarations: executableDeclarations
           .map((e) => e.toExecutableDeclaration())
           .toList(),
@@ -63,8 +64,8 @@ class PackageApiStorageV3 with _$PackageApiStorageV3 {
       packageName: packageApi.packageName,
       packageVersion: packageApi.packageVersion,
       packagePath: packageApi.packagePath,
-      classDeclarations: packageApi.classDeclarations
-          .map((c) => ClassDeclarationStorageV3.fromClassDeclaration(c))
+      interfaceDeclarations: packageApi.interfaceDeclarations
+          .map((c) => InterfaceDeclarationStorageV3.fromInterfaceDeclaration(c))
           .toList(),
       executableDeclarations: packageApi.executableDeclarations
           .map((e) =>

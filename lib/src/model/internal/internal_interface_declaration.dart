@@ -1,14 +1,14 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:collection/collection.dart';
 
-import '../class_declaration.dart';
+import '../interface_declaration.dart';
 import '../executable_declaration.dart';
 import '../field_declaration.dart';
 import 'internal_declaration.dart';
 import 'internal_declaration_utils.dart';
 
-/// Internal extension of [ClassDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
-class InternalClassDeclaration implements InternalDeclaration {
+/// Internal extension of [InterfaceDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
+class InternalInterfaceDeclaration implements InternalDeclaration {
   @override
   final int id;
   @override
@@ -27,7 +27,7 @@ class InternalClassDeclaration implements InternalDeclaration {
   final Set<String>? entryPoints;
   final List<int> superClassIds;
 
-  InternalClassDeclaration._({
+  InternalInterfaceDeclaration._({
     required this.id,
     this.parentClassId,
     required this.name,
@@ -42,7 +42,7 @@ class InternalClassDeclaration implements InternalDeclaration {
     required this.superClassIds,
   });
 
-  InternalClassDeclaration.fromInterfaceElement(
+  InternalInterfaceDeclaration.fromInterfaceElement(
       InterfaceElement interfaceElement,
       {String? namespace})
       : this._(
@@ -66,7 +66,7 @@ class InternalClassDeclaration implements InternalDeclaration {
               .toList(),
         );
 
-  InternalClassDeclaration.fromExtensionElement(
+  InternalInterfaceDeclaration.fromExtensionElement(
       ExtensionElement extensionElement,
       {String? namespace})
       : this._(
@@ -86,9 +86,9 @@ class InternalClassDeclaration implements InternalDeclaration {
           superClassIds: [],
         );
 
-  ClassDeclaration toClassDeclaration() {
+  InterfaceDeclaration toInterfaceDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
-    return ClassDeclaration(
+    return InterfaceDeclaration(
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       typeParameterNames: typeParameterNames,

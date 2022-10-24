@@ -16,34 +16,36 @@ void main() {
 
     test('BluetoothCharacteristic exists two times in different namespaces',
         () {
-      final bluetoothCharacteristicClasses = packageApi.classDeclarations
+      final bluetoothCharacteristicClasses = packageApi.interfaceDeclarations
           .where((element) => element.name.endsWith('BluetoothCharacteristic'))
           .toList();
 
       expect(bluetoothCharacteristicClasses.length, 2);
 
-      final bluetoothCharacteristicMainClasses = packageApi.classDeclarations
+      final bluetoothCharacteristicMainClasses = packageApi
+          .interfaceDeclarations
           .where((element) => element.name == 'BluetoothCharacteristic')
           .toList();
       expect(bluetoothCharacteristicMainClasses.length, 1);
-      final bluetoothCharacteristicProtoClasses = packageApi.classDeclarations
+      final bluetoothCharacteristicProtoClasses = packageApi
+          .interfaceDeclarations
           .where((element) => element.name == 'protos.BluetoothCharacteristic')
           .toList();
       expect(bluetoothCharacteristicProtoClasses.length, 1);
     });
 
     test('ScanResult exists two times in different namespaces', () {
-      final scanResultClasses = packageApi.classDeclarations
+      final scanResultClasses = packageApi.interfaceDeclarations
           .where((element) => element.name.endsWith('ScanResult'))
           .toList();
 
       expect(scanResultClasses.length, 2);
 
-      final scanResultMainClasses = packageApi.classDeclarations
+      final scanResultMainClasses = packageApi.interfaceDeclarations
           .where((element) => element.name == 'ScanResult')
           .toList();
       expect(scanResultMainClasses.length, 1);
-      final scanResultProtoClasses = packageApi.classDeclarations
+      final scanResultProtoClasses = packageApi.interfaceDeclarations
           .where((element) => element.name == 'protos.ScanResult')
           .toList();
       expect(scanResultProtoClasses.length, 1);

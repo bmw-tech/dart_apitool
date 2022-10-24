@@ -42,7 +42,7 @@ Package reference can be one of:
   /// Analyzes the given prepared Package [ref].
   /// If the prepared package contains anything that has to be cleaned up
   /// (like created temp directories) then [analyze] takes care of that
-  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
+  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of interface declarations.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   Future<PackageApi> analyze(
     PreparedPackageRef preparedRef, {

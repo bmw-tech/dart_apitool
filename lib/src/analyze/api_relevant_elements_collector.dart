@@ -7,14 +7,14 @@ import 'package:analyzer/dart/element/visitor.dart';
 
 import '../model/internal/internal_type_alias_declaration.dart';
 import '../utils/string_utils.dart';
-import '../model/internal/internal_class_declaration.dart';
+import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
 /// It tracks the found elements in its public properties:
-/// - [classDeclarations]
+/// - [interfaceDeclarations]
 /// - [executableDeclarations]
 /// - [fieldDeclarations]
 /// - [typeAliasDeclarations]
@@ -49,13 +49,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   String? _packageName;
 
-  final List<InternalClassDeclaration> _classDeclarations = [];
+  final List<InternalInterfaceDeclaration> _interfaceDeclarations = [];
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
 
   /// all found class declarations
-  List<InternalClassDeclaration> get classDeclarations => _classDeclarations;
+  List<InternalInterfaceDeclaration> get interfaceDeclarations =>
+      _interfaceDeclarations;
 
   /// all found executable declarations (like methods and constructors)
   List<InternalExecutableDeclaration> get executableDeclarations =>
@@ -114,7 +115,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       directElement.accept(collector);
       // merge result with this result
       _collectedElementIds.addAll(collector._collectedElementIds);
-      classDeclarations.addAll(collector.classDeclarations);
+      interfaceDeclarations.addAll(collector.interfaceDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
       typeAliasDeclarations.addAll(collector.typeAliasDeclarations);
@@ -175,9 +176,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(interfaceElement)) {
       return false;
     }
-    _classDeclarations.add(InternalClassDeclaration.fromInterfaceElement(
-        interfaceElement,
-        namespace: _context.namespace));
+    _interfaceDeclarations.add(
+        InternalInterfaceDeclaration.fromInterfaceElement(interfaceElement,
+            namespace: _context.namespace));
     for (final st in interfaceElement.allSupertypes) {
       if (!st.isDartCoreObject && !st.isDartCoreEnum) {
         _onTypeUsed(st, interfaceElement);
@@ -349,9 +350,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(element)) {
       return;
     }
-    _classDeclarations.add(InternalClassDeclaration.fromExtensionElement(
-        element,
-        namespace: _context.namespace));
+    _interfaceDeclarations.add(
+        InternalInterfaceDeclaration.fromExtensionElement(element,
+            namespace: _context.namespace));
     if (element.extendedType.element2 != null) {
       _onTypeUsed(element.extendedType, element);
     }

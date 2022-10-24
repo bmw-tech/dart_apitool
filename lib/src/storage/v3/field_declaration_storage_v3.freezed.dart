@@ -37,8 +37,7 @@ mixin _$FieldDeclarationStorageV3 {
 abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
   factory $FieldDeclarationStorageV3CopyWith(FieldDeclarationStorageV3 value,
           $Res Function(FieldDeclarationStorageV3) then) =
-      _$FieldDeclarationStorageV3CopyWithImpl<$Res, FieldDeclarationStorageV3>;
-  @useResult
+      _$FieldDeclarationStorageV3CopyWithImpl<$Res>;
   $Res call(
       {String typeName,
       String name,
@@ -48,47 +47,44 @@ abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
-        $Val extends FieldDeclarationStorageV3>
+class _$FieldDeclarationStorageV3CopyWithImpl<$Res>
     implements $FieldDeclarationStorageV3CopyWith<$Res> {
   _$FieldDeclarationStorageV3CopyWithImpl(this._value, this._then);
 
+  final FieldDeclarationStorageV3 _value;
   // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final $Res Function(FieldDeclarationStorageV3) _then;
 
-  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? typeName = null,
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isStatic = null,
-    Object? entryPoints = null,
+    Object? typeName = freezed,
+    Object? name = freezed,
+    Object? isDeprecated = freezed,
+    Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
-      typeName: null == typeName
+      typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: null == isDeprecated
+      isDeprecated: isDeprecated == freezed
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      isStatic: null == isStatic
+      isStatic: isStatic == freezed
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: null == entryPoints
+      entryPoints: entryPoints == freezed
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
-    ) as $Val);
+    ));
   }
 }
 
@@ -100,7 +96,6 @@ abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
           $Res Function(_$_FieldDeclarationStorageV3) then) =
       __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>;
   @override
-  @useResult
   $Res call(
       {String typeName,
       String name,
@@ -111,41 +106,43 @@ abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
 
 /// @nodoc
 class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
-    extends _$FieldDeclarationStorageV3CopyWithImpl<$Res,
-        _$_FieldDeclarationStorageV3>
+    extends _$FieldDeclarationStorageV3CopyWithImpl<$Res>
     implements _$$_FieldDeclarationStorageV3CopyWith<$Res> {
   __$$_FieldDeclarationStorageV3CopyWithImpl(
       _$_FieldDeclarationStorageV3 _value,
       $Res Function(_$_FieldDeclarationStorageV3) _then)
-      : super(_value, _then);
+      : super(_value, (v) => _then(v as _$_FieldDeclarationStorageV3));
 
-  @pragma('vm:prefer-inline')
+  @override
+  _$_FieldDeclarationStorageV3 get _value =>
+      super._value as _$_FieldDeclarationStorageV3;
+
   @override
   $Res call({
-    Object? typeName = null,
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isStatic = null,
-    Object? entryPoints = null,
+    Object? typeName = freezed,
+    Object? name = freezed,
+    Object? isDeprecated = freezed,
+    Object? isStatic = freezed,
+    Object? entryPoints = freezed,
   }) {
     return _then(_$_FieldDeclarationStorageV3(
-      typeName: null == typeName
+      typeName: typeName == freezed
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isDeprecated: null == isDeprecated
+      isDeprecated: isDeprecated == freezed
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
-      isStatic: null == isStatic
+      isStatic: isStatic == freezed
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
-      entryPoints: null == entryPoints
+      entryPoints: entryPoints == freezed
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
@@ -193,25 +190,27 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FieldDeclarationStorageV3 &&
-            (identical(other.typeName, typeName) ||
-                other.typeName == typeName) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.isDeprecated, isDeprecated) ||
-                other.isDeprecated == isDeprecated) &&
-            (identical(other.isStatic, isStatic) ||
-                other.isStatic == isStatic) &&
+            const DeepCollectionEquality().equals(other.typeName, typeName) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.isDeprecated, isDeprecated) &&
+            const DeepCollectionEquality().equals(other.isStatic, isStatic) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, typeName, name, isDeprecated,
-      isStatic, const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(typeName),
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isDeprecated),
+      const DeepCollectionEquality().hash(isStatic),
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
-  @pragma('vm:prefer-inline')
   _$$_FieldDeclarationStorageV3CopyWith<_$_FieldDeclarationStorageV3>
       get copyWith => __$$_FieldDeclarationStorageV3CopyWithImpl<
           _$_FieldDeclarationStorageV3>(this, _$identity);

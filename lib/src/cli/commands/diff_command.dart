@@ -160,7 +160,7 @@ You may want to do this if you want to make sure
       }
     } else if (declaration is FieldDeclaration) {
       prefix = 'Field ';
-    } else if (declaration is ClassDeclaration) {
+    } else if (declaration is InterfaceDeclaration) {
       prefix = 'Class ';
     }
     return prefix + declaration.name;
