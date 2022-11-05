@@ -277,18 +277,14 @@ class PackageApiAnalyzer {
             .addAll(entry.fieldDeclarations.map((e) => e.toFieldDeclaration()));
       } else if (interfaceId != null) {
         // here we collected an element in the context of a class but the class is not available
-        // in this case we add the elements to the root level and print a warning
+        // in this case we print a warning and ignore them
+        final executableList =
+            entry.executableDeclarations.map((e) => e.name).join(', ');
+        final fieldList = entry.fieldDeclarations.map((e) => e.name).join(', ');
+        final typeAliasList =
+            entry.typeAliasDeclarations.map((e) => e.name).join(', ');
         logWarning(
-            'We encountered elements that are marked to belong to an interface but the interface is not collected!');
-        collectedInterfaces[null]!
-            .executableDeclarations
-            .addAll(entry.executableDeclarations);
-        collectedInterfaces[null]!
-            .fieldDeclarations
-            .addAll(entry.fieldDeclarations);
-        collectedInterfaces[null]!
-            .typeAliasDeclarations
-            .addAll(entry.typeAliasDeclarations);
+            'We encountered elements that are marked to belong to an interface but the interface is not collected!\nExecutables: $executableList\nFields: $fieldList\nTypeAliases: $typeAliasList');
       }
     }
 
