@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.7.1
+- improves handling of elements without root
+
 ## Version 0.7.0
 - *BREAKING*: renamed "Class" model elements to "Interface" to reflect the abstraction it represents
 - Fixes Extension handling (are now treated as interfaces)
