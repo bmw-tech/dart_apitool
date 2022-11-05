@@ -42,7 +42,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
       : this._(
             id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-                executableElement.enclosingElement3),
+                executableElement.enclosingElement),
             returnTypeName: executableElement.returnType
                 .getDisplayString(withNullability: true),
             name: executableElement.displayName,

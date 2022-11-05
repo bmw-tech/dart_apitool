@@ -48,7 +48,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              interfaceElement.enclosingElement3),
+              interfaceElement.enclosingElement),
           name: interfaceElement.name,
           namespace: namespace,
           isPrivate: interfaceElement.isPrivate,
@@ -61,7 +61,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           fieldDeclarations: [],
           entryPoints: {},
           superClassIds: interfaceElement.allSupertypes
-              .map((e) => InternalDeclarationUtils.getIdFromElement(e.element2))
+              .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
               .whereNotNull()
               .toList(),
         );
@@ -72,7 +72,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              extensionElement.enclosingElement3),
+              extensionElement.enclosingElement),
           name: extensionElement.name ?? extensionElement.displayName,
           namespace: namespace,
           isPrivate: extensionElement.isPrivate,
