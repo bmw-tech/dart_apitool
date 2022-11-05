@@ -17,6 +17,7 @@ final simpleClassA = InterfaceDeclaration(
     ),
   ],
   fieldDeclarations: const [],
+  isRequired: false,
 );
 final simpleClassB = InterfaceDeclaration(
   name: 'ClassB',
@@ -35,6 +36,7 @@ final simpleClassB = InterfaceDeclaration(
     ),
   ],
   fieldDeclarations: const [],
+  isRequired: false,
 );
 
 final packageClassAApi = PackageApi(

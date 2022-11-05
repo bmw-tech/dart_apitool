@@ -22,6 +22,7 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
   const factory InterfaceDeclaration({
     required String name,
     required bool isDeprecated,
+    required bool isRequired,
     required List<String> typeParameterNames,
     required List<String> superTypeNames,
     required List<ExecutableDeclaration> executableDeclarations,

@@ -116,13 +116,16 @@ class PackageApiDiffer {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
         ..._calculateExecutablesDiff(oldInterface.executableDeclarations,
-            newInterface.executableDeclarations, context),
+            newInterface.executableDeclarations, context,
+            isInterfaceRequired: oldInterface.isRequired),
         ..._calculateFieldsDiff(oldInterface.fieldDeclarations,
-            newInterface.fieldDeclarations, context),
+            newInterface.fieldDeclarations, context,
+            isInterfaceRequired: oldInterface.isRequired),
         ..._calculateSuperTypesDiff(
             oldInterface.superTypeNames, newInterface.superTypeNames, context),
         ..._calculateTypeParametersDiff(oldInterface.typeParameterNames,
-            newInterface.typeParameterNames, context),
+            newInterface.typeParameterNames, context,
+            isInterfaceRequired: oldInterface.isRequired),
         ..._calculateEntryPointsDiff(
             oldInterface.entryPoints, newInterface.entryPoints, context)
       ];
@@ -142,10 +145,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateExecutablesDiff(
-    List<ExecutableDeclaration> oldExecutables,
-    List<ExecutableDeclaration> newExecutables,
-    Stack<Declaration> context,
-  ) {
+      List<ExecutableDeclaration> oldExecutables,
+      List<ExecutableDeclaration> newExecutables,
+      Stack<Declaration> context,
+      {bool? isInterfaceRequired}) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
         oldExecutables,
         newExecutables,
@@ -156,6 +159,7 @@ class PackageApiDiffer {
         oldEx,
         executableListDiff.matches[oldEx]!,
         context,
+        isInterfaceRequired: isInterfaceRequired,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -171,7 +175,9 @@ class PackageApiDiffer {
       changes.add(ApiChange(
         affectedDeclaration: addedExecutable,
         contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.addCompatible,
+        type: (isInterfaceRequired ?? false)
+            ? ApiChangeType.addBreaking
+            : ApiChangeType.addCompatible,
         changeDescription:
             '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added',
       ));
@@ -188,15 +194,14 @@ class PackageApiDiffer {
     }
   }
 
-  List<ApiChange> _calculateExecutableDiff(
-    ExecutableDeclaration oldExecutable,
-    ExecutableDeclaration newExecutable,
-    Stack<Declaration> context,
-  ) {
+  List<ApiChange> _calculateExecutableDiff(ExecutableDeclaration oldExecutable,
+      ExecutableDeclaration newExecutable, Stack<Declaration> context,
+      {bool? isInterfaceRequired}) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
         ..._calculateParametersDiff(
-            oldExecutable.parameters, newExecutable.parameters, context),
+            oldExecutable.parameters, newExecutable.parameters, context,
+            isInterfaceRequired: isInterfaceRequired),
         ..._calculateTypeParametersDiff(oldExecutable.typeParameterNames,
             newExecutable.typeParameterNames, context),
       ];
@@ -320,10 +325,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateParametersDiff(
-    List<ExecutableParameterDeclaration> oldParameters,
-    List<ExecutableParameterDeclaration> newParameters,
-    Stack<Declaration> context,
-  ) {
+      List<ExecutableParameterDeclaration> oldParameters,
+      List<ExecutableParameterDeclaration> newParameters,
+      Stack<Declaration> context,
+      {bool? isInterfaceRequired}) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
     final parameterMatches = parameterMatchesTuple.item2;
@@ -356,7 +361,7 @@ class PackageApiDiffer {
       changes.add(ApiChange(
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
-        type: addedParameter.isRequired
+        type: (isInterfaceRequired ?? false) || addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
         changeDescription: 'Parameter "${addedParameter.name}" added',
@@ -462,10 +467,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateTypeParametersDiff(
-    List<String> oldTypeParameterNames,
-    List<String> newTypeParameterNames,
-    Stack<Declaration> context,
-  ) {
+      List<String> oldTypeParameterNames,
+      List<String> newTypeParameterNames,
+      Stack<Declaration> context,
+      {bool? isInterfaceRequired}) {
     if (options.ignoreTypeParameterNameChanges) {
       // we only care for the number of type parameters
       if (oldTypeParameterNames.length != newTypeParameterNames.length) {
@@ -475,7 +480,8 @@ class PackageApiDiffer {
             affectedDeclaration: context.top(),
             changeDescription:
                 'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"',
-            type: oldTypeParameterNames.length < newTypeParameterNames.length
+            type: (isInterfaceRequired ?? false) ||
+                    oldTypeParameterNames.length < newTypeParameterNames.length
                 ? ApiChangeType.addBreaking
                 : ApiChangeType.remove,
           ),
@@ -532,10 +538,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateFieldsDiff(
-    List<FieldDeclaration> oldFieldDeclarations,
-    List<FieldDeclaration> newFieldDeclarations,
-    Stack<Declaration> context,
-  ) {
+      List<FieldDeclaration> oldFieldDeclarations,
+      List<FieldDeclaration> newFieldDeclarations,
+      Stack<Declaration> context,
+      {bool? isInterfaceRequired}) {
     final fieldsDiff = _diffIterables<FieldDeclaration>(
         oldFieldDeclarations,
         newFieldDeclarations,
@@ -556,7 +562,9 @@ class PackageApiDiffer {
       changes.add(ApiChange(
           affectedDeclaration: addedField,
           contextTrace: _contextTraceFromStack(context),
-          type: ApiChangeType.addCompatible,
+          type: (isInterfaceRequired ?? false)
+              ? ApiChangeType.addBreaking
+              : ApiChangeType.addCompatible,
           changeDescription: 'Field "${addedField.name}" added'));
     }
     return changes;

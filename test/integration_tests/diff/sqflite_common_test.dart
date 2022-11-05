@@ -19,9 +19,11 @@ void main() {
             newApi: await sqflite_common_2_4_0.retrieve());
       });
 
-      test('detects required interface change as breaking', () {
-        final isBreakingChange =
-            diffResult.apiChanges.any((element) => element.type.isBreaking);
+      test('detects rawQueryCursor added to required interface as breaking',
+          () {
+        final isBreakingChange = diffResult.apiChanges.any((element) =>
+            element.affectedDeclaration!.name == 'rawQueryCursor' &&
+            element.type.isBreaking);
         expect(isBreakingChange, isTrue);
       });
     });
