@@ -1,7 +1,10 @@
 # Changelog
 
-## Version 0.7.1
+## Version 0.8.0
 - improves handling of elements without root
+- changing required interfaces (even adding things) is now considered a breaking change
+  interfaces are considered 'required' if they are abstract and used in a public method or field.
+  This indicates that this interfaces is intended to be implemented by the user and therefore adding things also is breaking the API.
 
 ## Version 0.7.0
 - *BREAKING*: renamed "Class" model elements to "Interface" to reflect the abstraction it represents

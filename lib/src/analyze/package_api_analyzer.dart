@@ -82,6 +82,7 @@ class PackageApiAnalyzer {
     );
 
     final collectedInterfaces = <int?, _InterfaceCollectionResult>{};
+    final requiredElements = <int>{};
 
     final analyzedFiles = List<_FileToAnalyzeEntry>.empty(growable: true);
     final filesToAnalyze = Queue<_FileToAnalyzeEntry>();
@@ -216,6 +217,7 @@ class PackageApiAnalyzer {
                 );
               }
             }
+            requiredElements.addAll(collector.requiredElementIds);
           }
 
           final referencedFilesCollector = ExportedFilesCollector();
@@ -310,7 +312,8 @@ class PackageApiAnalyzer {
         assert(entry.interfaceDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
         final cd = entry.interfaceDeclarations.single;
-        packageInterfaceDeclarations.add(cd.toInterfaceDeclaration());
+        packageInterfaceDeclarations.add(cd.toInterfaceDeclaration(
+            isRequired: cd.isAbstract && requiredElements.contains(cd.id)));
       }
     }
 

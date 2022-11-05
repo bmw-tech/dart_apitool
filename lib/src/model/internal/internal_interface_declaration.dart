@@ -19,6 +19,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   final String? namespace;
   final bool isPrivate;
   final bool isDeprecated;
+  final bool isAbstract;
   final List<String> typeParameterNames;
   final List<String> superTypeNames;
   final List<ExecutableDeclaration> executableDeclarations;
@@ -34,6 +35,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
     required this.namespace,
     required this.isPrivate,
     required this.isDeprecated,
+    required this.isAbstract,
     required this.typeParameterNames,
     required this.superTypeNames,
     required this.executableDeclarations,
@@ -53,6 +55,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           namespace: namespace,
           isPrivate: interfaceElement.isPrivate,
           isDeprecated: interfaceElement.hasDeprecated,
+          isAbstract:
+              (interfaceElement is ClassElement) && interfaceElement.isAbstract,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               interfaceElement.typeParameters),
           superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
@@ -77,6 +81,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           namespace: namespace,
           isPrivate: extensionElement.isPrivate,
           isDeprecated: extensionElement.hasDeprecated,
+          isAbstract: false,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               extensionElement.typeParameters),
           superTypeNames: const [],
@@ -86,7 +91,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           superClassIds: [],
         );
 
-  InterfaceDeclaration toInterfaceDeclaration() {
+  InterfaceDeclaration toInterfaceDeclaration({required bool isRequired}) {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return InterfaceDeclaration(
       name: '$namespacePrefix$name',
@@ -96,6 +101,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,
+      isRequired: isRequired,
     );
   }
 }

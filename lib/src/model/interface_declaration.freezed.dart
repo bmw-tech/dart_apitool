@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$InterfaceDeclaration {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isRequired => throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   List<String> get superTypeNames => throw _privateConstructorUsedError;
   List<ExecutableDeclaration> get executableDeclarations =>
@@ -40,6 +41,7 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -63,6 +65,7 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
     Object? executableDeclarations = null,
@@ -77,6 +80,10 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRequired: null == isRequired
+          ? _value.isRequired
+          : isRequired // ignore: cast_nullable_to_non_nullable
               as bool,
       typeParameterNames: null == typeParameterNames
           ? _value.typeParameterNames
@@ -113,6 +120,7 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -133,6 +141,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
     Object? executableDeclarations = null,
@@ -147,6 +156,10 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRequired: null == isRequired
+          ? _value.isRequired
+          : isRequired // ignore: cast_nullable_to_non_nullable
               as bool,
       typeParameterNames: null == typeParameterNames
           ? _value._typeParameterNames
@@ -178,6 +191,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   const _$_InterfaceDeclaration(
       {required this.name,
       required this.isDeprecated,
+      required this.isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -194,6 +208,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   final String name;
   @override
   final bool isDeprecated;
+  @override
+  final bool isRequired;
   final List<String> _typeParameterNames;
   @override
   List<String> get typeParameterNames {
@@ -233,7 +249,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
 
   @override
   String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
   }
 
   @override
@@ -244,6 +260,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isRequired, isRequired) ||
+                other.isRequired == isRequired) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality()
@@ -261,6 +279,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       runtimeType,
       name,
       isDeprecated,
+      isRequired,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -280,6 +299,7 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   const factory _InterfaceDeclaration(
       {required final String name,
       required final bool isDeprecated,
+      required final bool isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -291,6 +311,8 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isRequired;
   @override
   List<String> get typeParameterNames;
   @override

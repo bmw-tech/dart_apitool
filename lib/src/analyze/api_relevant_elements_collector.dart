@@ -53,6 +53,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
+  final Set<int> _requiredElementIds = {};
 
   /// all found class declarations
   List<InternalInterfaceDeclaration> get interfaceDeclarations =>
@@ -68,6 +69,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   /// all found type alias declarations
   List<InternalTypeAliasDeclaration> get typeAliasDeclarations =>
       _typeAliasDeclarations;
+
+  /// all element ids that are used in a required context (e.g. implementable / extendable by the user)
+  Set<int> get requiredElementIds => _requiredElementIds;
 
   /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
@@ -93,11 +97,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     return null;
   }
 
-  void _onTypeUsed(DartType type, Element referringElement) {
+  void _onTypeUsed(DartType type, Element referringElement,
+      {required bool isRequired}) {
     final directElement = type.element2;
     final directElementLibrary = directElement?.library;
     if (directElement == null || directElementLibrary == null) {
       return;
+    }
+    if (isRequired) {
+      _requiredElementIds.add(directElement.id);
     }
     if (_collectedElementIds.contains(directElement.id)) {
       return;
@@ -119,17 +127,18 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
       typeAliasDeclarations.addAll(collector.typeAliasDeclarations);
+      _requiredElementIds.addAll(collector.requiredElementIds);
     }
     if (type is InterfaceType) {
       for (final ta in type.typeArguments) {
         if (ta is InterfaceType) {
-          _onTypeUsed(ta, referringElement);
+          _onTypeUsed(ta, referringElement, isRequired: false);
         }
       }
     } else if (type is TypeAlias) {
       final aliasedType = type.alias?.element.aliasedType;
       if (aliasedType != null) {
-        _onTypeUsed(aliasedType, referringElement);
+        _onTypeUsed(aliasedType, referringElement, isRequired: false);
       }
     }
   }
@@ -181,7 +190,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
             namespace: _context.namespace));
     for (final st in interfaceElement.allSupertypes) {
       if (!st.isDartCoreObject && !st.isDartCoreEnum) {
-        _onTypeUsed(st, interfaceElement);
+        _onTypeUsed(st, interfaceElement, isRequired: false);
       }
     }
     return true;
@@ -221,7 +230,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
     super.visitFieldElement(element);
     if (element.type.element2 != null) {
-      _onTypeUsed(element.type, element);
+      bool canBeSet =
+          !element.isFinal && !element.isConst && !element.isPrivate;
+      _onTypeUsed(element.type, element, isRequired: canBeSet);
     }
   }
 
@@ -240,7 +251,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitTopLevelVariableElement(element);
     if (element.type.element2 != null) {
-      _onTypeUsed(element.type, element);
+      bool canBeSet =
+          !element.isFinal && !element.isConst && !element.isPrivate;
+      _onTypeUsed(element.type, element, isRequired: canBeSet);
     }
   }
 
@@ -250,7 +263,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     super.visitParameterElement(element);
     // this includes method, function and constructor calls
     if (element.type.element2 != null) {
-      _onTypeUsed(element.type, element);
+      _onTypeUsed(element.type, element, isRequired: true);
     }
   }
 
@@ -269,7 +282,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitMethodElement(element);
     if (element.returnType.element2 != null) {
-      _onTypeUsed(element.returnType, element);
+      _onTypeUsed(element.returnType, element, isRequired: false);
     }
   }
 
@@ -289,7 +302,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
-      _onTypeUsed(element.returnType, element);
+      _onTypeUsed(element.returnType, element, isRequired: false);
     }
   }
 
@@ -325,7 +338,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element2 != null) {
-      _onTypeUsed(element.aliasedType, element);
+      _onTypeUsed(element.aliasedType, element, isRequired: false);
     }
   }
 
@@ -334,7 +347,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
     if (element.bound?.element2 != null) {
-      _onTypeUsed(element.bound!, element);
+      _onTypeUsed(element.bound!, element, isRequired: false);
     }
   }
 
@@ -354,7 +367,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         InternalInterfaceDeclaration.fromExtensionElement(element,
             namespace: _context.namespace));
     if (element.extendedType.element2 != null) {
-      _onTypeUsed(element.extendedType, element);
+      _onTypeUsed(element.extendedType, element, isRequired: false);
     }
 
     super.visitExtensionElement(element);

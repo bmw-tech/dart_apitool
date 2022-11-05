@@ -120,6 +120,7 @@ final testPackage1Api = PackageApi(
           isStatic: false,
         ),
       ],
+      isRequired: false,
     )
   ],
   executableDeclarations: const [],
@@ -237,7 +238,8 @@ final testPackage2Api = PackageApi(
         ),
       ],
       entryPoints: {},
-    )
+      isRequired: false,
+    ),
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
