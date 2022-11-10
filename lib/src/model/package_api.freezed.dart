@@ -55,6 +55,10 @@ mixin _$PackageApi {
   /// type of sdk needed
   SdkType get sdkType => throw _privateConstructorUsedError;
 
+  /// package dependencies
+  List<PackageDependency> get packageDependencies =>
+      throw _privateConstructorUsedError;
+
   /// minimum sdk version
   Version get minSdkVersion => throw _privateConstructorUsedError;
 
@@ -81,6 +85,7 @@ abstract class $PackageApiCopyWith<$Res> {
       AndroidPlatformConstraints? androidPlatformConstraints,
       IOSPlatformConstraints? iosPlatformConstraints,
       SdkType sdkType,
+      List<PackageDependency> packageDependencies,
       Version minSdkVersion});
 
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
@@ -111,6 +116,7 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
     Object? sdkType = null,
+    Object? packageDependencies = null,
     Object? minSdkVersion = null,
   }) {
     return _then(_value.copyWith(
@@ -158,6 +164,10 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkType,
+      packageDependencies: null == packageDependencies
+          ? _value.packageDependencies
+          : packageDependencies // ignore: cast_nullable_to_non_nullable
+              as List<PackageDependency>,
       minSdkVersion: null == minSdkVersion
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
@@ -212,6 +222,7 @@ abstract class _$$_PackageApiCopyWith<$Res>
       AndroidPlatformConstraints? androidPlatformConstraints,
       IOSPlatformConstraints? iosPlatformConstraints,
       SdkType sdkType,
+      List<PackageDependency> packageDependencies,
       Version minSdkVersion});
 
   @override
@@ -242,6 +253,7 @@ class __$$_PackageApiCopyWithImpl<$Res>
     Object? androidPlatformConstraints = freezed,
     Object? iosPlatformConstraints = freezed,
     Object? sdkType = null,
+    Object? packageDependencies = null,
     Object? minSdkVersion = null,
   }) {
     return _then(_$_PackageApi(
@@ -289,6 +301,10 @@ class __$$_PackageApiCopyWithImpl<$Res>
           ? _value.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkType,
+      packageDependencies: null == packageDependencies
+          ? _value._packageDependencies
+          : packageDependencies // ignore: cast_nullable_to_non_nullable
+              as List<PackageDependency>,
       minSdkVersion: null == minSdkVersion
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
@@ -312,12 +328,14 @@ class _$_PackageApi extends _PackageApi {
       this.androidPlatformConstraints,
       this.iosPlatformConstraints,
       required this.sdkType,
+      required final List<PackageDependency> packageDependencies,
       required this.minSdkVersion})
       : _interfaceDeclarations = interfaceDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
         _typeAliasDeclarations = typeAliasDeclarations,
         _semantics = semantics,
+        _packageDependencies = packageDependencies,
         super._();
 
   /// name of the package
@@ -395,13 +413,23 @@ class _$_PackageApi extends _PackageApi {
   @override
   final SdkType sdkType;
 
+  /// package dependencies
+  final List<PackageDependency> _packageDependencies;
+
+  /// package dependencies
+  @override
+  List<PackageDependency> get packageDependencies {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_packageDependencies);
+  }
+
   /// minimum sdk version
   @override
   final Version minSdkVersion;
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion)';
   }
 
   @override
@@ -432,6 +460,8 @@ class _$_PackageApi extends _PackageApi {
             (identical(other.iosPlatformConstraints, iosPlatformConstraints) ||
                 other.iosPlatformConstraints == iosPlatformConstraints) &&
             (identical(other.sdkType, sdkType) || other.sdkType == sdkType) &&
+            const DeepCollectionEquality()
+                .equals(other._packageDependencies, _packageDependencies) &&
             (identical(other.minSdkVersion, minSdkVersion) ||
                 other.minSdkVersion == minSdkVersion));
   }
@@ -450,6 +480,7 @@ class _$_PackageApi extends _PackageApi {
       androidPlatformConstraints,
       iosPlatformConstraints,
       sdkType,
+      const DeepCollectionEquality().hash(_packageDependencies),
       minSdkVersion);
 
   @JsonKey(ignore: true)
@@ -472,6 +503,7 @@ abstract class _PackageApi extends PackageApi {
       final AndroidPlatformConstraints? androidPlatformConstraints,
       final IOSPlatformConstraints? iosPlatformConstraints,
       required final SdkType sdkType,
+      required final List<PackageDependency> packageDependencies,
       required final Version minSdkVersion}) = _$_PackageApi;
   const _PackageApi._() : super._();
 
@@ -519,6 +551,10 @@ abstract class _PackageApi extends PackageApi {
 
   /// type of sdk needed
   SdkType get sdkType;
+  @override
+
+  /// package dependencies
+  List<PackageDependency> get packageDependencies;
   @override
 
   /// minimum sdk version

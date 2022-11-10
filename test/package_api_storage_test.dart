@@ -128,6 +128,7 @@ final testPackage1Api = PackageApi(
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
+  packageDependencies: [],
 );
 
 final package1JsonString = '''
@@ -255,6 +256,7 @@ final testPackage2Api = PackageApi(
   ],
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
+  packageDependencies: [],
 );
 
 final package2JsonString = '''

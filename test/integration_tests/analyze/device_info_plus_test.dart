@@ -214,5 +214,15 @@ void main() {
       expect(packageApi.iosPlatformConstraints, isNotNull);
       expect(packageApi.iosPlatformConstraints!.minimumOsVersion, 8.0);
     }));
+
+    test('Contains dependencies', () {
+      expect(packageApi.packageDependencies.length, 5);
+      expectPackageDependency(
+          packageApi, 'device_info_plus_platform_interface', '^3.0.0');
+      expectPackageDependency(packageApi, 'device_info_plus_macos', '^3.0.0');
+      expectPackageDependency(packageApi, 'device_info_plus_linux', '^3.0.0');
+      expectPackageDependency(packageApi, 'device_info_plus_web', '^3.0.0');
+      expectPackageDependency(packageApi, 'device_info_plus_windows', '^4.0.0');
+    });
   });
 }

@@ -39,6 +39,8 @@ mixin _$PackageApiStorageV3 {
   SdkTypeStorageV3 get sdkType => throw _privateConstructorUsedError;
   @VersionJsonConverter()
   Version get minSdkVersion => throw _privateConstructorUsedError;
+  List<PackageDependencyStorageV3> get packageDependencies =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -64,7 +66,8 @@ abstract class $PackageApiStorageV3CopyWith<$Res> {
       IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
       AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
       SdkTypeStorageV3 sdkType,
-      @VersionJsonConverter() Version minSdkVersion});
+      @VersionJsonConverter() Version minSdkVersion,
+      List<PackageDependencyStorageV3> packageDependencies});
 
   $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints;
   $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
@@ -96,6 +99,7 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
     Object? androidPlatformConstraints = freezed,
     Object? sdkType = null,
     Object? minSdkVersion = null,
+    Object? packageDependencies = null,
   }) {
     return _then(_value.copyWith(
       packageName: null == packageName
@@ -146,6 +150,10 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      packageDependencies: null == packageDependencies
+          ? _value.packageDependencies
+          : packageDependencies // ignore: cast_nullable_to_non_nullable
+              as List<PackageDependencyStorageV3>,
     ) as $Val);
   }
 
@@ -197,7 +205,8 @@ abstract class _$$_PackageApiStorageV3CopyWith<$Res>
       IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
       AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
       SdkTypeStorageV3 sdkType,
-      @VersionJsonConverter() Version minSdkVersion});
+      @VersionJsonConverter() Version minSdkVersion,
+      List<PackageDependencyStorageV3> packageDependencies});
 
   @override
   $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints;
@@ -229,6 +238,7 @@ class __$$_PackageApiStorageV3CopyWithImpl<$Res>
     Object? androidPlatformConstraints = freezed,
     Object? sdkType = null,
     Object? minSdkVersion = null,
+    Object? packageDependencies = null,
   }) {
     return _then(_$_PackageApiStorageV3(
       packageName: null == packageName
@@ -279,6 +289,10 @@ class __$$_PackageApiStorageV3CopyWithImpl<$Res>
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      packageDependencies: null == packageDependencies
+          ? _value._packageDependencies
+          : packageDependencies // ignore: cast_nullable_to_non_nullable
+              as List<PackageDependencyStorageV3>,
     ));
   }
 }
@@ -299,12 +313,14 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
       this.iosPlatformConstraints,
       this.androidPlatformConstraints,
       required this.sdkType,
-      @VersionJsonConverter() required this.minSdkVersion})
+      @VersionJsonConverter() required this.minSdkVersion,
+      required final List<PackageDependencyStorageV3> packageDependencies})
       : _interfaceDeclarations = interfaceDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
         _typeAliasDeclarations = typeAliasDeclarations,
         _semantics = semantics,
+        _packageDependencies = packageDependencies,
         super._();
 
   factory _$_PackageApiStorageV3.fromJson(Map<String, dynamic> json) =>
@@ -360,10 +376,16 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   @override
   @VersionJsonConverter()
   final Version minSdkVersion;
+  final List<PackageDependencyStorageV3> _packageDependencies;
+  @override
+  List<PackageDependencyStorageV3> get packageDependencies {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_packageDependencies);
+  }
 
   @override
   String toString() {
-    return 'PackageApiStorageV3(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, iosPlatformConstraints: $iosPlatformConstraints, androidPlatformConstraints: $androidPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion)';
+    return 'PackageApiStorageV3(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, iosPlatformConstraints: $iosPlatformConstraints, androidPlatformConstraints: $androidPlatformConstraints, sdkType: $sdkType, minSdkVersion: $minSdkVersion, packageDependencies: $packageDependencies)';
   }
 
   @override
@@ -395,7 +417,9 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
                     androidPlatformConstraints) &&
             (identical(other.sdkType, sdkType) || other.sdkType == sdkType) &&
             (identical(other.minSdkVersion, minSdkVersion) ||
-                other.minSdkVersion == minSdkVersion));
+                other.minSdkVersion == minSdkVersion) &&
+            const DeepCollectionEquality()
+                .equals(other._packageDependencies, _packageDependencies));
   }
 
   @JsonKey(ignore: true)
@@ -413,7 +437,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
       iosPlatformConstraints,
       androidPlatformConstraints,
       sdkType,
-      minSdkVersion);
+      minSdkVersion,
+      const DeepCollectionEquality().hash(_packageDependencies));
 
   @JsonKey(ignore: true)
   @override
@@ -444,8 +469,9 @@ abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
       final IOSPlatformConstraintsStorageV3? iosPlatformConstraints,
       final AndroidPlatformConstraintsStorageV3? androidPlatformConstraints,
       required final SdkTypeStorageV3 sdkType,
-      @VersionJsonConverter()
-          required final Version minSdkVersion}) = _$_PackageApiStorageV3;
+      @VersionJsonConverter() required final Version minSdkVersion,
+      required final List<PackageDependencyStorageV3>
+          packageDependencies}) = _$_PackageApiStorageV3;
   const _PackageApiStorageV3._() : super._();
 
   factory _PackageApiStorageV3.fromJson(Map<String, dynamic> json) =
@@ -476,6 +502,8 @@ abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
   @override
   @VersionJsonConverter()
   Version get minSdkVersion;
+  @override
+  List<PackageDependencyStorageV3> get packageDependencies;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>

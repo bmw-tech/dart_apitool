@@ -44,6 +44,10 @@ _$_PackageApiStorageV3 _$$_PackageApiStorageV3FromJson(
       sdkType: $enumDecode(_$SdkTypeStorageV3EnumMap, json['sdkType']),
       minSdkVersion: const VersionJsonConverter()
           .fromJson(json['minSdkVersion'] as String),
+      packageDependencies: (json['packageDependencies'] as List<dynamic>)
+          .map((e) =>
+              PackageDependencyStorageV3.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_PackageApiStorageV3ToJson(
@@ -64,6 +68,7 @@ Map<String, dynamic> _$$_PackageApiStorageV3ToJson(
       'sdkType': _$SdkTypeStorageV3EnumMap[instance.sdkType]!,
       'minSdkVersion':
           const VersionJsonConverter().toJson(instance.minSdkVersion),
+      'packageDependencies': instance.packageDependencies,
     };
 
 const _$PackageApiSemanticsEnumMap = {
