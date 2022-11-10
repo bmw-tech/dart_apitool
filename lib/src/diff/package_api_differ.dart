@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:stack/stack.dart';
 import 'package:tuple/tuple.dart';
 
@@ -63,6 +64,10 @@ class PackageApiDiffer {
             oldApi,
             newApi,
           ),
+        ..._calculatePackageDependenciesDiff(
+          oldApi,
+          newApi,
+        ),
       ];
 
       return PackageApiDiffResult()..addApiChanges(changes);
@@ -767,6 +772,72 @@ class PackageApiDiffer {
     return result;
   }
 
+  List<ApiChange> _calculatePackageDependenciesDiff(
+      PackageApi oldApi, PackageApi newApi) {
+    final result = <ApiChange>[];
+    final oldDependencies = oldApi.packageDependencies;
+    final newDependencies = newApi.packageDependencies;
+    final oldDependenciesMap =
+        Map.fromEntries(oldDependencies.map((d) => MapEntry(d.packageName, d)));
+    final newDependenciesMap =
+        Map.fromEntries(newDependencies.map((d) => MapEntry(d.packageName, d)));
+    final allDependencies = oldDependenciesMap.keys.toSet()
+      ..addAll(newDependenciesMap.keys);
+
+    for (final dependencyName in allDependencies) {
+      final oldDependency = oldDependenciesMap[dependencyName];
+      final newDependency = newDependenciesMap[dependencyName];
+
+      // dependency is new => breaking change
+      if (oldDependency == null) {
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.addBreaking,
+            changeDescription: 'Package dependency added: "$dependencyName"',
+          ),
+        );
+        continue;
+      }
+
+      // dependency is removed => non-breaking change
+      if (newDependency == null) {
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.removeCompatible,
+            changeDescription: 'Package dependency removed: "$dependencyName"',
+          ),
+        );
+        continue;
+      }
+
+      // dependency is present in old and new API => check version
+      if (oldDependency.packageVersion != newDependency.packageVersion) {
+        final oldVersion =
+            VersionConstraint.parse(oldDependency.packageVersion);
+        final newVersion =
+            VersionConstraint.parse(newDependency.packageVersion);
+
+        final isNonBreakingVersionChange = oldVersion.allowsAny(newVersion);
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: isNonBreakingVersionChange
+                ? ApiChangeType.changeCompatible
+                : ApiChangeType.changeBreaking,
+            changeDescription:
+                'Package dependency "$dependencyName" version changed from "${oldDependency.packageVersion}" to "${newDependency.packageVersion}"',
+          ),
+        );
+      }
+    }
+    return result;
+  }
+
   List<Declaration> _contextTraceFromStack(Stack<Declaration> stack) {
     final reverseBackup = Stack<Declaration>();
     final result = <Declaration>[];
@@ -871,6 +942,11 @@ class ApiChange {
     required this.changeDescription,
     required this.type,
   });
+
+  @override
+  String toString() {
+    return 'ApiChange(affectedDeclaration: ${affectedDeclaration?.name}, changeDescription: $changeDescription, type: $type)';
+  }
 }
 
 /// represents the type of API change
@@ -881,8 +957,11 @@ enum ApiChangeType {
   /// non-breaking change
   changeCompatible(isBreaking: false),
 
-  /// removal (is always breaking)
+  /// removal (breaking)
   remove(isBreaking: true),
+
+  /// removal (non-breaking, rather rare)
+  removeCompatible(isBreaking: false),
 
   /// non-breaking addition
   addCompatible(isBreaking: false),
