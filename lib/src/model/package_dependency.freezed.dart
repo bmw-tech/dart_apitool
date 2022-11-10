@@ -16,7 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PackageDependency {
+  /// name of the package
   String get packageName => throw _privateConstructorUsedError;
+
+  /// String representation of the version range
   String get packageVersion => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -106,8 +109,11 @@ class _$_PackageDependency implements _PackageDependency {
   _$_PackageDependency(
       {required this.packageName, required this.packageVersion});
 
+  /// name of the package
   @override
   final String packageName;
+
+  /// String representation of the version range
   @override
   final String packageVersion;
 
@@ -144,8 +150,12 @@ abstract class _PackageDependency implements PackageDependency {
       required final String packageVersion}) = _$_PackageDependency;
 
   @override
+
+  /// name of the package
   String get packageName;
   @override
+
+  /// String representation of the version range
   String get packageVersion;
   @override
   @JsonKey(ignore: true)
