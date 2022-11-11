@@ -73,17 +73,20 @@ Usage: dart-apitool diff [arguments]
                                          - any package from pub
                                            (e.g. pub://package_name/version)
     --[no-]check-versions                Determines if the version of the new package should be checked.
-                                         Takes the changes of the diff and checks if the new version follows the semver rules.
+                                         Takes the changes of the diff and checks if the new version follows semver.
                                          Influences tool return value.
                                          (defaults to on)
     --[no-]check-sdk-version             Determines if the SDK version should be checked.
                                          (defaults to on)
-    --[no-]ignore-prerelease             Determines if the pre-release aspect of the version shall be ignored when checking versions.
+    --[no-]ignore-prerelease             Determines if the pre-release aspect of the version
+                                         shall be ignored when checking versions.
                                          This only makes sense in combination with --check-versions.
                                          You may want to do this if you want to make sure
                                          (in your CI) that the version - once ready - matches semver.
     --no-merge-base-classes              Disables base class merging.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
+    --dependency-check-mode              Defines the mode package dependency changes are handled.
+                                         [none, allowAdding, strict (default)]
 ```
 
 ## Integration

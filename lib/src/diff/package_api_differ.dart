@@ -7,7 +7,11 @@ import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 import '../errors/errors.dart';
-import '../model/package_api_semantics.dart';
+import 'api_change.dart';
+import 'api_change_type.dart';
+import 'dependency_check_mode.dart';
+import 'package_api_diff_result.dart';
+import 'package_api_differ_options.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
@@ -775,6 +779,9 @@ class PackageApiDiffer {
   List<ApiChange> _calculatePackageDependenciesDiff(
       PackageApi oldApi, PackageApi newApi) {
     final result = <ApiChange>[];
+    if (options.dependencyCheckMode == DependencyCheckMode.none) {
+      return result;
+    }
     final oldDependencies = oldApi.packageDependencies;
     final newDependencies = newApi.packageDependencies;
     final oldDependenciesMap =
@@ -788,13 +795,15 @@ class PackageApiDiffer {
       final oldDependency = oldDependenciesMap[dependencyName];
       final newDependency = newDependenciesMap[dependencyName];
 
-      // dependency is new => breaking change
+      // dependency is new => breaking change (if not overwritten via options)
       if (oldDependency == null) {
         result.add(
           ApiChange(
             affectedDeclaration: null,
             contextTrace: [],
-            type: ApiChangeType.addBreaking,
+            type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
+                ? ApiChangeType.addCompatible
+                : ApiChangeType.addBreaking,
             changeDescription: 'Package dependency added: "$dependencyName"',
           ),
         );
@@ -918,131 +927,4 @@ class _ListDiffResult<T> {
   final Map<T, T> matches;
 
   _ListDiffResult(this.remainingOld, this.remainingNew, this.matches);
-}
-
-/// Represents one API change
-class ApiChange {
-  /// the context of this change. This can be the class the changed method belongs to or the method the changed parameter belongs to.
-  /// is null for situations where there is no context (like root level functions)
-  final List<Declaration> contextTrace;
-
-  /// The affected declaration. This is the declaration that got changed
-  final Declaration? affectedDeclaration;
-
-  /// Type of change
-  final ApiChangeType type;
-
-  /// A textual description of the change
-  final String changeDescription;
-
-  /// creates a new ApiChange instance
-  ApiChange({
-    required this.contextTrace,
-    this.affectedDeclaration,
-    required this.changeDescription,
-    required this.type,
-  });
-
-  @override
-  String toString() {
-    return 'ApiChange(affectedDeclaration: ${affectedDeclaration?.name}, changeDescription: $changeDescription, type: $type)';
-  }
-}
-
-/// represents the type of API change
-enum ApiChangeType {
-  /// breaking change
-  changeBreaking(isBreaking: true),
-
-  /// non-breaking change
-  changeCompatible(isBreaking: false),
-
-  /// removal (breaking)
-  remove(isBreaking: true),
-
-  /// removal (non-breaking, rather rare)
-  removeCompatible(isBreaking: false),
-
-  /// non-breaking addition
-  addCompatible(isBreaking: false),
-
-  /// breaking addition (like adding a required parameter)
-  addBreaking(isBreaking: true);
-
-  final bool isBreaking;
-
-  const ApiChangeType({required this.isBreaking});
-}
-
-/// represents a tree node in the hierarchical change representation
-class ApiChangeTreeNode {
-  /// the declaration represented by this node
-  final Declaration? nodeDeclaration;
-
-  /// the changes [nodeDeclaration] has
-  final List<ApiChange> changes;
-
-  /// the children of this node
-  final Map<Declaration, ApiChangeTreeNode> children;
-
-  /// creates a new ApiChangeTreeNode instance
-  ApiChangeTreeNode({
-    required this.nodeDeclaration,
-    List<ApiChange>? changes,
-  })  : changes = changes ?? [],
-        children = {};
-}
-
-/// represents the result of a diff run
-class PackageApiDiffResult {
-  /// API changes that the diff run detected
-  final List<ApiChange> apiChanges;
-
-  /// whether this diff result contains any changes
-  bool get hasChanges {
-    return apiChanges.isNotEmpty;
-  }
-
-  /// root node of the hierarchical representation of the changes
-  final rootNode = ApiChangeTreeNode(nodeDeclaration: null);
-
-  /// adds an API change. This is used by the [PackageApiDiffer] to add API changes.
-  /// This method makes sure that the change is added to the list of changes as well as getting inserted into the hierarchical representation
-  void addApiChange(ApiChange change) {
-    var currentNode = rootNode;
-    for (int i = change.contextTrace.length - 1; i >= 0; i--) {
-      final currentContext = change.contextTrace[i];
-      if (!currentNode.children.containsKey(currentContext)) {
-        currentNode.children[currentContext] =
-            ApiChangeTreeNode(nodeDeclaration: currentContext);
-      }
-      currentNode = currentNode.children[currentContext]!;
-    }
-    currentNode.changes.add(change);
-    apiChanges.add(change);
-  }
-
-  /// calls [addApiChange] for all [ApiChange]s in [changes]
-  void addApiChanges(Iterable<ApiChange> changes) {
-    for (final change in changes) {
-      addApiChange(change);
-    }
-  }
-
-  PackageApiDiffResult() : apiChanges = [];
-}
-
-/// represents options for the [PackageApiDiffer]
-class PackageApiDifferOptions {
-  /// whether to ignore type parameter changes
-  final bool ignoreTypeParameterNameChanges;
-
-  /// whether to ignore sdk version changes
-  final bool doCheckSdkVersion;
-
-  /// creates a new PackageApiDifferOptions instance
-  const PackageApiDifferOptions({
-    this.ignoreTypeParameterNameChanges = true,
-    this.doCheckSdkVersion = true,
-  });
 }
