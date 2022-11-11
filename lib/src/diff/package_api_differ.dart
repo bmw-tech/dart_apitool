@@ -188,7 +188,7 @@ class PackageApiDiffer {
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
         changeDescription:
-            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added',
+            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
     }
     return changes;
@@ -373,7 +373,8 @@ class PackageApiDiffer {
         type: (isInterfaceRequired ?? false) || addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
-        changeDescription: 'Parameter "${addedParameter.name}" added',
+        changeDescription:
+            'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
     }
 
@@ -487,12 +488,12 @@ class PackageApiDiffer {
           ApiChange(
             contextTrace: _contextTraceFromStack(context),
             affectedDeclaration: context.top(),
-            changeDescription:
-                'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"',
             type: (isInterfaceRequired ?? false) ||
                     oldTypeParameterNames.length < newTypeParameterNames.length
                 ? ApiChangeType.addBreaking
                 : ApiChangeType.remove,
+            changeDescription:
+                'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
           ),
         ];
       }
@@ -574,7 +575,8 @@ class PackageApiDiffer {
           type: (isInterfaceRequired ?? false)
               ? ApiChangeType.addBreaking
               : ApiChangeType.addCompatible,
-          changeDescription: 'Field "${addedField.name}" added'));
+          changeDescription:
+              'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}'));
     }
     return changes;
   }
