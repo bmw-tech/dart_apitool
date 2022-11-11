@@ -134,8 +134,8 @@ jobs:
         run: dart test 
 
   coverage:
-    needs: [check_label, get_flutter_version, test]
-    runs-on: sh_devmil_mac
+    needs: [check_label, get_flutter_version]
+    runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v3
