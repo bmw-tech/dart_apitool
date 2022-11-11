@@ -1,12 +1,17 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:stack/stack.dart';
 import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 import '../errors/errors.dart';
-import '../model/package_api_semantics.dart';
+import 'api_change.dart';
+import 'api_change_type.dart';
+import 'dependency_check_mode.dart';
+import 'package_api_diff_result.dart';
+import 'package_api_differ_options.dart';
 
 /// can calculate a diff between two PackageApis
 class PackageApiDiffer {
@@ -63,6 +68,10 @@ class PackageApiDiffer {
             oldApi,
             newApi,
           ),
+        ..._calculatePackageDependenciesDiff(
+          oldApi,
+          newApi,
+        ),
       ];
 
       return PackageApiDiffResult()..addApiChanges(changes);
@@ -179,7 +188,7 @@ class PackageApiDiffer {
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
         changeDescription:
-            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added',
+            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
     }
     return changes;
@@ -364,7 +373,8 @@ class PackageApiDiffer {
         type: (isInterfaceRequired ?? false) || addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
-        changeDescription: 'Parameter "${addedParameter.name}" added',
+        changeDescription:
+            'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
     }
 
@@ -478,12 +488,12 @@ class PackageApiDiffer {
           ApiChange(
             contextTrace: _contextTraceFromStack(context),
             affectedDeclaration: context.top(),
-            changeDescription:
-                'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"',
             type: (isInterfaceRequired ?? false) ||
                     oldTypeParameterNames.length < newTypeParameterNames.length
                 ? ApiChangeType.addBreaking
                 : ApiChangeType.remove,
+            changeDescription:
+                'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
           ),
         ];
       }
@@ -565,7 +575,8 @@ class PackageApiDiffer {
           type: (isInterfaceRequired ?? false)
               ? ApiChangeType.addBreaking
               : ApiChangeType.addCompatible,
-          changeDescription: 'Field "${addedField.name}" added'));
+          changeDescription:
+              'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}'));
     }
     return changes;
   }
@@ -767,6 +778,77 @@ class PackageApiDiffer {
     return result;
   }
 
+  List<ApiChange> _calculatePackageDependenciesDiff(
+      PackageApi oldApi, PackageApi newApi) {
+    final result = <ApiChange>[];
+    if (options.dependencyCheckMode == DependencyCheckMode.none) {
+      return result;
+    }
+    final oldDependencies = oldApi.packageDependencies;
+    final newDependencies = newApi.packageDependencies;
+    final oldDependenciesMap =
+        Map.fromEntries(oldDependencies.map((d) => MapEntry(d.packageName, d)));
+    final newDependenciesMap =
+        Map.fromEntries(newDependencies.map((d) => MapEntry(d.packageName, d)));
+    final allDependencies = oldDependenciesMap.keys.toSet()
+      ..addAll(newDependenciesMap.keys);
+
+    for (final dependencyName in allDependencies) {
+      final oldDependency = oldDependenciesMap[dependencyName];
+      final newDependency = newDependenciesMap[dependencyName];
+
+      // dependency is new => breaking change (if not overwritten via options)
+      if (oldDependency == null) {
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
+                ? ApiChangeType.addCompatible
+                : ApiChangeType.addBreaking,
+            changeDescription: 'Package dependency added: "$dependencyName"',
+          ),
+        );
+        continue;
+      }
+
+      // dependency is removed => non-breaking change
+      if (newDependency == null) {
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.removeCompatible,
+            changeDescription: 'Package dependency removed: "$dependencyName"',
+          ),
+        );
+        continue;
+      }
+
+      // dependency is present in old and new API => check version
+      if (oldDependency.packageVersion != newDependency.packageVersion) {
+        final oldVersion =
+            VersionConstraint.parse(oldDependency.packageVersion);
+        final newVersion =
+            VersionConstraint.parse(newDependency.packageVersion);
+
+        final isNonBreakingVersionChange = oldVersion.allowsAny(newVersion);
+        result.add(
+          ApiChange(
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: isNonBreakingVersionChange
+                ? ApiChangeType.changeCompatible
+                : ApiChangeType.changeBreaking,
+            changeDescription:
+                'Package dependency "$dependencyName" version changed from "${oldDependency.packageVersion}" to "${newDependency.packageVersion}"',
+          ),
+        );
+      }
+    }
+    return result;
+  }
+
   List<Declaration> _contextTraceFromStack(Stack<Declaration> stack) {
     final reverseBackup = Stack<Declaration>();
     final result = <Declaration>[];
@@ -847,123 +929,4 @@ class _ListDiffResult<T> {
   final Map<T, T> matches;
 
   _ListDiffResult(this.remainingOld, this.remainingNew, this.matches);
-}
-
-/// Represents one API change
-class ApiChange {
-  /// the context of this change. This can be the class the changed method belongs to or the method the changed parameter belongs to.
-  /// is null for situations where there is no context (like root level functions)
-  final List<Declaration> contextTrace;
-
-  /// The affected declaration. This is the declaration that got changed
-  final Declaration? affectedDeclaration;
-
-  /// Type of change
-  final ApiChangeType type;
-
-  /// A textual description of the change
-  final String changeDescription;
-
-  /// creates a new ApiChange instance
-  ApiChange({
-    required this.contextTrace,
-    this.affectedDeclaration,
-    required this.changeDescription,
-    required this.type,
-  });
-}
-
-/// represents the type of API change
-enum ApiChangeType {
-  /// breaking change
-  changeBreaking(isBreaking: true),
-
-  /// non-breaking change
-  changeCompatible(isBreaking: false),
-
-  /// removal (is always breaking)
-  remove(isBreaking: true),
-
-  /// non-breaking addition
-  addCompatible(isBreaking: false),
-
-  /// breaking addition (like adding a required parameter)
-  addBreaking(isBreaking: true);
-
-  final bool isBreaking;
-
-  const ApiChangeType({required this.isBreaking});
-}
-
-/// represents a tree node in the hierarchical change representation
-class ApiChangeTreeNode {
-  /// the declaration represented by this node
-  final Declaration? nodeDeclaration;
-
-  /// the changes [nodeDeclaration] has
-  final List<ApiChange> changes;
-
-  /// the children of this node
-  final Map<Declaration, ApiChangeTreeNode> children;
-
-  /// creates a new ApiChangeTreeNode instance
-  ApiChangeTreeNode({
-    required this.nodeDeclaration,
-    List<ApiChange>? changes,
-  })  : changes = changes ?? [],
-        children = {};
-}
-
-/// represents the result of a diff run
-class PackageApiDiffResult {
-  /// API changes that the diff run detected
-  final List<ApiChange> apiChanges;
-
-  /// whether this diff result contains any changes
-  bool get hasChanges {
-    return apiChanges.isNotEmpty;
-  }
-
-  /// root node of the hierarchical representation of the changes
-  final rootNode = ApiChangeTreeNode(nodeDeclaration: null);
-
-  /// adds an API change. This is used by the [PackageApiDiffer] to add API changes.
-  /// This method makes sure that the change is added to the list of changes as well as getting inserted into the hierarchical representation
-  void addApiChange(ApiChange change) {
-    var currentNode = rootNode;
-    for (int i = change.contextTrace.length - 1; i >= 0; i--) {
-      final currentContext = change.contextTrace[i];
-      if (!currentNode.children.containsKey(currentContext)) {
-        currentNode.children[currentContext] =
-            ApiChangeTreeNode(nodeDeclaration: currentContext);
-      }
-      currentNode = currentNode.children[currentContext]!;
-    }
-    currentNode.changes.add(change);
-    apiChanges.add(change);
-  }
-
-  /// calls [addApiChange] for all [ApiChange]s in [changes]
-  void addApiChanges(Iterable<ApiChange> changes) {
-    for (final change in changes) {
-      addApiChange(change);
-    }
-  }
-
-  PackageApiDiffResult() : apiChanges = [];
-}
-
-/// represents options for the [PackageApiDiffer]
-class PackageApiDifferOptions {
-  /// whether to ignore type parameter changes
-  final bool ignoreTypeParameterNameChanges;
-
-  /// whether to ignore sdk version changes
-  final bool doCheckSdkVersion;
-
-  /// creates a new PackageApiDifferOptions instance
-  const PackageApiDifferOptions({
-    this.ignoreTypeParameterNameChanges = true,
-    this.doCheckSdkVersion = true,
-  });
 }

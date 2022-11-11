@@ -7,6 +7,7 @@ import 'interface_declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
 import 'package_api_semantics.dart';
+import 'package_dependency.dart';
 import 'sdk_type.dart';
 
 part 'package_api.freezed.dart';
@@ -49,6 +50,9 @@ class PackageApi with _$PackageApi {
 
     /// type of sdk needed
     required SdkType sdkType,
+
+    /// package dependencies
+    required List<PackageDependency> packageDependencies,
 
     /// minimum sdk version
     required Version minSdkVersion,

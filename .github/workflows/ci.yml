@@ -77,7 +77,7 @@ jobs:
           git diff --exit-code HEAD
 
       - name: Analyze project source
-        run: dart analyze
+        run: dart analyze --fatal-infos --fatal-warnings .
 
   semver:
     needs: [get_last_released_version, get_flutter_version]

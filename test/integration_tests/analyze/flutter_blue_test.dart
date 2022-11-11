@@ -50,5 +50,12 @@ void main() {
           .toList();
       expect(scanResultProtoClasses.length, 1);
     });
+
+    test('Contains dependencies', () {
+      expect(packageApi.packageDependencies.length, 3);
+      expectPackageDependency(packageApi, 'convert', '^2.1.1');
+      expectPackageDependency(packageApi, 'protobuf', '^0.14.1');
+      expectPackageDependency(packageApi, 'rxdart', '^0.22.0');
+    });
   });
 }

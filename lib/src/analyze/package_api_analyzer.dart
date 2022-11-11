@@ -22,10 +22,10 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
-import '../model/package_api_semantics.dart';
 import '../utils/string_utils.dart';
 import 'constraints/android_platform_constraints_helper.dart';
 import 'constraints/ios_platform_contraints_helper.dart';
+import 'dependencies/package_dependencies_helper.dart';
 
 part 'package_api_analyzer.freezed.dart';
 
@@ -337,6 +337,8 @@ class PackageApiAnalyzer {
       minSdkVersion = sdkVersion;
     }
     final isFlutter = pubSpec.dependencies.containsKey('flutter');
+    final packageDependencies =
+        PackageDependenciesHelper.getPackageDependencies(pubSpec);
 
     return PackageApi(
       packageName: pubSpec.name,
@@ -351,6 +353,7 @@ class PackageApiAnalyzer {
       iosPlatformConstraints: iosPlatformConstraints,
       sdkType: isFlutter ? SdkType.flutter : SdkType.dart,
       minSdkVersion: minSdkVersion ?? Version.none,
+      packageDependencies: packageDependencies,
     );
   }
 

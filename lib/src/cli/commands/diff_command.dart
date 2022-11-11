@@ -17,6 +17,7 @@ String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
 String _optionNameCheckSdkVersion = 'check-sdk-version';
+String _optionNameDependencyCheckMode = 'dependency-check-mode';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -40,7 +41,7 @@ class DiffCommand extends Command<int> with CommandMixin {
       _optionNameCheckVersions,
       help: '''
 Determines if the version of the new package should be checked.
-Takes the changes of the diff and checks if the new version follows the semver rules. 
+Takes the changes of the diff and checks if the new version follows semver. 
 Influences tool return value.
 ''',
       defaultsTo: true,
@@ -55,7 +56,8 @@ Influences tool return value.
     argParser.addFlag(
       _optionNameIgnorePrerelease,
       help: '''
-Determines if the pre-release aspect of the version shall be ignored when checking versions. 
+Determines if the pre-release aspect of the version 
+shall be ignored when checking versions. 
 This only makes sense in combination with --$_optionNameCheckVersions.
 You may want to do this if you want to make sure 
 (in your CI) that the version - once ready - matches semver.
@@ -75,6 +77,12 @@ You may want to do this if you want to make sure
       defaultsTo: false,
       negatable: false,
     );
+    argParser.addOption(
+      _optionNameDependencyCheckMode,
+      help: 'Defines the mode package dependency changes are handled.',
+      allowed: DependencyCheckMode.values.map((e) => e.name).toList(),
+      defaultsTo: DependencyCheckMode.strict.name,
+    );
   }
 
   @override
@@ -88,6 +96,9 @@ You may want to do this if you want to make sure
         argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
+    final dependencyCheckMode = DependencyCheckMode.values.firstWhere(
+        (element) =>
+            element.name == argResults![_optionNameDependencyCheckMode]);
 
     final preparedOldPackageRef = await prepare(oldPackageRef);
     final preparedNewPackageRef = await prepare(newPackageRef);
@@ -109,6 +120,7 @@ You may want to do this if you want to make sure
     final differ = PackageApiDiffer(
       options: PackageApiDifferOptions(
         doCheckSdkVersion: doCheckSdkVersion,
+        dependencyCheckMode: dependencyCheckMode,
       ),
     );
     final diffResult =

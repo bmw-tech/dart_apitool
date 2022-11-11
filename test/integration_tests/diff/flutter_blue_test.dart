@@ -23,6 +23,49 @@ void main() {
                 c.changeDescription.contains('Minimum SDK version changed')),
             isTrue);
       });
+
+      test('Differ detects dependency changes', () async {
+        expect(
+            diffResult.apiChanges.any((element) =>
+                element.changeDescription.contains('dependency') &&
+                element.changeDescription.contains('rxdart') &&
+                element.type == ApiChangeType.addBreaking),
+            isTrue);
+        expect(
+            diffResult.apiChanges.any((element) =>
+                element.changeDescription.contains('dependency') &&
+                element.changeDescription.contains('protobuf') &&
+                element.changeDescription.contains('^0.10.5') &&
+                element.changeDescription.contains('^0.13.12') &&
+                element.type == ApiChangeType.changeBreaking),
+            isTrue);
+      });
+
+      test('Differ option "allowAdd" works', () async {
+        final allowAddDiffResult = PackageApiDiffer(
+            options: PackageApiDifferOptions(
+          dependencyCheckMode: DependencyCheckMode.allowAdding,
+        )).diff(
+            oldApi: await retriever_0_5_0.retrieve(),
+            newApi: await retriever_0_6_0.retrieve());
+
+        // adding dependencies is no not breaking
+        expect(
+            allowAddDiffResult.apiChanges.any((element) =>
+                element.changeDescription.contains('dependency') &&
+                element.changeDescription.contains('rxdart') &&
+                element.type == ApiChangeType.addCompatible),
+            isTrue);
+        // changes are still breaking
+        expect(
+            allowAddDiffResult.apiChanges.any((element) =>
+                element.changeDescription.contains('dependency') &&
+                element.changeDescription.contains('protobuf') &&
+                element.changeDescription.contains('^0.10.5') &&
+                element.changeDescription.contains('^0.13.12') &&
+                element.type == ApiChangeType.changeBreaking),
+            isTrue);
+      });
     });
   });
 }

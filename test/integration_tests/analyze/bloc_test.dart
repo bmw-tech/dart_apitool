@@ -44,5 +44,9 @@ void main() {
       expect(eventHandlerTypedef.aliasedTypeName,
           'FutureOr<void> Function(Event, Emitter<State>)');
     });
+    test('Contains meta dependency', () {
+      expect(packageApi.packageDependencies.length, 1);
+      expectPackageDependency(packageApi, 'meta', '^1.3.0');
+    });
   });
 }
