@@ -158,7 +158,7 @@ jobs:
 
       - name: Check threshold
         run: |
-          dart pub global run dlcov:dlcov -c 90
+          dart pub global run dlcov:dlcov -c 75
 
   pana:
     needs: [check_label, get_flutter_version]
