@@ -133,6 +133,33 @@ jobs:
       - name: Run tests
         run: dart test 
 
+  coverage:
+    needs: [check_label, get_flutter_version, test]
+    runs-on: sh_devmil_mac
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.get_flutter_version.outputs.flutter-version }}
+          channel: 'any'
+          cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter-version }}-any'
+
+      - name: Install dependencies
+        run: |
+          dart pub get
+          dart pub global activate coverage
+          dart pub global activate dlcov
+
+      - name: Gather coverage
+        run: |
+          dart pub global run coverage:test_with_coverage
+
+      - name: Check threshold
+        run: |
+          dart pub global run dlcov:dlcov -c 90
+
   pana:
     needs: [check_label, get_flutter_version]
     runs-on: ubuntu-latest
