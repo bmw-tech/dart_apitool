@@ -1,10 +1,7 @@
 import 'package:dart_apitool/api_tool.dart';
-import 'package:dart_apitool/src/model/package_api.dart';
 import 'package:dart_apitool/src/storage/v3/storage_v3.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pub_semver/pub_semver.dart';
-
-import '../../model/package_api_semantics.dart';
 import '../utils/version_json_converter.dart';
 import 'package_dependency_storage_v3.dart';
 
