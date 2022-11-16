@@ -675,7 +675,7 @@ class PackageApiDiffer {
           changeCode: ApiChangeCode.cpi02,
           affectedDeclaration: null,
           contextTrace: [],
-          type: ApiChangeType.removeCompatible,
+          type: ApiChangeType.remove,
           changeDescription: 'iOS platform removed',
         ),
       ];

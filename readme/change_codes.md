@@ -124,7 +124,7 @@ Changes to the platform and its constraints are breaking if they are stricter th
 Platform got added. This is a breaking change.
 
 ### [CPI02](#CPI02) iOS platform removed
-Platform got removed. This is a non-breaking change.
+Platform got removed. This is a breaking change.
 
 ### [CPI03](#CPI03) iOS platform constraint changed
 The version of the iOS platform constraint changed. This is a breaking change if the new constraint is stricter than the old one.
@@ -133,7 +133,7 @@ The version of the iOS platform constraint changed. This is a breaking change if
 Platform got added. This is a breaking change.
 
 ### [CPA02](#CPA02) Android platform removed
-Platform got removed. This is a non-breaking change.
+Platform got removed. This is a breaking change.
 
 ### [CPA03](#CPA03) Android platform min SDK version added
 Min SDK Version for Android got added. This is a breaking change.
