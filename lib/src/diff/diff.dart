@@ -1,3 +1,4 @@
+export 'api_change_code.dart';
 export 'api_change_type.dart';
 export 'api_change.dart';
 export 'dependency_check_mode.dart';

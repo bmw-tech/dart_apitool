@@ -1,4 +1,5 @@
 import '../model/model.dart';
+import 'api_change_code.dart';
 import 'api_change_type.dart';
 
 /// Represents one API change
@@ -16,8 +17,12 @@ class ApiChange {
   /// A textual description of the change
   final String changeDescription;
 
+  /// Code of the change. This can be used to read more about the reasoning behind this change
+  final ApiChangeCode changeCode;
+
   /// creates a new ApiChange instance
   ApiChange({
+    required this.changeCode,
     required this.contextTrace,
     this.affectedDeclaration,
     required this.changeDescription,
