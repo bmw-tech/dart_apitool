@@ -143,6 +143,9 @@ You may want to do this if you want to make sure
       } else {
         stdout.write(nonBreakingChanges);
       }
+      stdout.writeln();
+      stdout.writeln(
+          'To learn more about the detected changes visit: https://github.com/devmil/dart_apitool/blob/main/readme/change_codes.md');
     } else {
       stdout.writeln('No changes detected!');
     }
@@ -182,8 +185,8 @@ You may want to do this if you want to make sure
     Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
       final relevantChanges =
           n.changes.where((c) => c.type.isBreaking == breaking);
-      final changeNodes = relevantChanges
-          .map((c) => Colorize(c.changeDescription).italic().toString());
+      final changeNodes = relevantChanges.map((c) =>
+          '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})');
       final childNodes = n.children.values
           .map((value) => nodeToTree(value))
           .where((element) => element.isNotEmpty);

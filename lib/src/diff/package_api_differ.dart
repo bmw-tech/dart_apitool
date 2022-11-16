@@ -8,6 +8,7 @@ import 'package:tuple/tuple.dart';
 import '../model/model.dart';
 import '../errors/errors.dart';
 import 'api_change.dart';
+import 'api_change_code.dart';
 import 'api_change_type.dart';
 import 'dependency_check_mode.dart';
 import 'package_api_diff_result.dart';
@@ -100,6 +101,7 @@ class PackageApiDiffer {
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ci01,
         affectedDeclaration: removedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
@@ -108,6 +110,7 @@ class PackageApiDiffer {
     }
     for (final addedInterface in interfaceListDiff.remainingNew) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ci02,
         affectedDeclaration: addedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
@@ -147,6 +150,7 @@ class PackageApiDiffer {
         'Deprecated Flag changed. ${oldInterface.isDeprecated} -> ${newInterface.isDeprecated}',
         changes,
         isCompatibleChange: true,
+        changeCode: ApiChangeCode.ci09,
       );
 
       return changes;
@@ -173,6 +177,7 @@ class PackageApiDiffer {
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ce10,
         affectedDeclaration: removedExecutable,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
@@ -182,6 +187,7 @@ class PackageApiDiffer {
     }
     for (final addedExecutable in executableListDiff.remainingNew) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ce11,
         affectedDeclaration: addedExecutable,
         contextTrace: _contextTraceFromStack(context),
         type: (isInterfaceRequired ?? false)
@@ -222,6 +228,7 @@ class PackageApiDiffer {
         'Deprecated Flag changed. ${oldExecutable.isDeprecated} -> ${newExecutable.isDeprecated}',
         changes,
         isCompatibleChange: true,
+        changeCode: ApiChangeCode.ce13,
       );
       _comparePropertiesAndAddChange(
         oldExecutable.returnTypeName,
@@ -230,6 +237,7 @@ class PackageApiDiffer {
         newExecutable,
         'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
+        changeCode: ApiChangeCode.ce09,
       );
       _comparePropertiesAndAddChange(
         oldExecutable.isStatic,
@@ -238,6 +246,7 @@ class PackageApiDiffer {
         newExecutable,
         'Static specifier changed. ${oldExecutable.isStatic} -> ${newExecutable.isStatic}',
         changes,
+        changeCode: ApiChangeCode.ce14,
       );
       changes.addAll(_calculateEntryPointsDiff(
         oldExecutable.entryPoints,
@@ -360,6 +369,7 @@ class PackageApiDiffer {
     // already got matched by [_findMatchingParameters]
     for (final removedParameter in oldParametersCopy) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ce01,
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
@@ -368,6 +378,7 @@ class PackageApiDiffer {
     }
     for (final addedParameter in newParametersCopy) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ce02,
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: (isInterfaceRequired ?? false) || addedParameter.isRequired
@@ -380,6 +391,7 @@ class PackageApiDiffer {
 
     if (reordered) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.ce04,
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.changeBreaking,
@@ -405,6 +417,7 @@ class PackageApiDiffer {
       changes,
       isCompatibleChange: !oldParam
           .isNamed, // as long as the parameter isn't named a name change is not breaking
+      changeCode: ApiChangeCode.ce03,
     );
     _comparePropertiesAndAddChange(
       oldParam.isDeprecated,
@@ -414,6 +427,7 @@ class PackageApiDiffer {
       'Deprecated Flag of parameter "${oldParam.name}" changed. ${oldParam.isDeprecated ? 'deprecated' : 'not deprecated'} -> ${newParam.isDeprecated ? 'deprecated' : 'not deprecated'}',
       changes,
       isCompatibleChange: true,
+      changeCode: ApiChangeCode.ce06,
     );
     _comparePropertiesAndAddChange(
       oldParam.isNamed,
@@ -422,6 +436,7 @@ class PackageApiDiffer {
       newParam,
       'Kind of parameter "${oldParam.name}" changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
       changes,
+      changeCode: ApiChangeCode.ce07,
     );
     _comparePropertiesAndAddChange(
       oldParam.isRequired,
@@ -432,6 +447,7 @@ class PackageApiDiffer {
       changes,
       isCompatibleChange: oldParam
           .isRequired, // if we change from required to not required then this change is compatible
+      changeCode: ApiChangeCode.ce05,
     );
     _comparePropertiesAndAddChange(
       oldParam.typeName,
@@ -440,6 +456,7 @@ class PackageApiDiffer {
       newParam,
       'Type of parameter "${oldParam.name}" changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
+      changeCode: ApiChangeCode.ce08,
     );
     return changes;
   }
@@ -459,6 +476,7 @@ class PackageApiDiffer {
     );
     for (final newEntryPoint in diffResult.remainingNew) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.cp01,
         contextTrace: _contextTraceFromStack(context),
         affectedDeclaration: context.top(),
         changeDescription: 'New entry point: $newEntryPoint',
@@ -467,6 +485,7 @@ class PackageApiDiffer {
     }
     for (final oldEntryPoint in diffResult.remainingOld) {
       changes.add(ApiChange(
+        changeCode: ApiChangeCode.cp02,
         contextTrace: _contextTraceFromStack(context),
         affectedDeclaration: context.top(),
         changeDescription: 'Entry point removed: $oldEntryPoint',
@@ -486,6 +505,7 @@ class PackageApiDiffer {
       if (oldTypeParameterNames.length != newTypeParameterNames.length) {
         return [
           ApiChange(
+            changeCode: ApiChangeCode.ci06,
             contextTrace: _contextTraceFromStack(context),
             affectedDeclaration: context.top(),
             type: (isInterfaceRequired ?? false) ||
@@ -504,6 +524,7 @@ class PackageApiDiffer {
       final changes = <ApiChange>[];
       for (final removedTypeParameter in tpnListDiff.remainingOld) {
         changes.add(ApiChange(
+            changeCode: ApiChangeCode.ci08,
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.remove,
@@ -512,6 +533,7 @@ class PackageApiDiffer {
       }
       for (final addedTypeParameter in tpnListDiff.remainingNew) {
         changes.add(ApiChange(
+            changeCode: ApiChangeCode.ci07,
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.addBreaking,
@@ -532,6 +554,7 @@ class PackageApiDiffer {
     final changes = <ApiChange>[];
     for (final removedSuperType in stpnListDiff.remainingOld) {
       changes.add(ApiChange(
+          changeCode: ApiChangeCode.ci05,
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
@@ -539,6 +562,7 @@ class PackageApiDiffer {
     }
     for (final addedSuperType in stpnListDiff.remainingNew) {
       changes.add(ApiChange(
+          changeCode: ApiChangeCode.ci04,
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
@@ -563,6 +587,7 @@ class PackageApiDiffer {
     }
     for (final removedField in fieldsDiff.remainingOld) {
       changes.add(ApiChange(
+          changeCode: ApiChangeCode.cf01,
           affectedDeclaration: removedField,
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
@@ -570,6 +595,7 @@ class PackageApiDiffer {
     }
     for (final addedField in fieldsDiff.remainingNew) {
       changes.add(ApiChange(
+          changeCode: ApiChangeCode.cf02,
           affectedDeclaration: addedField,
           contextTrace: _contextTraceFromStack(context),
           type: (isInterfaceRequired ?? false)
@@ -596,6 +622,7 @@ class PackageApiDiffer {
         'Deprecated Flag changed. ${oldField.isDeprecated} -> ${newField.isDeprecated}',
         changes,
         isCompatibleChange: true,
+        changeCode: ApiChangeCode.cf03,
       );
       _comparePropertiesAndAddChange(
         oldField.typeName,
@@ -604,6 +631,7 @@ class PackageApiDiffer {
         newField,
         'Type of field changed. ${oldField.typeName} -> ${newField.typeName}',
         changes,
+        changeCode: ApiChangeCode.cf04,
       );
       _comparePropertiesAndAddChange(
         oldField.isStatic,
@@ -612,6 +640,7 @@ class PackageApiDiffer {
         newField,
         'Static specifier changed. ${oldField.isStatic} -> ${newField.isStatic}',
         changes,
+        changeCode: ApiChangeCode.cf05,
       );
       changes.addAll(_calculateEntryPointsDiff(
         oldField.entryPoints,
@@ -632,6 +661,7 @@ class PackageApiDiffer {
     if (oldConstraints == null) {
       return [
         ApiChange(
+          changeCode: ApiChangeCode.cpi01,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
@@ -642,9 +672,10 @@ class PackageApiDiffer {
     if (newConstraints == null) {
       return [
         ApiChange(
+          changeCode: ApiChangeCode.cpi02,
           affectedDeclaration: null,
           contextTrace: [],
-          type: ApiChangeType.remove,
+          type: ApiChangeType.removeCompatible,
           changeDescription: 'iOS platform removed',
         ),
       ];
@@ -659,6 +690,7 @@ class PackageApiDiffer {
       }
       return [
         ApiChange(
+          changeCode: ApiChangeCode.cpi03,
           affectedDeclaration: null,
           contextTrace: [],
           type: isBreaking
@@ -681,6 +713,7 @@ class PackageApiDiffer {
     if (oldConstraints == null) {
       return [
         ApiChange(
+          changeCode: ApiChangeCode.cpa01,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
@@ -691,6 +724,7 @@ class PackageApiDiffer {
     if (newConstraints == null) {
       return [
         ApiChange(
+          changeCode: ApiChangeCode.cpa02,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.remove,
@@ -700,12 +734,20 @@ class PackageApiDiffer {
     }
 
     addIfChanged(
-        int? oldVal, int? newVal, String valName, List<ApiChange> changes) {
+      int? oldVal,
+      int? newVal,
+      String valName,
+      List<ApiChange> changes, {
+      required ApiChangeCode changeCodeAdd,
+      required ApiChangeCode changeCodeRemove,
+      required ApiChangeCode changeCodeChanged,
+    }) {
       if (oldVal == newVal) {
         return;
       }
       if (oldVal == null) {
         changes.add(ApiChange(
+          changeCode: changeCodeAdd,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
@@ -715,6 +757,7 @@ class PackageApiDiffer {
       }
       if (newVal == null) {
         changes.add(ApiChange(
+          changeCode: changeCodeRemove,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.remove,
@@ -728,6 +771,7 @@ class PackageApiDiffer {
         isBreaking = false;
       }
       changes.add(ApiChange(
+        changeCode: changeCodeChanged,
         affectedDeclaration: null,
         contextTrace: [],
         type: isBreaking
@@ -740,12 +784,33 @@ class PackageApiDiffer {
 
     List<ApiChange> changes = [];
 
-    addIfChanged(oldConstraints.minSdkVersion, newConstraints.minSdkVersion,
-        'minSdkVersion', changes);
-    addIfChanged(oldConstraints.targetSdkVersion,
-        newConstraints.targetSdkVersion, 'targetSdkVersion', changes);
-    addIfChanged(oldConstraints.compileSdkVersion,
-        newConstraints.compileSdkVersion, 'compileSdkVersion', changes);
+    addIfChanged(
+      oldConstraints.minSdkVersion,
+      newConstraints.minSdkVersion,
+      'minSdkVersion',
+      changes,
+      changeCodeAdd: ApiChangeCode.cpa03,
+      changeCodeRemove: ApiChangeCode.cpa04,
+      changeCodeChanged: ApiChangeCode.cpa05,
+    );
+    addIfChanged(
+      oldConstraints.targetSdkVersion,
+      newConstraints.targetSdkVersion,
+      'targetSdkVersion',
+      changes,
+      changeCodeAdd: ApiChangeCode.cpa06,
+      changeCodeRemove: ApiChangeCode.cpa07,
+      changeCodeChanged: ApiChangeCode.cpa08,
+    );
+    addIfChanged(
+      oldConstraints.compileSdkVersion,
+      newConstraints.compileSdkVersion,
+      'compileSdkVersion',
+      changes,
+      changeCodeAdd: ApiChangeCode.cpa09,
+      changeCodeRemove: ApiChangeCode.cpa10,
+      changeCodeChanged: ApiChangeCode.cpa11,
+    );
 
     return changes;
   }
@@ -755,6 +820,7 @@ class PackageApiDiffer {
     if (oldApi.sdkType != newApi.sdkType) {
       result.add(
         ApiChange(
+          changeCode: ApiChangeCode.csdk01,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.changeBreaking,
@@ -767,6 +833,7 @@ class PackageApiDiffer {
     if (oldApi.minSdkVersion < newApi.minSdkVersion) {
       result.add(
         ApiChange(
+          changeCode: ApiChangeCode.csdk02,
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.changeBreaking,
@@ -801,6 +868,7 @@ class PackageApiDiffer {
       if (oldDependency == null) {
         result.add(
           ApiChange(
+            changeCode: ApiChangeCode.cd01,
             affectedDeclaration: null,
             contextTrace: [],
             type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
@@ -816,6 +884,7 @@ class PackageApiDiffer {
       if (newDependency == null) {
         result.add(
           ApiChange(
+            changeCode: ApiChangeCode.cd02,
             affectedDeclaration: null,
             contextTrace: [],
             type: ApiChangeType.removeCompatible,
@@ -835,6 +904,7 @@ class PackageApiDiffer {
         final isNonBreakingVersionChange = oldVersion.allowsAny(newVersion);
         result.add(
           ApiChange(
+            changeCode: ApiChangeCode.cd03,
             affectedDeclaration: null,
             contextTrace: [],
             type: isNonBreakingVersionChange
@@ -879,9 +949,11 @@ class PackageApiDiffer {
     String changeDescription,
     List<ApiChange> changes, {
     bool isCompatibleChange = false,
+    required ApiChangeCode changeCode,
   }) {
     if (oldValue != newValue) {
       changes.add(ApiChange(
+        changeCode: changeCode,
         affectedDeclaration: affectedDeclaration,
         contextTrace: _contextTraceFromStack(context),
         type: isCompatibleChange
