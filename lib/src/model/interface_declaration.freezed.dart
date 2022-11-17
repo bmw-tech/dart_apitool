@@ -16,15 +16,30 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$InterfaceDeclaration {
+  /// name of this interface
   String get name => throw _privateConstructorUsedError;
+
+  /// whether this interface is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   bool get isRequired => throw _privateConstructorUsedError;
+
+  /// list of type parameter names
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
+
+  /// list of super type names
   List<String> get superTypeNames => throw _privateConstructorUsedError;
+
+  /// executables that belong to this interface
   List<ExecutableDeclaration> get executableDeclarations =>
       throw _privateConstructorUsedError;
+
+  /// fields that belong to this interface
   List<FieldDeclaration> get fieldDeclarations =>
       throw _privateConstructorUsedError;
+
+  /// entry points this interface is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -204,41 +219,62 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
         _entryPoints = entryPoints,
         super._();
 
+  /// name of this interface
   @override
   final String name;
+
+  /// whether this interface is deprecated
   @override
   final bool isDeprecated;
+
+  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   @override
   final bool isRequired;
+
+  /// list of type parameter names
   final List<String> _typeParameterNames;
+
+  /// list of type parameter names
   @override
   List<String> get typeParameterNames {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
 
+  /// list of super type names
   final List<String> _superTypeNames;
+
+  /// list of super type names
   @override
   List<String> get superTypeNames {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_superTypeNames);
   }
 
+  /// executables that belong to this interface
   final List<ExecutableDeclaration> _executableDeclarations;
+
+  /// executables that belong to this interface
   @override
   List<ExecutableDeclaration> get executableDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
 
+  /// fields that belong to this interface
   final List<FieldDeclaration> _fieldDeclarations;
+
+  /// fields that belong to this interface
   @override
   List<FieldDeclaration> get fieldDeclarations {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
 
+  /// entry points this interface is reachable through
   final Set<String>? _entryPoints;
+
+  /// entry points this interface is reachable through
   @override
   Set<String>? get entryPoints {
     final value = _entryPoints;
@@ -308,20 +344,36 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   const _InterfaceDeclaration._() : super._();
 
   @override
+
+  /// name of this interface
   String get name;
   @override
+
+  /// whether this interface is deprecated
   bool get isDeprecated;
   @override
+
+  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   bool get isRequired;
   @override
+
+  /// list of type parameter names
   List<String> get typeParameterNames;
   @override
+
+  /// list of super type names
   List<String> get superTypeNames;
   @override
+
+  /// executables that belong to this interface
   List<ExecutableDeclaration> get executableDeclarations;
   @override
+
+  /// fields that belong to this interface
   List<FieldDeclaration> get fieldDeclarations;
   @override
+
+  /// entry points this interface is reachable through
   Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)

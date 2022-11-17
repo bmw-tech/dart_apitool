@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$IOSPlatformConstraints {
+  /// minimum iOS version
   num? get minimumOsVersion => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -96,6 +97,7 @@ class __$$_IOSPlatformConstraintsCopyWithImpl<$Res>
 class _$_IOSPlatformConstraints implements _IOSPlatformConstraints {
   const _$_IOSPlatformConstraints({required this.minimumOsVersion});
 
+  /// minimum iOS version
   @override
   final num? minimumOsVersion;
 
@@ -129,6 +131,8 @@ abstract class _IOSPlatformConstraints implements IOSPlatformConstraints {
       {required final num? minimumOsVersion}) = _$_IOSPlatformConstraints;
 
   @override
+
+  /// minimum iOS version
   num? get minimumOsVersion;
   @override
   @JsonKey(ignore: true)
@@ -138,8 +142,13 @@ abstract class _IOSPlatformConstraints implements IOSPlatformConstraints {
 
 /// @nodoc
 mixin _$AndroidPlatformConstraints {
+  /// minimum SDK version
   int? get minSdkVersion => throw _privateConstructorUsedError;
+
+  /// compile SDK version
   int? get compileSdkVersion => throw _privateConstructorUsedError;
+
+  /// target SDK version
   int? get targetSdkVersion => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -248,10 +257,15 @@ class _$_AndroidPlatformConstraints implements _AndroidPlatformConstraints {
       required this.compileSdkVersion,
       required this.targetSdkVersion});
 
+  /// minimum SDK version
   @override
   final int? minSdkVersion;
+
+  /// compile SDK version
   @override
   final int? compileSdkVersion;
+
+  /// target SDK version
   @override
   final int? targetSdkVersion;
 
@@ -293,10 +307,16 @@ abstract class _AndroidPlatformConstraints
       required final int? targetSdkVersion}) = _$_AndroidPlatformConstraints;
 
   @override
+
+  /// minimum SDK version
   int? get minSdkVersion;
   @override
+
+  /// compile SDK version
   int? get compileSdkVersion;
   @override
+
+  /// target SDK version
   int? get targetSdkVersion;
   @override
   @JsonKey(ignore: true)

@@ -16,10 +16,19 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FieldDeclaration {
+  /// type of this field
   String get typeName => throw _privateConstructorUsedError;
+
+  /// name of this field
   String get name => throw _privateConstructorUsedError;
+
+  /// whether this field is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// whether this field is static
   bool get isStatic => throw _privateConstructorUsedError;
+
+  /// entry points this field is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -155,15 +164,26 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       : _entryPoints = entryPoints,
         super._();
 
+  /// type of this field
   @override
   final String typeName;
+
+  /// name of this field
   @override
   final String name;
+
+  /// whether this field is deprecated
   @override
   final bool isDeprecated;
+
+  /// whether this field is static
   @override
   final bool isStatic;
+
+  /// entry points this field is reachable through
   final Set<String>? _entryPoints;
+
+  /// entry points this field is reachable through
   @override
   Set<String>? get entryPoints {
     final value = _entryPoints;
@@ -215,14 +235,24 @@ abstract class _FieldDeclaration extends FieldDeclaration
   const _FieldDeclaration._() : super._();
 
   @override
+
+  /// type of this field
   String get typeName;
   @override
+
+  /// name of this field
   String get name;
   @override
+
+  /// whether this field is deprecated
   bool get isDeprecated;
   @override
+
+  /// whether this field is static
   bool get isStatic;
   @override
+
+  /// entry points this field is reachable through
   Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)

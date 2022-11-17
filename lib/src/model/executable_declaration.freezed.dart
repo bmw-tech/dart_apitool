@@ -260,14 +260,29 @@ abstract class _ExecutableParameterDeclaration
 
 /// @nodoc
 mixin _$ExecutableDeclaration {
+  /// name of the return type
   String get returnTypeName => throw _privateConstructorUsedError;
+
+  /// name of the executable
   String get name => throw _privateConstructorUsedError;
+
+  /// whether the executable is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   List<ExecutableParameterDeclaration> get parameters =>
       throw _privateConstructorUsedError;
+
+  /// type parameter names of this executable
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
+
+  /// type of the executable
   ExecutableType get type => throw _privateConstructorUsedError;
+
+  /// whether the executable is a static method
   bool get isStatic => throw _privateConstructorUsedError;
+
+  /// entry points for this executable
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -445,31 +460,50 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
         _entryPoints = entryPoints,
         super._();
 
+  /// name of the return type
   @override
   final String returnTypeName;
+
+  /// name of the executable
   @override
   final String name;
+
+  /// whether the executable is deprecated
   @override
   final bool isDeprecated;
+
+  /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   final List<ExecutableParameterDeclaration> _parameters;
+
+  /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   @override
   List<ExecutableParameterDeclaration> get parameters {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_parameters);
   }
 
+  /// type parameter names of this executable
   final List<String> _typeParameterNames;
+
+  /// type parameter names of this executable
   @override
   List<String> get typeParameterNames {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
 
+  /// type of the executable
   @override
   final ExecutableType type;
+
+  /// whether the executable is a static method
   @override
   final bool isStatic;
+
+  /// entry points for this executable
   final Set<String>? _entryPoints;
+
+  /// entry points for this executable
   @override
   Set<String>? get entryPoints {
     final value = _entryPoints;
@@ -537,20 +571,36 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   const _ExecutableDeclaration._() : super._();
 
   @override
+
+  /// name of the return type
   String get returnTypeName;
   @override
+
+  /// name of the executable
   String get name;
   @override
+
+  /// whether the executable is deprecated
   bool get isDeprecated;
   @override
+
+  /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   List<ExecutableParameterDeclaration> get parameters;
   @override
+
+  /// type parameter names of this executable
   List<String> get typeParameterNames;
   @override
+
+  /// type of the executable
   ExecutableType get type;
   @override
+
+  /// whether the executable is a static method
   bool get isStatic;
   @override
+
+  /// entry points for this executable
   Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)

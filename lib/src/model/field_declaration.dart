@@ -16,10 +16,19 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
 
   @Implements<Declaration>()
   const factory FieldDeclaration({
+    /// type of this field
     required String typeName,
+
+    /// name of this field
     required String name,
+
+    /// whether this field is deprecated
     required bool isDeprecated,
+
+    /// whether this field is static
     required bool isStatic,
+
+    /// entry points this field is reachable through
     Set<String>? entryPoints,
   }) = _FieldDeclaration;
 
