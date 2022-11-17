@@ -9,214 +9,165 @@ Therefore, we only consider changes in the public API of a package (meaning: thi
 ## Interfaces
 Dart-apitool treats classes, interfaces (abstract classes), enums, mixins and extension classes as interfaces.
 
-### CI01 An interface is removed
-<a name="CI01" />
+### <a name="CI01" />An interface is removed (CI01)
 This is a breaking change because it is possible that a user of the library is using the interface. If the interface is removed, the user will get a compile error.
 
-### CI02 An interface is added
-<a name="CI02" />
+### <a name="CI02" />An interface is added (CI02)
 Adding a new interface is an API change but a non-breaking one.
 
-### CI03 An interface is renamed
-<a name="CI03" />
+### <a name="CI03" />An interface is renamed (CI03)
 dart-apitool is treating this as removal of the old interface and addition of the new interface. So a breaking change (remove) and a non-breaking change (add).
 
-### CI04 supertype added
-<a name="CI04" />
+### <a name="CI04" />supertype added (CI04)
 Adding a supertype extends the API of the interface and therefore is a non-breaking change.
 
-### CI05 supertype removed
-<a name="CI05" />
+### <a name="CI05" />supertype removed (CI05)
 Removing a supertype potentially reduces the API of an interface and therefore is a breaking change.
 
-### CI06 The type parameters of an interface are changed (generic)
-<a name="CI06" />
+### <a name="CI06" />The type parameters of an interface are changed (generic) (CI06)
 This is a breaking change because it is possible that a user of the library is using the interface. If the type parameters are changed, the user will get a compile error. 
 This is a very generic error message that gets used if the name of the type parameters are ignored (number of type parameters changed)
 
-### CI07 Type parameter added
-<a name="CI07" />
+### <a name="CI07" />Type parameter added (CI07)
 A type parameter has been added to the interface. This is a breaking change.
 
-### CI08 Type parameter removed
-<a name="CI08" />
+### <a name="CI08" />Type parameter removed (CI08)
 A type parameter has been removed from the interface. This is a breaking change.
 
-### CI09 The deprecated status of an interface is changed
-<a name="CI09" />
+### <a name="CI09" />The deprecated status of an interface is changed (CI09)
 This is a non-breaking change.
 
 ## Executables are constructors, methods and functions. They are all treated the same way.
 
-### CE01 Executable parameter(s) are removed
-<a name="CE01" />
+### <a name="CE01" />Executable parameter(s) are removed (CE01)
 Removing a parameter of an executable is always a breaking change as a library user might be using the parameter.
 
-### CE02 Executable parameter(s) are added
-<a name="CE02" />
+### <a name="CE02" />Executable parameter(s) are added (CE02)
 Here it depends. If the parameter is an optional one then we have a non-breaking change. If it is a required parameter then this change is breaking.
 
-### CE03 Executable parameter(s) are renamed
-<a name="CE03" />
+### <a name="CE03" />Executable parameter(s) are renamed (CE03)
 dart-apitool tries to detect renames (by using type / order of parameters). If it can detect a renaming then it depends on the fact if the parameter is named or not.
 If a renaming of a named parameter is detected, then this change is breaking. A renaming of a positional parameter is not breaking.
 
-### CE04 Executable parameters are reordered
-<a name="CE04" />
+### <a name="CE04" />Executable parameters are reordered (CE04)
 That's a tricky one. Dart-apitool tries to match the old and the new parameters based on name and type to try to follow the reordering. If a reordering happened with named parameters and dart-apitool is able to match them then we have a non-breaking change. If it has (or dart-apitool things that it has) any effect on the user's code then we have a breaking change.
 
-### CE05 Executable parameter requiredness is changed
-<a name="CE05" />
+### <a name="CE05" />Executable parameter requiredness is changed (CE05)
 If a parameter is made optional then this is a non-breaking change. If it is made required then this is a breaking change.
 
-### CE06 Executable parameter deprecated status changed
-<a name="CE06" />
+### <a name="CE06" />Executable parameter deprecated status changed (CE06)
 this is a non-breaking change.
 
-### CE07 Executable parameter named status changed
-<a name="CE07" />
+### <a name="CE07" />Executable parameter named status changed (CE07)
 this is a breaking change.
 
-### CE08 Executable parameter type is changed
-<a name="CE08" />
+### <a name="CE08" />Executable parameter type is changed (CE08)
 this is a breaking change.
 
-### CE09 Executable return type is changed
-<a name="CE09" />
+### <a name="CE09" />Executable return type is changed (CE09)
 This is always a breaking change.
 
-### CE10 Executable is removed
-<a name="CE10" />
+### <a name="CE10" />Executable is removed (CE10)
 This is always a breaking change.
 
-### CE11 Executable is added
-<a name="CE11" />
+### <a name="CE11" />Executable is added (CE11)
 This is probably a non-breaking change. For exceptions to this see "Required interfaces"
 
-### CE12 Executable is renamed
-<a name="CE12" />
+### <a name="CE12" />Executable is renamed (CE12)
 This is treated as removal of the old executable and addition of the new one. So a breaking change (remove) and a (non-)breaking change (add).
 
-### CE13 The deprecated status of an executable is changed
-<a name="CE13" />
+### <a name="CE13" />The deprecated status of an executable is changed (CE13)
 This is a non-breaking change.
 
-### CE14 The declaration of an executable changed from/to non-static/static
-<a name="CE14" />
+### <a name="CE14" />The declaration of an executable changed from/to non-static/static (CE14)
 This is a breaking change.
 
 ## Fields
-### CF01 Field is removed
-<a name="CF01" />
+### <a name="CF01" />Field is removed (CF01)
 This is always a breaking change.
 
-### CF02 Field added
-<a name="CF02" />
+### <a name="CF02" />Field added (CF02)
 Adding a field extends the API and therefore is non-breaking (Exception: required interfaces)
 
-### CF03 Field deprecated status changed
-<a name="CF03" />
+### <a name="CF03" />Field deprecated status changed (CF03)
 this is a non-breaking change.
 
-### CF04 Field type changed
-<a name="CF04" />
+### <a name="CF04" />Field type changed (CF04)
 This is a breaking change.
 
-### CF05 Field declaration changed from/to non-static/static
-<a name="CF05" />
+### <a name="CF05" />Field declaration changed from/to non-static/static (CF05)
 This is a breaking change.
 
 ## Entry points
 Entry points are the imports that lead to this type being usable. Any change in those entry points is an API change.
 
-### CP01 New entry point
-<a name="CP01" />
+### <a name="CP01" />New entry point (CP01)
 Means a type is accessible through an additional entry point. Non-breaking change
 
-### CP02 entry point removed
-<a name="CP02" />
+### <a name="CP02" />entry point removed (CP02)
 Means a type is no longer accessible through an entry point. This is a breaking change as it can break users code
 
 ## Dependencies
-### CD01 A dependency is added
-<a name="CD01" />
+### <a name="CD01" />A dependency is added (CD01)
 This is a breaking change. This might not be obvious but adding a dependency can lead to a broken build of the user's code. For example, if the user is using a dependency that is not compatible with the new dependency then the user's code will not build.
 
-### CD02 A dependency is removed
-<a name="CD02" />
+### <a name="CD02" />A dependency is removed (CD02)
 This is a non-breaking change. The user's code might rely on that dependency transitively but this is bad practice anyways ;)
 
-### CD03 A dependency version is changed
-<a name="CD03" />
+### <a name="CD03" />A dependency version is changed (CD03)
 This depends on the kind of version change. If the change is a patch or minor upgrade (so still in semver range) then the change is non-breaking. If the upgrade is a major upgrade then the change is breaking.
 
 ## Platform
 Changes to the platform and its constraints are breaking if they are stricter than before. This means if the user's code is not compatible with the new constraints then the user's code will not build.
 
-### CPI01 iOS platform added
-<a name="CPI01" />
+### <a name="CPI01" />iOS platform added (CPI01)
 Platform got added. This is a breaking change.
 
-### CPI02 iOS platform removed
-<a name="CPI02" />
+### <a name="CPI02" />iOS platform removed (CPI02)
 Platform got removed. This is a breaking change.
 
-### CPI03 iOS platform constraint changed
-<a name="CPI03" />
+### <a name="CPI03" />iOS platform constraint changed (CPI03)
 The version of the iOS platform constraint changed. This is a breaking change if the new constraint is stricter than the old one.
 
-### CPA01 Android platform added
-<a name="CPA01" />
+### <a name="CPA01" />Android platform added (CPA01)
 Platform got added. This is a breaking change.
 
-### CPA02 Android platform removed
-<a name="CPA02" />
+### <a name="CPA02" />Android platform removed (CPA02)
 Platform got removed. This is a breaking change.
 
-### CPA03 Android platform min SDK version added
-<a name="CPA03" />
+### <a name="CPA03" />Android platform min SDK version added (CPA03)
 Min SDK Version for Android got added. This is a breaking change.
 
-### CPA04 Android platform min SDK version removed
-<a name="CPA04" />
+### <a name="CPA04" />Android platform min SDK version removed (CPA04)
 Min SDK Version for Android got removed. This is a non-breaking change.
 
-### CPA05 Android platform min SDK version changed
-<a name="CPA05" />
+### <a name="CPA05" />Android platform min SDK version changed (CPA05)
 Min SDK Version for Android got changed. This is a breaking change if the new constraint is stricter than the old one.
 
-### CPA06 Android platform target SDK version added
-<a name="CPA06" />
+### <a name="CPA06" />Android platform target SDK version added (CPA06)
 Target SDK Version for Android got added. This is a breaking change.
 
-### CPA07 Android platform target SDK version removed
-<a name="CPA07" />
+### <a name="CPA07" />Android platform target SDK version removed (CPA07)
 Target SDK Version for Android got removed. This is a non-breaking change.
 
-### CPA08 Android platform target SDK version changed
-<a name="CPA08" />
+### <a name="CPA08" />Android platform target SDK version changed (CPA08)
 Target SDK Version for Android got changed. This is a breaking change if the new constraint is stricter than the old one.
 
-### CPA09 Android platform compile SDK version added
-<a name="CPA09" />
+### <a name="CPA09" />Android platform compile SDK version added (CPA09)
 Compile SDK Version for Android got added. This is a breaking change.
 
-### CPA10 Android platform compile SDK version removed
-<a name="CPA10" />
+### <a name="CPA10" />Android platform compile SDK version removed (CPA10)
 Compile SDK Version for Android got removed. This is a non-breaking change.
 
-### CPA11 Android platform compile SDK version changed
-<a name="CPA11" />
+### <a name="CPA11" />Android platform compile SDK version changed (CPA11)
 Compile SDK Version for Android got changed. This is a breaking change if the new constraint is stricter than the old one.
 
 
 ## SDK constraints
-### CSDK01 SDK Type changed
-<a name="CSDK01" />
+### <a name="CSDK01" />SDK Type changed (CSDK01)
 This is a breaking change. (e.g. Dart → Flutter)
 
-### CSDK02 Min SDK version got raised
-<a name="CSDK02" />
+### <a name="CSDK02" />Min SDK version got raised (CSDK02)
 This is a breaking change.
 
 ## Required interfaces
