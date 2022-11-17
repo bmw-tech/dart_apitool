@@ -4,7 +4,6 @@ import 'dart:io';
 ///
 /// a [PackageRef] can be:
 /// - a directory path pointing to the sources of a package
-/// - a file path pointing to a file containing an API model (extracted from an earlier run)
 /// - a reference to pub (like pub://dart_apitool/0.1.2)
 class PackageRef {
   /// the actual string of this reference

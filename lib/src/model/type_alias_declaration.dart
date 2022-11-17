@@ -16,9 +16,16 @@ class TypeAliasDeclaration with _$TypeAliasDeclaration implements Declaration {
 
   @Implements<Declaration>()
   const factory TypeAliasDeclaration({
+    /// name of this type alias
     required String name,
+
+    /// name of the aliased type
     required String aliasedTypeName,
+
+    /// whether this type alias is deprecated
     required bool isDeprecated,
+
+    /// entry points this type alias is reachable through
     Set<String>? entryPoints,
   }) = _TypeAliasDeclaration;
 

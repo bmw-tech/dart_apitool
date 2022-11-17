@@ -56,13 +56,28 @@ class ExecutableDeclaration
   String get signature => _computeSignature();
 
   const factory ExecutableDeclaration({
+    /// name of the return type
     required String returnTypeName,
+
+    /// name of the executable
     required String name,
+
+    /// whether the executable is deprecated
     required bool isDeprecated,
+
+    /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
     required List<ExecutableParameterDeclaration> parameters,
+
+    /// type parameter names of this executable
     required List<String> typeParameterNames,
+
+    /// type of the executable
     required ExecutableType type,
+
+    /// whether the executable is a static method
     required bool isStatic,
+
+    /// entry points for this executable
     Set<String>? entryPoints,
   }) = _ExecutableDeclaration;
 

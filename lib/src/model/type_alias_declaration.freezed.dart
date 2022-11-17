@@ -16,9 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TypeAliasDeclaration {
+  /// name of this type alias
   String get name => throw _privateConstructorUsedError;
+
+  /// name of the aliased type
   String get aliasedTypeName => throw _privateConstructorUsedError;
+
+  /// whether this type alias is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// entry points this type alias is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -142,13 +149,22 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
       : _entryPoints = entryPoints,
         super._();
 
+  /// name of this type alias
   @override
   final String name;
+
+  /// name of the aliased type
   @override
   final String aliasedTypeName;
+
+  /// whether this type alias is deprecated
   @override
   final bool isDeprecated;
+
+  /// entry points this type alias is reachable through
   final Set<String>? _entryPoints;
+
+  /// entry points this type alias is reachable through
   @override
   Set<String>? get entryPoints {
     final value = _entryPoints;
@@ -198,12 +214,20 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
   const _TypeAliasDeclaration._() : super._();
 
   @override
+
+  /// name of this type alias
   String get name;
   @override
+
+  /// name of the aliased type
   String get aliasedTypeName;
   @override
+
+  /// whether this type alias is deprecated
   bool get isDeprecated;
   @override
+
+  /// entry points this type alias is reachable through
   Set<String>? get entryPoints;
   @override
   @JsonKey(ignore: true)
