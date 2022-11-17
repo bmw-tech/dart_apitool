@@ -6,6 +6,7 @@
   interfaces are considered 'required' if they are abstract and used in a public method or field.
   This indicates that this interfaces is intended to be implemented by the user and therefore adding things also is breaking the API.
 - detects changes in package dependencies
+- adds codes for API diff reasons that point to an explanation [here](https://github.com/devmil/dart_apitool/blob/main/readme/change_codes.md)
 
 ## Version 0.7.0
 - *BREAKING*: renamed "Class" model elements to "Interface" to reflect the abstraction it represents
