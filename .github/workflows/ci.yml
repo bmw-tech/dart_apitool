@@ -11,7 +11,7 @@ jobs:
   check_label:
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@v1
+      - uses: mheap/github-action-required-labels@v2
         if: github.ref != 'refs/heads/main'
         with:
           mode: exactly
