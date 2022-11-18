@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.8.1
+
 ## Version 0.8.0
 - improves handling of elements without root
 - changing required interfaces (even adding things) is now considered a breaking change
