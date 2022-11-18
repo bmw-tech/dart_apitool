@@ -35,7 +35,7 @@ jobs:
       - id: step_extract_version
         run: |
           FLUTTER_VERSION=${{ env.FLUTTER_VERSION }}
-          echo "{flutter-version}={${FLUTTER_VERSION}}" >> $GITHUB_OUTPUT
+          echo "flutter-version=${FLUTTER_VERSION}" >> $GITHUB_OUTPUT
 
   get_last_released_version:
     needs: check_label
@@ -50,7 +50,7 @@ jobs:
         name: Get latest version
         run: |
           LAST_VERSION=$(cat last_released_version.txt)
-          echo "{last_released_version}={${LAST_VERSION}}" >> $GITHUB_OUTPUT
+          echo "last_released_version=${LAST_VERSION}" >> $GITHUB_OUTPUT
 
   analysis:
     needs: [check_label, get_flutter_version]
