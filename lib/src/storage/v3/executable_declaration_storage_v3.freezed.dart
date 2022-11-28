@@ -26,6 +26,7 @@ mixin _$ExecutableParameterDeclarationStorageV3 {
   bool get isNamed => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isExperimental => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $ExecutableParameterDeclarationStorageV3CopyWith<$Res> {
       bool isNamed,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       String typeName});
 }
 
@@ -70,6 +72,7 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
     Object? isNamed = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? typeName = null,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +91,10 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       typeName: null == typeName
           ? _value.typeName
@@ -111,6 +118,7 @@ abstract class _$$_ExecutableParameterDeclarationStorageV3CopyWith<$Res>
       bool isNamed,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       String typeName});
 }
 
@@ -131,6 +139,7 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
     Object? isNamed = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? typeName = null,
   }) {
     return _then(_$_ExecutableParameterDeclarationStorageV3(
@@ -150,6 +159,10 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -167,6 +180,7 @@ class _$_ExecutableParameterDeclarationStorageV3
       required this.isNamed,
       required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required this.typeName})
       : super._();
 
@@ -183,11 +197,13 @@ class _$_ExecutableParameterDeclarationStorageV3
   @override
   final bool isDeprecated;
   @override
+  final bool isExperimental;
+  @override
   final String typeName;
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclarationStorageV3(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
+    return 'ExecutableParameterDeclarationStorageV3(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName)';
   }
 
   @override
@@ -201,14 +217,16 @@ class _$_ExecutableParameterDeclarationStorageV3
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isRequired, isNamed, name, isDeprecated, typeName);
+  int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
+      isDeprecated, isExperimental, typeName);
 
   @JsonKey(ignore: true)
   @override
@@ -233,6 +251,7 @@ abstract class _ExecutableParameterDeclarationStorageV3
           required final bool isNamed,
           required final String name,
           required final bool isDeprecated,
+          required final bool isExperimental,
           required final String typeName}) =
       _$_ExecutableParameterDeclarationStorageV3;
   const _ExecutableParameterDeclarationStorageV3._() : super._();
@@ -249,6 +268,8 @@ abstract class _ExecutableParameterDeclarationStorageV3
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isExperimental;
   @override
   String get typeName;
   @override
@@ -268,6 +289,7 @@ mixin _$ExecutableDeclarationStorageV3 {
   String get returnTypeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isExperimental => throw _privateConstructorUsedError;
   List<ExecutableParameterDeclarationStorageV3> get parameters =>
       throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
@@ -293,6 +315,7 @@ abstract class $ExecutableDeclarationStorageV3CopyWith<$Res> {
       {String returnTypeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       List<ExecutableParameterDeclarationStorageV3> parameters,
       List<String> typeParameterNames,
       ExecutableTypeStorageV3 type,
@@ -317,6 +340,7 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
     Object? returnTypeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? parameters = null,
     Object? typeParameterNames = null,
     Object? type = null,
@@ -335,6 +359,10 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       parameters: null == parameters
           ? _value.parameters
@@ -373,6 +401,7 @@ abstract class _$$_ExecutableDeclarationStorageV3CopyWith<$Res>
       {String returnTypeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       List<ExecutableParameterDeclarationStorageV3> parameters,
       List<String> typeParameterNames,
       ExecutableTypeStorageV3 type,
@@ -396,6 +425,7 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
     Object? returnTypeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? parameters = null,
     Object? typeParameterNames = null,
     Object? type = null,
@@ -414,6 +444,10 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       parameters: null == parameters
           ? _value._parameters
@@ -447,6 +481,7 @@ class _$_ExecutableDeclarationStorageV3
       {required this.returnTypeName,
       required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required final List<ExecutableParameterDeclarationStorageV3> parameters,
       required final List<String> typeParameterNames,
       required this.type,
@@ -467,6 +502,8 @@ class _$_ExecutableDeclarationStorageV3
   final String name;
   @override
   final bool isDeprecated;
+  @override
+  final bool isExperimental;
   final List<ExecutableParameterDeclarationStorageV3> _parameters;
   @override
   List<ExecutableParameterDeclarationStorageV3> get parameters {
@@ -494,7 +531,7 @@ class _$_ExecutableDeclarationStorageV3
 
   @override
   String toString() {
-    return 'ExecutableDeclarationStorageV3(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'ExecutableDeclarationStorageV3(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -507,6 +544,8 @@ class _$_ExecutableDeclarationStorageV3
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters) &&
             const DeepCollectionEquality()
@@ -525,6 +564,7 @@ class _$_ExecutableDeclarationStorageV3
       returnTypeName,
       name,
       isDeprecated,
+      isExperimental,
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
       type,
@@ -552,6 +592,7 @@ abstract class _ExecutableDeclarationStorageV3
       {required final String returnTypeName,
       required final String name,
       required final bool isDeprecated,
+      required final bool isExperimental,
       required final List<ExecutableParameterDeclarationStorageV3> parameters,
       required final List<String> typeParameterNames,
       required final ExecutableTypeStorageV3 type,
@@ -569,6 +610,8 @@ abstract class _ExecutableDeclarationStorageV3
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isExperimental;
   @override
   List<ExecutableParameterDeclarationStorageV3> get parameters;
   @override

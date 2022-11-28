@@ -3,6 +3,7 @@ part of 'package_api_differ_test.dart';
 final simpleClassA = InterfaceDeclaration(
   name: 'ClassA',
   isDeprecated: false,
+  isExperimental: false,
   typeParameterNames: const [],
   superTypeNames: const [],
   executableDeclarations: const [
@@ -10,6 +11,7 @@ final simpleClassA = InterfaceDeclaration(
       returnTypeName: 'ClassA',
       name: 'ClassA',
       isDeprecated: false,
+      isExperimental: false,
       parameters: [],
       typeParameterNames: [],
       type: ExecutableType.constructor,
@@ -22,6 +24,7 @@ final simpleClassA = InterfaceDeclaration(
 final simpleClassB = InterfaceDeclaration(
   name: 'ClassB',
   isDeprecated: false,
+  isExperimental: false,
   typeParameterNames: const [],
   superTypeNames: const [],
   executableDeclarations: const [
@@ -29,6 +32,7 @@ final simpleClassB = InterfaceDeclaration(
       returnTypeName: 'ClassB',
       name: 'ClassB',
       isDeprecated: false,
+      isExperimental: false,
       parameters: [],
       typeParameterNames: [],
       type: ExecutableType.constructor,
@@ -146,12 +150,14 @@ final simpleExecutable1 = ExecutableDeclaration(
   returnTypeName: '',
   name: 'doSomething1',
   isDeprecated: false,
+  isExperimental: false,
   parameters: const [
     ExecutableParameterDeclaration(
         isRequired: true,
         isNamed: true,
         name: 'firstParam',
         isDeprecated: false,
+        isExperimental: false,
         typeName: 'String'),
   ],
   isStatic: false,
@@ -163,6 +169,7 @@ final simpleExecutable2 = ExecutableDeclaration(
   returnTypeName: '',
   name: 'doSomething2',
   isDeprecated: false,
+  isExperimental: false,
   parameters: const [],
   typeParameterNames: const [],
   type: ExecutableType.method,
@@ -239,6 +246,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
             isNamed: false,
             name: 'optionalPositional',
             isDeprecated: false,
+            isExperimental: false,
             typeName: 'bool',
           ),
         ],
@@ -258,6 +266,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
             isNamed: true,
             name: 'optionalNamed',
             isDeprecated: false,
+            isExperimental: false,
             typeName: 'bool',
           ),
         ],
@@ -277,6 +286,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
             isNamed: false,
             name: 'requiredPositional',
             isDeprecated: false,
+            isExperimental: false,
             typeName: 'bool',
           ),
         ],
@@ -296,6 +306,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
             isNamed: true,
             name: 'requiredNamed',
             isDeprecated: false,
+            isExperimental: false,
             typeName: 'bool',
           ),
         ],
@@ -380,12 +391,14 @@ final simpleFieldDeclarationA = FieldDeclaration(
   typeName: 'String',
   name: 'fieldA',
   isDeprecated: false,
+  isExperimental: false,
   isStatic: false,
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
   name: 'fieldB',
   isDeprecated: false,
+  isExperimental: false,
   isStatic: false,
 );
 

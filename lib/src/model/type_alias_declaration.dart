@@ -25,6 +25,9 @@ class TypeAliasDeclaration with _$TypeAliasDeclaration implements Declaration {
     /// whether this type alias is deprecated
     required bool isDeprecated,
 
+    /// whether this type alias is experimental
+    required bool isExperimental,
+
     /// entry points this type alias is reachable through
     Set<String>? entryPoints,
   }) = _TypeAliasDeclaration;

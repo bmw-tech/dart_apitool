@@ -28,6 +28,9 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     /// whether this field is static
     required bool isStatic,
 
+    /// whether this field is experimental
+    required bool isExperimental,
+
     /// entry points this field is reachable through
     Set<String>? entryPoints,
   }) = _FieldDeclaration;

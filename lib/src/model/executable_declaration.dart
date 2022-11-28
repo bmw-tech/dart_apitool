@@ -34,6 +34,9 @@ class ExecutableParameterDeclaration
     /// whether the parameter is deprecated
     required bool isDeprecated,
 
+    /// whether the parameter is experimental
+    required bool isExperimental,
+
     /// type name of this parameter
     required String typeName,
   }) = _ExecutableParameterDeclaration;
@@ -64,6 +67,9 @@ class ExecutableDeclaration
 
     /// whether the executable is deprecated
     required bool isDeprecated,
+
+    /// whether the executable is experimental
+    required bool isExperimental,
 
     /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
     required List<ExecutableParameterDeclaration> parameters,

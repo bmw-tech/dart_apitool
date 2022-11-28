@@ -26,4 +26,11 @@ abstract class InternalDeclarationUtils {
         .map((st) => st.getDisplayString(withNullability: true))
         .toList();
   }
+
+  static hasExperimental(Element element) {
+    bool result = element.metadata.any((annotation) =>
+        annotation.element?.name == 'experimental' ||
+        annotation.element?.name == 'Experimental');
+    return result;
+  }
 }

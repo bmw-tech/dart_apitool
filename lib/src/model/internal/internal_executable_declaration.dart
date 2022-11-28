@@ -15,6 +15,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   final String name;
   final String? namespace;
   final bool isDeprecated;
+  final bool isExperimental;
   final List<ExecutableParameterDeclaration> parameters;
   final List<String> typeParameterNames;
   final ExecutableType type;
@@ -29,6 +30,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
     required this.name,
     required this.namespace,
     required this.isDeprecated,
+    required this.isExperimental,
     required this.parameters,
     required this.typeParameterNames,
     required this.type,
@@ -48,6 +50,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             name: executableElement.displayName,
             namespace: namespace,
             isDeprecated: executableElement.hasDeprecated,
+            isExperimental:
+                InternalDeclarationUtils.hasExperimental(executableElement),
             parameters: _computeParameterList(executableElement.parameters),
             typeParameterNames:
                 _computeTypeParameters(executableElement.typeParameters),
@@ -61,6 +65,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
       returnTypeName: returnTypeName,
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       parameters: parameters,
       typeParameterNames: typeParameterNames,
       type: type,
@@ -86,6 +91,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             isNamed: e.isNamed,
             name: e.name,
             isDeprecated: e.hasDeprecated,
+            isExperimental: InternalDeclarationUtils.hasExperimental(e),
             typeName: e.type.getDisplayString(withNullability: true)))
         .toList();
   }

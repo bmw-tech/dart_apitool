@@ -24,6 +24,7 @@ mixin _$TypeAliasDeclarationStorageV3 {
   String get name => throw _privateConstructorUsedError;
   String get aliasedTypeName => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isExperimental => throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $TypeAliasDeclarationStorageV3CopyWith<$Res> {
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
+      bool isExperimental,
       Set<String> entryPoints});
 }
 
@@ -64,6 +66,7 @@ class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
     Object? name = null,
     Object? aliasedTypeName = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? entryPoints = null,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +81,10 @@ class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: null == entryPoints
           ? _value.entryPoints
@@ -100,6 +107,7 @@ abstract class _$$_TypeAliasDeclarationStorageV3CopyWith<$Res>
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
+      bool isExperimental,
       Set<String> entryPoints});
 }
 
@@ -119,6 +127,7 @@ class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
     Object? name = null,
     Object? aliasedTypeName = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? entryPoints = null,
   }) {
     return _then(_$_TypeAliasDeclarationStorageV3(
@@ -133,6 +142,10 @@ class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: null == entryPoints
           ? _value._entryPoints
@@ -149,6 +162,7 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
       {required this.name,
       required this.aliasedTypeName,
       required this.isDeprecated,
+      required this.isExperimental,
       required final Set<String> entryPoints})
       : _entryPoints = entryPoints,
         super._();
@@ -163,6 +177,8 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
   final String aliasedTypeName;
   @override
   final bool isDeprecated;
+  @override
+  final bool isExperimental;
   final Set<String> _entryPoints;
   @override
   Set<String> get entryPoints {
@@ -172,7 +188,7 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
 
   @override
   String toString() {
-    return 'TypeAliasDeclarationStorageV3(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, entryPoints: $entryPoints)';
+    return 'TypeAliasDeclarationStorageV3(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, isExperimental: $isExperimental, entryPoints: $entryPoints)';
   }
 
   @override
@@ -185,14 +201,21 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
                 other.aliasedTypeName == aliasedTypeName) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, aliasedTypeName,
-      isDeprecated, const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      aliasedTypeName,
+      isDeprecated,
+      isExperimental,
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -215,6 +238,7 @@ abstract class _TypeAliasDeclarationStorageV3
           {required final String name,
           required final String aliasedTypeName,
           required final bool isDeprecated,
+          required final bool isExperimental,
           required final Set<String> entryPoints}) =
       _$_TypeAliasDeclarationStorageV3;
   const _TypeAliasDeclarationStorageV3._() : super._();
@@ -228,6 +252,8 @@ abstract class _TypeAliasDeclarationStorageV3
   String get aliasedTypeName;
   @override
   bool get isDeprecated;
+  @override
+  bool get isExperimental;
   @override
   Set<String> get entryPoints;
   @override

@@ -14,6 +14,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
     required String name,
     required String aliasedTypeName,
     required bool isDeprecated,
+    required bool isExperimental,
     required Set<String> entryPoints,
   }) = _TypeAliasDeclarationStorageV3;
 
@@ -25,6 +26,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
       name: name,
       aliasedTypeName: aliasedTypeName,
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       entryPoints: entryPoints,
     );
   }
@@ -35,6 +37,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
       name: typeAliasDeclaration.name,
       aliasedTypeName: typeAliasDeclaration.aliasedTypeName,
       isDeprecated: typeAliasDeclaration.isDeprecated,
+      isExperimental: typeAliasDeclaration.isExperimental,
       entryPoints: typeAliasDeclaration.entryPoints!,
     );
   }

@@ -24,6 +24,7 @@ mixin _$FieldDeclarationStorageV3 {
   String get typeName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isExperimental => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
 
@@ -43,6 +44,7 @@ abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
       {String typeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isStatic,
       Set<String> entryPoints});
 }
@@ -64,6 +66,7 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
     Object? typeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isStatic = null,
     Object? entryPoints = null,
   }) {
@@ -79,6 +82,10 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isStatic: null == isStatic
           ? _value.isStatic
@@ -105,6 +112,7 @@ abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
       {String typeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isStatic,
       Set<String> entryPoints});
 }
@@ -125,6 +133,7 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
     Object? typeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isStatic = null,
     Object? entryPoints = null,
   }) {
@@ -140,6 +149,10 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isStatic: null == isStatic
           ? _value.isStatic
@@ -160,6 +173,7 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required this.isStatic,
       required final Set<String> entryPoints})
       : _entryPoints = entryPoints,
@@ -175,6 +189,8 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
   @override
   final bool isDeprecated;
   @override
+  final bool isExperimental;
+  @override
   final bool isStatic;
   final Set<String> _entryPoints;
   @override
@@ -185,7 +201,7 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
 
   @override
   String toString() {
-    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -198,6 +214,8 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             (identical(other.isStatic, isStatic) ||
                 other.isStatic == isStatic) &&
             const DeepCollectionEquality()
@@ -206,8 +224,14 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, typeName, name, isDeprecated,
-      isStatic, const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      typeName,
+      name,
+      isDeprecated,
+      isExperimental,
+      isStatic,
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -229,6 +253,7 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
       {required final String typeName,
       required final String name,
       required final bool isDeprecated,
+      required final bool isExperimental,
       required final bool isStatic,
       required final Set<String> entryPoints}) = _$_FieldDeclarationStorageV3;
   const _FieldDeclarationStorageV3._() : super._();
@@ -242,6 +267,8 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isExperimental;
   @override
   bool get isStatic;
   @override

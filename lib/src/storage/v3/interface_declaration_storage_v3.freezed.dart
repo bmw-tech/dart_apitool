@@ -23,6 +23,7 @@ InterfaceDeclarationStorageV3 _$InterfaceDeclarationStorageV3FromJson(
 mixin _$InterfaceDeclarationStorageV3 {
   String get name => throw _privateConstructorUsedError;
   bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isExperimental => throw _privateConstructorUsedError;
   bool get isRequired => throw _privateConstructorUsedError;
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
   List<String> get superTypeNames => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $InterfaceDeclarationStorageV3CopyWith<$Res> {
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -73,6 +75,7 @@ class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -88,6 +91,10 @@ class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -129,6 +136,7 @@ abstract class _$$_InterfaceDeclarationStorageV3CopyWith<$Res>
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -152,6 +160,7 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -167,6 +176,10 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -202,6 +215,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   const _$_InterfaceDeclarationStorageV3(
       {required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required this.isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
@@ -224,6 +238,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final String name;
   @override
   final bool isDeprecated;
+  @override
+  final bool isExperimental;
   @override
   final bool isRequired;
   final List<String> _typeParameterNames;
@@ -263,7 +279,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
 
   @override
   String toString() {
-    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
+    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
   }
 
   @override
@@ -274,6 +290,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             const DeepCollectionEquality()
@@ -294,6 +312,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
       runtimeType,
       name,
       isDeprecated,
+      isExperimental,
       isRequired,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
@@ -321,6 +340,7 @@ abstract class _InterfaceDeclarationStorageV3
   const factory _InterfaceDeclarationStorageV3(
           {required final String name,
           required final bool isDeprecated,
+          required final bool isExperimental,
           required final bool isRequired,
           required final List<String> typeParameterNames,
           required final List<String> superTypeNames,
@@ -338,6 +358,8 @@ abstract class _InterfaceDeclarationStorageV3
   String get name;
   @override
   bool get isDeprecated;
+  @override
+  bool get isExperimental;
   @override
   bool get isRequired;
   @override
