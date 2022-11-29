@@ -152,6 +152,17 @@ class PackageApiDiffer {
         isCompatibleChange: true,
         changeCode: ApiChangeCode.ci09,
       );
+      _comparePropertiesAndAddChange(
+        oldInterface.isExperimental,
+        newInterface.isExperimental,
+        context,
+        newInterface,
+        'Experimental Flag changed. ${oldInterface.isExperimental} -> ${newInterface.isExperimental}',
+        changes,
+        isCompatibleChange: !newInterface
+            .isExperimental, //this is only non-breaking if the experimental flag is removed
+        changeCode: ApiChangeCode.ci10,
+      );
 
       return changes;
     });
@@ -230,6 +241,18 @@ class PackageApiDiffer {
         isCompatibleChange: true,
         changeCode: ApiChangeCode.ce13,
       );
+      _comparePropertiesAndAddChange(
+        oldExecutable.isExperimental,
+        newExecutable.isExperimental,
+        context,
+        newExecutable,
+        'Experimental Flag changed. ${oldExecutable.isExperimental} -> ${newExecutable.isExperimental}',
+        changes,
+        isCompatibleChange: !newExecutable
+            .isExperimental, //this is only non-breaking if the experimental flag is removed
+        changeCode: ApiChangeCode.ce15,
+      );
+
       _comparePropertiesAndAddChange(
         oldExecutable.returnTypeName,
         newExecutable.returnTypeName,
@@ -430,6 +453,17 @@ class PackageApiDiffer {
       changeCode: ApiChangeCode.ce06,
     );
     _comparePropertiesAndAddChange(
+      oldParam.isExperimental,
+      newParam.isExperimental,
+      context,
+      newParam,
+      'Experimental Flag changed. ${oldParam.isExperimental} -> ${newParam.isExperimental}',
+      changes,
+      isCompatibleChange: !newParam
+          .isExperimental, //this is only non-breaking if the experimental flag is removed
+      changeCode: ApiChangeCode.ce16,
+    );
+    _comparePropertiesAndAddChange(
       oldParam.isNamed,
       newParam.isNamed,
       context,
@@ -623,6 +657,17 @@ class PackageApiDiffer {
         changes,
         isCompatibleChange: true,
         changeCode: ApiChangeCode.cf03,
+      );
+      _comparePropertiesAndAddChange(
+        oldField.isExperimental,
+        newField.isExperimental,
+        context,
+        newField,
+        'Experimental Flag changed. ${oldField.isExperimental} -> ${newField.isExperimental}',
+        changes,
+        isCompatibleChange: !newField
+            .isExperimental, //this is only non-breaking if the experimental flag is removed
+        changeCode: ApiChangeCode.cf06,
       );
       _comparePropertiesAndAddChange(
         oldField.typeName,
