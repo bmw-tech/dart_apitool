@@ -35,6 +35,7 @@ class PackageApiAnalyzer {
   final String packagePath;
   final bool doMergeBaseClasses;
   final bool doAnalyzePlatformConstraints;
+  final bool doConsiderNonSrcAsEntryPoints;
 
   /// the semantics of package API models this analyzer produces.
   /// this set defines what packages can be compared with each other and is the result of the combination of parameters this analyzer was constructed with.
@@ -43,10 +44,12 @@ class PackageApiAnalyzer {
   /// constructor
   /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
+  /// [doConsiderNonSrcAsEntryPoints] defines if all files that are not in the lib/src subdirectory are considered as entry points. Otherwise only files directly in the lib subdirectory are considered as entry points.
   PackageApiAnalyzer({
     required this.packagePath,
     this.doMergeBaseClasses = true,
     this.doAnalyzePlatformConstraints = true,
+    this.doConsiderNonSrcAsEntryPoints = false,
   }) {
     if (doMergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
@@ -372,8 +375,13 @@ class PackageApiAnalyzer {
 
   Iterable<_FileToAnalyzeEntry> _findPublicFilesInProject(
       String normalizedAbsolutePath) {
+    final srcPath = path.join(normalizedAbsolutePath, 'src');
     return Directory(normalizedAbsolutePath)
-        .listSync(recursive: false)
+        // if we want to consider all files that are not in the src folder as potential entry points
+        // then we have to enable recursion here
+        .listSync(recursive: doConsiderNonSrcAsEntryPoints)
+        // ignore all files in `src` folder
+        .where((file) => !path.isWithin(srcPath, file.path))
         .where((file) => path.extension(file.path) == '.dart')
         .map((file) => _FileToAnalyzeEntry(
               filePath: path.normalize(path.absolute(file.path)),

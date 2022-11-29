@@ -4,8 +4,13 @@ import 'package:test/test.dart';
 class PackageApiRetriever {
   final String packageName;
   final String packageVersion;
+  final bool doConsiderNonSrcAsEntryPoints;
 
-  PackageApiRetriever(this.packageName, this.packageVersion);
+  PackageApiRetriever(
+    this.packageName,
+    this.packageVersion, {
+    this.doConsiderNonSrcAsEntryPoints = false,
+  });
 
   Future<PackageApi> retrieve() async {
     print('Downloading $packageName $packageVersion');
@@ -13,7 +18,10 @@ class PackageApiRetriever {
       packageName,
       packageVersion,
     );
-    final analyzer = PackageApiAnalyzer(packagePath: packageDirectory);
+    final analyzer = PackageApiAnalyzer(
+      packagePath: packageDirectory,
+      doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
+    );
     print('Analyzing $packageName $packageVersion');
     return await analyzer.analyze();
   }
