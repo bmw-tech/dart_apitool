@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'interface_declaration_storage_v3.dart';
 
@@ -245,6 +245,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final List<String> _typeParameterNames;
   @override
   List<String> get typeParameterNames {
+    if (_typeParameterNames is EqualUnmodifiableListView)
+      return _typeParameterNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
@@ -252,6 +254,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final List<String> _superTypeNames;
   @override
   List<String> get superTypeNames {
+    if (_superTypeNames is EqualUnmodifiableListView) return _superTypeNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_superTypeNames);
   }
@@ -259,6 +262,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final List<ExecutableDeclarationStorageV3> _executableDeclarations;
   @override
   List<ExecutableDeclarationStorageV3> get executableDeclarations {
+    if (_executableDeclarations is EqualUnmodifiableListView)
+      return _executableDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
@@ -266,6 +271,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final List<FieldDeclarationStorageV3> _fieldDeclarations;
   @override
   List<FieldDeclarationStorageV3> get fieldDeclarations {
+    if (_fieldDeclarations is EqualUnmodifiableListView)
+      return _fieldDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
@@ -273,6 +280,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   final Set<String> _entryPoints;
   @override
   Set<String> get entryPoints {
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_entryPoints);
   }

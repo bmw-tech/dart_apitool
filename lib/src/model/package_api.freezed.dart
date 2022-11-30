@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'package_api.dart';
 
@@ -356,6 +356,8 @@ class _$_PackageApi extends _PackageApi {
   /// interface declarations this package has
   @override
   List<InterfaceDeclaration> get interfaceDeclarations {
+    if (_interfaceDeclarations is EqualUnmodifiableListView)
+      return _interfaceDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_interfaceDeclarations);
   }
@@ -366,6 +368,8 @@ class _$_PackageApi extends _PackageApi {
   /// root level executable declarations this package has
   @override
   List<ExecutableDeclaration> get executableDeclarations {
+    if (_executableDeclarations is EqualUnmodifiableListView)
+      return _executableDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
@@ -376,6 +380,8 @@ class _$_PackageApi extends _PackageApi {
   /// root level field declarations this package has
   @override
   List<FieldDeclaration> get fieldDeclarations {
+    if (_fieldDeclarations is EqualUnmodifiableListView)
+      return _fieldDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
@@ -386,6 +392,8 @@ class _$_PackageApi extends _PackageApi {
   /// type alias declarations this package has
   @override
   List<TypeAliasDeclaration> get typeAliasDeclarations {
+    if (_typeAliasDeclarations is EqualUnmodifiableListView)
+      return _typeAliasDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeAliasDeclarations);
   }
@@ -397,6 +405,7 @@ class _$_PackageApi extends _PackageApi {
   @override
   @JsonKey()
   Set<PackageApiSemantics> get semantics {
+    if (_semantics is EqualUnmodifiableSetView) return _semantics;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_semantics);
   }
@@ -419,6 +428,8 @@ class _$_PackageApi extends _PackageApi {
   /// package dependencies
   @override
   List<PackageDependency> get packageDependencies {
+    if (_packageDependencies is EqualUnmodifiableListView)
+      return _packageDependencies;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_packageDependencies);
   }

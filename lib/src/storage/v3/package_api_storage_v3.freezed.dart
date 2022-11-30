@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'package_api_storage_v3.dart';
 
@@ -335,6 +335,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final List<InterfaceDeclarationStorageV3> _interfaceDeclarations;
   @override
   List<InterfaceDeclarationStorageV3> get interfaceDeclarations {
+    if (_interfaceDeclarations is EqualUnmodifiableListView)
+      return _interfaceDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_interfaceDeclarations);
   }
@@ -342,6 +344,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final List<ExecutableDeclarationStorageV3> _executableDeclarations;
   @override
   List<ExecutableDeclarationStorageV3> get executableDeclarations {
+    if (_executableDeclarations is EqualUnmodifiableListView)
+      return _executableDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
@@ -349,6 +353,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final List<FieldDeclarationStorageV3> _fieldDeclarations;
   @override
   List<FieldDeclarationStorageV3> get fieldDeclarations {
+    if (_fieldDeclarations is EqualUnmodifiableListView)
+      return _fieldDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
@@ -356,6 +362,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final List<TypeAliasDeclarationStorageV3> _typeAliasDeclarations;
   @override
   List<TypeAliasDeclarationStorageV3> get typeAliasDeclarations {
+    if (_typeAliasDeclarations is EqualUnmodifiableListView)
+      return _typeAliasDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeAliasDeclarations);
   }
@@ -363,6 +371,7 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final Set<PackageApiSemantics> _semantics;
   @override
   Set<PackageApiSemantics> get semantics {
+    if (_semantics is EqualUnmodifiableSetView) return _semantics;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_semantics);
   }
@@ -379,6 +388,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   final List<PackageDependencyStorageV3> _packageDependencies;
   @override
   List<PackageDependencyStorageV3> get packageDependencies {
+    if (_packageDependencies is EqualUnmodifiableListView)
+      return _packageDependencies;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_packageDependencies);
   }

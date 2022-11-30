@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'executable_declaration_storage_v3.dart';
 
@@ -507,6 +507,7 @@ class _$_ExecutableDeclarationStorageV3
   final List<ExecutableParameterDeclarationStorageV3> _parameters;
   @override
   List<ExecutableParameterDeclarationStorageV3> get parameters {
+    if (_parameters is EqualUnmodifiableListView) return _parameters;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_parameters);
   }
@@ -514,6 +515,8 @@ class _$_ExecutableDeclarationStorageV3
   final List<String> _typeParameterNames;
   @override
   List<String> get typeParameterNames {
+    if (_typeParameterNames is EqualUnmodifiableListView)
+      return _typeParameterNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
@@ -525,6 +528,7 @@ class _$_ExecutableDeclarationStorageV3
   final Set<String> _entryPoints;
   @override
   Set<String> get entryPoints {
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_entryPoints);
   }
