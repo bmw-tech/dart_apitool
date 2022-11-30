@@ -17,6 +17,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
   const factory InterfaceDeclarationStorageV3({
     required String name,
     required bool isDeprecated,
+    required bool isExperimental,
     required bool isRequired,
     required List<String> typeParameterNames,
     required List<String> superTypeNames,
@@ -33,6 +34,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
       name: name,
       isDeprecated: isDeprecated,
       isRequired: isRequired,
+      isExperimental: isExperimental,
       typeParameterNames: typeParameterNames,
       superTypeNames: superTypeNames,
       executableDeclarations: executableDeclarations
@@ -49,6 +51,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
     return InterfaceDeclarationStorageV3(
       name: interfaceDeclaration.name,
       isDeprecated: interfaceDeclaration.isDeprecated,
+      isExperimental: interfaceDeclaration.isExperimental,
       isRequired: interfaceDeclaration.isRequired,
       typeParameterNames: interfaceDeclaration.typeParameterNames,
       superTypeNames: interfaceDeclaration.superTypeNames,

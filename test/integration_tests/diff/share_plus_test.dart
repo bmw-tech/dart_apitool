@@ -19,7 +19,7 @@ void main() {
 
       test('is breaking change', () {
         final isBreakingChange =
-            diffResult.apiChanges.any((element) => element.type.isBreaking);
+            diffResult.apiChanges.any((element) => element.isBreaking);
         expect(isBreakingChange, isTrue);
       });
     });
@@ -37,7 +37,7 @@ void main() {
 
       test('is non-breaking change', () {
         final isBreakingChange =
-            diffResult.apiChanges.any((element) => element.type.isBreaking);
+            diffResult.apiChanges.any((element) => element.isBreaking);
         expect(isBreakingChange, isFalse);
       });
     });

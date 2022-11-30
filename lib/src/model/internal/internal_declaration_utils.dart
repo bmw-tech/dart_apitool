@@ -26,4 +26,16 @@ abstract class InternalDeclarationUtils {
         .map((st) => st.getDisplayString(withNullability: true))
         .toList();
   }
+
+  static hasExperimental(Element element) {
+    bool result = element.metadata.any((annotation) {
+      // this is really hacky but currently there is no other way of getting into the guts of the annotation
+      dynamic dynamicAnnotation = annotation;
+      final String annotationName = dynamicAnnotation.annotationAst.name.name;
+
+      return annotationName == 'experimental' ||
+          annotationName == 'Experimental';
+    });
+    return result;
+  }
 }

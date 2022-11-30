@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'field_declaration.dart';
 
@@ -28,6 +28,9 @@ mixin _$FieldDeclaration {
   /// whether this field is static
   bool get isStatic => throw _privateConstructorUsedError;
 
+  /// whether this field is experimental
+  bool get isExperimental => throw _privateConstructorUsedError;
+
   /// entry points this field is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
@@ -47,6 +50,7 @@ abstract class $FieldDeclarationCopyWith<$Res> {
       String name,
       bool isDeprecated,
       bool isStatic,
+      bool isExperimental,
       Set<String>? entryPoints});
 }
 
@@ -67,6 +71,7 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
+    Object? isExperimental = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
@@ -85,6 +90,10 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
       isStatic: null == isStatic
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: freezed == entryPoints
           ? _value.entryPoints
@@ -107,6 +116,7 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
       String name,
       bool isDeprecated,
       bool isStatic,
+      bool isExperimental,
       Set<String>? entryPoints});
 }
 
@@ -125,6 +135,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
+    Object? isExperimental = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_FieldDeclaration(
@@ -144,6 +155,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
           ? _value.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
       entryPoints: freezed == entryPoints
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
@@ -160,6 +175,7 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       required this.name,
       required this.isDeprecated,
       required this.isStatic,
+      required this.isExperimental,
       final Set<String>? entryPoints})
       : _entryPoints = entryPoints,
         super._();
@@ -180,6 +196,10 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   @override
   final bool isStatic;
 
+  /// whether this field is experimental
+  @override
+  final bool isExperimental;
+
   /// entry points this field is reachable through
   final Set<String>? _entryPoints;
 
@@ -188,13 +208,14 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   Set<String>? get entryPoints {
     final value = _entryPoints;
     if (value == null) return null;
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints)';
   }
 
   @override
@@ -209,13 +230,21 @@ class _$_FieldDeclaration extends _FieldDeclaration {
                 other.isDeprecated == isDeprecated) &&
             (identical(other.isStatic, isStatic) ||
                 other.isStatic == isStatic) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, typeName, name, isDeprecated,
-      isStatic, const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      typeName,
+      name,
+      isDeprecated,
+      isStatic,
+      isExperimental,
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -231,6 +260,7 @@ abstract class _FieldDeclaration extends FieldDeclaration
       required final String name,
       required final bool isDeprecated,
       required final bool isStatic,
+      required final bool isExperimental,
       final Set<String>? entryPoints}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
 
@@ -250,6 +280,10 @@ abstract class _FieldDeclaration extends FieldDeclaration
 
   /// whether this field is static
   bool get isStatic;
+  @override
+
+  /// whether this field is experimental
+  bool get isExperimental;
   @override
 
   /// entry points this field is reachable through

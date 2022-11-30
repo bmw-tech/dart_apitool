@@ -37,6 +37,9 @@ A type parameter has been removed from the interface. This is a breaking change.
 ### <a name="CI09" />The deprecated status of an interface is changed (CI09)
 This is a non-breaking change.
 
+### <a name="CI10" />The experimental status of an interface is changed (CI10)
+If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
+
 ## Executables are constructors, methods and functions. They are all treated the same way.
 
 ### <a name="CE01" />Executable parameter(s) are removed (CE01)
@@ -82,6 +85,12 @@ This is a non-breaking change.
 ### <a name="CE14" />The declaration of an executable changed from/to non-static/static (CE14)
 This is a breaking change.
 
+### <a name="CE15" />The experimental status of an executable is changed (CE15)
+If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
+
+### <a name="CE16" />Executable parameter experimental status is changed (CE16)
+If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
+
 ## Fields
 ### <a name="CF01" />Field is removed (CF01)
 This is always a breaking change.
@@ -97,6 +106,9 @@ This is a breaking change.
 
 ### <a name="CF05" />Field declaration changed from/to non-static/static (CF05)
 This is a breaking change.
+
+### <a name="CF06" />Field experimental status changed (CF06)
+If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
 
 ## Entry points
 Entry points are the imports that lead to this type being usable. Any change in those entry points is an API change.

@@ -183,8 +183,7 @@ You may want to do this if you want to make sure
 
   String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
     Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
-      final relevantChanges =
-          n.changes.where((c) => c.type.isBreaking == breaking);
+      final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
       final changeNodes = relevantChanges.map((c) =>
           '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})');
       final childNodes = n.children.values
@@ -240,7 +239,7 @@ You may want to do this if you want to make sure
 
     bool containsAnyChanges = diffResult.hasChanges;
     bool containsBreakingChanges =
-        diffResult.apiChanges.any((change) => change.type.isBreaking);
+        diffResult.apiChanges.any((change) => change.isBreaking);
 
     if (ignorePrerelease) {
       // if we want to ignore pre-release then we just remove the prerelease part of the Version

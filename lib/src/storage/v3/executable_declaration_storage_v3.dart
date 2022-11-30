@@ -42,6 +42,7 @@ class ExecutableParameterDeclarationStorageV3
     required bool isNamed,
     required String name,
     required bool isDeprecated,
+    required bool isExperimental,
     required String typeName,
   }) = _ExecutableParameterDeclarationStorageV3;
 
@@ -55,6 +56,7 @@ class ExecutableParameterDeclarationStorageV3
       isNamed: isNamed,
       name: name,
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       typeName: typeName,
     );
   }
@@ -67,6 +69,7 @@ class ExecutableParameterDeclarationStorageV3
       isNamed: executableParameterDeclaration.isNamed,
       name: executableParameterDeclaration.name,
       isDeprecated: executableParameterDeclaration.isDeprecated,
+      isExperimental: executableParameterDeclaration.isExperimental,
       typeName: executableParameterDeclaration.typeName,
     );
   }
@@ -81,6 +84,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
     required String returnTypeName,
     required String name,
     required bool isDeprecated,
+    required bool isExperimental,
     required List<ExecutableParameterDeclarationStorageV3> parameters,
     required List<String> typeParameterNames,
     required ExecutableTypeStorageV3 type,
@@ -96,6 +100,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
       returnTypeName: returnTypeName,
       name: name,
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       parameters:
           parameters.map((p) => p.toExecutableParameterDeclaration()).toList(),
       typeParameterNames: typeParameterNames,
@@ -111,6 +116,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
       returnTypeName: executableDeclaration.returnTypeName,
       name: executableDeclaration.name,
       isDeprecated: executableDeclaration.isDeprecated,
+      isExperimental: executableDeclaration.isExperimental,
       parameters: executableDeclaration.parameters
           .map((p) => ExecutableParameterDeclarationStorageV3
               .fromExecutableParameterDeclaration(p))

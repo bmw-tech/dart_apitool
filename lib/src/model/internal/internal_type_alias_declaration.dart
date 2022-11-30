@@ -14,6 +14,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
   final String? namespace;
   final String aliasedTypeName;
   final bool isDeprecated;
+  final bool isExperimental;
 
   @override
   Set<String>? entryPoints;
@@ -25,6 +26,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
     required this.namespace,
     required this.aliasedTypeName,
     required this.isDeprecated,
+    required this.isExperimental,
     required this.entryPoints,
   });
 
@@ -40,6 +42,8 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
             aliasedTypeName: typeAliasElement.aliasedType
                 .getDisplayString(withNullability: true),
             isDeprecated: typeAliasElement.hasDeprecated,
+            isExperimental:
+                InternalDeclarationUtils.hasExperimental(typeAliasElement),
             entryPoints: {});
 
   TypeAliasDeclaration toTypeAliasDeclaration() {
@@ -48,6 +52,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
       name: '$namespacePrefix$name',
       aliasedTypeName: aliasedTypeName,
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       entryPoints: entryPoints,
     );
   }

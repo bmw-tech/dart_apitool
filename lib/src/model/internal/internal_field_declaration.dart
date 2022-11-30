@@ -15,6 +15,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
   final String name;
   final String? namespace;
   final bool isDeprecated;
+  final bool isExperimental;
   final bool isStatic;
   @override
   final Set<String>? entryPoints;
@@ -26,6 +27,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
     required this.name,
     required this.namespace,
     required this.isDeprecated,
+    required this.isExperimental,
     required this.isStatic,
     required this.entryPoints,
   });
@@ -41,6 +43,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
             name: fieldElement.name,
             namespace: namespace,
             isDeprecated: fieldElement.hasDeprecated,
+            isExperimental:
+                InternalDeclarationUtils.hasExperimental(fieldElement),
             isStatic: fieldElement.isStatic,
             entryPoints: {});
 
@@ -50,6 +54,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
       typeName: typeName,
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       isStatic: isStatic,
       entryPoints: entryPoints,
     );

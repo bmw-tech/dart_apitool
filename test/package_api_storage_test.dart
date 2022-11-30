@@ -85,6 +85,7 @@ final testPackage1Api = PackageApi(
     InterfaceDeclaration(
       name: 'StorageTestClass',
       isDeprecated: false,
+      isExperimental: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
@@ -92,6 +93,7 @@ final testPackage1Api = PackageApi(
             returnTypeName: 'String',
             name: 'getString',
             isDeprecated: false,
+            isExperimental: false,
             isStatic: false,
             parameters: [
               ExecutableParameterDeclaration(
@@ -99,6 +101,7 @@ final testPackage1Api = PackageApi(
                 isNamed: true,
                 name: 'input',
                 isDeprecated: false,
+                isExperimental: false,
                 typeName: 'T',
               ),
               ExecutableParameterDeclaration(
@@ -106,6 +109,7 @@ final testPackage1Api = PackageApi(
                 isNamed: true,
                 name: 'mode',
                 isDeprecated: false,
+                isExperimental: false,
                 typeName: 'GetStringMode',
               ),
             ],
@@ -117,6 +121,7 @@ final testPackage1Api = PackageApi(
           typeName: 'bool',
           name: 'printDebug',
           isDeprecated: false,
+          isExperimental: false,
           isStatic: false,
         ),
       ],
@@ -142,6 +147,7 @@ final package1JsonString = '''
             {
                 "name": "StorageTestClass",
                 "isDeprecated": false,
+                "isExperimental": false,
                 "typeParameterNames": [
                     "T"
                 ],
@@ -153,6 +159,7 @@ final package1JsonString = '''
                         "returnTypeName": "String",
                         "name": "getString",
                         "isDeprecated": false,
+                        "isExperimental": false,
                         "isStatic": false,
                         "parameters": [
                             {
@@ -160,6 +167,7 @@ final package1JsonString = '''
                                 "isNamed": true,
                                 "name": "input",
                                 "isDeprecated": false,
+                                "isExperimental": false,
                                 "typeName": "T"
                             },
                             {
@@ -167,6 +175,7 @@ final package1JsonString = '''
                                 "isNamed": true,
                                 "name": "mode",
                                 "isDeprecated": false,
+                                "isExperimental": false,
                                 "typeName": "GetStringMode"
                             }
                         ],
@@ -181,6 +190,7 @@ final package1JsonString = '''
                         "typeName": "bool",
                         "name": "printDebug",
                         "isDeprecated": false,
+                        "isExperimental": false,
                         "isStatic": false
                     }
                 ]
@@ -200,6 +210,7 @@ final testPackage2Api = PackageApi(
     InterfaceDeclaration(
       name: 'StorageTestClass',
       isDeprecated: false,
+      isExperimental: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
@@ -207,6 +218,7 @@ final testPackage2Api = PackageApi(
           returnTypeName: 'String',
           name: 'getString',
           isDeprecated: false,
+          isExperimental: false,
           isStatic: false,
           parameters: [
             ExecutableParameterDeclaration(
@@ -214,6 +226,7 @@ final testPackage2Api = PackageApi(
               isNamed: true,
               name: 'input',
               isDeprecated: false,
+              isExperimental: false,
               typeName: 'T',
             ),
             ExecutableParameterDeclaration(
@@ -221,6 +234,7 @@ final testPackage2Api = PackageApi(
               isNamed: true,
               name: 'mode',
               isDeprecated: false,
+              isExperimental: false,
               typeName: 'GetStringMode',
             ),
           ],
@@ -234,6 +248,7 @@ final testPackage2Api = PackageApi(
           typeName: 'bool',
           name: 'printDebug',
           isDeprecated: false,
+          isExperimental: false,
           isStatic: false,
           entryPoints: {},
         ),
@@ -249,6 +264,7 @@ final testPackage2Api = PackageApi(
       name: 'name',
       aliasedTypeName: 'aliasedTypeName',
       isDeprecated: false,
+      isExperimental: false,
       entryPoints: {
         'entrypoint.dart',
       },
@@ -270,6 +286,7 @@ final package2JsonString = '''
             {
                 "name": "StorageTestClass",
                 "isDeprecated": false,
+                "isExperimental": false,
                 "typeParameterNames": [
                     "T"
                 ],
@@ -281,6 +298,7 @@ final package2JsonString = '''
                         "returnTypeName": "String",
                         "name": "getString",
                         "isDeprecated": false,
+                        "isExperimental": false,
                         "isStatic": false,
                         "parameters": [
                             {
@@ -288,6 +306,7 @@ final package2JsonString = '''
                                 "isNamed": true,
                                 "name": "input",
                                 "isDeprecated": false,
+                                "isExperimental": false,
                                 "typeName": "T"
                             },
                             {
@@ -295,6 +314,7 @@ final package2JsonString = '''
                                 "isNamed": true,
                                 "name": "mode",
                                 "isDeprecated": false,
+                                "isExperimental": false,
                                 "typeName": "GetStringMode"
                             }
                         ],
@@ -311,6 +331,7 @@ final package2JsonString = '''
                         "typeName": "bool",
                         "name": "printDebug",
                         "isDeprecated": false,
+                        "isExperimental": false,
                         "isStatic": false,
                         "entryPoints": [
                         ]
@@ -328,6 +349,7 @@ final package2JsonString = '''
                 "name": "name",
                 "aliasedTypeName": "aliasedTypeName",
                 "isDeprecated": false,
+                "isExperimental": false,
                 "entryPoints": [
                     "entrypoint.dart"
                 ]

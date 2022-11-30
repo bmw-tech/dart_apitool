@@ -44,34 +44,44 @@ class PackageApiDiffer {
 
     try {
       final changes = [
-        ..._calculateInterfacesDiff(oldApi.interfaceDeclarations,
-            newApi.interfaceDeclarations, Stack<Declaration>()),
+        ..._calculateInterfacesDiff(
+          oldApi.interfaceDeclarations,
+          newApi.interfaceDeclarations,
+          Stack<Declaration>(),
+          isExperimental: false,
+        ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
           newApi.executableDeclarations,
           Stack<Declaration>(),
+          isExperimental: false,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
           newApi.fieldDeclarations,
           Stack<Declaration>(),
+          isExperimental: false,
         ),
         ..._calculateIOSPlatformConstraintsDiff(
           oldApi.iosPlatformConstraints,
           newApi.iosPlatformConstraints,
+          isExperimental: false,
         ),
         ..._calculateAndroidPlatformConstraintsDiff(
           oldApi.androidPlatformConstraints,
           newApi.androidPlatformConstraints,
+          isExperimental: false,
         ),
         if (options.doCheckSdkVersion)
           ..._calculateSdkDiff(
             oldApi,
             newApi,
+            isExperimental: false,
           ),
         ..._calculatePackageDependenciesDiff(
           oldApi,
           newApi,
+          isExperimental: false,
         ),
       ];
 
@@ -83,9 +93,11 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateInterfacesDiff(
-      List<InterfaceDeclaration> oldInterfaces,
-      List<InterfaceDeclaration> newInterfaces,
-      Stack<Declaration> context) {
+    List<InterfaceDeclaration> oldInterfaces,
+    List<InterfaceDeclaration> newInterfaces,
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
       newInterfaces,
@@ -93,10 +105,12 @@ class PackageApiDiffer {
     );
     final changes = <ApiChange>[];
     for (final oldInterface in interfaceListDiff.matches.keys) {
+      final newInterface = interfaceListDiff.matches[oldInterface]!;
       changes.addAll(_calculateInterfaceDiff(
         oldInterface,
-        interfaceListDiff.matches[oldInterface]!,
+        newInterface,
         context,
+        isExperimental: newInterface.isExperimental || isExperimental,
       ));
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
@@ -105,6 +119,7 @@ class PackageApiDiffer {
         affectedDeclaration: removedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
+        isExperimental: isExperimental,
         changeDescription: 'Interface "${removedInterface.name}" removed',
       ));
     }
@@ -114,6 +129,7 @@ class PackageApiDiffer {
         affectedDeclaration: addedInterface,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.addCompatible,
+        isExperimental: isExperimental,
         changeDescription: 'Interface "${addedInterface.name}" added',
       ));
     }
@@ -123,23 +139,44 @@ class PackageApiDiffer {
   List<ApiChange> _calculateInterfaceDiff(
     InterfaceDeclaration oldInterface,
     InterfaceDeclaration newInterface,
-    Stack<Declaration> context,
-  ) {
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
-        ..._calculateExecutablesDiff(oldInterface.executableDeclarations,
-            newInterface.executableDeclarations, context,
-            isInterfaceRequired: oldInterface.isRequired),
-        ..._calculateFieldsDiff(oldInterface.fieldDeclarations,
-            newInterface.fieldDeclarations, context,
-            isInterfaceRequired: oldInterface.isRequired),
+        ..._calculateExecutablesDiff(
+          oldInterface.executableDeclarations,
+          newInterface.executableDeclarations,
+          context,
+          isInterfaceRequired: oldInterface.isRequired,
+          isExperimental: isExperimental,
+        ),
+        ..._calculateFieldsDiff(
+          oldInterface.fieldDeclarations,
+          newInterface.fieldDeclarations,
+          context,
+          isInterfaceRequired: oldInterface.isRequired,
+          isExperimental: isExperimental,
+        ),
         ..._calculateSuperTypesDiff(
-            oldInterface.superTypeNames, newInterface.superTypeNames, context),
-        ..._calculateTypeParametersDiff(oldInterface.typeParameterNames,
-            newInterface.typeParameterNames, context,
-            isInterfaceRequired: oldInterface.isRequired),
+          oldInterface.superTypeNames,
+          newInterface.superTypeNames,
+          context,
+          isExperimental: isExperimental,
+        ),
+        ..._calculateTypeParametersDiff(
+          oldInterface.typeParameterNames,
+          newInterface.typeParameterNames,
+          context,
+          isInterfaceRequired: oldInterface.isRequired,
+          isExperimental: isExperimental,
+        ),
         ..._calculateEntryPointsDiff(
-            oldInterface.entryPoints, newInterface.entryPoints, context)
+          oldInterface.entryPoints,
+          newInterface.entryPoints,
+          context,
+          isExperimental: isExperimental,
+        )
       ];
 
       _comparePropertiesAndAddChange(
@@ -151,6 +188,20 @@ class PackageApiDiffer {
         changes,
         isCompatibleChange: true,
         changeCode: ApiChangeCode.ci09,
+        isExperimental: isExperimental,
+      );
+      _comparePropertiesAndAddChange(
+        oldInterface.isExperimental,
+        newInterface.isExperimental,
+        context,
+        newInterface,
+        'Experimental Flag changed. ${oldInterface.isExperimental} -> ${newInterface.isExperimental}',
+        changes,
+        isCompatibleChange: !newInterface
+            .isExperimental, //this is only non-breaking if the experimental flag is removed or the interface is experimental
+        changeCode: ApiChangeCode.ci10,
+        isExperimental:
+            false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
       );
 
       return changes;
@@ -158,21 +209,25 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateExecutablesDiff(
-      List<ExecutableDeclaration> oldExecutables,
-      List<ExecutableDeclaration> newExecutables,
-      Stack<Declaration> context,
-      {bool? isInterfaceRequired}) {
+    List<ExecutableDeclaration> oldExecutables,
+    List<ExecutableDeclaration> newExecutables,
+    Stack<Declaration> context, {
+    bool? isInterfaceRequired,
+    required bool isExperimental,
+  }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
         oldExecutables,
         newExecutables,
         (oldEx, newEx) => oldEx.name == newEx.name);
     final changes = <ApiChange>[];
     for (final oldEx in executableListDiff.matches.keys) {
+      final newEx = executableListDiff.matches[oldEx]!;
       changes.addAll(_calculateExecutableDiff(
         oldEx,
-        executableListDiff.matches[oldEx]!,
+        newEx,
         context,
         isInterfaceRequired: isInterfaceRequired,
+        isExperimental: newEx.isExperimental || isExperimental,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -181,6 +236,7 @@ class PackageApiDiffer {
         affectedDeclaration: removedExecutable,
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
+        isExperimental: isExperimental,
         changeDescription:
             '${_getExecutableTypeName(removedExecutable.type, context.isNotEmpty)} "${removedExecutable.name}" removed',
       ));
@@ -190,9 +246,10 @@ class PackageApiDiffer {
         changeCode: ApiChangeCode.ce11,
         affectedDeclaration: addedExecutable,
         contextTrace: _contextTraceFromStack(context),
-        type: (isInterfaceRequired ?? false)
+        type: isInterfaceRequired ?? false
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
+        isExperimental: isExperimental,
         changeDescription:
             '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
@@ -209,16 +266,28 @@ class PackageApiDiffer {
     }
   }
 
-  List<ApiChange> _calculateExecutableDiff(ExecutableDeclaration oldExecutable,
-      ExecutableDeclaration newExecutable, Stack<Declaration> context,
-      {bool? isInterfaceRequired}) {
+  List<ApiChange> _calculateExecutableDiff(
+    ExecutableDeclaration oldExecutable,
+    ExecutableDeclaration newExecutable,
+    Stack<Declaration> context, {
+    bool? isInterfaceRequired,
+    required bool isExperimental,
+  }) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
         ..._calculateParametersDiff(
-            oldExecutable.parameters, newExecutable.parameters, context,
-            isInterfaceRequired: isInterfaceRequired),
-        ..._calculateTypeParametersDiff(oldExecutable.typeParameterNames,
-            newExecutable.typeParameterNames, context),
+          oldExecutable.parameters,
+          newExecutable.parameters,
+          context,
+          isInterfaceRequired: isInterfaceRequired,
+          isExperimental: isExperimental,
+        ),
+        ..._calculateTypeParametersDiff(
+          oldExecutable.typeParameterNames,
+          newExecutable.typeParameterNames,
+          context,
+          isExperimental: isExperimental,
+        ),
       ];
       _comparePropertiesAndAddChange(
         oldExecutable.isDeprecated,
@@ -229,7 +298,22 @@ class PackageApiDiffer {
         changes,
         isCompatibleChange: true,
         changeCode: ApiChangeCode.ce13,
+        isExperimental: isExperimental,
       );
+      _comparePropertiesAndAddChange(
+        oldExecutable.isExperimental,
+        newExecutable.isExperimental,
+        context,
+        newExecutable,
+        'Experimental Flag changed. ${oldExecutable.isExperimental} -> ${newExecutable.isExperimental}',
+        changes,
+        isCompatibleChange: !newExecutable
+            .isExperimental, //this is only non-breaking if the experimental flag is removed or if we are in an experimental context
+        changeCode: ApiChangeCode.ce15,
+        isExperimental:
+            false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
+      );
+
       _comparePropertiesAndAddChange(
         oldExecutable.returnTypeName,
         newExecutable.returnTypeName,
@@ -237,7 +321,9 @@ class PackageApiDiffer {
         newExecutable,
         'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
+        isCompatibleChange: false,
         changeCode: ApiChangeCode.ce09,
+        isExperimental: isExperimental,
       );
       _comparePropertiesAndAddChange(
         oldExecutable.isStatic,
@@ -246,12 +332,15 @@ class PackageApiDiffer {
         newExecutable,
         'Static specifier changed. ${oldExecutable.isStatic} -> ${newExecutable.isStatic}',
         changes,
+        isCompatibleChange: false,
         changeCode: ApiChangeCode.ce14,
+        isExperimental: isExperimental,
       );
       changes.addAll(_calculateEntryPointsDiff(
         oldExecutable.entryPoints,
         newExecutable.entryPoints,
         context,
+        isExperimental: isExperimental,
       ));
 
       return changes;
@@ -343,10 +432,12 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateParametersDiff(
-      List<ExecutableParameterDeclaration> oldParameters,
-      List<ExecutableParameterDeclaration> newParameters,
-      Stack<Declaration> context,
-      {bool? isInterfaceRequired}) {
+    List<ExecutableParameterDeclaration> oldParameters,
+    List<ExecutableParameterDeclaration> newParameters,
+    Stack<Declaration> context, {
+    bool? isInterfaceRequired,
+    required bool isExperimental,
+  }) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
     final parameterMatches = parameterMatchesTuple.item2;
@@ -360,8 +451,12 @@ class PackageApiDiffer {
       final matchingNewParam = parameterMatches[matchingOldParam]!;
       oldParametersCopy.remove(matchingOldParam);
       newParametersCopy.remove(matchingNewParam);
-      changes.addAll(
-          _calculateParameterDiff(matchingOldParam, matchingNewParam, context));
+      changes.addAll(_calculateParameterDiff(
+        matchingOldParam,
+        matchingNewParam,
+        context,
+        isExperimental: matchingNewParam.isExperimental,
+      ));
     }
 
     // the remaining old parameters have most probably be removed and the remaining
@@ -373,6 +468,7 @@ class PackageApiDiffer {
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.remove,
+        isExperimental: isExperimental,
         changeDescription: 'Parameter "${removedParameter.name}" removed',
       ));
     }
@@ -384,6 +480,7 @@ class PackageApiDiffer {
         type: (isInterfaceRequired ?? false) || addedParameter.isRequired
             ? ApiChangeType.addBreaking
             : ApiChangeType.addCompatible,
+        isExperimental: isExperimental,
         changeDescription:
             'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
       ));
@@ -395,6 +492,7 @@ class PackageApiDiffer {
         affectedDeclaration: context.top(),
         contextTrace: _contextTraceFromStack(context),
         type: ApiChangeType.changeBreaking,
+        isExperimental: isExperimental,
         changeDescription: 'Order of parameters changed',
       ));
     }
@@ -405,8 +503,9 @@ class PackageApiDiffer {
   List<ApiChange> _calculateParameterDiff(
     ExecutableParameterDeclaration oldParam,
     ExecutableParameterDeclaration newParam,
-    Stack<Declaration> context,
-  ) {
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
       oldParam.name,
@@ -418,6 +517,7 @@ class PackageApiDiffer {
       isCompatibleChange: !oldParam
           .isNamed, // as long as the parameter isn't named a name change is not breaking
       changeCode: ApiChangeCode.ce03,
+      isExperimental: isExperimental,
     );
     _comparePropertiesAndAddChange(
       oldParam.isDeprecated,
@@ -428,6 +528,20 @@ class PackageApiDiffer {
       changes,
       isCompatibleChange: true,
       changeCode: ApiChangeCode.ce06,
+      isExperimental: isExperimental,
+    );
+    _comparePropertiesAndAddChange(
+      oldParam.isExperimental,
+      newParam.isExperimental,
+      context,
+      newParam,
+      'Experimental Flag changed. ${oldParam.isExperimental} -> ${newParam.isExperimental}',
+      changes,
+      isCompatibleChange: !newParam
+          .isExperimental, //this is only non-breaking if the experimental flag is removed
+      changeCode: ApiChangeCode.ce16,
+      isExperimental:
+          false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
     );
     _comparePropertiesAndAddChange(
       oldParam.isNamed,
@@ -437,6 +551,7 @@ class PackageApiDiffer {
       'Kind of parameter "${oldParam.name}" changed. ${oldParam.isNamed ? 'named' : 'not named'} -> ${newParam.isNamed ? 'named' : 'not named'}',
       changes,
       changeCode: ApiChangeCode.ce07,
+      isExperimental: isExperimental,
     );
     _comparePropertiesAndAddChange(
       oldParam.isRequired,
@@ -448,6 +563,7 @@ class PackageApiDiffer {
       isCompatibleChange: oldParam
           .isRequired, // if we change from required to not required then this change is compatible
       changeCode: ApiChangeCode.ce05,
+      isExperimental: isExperimental,
     );
     _comparePropertiesAndAddChange(
       oldParam.typeName,
@@ -457,12 +573,17 @@ class PackageApiDiffer {
       'Type of parameter "${oldParam.name}" changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
       changeCode: ApiChangeCode.ce08,
+      isExperimental: isExperimental,
     );
     return changes;
   }
 
-  List<ApiChange> _calculateEntryPointsDiff(Set<String>? oldEntryPoints,
-      Set<String>? newEntryPoints, Stack<Declaration> context) {
+  List<ApiChange> _calculateEntryPointsDiff(
+    Set<String>? oldEntryPoints,
+    Set<String>? newEntryPoints,
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     if (oldEntryPoints == null || newEntryPoints == null) {
       // either old or new entry points are not known => we can't compare them
       return [];
@@ -481,6 +602,7 @@ class PackageApiDiffer {
         affectedDeclaration: context.top(),
         changeDescription: 'New entry point: $newEntryPoint',
         type: ApiChangeType.addCompatible,
+        isExperimental: isExperimental,
       ));
     }
     for (final oldEntryPoint in diffResult.remainingOld) {
@@ -490,16 +612,19 @@ class PackageApiDiffer {
         affectedDeclaration: context.top(),
         changeDescription: 'Entry point removed: $oldEntryPoint',
         type: ApiChangeType.remove,
+        isExperimental: isExperimental,
       ));
     }
     return changes;
   }
 
   List<ApiChange> _calculateTypeParametersDiff(
-      List<String> oldTypeParameterNames,
-      List<String> newTypeParameterNames,
-      Stack<Declaration> context,
-      {bool? isInterfaceRequired}) {
+    List<String> oldTypeParameterNames,
+    List<String> newTypeParameterNames,
+    Stack<Declaration> context, {
+    bool? isInterfaceRequired,
+    required bool isExperimental,
+  }) {
     if (options.ignoreTypeParameterNameChanges) {
       // we only care for the number of type parameters
       if (oldTypeParameterNames.length != newTypeParameterNames.length) {
@@ -512,6 +637,7 @@ class PackageApiDiffer {
                     oldTypeParameterNames.length < newTypeParameterNames.length
                 ? ApiChangeType.addBreaking
                 : ApiChangeType.remove,
+            isExperimental: isExperimental,
             changeDescription:
                 'Number of type parameters changed. Before: "${oldTypeParameterNames.join(', ')}" After: "${newTypeParameterNames.join(', ')}"${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
           ),
@@ -528,6 +654,7 @@ class PackageApiDiffer {
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.remove,
+            isExperimental: isExperimental,
             changeDescription:
                 'Type Parameter "$removedTypeParameter" removed'));
       }
@@ -537,6 +664,7 @@ class PackageApiDiffer {
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.addBreaking,
+            isExperimental: isExperimental,
             changeDescription: 'Type Parameter "$addedTypeParameter" added'));
       }
       return changes;
@@ -547,8 +675,9 @@ class PackageApiDiffer {
   List<ApiChange> _calculateSuperTypesDiff(
     List<String> oldSuperTypes,
     List<String> newSuperTypes,
-    Stack<Declaration> context,
-  ) {
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     final stpnListDiff = _diffIterables<String>(
         oldSuperTypes, newSuperTypes, (oldStpn, newStpn) => oldStpn == newStpn);
     final changes = <ApiChange>[];
@@ -558,6 +687,7 @@ class PackageApiDiffer {
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
+          isExperimental: isExperimental,
           changeDescription: 'Super Type "$removedSuperType" removed'));
     }
     for (final addedSuperType in stpnListDiff.remainingNew) {
@@ -566,24 +696,34 @@ class PackageApiDiffer {
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatible,
+          isExperimental: isExperimental,
           changeDescription: 'Super Type "$addedSuperType" added'));
     }
     return changes;
   }
 
   List<ApiChange> _calculateFieldsDiff(
-      List<FieldDeclaration> oldFieldDeclarations,
-      List<FieldDeclaration> newFieldDeclarations,
-      Stack<Declaration> context,
-      {bool? isInterfaceRequired}) {
+    List<FieldDeclaration> oldFieldDeclarations,
+    List<FieldDeclaration> newFieldDeclarations,
+    Stack<Declaration> context, {
+    bool? isInterfaceRequired,
+    required isExperimental,
+  }) {
     final fieldsDiff = _diffIterables<FieldDeclaration>(
         oldFieldDeclarations,
         newFieldDeclarations,
         (oldField, newField) => oldField.name == newField.name);
     final changes = <ApiChange>[];
     for (final oldField in fieldsDiff.matches.keys) {
-      changes.addAll(_calculateFieldDiff(
-          oldField, fieldsDiff.matches[oldField]!, context));
+      final newField = fieldsDiff.matches[oldField]!;
+      changes.addAll(
+        _calculateFieldDiff(
+          oldField,
+          newField,
+          context,
+          isExperimental: newField.isExperimental || isExperimental,
+        ),
+      );
     }
     for (final removedField in fieldsDiff.remainingOld) {
       changes.add(ApiChange(
@@ -591,6 +731,7 @@ class PackageApiDiffer {
           affectedDeclaration: removedField,
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
+          isExperimental: isExperimental,
           changeDescription: 'Field "${removedField.name}" removed'));
     }
     for (final addedField in fieldsDiff.remainingNew) {
@@ -601,6 +742,7 @@ class PackageApiDiffer {
           type: (isInterfaceRequired ?? false)
               ? ApiChangeType.addBreaking
               : ApiChangeType.addCompatible,
+          isExperimental: isExperimental,
           changeDescription:
               'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}'));
     }
@@ -610,8 +752,9 @@ class PackageApiDiffer {
   List<ApiChange> _calculateFieldDiff(
     FieldDeclaration oldField,
     FieldDeclaration newField,
-    Stack<Declaration> context,
-  ) {
+    Stack<Declaration> context, {
+    required bool isExperimental,
+  }) {
     return _executeInContext(context, newField, (context) {
       final changes = <ApiChange>[];
       _comparePropertiesAndAddChange(
@@ -623,6 +766,20 @@ class PackageApiDiffer {
         changes,
         isCompatibleChange: true,
         changeCode: ApiChangeCode.cf03,
+        isExperimental: isExperimental,
+      );
+      _comparePropertiesAndAddChange(
+        oldField.isExperimental,
+        newField.isExperimental,
+        context,
+        newField,
+        'Experimental Flag changed. ${oldField.isExperimental} -> ${newField.isExperimental}',
+        changes,
+        isCompatibleChange: !newField
+            .isExperimental, //this is only non-breaking if the experimental flag is removed
+        changeCode: ApiChangeCode.cf06,
+        isExperimental:
+            false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
       );
       _comparePropertiesAndAddChange(
         oldField.typeName,
@@ -632,6 +789,7 @@ class PackageApiDiffer {
         'Type of field changed. ${oldField.typeName} -> ${newField.typeName}',
         changes,
         changeCode: ApiChangeCode.cf04,
+        isExperimental: isExperimental,
       );
       _comparePropertiesAndAddChange(
         oldField.isStatic,
@@ -641,11 +799,13 @@ class PackageApiDiffer {
         'Static specifier changed. ${oldField.isStatic} -> ${newField.isStatic}',
         changes,
         changeCode: ApiChangeCode.cf05,
+        isExperimental: isExperimental,
       );
       changes.addAll(_calculateEntryPointsDiff(
         oldField.entryPoints,
         newField.entryPoints,
         context,
+        isExperimental: isExperimental,
       ));
 
       return changes;
@@ -653,8 +813,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateIOSPlatformConstraintsDiff(
-      IOSPlatformConstraints? oldConstraints,
-      IOSPlatformConstraints? newConstraints) {
+    IOSPlatformConstraints? oldConstraints,
+    IOSPlatformConstraints? newConstraints, {
+    required bool isExperimental,
+  }) {
     if (oldConstraints == null && newConstraints == null) {
       return [];
     }
@@ -665,6 +827,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
+          isExperimental: isExperimental,
           changeDescription: 'iOS platform added',
         ),
       ];
@@ -676,6 +839,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.remove,
+          isExperimental: isExperimental,
           changeDescription: 'iOS platform removed',
         ),
       ];
@@ -696,6 +860,7 @@ class PackageApiDiffer {
           type: isBreaking
               ? ApiChangeType.changeBreaking
               : ApiChangeType.changeCompatible,
+          isExperimental: isExperimental,
           changeDescription:
               'iOS platform minimum version changed from ${oldConstraints.minimumOsVersion} to ${newConstraints.minimumOsVersion}',
         ),
@@ -705,8 +870,10 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateAndroidPlatformConstraintsDiff(
-      AndroidPlatformConstraints? oldConstraints,
-      AndroidPlatformConstraints? newConstraints) {
+    AndroidPlatformConstraints? oldConstraints,
+    AndroidPlatformConstraints? newConstraints, {
+    required bool isExperimental,
+  }) {
     if (oldConstraints == null && newConstraints == null) {
       return [];
     }
@@ -717,6 +884,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
+          isExperimental: isExperimental,
           changeDescription: 'Android platform added',
         ),
       ];
@@ -728,6 +896,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.remove,
+          isExperimental: isExperimental,
           changeDescription: 'Android platform removed',
         ),
       ];
@@ -751,6 +920,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.addBreaking,
+          isExperimental: isExperimental,
           changeDescription: 'Android platform $valName added',
         ));
         return;
@@ -761,6 +931,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.remove,
+          isExperimental: isExperimental,
           changeDescription: 'Android platform $valName removed',
         ));
         return;
@@ -777,6 +948,7 @@ class PackageApiDiffer {
         type: isBreaking
             ? ApiChangeType.changeBreaking
             : ApiChangeType.changeCompatible,
+        isExperimental: isExperimental,
         changeDescription:
             'Android platform $valName changed from $oldVal to $newVal',
       ));
@@ -815,7 +987,8 @@ class PackageApiDiffer {
     return changes;
   }
 
-  List<ApiChange> _calculateSdkDiff(PackageApi oldApi, PackageApi newApi) {
+  List<ApiChange> _calculateSdkDiff(PackageApi oldApi, PackageApi newApi,
+      {required bool isExperimental}) {
     final result = <ApiChange>[];
     if (oldApi.sdkType != newApi.sdkType) {
       result.add(
@@ -824,6 +997,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.changeBreaking,
+          isExperimental: isExperimental,
           changeDescription:
               'SDK type changed from ${oldApi.sdkType} to ${newApi.sdkType}',
         ),
@@ -837,6 +1011,7 @@ class PackageApiDiffer {
           affectedDeclaration: null,
           contextTrace: [],
           type: ApiChangeType.changeBreaking,
+          isExperimental: isExperimental,
           changeDescription:
               'Minimum SDK version changed from ${oldApi.minSdkVersion} to ${newApi.minSdkVersion}',
         ),
@@ -846,7 +1021,8 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculatePackageDependenciesDiff(
-      PackageApi oldApi, PackageApi newApi) {
+      PackageApi oldApi, PackageApi newApi,
+      {required bool isExperimental}) {
     final result = <ApiChange>[];
     if (options.dependencyCheckMode == DependencyCheckMode.none) {
       return result;
@@ -874,6 +1050,7 @@ class PackageApiDiffer {
             type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
                 ? ApiChangeType.addCompatible
                 : ApiChangeType.addBreaking,
+            isExperimental: isExperimental,
             changeDescription: 'Package dependency added: "$dependencyName"',
           ),
         );
@@ -888,6 +1065,7 @@ class PackageApiDiffer {
             affectedDeclaration: null,
             contextTrace: [],
             type: ApiChangeType.removeCompatible,
+            isExperimental: isExperimental,
             changeDescription: 'Package dependency removed: "$dependencyName"',
           ),
         );
@@ -910,6 +1088,7 @@ class PackageApiDiffer {
             type: isNonBreakingVersionChange
                 ? ApiChangeType.changeCompatible
                 : ApiChangeType.changeBreaking,
+            isExperimental: isExperimental,
             changeDescription:
                 'Package dependency "$dependencyName" version changed from "${oldDependency.packageVersion}" to "${newDependency.packageVersion}"',
           ),
@@ -950,6 +1129,7 @@ class PackageApiDiffer {
     List<ApiChange> changes, {
     bool isCompatibleChange = false,
     required ApiChangeCode changeCode,
+    required bool isExperimental,
   }) {
     if (oldValue != newValue) {
       changes.add(ApiChange(
@@ -960,6 +1140,7 @@ class PackageApiDiffer {
             ? ApiChangeType.changeCompatible
             : ApiChangeType.changeBreaking,
         changeDescription: changeDescription,
+        isExperimental: isExperimental,
       ));
     }
   }

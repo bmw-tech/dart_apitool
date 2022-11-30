@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'executable_declaration.dart';
 
@@ -28,6 +28,9 @@ mixin _$ExecutableParameterDeclaration {
   /// whether the parameter is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
 
+  /// whether the parameter is experimental
+  bool get isExperimental => throw _privateConstructorUsedError;
+
   /// type name of this parameter
   String get typeName => throw _privateConstructorUsedError;
 
@@ -49,6 +52,7 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       bool isNamed,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       String typeName});
 }
 
@@ -70,6 +74,7 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
     Object? isNamed = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? typeName = null,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +93,10 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       typeName: null == typeName
           ? _value.typeName
@@ -111,6 +120,7 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       bool isNamed,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       String typeName});
 }
 
@@ -131,6 +141,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? isNamed = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? typeName = null,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
@@ -150,6 +161,10 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -167,6 +182,7 @@ class _$_ExecutableParameterDeclaration
       required this.isNamed,
       required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required this.typeName})
       : super._();
 
@@ -186,13 +202,17 @@ class _$_ExecutableParameterDeclaration
   @override
   final bool isDeprecated;
 
+  /// whether the parameter is experimental
+  @override
+  final bool isExperimental;
+
   /// type name of this parameter
   @override
   final String typeName;
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, typeName: $typeName)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName)';
   }
 
   @override
@@ -206,13 +226,15 @@ class _$_ExecutableParameterDeclaration
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isRequired, isNamed, name, isDeprecated, typeName);
+  int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
+      isDeprecated, isExperimental, typeName);
 
   @JsonKey(ignore: true)
   @override
@@ -229,6 +251,7 @@ abstract class _ExecutableParameterDeclaration
       required final bool isNamed,
       required final String name,
       required final bool isDeprecated,
+      required final bool isExperimental,
       required final String typeName}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
 
@@ -250,6 +273,10 @@ abstract class _ExecutableParameterDeclaration
   bool get isDeprecated;
   @override
 
+  /// whether the parameter is experimental
+  bool get isExperimental;
+  @override
+
   /// type name of this parameter
   String get typeName;
   @override
@@ -268,6 +295,9 @@ mixin _$ExecutableDeclaration {
 
   /// whether the executable is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// whether the executable is experimental
+  bool get isExperimental => throw _privateConstructorUsedError;
 
   /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   List<ExecutableParameterDeclaration> get parameters =>
@@ -300,6 +330,7 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
       {String returnTypeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type,
@@ -324,6 +355,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
     Object? returnTypeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? parameters = null,
     Object? typeParameterNames = null,
     Object? type = null,
@@ -342,6 +374,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       parameters: null == parameters
           ? _value.parameters
@@ -379,6 +415,7 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
       {String returnTypeName,
       String name,
       bool isDeprecated,
+      bool isExperimental,
       List<ExecutableParameterDeclaration> parameters,
       List<String> typeParameterNames,
       ExecutableType type,
@@ -400,6 +437,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? returnTypeName = null,
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? parameters = null,
     Object? typeParameterNames = null,
     Object? type = null,
@@ -418,6 +456,10 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       parameters: null == parameters
           ? _value._parameters
@@ -450,6 +492,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       {required this.returnTypeName,
       required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required this.type,
@@ -472,12 +515,17 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   @override
   final bool isDeprecated;
 
+  /// whether the executable is experimental
+  @override
+  final bool isExperimental;
+
   /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   final List<ExecutableParameterDeclaration> _parameters;
 
   /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
   @override
   List<ExecutableParameterDeclaration> get parameters {
+    if (_parameters is EqualUnmodifiableListView) return _parameters;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_parameters);
   }
@@ -488,6 +536,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   /// type parameter names of this executable
   @override
   List<String> get typeParameterNames {
+    if (_typeParameterNames is EqualUnmodifiableListView)
+      return _typeParameterNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
@@ -508,13 +558,14 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   Set<String>? get entryPoints {
     final value = _entryPoints;
     if (value == null) return null;
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
   }
 
   @override
@@ -527,6 +578,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters) &&
             const DeepCollectionEquality()
@@ -544,6 +597,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       returnTypeName,
       name,
       isDeprecated,
+      isExperimental,
       const DeepCollectionEquality().hash(_parameters),
       const DeepCollectionEquality().hash(_typeParameterNames),
       type,
@@ -563,6 +617,7 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       {required final String returnTypeName,
       required final String name,
       required final bool isDeprecated,
+      required final bool isExperimental,
       required final List<ExecutableParameterDeclaration> parameters,
       required final List<String> typeParameterNames,
       required final ExecutableType type,
@@ -582,6 +637,10 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
 
   /// whether the executable is deprecated
   bool get isDeprecated;
+  @override
+
+  /// whether the executable is experimental
+  bool get isExperimental;
   @override
 
   /// list of the executables parameters ([ExecutableOParameterDeclaration]s)

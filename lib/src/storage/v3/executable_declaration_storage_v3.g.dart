@@ -16,6 +16,7 @@ _$_ExecutableParameterDeclarationStorageV3
           isNamed: json['isNamed'] as bool,
           name: json['name'] as String,
           isDeprecated: json['isDeprecated'] as bool,
+          isExperimental: json['isExperimental'] as bool,
           typeName: json['typeName'] as String,
         );
 
@@ -26,6 +27,7 @@ Map<String, dynamic> _$$_ExecutableParameterDeclarationStorageV3ToJson(
       'isNamed': instance.isNamed,
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
+      'isExperimental': instance.isExperimental,
       'typeName': instance.typeName,
     };
 
@@ -35,6 +37,7 @@ _$_ExecutableDeclarationStorageV3 _$$_ExecutableDeclarationStorageV3FromJson(
       returnTypeName: json['returnTypeName'] as String,
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
+      isExperimental: json['isExperimental'] as bool,
       parameters: (json['parameters'] as List<dynamic>)
           .map((e) => ExecutableParameterDeclarationStorageV3.fromJson(
               e as Map<String, dynamic>))
@@ -55,6 +58,7 @@ Map<String, dynamic> _$$_ExecutableDeclarationStorageV3ToJson(
       'returnTypeName': instance.returnTypeName,
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
+      'isExperimental': instance.isExperimental,
       'parameters': instance.parameters,
       'typeParameterNames': instance.typeParameterNames,
       'type': _$ExecutableTypeStorageV3EnumMap[instance.type]!,

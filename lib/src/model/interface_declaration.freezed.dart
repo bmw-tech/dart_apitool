@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'interface_declaration.dart';
 
@@ -21,6 +21,9 @@ mixin _$InterfaceDeclaration {
 
   /// whether this interface is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
+
+  /// whether this interface is experimental
+  bool get isExperimental => throw _privateConstructorUsedError;
 
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   bool get isRequired => throw _privateConstructorUsedError;
@@ -56,6 +59,7 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -80,6 +84,7 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -95,6 +100,10 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -135,6 +144,7 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
   $Res call(
       {String name,
       bool isDeprecated,
+      bool isExperimental,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -156,6 +166,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -171,6 +182,10 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -206,6 +221,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   const _$_InterfaceDeclaration(
       {required this.name,
       required this.isDeprecated,
+      required this.isExperimental,
       required this.isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
@@ -227,6 +243,10 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   @override
   final bool isDeprecated;
 
+  /// whether this interface is experimental
+  @override
+  final bool isExperimental;
+
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   @override
   final bool isRequired;
@@ -237,6 +257,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   /// list of type parameter names
   @override
   List<String> get typeParameterNames {
+    if (_typeParameterNames is EqualUnmodifiableListView)
+      return _typeParameterNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_typeParameterNames);
   }
@@ -247,6 +269,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   /// list of super type names
   @override
   List<String> get superTypeNames {
+    if (_superTypeNames is EqualUnmodifiableListView) return _superTypeNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_superTypeNames);
   }
@@ -257,6 +280,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   /// executables that belong to this interface
   @override
   List<ExecutableDeclaration> get executableDeclarations {
+    if (_executableDeclarations is EqualUnmodifiableListView)
+      return _executableDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_executableDeclarations);
   }
@@ -267,6 +292,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   /// fields that belong to this interface
   @override
   List<FieldDeclaration> get fieldDeclarations {
+    if (_fieldDeclarations is EqualUnmodifiableListView)
+      return _fieldDeclarations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_fieldDeclarations);
   }
@@ -279,13 +306,14 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   Set<String>? get entryPoints {
     final value = _entryPoints;
     if (value == null) return null;
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
 
   @override
   String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
   }
 
   @override
@@ -296,6 +324,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             const DeepCollectionEquality()
@@ -315,6 +345,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       runtimeType,
       name,
       isDeprecated,
+      isExperimental,
       isRequired,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
@@ -335,6 +366,7 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   const factory _InterfaceDeclaration(
       {required final String name,
       required final bool isDeprecated,
+      required final bool isExperimental,
       required final bool isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
@@ -351,6 +383,10 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
 
   /// whether this interface is deprecated
   bool get isDeprecated;
+  @override
+
+  /// whether this interface is experimental
+  bool get isExperimental;
   @override
 
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package

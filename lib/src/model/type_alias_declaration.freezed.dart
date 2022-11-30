@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'type_alias_declaration.dart';
 
@@ -25,6 +25,9 @@ mixin _$TypeAliasDeclaration {
   /// whether this type alias is deprecated
   bool get isDeprecated => throw _privateConstructorUsedError;
 
+  /// whether this type alias is experimental
+  bool get isExperimental => throw _privateConstructorUsedError;
+
   /// entry points this type alias is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
@@ -43,6 +46,7 @@ abstract class $TypeAliasDeclarationCopyWith<$Res> {
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
+      bool isExperimental,
       Set<String>? entryPoints});
 }
 
@@ -63,6 +67,7 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
     Object? name = null,
     Object? aliasedTypeName = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_value.copyWith(
@@ -77,6 +82,10 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: freezed == entryPoints
           ? _value.entryPoints
@@ -98,6 +107,7 @@ abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
       {String name,
       String aliasedTypeName,
       bool isDeprecated,
+      bool isExperimental,
       Set<String>? entryPoints});
 }
 
@@ -115,6 +125,7 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
     Object? name = null,
     Object? aliasedTypeName = null,
     Object? isDeprecated = null,
+    Object? isExperimental = null,
     Object? entryPoints = freezed,
   }) {
     return _then(_$_TypeAliasDeclaration(
@@ -129,6 +140,10 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
       isDeprecated: null == isDeprecated
           ? _value.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _value.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: freezed == entryPoints
           ? _value._entryPoints
@@ -145,6 +160,7 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
       {required this.name,
       required this.aliasedTypeName,
       required this.isDeprecated,
+      required this.isExperimental,
       final Set<String>? entryPoints})
       : _entryPoints = entryPoints,
         super._();
@@ -161,6 +177,10 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
   @override
   final bool isDeprecated;
 
+  /// whether this type alias is experimental
+  @override
+  final bool isExperimental;
+
   /// entry points this type alias is reachable through
   final Set<String>? _entryPoints;
 
@@ -169,13 +189,14 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
   Set<String>? get entryPoints {
     final value = _entryPoints;
     if (value == null) return null;
+    if (_entryPoints is EqualUnmodifiableSetView) return _entryPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
 
   @override
   String toString() {
-    return 'TypeAliasDeclaration(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, entryPoints: $entryPoints)';
+    return 'TypeAliasDeclaration(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, isExperimental: $isExperimental, entryPoints: $entryPoints)';
   }
 
   @override
@@ -188,13 +209,20 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
                 other.aliasedTypeName == aliasedTypeName) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, aliasedTypeName,
-      isDeprecated, const DeepCollectionEquality().hash(_entryPoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      aliasedTypeName,
+      isDeprecated,
+      isExperimental,
+      const DeepCollectionEquality().hash(_entryPoints));
 
   @JsonKey(ignore: true)
   @override
@@ -210,6 +238,7 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
       {required final String name,
       required final String aliasedTypeName,
       required final bool isDeprecated,
+      required final bool isExperimental,
       final Set<String>? entryPoints}) = _$_TypeAliasDeclaration;
   const _TypeAliasDeclaration._() : super._();
 
@@ -225,6 +254,10 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
 
   /// whether this type alias is deprecated
   bool get isDeprecated;
+  @override
+
+  /// whether this type alias is experimental
+  bool get isExperimental;
   @override
 
   /// entry points this type alias is reachable through

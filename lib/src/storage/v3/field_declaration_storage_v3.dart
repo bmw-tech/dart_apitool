@@ -14,6 +14,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
     required String typeName,
     required String name,
     required bool isDeprecated,
+    required bool isExperimental,
     required bool isStatic,
     required Set<String> entryPoints,
   }) = _FieldDeclarationStorageV3;
@@ -26,6 +27,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       typeName: typeName,
       name: name,
       isDeprecated: isDeprecated,
+      isExperimental: isExperimental,
       isStatic: isStatic,
       entryPoints: entryPoints,
     );
@@ -37,6 +39,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       typeName: fieldDeclaration.typeName,
       name: fieldDeclaration.name,
       isDeprecated: fieldDeclaration.isDeprecated,
+      isExperimental: fieldDeclaration.isExperimental,
       isStatic: fieldDeclaration.isStatic,
       entryPoints: fieldDeclaration.entryPoints!,
     );

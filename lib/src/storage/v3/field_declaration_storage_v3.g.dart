@@ -14,6 +14,7 @@ _$_FieldDeclarationStorageV3 _$$_FieldDeclarationStorageV3FromJson(
       typeName: json['typeName'] as String,
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
+      isExperimental: json['isExperimental'] as bool,
       isStatic: json['isStatic'] as bool,
       entryPoints: (json['entryPoints'] as List<dynamic>)
           .map((e) => e as String)
@@ -26,6 +27,7 @@ Map<String, dynamic> _$$_FieldDeclarationStorageV3ToJson(
       'typeName': instance.typeName,
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
+      'isExperimental': instance.isExperimental,
       'isStatic': instance.isStatic,
       'entryPoints': instance.entryPoints.toList(),
     };

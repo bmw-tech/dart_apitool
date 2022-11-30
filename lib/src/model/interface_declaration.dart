@@ -26,6 +26,9 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
     /// whether this interface is deprecated
     required bool isDeprecated,
 
+    /// whether this interface is experimental
+    required bool isExperimental,
+
     /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
     required bool isRequired,
 
