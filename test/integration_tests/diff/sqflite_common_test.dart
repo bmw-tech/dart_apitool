@@ -23,7 +23,7 @@ void main() {
           () {
         final isBreakingChange = diffResult.apiChanges.any((element) =>
             element.affectedDeclaration!.name == 'rawQueryCursor' &&
-            element.type.isBreaking);
+            element.isBreaking);
         expect(isBreakingChange, isTrue);
       });
     });

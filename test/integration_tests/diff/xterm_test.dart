@@ -20,8 +20,8 @@ void main() {
       });
 
       test('breaking change is detected', () {
-        expect(diffResult.apiChanges.any((element) => element.type.isBreaking),
-            isTrue);
+        expect(
+            diffResult.apiChanges.any((element) => element.isBreaking), isTrue);
       });
       test('contains "selectWord" removal', () {
         expect(

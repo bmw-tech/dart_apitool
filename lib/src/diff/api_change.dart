@@ -20,6 +20,13 @@ class ApiChange {
   /// Code of the change. This can be used to read more about the reasoning behind this change
   final ApiChangeCode changeCode;
 
+  /// Determines if this change happened in an experimental context
+  final bool isExperimental;
+
+  bool get isBreaking {
+    return !isExperimental && type.isBreaking;
+  }
+
   /// creates a new ApiChange instance
   ApiChange({
     required this.changeCode,
@@ -27,6 +34,7 @@ class ApiChange {
     this.affectedDeclaration,
     required this.changeDescription,
     required this.type,
+    required this.isExperimental,
   });
 
   @override

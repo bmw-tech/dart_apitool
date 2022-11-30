@@ -20,8 +20,8 @@ void main() {
       });
 
       test('any breaking changes are detected', () {
-        expect(diffResult.apiChanges.any((element) => element.type.isBreaking),
-            isTrue);
+        expect(
+            diffResult.apiChanges.any((element) => element.isBreaking), isTrue);
       });
       test('adding username breaking change is detected', () {
         final userNameChange = diffResult.apiChanges
