@@ -36,9 +36,10 @@ class InternalFieldDeclaration implements InternalDeclaration {
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
-      PropertyInducingElement fieldElement,
-      {String? namespace})
-      : this._(
+    PropertyInducingElement fieldElement, {
+    String? namespace,
+    required String rootPath,
+  }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               fieldElement.enclosingElement),
@@ -50,7 +51,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
               InternalDeclarationUtils.hasExperimental(fieldElement),
           isStatic: fieldElement.isStatic,
           entryPoints: {},
-          relativePath: InternalDeclarationUtils.getRelativePath(fieldElement),
+          relativePath:
+              InternalDeclarationUtils.getRelativePath(rootPath, fieldElement),
         );
 
   FieldDeclaration toFieldDeclaration() {

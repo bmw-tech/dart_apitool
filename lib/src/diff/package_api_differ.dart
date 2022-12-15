@@ -102,9 +102,10 @@ class PackageApiDiffer {
       oldInterfaces,
       newInterfaces,
       (oldInterface, newInterface) =>
-          // for interfaces we have to consider the path as well as we might run into duplicate namings otherwise
+          // for top level elements we have to consider the path as well as we might run into duplicate namings otherwise
           oldInterface.name == newInterface.name &&
-          oldInterface.relativePath == newInterface.relativePath,
+          (context.isNotEmpty ||
+              oldInterface.relativePath == newInterface.relativePath),
     );
     final changes = <ApiChange>[];
     for (final oldInterface in interfaceListDiff.matches.keys) {
@@ -219,9 +220,13 @@ class PackageApiDiffer {
     required bool isExperimental,
   }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
-        oldExecutables,
-        newExecutables,
-        (oldEx, newEx) => oldEx.name == newEx.name);
+      oldExecutables,
+      newExecutables,
+      (oldEx, newEx) =>
+          // for top level elements we have to consider the path as well as we might run into duplicate namings otherwise
+          oldEx.name == newEx.name &&
+          (context.isNotEmpty || oldEx.relativePath == newEx.relativePath),
+    );
     final changes = <ApiChange>[];
     for (final oldEx in executableListDiff.matches.keys) {
       final newEx = executableListDiff.matches[oldEx]!;
@@ -713,9 +718,14 @@ class PackageApiDiffer {
     required isExperimental,
   }) {
     final fieldsDiff = _diffIterables<FieldDeclaration>(
-        oldFieldDeclarations,
-        newFieldDeclarations,
-        (oldField, newField) => oldField.name == newField.name);
+      oldFieldDeclarations,
+      newFieldDeclarations,
+      (oldField, newField) =>
+          // for top level elements we have to consider the path as well as we might run into duplicate namings otherwise
+          oldField.name == newField.name &&
+          (context.isNotEmpty ||
+              oldField.relativePath == newField.relativePath),
+    );
     final changes = <ApiChange>[];
     for (final oldField in fieldsDiff.matches.keys) {
       final newField = fieldsDiff.matches[oldField]!;

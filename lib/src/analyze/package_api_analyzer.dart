@@ -110,6 +110,7 @@ class PackageApiAnalyzer {
             final collector = APIRelevantElementsCollector(
               shownNames: fileToAnalyze.shownNames,
               hiddenNames: fileToAnalyze.hiddenNames,
+              rootPath: normalizedAbsoluteProjectPath,
             );
             unitResult.libraryElement.accept(collector);
             final skippedInterfaces = <int>[];

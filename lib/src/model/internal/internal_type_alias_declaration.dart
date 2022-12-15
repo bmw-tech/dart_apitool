@@ -34,9 +34,10 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
   });
 
   InternalTypeAliasDeclaration.fromTypeAliasElement(
-      TypeAliasElement typeAliasElement,
-      {String? namespace})
-      : this._(
+    TypeAliasElement typeAliasElement, {
+    String? namespace,
+    required String rootPath,
+  }) : this._(
             id: InternalDeclarationUtils.getIdFromElement(typeAliasElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromParentElement(
                 typeAliasElement.enclosingElement),
@@ -48,8 +49,8 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
             isExperimental:
                 InternalDeclarationUtils.hasExperimental(typeAliasElement),
             entryPoints: {},
-            relativePath:
-                InternalDeclarationUtils.getRelativePath(typeAliasElement));
+            relativePath: InternalDeclarationUtils.getRelativePath(
+                rootPath, typeAliasElement));
 
   TypeAliasDeclaration toTypeAliasDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
