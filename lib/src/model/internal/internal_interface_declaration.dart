@@ -50,9 +50,10 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   });
 
   InternalInterfaceDeclaration.fromInterfaceElement(
-      InterfaceElement interfaceElement,
-      {String? namespace})
-      : this._(
+    InterfaceElement interfaceElement, {
+    String? namespace,
+    required String rootPath,
+  }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               interfaceElement.enclosingElement),
@@ -71,8 +72,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
-          relativePath:
-              InternalDeclarationUtils.getRelativePath(interfaceElement),
+          relativePath: InternalDeclarationUtils.getRelativePath(
+              rootPath, interfaceElement),
           superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
               .whereNotNull()
@@ -80,9 +81,10 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
         );
 
   InternalInterfaceDeclaration.fromExtensionElement(
-      ExtensionElement extensionElement,
-      {String? namespace})
-      : this._(
+    ExtensionElement extensionElement, {
+    String? namespace,
+    required String rootPath,
+  }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               extensionElement.enclosingElement),
@@ -99,8 +101,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
-          relativePath:
-              InternalDeclarationUtils.getRelativePath(extensionElement),
+          relativePath: InternalDeclarationUtils.getRelativePath(
+              rootPath, extensionElement),
           superClassIds: [],
         );
 

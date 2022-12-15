@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.9.1
+- use the relative path only for top level entities
+- use a more stable way of getting the relative path
+
 ## Version 0.9.0
 - Adds detection and consideration of @experimental flag
 - Increases robustness regarding

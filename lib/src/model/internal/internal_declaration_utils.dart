@@ -40,16 +40,10 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
-  static String getRelativePath(Element element) {
+  static String getRelativePath(String rootPath, Element element) {
     final name = element.librarySource?.fullName;
     if (name != null) {
-      final parts = path.split(name);
-      int libIndex = parts.indexWhere((element) => element == 'lib');
-      if (libIndex > 0) {
-        final rootPath = path.joinAll(parts.take(libIndex));
-        return path.relative(name, from: rootPath);
-      }
-      return name;
+      return path.relative(name, from: rootPath);
     }
     return '';
   }

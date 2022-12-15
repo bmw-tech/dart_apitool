@@ -42,9 +42,10 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
-      ExecutableElement executableElement,
-      {String? namespace})
-      : this._(
+    ExecutableElement executableElement, {
+    String? namespace,
+    required String rootPath,
+  }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               executableElement.enclosingElement),
@@ -55,15 +56,17 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           isDeprecated: executableElement.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(executableElement),
-          parameters: _computeParameterList(executableElement.parameters,
-              InternalDeclarationUtils.getRelativePath(executableElement)),
+          parameters: _computeParameterList(
+              executableElement.parameters,
+              InternalDeclarationUtils.getRelativePath(
+                  rootPath, executableElement)),
           typeParameterNames:
               _computeTypeParameters(executableElement.typeParameters),
           type: _computeExecutableType(executableElement),
           isStatic: executableElement.isStatic,
           entryPoints: {},
-          relativePath:
-              InternalDeclarationUtils.getRelativePath(executableElement),
+          relativePath: InternalDeclarationUtils.getRelativePath(
+              rootPath, executableElement),
         );
 
   ExecutableDeclaration toExecutableDeclaration() {

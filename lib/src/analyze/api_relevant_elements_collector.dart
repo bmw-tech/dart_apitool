@@ -33,10 +33,14 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
     /// [collectedElementIds] is the set of element ids that are already collected and therefore should not be collected (again) by this visitor
     Set<int>? collectedElementIds,
+
+    /// the root path of the project
+    required String rootPath,
   }) : _context = _AnalysisContext(
           shownNames: shownNames,
           hiddenNames: hiddenNames,
           namespace: namespace,
+          rootPath: rootPath,
         ) {
     _collectedElementIds = <int>{};
     if (collectedElementIds != null) {
@@ -119,6 +123,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         collectedElementIds: _collectedElementIds,
         namespace:
             _getNamespaceForLibrary(directElementLibrary, referringElement),
+        rootPath: _context.rootPath,
       );
       directElement.accept(collector);
       // merge result with this result
@@ -185,9 +190,12 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(interfaceElement)) {
       return false;
     }
-    _interfaceDeclarations.add(
-        InternalInterfaceDeclaration.fromInterfaceElement(interfaceElement,
-            namespace: _context.namespace));
+    _interfaceDeclarations
+        .add(InternalInterfaceDeclaration.fromInterfaceElement(
+      interfaceElement,
+      namespace: _context.namespace,
+      rootPath: _context.rootPath,
+    ));
     for (final st in interfaceElement.allSupertypes) {
       if (!st.isDartCoreObject && !st.isDartCoreEnum) {
         _onTypeUsed(st, interfaceElement, isRequired: false);
@@ -226,8 +234,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(element)) {
       return;
     }
-    _fieldDeclarations
-        .add(InternalFieldDeclaration.fromPropertyInducingElement(element));
+    _fieldDeclarations.add(InternalFieldDeclaration.fromPropertyInducingElement(
+      element,
+      rootPath: _context.rootPath,
+    ));
     super.visitFieldElement(element);
     if (element.type.element2 != null) {
       bool canBeSet =
@@ -248,6 +258,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _fieldDeclarations.add(InternalFieldDeclaration.fromPropertyInducingElement(
       element,
       namespace: _context.namespace,
+      rootPath: _context.rootPath,
     ));
     super.visitTopLevelVariableElement(element);
     if (element.type.element2 != null) {
@@ -279,6 +290,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
+      rootPath: _context.rootPath,
     ));
     super.visitMethodElement(element);
     if (element.returnType.element2 != null) {
@@ -299,6 +311,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalExecutableDeclaration.fromExecutableElement(
       element,
       namespace: _context.namespace,
+      rootPath: _context.rootPath,
     ));
     super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
@@ -317,7 +330,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
 
     _executableDeclarations
-        .add(InternalExecutableDeclaration.fromExecutableElement(element));
+        .add(InternalExecutableDeclaration.fromExecutableElement(
+      element,
+      rootPath: _context.rootPath,
+    ));
 
     super.visitConstructorElement(element);
   }
@@ -335,6 +351,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         .add(InternalTypeAliasDeclaration.fromTypeAliasElement(
       element,
       namespace: _context.namespace,
+      rootPath: _context.rootPath,
     ));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element2 != null) {
@@ -363,9 +380,12 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (!_markElementAsCollected(element)) {
       return;
     }
-    _interfaceDeclarations.add(
-        InternalInterfaceDeclaration.fromExtensionElement(element,
-            namespace: _context.namespace));
+    _interfaceDeclarations
+        .add(InternalInterfaceDeclaration.fromExtensionElement(
+      element,
+      namespace: _context.namespace,
+      rootPath: _context.rootPath,
+    ));
     if (element.extendedType.element2 != null) {
       _onTypeUsed(element.extendedType, element, isRequired: false);
     }
@@ -378,10 +398,12 @@ class _AnalysisContext {
   final List<String> shownNames;
   final List<String> hiddenNames;
   final String? namespace;
+  final String rootPath;
 
   _AnalysisContext({
     this.shownNames = const [],
     this.hiddenNames = const [],
     this.namespace,
+    required this.rootPath,
   });
 }
