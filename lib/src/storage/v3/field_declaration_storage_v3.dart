@@ -17,6 +17,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
     required bool isExperimental,
     required bool isStatic,
     required Set<String> entryPoints,
+    required String relativePath,
   }) = _FieldDeclarationStorageV3;
 
   factory FieldDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
@@ -30,6 +31,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       isExperimental: isExperimental,
       isStatic: isStatic,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 
@@ -42,6 +44,7 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       isExperimental: fieldDeclaration.isExperimental,
       isStatic: fieldDeclaration.isStatic,
       entryPoints: fieldDeclaration.entryPoints!,
+      relativePath: fieldDeclaration.relativePath,
     );
   }
 }

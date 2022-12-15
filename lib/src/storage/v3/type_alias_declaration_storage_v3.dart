@@ -16,6 +16,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
     required bool isDeprecated,
     required bool isExperimental,
     required Set<String> entryPoints,
+    required String relativePath,
   }) = _TypeAliasDeclarationStorageV3;
 
   factory TypeAliasDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
@@ -28,6 +29,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 
@@ -39,6 +41,7 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
       isDeprecated: typeAliasDeclaration.isDeprecated,
       isExperimental: typeAliasDeclaration.isExperimental,
       entryPoints: typeAliasDeclaration.entryPoints!,
+      relativePath: typeAliasDeclaration.relativePath,
     );
   }
 }

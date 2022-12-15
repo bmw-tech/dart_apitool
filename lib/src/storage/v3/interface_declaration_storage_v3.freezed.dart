@@ -32,6 +32,7 @@ mixin _$InterfaceDeclarationStorageV3 {
   List<FieldDeclarationStorageV3> get fieldDeclarations =>
       throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
+  String get relativePath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +57,8 @@ abstract class $InterfaceDeclarationStorageV3CopyWith<$Res> {
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV3> executableDeclarations,
       List<FieldDeclarationStorageV3> fieldDeclarations,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -82,6 +84,7 @@ class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -120,6 +123,10 @@ class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -142,7 +149,8 @@ abstract class _$$_InterfaceDeclarationStorageV3CopyWith<$Res>
       List<String> superTypeNames,
       List<ExecutableDeclarationStorageV3> executableDeclarations,
       List<FieldDeclarationStorageV3> fieldDeclarations,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -167,6 +175,7 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_$_InterfaceDeclarationStorageV3(
       name: null == name
@@ -205,6 +214,10 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -222,7 +235,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
       required final List<ExecutableDeclarationStorageV3>
           executableDeclarations,
       required final List<FieldDeclarationStorageV3> fieldDeclarations,
-      required final Set<String> entryPoints})
+      required final Set<String> entryPoints,
+      required this.relativePath})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
@@ -286,8 +300,11 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   }
 
   @override
+  final String relativePath;
+
+  @override
   String toString() {
-    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
+    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -311,7 +328,9 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
             const DeepCollectionEquality()
                 .equals(other._fieldDeclarations, _fieldDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @JsonKey(ignore: true)
@@ -326,7 +345,8 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -346,17 +366,17 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
 abstract class _InterfaceDeclarationStorageV3
     extends InterfaceDeclarationStorageV3 {
   const factory _InterfaceDeclarationStorageV3(
-          {required final String name,
-          required final bool isDeprecated,
-          required final bool isExperimental,
-          required final bool isRequired,
-          required final List<String> typeParameterNames,
-          required final List<String> superTypeNames,
-          required final List<ExecutableDeclarationStorageV3>
-              executableDeclarations,
-          required final List<FieldDeclarationStorageV3> fieldDeclarations,
-          required final Set<String> entryPoints}) =
-      _$_InterfaceDeclarationStorageV3;
+      {required final String name,
+      required final bool isDeprecated,
+      required final bool isExperimental,
+      required final bool isRequired,
+      required final List<String> typeParameterNames,
+      required final List<String> superTypeNames,
+      required final List<ExecutableDeclarationStorageV3>
+          executableDeclarations,
+      required final List<FieldDeclarationStorageV3> fieldDeclarations,
+      required final Set<String> entryPoints,
+      required final String relativePath}) = _$_InterfaceDeclarationStorageV3;
   const _InterfaceDeclarationStorageV3._() : super._();
 
   factory _InterfaceDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
@@ -380,6 +400,8 @@ abstract class _InterfaceDeclarationStorageV3
   List<FieldDeclarationStorageV3> get fieldDeclarations;
   @override
   Set<String> get entryPoints;
+  @override
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_InterfaceDeclarationStorageV3CopyWith<_$_InterfaceDeclarationStorageV3>

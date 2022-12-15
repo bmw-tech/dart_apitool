@@ -34,6 +34,9 @@ mixin _$ExecutableParameterDeclaration {
   /// type name of this parameter
   String get typeName => throw _privateConstructorUsedError;
 
+  /// the relative path of the library
+  String get relativePath => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
       get copyWith => throw _privateConstructorUsedError;
@@ -53,7 +56,8 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       String name,
       bool isDeprecated,
       bool isExperimental,
-      String typeName});
+      String typeName,
+      String relativePath});
 }
 
 /// @nodoc
@@ -76,6 +80,7 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       isRequired: null == isRequired
@@ -102,6 +107,10 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -121,7 +130,8 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       String name,
       bool isDeprecated,
       bool isExperimental,
-      String typeName});
+      String typeName,
+      String relativePath});
 }
 
 /// @nodoc
@@ -143,6 +153,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
+    Object? relativePath = null,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
       isRequired: null == isRequired
@@ -169,6 +180,10 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -183,7 +198,8 @@ class _$_ExecutableParameterDeclaration
       required this.name,
       required this.isDeprecated,
       required this.isExperimental,
-      required this.typeName})
+      required this.typeName,
+      required this.relativePath})
       : super._();
 
   /// whether the parameter is required
@@ -210,9 +226,13 @@ class _$_ExecutableParameterDeclaration
   @override
   final String typeName;
 
+  /// the relative path of the library
+  @override
+  final String relativePath;
+
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, relativePath: $relativePath)';
   }
 
   @override
@@ -229,12 +249,14 @@ class _$_ExecutableParameterDeclaration
             (identical(other.isExperimental, isExperimental) ||
                 other.isExperimental == isExperimental) &&
             (identical(other.typeName, typeName) ||
-                other.typeName == typeName));
+                other.typeName == typeName) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
-      isDeprecated, isExperimental, typeName);
+      isDeprecated, isExperimental, typeName, relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -252,7 +274,8 @@ abstract class _ExecutableParameterDeclaration
       required final String name,
       required final bool isDeprecated,
       required final bool isExperimental,
-      required final String typeName}) = _$_ExecutableParameterDeclaration;
+      required final String typeName,
+      required final String relativePath}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
 
   @override
@@ -279,6 +302,10 @@ abstract class _ExecutableParameterDeclaration
 
   /// type name of this parameter
   String get typeName;
+  @override
+
+  /// the relative path of the library
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
@@ -315,6 +342,9 @@ mixin _$ExecutableDeclaration {
   /// entry points for this executable
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
+  /// the relative path of the library
+  String get relativePath => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -335,7 +365,8 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
       List<String> typeParameterNames,
       ExecutableType type,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -361,6 +392,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
     Object? type = null,
     Object? isStatic = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       returnTypeName: null == returnTypeName
@@ -399,6 +431,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -420,7 +456,8 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
       List<String> typeParameterNames,
       ExecutableType type,
       bool isStatic,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -443,6 +480,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? type = null,
     Object? isStatic = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_$_ExecutableDeclaration(
       returnTypeName: null == returnTypeName
@@ -481,6 +519,10 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -497,7 +539,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       required final List<String> typeParameterNames,
       required this.type,
       required this.isStatic,
-      final Set<String>? entryPoints})
+      final Set<String>? entryPoints,
+      required this.relativePath})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         _entryPoints = entryPoints,
@@ -563,9 +606,13 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
     return EqualUnmodifiableSetView(value);
   }
 
+  /// the relative path of the library
+  @override
+  final String relativePath;
+
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -588,7 +635,9 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
             (identical(other.isStatic, isStatic) ||
                 other.isStatic == isStatic) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @override
@@ -602,7 +651,8 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
       const DeepCollectionEquality().hash(_typeParameterNames),
       type,
       isStatic,
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -622,7 +672,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final List<String> typeParameterNames,
       required final ExecutableType type,
       required final bool isStatic,
-      final Set<String>? entryPoints}) = _$_ExecutableDeclaration;
+      final Set<String>? entryPoints,
+      required final String relativePath}) = _$_ExecutableDeclaration;
   const _ExecutableDeclaration._() : super._();
 
   @override
@@ -661,6 +712,10 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
 
   /// entry points for this executable
   Set<String>? get entryPoints;
+  @override
+
+  /// the relative path of the library
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>

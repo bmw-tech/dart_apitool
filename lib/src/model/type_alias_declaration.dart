@@ -30,6 +30,9 @@ class TypeAliasDeclaration with _$TypeAliasDeclaration implements Declaration {
 
     /// entry points this type alias is reachable through
     Set<String>? entryPoints,
+
+    /// the relative path of the library
+    required String relativePath,
   }) = _TypeAliasDeclaration;
 
   /// helper to compute the signature of a field

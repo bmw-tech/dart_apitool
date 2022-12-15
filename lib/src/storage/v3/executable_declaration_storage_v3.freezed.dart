@@ -28,6 +28,7 @@ mixin _$ExecutableParameterDeclarationStorageV3 {
   bool get isDeprecated => throw _privateConstructorUsedError;
   bool get isExperimental => throw _privateConstructorUsedError;
   String get typeName => throw _privateConstructorUsedError;
+  String get relativePath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +51,8 @@ abstract class $ExecutableParameterDeclarationStorageV3CopyWith<$Res> {
       String name,
       bool isDeprecated,
       bool isExperimental,
-      String typeName});
+      String typeName,
+      String relativePath});
 }
 
 /// @nodoc
@@ -74,6 +76,7 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       isRequired: null == isRequired
@@ -100,6 +103,10 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -119,7 +126,8 @@ abstract class _$$_ExecutableParameterDeclarationStorageV3CopyWith<$Res>
       String name,
       bool isDeprecated,
       bool isExperimental,
-      String typeName});
+      String typeName,
+      String relativePath});
 }
 
 /// @nodoc
@@ -141,6 +149,7 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
+    Object? relativePath = null,
   }) {
     return _then(_$_ExecutableParameterDeclarationStorageV3(
       isRequired: null == isRequired
@@ -167,6 +176,10 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -181,7 +194,8 @@ class _$_ExecutableParameterDeclarationStorageV3
       required this.name,
       required this.isDeprecated,
       required this.isExperimental,
-      required this.typeName})
+      required this.typeName,
+      required this.relativePath})
       : super._();
 
   factory _$_ExecutableParameterDeclarationStorageV3.fromJson(
@@ -200,10 +214,12 @@ class _$_ExecutableParameterDeclarationStorageV3
   final bool isExperimental;
   @override
   final String typeName;
+  @override
+  final String relativePath;
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclarationStorageV3(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName)';
+    return 'ExecutableParameterDeclarationStorageV3(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, relativePath: $relativePath)';
   }
 
   @override
@@ -220,13 +236,15 @@ class _$_ExecutableParameterDeclarationStorageV3
             (identical(other.isExperimental, isExperimental) ||
                 other.isExperimental == isExperimental) &&
             (identical(other.typeName, typeName) ||
-                other.typeName == typeName));
+                other.typeName == typeName) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
-      isDeprecated, isExperimental, typeName);
+      isDeprecated, isExperimental, typeName, relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -252,7 +270,8 @@ abstract class _ExecutableParameterDeclarationStorageV3
           required final String name,
           required final bool isDeprecated,
           required final bool isExperimental,
-          required final String typeName}) =
+          required final String typeName,
+          required final String relativePath}) =
       _$_ExecutableParameterDeclarationStorageV3;
   const _ExecutableParameterDeclarationStorageV3._() : super._();
 
@@ -272,6 +291,8 @@ abstract class _ExecutableParameterDeclarationStorageV3
   bool get isExperimental;
   @override
   String get typeName;
+  @override
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableParameterDeclarationStorageV3CopyWith<
@@ -296,6 +317,7 @@ mixin _$ExecutableDeclarationStorageV3 {
   ExecutableTypeStorageV3 get type => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
+  String get relativePath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -320,7 +342,8 @@ abstract class $ExecutableDeclarationStorageV3CopyWith<$Res> {
       List<String> typeParameterNames,
       ExecutableTypeStorageV3 type,
       bool isStatic,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -346,6 +369,7 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
     Object? type = null,
     Object? isStatic = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       returnTypeName: null == returnTypeName
@@ -384,6 +408,10 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -406,7 +434,8 @@ abstract class _$$_ExecutableDeclarationStorageV3CopyWith<$Res>
       List<String> typeParameterNames,
       ExecutableTypeStorageV3 type,
       bool isStatic,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -431,6 +460,7 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
     Object? type = null,
     Object? isStatic = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_$_ExecutableDeclarationStorageV3(
       returnTypeName: null == returnTypeName
@@ -469,6 +499,10 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -486,7 +520,8 @@ class _$_ExecutableDeclarationStorageV3
       required final List<String> typeParameterNames,
       required this.type,
       required this.isStatic,
-      required final Set<String> entryPoints})
+      required final Set<String> entryPoints,
+      required this.relativePath})
       : _parameters = parameters,
         _typeParameterNames = typeParameterNames,
         _entryPoints = entryPoints,
@@ -534,8 +569,11 @@ class _$_ExecutableDeclarationStorageV3
   }
 
   @override
+  final String relativePath;
+
+  @override
   String toString() {
-    return 'ExecutableDeclarationStorageV3(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'ExecutableDeclarationStorageV3(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -558,7 +596,9 @@ class _$_ExecutableDeclarationStorageV3
             (identical(other.isStatic, isStatic) ||
                 other.isStatic == isStatic) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @JsonKey(ignore: true)
@@ -573,7 +613,8 @@ class _$_ExecutableDeclarationStorageV3
       const DeepCollectionEquality().hash(_typeParameterNames),
       type,
       isStatic,
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -601,8 +642,8 @@ abstract class _ExecutableDeclarationStorageV3
       required final List<String> typeParameterNames,
       required final ExecutableTypeStorageV3 type,
       required final bool isStatic,
-      required final Set<String>
-          entryPoints}) = _$_ExecutableDeclarationStorageV3;
+      required final Set<String> entryPoints,
+      required final String relativePath}) = _$_ExecutableDeclarationStorageV3;
   const _ExecutableDeclarationStorageV3._() : super._();
 
   factory _ExecutableDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
@@ -626,6 +667,8 @@ abstract class _ExecutableDeclarationStorageV3
   bool get isStatic;
   @override
   Set<String> get entryPoints;
+  @override
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_ExecutableDeclarationStorageV3CopyWith<_$_ExecutableDeclarationStorageV3>

@@ -46,6 +46,9 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
 
     /// entry points this interface is reachable through
     Set<String>? entryPoints,
+
+    /// the relative path of the library
+    required String relativePath,
   }) = _InterfaceDeclaration;
 
   String _computeSignature() {

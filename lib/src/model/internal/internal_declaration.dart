@@ -8,4 +8,7 @@ abstract class InternalDeclaration {
 
   /// entry points of this element
   Set<String>? get entryPoints;
+
+  /// the relative path of the library
+  String get relativePath;
 }

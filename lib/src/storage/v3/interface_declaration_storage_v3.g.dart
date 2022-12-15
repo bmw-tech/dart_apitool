@@ -32,6 +32,7 @@ _$_InterfaceDeclarationStorageV3 _$$_InterfaceDeclarationStorageV3FromJson(
       entryPoints: (json['entryPoints'] as List<dynamic>)
           .map((e) => e as String)
           .toSet(),
+      relativePath: json['relativePath'] as String,
     );
 
 Map<String, dynamic> _$$_InterfaceDeclarationStorageV3ToJson(
@@ -46,4 +47,5 @@ Map<String, dynamic> _$$_InterfaceDeclarationStorageV3ToJson(
       'executableDeclarations': instance.executableDeclarations,
       'fieldDeclarations': instance.fieldDeclarations,
       'entryPoints': instance.entryPoints.toList(),
+      'relativePath': instance.relativePath,
     };

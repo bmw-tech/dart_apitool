@@ -39,6 +39,9 @@ class ExecutableParameterDeclaration
 
     /// type name of this parameter
     required String typeName,
+
+    /// the relative path of the library
+    required String relativePath,
   }) = _ExecutableParameterDeclaration;
 
   /// [ExecutableParameterDeclaration]s can't have entry points
@@ -85,6 +88,9 @@ class ExecutableDeclaration
 
     /// entry points for this executable
     Set<String>? entryPoints,
+
+    /// the relative path of the library
+    required String relativePath,
   }) = _ExecutableDeclaration;
 
   /// computes the executable signature.

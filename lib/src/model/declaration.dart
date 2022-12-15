@@ -11,4 +11,7 @@ abstract class Declaration {
 
   /// list of entry points this declaration can be reached over. Can be [null] in case the source doesn't provide entry points
   Set<String>? get entryPoints;
+
+  /// the relative path of the library of this declaraion inside the package
+  String get relativePath;
 }

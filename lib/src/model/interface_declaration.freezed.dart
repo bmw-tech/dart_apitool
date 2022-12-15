@@ -45,6 +45,9 @@ mixin _$InterfaceDeclaration {
   /// entry points this interface is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
+  /// the relative path of the library
+  String get relativePath => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $InterfaceDeclarationCopyWith<InterfaceDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -65,7 +68,8 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -91,6 +95,7 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -129,6 +134,10 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -150,7 +159,8 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -173,6 +183,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_$_InterfaceDeclaration(
       name: null == name
@@ -211,6 +222,10 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -227,7 +242,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
-      final Set<String>? entryPoints})
+      final Set<String>? entryPoints,
+      required this.relativePath})
       : _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
@@ -311,9 +327,13 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
     return EqualUnmodifiableSetView(value);
   }
 
+  /// the relative path of the library
+  @override
+  final String relativePath;
+
   @override
   String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints)';
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -337,7 +357,9 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
             const DeepCollectionEquality()
                 .equals(other._fieldDeclarations, _fieldDeclarations) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @override
@@ -351,7 +373,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -372,7 +395,8 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
-      final Set<String>? entryPoints}) = _$_InterfaceDeclaration;
+      final Set<String>? entryPoints,
+      required final String relativePath}) = _$_InterfaceDeclaration;
   const _InterfaceDeclaration._() : super._();
 
   @override
@@ -411,6 +435,10 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
 
   /// entry points this interface is reachable through
   Set<String>? get entryPoints;
+  @override
+
+  /// the relative path of the library
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_InterfaceDeclarationCopyWith<_$_InterfaceDeclaration> get copyWith =>

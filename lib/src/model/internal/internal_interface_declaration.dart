@@ -28,6 +28,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   @override
   final Set<String>? entryPoints;
   final List<int> superClassIds;
+  @override
+  final String relativePath;
 
   InternalInterfaceDeclaration._({
     required this.id,
@@ -44,6 +46,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
     required this.fieldDeclarations,
     required this.entryPoints,
     required this.superClassIds,
+    required this.relativePath,
   });
 
   InternalInterfaceDeclaration.fromInterfaceElement(
@@ -68,6 +71,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
+          relativePath:
+              InternalDeclarationUtils.getRelativePath(interfaceElement),
           superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
               .whereNotNull()
@@ -94,6 +99,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
+          relativePath:
+              InternalDeclarationUtils.getRelativePath(extensionElement),
           superClassIds: [],
         );
 
@@ -109,6 +116,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,
       isRequired: isRequired,
+      relativePath: relativePath,
     );
   }
 }

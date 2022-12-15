@@ -18,6 +18,8 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
 
   @override
   Set<String>? entryPoints;
+  @override
+  final String relativePath;
 
   InternalTypeAliasDeclaration._({
     required this.id,
@@ -28,6 +30,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
     required this.isDeprecated,
     required this.isExperimental,
     required this.entryPoints,
+    required this.relativePath,
   });
 
   InternalTypeAliasDeclaration.fromTypeAliasElement(
@@ -44,7 +47,9 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
             isDeprecated: typeAliasElement.hasDeprecated,
             isExperimental:
                 InternalDeclarationUtils.hasExperimental(typeAliasElement),
-            entryPoints: {});
+            entryPoints: {},
+            relativePath:
+                InternalDeclarationUtils.getRelativePath(typeAliasElement));
 
   TypeAliasDeclaration toTypeAliasDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
@@ -54,6 +59,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 }

@@ -27,6 +27,7 @@ mixin _$FieldDeclarationStorageV3 {
   bool get isExperimental => throw _privateConstructorUsedError;
   bool get isStatic => throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
+  String get relativePath => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +47,8 @@ abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
       bool isDeprecated,
       bool isExperimental,
       bool isStatic,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
     Object? isExperimental = null,
     Object? isStatic = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       typeName: null == typeName
@@ -95,6 +98,10 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -114,7 +121,8 @@ abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
       bool isDeprecated,
       bool isExperimental,
       bool isStatic,
-      Set<String> entryPoints});
+      Set<String> entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -136,6 +144,7 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
     Object? isExperimental = null,
     Object? isStatic = null,
     Object? entryPoints = null,
+    Object? relativePath = null,
   }) {
     return _then(_$_FieldDeclarationStorageV3(
       typeName: null == typeName
@@ -162,6 +171,10 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -175,7 +188,8 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
       required this.isDeprecated,
       required this.isExperimental,
       required this.isStatic,
-      required final Set<String> entryPoints})
+      required final Set<String> entryPoints,
+      required this.relativePath})
       : _entryPoints = entryPoints,
         super._();
 
@@ -201,8 +215,11 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
   }
 
   @override
+  final String relativePath;
+
+  @override
   String toString() {
-    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints)';
+    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -220,7 +237,9 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
             (identical(other.isStatic, isStatic) ||
                 other.isStatic == isStatic) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @JsonKey(ignore: true)
@@ -232,7 +251,8 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
       isDeprecated,
       isExperimental,
       isStatic,
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -256,7 +276,8 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
       required final bool isDeprecated,
       required final bool isExperimental,
       required final bool isStatic,
-      required final Set<String> entryPoints}) = _$_FieldDeclarationStorageV3;
+      required final Set<String> entryPoints,
+      required final String relativePath}) = _$_FieldDeclarationStorageV3;
   const _FieldDeclarationStorageV3._() : super._();
 
   factory _FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
@@ -274,6 +295,8 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
   bool get isStatic;
   @override
   Set<String> get entryPoints;
+  @override
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationStorageV3CopyWith<_$_FieldDeclarationStorageV3>

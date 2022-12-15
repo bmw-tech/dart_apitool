@@ -33,6 +33,9 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
 
     /// entry points this field is reachable through
     Set<String>? entryPoints,
+
+    /// the relative path of the library
+    required String relativePath,
   }) = _FieldDeclaration;
 
   /// helper to compute the signature of a field

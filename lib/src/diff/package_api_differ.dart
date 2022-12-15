@@ -101,7 +101,10 @@ class PackageApiDiffer {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
       newInterfaces,
-      (oldInterface, newInterface) => oldInterface.name == newInterface.name,
+      (oldInterface, newInterface) =>
+          // for interfaces we have to consider the path as well as we might run into duplicate namings otherwise
+          oldInterface.name == newInterface.name &&
+          oldInterface.relativePath == newInterface.relativePath,
     );
     final changes = <ApiChange>[];
     for (final oldInterface in interfaceListDiff.matches.keys) {

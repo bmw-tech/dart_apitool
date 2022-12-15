@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
   static int? getIdFromElement(Element? element) {
@@ -27,7 +28,7 @@ abstract class InternalDeclarationUtils {
         .toList();
   }
 
-  static hasExperimental(Element element) {
+  static bool hasExperimental(Element element) {
     bool result = element.metadata.any((annotation) {
       // this is really hacky but currently there is no other way of getting into the guts of the annotation
       dynamic dynamicAnnotation = annotation;
@@ -37,5 +38,19 @@ abstract class InternalDeclarationUtils {
           annotationName == 'Experimental';
     });
     return result;
+  }
+
+  static String getRelativePath(Element element) {
+    final name = element.librarySource?.fullName;
+    if (name != null) {
+      final parts = path.split(name);
+      int libIndex = parts.indexWhere((element) => element == 'lib');
+      if (libIndex > 0) {
+        final rootPath = path.joinAll(parts.take(libIndex));
+        return path.relative(name, from: rootPath);
+      }
+      return name;
+    }
+    return '';
   }
 }

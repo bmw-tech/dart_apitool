@@ -44,6 +44,7 @@ class ExecutableParameterDeclarationStorageV3
     required bool isDeprecated,
     required bool isExperimental,
     required String typeName,
+    required String relativePath,
   }) = _ExecutableParameterDeclarationStorageV3;
 
   factory ExecutableParameterDeclarationStorageV3.fromJson(
@@ -58,6 +59,7 @@ class ExecutableParameterDeclarationStorageV3
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
       typeName: typeName,
+      relativePath: relativePath,
     );
   }
 
@@ -71,6 +73,7 @@ class ExecutableParameterDeclarationStorageV3
       isDeprecated: executableParameterDeclaration.isDeprecated,
       isExperimental: executableParameterDeclaration.isExperimental,
       typeName: executableParameterDeclaration.typeName,
+      relativePath: executableParameterDeclaration.relativePath,
     );
   }
 }
@@ -90,6 +93,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
     required ExecutableTypeStorageV3 type,
     required bool isStatic,
     required Set<String> entryPoints,
+    required String relativePath,
   }) = _ExecutableDeclarationStorageV3;
 
   factory ExecutableDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
@@ -107,6 +111,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
       type: type.toExecutableType(),
       isStatic: isStatic,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 
@@ -126,6 +131,7 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
           executableDeclaration.type),
       isStatic: executableDeclaration.isStatic,
       entryPoints: executableDeclaration.entryPoints!,
+      relativePath: executableDeclaration.relativePath,
     );
   }
 }
