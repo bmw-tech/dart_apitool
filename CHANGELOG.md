@@ -2,6 +2,9 @@
 
 ## Version 0.9.0
 - Adds detection and consideration of @experimental flag
+- Increases robustness regarding
+  -  analyser_options: Those get now removed (in a temporary copy) to not limit the scope of dart_apitool
+  -  Duplicate names: Detection of interfaces now considers the relative path of the library file to avoid crashes on duplicate names
 
 ## Version 0.8.0
 - Improves handling of elements without root
