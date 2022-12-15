@@ -18,6 +18,7 @@ _$_ExecutableParameterDeclarationStorageV3
           isDeprecated: json['isDeprecated'] as bool,
           isExperimental: json['isExperimental'] as bool,
           typeName: json['typeName'] as String,
+          relativePath: json['relativePath'] as String,
         );
 
 Map<String, dynamic> _$$_ExecutableParameterDeclarationStorageV3ToJson(
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_ExecutableParameterDeclarationStorageV3ToJson(
       'isDeprecated': instance.isDeprecated,
       'isExperimental': instance.isExperimental,
       'typeName': instance.typeName,
+      'relativePath': instance.relativePath,
     };
 
 _$_ExecutableDeclarationStorageV3 _$$_ExecutableDeclarationStorageV3FromJson(
@@ -50,6 +52,7 @@ _$_ExecutableDeclarationStorageV3 _$$_ExecutableDeclarationStorageV3FromJson(
       entryPoints: (json['entryPoints'] as List<dynamic>)
           .map((e) => e as String)
           .toSet(),
+      relativePath: json['relativePath'] as String,
     );
 
 Map<String, dynamic> _$$_ExecutableDeclarationStorageV3ToJson(
@@ -64,6 +67,7 @@ Map<String, dynamic> _$$_ExecutableDeclarationStorageV3ToJson(
       'type': _$ExecutableTypeStorageV3EnumMap[instance.type]!,
       'isStatic': instance.isStatic,
       'entryPoints': instance.entryPoints.toList(),
+      'relativePath': instance.relativePath,
     };
 
 const _$ExecutableTypeStorageV3EnumMap = {

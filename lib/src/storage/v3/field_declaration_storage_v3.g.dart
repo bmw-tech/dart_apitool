@@ -19,6 +19,7 @@ _$_FieldDeclarationStorageV3 _$$_FieldDeclarationStorageV3FromJson(
       entryPoints: (json['entryPoints'] as List<dynamic>)
           .map((e) => e as String)
           .toSet(),
+      relativePath: json['relativePath'] as String,
     );
 
 Map<String, dynamic> _$$_FieldDeclarationStorageV3ToJson(
@@ -30,4 +31,5 @@ Map<String, dynamic> _$$_FieldDeclarationStorageV3ToJson(
       'isExperimental': instance.isExperimental,
       'isStatic': instance.isStatic,
       'entryPoints': instance.entryPoints.toList(),
+      'relativePath': instance.relativePath,
     };

@@ -22,6 +22,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   final bool isStatic;
   @override
   final Set<String>? entryPoints;
+  @override
+  final String relativePath;
 
   InternalExecutableDeclaration._({
     required this.id,
@@ -36,28 +38,33 @@ class InternalExecutableDeclaration implements InternalDeclaration {
     required this.type,
     required this.isStatic,
     required this.entryPoints,
+    required this.relativePath,
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
       ExecutableElement executableElement,
       {String? namespace})
       : this._(
-            id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
-            parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-                executableElement.enclosingElement),
-            returnTypeName: executableElement.returnType
-                .getDisplayString(withNullability: true),
-            name: executableElement.displayName,
-            namespace: namespace,
-            isDeprecated: executableElement.hasDeprecated,
-            isExperimental:
-                InternalDeclarationUtils.hasExperimental(executableElement),
-            parameters: _computeParameterList(executableElement.parameters),
-            typeParameterNames:
-                _computeTypeParameters(executableElement.typeParameters),
-            type: _computeExecutableType(executableElement),
-            isStatic: executableElement.isStatic,
-            entryPoints: {});
+          id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+              executableElement.enclosingElement),
+          returnTypeName: executableElement.returnType
+              .getDisplayString(withNullability: true),
+          name: executableElement.displayName,
+          namespace: namespace,
+          isDeprecated: executableElement.hasDeprecated,
+          isExperimental:
+              InternalDeclarationUtils.hasExperimental(executableElement),
+          parameters: _computeParameterList(executableElement.parameters,
+              InternalDeclarationUtils.getRelativePath(executableElement)),
+          typeParameterNames:
+              _computeTypeParameters(executableElement.typeParameters),
+          type: _computeExecutableType(executableElement),
+          isStatic: executableElement.isStatic,
+          entryPoints: {},
+          relativePath:
+              InternalDeclarationUtils.getRelativePath(executableElement),
+        );
 
   ExecutableDeclaration toExecutableDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
@@ -71,6 +78,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
       type: type,
       isStatic: isStatic,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 
@@ -84,7 +92,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   }
 
   static List<ExecutableParameterDeclaration> _computeParameterList(
-      List<ParameterElement> parameterElementList) {
+      List<ParameterElement> parameterElementList, String relativePath) {
     return parameterElementList
         .map((e) => ExecutableParameterDeclaration(
             isRequired: e.isRequired,
@@ -92,7 +100,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             name: e.name,
             isDeprecated: e.hasDeprecated,
             isExperimental: InternalDeclarationUtils.hasExperimental(e),
-            typeName: e.type.getDisplayString(withNullability: true)))
+            typeName: e.type.getDisplayString(withNullability: true),
+            relativePath: relativePath))
         .toList();
   }
 

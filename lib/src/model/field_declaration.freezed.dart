@@ -34,6 +34,9 @@ mixin _$FieldDeclaration {
   /// entry points this field is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
+  /// the relative path of the library
+  String get relativePath => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -51,7 +54,8 @@ abstract class $FieldDeclarationCopyWith<$Res> {
       bool isDeprecated,
       bool isStatic,
       bool isExperimental,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
     Object? isStatic = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       typeName: null == typeName
@@ -99,6 +104,10 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -117,7 +126,8 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
       bool isDeprecated,
       bool isStatic,
       bool isExperimental,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -137,6 +147,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? isStatic = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_$_FieldDeclaration(
       typeName: null == typeName
@@ -163,6 +174,10 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -176,7 +191,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       required this.isDeprecated,
       required this.isStatic,
       required this.isExperimental,
-      final Set<String>? entryPoints})
+      final Set<String>? entryPoints,
+      required this.relativePath})
       : _entryPoints = entryPoints,
         super._();
 
@@ -213,9 +229,13 @@ class _$_FieldDeclaration extends _FieldDeclaration {
     return EqualUnmodifiableSetView(value);
   }
 
+  /// the relative path of the library
+  @override
+  final String relativePath;
+
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints)';
+    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -233,7 +253,9 @@ class _$_FieldDeclaration extends _FieldDeclaration {
             (identical(other.isExperimental, isExperimental) ||
                 other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @override
@@ -244,7 +266,8 @@ class _$_FieldDeclaration extends _FieldDeclaration {
       isDeprecated,
       isStatic,
       isExperimental,
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -261,7 +284,8 @@ abstract class _FieldDeclaration extends FieldDeclaration
       required final bool isDeprecated,
       required final bool isStatic,
       required final bool isExperimental,
-      final Set<String>? entryPoints}) = _$_FieldDeclaration;
+      final Set<String>? entryPoints,
+      required final String relativePath}) = _$_FieldDeclaration;
   const _FieldDeclaration._() : super._();
 
   @override
@@ -288,6 +312,10 @@ abstract class _FieldDeclaration extends FieldDeclaration
 
   /// entry points this field is reachable through
   Set<String>? get entryPoints;
+  @override
+
+  /// the relative path of the library
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>

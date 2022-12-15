@@ -24,6 +24,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
     required List<ExecutableDeclarationStorageV3> executableDeclarations,
     required List<FieldDeclarationStorageV3> fieldDeclarations,
     required Set<String> entryPoints,
+    required String relativePath,
   }) = _InterfaceDeclarationStorageV3;
 
   factory InterfaceDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
@@ -43,6 +44,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
       fieldDeclarations:
           fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 
@@ -63,6 +65,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
           .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))
           .toList(),
       entryPoints: interfaceDeclaration.entryPoints!,
+      relativePath: interfaceDeclaration.relativePath,
     );
   }
 }

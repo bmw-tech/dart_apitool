@@ -31,6 +31,9 @@ mixin _$TypeAliasDeclaration {
   /// entry points this type alias is reachable through
   Set<String>? get entryPoints => throw _privateConstructorUsedError;
 
+  /// the relative path of the library
+  String get relativePath => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $TypeAliasDeclarationCopyWith<TypeAliasDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -47,7 +50,8 @@ abstract class $TypeAliasDeclarationCopyWith<$Res> {
       String aliasedTypeName,
       bool isDeprecated,
       bool isExperimental,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -69,6 +73,7 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -91,6 +96,10 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
           ? _value.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -108,7 +117,8 @@ abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
       String aliasedTypeName,
       bool isDeprecated,
       bool isExperimental,
-      Set<String>? entryPoints});
+      Set<String>? entryPoints,
+      String relativePath});
 }
 
 /// @nodoc
@@ -127,6 +137,7 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
+    Object? relativePath = null,
   }) {
     return _then(_$_TypeAliasDeclaration(
       name: null == name
@@ -149,6 +160,10 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
           ? _value._entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
+      relativePath: null == relativePath
+          ? _value.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -161,7 +176,8 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
       required this.aliasedTypeName,
       required this.isDeprecated,
       required this.isExperimental,
-      final Set<String>? entryPoints})
+      final Set<String>? entryPoints,
+      required this.relativePath})
       : _entryPoints = entryPoints,
         super._();
 
@@ -194,9 +210,13 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
     return EqualUnmodifiableSetView(value);
   }
 
+  /// the relative path of the library
+  @override
+  final String relativePath;
+
   @override
   String toString() {
-    return 'TypeAliasDeclaration(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, isExperimental: $isExperimental, entryPoints: $entryPoints)';
+    return 'TypeAliasDeclaration(name: $name, aliasedTypeName: $aliasedTypeName, isDeprecated: $isDeprecated, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -212,7 +232,9 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
             (identical(other.isExperimental, isExperimental) ||
                 other.isExperimental == isExperimental) &&
             const DeepCollectionEquality()
-                .equals(other._entryPoints, _entryPoints));
+                .equals(other._entryPoints, _entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
   }
 
   @override
@@ -222,7 +244,8 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
       aliasedTypeName,
       isDeprecated,
       isExperimental,
-      const DeepCollectionEquality().hash(_entryPoints));
+      const DeepCollectionEquality().hash(_entryPoints),
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +262,8 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
       required final String aliasedTypeName,
       required final bool isDeprecated,
       required final bool isExperimental,
-      final Set<String>? entryPoints}) = _$_TypeAliasDeclaration;
+      final Set<String>? entryPoints,
+      required final String relativePath}) = _$_TypeAliasDeclaration;
   const _TypeAliasDeclaration._() : super._();
 
   @override
@@ -262,6 +286,10 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
 
   /// entry points this type alias is reachable through
   Set<String>? get entryPoints;
+  @override
+
+  /// the relative path of the library
+  String get relativePath;
   @override
   @JsonKey(ignore: true)
   _$$_TypeAliasDeclarationCopyWith<_$_TypeAliasDeclaration> get copyWith =>

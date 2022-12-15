@@ -22,21 +22,31 @@ Package reference can be one of:
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
   Future<PreparedPackageRef> prepare(PackageRef ref) async {
+    String sourceDir = '';
     if (ref.isDirectoryPath) {
-      await PubInteraction.runPubGet(ref.ref);
-      return PreparedPackageRef(packageRef: ref);
-    }
-    if (ref.isPubRef) {
-      stdout.writeln('Downloading ${ref.pubPackage!}:${ref.pubVersion!}');
-      final cachePath = await PubInteraction.installPackageToCache(
+      stdout.writeln('Preparing ${ref.ref}');
+      sourceDir = ref.ref;
+    } else if (ref.isPubRef) {
+      stdout.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
+      stdout.writeln('Downloading');
+      sourceDir = await PubInteraction.installPackageToCache(
           ref.pubPackage!, ref.pubVersion!);
-      //Workaround. It seems that the analyzer has problems with no pub get run and it is not possible to run pub get in the cache directory
-      final tempDir = await Directory.systemTemp.createTemp();
-      await _copyPath(cachePath, tempDir.path);
-      await PubInteraction.runPubGet(tempDir.path);
-      return PreparedPackageRef(packageRef: ref, tempDirectory: tempDir.path);
+    } else {
+      throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
-    throw ArgumentError('Unknown package ref: ${ref.ref}');
+    final tempDir = await Directory.systemTemp.createTemp();
+    stdout.writeln('Copying sources');
+    await _copyPath(sourceDir, tempDir.path);
+    stdout.writeln('Cleaning up');
+    // The analysis options might limit the scope of dart_apitool
+    final analysisOptionsFile =
+        File(p.join(tempDir.path, 'analysis_options.yaml'));
+    if (await analysisOptionsFile.exists()) {
+      await analysisOptionsFile.delete();
+    }
+    stdout.writeln('Running pub get');
+    await PubInteraction.runPubGet(tempDir.path);
+    return PreparedPackageRef(packageRef: ref, tempDirectory: tempDir.path);
   }
 
   /// Analyzes the given prepared Package [ref].

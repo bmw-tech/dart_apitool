@@ -16,10 +16,12 @@ final simpleClassA = InterfaceDeclaration(
       typeParameterNames: [],
       type: ExecutableType.constructor,
       isStatic: false,
+      relativePath: '',
     ),
   ],
   fieldDeclarations: const [],
   isRequired: false,
+  relativePath: '',
 );
 final simpleClassB = InterfaceDeclaration(
   name: 'ClassB',
@@ -37,10 +39,12 @@ final simpleClassB = InterfaceDeclaration(
       typeParameterNames: [],
       type: ExecutableType.constructor,
       isStatic: false,
+      relativePath: '',
     ),
   ],
   fieldDeclarations: const [],
   isRequired: false,
+  relativePath: '',
 );
 
 final packageClassAApi = PackageApi(
@@ -153,16 +157,19 @@ final simpleExecutable1 = ExecutableDeclaration(
   isExperimental: false,
   parameters: const [
     ExecutableParameterDeclaration(
-        isRequired: true,
-        isNamed: true,
-        name: 'firstParam',
-        isDeprecated: false,
-        isExperimental: false,
-        typeName: 'String'),
+      isRequired: true,
+      isNamed: true,
+      name: 'firstParam',
+      isDeprecated: false,
+      isExperimental: false,
+      typeName: 'String',
+      relativePath: '',
+    ),
   ],
   isStatic: false,
   typeParameterNames: const [],
   type: ExecutableType.method,
+  relativePath: '',
 );
 
 final simpleExecutable2 = ExecutableDeclaration(
@@ -174,6 +181,7 @@ final simpleExecutable2 = ExecutableDeclaration(
   typeParameterNames: const [],
   type: ExecutableType.method,
   isStatic: false,
+  relativePath: '',
 );
 
 final packageExecutable1Api = PackageApi(
@@ -248,6 +256,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            relativePath: '',
           ),
         ],
       );
@@ -268,6 +277,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            relativePath: '',
           ),
         ],
       );
@@ -288,6 +298,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            relativePath: '',
           ),
         ],
       );
@@ -308,6 +319,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            relativePath: '',
           ),
         ],
       );
@@ -393,6 +405,7 @@ final simpleFieldDeclarationA = FieldDeclaration(
   isDeprecated: false,
   isExperimental: false,
   isStatic: false,
+  relativePath: '',
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
@@ -400,6 +413,7 @@ final simpleFieldDeclarationB = FieldDeclaration(
   isDeprecated: false,
   isExperimental: false,
   isStatic: false,
+  relativePath: '',
 );
 
 final packageFieldA = PackageApi(

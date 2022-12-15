@@ -18,6 +18,7 @@ _$_TypeAliasDeclarationStorageV3 _$$_TypeAliasDeclarationStorageV3FromJson(
       entryPoints: (json['entryPoints'] as List<dynamic>)
           .map((e) => e as String)
           .toSet(),
+      relativePath: json['relativePath'] as String,
     );
 
 Map<String, dynamic> _$$_TypeAliasDeclarationStorageV3ToJson(
@@ -28,4 +29,5 @@ Map<String, dynamic> _$$_TypeAliasDeclarationStorageV3ToJson(
       'isDeprecated': instance.isDeprecated,
       'isExperimental': instance.isExperimental,
       'entryPoints': instance.entryPoints.toList(),
+      'relativePath': instance.relativePath,
     };

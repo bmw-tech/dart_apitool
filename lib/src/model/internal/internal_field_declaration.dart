@@ -19,6 +19,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
   final bool isStatic;
   @override
   final Set<String>? entryPoints;
+  @override
+  final String relativePath;
 
   InternalFieldDeclaration._({
     required this.id,
@@ -30,23 +32,26 @@ class InternalFieldDeclaration implements InternalDeclaration {
     required this.isExperimental,
     required this.isStatic,
     required this.entryPoints,
+    required this.relativePath,
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
       PropertyInducingElement fieldElement,
       {String? namespace})
       : this._(
-            id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
-            parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-                fieldElement.enclosingElement),
-            typeName: fieldElement.type.getDisplayString(withNullability: true),
-            name: fieldElement.name,
-            namespace: namespace,
-            isDeprecated: fieldElement.hasDeprecated,
-            isExperimental:
-                InternalDeclarationUtils.hasExperimental(fieldElement),
-            isStatic: fieldElement.isStatic,
-            entryPoints: {});
+          id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
+          parentClassId: InternalDeclarationUtils.getIdFromParentElement(
+              fieldElement.enclosingElement),
+          typeName: fieldElement.type.getDisplayString(withNullability: true),
+          name: fieldElement.name,
+          namespace: namespace,
+          isDeprecated: fieldElement.hasDeprecated,
+          isExperimental:
+              InternalDeclarationUtils.hasExperimental(fieldElement),
+          isStatic: fieldElement.isStatic,
+          entryPoints: {},
+          relativePath: InternalDeclarationUtils.getRelativePath(fieldElement),
+        );
 
   FieldDeclaration toFieldDeclaration() {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
@@ -57,6 +62,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
       isExperimental: isExperimental,
       isStatic: isStatic,
       entryPoints: entryPoints,
+      relativePath: relativePath,
     );
   }
 }
