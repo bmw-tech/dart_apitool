@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.9.2
+- adds copy depth parameters
 
 ## Version 0.9.1
 - use the relative path only for top level entities

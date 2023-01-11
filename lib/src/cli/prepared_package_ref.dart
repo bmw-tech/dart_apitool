@@ -6,9 +6,15 @@ import 'package_ref.dart';
 class PreparedPackageRef {
   final PackageRef packageRef;
   final String? tempDirectory;
+  final String? packageRelativePath;
+
+  String? get packageDirectory => packageRelativePath != null
+      ? "$tempDirectory/$packageRelativePath"
+      : tempDirectory;
 
   PreparedPackageRef({
     required this.packageRef,
     this.tempDirectory,
+    this.packageRelativePath,
   });
 }
