@@ -7,3 +7,4 @@ analyzer:
     - '**.g.dart'
     - '**.freezed.dart'
     - scripts/**
+    - test/test_packages/**
