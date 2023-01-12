@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.9.2
-- adds copy depth parameters
+- adds include-path-dependencies parameters
 
 ## Version 0.9.1
 - use the relative path only for top level entities
