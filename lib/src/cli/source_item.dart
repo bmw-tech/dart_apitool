@@ -17,14 +17,11 @@ class SourceItem {
     required String sourceDir,
     required String commonPath,
   }) {
-    final commonPathComponents = path.split(commonPath);
-    final sourceDirComponents = path.split(sourceDir);
-    if (sourceDirComponents.length > commonPathComponents.length) {
-      String relativeDestinationDir = path
-          .joinAll(sourceDirComponents.sublist(commonPathComponents.length));
+    if (path.isWithin(commonPath, sourceDir)) {
+      final commonRelativePath = path.relative(sourceDir, from: commonPath);
       return SourceItem(
         sourceDir: sourceDir,
-        relativeDestinationDir: relativeDestinationDir,
+        relativeDestinationDir: commonRelativePath,
       );
     }
     return SourceItem(sourceDir: sourceDir);
