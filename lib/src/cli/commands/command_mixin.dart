@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dart_apitool/api_tool.dart';
+import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -16,55 +19,67 @@ Package reference can be one of:
   (e.g. pub://package_name/version)
 ''';
 
-  String copyDepthExplanation(String inputKind) {
-    return '''
-Integer that determines how many path levels up from $inputKind package reference should be copied along with the package itself.
-This option allows to copy bigger part of the packages tree to make required path dependencies available for 'pub get' execution.
-This number can not be greater then the count of components of the path given in the --$inputKind parameter.
-This parameter is ignored for published packages and absolute paths. Defaults to 0.
+  final includePathDependenciesExplanation = '''
+Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
+Warning: This option might cause copy to lift the copying scope outside the current working directory,
+depending on paths defined by path dependencies.
+Affects only local references.
+(defaults to off)
  ''';
-  }
 
   /// prepares given [ref]. Depending on the type of ref this can include
   /// - copying the package to a temporary directory
   /// - running pub get
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
-  Future<PreparedPackageRef> prepare(PackageRef ref, {int? depth}) async {
-    String sourceDir = '';
+  Future<PreparedPackageRef> prepare(PackageRef ref,
+      {bool shouldCheckPathDependencies = false}) async {
+    List<SourceItem> sources = [];
     String? packageRelativePath;
     if (ref.isDirectoryPath) {
       stdout.writeln('Preparing ${ref.ref}');
-      sourceDir = ref.ref;
-      if (depth != null && depth != 0 && !ref.isAbsolutePath) {
-        if (sourceDir.endsWith('/')) {
-          sourceDir = sourceDir.substring(0, sourceDir.length - 1);
+      String sourceDir = ref.ref;
+      if (sourceDir.endsWith(p.separator)) {
+        sourceDir =
+            sourceDir.substring(0, sourceDir.length - p.separator.length);
+      }
+      if (shouldCheckPathDependencies) {
+        String commonPath = sourceDir;
+        final pathDependencies = await _listPathDependencies(sourceDir);
+        if (pathDependencies.isNotEmpty) {
+          stdout.writeln(
+              'Found path dependencies: [\n${pathDependencies.reduce((v, e) => '$v\n$e')}\n]');
+          commonPath = _commonRootPathForPackagesPaths(
+              paths: pathDependencies.toList() + [sourceDir]);
+          stdout.writeln('Common path: $commonPath');
+          for (final path in pathDependencies) {
+            sources.add(SourceItem.forCommonPath(
+                sourceDir: path, commonPath: commonPath));
+          }
         }
-        int componentsCount =
-            sourceDir == '.' ? 0 : sourceDir.split('/').length;
-        if (componentsCount < depth) {
-          throw ArgumentError(
-              'Package path (${ref.ref}) components count ($componentsCount) is lower than package relative location depth ($depth)');
-        }
-        packageRelativePath =
-            sourceDir.split('/').sublist(componentsCount - depth).join('/');
-        if (packageRelativePath.split('/').any((element) => element == '..')) {
-          throw ArgumentError(
-              'Package path (${ref.ref}) should not have ".." as one of last $depth components (copy-depth).');
-        }
-        sourceDir = ref.ref + '/..' * depth;
+
+        final sourceItem = SourceItem.forCommonPath(
+            sourceDir: sourceDir, commonPath: commonPath);
+        packageRelativePath = sourceItem.relativeDestinationDir;
+        sources.add(sourceItem);
+      } else {
+        sources.add(SourceItem(sourceDir: sourceDir));
       }
     } else if (ref.isPubRef) {
       stdout.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
       stdout.writeln('Downloading');
-      sourceDir = await PubInteraction.installPackageToCache(
+      String sourceDir = await PubInteraction.installPackageToCache(
           ref.pubPackage!, ref.pubVersion!);
+      sources.add(SourceItem(sourceDir: sourceDir));
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
     final tempDir = await Directory.systemTemp.createTemp();
-    stdout.writeln('Copying sources from $sourceDir');
-    await _copyPath(sourceDir, tempDir.path);
+    await Future.forEach<SourceItem>(sources, (sourceItem) async {
+      stdout.writeln('Copying sources from ${sourceItem.sourceDir}');
+      await _copyPath(sourceItem.sourceDir,
+          sourceItem.destinationPath(forPrefix: tempDir.path));
+    });
     return PreparedPackageRef(
         packageRef: ref,
         tempDirectory: tempDir.path,
@@ -121,6 +136,53 @@ This parameter is ignored for published packages and absolute paths. Defaults to
           .delete(recursive: true);
     }
     return Future.value();
+  }
+
+  Future<Set<String>> _listPathDependencies(String packagePath) async {
+    File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
+    if (!pubspecFile.existsSync()) {
+      throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
+    }
+
+    Set<String> pathDependencies = {};
+
+    final yamlContent = await pubspecFile.readAsString();
+    final pubSpec = Pubspec.parse(yamlContent);
+    await Future.forEach<Dependency>(pubSpec.dependencies.values,
+        (dependency) async {
+      if (dependency is PathDependency) {
+        String pathDependencyPath =
+            p.normalize(p.join(packagePath, dependency.path));
+        pathDependencies.add(pathDependencyPath);
+        pathDependencies = pathDependencies
+            .union(await _listPathDependencies(pathDependencyPath));
+      }
+    });
+
+    return pathDependencies;
+  }
+
+  String _commonRootPathForPackagesPaths({required List<String> paths}) {
+    if (paths.isEmpty) {
+      return '';
+    }
+    return paths.reduce((value, element) {
+      final valueComponents = p.split(value);
+      final elementComponents = p.split(element);
+      List<String> commonComponents = [];
+
+      for (int i = 0;
+          i < min(valueComponents.length, elementComponents.length);
+          i++) {
+        if (valueComponents[i] == elementComponents[i]) {
+          commonComponents.add(valueComponents[i]);
+        } else {
+          break;
+        }
+      }
+
+      return p.joinAll(commonComponents);
+    });
   }
 
   bool _doNothing(String from, String to) {

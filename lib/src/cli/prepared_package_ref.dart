@@ -1,3 +1,5 @@
+import 'package:path/path.dart' as path;
+
 import 'package_ref.dart';
 
 /// represents a prepared package ref
@@ -8,9 +10,10 @@ class PreparedPackageRef {
   final String? tempDirectory;
   final String? packageRelativePath;
 
-  String? get packageDirectory => packageRelativePath != null
-      ? "$tempDirectory/$packageRelativePath"
-      : tempDirectory;
+  String? get packageDirectory =>
+      tempDirectory != null && packageRelativePath != null
+          ? path.normalize(path.join(tempDirectory!, packageRelativePath))
+          : tempDirectory;
 
   PreparedPackageRef({
     required this.packageRef,

@@ -26,11 +26,6 @@ class PackageRef {
     return uri.hasScheme && uri.scheme == 'pub';
   }
 
-  /// determines if this reference uses absolute file system path
-  bool get isAbsolutePath {
-    return ref.startsWith('/');
-  }
-
   /// (only valid if [isPubRef]) gets the package name from the pub ref
   String? get pubPackage {
     if (!isPubRef) {

@@ -7,7 +7,7 @@ import '../package_ref.dart';
 import 'command_mixin.dart';
 
 String _optionNameInput = 'input';
-String _optionNameInputCopyDepth = 'input-copy-depth';
+String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameOutput = 'output';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
@@ -28,9 +28,10 @@ class ExtractCommand extends Command<int> with CommandMixin {
       help: 'Input package ref. $packageRefExplanation',
       mandatory: true,
     );
-    argParser.addOption(
-      _optionNameInputCopyDepth,
-      help: copyDepthExplanation('input'),
+    argParser.addFlag(
+      _optionNameIncludePathDependencies,
+      abbr: 'p',
+      help: includePathDependenciesExplanation,
     );
     argParser.addOption(
       _optionNameOutput,
@@ -56,17 +57,15 @@ If not specified the extracted API will be printed to the console.
   @override
   Future<int> run() async {
     final packageRef = PackageRef(argResults![_optionNameInput]);
-    final packageCopyDepthString = argResults![_optionNameInputCopyDepth];
-    final packageCopyDepth = packageCopyDepthString != null
-        ? int.parse(packageCopyDepthString)
-        : null;
+    final shouldCheckPathDependencies =
+        argResults![_optionNameIncludePathDependencies] as bool;
     final noMergeBaseClasses =
         argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
 
-    final preparedPackageRef =
-        await prepare(packageRef, depth: packageCopyDepth);
+    final preparedPackageRef = await prepare(packageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
     final packageApi = await analyze(
       preparedPackageRef,
       doMergeBaseClasses: !noMergeBaseClasses,

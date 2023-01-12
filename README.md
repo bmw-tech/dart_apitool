@@ -49,10 +49,11 @@ Usage: dart-apitool extract [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
-    --input-copy-depth                   Integer that determines how many path levels up from input package reference should be copied along with the package itself.
-                                         This option allows to copy bigger part of the packages tree to make required path dependencies available for 'pub get' execution.
-                                         This number can not be greater then the count of components of the path given in the --input parameter.
-                                         This parameter is ignored for published packages and absolute paths. Defaults to 0.
+-p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
+                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
+                                         depending on paths defined by path dependencies.
+                                         Affects only local references.
+                                         (defaults to off)
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
     --no-merge-base-classes              Disables base class merging.
@@ -76,14 +77,11 @@ Usage: dart-apitool diff [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
-    --old-copy-depth                     Integer that determines how many path levels up from old package reference should be copied along with the package itself.
-                                         This option allows to copy bigger part of the packages tree to make required path dependencies available for 'pub get' execution.
-                                         This number can not be greater then the count of components of the path given in the --old parameter.
-                                         This parameter is ignored for published packages and absolute paths. Defaults to 0.
-    --new-copy-depth                     Integer that determines how many path levels up from new package reference should be copied along with the package itself.
-                                         This option allows to copy bigger part of the packages tree to make required path dependencies available for 'pub get' execution.
-                                         This number can not be greater then the count of components of the path given in the --new parameter.
-                                         This parameter is ignored for published packages and absolute paths. Defaults to 0.
+-p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
+                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
+                                         depending on paths defined by path dependencies.
+                                         Affects only local references.
+                                         (defaults to off)
     --[no-]check-versions                Determines if the version of the new package should be checked.
                                          Takes the changes of the diff and checks if the new version follows semver.
                                          Influences tool return value.

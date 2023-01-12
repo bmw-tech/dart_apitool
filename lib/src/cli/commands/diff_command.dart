@@ -11,8 +11,7 @@ import 'command_mixin.dart';
 
 String _optionNameOld = 'old';
 String _optionNameNew = 'new';
-String _optionNameOldCopyDepth = 'old-copy-depth';
-String _optionNameNewCopyDepth = 'new-copy-depth';
+String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameCheckVersions = 'check-versions';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
@@ -39,13 +38,10 @@ class DiffCommand extends Command<int> with CommandMixin {
       mandatory: true,
       help: 'New package reference. $packageRefExplanation',
     );
-    argParser.addOption(
-      _optionNameOldCopyDepth,
-      help: copyDepthExplanation('old'),
-    );
-    argParser.addOption(
-      _optionNameNewCopyDepth,
-      help: copyDepthExplanation('new'),
+    argParser.addFlag(
+      _optionNameIncludePathDependencies,
+      abbr: 'p',
+      help: includePathDependenciesExplanation,
     );
     argParser.addFlag(
       _optionNameCheckVersions,
@@ -99,14 +95,8 @@ You may want to do this if you want to make sure
   Future<int> run() async {
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
-    final oldPackageCopyDepthString = argResults![_optionNameOldCopyDepth];
-    final oldPackageCopyDepth = oldPackageCopyDepthString != null
-        ? int.parse(oldPackageCopyDepthString)
-        : null;
-    final newPackageCopyDepthString = argResults![_optionNameNewCopyDepth];
-    final newPackageCopyDepth = newPackageCopyDepthString != null
-        ? int.parse(newPackageCopyDepthString)
-        : null;
+    final shouldCheckPathDependencies =
+        argResults![_optionNameIncludePathDependencies] as bool;
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
     final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
@@ -118,10 +108,10 @@ You may want to do this if you want to make sure
         (element) =>
             element.name == argResults![_optionNameDependencyCheckMode]);
 
-    final preparedOldPackageRef =
-        await prepare(oldPackageRef, depth: oldPackageCopyDepth);
-    final preparedNewPackageRef =
-        await prepare(newPackageRef, depth: newPackageCopyDepth);
+    final preparedOldPackageRef = await prepare(oldPackageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
+    final preparedNewPackageRef = await prepare(newPackageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
 
     final oldPackageApi = await analyze(
       preparedOldPackageRef,
