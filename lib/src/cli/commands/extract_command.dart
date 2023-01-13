@@ -7,6 +7,7 @@ import '../package_ref.dart';
 import 'command_mixin.dart';
 
 String _optionNameInput = 'input';
+String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameOutput = 'output';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
@@ -26,6 +27,11 @@ class ExtractCommand extends Command<int> with CommandMixin {
       _optionNameInput,
       help: 'Input package ref. $packageRefExplanation',
       mandatory: true,
+    );
+    argParser.addFlag(
+      _optionNameIncludePathDependencies,
+      abbr: 'p',
+      help: includePathDependenciesExplanation,
     );
     argParser.addOption(
       _optionNameOutput,
@@ -51,12 +57,15 @@ If not specified the extracted API will be printed to the console.
   @override
   Future<int> run() async {
     final packageRef = PackageRef(argResults![_optionNameInput]);
+    final shouldCheckPathDependencies =
+        argResults![_optionNameIncludePathDependencies] as bool;
     final noMergeBaseClasses =
         argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
 
-    final preparedPackageRef = await prepare(packageRef);
+    final preparedPackageRef = await prepare(packageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
     final packageApi = await analyze(
       preparedPackageRef,
       doMergeBaseClasses: !noMergeBaseClasses,

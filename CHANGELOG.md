@@ -1,6 +1,8 @@
 # Changelog
 
-## Version 0.9.2
+## Version 0.10.0
+- adds include-path-dependencies parameters
+- dependencies are ignored if one side of the diff is a path dependency
 
 ## Version 0.9.1
 - use the relative path only for top level entities

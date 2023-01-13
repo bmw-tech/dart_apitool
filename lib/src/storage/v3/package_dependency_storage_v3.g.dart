@@ -12,7 +12,7 @@ _$_PackageDependencyStorageV3 _$$_PackageDependencyStorageV3FromJson(
         Map<String, dynamic> json) =>
     _$_PackageDependencyStorageV3(
       packageName: json['packageName'] as String,
-      packageVersion: json['packageVersion'] as String,
+      packageVersion: json['packageVersion'] as String?,
     );
 
 Map<String, dynamic> _$$_PackageDependencyStorageV3ToJson(

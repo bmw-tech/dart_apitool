@@ -22,7 +22,7 @@ PackageDependencyStorageV3 _$PackageDependencyStorageV3FromJson(
 /// @nodoc
 mixin _$PackageDependencyStorageV3 {
   String get packageName => throw _privateConstructorUsedError;
-  String get packageVersion => throw _privateConstructorUsedError;
+  String? get packageVersion => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $PackageDependencyStorageV3CopyWith<$Res> {
       _$PackageDependencyStorageV3CopyWithImpl<$Res,
           PackageDependencyStorageV3>;
   @useResult
-  $Res call({String packageName, String packageVersion});
+  $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
@@ -55,17 +55,17 @@ class _$PackageDependencyStorageV3CopyWithImpl<$Res,
   @override
   $Res call({
     Object? packageName = null,
-    Object? packageVersion = null,
+    Object? packageVersion = freezed,
   }) {
     return _then(_value.copyWith(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: null == packageVersion
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -79,7 +79,7 @@ abstract class _$$_PackageDependencyStorageV3CopyWith<$Res>
       __$$_PackageDependencyStorageV3CopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String packageName, String packageVersion});
+  $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
@@ -96,17 +96,17 @@ class __$$_PackageDependencyStorageV3CopyWithImpl<$Res>
   @override
   $Res call({
     Object? packageName = null,
-    Object? packageVersion = null,
+    Object? packageVersion = freezed,
   }) {
     return _then(_$_PackageDependencyStorageV3(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: null == packageVersion
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -124,7 +124,7 @@ class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
   @override
   final String packageName;
   @override
-  final String packageVersion;
+  final String? packageVersion;
 
   @override
   String toString() {
@@ -164,7 +164,7 @@ class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
 abstract class _PackageDependencyStorageV3 extends PackageDependencyStorageV3 {
   const factory _PackageDependencyStorageV3(
       {required final String packageName,
-      required final String packageVersion}) = _$_PackageDependencyStorageV3;
+      required final String? packageVersion}) = _$_PackageDependencyStorageV3;
   const _PackageDependencyStorageV3._() : super._();
 
   factory _PackageDependencyStorageV3.fromJson(Map<String, dynamic> json) =
@@ -173,7 +173,7 @@ abstract class _PackageDependencyStorageV3 extends PackageDependencyStorageV3 {
   @override
   String get packageName;
   @override
-  String get packageVersion;
+  String? get packageVersion;
   @override
   @JsonKey(ignore: true)
   _$$_PackageDependencyStorageV3CopyWith<_$_PackageDependencyStorageV3>

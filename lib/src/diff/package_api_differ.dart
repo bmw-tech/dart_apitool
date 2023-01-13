@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:lumberdash/lumberdash.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:stack/stack.dart';
 import 'package:tuple/tuple.dart';
@@ -1087,10 +1088,18 @@ class PackageApiDiffer {
 
       // dependency is present in old and new API => check version
       if (oldDependency.packageVersion != newDependency.packageVersion) {
+        // only check the version if it is not null (which means the package to compare with has a path or git dependency instead)
+        // this can happen if the API is checked on a version that will be tweaked before publishing (e.g. turn path dependencies into pub refs)
+        if (oldDependency.packageVersion == null ||
+            newDependency.packageVersion == null) {
+          logWarning(
+              'Package dependency "$dependencyName" has a git or path dependency in one of the APIs. Skipping version check.');
+          continue;
+        }
         final oldVersion =
-            VersionConstraint.parse(oldDependency.packageVersion);
+            VersionConstraint.parse(oldDependency.packageVersion!);
         final newVersion =
-            VersionConstraint.parse(newDependency.packageVersion);
+            VersionConstraint.parse(newDependency.packageVersion!);
 
         final isNonBreakingVersionChange = oldVersion.allowsAny(newVersion);
         result.add(

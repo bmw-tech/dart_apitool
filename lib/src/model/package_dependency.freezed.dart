@@ -19,8 +19,8 @@ mixin _$PackageDependency {
   /// name of the package
   String get packageName => throw _privateConstructorUsedError;
 
-  /// String representation of the version range
-  String get packageVersion => throw _privateConstructorUsedError;
+  /// String representation of the version range. Can be null if the dependency is a path or git dependency
+  String? get packageVersion => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PackageDependencyCopyWith<PackageDependency> get copyWith =>
@@ -33,7 +33,7 @@ abstract class $PackageDependencyCopyWith<$Res> {
           PackageDependency value, $Res Function(PackageDependency) then) =
       _$PackageDependencyCopyWithImpl<$Res, PackageDependency>;
   @useResult
-  $Res call({String packageName, String packageVersion});
+  $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
@@ -50,17 +50,17 @@ class _$PackageDependencyCopyWithImpl<$Res, $Val extends PackageDependency>
   @override
   $Res call({
     Object? packageName = null,
-    Object? packageVersion = null,
+    Object? packageVersion = freezed,
   }) {
     return _then(_value.copyWith(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: null == packageVersion
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -73,7 +73,7 @@ abstract class _$$_PackageDependencyCopyWith<$Res>
       __$$_PackageDependencyCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String packageName, String packageVersion});
+  $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
@@ -88,17 +88,17 @@ class __$$_PackageDependencyCopyWithImpl<$Res>
   @override
   $Res call({
     Object? packageName = null,
-    Object? packageVersion = null,
+    Object? packageVersion = freezed,
   }) {
     return _then(_$_PackageDependency(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
-      packageVersion: null == packageVersion
+      packageVersion: freezed == packageVersion
           ? _value.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -113,9 +113,9 @@ class _$_PackageDependency implements _PackageDependency {
   @override
   final String packageName;
 
-  /// String representation of the version range
+  /// String representation of the version range. Can be null if the dependency is a path or git dependency
   @override
-  final String packageVersion;
+  final String? packageVersion;
 
   @override
   String toString() {
@@ -147,7 +147,7 @@ class _$_PackageDependency implements _PackageDependency {
 abstract class _PackageDependency implements PackageDependency {
   factory _PackageDependency(
       {required final String packageName,
-      required final String packageVersion}) = _$_PackageDependency;
+      required final String? packageVersion}) = _$_PackageDependency;
 
   @override
 
@@ -155,8 +155,8 @@ abstract class _PackageDependency implements PackageDependency {
   String get packageName;
   @override
 
-  /// String representation of the version range
-  String get packageVersion;
+  /// String representation of the version range. Can be null if the dependency is a path or git dependency
+  String? get packageVersion;
   @override
   @JsonKey(ignore: true)
   _$$_PackageDependencyCopyWith<_$_PackageDependency> get copyWith =>

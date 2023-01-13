@@ -11,6 +11,7 @@ import 'command_mixin.dart';
 
 String _optionNameOld = 'old';
 String _optionNameNew = 'new';
+String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameCheckVersions = 'check-versions';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
@@ -38,10 +39,15 @@ class DiffCommand extends Command<int> with CommandMixin {
       help: 'New package reference. $packageRefExplanation',
     );
     argParser.addFlag(
+      _optionNameIncludePathDependencies,
+      abbr: 'p',
+      help: includePathDependenciesExplanation,
+    );
+    argParser.addFlag(
       _optionNameCheckVersions,
       help: '''
 Determines if the version of the new package should be checked.
-Takes the changes of the diff and checks if the new version follows semver. 
+Takes the changes of the diff and checks if the new version follows semver.
 Influences tool return value.
 ''',
       defaultsTo: true,
@@ -56,10 +62,10 @@ Influences tool return value.
     argParser.addFlag(
       _optionNameIgnorePrerelease,
       help: '''
-Determines if the pre-release aspect of the version 
-shall be ignored when checking versions. 
+Determines if the pre-release aspect of the version
+shall be ignored when checking versions.
 This only makes sense in combination with --$_optionNameCheckVersions.
-You may want to do this if you want to make sure 
+You may want to do this if you want to make sure
 (in your CI) that the version - once ready - matches semver.
 ''',
       defaultsTo: false,
@@ -89,6 +95,8 @@ You may want to do this if you want to make sure
   Future<int> run() async {
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
+    final shouldCheckPathDependencies =
+        argResults![_optionNameIncludePathDependencies] as bool;
     final checkVersions = argResults![_optionNameCheckVersions] as bool;
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
     final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
@@ -100,8 +108,10 @@ You may want to do this if you want to make sure
         (element) =>
             element.name == argResults![_optionNameDependencyCheckMode]);
 
-    final preparedOldPackageRef = await prepare(oldPackageRef);
-    final preparedNewPackageRef = await prepare(newPackageRef);
+    final preparedOldPackageRef = await prepare(oldPackageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
+    final preparedNewPackageRef = await prepare(newPackageRef,
+        shouldCheckPathDependencies: shouldCheckPathDependencies);
 
     final oldPackageApi = await analyze(
       preparedOldPackageRef,

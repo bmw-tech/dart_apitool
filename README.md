@@ -49,6 +49,11 @@ Usage: dart-apitool extract [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
+-p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
+                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
+                                         depending on paths defined by path dependencies.
+                                         Affects only local references.
+                                         (defaults to off)
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
     --no-merge-base-classes              Disables base class merging.
@@ -72,6 +77,11 @@ Usage: dart-apitool diff [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
+-p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
+                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
+                                         depending on paths defined by path dependencies.
+                                         Affects only local references.
+                                         (defaults to off)
     --[no-]check-versions                Determines if the version of the new package should be checked.
                                          Takes the changes of the diff and checks if the new version follows semver.
                                          Influences tool return value.

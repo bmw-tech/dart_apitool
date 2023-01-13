@@ -8,14 +8,22 @@ abstract class PackageDependenciesHelper {
     // only consider hosted dependencies
     dependencies.addAll(
       pubspec.dependencies.entries
-          .where((entry) => entry.value is HostedDependency)
+          .where((entry) =>
+              entry.value is HostedDependency ||
+              entry.value is PathDependency ||
+              entry.value is GitDependency)
           .map(
         (entry) {
-          final dependency = entry.value as HostedDependency;
-          return PackageDependency(
-            packageName: entry.key,
-            packageVersion: dependency.version.toString(),
-          );
+          final dependency = entry.value;
+          if (dependency is HostedDependency) {
+            return PackageDependency(
+              packageName: entry.key,
+              packageVersion: dependency.version.toString(),
+            );
+          } else {
+            return PackageDependency(
+                packageName: entry.key, packageVersion: null);
+          }
         },
       ),
     );
