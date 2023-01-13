@@ -10,7 +10,7 @@ class PackageDependency with _$PackageDependency {
     /// name of the package
     required String packageName,
 
-    /// String representation of the version range
-    required String packageVersion,
+    /// String representation of the version range. Can be null if the dependency is a path or git dependency
+    required String? packageVersion,
   }) = _PackageDependency;
 }

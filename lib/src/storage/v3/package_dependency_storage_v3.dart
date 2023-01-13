@@ -12,7 +12,7 @@ class PackageDependencyStorageV3 with _$PackageDependencyStorageV3 {
 
   const factory PackageDependencyStorageV3({
     required String packageName,
-    required String packageVersion,
+    required String? packageVersion,
   }) = _PackageDependencyStorageV3;
 
   factory PackageDependencyStorageV3.fromJson(Map<String, Object?> json) =>
