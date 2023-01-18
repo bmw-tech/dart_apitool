@@ -1,5 +1,7 @@
 # Changelog
 
+## Version 0.10.1
+
 ## Version 0.10.0
 - adds include-path-dependencies parameters
 - dependencies are ignored if one side of the diff is a path dependency
