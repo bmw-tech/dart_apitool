@@ -12,7 +12,7 @@ import 'command_mixin.dart';
 String _optionNameOld = 'old';
 String _optionNameNew = 'new';
 String _optionNameIncludePathDependencies = 'include-path-dependencies';
-String _optionNameCheckVersions = 'check-versions';
+String _optionNameVersionCheckMode = 'version-check-mode';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
@@ -43,15 +43,14 @@ class DiffCommand extends Command<int> with CommandMixin {
       abbr: 'p',
       help: includePathDependenciesExplanation,
     );
-    argParser.addFlag(
-      _optionNameCheckVersions,
+    argParser.addOption(
+      _optionNameVersionCheckMode,
       help: '''
-Determines if the version of the new package should be checked.
-Takes the changes of the diff and checks if the new version follows semver.
-Influences tool return value.
+Defines the mode the versions of the packages shall be compared. 
+This affects the exit code of this program.
 ''',
-      defaultsTo: true,
-      negatable: true,
+      allowed: VersionCheckMode.values.map((e) => e.name).toList(),
+      defaultsTo: VersionCheckMode.fully.name,
     );
     argParser.addFlag(
       _optionNameCheckSdkVersion,
@@ -64,7 +63,7 @@ Influences tool return value.
       help: '''
 Determines if the pre-release aspect of the version
 shall be ignored when checking versions.
-This only makes sense in combination with --$_optionNameCheckVersions.
+This only makes sense in combination with --$_optionNameDependencyCheckMode != ${VersionCheckMode.none.name}.
 You may want to do this if you want to make sure
 (in your CI) that the version - once ready - matches semver.
 ''',
@@ -97,7 +96,8 @@ You may want to do this if you want to make sure
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
     final shouldCheckPathDependencies =
         argResults![_optionNameIncludePathDependencies] as bool;
-    final checkVersions = argResults![_optionNameCheckVersions] as bool;
+    final versionCheckMode = VersionCheckMode.values.firstWhere(
+        (element) => element.name == argResults![_optionNameVersionCheckMode]);
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
     final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
     final noMergeBaseClasses =
@@ -160,12 +160,13 @@ You may want to do this if you want to make sure
       stdout.writeln('No changes detected!');
     }
 
-    if (checkVersions &&
+    if (versionCheckMode != VersionCheckMode.none &&
         !_versionChangeMatchesChanges(
             diffResult: diffResult,
             oldPackageApi: oldPackageApi,
             newPackageApi: newPackageApi,
-            ignorePrerelease: ignorePrerelease)) {
+            ignorePrerelease: ignorePrerelease,
+            versionCheckMode: versionCheckMode)) {
       return -1;
     }
 
@@ -232,6 +233,7 @@ You may want to do this if you want to make sure
     required PackageApi oldPackageApi,
     required PackageApi newPackageApi,
     required bool ignorePrerelease,
+    required VersionCheckMode versionCheckMode,
   }) {
     stdout.writeln('');
     stdout.writeln('Checking Package version');
@@ -250,6 +252,17 @@ You may want to do this if you want to make sure
     bool containsAnyChanges = diffResult.hasChanges;
     bool containsBreakingChanges =
         diffResult.apiChanges.any((change) => change.isBreaking);
+
+    if (versionCheckMode == VersionCheckMode.none) {
+      stdout.writeln('Skipping version check completely');
+      return true;
+    }
+    if (versionCheckMode == VersionCheckMode.onlyBreakingChanges &&
+        !containsBreakingChanges) {
+      stdout.writeln(
+          'Skipping version check because there are no breaking changes');
+      return true;
+    }
 
     if (ignorePrerelease) {
       // if we want to ignore pre-release then we just remove the prerelease part of the Version
@@ -275,7 +288,8 @@ You may want to do this if you want to make sure
       return true;
     }
 
-    Version expectedMinVersion = oldVersion.nextPatch;
+    Version expectedMinVersion =
+        containsAnyChanges ? oldVersion.nextPatch : oldVersion;
     String versionExplanation = 'no changes';
     if (containsBreakingChanges) {
       expectedMinVersion = oldVersion.nextBreaking;

@@ -1,6 +1,7 @@
 # Changelog
 
-## Version 0.10.1
+## Version 0.11.0
+- replaces `--check-versions` with `--version-check-mode`
 
 ## Version 0.10.0
 - adds include-path-dependencies parameters
