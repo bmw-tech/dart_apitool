@@ -5,3 +5,4 @@ export 'dependency_check_mode.dart';
 export 'package_api_diff_result.dart';
 export 'package_api_differ_options.dart';
 export 'package_api_differ.dart';
+export 'version_check_mode.dart';
