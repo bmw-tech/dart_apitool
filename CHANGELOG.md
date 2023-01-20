@@ -3,6 +3,9 @@
 ## Version 0.11.0
 - replaces `--check-versions` with `--version-check-mode`
 
+## Version 0.10.1 
+- fixes an issue with projects having path dependencies to projects inside their folder structure
+
 ## Version 0.10.0
 - adds include-path-dependencies parameters
 - dependencies are ignored if one side of the diff is a path dependency
