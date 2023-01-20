@@ -82,15 +82,14 @@ Usage: dart-apitool diff [arguments]
                                          depending on paths defined by path dependencies.
                                          Affects only local references.
                                          (defaults to off)
-    --[no-]check-versions                Determines if the version of the new package should be checked.
-                                         Takes the changes of the diff and checks if the new version follows semver.
-                                         Influences tool return value.
-                                         (defaults to on)
+    --version-check-mode                 Defines the mode the versions of the packages shall be compared.
+                                         This affects the exit code of this program.
+                                         [none, fully (default), onlyBreakingChanges]
     --[no-]check-sdk-version             Determines if the SDK version should be checked.
                                          (defaults to on)
     --[no-]ignore-prerelease             Determines if the pre-release aspect of the version
                                          shall be ignored when checking versions.
-                                         This only makes sense in combination with --check-versions.
+                                         This only makes sense in combination with --dependency-check-mode != none.
                                          You may want to do this if you want to make sure
                                          (in your CI) that the version - once ready - matches semver.
     --no-merge-base-classes              Disables base class merging.
