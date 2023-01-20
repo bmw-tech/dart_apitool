@@ -2,6 +2,7 @@
 
 ## Version 0.11.0
 - replaces `--check-versions` with `--version-check-mode`
+- reduces the amount of directories to copy in a path-dependency-context
 
 ## Version 0.10.1 
 - fixes an issue with projects having path dependencies to projects inside their folder structure
