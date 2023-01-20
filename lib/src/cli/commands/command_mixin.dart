@@ -199,9 +199,6 @@ Affects only local references.
     if (_doNothing(from, to)) {
       return;
     }
-    if (await Directory(to).exists()) {
-      await Directory(to).delete();
-    }
     await Directory(to).create(recursive: true);
     await for (final file in Directory(from).list(recursive: true)) {
       final copyTo = p.join(to, p.relative(file.path, from: from));
