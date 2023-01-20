@@ -12,7 +12,7 @@ void main() {
             ..addCommand(extractCommand);
       // executes "extract" command for a set of packages that is linked via path dependencies
       // using "expect()" here results in an early return due to FakeAsync not being able to handle this
-      await runner.run([
+      final exitCode = await runner.run([
         'extract',
         '--input',
         path.join(
@@ -24,6 +24,7 @@ void main() {
         ),
         '--include-path-dependencies',
       ]);
+      expect(exitCode, 0);
     });
     test(
         'Fails with path dependencies pointing outside without include-path-dependencies argument',
@@ -82,5 +83,26 @@ void main() {
         'pub://dart_apitool/0.4.0',
       ]);
     });
-  });
+
+    test('Can handle nested path dependencies', () async {
+      final extractCommand = ExtractCommand();
+      final runner =
+          CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+            ..addCommand(extractCommand);
+      // executes "extract" command for a set of packages that is linked via path dependencies
+      // using "expect()" here results in an early return due to FakeAsync not being able to handle this
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'nested_path_references',
+          'package_a',
+        ),
+        '--include-path-dependencies',
+      ]);
+      expect(exitCode, 0);
+    });
+  }, timeout: Timeout(Duration(minutes: 2)));
 }

@@ -27,5 +27,5 @@ void main() {
       ]);
       expect(exitCode, 0);
     });
-  });
+  }, timeout: Timeout(Duration(minutes: 2)));
 }

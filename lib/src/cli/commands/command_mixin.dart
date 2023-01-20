@@ -74,6 +74,10 @@ Affects only local references.
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
+    // merge sources to not copy children of a parent separately
+    // => remove all sources that have a parent in the list
+    sources.removeWhere((sToRemove) => sources.any(
+        (s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
     final tempDir = await Directory.systemTemp.createTemp();
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
       stdout.writeln('Copying sources from ${sourceItem.sourceDir}');
