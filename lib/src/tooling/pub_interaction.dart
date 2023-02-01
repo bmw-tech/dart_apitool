@@ -32,6 +32,10 @@ abstract class PubInteraction {
 
   /// returns the cache path of a package with the given [packageName] and [version]
   static String getPackagePathInCache(String packageName, String version) {
+    String getHostedDirectory(String cacheDir, String hostedUrl) {
+      return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
+    }
+
     String? cacheDir = Platform.environment['PUB_CACHE'];
     if (cacheDir == null) {
       if (Platform.isWindows) {
@@ -44,8 +48,17 @@ abstract class PubInteraction {
     final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
     final envHosted =
         envHostedUrl == null ? null : Uri.parse(envHostedUrl).host;
-    final hostedUrl = envHosted ?? 'pub.dartlang.org';
-    return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
+    if (envHosted == null) {
+      // Flutter 3.7 changed the name of the pub.dev directory => first test the old one, then the new one
+      var packageDirectory = getHostedDirectory(cacheDir, 'pub.dartlang.org');
+      if (Directory(packageDirectory).existsSync()) {
+        return packageDirectory;
+      }
+      packageDirectory = getHostedDirectory(cacheDir, 'pub.dev');
+      return packageDirectory;
+    } else {
+      return getHostedDirectory(cacheDir, envHosted);
+    }
   }
 
   /// runs pub get in the given [packageDirectory]
