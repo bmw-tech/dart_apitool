@@ -58,6 +58,8 @@ Usage: dart-apitool extract [arguments]
                                          If not specified the extracted API will be printed to the console.
     --no-merge-base-classes              Disables base class merging.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
+    --[no-]remove-example                Removes examples from the package to analyze.
+                                         (defaults to on)
 ```
 
 ### diff
@@ -96,6 +98,8 @@ Usage: dart-apitool diff [arguments]
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
     --dependency-check-mode              Defines the mode package dependency changes are handled.
                                          [none, allowAdding, strict (default)]
+    --[no-]remove-example                Removes examples from the package to analyze.
+                                         (defaults to on)
 ```
 
 ## Integration

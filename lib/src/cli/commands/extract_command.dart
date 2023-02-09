@@ -12,6 +12,7 @@ String _optionNameOutput = 'output';
 String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
+String _optionNameRemoveExample = 'remove-example';
 
 /// command to extract the public API of a package.
 /// This is used when, for example, the public API needs to be stored on disk
@@ -52,6 +53,12 @@ If not specified the extracted API will be printed to the console.
       defaultsTo: false,
       negatable: false,
     );
+    argParser.addFlag(
+      _optionNameRemoveExample,
+      help: 'Removes examples from the package to analyze.',
+      defaultsTo: true,
+      negatable: true,
+    );
   }
 
   @override
@@ -63,13 +70,17 @@ If not specified the extracted API will be printed to the console.
         argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
+    final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
 
-    final preparedPackageRef = await prepare(packageRef,
-        shouldCheckPathDependencies: shouldCheckPathDependencies);
+    final preparedPackageRef = await prepare(
+      packageRef,
+      shouldCheckPathDependencies: shouldCheckPathDependencies,
+    );
     final packageApi = await analyze(
       preparedPackageRef,
       doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
+      doRemoveExample: doRemoveExample,
     );
     await cleanUp(preparedPackageRef);
     final jsonString =

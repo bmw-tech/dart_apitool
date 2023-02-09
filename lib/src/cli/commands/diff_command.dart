@@ -19,6 +19,7 @@ String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
 String _optionNameCheckSdkVersion = 'check-sdk-version';
 String _optionNameDependencyCheckMode = 'dependency-check-mode';
+String _optionNameRemoveExample = 'remove-example';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -88,6 +89,12 @@ You may want to do this if you want to make sure
       allowed: DependencyCheckMode.values.map((e) => e.name).toList(),
       defaultsTo: DependencyCheckMode.strict.name,
     );
+    argParser.addFlag(
+      _optionNameRemoveExample,
+      help: 'Removes examples from the package to analyze.',
+      defaultsTo: true,
+      negatable: true,
+    );
   }
 
   @override
@@ -107,21 +114,28 @@ You may want to do this if you want to make sure
     final dependencyCheckMode = DependencyCheckMode.values.firstWhere(
         (element) =>
             element.name == argResults![_optionNameDependencyCheckMode]);
+    final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
 
-    final preparedOldPackageRef = await prepare(oldPackageRef,
-        shouldCheckPathDependencies: shouldCheckPathDependencies);
-    final preparedNewPackageRef = await prepare(newPackageRef,
-        shouldCheckPathDependencies: shouldCheckPathDependencies);
+    final preparedOldPackageRef = await prepare(
+      oldPackageRef,
+      shouldCheckPathDependencies: shouldCheckPathDependencies,
+    );
+    final preparedNewPackageRef = await prepare(
+      newPackageRef,
+      shouldCheckPathDependencies: shouldCheckPathDependencies,
+    );
 
     final oldPackageApi = await analyze(
       preparedOldPackageRef,
       doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
+      doRemoveExample: doRemoveExample,
     );
     final newPackageApi = await analyze(
       preparedNewPackageRef,
       doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
+      doRemoveExample: doRemoveExample,
     );
 
     await cleanUp(preparedOldPackageRef);
