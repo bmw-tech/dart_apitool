@@ -4,14 +4,26 @@ import 'package:dart_apitool/src/tooling/dart_interaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import '../errors/run_dart_error.dart';
+import '../utils/utils.dart';
 
 /// helper class for interactions with pub
 abstract class PubInteraction {
   /// installs a package to the pub cache and returns the path to it throws [RunDartError] on failure
   static Future<String> installPackageToCache(
-      String packageName, String version) async {
+    String packageName,
+    String version, {
+    StdoutSession? stdoutSession,
+  }) async {
     await DartInteraction.runDartCommand(
-        args: ['pub', 'cache', 'add', packageName, '-v $version']);
+      args: [
+        'pub',
+        'cache',
+        'add',
+        packageName,
+        '-v $version',
+      ],
+      stdoutSession: stdoutSession,
+    );
     return getPackagePathInCache(packageName, version);
   }
 
@@ -63,10 +75,17 @@ abstract class PubInteraction {
 
   /// runs pub get in the given [packageDirectory]
   /// depending or the package either `dart` or `flutter` is executed
-  static Future runPubGet(String packageDirectory) async {
-    return DartInteraction.runDartOrFlutterCommand(packageDirectory, args: [
-      'pub',
-      'get',
-    ]);
+  static Future runPubGet(
+    String packageDirectory, {
+    StdoutSession? stdoutSession,
+  }) async {
+    return DartInteraction.runDartOrFlutterCommand(
+      packageDirectory,
+      args: [
+        'pub',
+        'get',
+      ],
+      stdoutSession: stdoutSession,
+    );
   }
 }

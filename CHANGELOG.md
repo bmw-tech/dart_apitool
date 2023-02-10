@@ -3,6 +3,8 @@
 ## Version 0.11.0
 - replaces `--check-versions` with `--version-check-mode`
 - reduces the amount of directories to copy in a path-dependency-context
+- prints sub process output
+- `--remove-example` option (defaults to true) that deletes the "example" directory of the package to analyze (in the temporary directory) to avoid issues with the example project
 
 ## Version 0.10.2
 - fixes an issue with cache location and Flutter 3.7.0

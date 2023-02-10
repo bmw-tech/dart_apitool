@@ -6,6 +6,7 @@ import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
+import '../../utils/utils.dart';
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
 
@@ -32,12 +33,15 @@ Affects only local references.
   /// - running pub get
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
-  Future<PreparedPackageRef> prepare(PackageRef ref,
-      {bool shouldCheckPathDependencies = false}) async {
+  Future<PreparedPackageRef> prepare(
+    PackageRef ref, {
+    bool shouldCheckPathDependencies = false,
+  }) async {
+    final stdoutSession = StdoutSession();
     List<SourceItem> sources = [];
     String? packageRelativePath;
     if (ref.isDirectoryPath) {
-      stdout.writeln('Preparing ${ref.ref}');
+      stdoutSession.writeln('Preparing ${ref.ref}');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
         sourceDir =
@@ -47,11 +51,11 @@ Affects only local references.
         String commonPath = sourceDir;
         final pathDependencies = await _listPathDependencies(sourceDir);
         if (pathDependencies.isNotEmpty) {
-          stdout.writeln(
+          stdoutSession.writeln(
               'Found path dependencies: [\n${pathDependencies.reduce((v, e) => '$v\n$e')}\n]');
           commonPath = _commonRootPathForPackagesPaths(
               paths: pathDependencies.toList() + [sourceDir]);
-          stdout.writeln('Common path: $commonPath');
+          stdoutSession.writeln('Common path: $commonPath');
           for (final path in pathDependencies) {
             sources.add(SourceItem.forCommonPath(
                 sourceDir: path, commonPath: commonPath));
@@ -66,10 +70,13 @@ Affects only local references.
         sources.add(SourceItem(sourceDir: sourceDir));
       }
     } else if (ref.isPubRef) {
-      stdout.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
-      stdout.writeln('Downloading');
+      stdoutSession.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
+      stdoutSession.writeln('Downloading');
       String sourceDir = await PubInteraction.installPackageToCache(
-          ref.pubPackage!, ref.pubVersion!);
+        ref.pubPackage!,
+        ref.pubVersion!,
+        stdoutSession: stdoutSession,
+      );
       sources.add(SourceItem(sourceDir: sourceDir));
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
@@ -80,7 +87,7 @@ Affects only local references.
         sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
     final tempDir = await Directory.systemTemp.createTemp();
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
-      stdout.writeln('Copying sources from ${sourceItem.sourceDir}');
+      stdoutSession.writeln('Copying sources from ${sourceItem.sourceDir}');
       await _copyPath(sourceItem.sourceDir,
           sourceItem.destinationPath(forPrefix: tempDir.path));
     });
@@ -97,7 +104,9 @@ Affects only local references.
     PreparedPackageRef preparedRef, {
     bool doMergeBaseClasses = true,
     bool doAnalyzePlatformConstraints = true,
+    bool doRemoveExample = true,
   }) async {
+    final stdoutSession = StdoutSession();
     String? path;
     if (preparedRef.packageRef.isDirectoryPath) {
       path = preparedRef.packageRef.ref;
@@ -119,10 +128,14 @@ Affects only local references.
     if (await analysisOptionsFile.exists()) {
       await analysisOptionsFile.delete();
     }
-    stdout.writeln('Running pub get');
-    await PubInteraction.runPubGet(packagePath);
+    final exampleDirPath = p.join(packagePath, 'example');
+    if (doRemoveExample && await Directory(exampleDirPath).exists()) {
+      await Directory(exampleDirPath).delete(recursive: true);
+    }
+    stdoutSession.writeln('Running pub get');
+    await PubInteraction.runPubGet(packagePath, stdoutSession: stdoutSession);
 
-    stdout.writeln('Analyzing $path');
+    stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
       doMergeBaseClasses: doMergeBaseClasses,
