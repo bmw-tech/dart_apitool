@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:console/console.dart';
 
@@ -8,10 +10,20 @@ class StdoutSession {
   final _utf8Encoder = Utf8Encoder();
 
   int? _currentWindowSize;
+  int? _lastDrawnWindowSize;
   final _windowLines = <String>[];
 
+  Completer<void>? _writeCompleter;
+
   /// writes the given [bytes] to the console
-  void write(List<int> bytes) {
+  Future write(List<int> bytes) async {
+    // make sure that only one write is active at a time (needed for flush to work)
+    if (_writeCompleter != null) {
+      await _writeCompleter!.future;
+    }
+    _writeCompleter = Completer();
+    final localCompleter = _writeCompleter!;
+
     String stringContent = _utf8Decoder.convert(bytes);
     if (_currentWindowSize != null) {
       if (stringContent.length > 1 && stringContent.endsWith('\n')) {
@@ -22,46 +34,50 @@ class StdoutSession {
         _windowLines.removeAt(0);
       }
       _drawWindow();
+      await stdout.flush();
     } else {
       Console.write(stringContent);
     }
+
+    _writeCompleter = null;
+    localCompleter.complete();
   }
 
   /// writes the given [string] to the console
-  void writeln([String string = ""]) {
-    write(_utf8Encoder.convert('$string\n'));
+  Future writeln([String string = ""]) async {
+    await write(_utf8Encoder.convert('$string\n'));
   }
 
   /// opens a subprocess output window with the given [height]
   void openSubprocessOutputWindow({int height = 10}) {
     _windowLines.clear();
     _currentWindowSize = height;
-    _drawWindow(moveCursorUp: false);
+    _drawWindow();
+    Console.hideCursor();
   }
 
   /// closes the subprocess output window
   void closeSubprocessOutputWindow() {
     if (_currentWindowSize != null) {
-      _windowLines.clear();
       _drawWindow(doClear: true); // erase window
-      Console.moveCursorUp(_currentWindowSize!);
+      _windowLines.clear();
+      Console.moveCursorUp(_lastDrawnWindowSize!);
       _currentWindowSize = null;
+      _lastDrawnWindowSize = null;
+      Console.showCursor();
     }
   }
 
-  void _drawWindow({bool moveCursorUp = true, bool doClear = false}) {
-    if (moveCursorUp) {
-      Console.moveCursorUp(_currentWindowSize!);
+  void _drawWindow({bool doClear = false}) {
+    if (_lastDrawnWindowSize != null) {
+      Console.moveCursorUp(_lastDrawnWindowSize!);
     }
     Console.setTextColor(Color.GRAY.id);
-    for (var i = 0; i < _currentWindowSize!; i++) {
+    _lastDrawnWindowSize = _windowLines.length;
+    for (var i = 0; i < _windowLines.length; i++) {
       Console.eraseLine(2);
       if (!doClear) {
-        if (i < _windowLines.length) {
-          Console.write('> ${_windowLines[i]}');
-        } else {
-          Console.write('>');
-        }
+        Console.write('> ${_windowLines[i]}');
       }
       Console.moveCursorDown();
       Console.moveToColumn(0);
