@@ -409,7 +409,7 @@ class PackageApiAnalyzer {
       throw ArgumentError.value(libraryIdentifier, 'libraryIdentifier',
           'Looks like a package (starts with \'package:\' but doesn\'t contain \'/\'');
     }
-    return libraryIdentifier.substring(libraryIdentifier.indexOf('/'));
+    return libraryIdentifier.substring(libraryIdentifier.indexOf('/') + 1);
   }
 
   bool _isInternalRef(
