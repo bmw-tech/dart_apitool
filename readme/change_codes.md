@@ -18,10 +18,10 @@ Adding a new interface is an API change but a non-breaking one.
 ### <a name="CI03" />An interface is renamed (CI03)
 dart-apitool is treating this as removal of the old interface and addition of the new interface. So a breaking change (remove) and a non-breaking change (add).
 
-### <a name="CI04" />supertype added (CI04)
+### <a name="CI04" />Supertype added (CI04)
 Adding a supertype extends the API of the interface and therefore is a non-breaking change.
 
-### <a name="CI05" />supertype removed (CI05)
+### <a name="CI05" />Supertype removed (CI05)
 Removing a supertype potentially reduces the API of an interface and therefore is a breaking change.
 
 ### <a name="CI06" />The type parameters of an interface are changed (generic) (CI06)
@@ -116,7 +116,7 @@ Entry points are the imports that lead to this type being usable. Any change in 
 ### <a name="CP01" />New entry point (CP01)
 Means a type is accessible through an additional entry point. Non-breaking change
 
-### <a name="CP02" />entry point removed (CP02)
+### <a name="CP02" />Entry point removed (CP02)
 Means a type is no longer accessible through an entry point. This is a breaking change as it can break users code
 
 ## Dependencies
@@ -124,10 +124,11 @@ Means a type is no longer accessible through an entry point. This is a breaking 
 This is a breaking change. This might not be obvious but adding a dependency can lead to a broken build of the user's code. For example, if the user is using a dependency that is not compatible with the new dependency then the user's code will not build.
 
 ### <a name="CD02" />A dependency is removed (CD02)
-This is a non-breaking change. The user's code might rely on that dependency transitively but this is bad practice anyways ;)
+This is a non-breaking change. The user's code might rely on that dependency transitively, but this is bad practice anyway ;)
 
 ### <a name="CD03" />A dependency version is changed (CD03)
-This depends on the kind of version change. If the change is a patch or minor upgrade (so still in semver range) then the change is non-breaking. If the upgrade is a major upgrade then the change is breaking.
+This depends on the kind of version change. If the change is a patch or minor upgrade (so still in semver range) then the change is non-breaking. If the upgrade is a major upgrade then the change is breaking. 
+Changes here only require a patch level version bump.
 
 ## Platform
 Changes to the platform and its constraints are breaking if they are stricter than before. This means if the user's code is not compatible with the new constraints then the user's code will not build.

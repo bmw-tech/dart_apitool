@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.12.0
+- extend handling of change types to include "breaking", "non-breaking-minor" and "non-breaking-patch" changes
+
 ## Version 0.11.1
 - fixes parsing of local package references
 

@@ -54,7 +54,7 @@ void main() {
             allowAddDiffResult.apiChanges.any((element) =>
                 element.changeDescription.contains('dependency') &&
                 element.changeDescription.contains('rxdart') &&
-                element.type == ApiChangeType.addCompatible),
+                element.type == ApiChangeType.addCompatibleMinor),
             isTrue);
         // changes are still breaking
         expect(

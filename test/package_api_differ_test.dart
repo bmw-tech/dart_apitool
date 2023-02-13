@@ -26,7 +26,7 @@ void main() {
       final newClassApiChange = diffResult.apiChanges.first;
       expect(
           newClassApiChange.affectedDeclaration, isA<InterfaceDeclaration>());
-      expect(newClassApiChange.type, ApiChangeType.addCompatible);
+      expect(newClassApiChange.type, ApiChangeType.addCompatibleMinor);
       expect(newClassApiChange.changeDescription, contains('ClassB'));
       expect(newClassApiChange.contextTrace, isEmpty);
     });
@@ -54,7 +54,7 @@ void main() {
       final newExecutableApiChange = diffResult.apiChanges.first;
       expect(newExecutableApiChange.affectedDeclaration,
           isA<ExecutableDeclaration>());
-      expect(newExecutableApiChange.type, ApiChangeType.addCompatible);
+      expect(newExecutableApiChange.type, ApiChangeType.addCompatibleMinor);
       expect(
           newExecutableApiChange.changeDescription, contains('doSomething2'));
       expect(newExecutableApiChange.contextTrace, isEmpty);
@@ -83,7 +83,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final newFieldApiChange = diffResult.apiChanges.first;
       expect(newFieldApiChange.affectedDeclaration, isA<FieldDeclaration>());
-      expect(newFieldApiChange.type, ApiChangeType.addCompatible);
+      expect(newFieldApiChange.type, ApiChangeType.addCompatibleMinor);
       expect(newFieldApiChange.changeDescription, contains('fieldB'));
       expect(newFieldApiChange.contextTrace, isEmpty);
     });
@@ -115,7 +115,7 @@ void main() {
           isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first,
           isA<InterfaceDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
     test('Class deprecated flag removed is detected', () {
@@ -130,7 +130,7 @@ void main() {
           isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first,
           isA<InterfaceDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
 
@@ -151,7 +151,7 @@ void main() {
           isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
     test('Executable deprecated flag removed is detected', () {
@@ -166,7 +166,7 @@ void main() {
           isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first,
           isA<ExecutableDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
 
@@ -186,7 +186,7 @@ void main() {
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
     test('Field deprecated flag removed is detected', () {
@@ -200,7 +200,7 @@ void main() {
       expect(
           deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
-      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatible);
+      expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
   });
@@ -519,7 +519,7 @@ void main() {
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalPositional'));
       expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
-      expect(typeChange.type, ApiChangeType.addCompatible);
+      expect(typeChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('New, optional named parameter added', () {
       final differ = PackageApiDiffer();
@@ -532,7 +532,7 @@ void main() {
       expect(typeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(typeChange.changeDescription, contains('optionalNamed'));
       expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
-      expect(typeChange.type, ApiChangeType.addCompatible);
+      expect(typeChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('New, required positional parameter added', () {
       final differ = PackageApiDiffer();
@@ -622,7 +622,7 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-          (element) => element.type == ApiChangeType.addCompatible);
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
       final removeChange = diffResult.apiChanges
           .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<FieldDeclaration>());
@@ -635,7 +635,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<FieldDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint add in field detected', () {
       final differ = PackageApiDiffer();
@@ -650,7 +650,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<FieldDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint remove in field detected', () {
       final differ = PackageApiDiffer();
@@ -674,7 +674,7 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-          (element) => element.type == ApiChangeType.addCompatible);
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
       final removeChange = diffResult.apiChanges
           .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<ExecutableDeclaration>());
@@ -687,7 +687,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<ExecutableDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint add in executable detected', () {
       final differ = PackageApiDiffer();
@@ -702,7 +702,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<ExecutableDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint remove in executable detected', () {
       final differ = PackageApiDiffer();
@@ -726,7 +726,7 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-          (element) => element.type == ApiChangeType.addCompatible);
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
       final removeChange = diffResult.apiChanges
           .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<InterfaceDeclaration>());
@@ -739,7 +739,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<InterfaceDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint add in class detected', () {
       final differ = PackageApiDiffer();
@@ -754,7 +754,7 @@ void main() {
       expect(addChange.changeDescription, contains('entry point'));
       expect(addChange.changeDescription, contains('b.dart'));
       expect(addChange.contextTrace.first, isA<InterfaceDeclaration>());
-      expect(addChange.type, ApiChangeType.addCompatible);
+      expect(addChange.type, ApiChangeType.addCompatibleMinor);
     });
     test('EntryPoint remove in class detected', () {
       final differ = PackageApiDiffer();

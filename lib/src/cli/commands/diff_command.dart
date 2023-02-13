@@ -210,7 +210,7 @@ You may want to do this if you want to make sure
     Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
       final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
       final changeNodes = relevantChanges.map((c) =>
-          '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})');
+          '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})${c.isBreaking ? '' : c.type.requiresMinorBump ? ' (minor)' : ' (patch)'}');
       final childNodes = n.children.values
           .map((value) => nodeToTree(value))
           .where((element) => element.isNotEmpty);
@@ -266,6 +266,8 @@ You may want to do this if you want to make sure
     bool containsAnyChanges = diffResult.hasChanges;
     bool containsBreakingChanges =
         diffResult.apiChanges.any((change) => change.isBreaking);
+    bool onlyPatchChanges =
+        diffResult.apiChanges.any((change) => !change.type.requiresMinorBump);
 
     if (versionCheckMode == VersionCheckMode.none) {
       stdout.writeln('Skipping version check completely');
@@ -309,11 +311,15 @@ You may want to do this if you want to make sure
       expectedMinVersion = oldVersion.nextBreaking;
       versionExplanation = 'breaking changes';
     } else if (containsAnyChanges) {
-      // Only for major > 0: expect the minor version to be incremented if any changes in the public API happen
-      if (oldVersion.major > 0) {
-        expectedMinVersion = oldVersion.nextMinor;
+      if (!onlyPatchChanges) {
+        // Only for major > 0: expect the minor version to be incremented if any changes in the public API happen
+        if (oldVersion.major > 0) {
+          expectedMinVersion = oldVersion.nextMinor;
+        }
+        versionExplanation = 'non-breaking changes';
+      } else {
+        versionExplanation = 'non-breaking changes --> patch';
       }
-      versionExplanation = 'non-breaking changes';
     }
 
     stdout.writeln('Old version: "$oldVersion"');
