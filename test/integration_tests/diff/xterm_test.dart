@@ -34,7 +34,7 @@ void main() {
       test('contains "enableSuggestions" parameter addition', () {
         expect(
             diffResult.apiChanges.any((change) =>
-                change.type == ApiChangeType.addCompatible &&
+                change.type == ApiChangeType.addCompatibleMinor &&
                 change.changeDescription.contains('enableSuggestions')),
             isTrue);
       });
@@ -62,14 +62,14 @@ void main() {
                 element.changeDescription.contains('meta') &&
                 element.changeDescription.contains('^1.1.8') &&
                 element.changeDescription.contains('^1.3.0') &&
-                element.type == ApiChangeType.changeCompatible),
+                element.type == ApiChangeType.changeCompatiblePatch),
             isTrue);
         expect(
             diffResult.apiChanges.any((element) =>
                 element.changeDescription.contains('dependency') &&
                 element.changeDescription.contains('async') &&
                 element.changeDescription.contains('removed') &&
-                element.type == ApiChangeType.removeCompatible),
+                element.type == ApiChangeType.changeCompatiblePatch),
             isTrue);
         expect(
             diffResult.apiChanges.any((element) =>

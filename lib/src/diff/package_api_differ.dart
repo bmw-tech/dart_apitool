@@ -133,7 +133,7 @@ class PackageApiDiffer {
         changeCode: ApiChangeCode.ci02,
         affectedDeclaration: addedInterface,
         contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.addCompatible,
+        type: ApiChangeType.addCompatibleMinor,
         isExperimental: isExperimental,
         changeDescription: 'Interface "${addedInterface.name}" added',
       ));
@@ -257,7 +257,7 @@ class PackageApiDiffer {
         contextTrace: _contextTraceFromStack(context),
         type: isInterfaceRequired ?? false
             ? ApiChangeType.addBreaking
-            : ApiChangeType.addCompatible,
+            : ApiChangeType.addCompatibleMinor,
         isExperimental: isExperimental,
         changeDescription:
             '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
@@ -488,7 +488,7 @@ class PackageApiDiffer {
         contextTrace: _contextTraceFromStack(context),
         type: (isInterfaceRequired ?? false) || addedParameter.isRequired
             ? ApiChangeType.addBreaking
-            : ApiChangeType.addCompatible,
+            : ApiChangeType.addCompatibleMinor,
         isExperimental: isExperimental,
         changeDescription:
             'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
@@ -610,7 +610,7 @@ class PackageApiDiffer {
         contextTrace: _contextTraceFromStack(context),
         affectedDeclaration: context.top(),
         changeDescription: 'New entry point: $newEntryPoint',
-        type: ApiChangeType.addCompatible,
+        type: ApiChangeType.addCompatibleMinor,
         isExperimental: isExperimental,
       ));
     }
@@ -704,7 +704,7 @@ class PackageApiDiffer {
           changeCode: ApiChangeCode.ci04,
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
-          type: ApiChangeType.addCompatible,
+          type: ApiChangeType.addCompatibleMinor,
           isExperimental: isExperimental,
           changeDescription: 'Super Type "$addedSuperType" added'));
     }
@@ -755,7 +755,7 @@ class PackageApiDiffer {
           contextTrace: _contextTraceFromStack(context),
           type: (isInterfaceRequired ?? false)
               ? ApiChangeType.addBreaking
-              : ApiChangeType.addCompatible,
+              : ApiChangeType.addCompatibleMinor,
           isExperimental: isExperimental,
           changeDescription:
               'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}'));
@@ -873,7 +873,7 @@ class PackageApiDiffer {
           contextTrace: [],
           type: isBreaking
               ? ApiChangeType.changeBreaking
-              : ApiChangeType.changeCompatible,
+              : ApiChangeType.changeCompatibleMinor,
           isExperimental: isExperimental,
           changeDescription:
               'iOS platform minimum version changed from ${oldConstraints.minimumOsVersion} to ${newConstraints.minimumOsVersion}',
@@ -961,7 +961,7 @@ class PackageApiDiffer {
         contextTrace: [],
         type: isBreaking
             ? ApiChangeType.changeBreaking
-            : ApiChangeType.changeCompatible,
+            : ApiChangeType.changeCompatibleMinor,
         isExperimental: isExperimental,
         changeDescription:
             'Android platform $valName changed from $oldVal to $newVal',
@@ -1062,7 +1062,7 @@ class PackageApiDiffer {
             affectedDeclaration: null,
             contextTrace: [],
             type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
-                ? ApiChangeType.addCompatible
+                ? ApiChangeType.addCompatibleMinor
                 : ApiChangeType.addBreaking,
             isExperimental: isExperimental,
             changeDescription: 'Package dependency added: "$dependencyName"',
@@ -1078,7 +1078,7 @@ class PackageApiDiffer {
             changeCode: ApiChangeCode.cd02,
             affectedDeclaration: null,
             contextTrace: [],
-            type: ApiChangeType.removeCompatible,
+            type: ApiChangeType.changeCompatiblePatch,
             isExperimental: isExperimental,
             changeDescription: 'Package dependency removed: "$dependencyName"',
           ),
@@ -1107,9 +1107,9 @@ class PackageApiDiffer {
             changeCode: ApiChangeCode.cd03,
             affectedDeclaration: null,
             contextTrace: [],
-            type: isNonBreakingVersionChange
-                ? ApiChangeType.changeCompatible
-                : ApiChangeType.changeBreaking,
+            type: !isNonBreakingVersionChange
+                ? ApiChangeType.changeBreaking
+                : ApiChangeType.changeCompatiblePatch,
             isExperimental: isExperimental,
             changeDescription:
                 'Package dependency "$dependencyName" version changed from "${oldDependency.packageVersion}" to "${newDependency.packageVersion}"',
@@ -1159,7 +1159,7 @@ class PackageApiDiffer {
         affectedDeclaration: affectedDeclaration,
         contextTrace: _contextTraceFromStack(context),
         type: isCompatibleChange
-            ? ApiChangeType.changeCompatible
+            ? ApiChangeType.changeCompatibleMinor
             : ApiChangeType.changeBreaking,
         changeDescription: changeDescription,
         isExperimental: isExperimental,
