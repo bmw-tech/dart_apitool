@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.11.1
+- fixes parsing of local package references
+
 ## Version 0.11.0
 - replaces `--check-versions` with `--version-check-mode`
 - reduces the amount of directories to copy in a path-dependency-context
