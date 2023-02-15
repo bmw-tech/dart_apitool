@@ -2,6 +2,7 @@
 
 ## Version 0.12.0
 - extend handling of change types to include "breaking", "non-breaking-minor" and "non-breaking-patch" changes
+- only output sub process output in a "window" if stdout is a terminal
 
 ## Version 0.11.1
 - fixes parsing of local package references

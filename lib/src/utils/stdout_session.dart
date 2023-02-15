@@ -50,10 +50,13 @@ class StdoutSession {
 
   /// opens a subprocess output window with the given [height]
   void openSubprocessOutputWindow({int height = 10}) {
-    _windowLines.clear();
-    _currentWindowSize = height;
-    _drawWindow();
-    Console.hideCursor();
+    // only open a subprocess output window if a terminal is attached to stdout
+    if (stdout.hasTerminal) {
+      _windowLines.clear();
+      _currentWindowSize = height;
+      _drawWindow();
+      Console.hideCursor();
+    }
   }
 
   /// closes the subprocess output window
