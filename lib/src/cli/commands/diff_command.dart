@@ -169,7 +169,7 @@ You may want to do this if you want to make sure
       }
       stdout.writeln();
       stdout.writeln(
-          'To learn more about the detected changes visit: https://github.com/devmil/dart_apitool/blob/main/readme/change_codes.md');
+          'To learn more about the detected changes visit: https://github.com/bmw-tech/dart_apitool/blob/main/readme/change_codes.md');
     } else {
       stdout.writeln('No changes detected!');
     }
