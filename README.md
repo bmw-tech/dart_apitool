@@ -109,7 +109,7 @@ How to best integrate `dart-apitool` in your CI and release process highly depen
 In general, you need to have a reference of what has been released before in order to do a diff to the new sources.
 
 To do that you can either:
-- store the last released version next to your source code
+- store the last released version next to your source code (via a separate file or by using tags)
 - or use whatever knowledge your release process has to get a copy of the previously released version
 
 Depending on what you have as a reference you can call `dart-apitool` using the appropriate package ref for the `old` parameter:
@@ -119,7 +119,14 @@ Depending on what you have as a reference you can call `dart-apitool` using the 
 ### CI
 
 For an example how to integrate `dart-apitool` in your CI (to make sure that the current pre-release version is targeting the right version number) you can refer to the [workflow](.github/workflows/ci.yml#L77) used by this repository.
-`dart-apitool` uses approach 1 (store the last released version next to the source code)
+`dart-apitool` uses approach 1 (use the tags to determine the last released version). It uses `git describe` to get the last tag and then uses the tag as the version for the `pub://` reference.
+```shell
+tag=$(git describe --tags --abbrev=0)
+version="${tag#releases/}" # to support the old tag format dart_apitool used (e.g. releases/0.12.0)
+version="${version#v}" # the new tag format (e.g. v0.12.0)
+```
+You can see this in action in the [workflow](.github/workflows/ci.yml) of this repository. 
+
 For your convenience there is a reusable workflow that you can integrate in your workflow.
 ```yml
   semver:
@@ -135,7 +142,7 @@ For your convenience there is a reusable workflow that you can integrate in your
 
 ### Release
 
-Your release process has to make sure that the reference is stored somehow. The easiest way to do that is to store a file containing the last released version next to the source code (`dart-apitool` does that).
+Your release process has to make sure that the reference is stored somehow. The easiest way to do that is to use git tags for this. You probably are creating tags for releases anyway so using them to get the last released version is a good idea. 
 The release process can also use `dart-apitool` to make sure that the new version matches the changes it contains.
 
 ## Contributions
