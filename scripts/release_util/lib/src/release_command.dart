@@ -66,7 +66,8 @@ class ReleaseCommand extends Command {
     }
     final tagName = gitDescribeResult.stdout.toString().split('\n').first;
     final tagVersionMatches = tagVersionRegex.allMatches(tagName);
-    if (tagVersionMatches.length != 1 || tagVersionMatches.single.groupCount != 1) {
+    if (tagVersionMatches.length != 1 ||
+        tagVersionMatches.single.groupCount != 1) {
       throw Exception('Could not extract version from tag "$tagName".');
     }
     return tagVersionMatches.single.group(0)!;
@@ -193,7 +194,8 @@ class ReleaseCommand extends Command {
 
     final currentVersionString = currentVersion.canonicalizedVersion;
 
-    final newVersion = Version(currentVersion.major, currentVersion.minor, currentVersion.patch);
+    final newVersion = Version(
+        currentVersion.major, currentVersion.minor, currentVersion.patch);
     final newVersionString = newVersion.canonicalizedVersion;
 
     final newPubspecContent = pubspecContent.replaceAll(
