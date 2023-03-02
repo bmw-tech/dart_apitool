@@ -49,8 +49,10 @@ jobs:
       - id: step1
         name: Get latest version
         run: |
-          LAST_VERSION=$(cat last_released_version.txt)
-          echo "last_released_version=${LAST_VERSION}" >> $GITHUB_OUTPUT
+          tag=$(git describe --tags --abbrev=0)
+          version="${tag#releases/}"
+          version="${version#v}"
+          echo "last_released_version=${version}" >> $GITHUB_OUTPUT
 
   analysis:
     needs: [check_label, get_flutter_version]
@@ -115,7 +117,7 @@ jobs:
     needs: [check_label, get_flutter_version]
     strategy:
       matrix:
-        platform: [ubuntu-latest, macOS-latest, windows-latest, sh_devmil_mac]
+        platform: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     
     steps:
