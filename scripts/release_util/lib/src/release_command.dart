@@ -35,6 +35,7 @@ class ReleaseCommand extends Command {
       _removePrereleaseFlagFromPubspec();
       _commit('Version ${_getCurrentVersion()}');
     }
+    await _publishDryRunAsync();
     _createTag('v${_getCurrentVersion()}');
     _setNextPrereleaseVersion();
     _commit('Version ${_getCurrentVersion()}');
@@ -51,22 +52,19 @@ class ReleaseCommand extends Command {
     );
   }
 
-  final tagVersionRegex = RegExp(r'(?<version>v[0-9]+.[0-9]+.[0-9]+.*)$');
+  final tagVersionRegex = RegExp(r'[v\/](?<version>[0-9]+.[0-9]+.[0-9]+.*)$');
 
   String _getLastReleasedVersion() {
-    String tagName = '';
-    final gitDescribeResult = Process.runSync(
-        'git', ['describe', '--abbrev=0', '--tags', '--match="v*"']);
+    final gitDescribeResult = Process.runSync('git', [
+      'describe',
+      '--tags',
+      '--abbrev=0',
+    ]);
     if (gitDescribeResult.exitCode != 0) {
-      final gitDescribeResultFallback = Process.runSync(
-          'git', ['describe', '--abbrev=0', '--tags', '--match="releases/*"']);
-      if (gitDescribeResultFallback.exitCode != 0) {
-        throw Exception('Could not find last released version.');
-      }
-      tagName = gitDescribeResultFallback.stdout.toString();
-    } else {
-      tagName = gitDescribeResult.stdout.toString();
+      throw Exception(
+          'Could not find last released version.\n${gitDescribeResult.stdout}\n${gitDescribeResult.stderr}');
     }
+    final tagName = gitDescribeResult.stdout.toString().split('\n').first;
     final tagVersionMatches = tagVersionRegex.allMatches(tagName);
     if (tagVersionMatches.length != 1 ||
         tagVersionMatches.single.groupCount != 1) {
@@ -243,6 +241,25 @@ class ReleaseCommand extends Command {
       print('creating tag failed:');
       print(tagStatus.stderr);
       print(tagStatus.stdout);
+      exit(1);
+    }
+  }
+
+  Future _publishDryRunAsync() async {
+    print('publishing (dry run)');
+    final apiToolRootPath = _getApiToolRootPath();
+    final pubProcess = await Process.start(
+      'fvm',
+      ['dart', 'pub', 'publish', '--dry-run'],
+      workingDirectory: apiToolRootPath,
+    );
+    pubProcess.stdout.transform(utf8.decoder).forEach(print);
+    pubProcess.stderr.transform(utf8.decoder).forEach(print);
+    final subscription = stdin.listen(pubProcess.stdin.add);
+    final pubExitCode = await pubProcess.exitCode;
+    subscription.cancel();
+    if (pubExitCode != 0) {
+      print('publish failed!');
       exit(1);
     }
   }

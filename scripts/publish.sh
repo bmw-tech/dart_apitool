@@ -6,6 +6,7 @@ echo "Publishing dart_apitool"
 
 pushd $SCRIPT_DIR/..
 
+fvm dart pub get --directory=scripts/release_util
 fvm dart scripts/release_util/bin/release_util.dart release
 
 popd
