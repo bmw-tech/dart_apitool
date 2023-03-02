@@ -35,9 +35,7 @@ class ReleaseCommand extends Command {
       _removePrereleaseFlagFromPubspec();
       _commit('Version ${_getCurrentVersion()}');
     }
-    _createTag('releases/${_getCurrentVersion()}');
-    await _publishAsync();
-    _writeLastReleasedVersion();
+    _createTag('v${_getCurrentVersion()}');
     _setNextPrereleaseVersion();
     _commit('Version ${_getCurrentVersion()}');
   }
@@ -53,17 +51,28 @@ class ReleaseCommand extends Command {
     );
   }
 
-  String _getLastReleasedVersionFilePath() {
-    return path.join(_getApiToolRootPath(), 'last_released_version.txt');
-  }
+  final tagVersionRegex = RegExp(r'(?<version>v[0-9]+.[0-9]+.[0-9]+.*)$');
 
   String _getLastReleasedVersion() {
-    final lastReleasedVersionFilePath = _getLastReleasedVersionFilePath();
-    if (!File(lastReleasedVersionFilePath).existsSync()) {
-      print('Missing last_released_version.txt file.');
-      exit(1);
+    String tagName = '';
+    final gitDescribeResult = Process.runSync(
+        'git', ['describe', '--abbrev=0', '--tags', '--match="v*"']);
+    if (gitDescribeResult.exitCode != 0) {
+      final gitDescribeResultFallback = Process.runSync(
+          'git', ['describe', '--abbrev=0', '--tags', '--match="releases/*"']);
+      if (gitDescribeResultFallback.exitCode != 0) {
+        throw Exception('Could not find last released version.');
+      }
+      tagName = gitDescribeResultFallback.stdout.toString();
+    } else {
+      tagName = gitDescribeResult.stdout.toString();
     }
-    return File(lastReleasedVersionFilePath).readAsLinesSync()[0];
+    final tagVersionMatches = tagVersionRegex.allMatches(tagName);
+    if (tagVersionMatches.length != 1 ||
+        tagVersionMatches.single.groupCount != 1) {
+      throw Exception('Could not extract version from tag "$tagName".');
+    }
+    return tagVersionMatches.single.group(0)!;
   }
 
   String _getCurrentVersion() {
@@ -238,29 +247,6 @@ class ReleaseCommand extends Command {
     }
   }
 
-  Future _publishAsync() async {
-    print('publishing');
-    final apiToolRootPath = _getApiToolRootPath();
-    final pubProcess = await Process.start(
-      'fvm',
-      [
-        'dart',
-        'pub',
-        'publish',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
-    pubProcess.stdout.transform(utf8.decoder).forEach(print);
-    pubProcess.stderr.transform(utf8.decoder).forEach(print);
-    final subscription = stdin.listen(pubProcess.stdin.add);
-    final pubExitCode = await pubProcess.exitCode;
-    subscription.cancel();
-    if (pubExitCode != 0) {
-      print('publish failed!');
-      exit(1);
-    }
-  }
-
   void _setNextPrereleaseVersion() {
     final apiToolRootPath = _getApiToolRootPath();
     final pubspecPath = path.join(apiToolRootPath, 'pubspec.yaml');
@@ -275,13 +261,5 @@ class ReleaseCommand extends Command {
       'version: $newVersionString',
     );
     File(pubspecPath).writeAsStringSync(newPubspecContent);
-  }
-
-  void _writeLastReleasedVersion() {
-    final lastReleasedVersionFile = File(_getLastReleasedVersionFilePath());
-    lastReleasedVersionFile.writeAsStringSync(
-      _getCurrentVersion(),
-      mode: FileMode.write,
-    );
   }
 }
