@@ -36,7 +36,6 @@ class ReleaseCommand extends Command {
       _commit('Version ${_getCurrentVersion()}');
     }
     _createTag('v${_getCurrentVersion()}');
-    await _publishAsync();
     _setNextPrereleaseVersion();
     _commit('Version ${_getCurrentVersion()}');
   }
@@ -244,29 +243,6 @@ class ReleaseCommand extends Command {
       print('creating tag failed:');
       print(tagStatus.stderr);
       print(tagStatus.stdout);
-      exit(1);
-    }
-  }
-
-  Future _publishAsync() async {
-    print('publishing');
-    final apiToolRootPath = _getApiToolRootPath();
-    final pubProcess = await Process.start(
-      'fvm',
-      [
-        'dart',
-        'pub',
-        'publish',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
-    pubProcess.stdout.transform(utf8.decoder).forEach(print);
-    pubProcess.stderr.transform(utf8.decoder).forEach(print);
-    final subscription = stdin.listen(pubProcess.stdin.add);
-    final pubExitCode = await pubProcess.exitCode;
-    subscription.cancel();
-    if (pubExitCode != 0) {
-      print('publish failed!');
       exit(1);
     }
   }
