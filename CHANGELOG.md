@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.12.1
+- move package from devmil to bmw-tech 🚀
+
 ## Version 0.12.0
 - extend handling of change types to include "breaking", "non-breaking-minor" and "non-breaking-patch" changes
 - only output sub process output in a "window" if stdout is a terminal
@@ -39,7 +42,7 @@
   interfaces are considered 'required' if they are abstract and used in a public method or field.
   This indicates that this interfaces is intended to be implemented by the user and therefore adding things also is breaking the API.
 - Detect changes in package dependencies
-- Adds codes for API diff reasons that point to an explanation [here](https://github.com/devmil/dart_apitool/blob/main/readme/change_codes.md)
+- Adds codes for API diff reasons that point to an explanation [here](https://github.com/bmw-tech/dart_apitool/blob/main/readme/change_codes.md)
 
 ## Version 0.7.0
 - *BREAKING*: renamed "Class" model elements to "Interface" to reflect the abstraction it represents

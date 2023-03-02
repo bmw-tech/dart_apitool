@@ -3,7 +3,7 @@
 A tool to analyze the public API of a package and create a model of it.
 It also allows to use that model to compare the public API with a newer version and check if the version follows [semver](https://semver.org) correctly.
 
-[![CI](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/devmil/dart_apitool/actions/workflows/ci.yml) [![pub package](https://img.shields.io/pub/v/dart_apitool.svg)](https://pub.dev/packages/dart_apitool)
+[![CI](https://github.com/bmw-tech/dart_apitool/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bmw-tech/dart_apitool/actions/workflows/ci.yml) [![pub package](https://img.shields.io/pub/v/dart_apitool.svg)](https://pub.dev/packages/dart_apitool)
 
 ## Installation
 
@@ -130,7 +130,7 @@ You can see this in action in the [workflow](.github/workflows/ci.yml) of this r
 For your convenience there is a reusable workflow that you can integrate in your workflow.
 ```yml
   semver:
-    uses: devmil/dart_apitool/.github/workflows/check_version.yml@workflow/v1
+    uses: bmw-tech/dart_apitool/.github/workflows/check_version.yml@workflow/v1
     with:
       runs-on: [your build node] # defaults to ubuntu-latest
       old: [package ref to old] # required, e.g. "pub://dart_apitool/<old version>"
@@ -148,7 +148,7 @@ The release process can also use `dart-apitool` to make sure that the new versio
 ## Contributions
 Any kind of contribution is very welcome. 
 Either you have found a false positive or you miss something in the public API model that needs to be analyzed or if you want to contribute directly.
-Feel free to use the [issues](https://github.com/devmil/dart_apitool/issues) to create requests.
+Feel free to use the [issues](https://github.com/bmw-tech/dart_apitool/issues) to create requests.
 
 ## Limitations
 It doesn't cover all potential API changes that might lead to breaking changes.
