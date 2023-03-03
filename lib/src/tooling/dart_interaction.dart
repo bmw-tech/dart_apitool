@@ -35,7 +35,11 @@ abstract class DartInteraction {
       final flutterExecutablePath = await _findFlutterExecutablePath();
       if (flutterExecutablePath == null) {
         logWarning(
-            'Unable to find matching Flutter executable. Using system Flutter executable');
+          'Unable to find matching Flutter executable. Using system Flutter executable...',
+          extras: {
+            'dart executable': _getDartExecutablePath(),
+          },
+        );
       }
       return _runDartOrFlutterCommand(
         flutterExecutablePath ?? 'flutter',
