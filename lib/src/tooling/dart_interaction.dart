@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:lumberdash/lumberdash.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:path/path.dart' as path;
 
@@ -31,10 +32,18 @@ abstract class DartInteraction {
           args: args,
           stdoutSession: stdoutSession);
     } else {
-      return _runDartOrFlutterCommand(await _findFlutterExecutablePath(),
-          workingDirectory: forDirectory,
-          args: args,
-          stdoutSession: stdoutSession);
+      final flutterExecutablePath = await _findFlutterExecutablePath();
+      if (flutterExecutablePath == null) {
+        logWarning(
+            'Unable to find matching Flutter executable. Using system Flutter executable');
+      }
+      return _runDartOrFlutterCommand(
+        flutterExecutablePath ?? 'flutter',
+        workingDirectory: forDirectory,
+        args: args,
+        stdoutSession: stdoutSession,
+        runInShell: flutterExecutablePath == null,
+      );
     }
   }
 
@@ -57,6 +66,7 @@ abstract class DartInteraction {
     String? workingDirectory,
     List<String> args = const [],
     StdoutSession? stdoutSession,
+    bool runInShell = false,
   }) async {
     try {
       return await ProcessUtils.runSubProcess(
@@ -64,6 +74,7 @@ abstract class DartInteraction {
         workingDirectory: workingDirectory,
         args: args,
         stdoutSession: stdoutSession,
+        runInShell: runInShell,
       );
     } catch (e) {
       throw RunDartError(e.toString());
@@ -74,7 +85,7 @@ abstract class DartInteraction {
     return path.normalize(path.absolute(Platform.resolvedExecutable));
   }
 
-  static Future<String> _findFlutterExecutablePath() async {
+  static Future<String?> _findFlutterExecutablePath() async {
     final dartExecutableDirPath = _getDartExecutablePath();
 
     // trying to search in the first bin folder from the dart executable path
@@ -92,6 +103,6 @@ abstract class DartInteraction {
       parts.removeRange(binIndex, parts.length);
       binIndex = parts.lastIndexOf('bin');
     }
-    throw RunDartError('No flutter executable found!');
+    return null;
   }
 }

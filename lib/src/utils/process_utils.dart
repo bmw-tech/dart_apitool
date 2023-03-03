@@ -19,9 +19,14 @@ class ProcessUtils {
     String? workingDirectory,
     List<String> args = const [],
     StdoutSession? stdoutSession,
+    bool runInShell = false,
   }) async {
-    final process = await Process.start(executablePath, args,
-        workingDirectory: workingDirectory);
+    final process = await Process.start(
+      executablePath,
+      args,
+      workingDirectory: workingDirectory,
+      runInShell: runInShell,
+    );
 
     List<StreamSubscription> subscriptions = [];
 
