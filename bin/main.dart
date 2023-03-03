@@ -45,9 +45,16 @@ dart-apitool (${Colorize(await _getOwnVersion()).bold()})
 
 A set of utilities for Package APIs.
 ''')
+    ..argParser.addFlag('version',
+        abbr: 'v', help: 'Prints the version of this tool.', negatable: false)
     ..addCommand(DiffCommand())
     ..addCommand(ExtractCommand());
   try {
+    final argParseResult = runner.argParser.parse(arguments);
+    if (argParseResult['version']) {
+      print(await _getOwnVersion());
+      exit(0);
+    }
     final exitCode = await runner.run(arguments);
     exit(exitCode ?? -1);
   } catch (e) {
