@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.12.2
+- fall back to system Flutter executable if no matching Flutter executable can be found
+
 ## Version 0.12.1
 - move package from devmil to bmw-tech 🚀
 
