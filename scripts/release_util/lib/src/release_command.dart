@@ -67,10 +67,11 @@ class ReleaseCommand extends Command {
     final tagName = gitDescribeResult.stdout.toString().split('\n').first;
     final tagVersionMatches = tagVersionRegex.allMatches(tagName);
     if (tagVersionMatches.length != 1 ||
-        tagVersionMatches.single.groupCount != 1) {
+        tagVersionMatches.single.namedGroup('version') == null) {
       throw Exception('Could not extract version from tag "$tagName".');
     }
-    return tagVersionMatches.single.group(0)!;
+
+    return tagVersionMatches.single.namedGroup('version')!;
   }
 
   String _getCurrentVersion() {
