@@ -153,14 +153,14 @@ class PackageApiDiffer {
           oldInterface.executableDeclarations,
           newInterface.executableDeclarations,
           context,
-          isInterfaceRequired: oldInterface.isRequired,
+          isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
         ),
         ..._calculateFieldsDiff(
           oldInterface.fieldDeclarations,
           newInterface.fieldDeclarations,
           context,
-          isInterfaceRequired: oldInterface.isRequired,
+          isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
         ),
         ..._calculateSuperTypesDiff(
@@ -173,7 +173,7 @@ class PackageApiDiffer {
           oldInterface.typeParameterNames,
           newInterface.typeParameterNames,
           context,
-          isInterfaceRequired: oldInterface.isRequired,
+          isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
         ),
         ..._calculateEntryPointsDiff(

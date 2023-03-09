@@ -9,5 +9,6 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "dart.lineLength": 80
 }

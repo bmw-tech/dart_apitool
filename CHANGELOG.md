@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.13.0
+- fixes an issue with required interface detection on property and field usage
 - default behavior of `--ignore-prerelease` is now `on`
 - improved pre-release handling. Now dart_apitool plays well in scenarios where released pre-release versions are compared to the new stable release
 - fall back to system Flutter executable if no matching Flutter executable can be found

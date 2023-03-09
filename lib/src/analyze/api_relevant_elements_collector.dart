@@ -240,8 +240,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitFieldElement(element);
     if (element.type.element2 != null) {
-      bool canBeSet =
-          !element.isFinal && !element.isConst && !element.isPrivate;
+      bool canBeSet = !element.isFinal &&
+          !element.isConst &&
+          !element.isPrivate &&
+          element.setter != null;
       _onTypeUsed(element.type, element, isRequired: canBeSet);
     }
   }
@@ -272,6 +274,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   void visitParameterElement(ParameterElement element) {
     _onVisitAnyElement(element);
     super.visitParameterElement(element);
+    // exclude parameters for fields and properties as they are handled separately
+    if (element.enclosingElement is PropertyAccessorElement) {
+      return;
+    }
     // this includes method, function and constructor calls
     if (element.type.element2 != null) {
       _onTypeUsed(element.type, element, isRequired: true);
