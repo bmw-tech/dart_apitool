@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:analyzer/dart/element/element.dart';
 
 import '../executable_declaration.dart';
@@ -104,6 +106,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             isDeprecated: e.hasDeprecated,
             isExperimental: InternalDeclarationUtils.hasExperimental(e),
             typeName: e.type.getDisplayString(withNullability: true),
+            typeNamespace: InternalDeclarationUtils.getNamespaceForElement(
+                e.type.element2, e),
             relativePath: relativePath))
         .toList();
   }

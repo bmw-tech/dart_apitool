@@ -47,4 +47,29 @@ abstract class InternalDeclarationUtils {
     }
     return '';
   }
+
+  static String? getNamespaceForElement(
+      Element? referredElement, Element referringElement) {
+    final referredElementLibrary = referredElement?.library;
+    if (referredElementLibrary == null) {
+      return null;
+    }
+    final sourceLibrary = referringElement.library;
+    if (sourceLibrary == null) {
+      return null;
+    }
+    // search for the import of the referred library
+    for (final libraryImport in sourceLibrary.libraryImports) {
+      final importedLibrary = libraryImport.importedLibrary;
+      if (importedLibrary == null) {
+        continue;
+      }
+      if (importedLibrary.library.id == referredElementLibrary.id) {
+        // we found the import => return the given prefix (if specified)
+        return libraryImport.prefix?.element.name;
+      }
+    }
+
+    return null;
+  }
 }

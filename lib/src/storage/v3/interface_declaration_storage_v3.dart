@@ -30,24 +30,6 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
   factory InterfaceDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
       _$InterfaceDeclarationStorageV3FromJson(json);
 
-  InterfaceDeclaration toInterfaceDeclaration() {
-    return InterfaceDeclaration(
-      name: name,
-      isDeprecated: isDeprecated,
-      isRequired: isRequired,
-      isExperimental: isExperimental,
-      typeParameterNames: typeParameterNames,
-      superTypeNames: superTypeNames,
-      executableDeclarations: executableDeclarations
-          .map((e) => e.toExecutableDeclaration())
-          .toList(),
-      fieldDeclarations:
-          fieldDeclarations.map((f) => f.toFieldDeclaration()).toList(),
-      entryPoints: entryPoints,
-      relativePath: relativePath,
-    );
-  }
-
   static InterfaceDeclarationStorageV3 fromInterfaceDeclaration(
       InterfaceDeclaration interfaceDeclaration) {
     return InterfaceDeclarationStorageV3(

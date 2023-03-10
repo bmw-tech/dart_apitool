@@ -60,6 +60,7 @@ final packageClassAApi = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 // Package ClassA variations
 final packageClassADeprecatedApi = packageClassAApi.copyWith(
@@ -94,6 +95,7 @@ final packageClassAApiEntryPointA = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageClassAApiEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -112,6 +114,7 @@ final packageClassAApiEntryPointB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageClassAApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -131,6 +134,7 @@ final packageClassAApiEntryPointAB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 // END Package ClassA variations
 
@@ -148,6 +152,7 @@ final packageClassAClassBApi = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 
 final simpleExecutable1 = ExecutableDeclaration(
@@ -163,6 +168,7 @@ final simpleExecutable1 = ExecutableDeclaration(
       isDeprecated: false,
       isExperimental: false,
       typeName: 'String',
+      typeNamespace: null,
       relativePath: '',
     ),
   ],
@@ -197,6 +203,7 @@ final packageExecutable1Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 
 // Package Executable1 variations
@@ -256,6 +263,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            typeNamespace: null,
             relativePath: '',
           ),
         ],
@@ -277,6 +285,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            typeNamespace: null,
             relativePath: '',
           ),
         ],
@@ -298,6 +307,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            typeNamespace: null,
             relativePath: '',
           ),
         ],
@@ -319,6 +329,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
             isDeprecated: false,
             isExperimental: false,
             typeName: 'bool',
+            typeNamespace: null,
             relativePath: '',
           ),
         ],
@@ -343,6 +354,7 @@ final packageExecutable1ApiEntryPointA = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageExecutable1ApiEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -361,6 +373,7 @@ final packageExecutable1ApiEntryPointB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageExecutable1ApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -380,6 +393,7 @@ final packageExecutable1ApiEntryPointAB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 // END Package Executable1 variations
 
@@ -397,6 +411,7 @@ final packageExecutable1Executable2Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 
 final simpleFieldDeclarationA = FieldDeclaration(
@@ -429,6 +444,7 @@ final packageFieldA = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 
 // Package FieldA variations
@@ -459,6 +475,7 @@ final packageFieldAEntryPointA = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageFieldAEntryPointB = PackageApi(
   packageName: 'simple_package',
@@ -477,6 +494,7 @@ final packageFieldAEntryPointB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 final packageFieldAEntryPointAB = PackageApi(
   packageName: 'simple_package',
@@ -496,6 +514,7 @@ final packageFieldAEntryPointAB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );
 // END Package FieldA variations
 
@@ -513,4 +532,5 @@ final packageFieldAFieldB = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy(types: {}),
 );

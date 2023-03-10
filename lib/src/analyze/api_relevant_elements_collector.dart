@@ -5,11 +5,14 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 
+import '../model/internal/internal_declaration_utils.dart';
 import '../model/internal/internal_type_alias_declaration.dart';
+import '../model/model.dart';
 import '../utils/string_utils.dart';
 import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
+import '../utils/utils.dart';
 
 /// collector to get all the API relevant information out of an AST
 ///
@@ -36,6 +39,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
     /// the root path of the project
     required String rootPath,
+
+    /// the already collected type hierarchy items
+    Map<String, TypeHierarchyItem>? typeHierarchyItems,
   }) : _context = _AnalysisContext(
           shownNames: shownNames,
           hiddenNames: hiddenNames,
@@ -45,6 +51,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _collectedElementIds = <int>{};
     if (collectedElementIds != null) {
       _collectedElementIds.addAll(collectedElementIds);
+    }
+    if (typeHierarchyItems != null) {
+      _typeHierarchyItems.addAll(typeHierarchyItems);
     }
   }
 
@@ -58,6 +67,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
   final Set<int> _requiredElementIds = {};
+  final Map<String, TypeHierarchyItem> _typeHierarchyItems = {};
 
   /// all found class declarations
   List<InternalInterfaceDeclaration> get interfaceDeclarations =>
@@ -77,29 +87,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   /// all element ids that are used in a required context (e.g. implementable / extendable by the user)
   Set<int> get requiredElementIds => _requiredElementIds;
 
+  /// the collected type hierarchy
+  Map<String, TypeHierarchyItem> get typeHierarchyItems => _typeHierarchyItems;
+
   /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
-
-  String? _getNamespaceForLibrary(
-      LibraryElement referredLibrary, Element referringElement) {
-    final sourceLibrary = referringElement.library;
-    if (sourceLibrary == null) {
-      return null;
-    }
-    // search for the import of the referred library
-    for (final libraryImport in sourceLibrary.libraryImports) {
-      final importedLibrary = libraryImport.importedLibrary;
-      if (importedLibrary == null) {
-        continue;
-      }
-      if (importedLibrary.library.id == referredLibrary.id) {
-        // we found the import => return the given prefix (if specified)
-        return libraryImport.prefix?.element.name;
-      }
-    }
-
-    return null;
-  }
 
   void _onTypeUsed(DartType type, Element referringElement,
       {required bool isRequired}) {
@@ -114,6 +106,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (_collectedElementIds.contains(directElement.id)) {
       return;
     }
+
+    _collectTypeHierarchy(type.element);
+
     final packageName = getPackageNameFromLibrary(directElementLibrary);
     if (packageName == _packageName) {
       //create new collector with the used type as an exception from the public element restrictions
@@ -121,13 +116,15 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         privateElementExceptions: [directElement.id],
         // pass on the already collected elements to make sure that we don't collect elements twice even if we are going down the usage tree
         collectedElementIds: _collectedElementIds,
-        namespace:
-            _getNamespaceForLibrary(directElementLibrary, referringElement),
+        typeHierarchyItems: _typeHierarchyItems,
+        namespace: InternalDeclarationUtils.getNamespaceForElement(
+            type.element2, referringElement),
         rootPath: _context.rootPath,
       );
       directElement.accept(collector);
       // merge result with this result
       _collectedElementIds.addAll(collector._collectedElementIds);
+      _typeHierarchyItems.addAll(collector._typeHierarchyItems);
       interfaceDeclarations.addAll(collector.interfaceDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
@@ -148,11 +145,34 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
   }
 
+  void _collectTypeHierarchy(Element? element) {
+    final baseTypeIdentifiers = <String>{};
+    if (element is InterfaceElement) {
+      for (final st in element.allSupertypes) {
+        final stNamespace = InternalDeclarationUtils.getNamespaceForElement(
+            st.element2, element);
+        ;
+        baseTypeIdentifiers.add(
+            NamingUtils.computeTypeIdentifier(stNamespace, st.element.name));
+      }
+      final hierarchyItem = TypeHierarchyItem(
+        name: element.name,
+        namespace: _context.namespace ?? '',
+        baseTypeIdentifiers: baseTypeIdentifiers,
+      );
+      if (!_typeHierarchyItems.containsKey(hierarchyItem.identifier)) {
+        _typeHierarchyItems[hierarchyItem.identifier] = hierarchyItem;
+      }
+    }
+  }
+
   void _onVisitAnyElement(Element element) {
     // set the package name to the first element's package we see
     _packageName ??= element.library?.identifier != null
         ? getPackageNameFromLibrary(element.library!)
         : null;
+
+    _collectTypeHierarchy(element);
   }
 
   bool _isNameExported(String name) {

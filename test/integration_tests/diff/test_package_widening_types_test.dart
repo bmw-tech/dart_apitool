@@ -45,6 +45,18 @@ void main() {
           isFalse,
         );
       });
+
+      test(
+          'detects type change in localTypeParam of methodUsingLocalType which is not breaking',
+          () {
+        final localTypeParamChange = diffResult.apiChanges
+            .where((ac) => ac.changeDescription.contains('localTypeParam'))
+            .single;
+        expect(
+          localTypeParamChange.isBreaking,
+          isFalse,
+        );
+      });
     });
     group('narrowing types', () {
       late PackageApiDiffResult diffResult;
@@ -62,6 +74,18 @@ void main() {
             .single;
         expect(
           stringParamChange.isBreaking,
+          isTrue,
+        );
+      });
+
+      test(
+          'detects type change in localTypeParam of methodUsingLocalType which is breaking',
+          () {
+        final localTypeParamChange = diffResult.apiChanges
+            .where((ac) => ac.changeDescription.contains('localTypeParam'))
+            .single;
+        expect(
+          localTypeParamChange.isBreaking,
           isTrue,
         );
       });

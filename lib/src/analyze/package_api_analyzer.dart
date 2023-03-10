@@ -85,6 +85,7 @@ class PackageApiAnalyzer {
     );
 
     final collectedInterfaces = <int?, _InterfaceCollectionResult>{};
+    final typeHierarchyItems = <String, TypeHierarchyItem>{};
     final requiredElements = <int>{};
 
     final analyzedFiles = List<_FileToAnalyzeEntry>.empty(growable: true);
@@ -222,6 +223,7 @@ class PackageApiAnalyzer {
               }
             }
             requiredElements.addAll(collector.requiredElementIds);
+            typeHierarchyItems.addAll(collector.typeHierarchyItems);
           }
 
           final referencedFilesCollector = ExportedFilesCollector();
@@ -358,6 +360,7 @@ class PackageApiAnalyzer {
       sdkType: isFlutter ? SdkType.flutter : SdkType.dart,
       minSdkVersion: minSdkVersion ?? Version.none,
       packageDependencies: packageDependencies,
+      typeHierarchy: TypeHierarchy(types: typeHierarchyItems),
     );
   }
 

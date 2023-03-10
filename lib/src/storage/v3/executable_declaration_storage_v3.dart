@@ -51,18 +51,6 @@ class ExecutableParameterDeclarationStorageV3
           Map<String, Object?> json) =>
       _$ExecutableParameterDeclarationStorageV3FromJson(json);
 
-  ExecutableParameterDeclaration toExecutableParameterDeclaration() {
-    return ExecutableParameterDeclaration(
-      isRequired: isRequired,
-      isNamed: isNamed,
-      name: name,
-      isDeprecated: isDeprecated,
-      isExperimental: isExperimental,
-      typeName: typeName,
-      relativePath: relativePath,
-    );
-  }
-
   static ExecutableParameterDeclarationStorageV3
       fromExecutableParameterDeclaration(
           ExecutableParameterDeclaration executableParameterDeclaration) {
@@ -98,22 +86,6 @@ class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
 
   factory ExecutableDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
       _$ExecutableDeclarationStorageV3FromJson(json);
-
-  ExecutableDeclaration toExecutableDeclaration() {
-    return ExecutableDeclaration(
-      returnTypeName: returnTypeName,
-      name: name,
-      isDeprecated: isDeprecated,
-      isExperimental: isExperimental,
-      parameters:
-          parameters.map((p) => p.toExecutableParameterDeclaration()).toList(),
-      typeParameterNames: typeParameterNames,
-      type: type.toExecutableType(),
-      isStatic: isStatic,
-      entryPoints: entryPoints,
-      relativePath: relativePath,
-    );
-  }
 
   static ExecutableDeclarationStorageV3 fromExecutableDeclaration(
       ExecutableDeclaration executableDeclaration) {

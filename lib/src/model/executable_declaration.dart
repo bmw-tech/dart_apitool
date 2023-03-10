@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../utils/string_utils.dart';
+import '../utils/utils.dart';
 import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
@@ -19,6 +20,9 @@ class ExecutableParameterDeclaration
     with _$ExecutableParameterDeclaration
     implements Declaration {
   const ExecutableParameterDeclaration._();
+
+  String get typeIdentifier =>
+      NamingUtils.computeTypeIdentifier(typeNamespace, typeName);
 
   @Implements<Declaration>()
   const factory ExecutableParameterDeclaration({
@@ -39,6 +43,9 @@ class ExecutableParameterDeclaration
 
     /// type name of this parameter
     required String typeName,
+
+    /// the namespace of the type
+    required String? typeNamespace,
 
     /// the relative path of the library
     required String relativePath,

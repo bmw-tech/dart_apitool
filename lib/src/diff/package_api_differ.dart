@@ -8,6 +8,7 @@ import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 import '../errors/errors.dart';
+import '../utils/utils.dart';
 import 'api_change.dart';
 import 'api_change_code.dart';
 import 'api_change_type.dart';
@@ -50,12 +51,14 @@ class PackageApiDiffer {
           newApi.interfaceDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
+          typeHierarchy: newApi.typeHierarchy,
         ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
           newApi.executableDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
+          typeHierarchy: newApi.typeHierarchy,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
@@ -98,6 +101,7 @@ class PackageApiDiffer {
     List<InterfaceDeclaration> newInterfaces,
     Stack<Declaration> context, {
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
@@ -116,6 +120,7 @@ class PackageApiDiffer {
         newInterface,
         context,
         isExperimental: newInterface.isExperimental || isExperimental,
+        typeHierarchy: typeHierarchy,
       ));
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
@@ -146,6 +151,7 @@ class PackageApiDiffer {
     InterfaceDeclaration newInterface,
     Stack<Declaration> context, {
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
@@ -155,6 +161,7 @@ class PackageApiDiffer {
           context,
           isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
+          typeHierarchy: typeHierarchy,
         ),
         ..._calculateFieldsDiff(
           oldInterface.fieldDeclarations,
@@ -219,6 +226,7 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     bool? isInterfaceRequired,
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
       oldExecutables,
@@ -237,6 +245,7 @@ class PackageApiDiffer {
         context,
         isInterfaceRequired: isInterfaceRequired,
         isExperimental: newEx.isExperimental || isExperimental,
+        typeHierarchy: typeHierarchy,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -281,6 +290,7 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     bool? isInterfaceRequired,
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
@@ -290,6 +300,7 @@ class PackageApiDiffer {
           context,
           isInterfaceRequired: isInterfaceRequired,
           isExperimental: isExperimental,
+          typeHierarchy: typeHierarchy,
         ),
         ..._calculateTypeParametersDiff(
           oldExecutable.typeParameterNames,
@@ -446,6 +457,7 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     bool? isInterfaceRequired,
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
@@ -460,12 +472,15 @@ class PackageApiDiffer {
       final matchingNewParam = parameterMatches[matchingOldParam]!;
       oldParametersCopy.remove(matchingOldParam);
       newParametersCopy.remove(matchingNewParam);
-      changes.addAll(_calculateParameterDiff(
-        matchingOldParam,
-        matchingNewParam,
-        context,
-        isExperimental: matchingNewParam.isExperimental,
-      ));
+      changes.addAll(
+        _calculateParameterDiff(
+          matchingOldParam,
+          matchingNewParam,
+          context,
+          isExperimental: matchingNewParam.isExperimental,
+          typeHierarchy: typeHierarchy,
+        ),
+      );
     }
 
     // the remaining old parameters have most probably be removed and the remaining
@@ -514,6 +529,7 @@ class PackageApiDiffer {
     ExecutableParameterDeclaration newParam,
     Stack<Declaration> context, {
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
@@ -574,15 +590,18 @@ class PackageApiDiffer {
       changeCode: ApiChangeCode.ce05,
       isExperimental: isExperimental,
     );
-    _comparePropertiesAndAddChange(
-      oldParam.typeName,
-      newParam.typeName,
+    _compareParameterTypesAndAddChange(
+      NamingUtils.computeTypeIdentifier(
+          oldParam.typeNamespace, oldParam.typeName),
+      NamingUtils.computeTypeIdentifier(
+          newParam.typeNamespace, newParam.typeName),
       context,
       newParam,
       'Type of parameter "${oldParam.name}" changed. ${oldParam.typeName} -> ${newParam.typeName}',
       changes,
       changeCode: ApiChangeCode.ce08,
       isExperimental: isExperimental,
+      typeHierarchy: typeHierarchy,
     );
     return changes;
   }
@@ -1140,6 +1159,33 @@ class PackageApiDiffer {
     final result = fun(context);
     context.pop();
     return result;
+  }
+
+  _compareParameterTypesAndAddChange(
+    String oldTypeidentifier,
+    String newTypeIdentifier,
+    Stack<Declaration> context,
+    Declaration affectedDeclaration,
+    String changeDescription,
+    List<ApiChange> changes, {
+    required ApiChangeCode changeCode,
+    required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
+  }) {
+    if (oldTypeidentifier != newTypeIdentifier) {
+      final isBreaking =
+          !typeHierarchy.canBeAssigned(oldTypeidentifier, newTypeIdentifier);
+      changes.add(ApiChange(
+        changeCode: changeCode,
+        affectedDeclaration: affectedDeclaration,
+        contextTrace: _contextTraceFromStack(context),
+        type: isBreaking
+            ? ApiChangeType.changeBreaking
+            : ApiChangeType.changeCompatibleMinor,
+        changeDescription: changeDescription,
+        isExperimental: isExperimental,
+      ));
+    }
   }
 
   _comparePropertiesAndAddChange<T>(
