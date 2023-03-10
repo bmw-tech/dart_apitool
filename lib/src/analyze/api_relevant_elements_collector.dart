@@ -8,7 +8,6 @@ import 'package:analyzer/dart/element/visitor.dart';
 import '../model/internal/internal_declaration_utils.dart';
 import '../model/internal/internal_type_alias_declaration.dart';
 import '../model/model.dart';
-import '../utils/string_utils.dart';
 import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
@@ -151,7 +150,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       for (final st in element.allSupertypes) {
         final stNamespace = InternalDeclarationUtils.getNamespaceForElement(
             st.element2, element);
-        ;
         baseTypeIdentifiers.add(
             NamingUtils.computeTypeIdentifier(stNamespace, st.element.name));
       }
