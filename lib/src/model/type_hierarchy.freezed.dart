@@ -156,6 +156,9 @@ mixin _$TypeHierarchyItem {
   /// the namespace of this type. This gets populated if the type got imported with a prefix
   String get namespace => throw _privateConstructorUsedError;
 
+  /// the full library name
+  String? get fullLibraryName => throw _privateConstructorUsedError;
+
   /// the type identifiers of the super types of this type
   Set<String> get baseTypeIdentifiers => throw _privateConstructorUsedError;
 
@@ -170,7 +173,11 @@ abstract class $TypeHierarchyItemCopyWith<$Res> {
           TypeHierarchyItem value, $Res Function(TypeHierarchyItem) then) =
       _$TypeHierarchyItemCopyWithImpl<$Res, TypeHierarchyItem>;
   @useResult
-  $Res call({String name, String namespace, Set<String> baseTypeIdentifiers});
+  $Res call(
+      {String name,
+      String namespace,
+      String? fullLibraryName,
+      Set<String> baseTypeIdentifiers});
 }
 
 /// @nodoc
@@ -188,6 +195,7 @@ class _$TypeHierarchyItemCopyWithImpl<$Res, $Val extends TypeHierarchyItem>
   $Res call({
     Object? name = null,
     Object? namespace = null,
+    Object? fullLibraryName = freezed,
     Object? baseTypeIdentifiers = null,
   }) {
     return _then(_value.copyWith(
@@ -199,6 +207,10 @@ class _$TypeHierarchyItemCopyWithImpl<$Res, $Val extends TypeHierarchyItem>
           ? _value.namespace
           : namespace // ignore: cast_nullable_to_non_nullable
               as String,
+      fullLibraryName: freezed == fullLibraryName
+          ? _value.fullLibraryName
+          : fullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       baseTypeIdentifiers: null == baseTypeIdentifiers
           ? _value.baseTypeIdentifiers
           : baseTypeIdentifiers // ignore: cast_nullable_to_non_nullable
@@ -215,7 +227,11 @@ abstract class _$$_TypeHierarchyItemCopyWith<$Res>
       __$$_TypeHierarchyItemCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String namespace, Set<String> baseTypeIdentifiers});
+  $Res call(
+      {String name,
+      String namespace,
+      String? fullLibraryName,
+      Set<String> baseTypeIdentifiers});
 }
 
 /// @nodoc
@@ -231,6 +247,7 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? namespace = null,
+    Object? fullLibraryName = freezed,
     Object? baseTypeIdentifiers = null,
   }) {
     return _then(_$_TypeHierarchyItem(
@@ -242,6 +259,10 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
           ? _value.namespace
           : namespace // ignore: cast_nullable_to_non_nullable
               as String,
+      fullLibraryName: freezed == fullLibraryName
+          ? _value.fullLibraryName
+          : fullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       baseTypeIdentifiers: null == baseTypeIdentifiers
           ? _value._baseTypeIdentifiers
           : baseTypeIdentifiers // ignore: cast_nullable_to_non_nullable
@@ -256,6 +277,7 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
   const _$_TypeHierarchyItem(
       {required this.name,
       required this.namespace,
+      required this.fullLibraryName,
       required final Set<String> baseTypeIdentifiers})
       : _baseTypeIdentifiers = baseTypeIdentifiers,
         super._();
@@ -267,6 +289,10 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
   /// the namespace of this type. This gets populated if the type got imported with a prefix
   @override
   final String namespace;
+
+  /// the full library name
+  @override
+  final String? fullLibraryName;
 
   /// the type identifiers of the super types of this type
   final Set<String> _baseTypeIdentifiers;
@@ -282,7 +308,7 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
 
   @override
   String toString() {
-    return 'TypeHierarchyItem(name: $name, namespace: $namespace, baseTypeIdentifiers: $baseTypeIdentifiers)';
+    return 'TypeHierarchyItem(name: $name, namespace: $namespace, fullLibraryName: $fullLibraryName, baseTypeIdentifiers: $baseTypeIdentifiers)';
   }
 
   @override
@@ -293,12 +319,14 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.namespace, namespace) ||
                 other.namespace == namespace) &&
+            (identical(other.fullLibraryName, fullLibraryName) ||
+                other.fullLibraryName == fullLibraryName) &&
             const DeepCollectionEquality()
                 .equals(other._baseTypeIdentifiers, _baseTypeIdentifiers));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, namespace,
+  int get hashCode => Object.hash(runtimeType, name, namespace, fullLibraryName,
       const DeepCollectionEquality().hash(_baseTypeIdentifiers));
 
   @JsonKey(ignore: true)
@@ -313,6 +341,7 @@ abstract class _TypeHierarchyItem extends TypeHierarchyItem {
   const factory _TypeHierarchyItem(
       {required final String name,
       required final String namespace,
+      required final String? fullLibraryName,
       required final Set<String> baseTypeIdentifiers}) = _$_TypeHierarchyItem;
   const _TypeHierarchyItem._() : super._();
 
@@ -324,6 +353,10 @@ abstract class _TypeHierarchyItem extends TypeHierarchyItem {
 
   /// the namespace of this type. This gets populated if the type got imported with a prefix
   String get namespace;
+  @override
+
+  /// the full library name
+  String? get fullLibraryName;
   @override
 
   /// the type identifiers of the super types of this type

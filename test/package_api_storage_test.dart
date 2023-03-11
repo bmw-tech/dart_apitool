@@ -81,6 +81,7 @@ final testPackage1Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     InterfaceDeclaration(
       name: 'StorageTestClass',
@@ -104,6 +105,7 @@ final testPackage1Api = PackageApi(
               isExperimental: false,
               typeName: 'T',
               typeNamespace: null,
+              typeFullLibraryName: null,
               relativePath: '',
             ),
             ExecutableParameterDeclaration(
@@ -114,6 +116,7 @@ final testPackage1Api = PackageApi(
               isExperimental: false,
               typeName: 'GetStringMode',
               typeNamespace: null,
+              typeFullLibraryName: null,
               relativePath: '',
             ),
           ],
@@ -215,6 +218,7 @@ final testPackage2Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     InterfaceDeclaration(
       name: 'StorageTestClass',
@@ -238,6 +242,7 @@ final testPackage2Api = PackageApi(
               isExperimental: false,
               typeName: 'T',
               typeNamespace: null,
+              typeFullLibraryName: null,
               relativePath: '',
             ),
             ExecutableParameterDeclaration(
@@ -248,6 +253,7 @@ final testPackage2Api = PackageApi(
               isExperimental: false,
               typeName: 'GetStringMode',
               typeNamespace: null,
+              typeFullLibraryName: null,
               relativePath: '',
             ),
           ],

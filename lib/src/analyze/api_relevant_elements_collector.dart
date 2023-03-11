@@ -39,6 +39,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     /// the root path of the project
     required String rootPath,
 
+    /// the root path of the cluster of packages
+    required String clusterRootPath,
+
     /// the already collected type hierarchy items
     Map<String, TypeHierarchyItem>? typeHierarchyItems,
   }) : _context = _AnalysisContext(
@@ -46,6 +49,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
           hiddenNames: hiddenNames,
           namespace: namespace,
           rootPath: rootPath,
+          clusterRootPath: clusterRootPath,
         ) {
     _collectedElementIds = <int>{};
     if (collectedElementIds != null) {
@@ -119,6 +123,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         namespace: InternalDeclarationUtils.getNamespaceForElement(
             type.element2, referringElement),
         rootPath: _context.rootPath,
+        clusterRootPath: _context.clusterRootPath,
       );
       directElement.accept(collector);
       // merge result with this result
@@ -148,18 +153,21 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     final baseTypeIdentifiers = <String>{};
     if (element is InterfaceElement) {
       for (final st in element.allSupertypes) {
-        final stNamespace = InternalDeclarationUtils.getNamespaceForElement(
-            st.element2, element);
         baseTypeIdentifiers.add(
-            NamingUtils.computeTypeIdentifier(stNamespace, st.element.name));
+          NamingUtils.computeUniqueTypeName(
+              _context.clusterRootPath, st.element),
+        );
       }
       final hierarchyItem = TypeHierarchyItem(
         name: element.name,
         namespace: _context.namespace ?? '',
+        fullLibraryName: element.librarySource.fullName,
         baseTypeIdentifiers: baseTypeIdentifiers,
       );
-      if (!_typeHierarchyItems.containsKey(hierarchyItem.identifier)) {
-        _typeHierarchyItems[hierarchyItem.identifier] = hierarchyItem;
+      if (!_typeHierarchyItems
+          .containsKey(hierarchyItem.getUniqueName(_context.clusterRootPath))) {
+        _typeHierarchyItems[hierarchyItem
+            .getUniqueName(_context.clusterRootPath)] = hierarchyItem;
       }
     }
   }
@@ -424,10 +432,15 @@ class _AnalysisContext {
   final String? namespace;
   final String rootPath;
 
+  /// the root path for the package cluster we analyze in. Most of the time this is rootPath
+  /// only if we copy a cluster because of path dependencies they will differ
+  final String clusterRootPath;
+
   _AnalysisContext({
     this.shownNames = const [],
     this.hiddenNames = const [],
     this.namespace,
     required this.rootPath,
+    required this.clusterRootPath,
   });
 }

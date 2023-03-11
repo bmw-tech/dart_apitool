@@ -37,6 +37,9 @@ mixin _$ExecutableParameterDeclaration {
   /// the namespace of the type
   String? get typeNamespace => throw _privateConstructorUsedError;
 
+  /// the relative type library path
+  String? get typeFullLibraryName => throw _privateConstructorUsedError;
+
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
@@ -61,6 +64,7 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       bool isExperimental,
       String typeName,
       String? typeNamespace,
+      String? typeFullLibraryName,
       String relativePath});
 }
 
@@ -85,6 +89,7 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
     Object? isExperimental = null,
     Object? typeName = null,
     Object? typeNamespace = freezed,
+    Object? typeFullLibraryName = freezed,
     Object? relativePath = null,
   }) {
     return _then(_value.copyWith(
@@ -116,6 +121,10 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
           ? _value.typeNamespace
           : typeNamespace // ignore: cast_nullable_to_non_nullable
               as String?,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       relativePath: null == relativePath
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
@@ -141,6 +150,7 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       bool isExperimental,
       String typeName,
       String? typeNamespace,
+      String? typeFullLibraryName,
       String relativePath});
 }
 
@@ -164,6 +174,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? isExperimental = null,
     Object? typeName = null,
     Object? typeNamespace = freezed,
+    Object? typeFullLibraryName = freezed,
     Object? relativePath = null,
   }) {
     return _then(_$_ExecutableParameterDeclaration(
@@ -195,6 +206,10 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeNamespace
           : typeNamespace // ignore: cast_nullable_to_non_nullable
               as String?,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       relativePath: null == relativePath
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
@@ -215,6 +230,7 @@ class _$_ExecutableParameterDeclaration
       required this.isExperimental,
       required this.typeName,
       required this.typeNamespace,
+      required this.typeFullLibraryName,
       required this.relativePath})
       : super._();
 
@@ -246,13 +262,17 @@ class _$_ExecutableParameterDeclaration
   @override
   final String? typeNamespace;
 
+  /// the relative type library path
+  @override
+  final String? typeFullLibraryName;
+
   /// the relative path of the library
   @override
   final String relativePath;
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, typeNamespace: $typeNamespace, relativePath: $relativePath)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, typeNamespace: $typeNamespace, typeFullLibraryName: $typeFullLibraryName, relativePath: $relativePath)';
   }
 
   @override
@@ -272,13 +292,24 @@ class _$_ExecutableParameterDeclaration
                 other.typeName == typeName) &&
             (identical(other.typeNamespace, typeNamespace) ||
                 other.typeNamespace == typeNamespace) &&
+            (identical(other.typeFullLibraryName, typeFullLibraryName) ||
+                other.typeFullLibraryName == typeFullLibraryName) &&
             (identical(other.relativePath, relativePath) ||
                 other.relativePath == relativePath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
-      isDeprecated, isExperimental, typeName, typeNamespace, relativePath);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isRequired,
+      isNamed,
+      name,
+      isDeprecated,
+      isExperimental,
+      typeName,
+      typeNamespace,
+      typeFullLibraryName,
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -298,6 +329,7 @@ abstract class _ExecutableParameterDeclaration
       required final bool isExperimental,
       required final String typeName,
       required final String? typeNamespace,
+      required final String? typeFullLibraryName,
       required final String relativePath}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
 
@@ -329,6 +361,10 @@ abstract class _ExecutableParameterDeclaration
 
   /// the namespace of the type
   String? get typeNamespace;
+  @override
+
+  /// the relative type library path
+  String? get typeFullLibraryName;
   @override
 
   /// the relative path of the library

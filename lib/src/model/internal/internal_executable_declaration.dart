@@ -59,9 +59,11 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           isExperimental:
               InternalDeclarationUtils.hasExperimental(executableElement),
           parameters: _computeParameterList(
-              executableElement.parameters,
-              InternalDeclarationUtils.getRelativePath(
-                  rootPath, executableElement)),
+            executableElement.parameters,
+            InternalDeclarationUtils.getRelativePath(
+                rootPath, executableElement),
+            rootPath,
+          ),
           typeParameterNames:
               _computeTypeParameters(executableElement.typeParameters),
           type: _computeExecutableType(executableElement),
@@ -97,18 +99,22 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   }
 
   static List<ExecutableParameterDeclaration> _computeParameterList(
-      List<ParameterElement> parameterElementList, String relativePath) {
+      List<ParameterElement> parameterElementList,
+      String relativePath,
+      String rootPath) {
     return parameterElementList
         .map((e) => ExecutableParameterDeclaration(
-            isRequired: e.isRequired,
-            isNamed: e.isNamed,
-            name: e.name,
-            isDeprecated: e.hasDeprecated,
-            isExperimental: InternalDeclarationUtils.hasExperimental(e),
-            typeName: e.type.getDisplayString(withNullability: true),
-            typeNamespace: InternalDeclarationUtils.getNamespaceForElement(
-                e.type.element2, e),
-            relativePath: relativePath))
+              isRequired: e.isRequired,
+              isNamed: e.isNamed,
+              name: e.name,
+              isDeprecated: e.hasDeprecated,
+              isExperimental: InternalDeclarationUtils.hasExperimental(e),
+              typeName: e.type.getDisplayString(withNullability: true),
+              typeNamespace: InternalDeclarationUtils.getNamespaceForElement(
+                  e.type.element2, e),
+              typeFullLibraryName: e.type.element2?.librarySource?.fullName,
+              relativePath: relativePath,
+            ))
         .toList();
   }
 

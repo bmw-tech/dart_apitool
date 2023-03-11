@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../utils/utils.dart';
+
 part 'type_hierarchy.freezed.dart';
 
 /// represents the type hierarchy of the public API of a package
@@ -53,8 +55,13 @@ class TypeHierarchy with _$TypeHierarchy {
 class TypeHierarchyItem with _$TypeHierarchyItem {
   const TypeHierarchyItem._();
 
-  /// the identifier of this type (<namespace>.<name>)
-  String get identifier => '$namespace.$name';
+  /// the unique name of that type (library path + name)
+  String getUniqueName(String projectRootPath) =>
+      NamingUtils.computeUniqueTypeNameFromNames(
+        projectRootPath: projectRootPath,
+        fullLibraryName: fullLibraryName,
+        name: name,
+      );
 
   const factory TypeHierarchyItem({
     /// the name of this type
@@ -62,6 +69,9 @@ class TypeHierarchyItem with _$TypeHierarchyItem {
 
     /// the namespace of this type. This gets populated if the type got imported with a prefix
     required String namespace,
+
+    /// the full library name
+    required String? fullLibraryName,
 
     /// the type identifiers of the super types of this type
     required Set<String> baseTypeIdentifiers,

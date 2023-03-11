@@ -52,6 +52,8 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
+          oldProjectRootPath: oldApi.clusterPath,
+          newProjectRootPath: newApi.clusterPath,
         ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
@@ -59,6 +61,8 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
+          oldProjectRootPath: oldApi.clusterPath,
+          newProjectRootPath: newApi.clusterPath,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
@@ -102,6 +106,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
@@ -121,6 +127,8 @@ class PackageApiDiffer {
         context,
         isExperimental: newInterface.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
+        oldProjectRootPath: oldProjectRootPath,
+        newProjectRootPath: newProjectRootPath,
       ));
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
@@ -152,6 +160,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
@@ -162,6 +172,8 @@ class PackageApiDiffer {
           isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
+          oldProjectRootPath: oldProjectRootPath,
+          newProjectRootPath: newProjectRootPath,
         ),
         ..._calculateFieldsDiff(
           oldInterface.fieldDeclarations,
@@ -227,6 +239,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
       oldExecutables,
@@ -246,6 +260,8 @@ class PackageApiDiffer {
         isInterfaceRequired: isInterfaceRequired,
         isExperimental: newEx.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
+        oldProjectRootPath: oldProjectRootPath,
+        newProjectRootPath: newProjectRootPath,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -291,6 +307,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
@@ -301,6 +319,8 @@ class PackageApiDiffer {
           isInterfaceRequired: isInterfaceRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
+          oldProjectRootPath: oldProjectRootPath,
+          newProjectRootPath: newProjectRootPath,
         ),
         ..._calculateTypeParametersDiff(
           oldExecutable.typeParameterNames,
@@ -458,6 +478,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
@@ -479,6 +501,8 @@ class PackageApiDiffer {
           context,
           isExperimental: matchingNewParam.isExperimental,
           typeHierarchy: typeHierarchy,
+          oldProjectRootPath: oldProjectRootPath,
+          newProjectRootPath: newProjectRootPath,
         ),
       );
     }
@@ -530,6 +554,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
+    required String oldProjectRootPath,
+    required String newProjectRootPath,
   }) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
@@ -591,10 +617,16 @@ class PackageApiDiffer {
       isExperimental: isExperimental,
     );
     _compareParameterTypesAndAddChange(
-      NamingUtils.computeTypeIdentifier(
-          oldParam.typeNamespace, oldParam.typeName),
-      NamingUtils.computeTypeIdentifier(
-          newParam.typeNamespace, newParam.typeName),
+      NamingUtils.computeUniqueTypeNameFromNames(
+        projectRootPath: oldProjectRootPath,
+        fullLibraryName: oldParam.typeFullLibraryName,
+        name: oldParam.typeName,
+      ),
+      NamingUtils.computeUniqueTypeNameFromNames(
+        projectRootPath: newProjectRootPath,
+        fullLibraryName: newParam.typeFullLibraryName,
+        name: newParam.typeName,
+      ),
       context,
       newParam,
       'Type of parameter "${oldParam.name}" changed. ${oldParam.typeName} -> ${newParam.typeName}',

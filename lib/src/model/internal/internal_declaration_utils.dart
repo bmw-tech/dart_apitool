@@ -40,8 +40,8 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
-  static String getRelativePath(String rootPath, Element element) {
-    final name = element.librarySource?.fullName;
+  static String getRelativePath(String rootPath, Element? element) {
+    final name = element?.librarySource?.fullName;
     if (name != null) {
       return path.relative(name, from: rootPath);
     }

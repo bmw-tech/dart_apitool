@@ -20,8 +20,12 @@ class ExecutableParameterDeclaration
     implements Declaration {
   const ExecutableParameterDeclaration._();
 
-  String get typeIdentifier =>
-      NamingUtils.computeTypeIdentifier(typeNamespace, typeName);
+  String getUniqueTypeName(String projectRootPath) =>
+      NamingUtils.computeUniqueTypeNameFromNames(
+        projectRootPath: projectRootPath,
+        fullLibraryName: typeFullLibraryName,
+        name: typeName,
+      );
 
   @Implements<Declaration>()
   const factory ExecutableParameterDeclaration({
@@ -45,6 +49,9 @@ class ExecutableParameterDeclaration
 
     /// the namespace of the type
     required String? typeNamespace,
+
+    /// the relative type library path
+    required String? typeFullLibraryName,
 
     /// the relative path of the library
     required String relativePath,

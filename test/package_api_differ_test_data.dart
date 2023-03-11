@@ -51,6 +51,7 @@ final packageClassAApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     simpleClassA,
   ],
@@ -82,6 +83,7 @@ final packageClassAApiEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
@@ -101,6 +103,7 @@ final packageClassAApiEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
@@ -120,6 +123,7 @@ final packageClassAApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     simpleClassA.copyWith(
       entryPoints: {
@@ -142,6 +146,7 @@ final packageClassAClassBApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: [
     simpleClassA,
     simpleClassB,
@@ -169,6 +174,7 @@ final simpleExecutable1 = ExecutableDeclaration(
       isExperimental: false,
       typeName: 'String',
       typeNamespace: null,
+      typeFullLibraryName: null,
       relativePath: '',
     ),
   ],
@@ -194,6 +200,7 @@ final packageExecutable1Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
@@ -264,6 +271,7 @@ final packageExecutable1OptionalPositionalParameterAddedApi =
             isExperimental: false,
             typeName: 'bool',
             typeNamespace: null,
+            typeFullLibraryName: null,
             relativePath: '',
           ),
         ],
@@ -286,6 +294,7 @@ final packageExecutable1OptionalNamedParameterAddedApi =
             isExperimental: false,
             typeName: 'bool',
             typeNamespace: null,
+            typeFullLibraryName: null,
             relativePath: '',
           ),
         ],
@@ -308,6 +317,7 @@ final packageExecutable1RequiredPositionalParameterAddedApi =
             isExperimental: false,
             typeName: 'bool',
             typeNamespace: null,
+            typeFullLibraryName: null,
             relativePath: '',
           ),
         ],
@@ -330,6 +340,7 @@ final packageExecutable1RequiredNamedParameterAddedApi =
             isExperimental: false,
             typeName: 'bool',
             typeNamespace: null,
+            typeFullLibraryName: null,
             relativePath: '',
           ),
         ],
@@ -341,6 +352,7 @@ final packageExecutable1ApiEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
@@ -360,6 +372,7 @@ final packageExecutable1ApiEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
@@ -379,6 +392,7 @@ final packageExecutable1ApiEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1.copyWith(
@@ -401,6 +415,7 @@ final packageExecutable1Executable2Api = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
     simpleExecutable1,
@@ -435,6 +450,7 @@ final packageFieldA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
@@ -462,6 +478,7 @@ final packageFieldAEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
@@ -481,6 +498,7 @@ final packageFieldAEntryPointB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
@@ -500,6 +518,7 @@ final packageFieldAEntryPointAB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
@@ -522,6 +541,7 @@ final packageFieldAFieldB = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
+  clusterPath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [

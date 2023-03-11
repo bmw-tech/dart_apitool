@@ -33,6 +33,7 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
+  final String clusterPath;
   final bool doMergeBaseClasses;
   final bool doAnalyzePlatformConstraints;
   final bool doConsiderNonSrcAsEntryPoints;
@@ -47,10 +48,11 @@ class PackageApiAnalyzer {
   /// [doConsiderNonSrcAsEntryPoints] defines if all files that are not in the lib/src subdirectory are considered as entry points. Otherwise only files directly in the lib subdirectory are considered as entry points.
   PackageApiAnalyzer({
     required this.packagePath,
+    String? clusterPath,
     this.doMergeBaseClasses = true,
     this.doAnalyzePlatformConstraints = true,
     this.doConsiderNonSrcAsEntryPoints = false,
-  }) {
+  }) : clusterPath = clusterPath ?? packagePath {
     if (doMergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
     }
@@ -68,6 +70,8 @@ class PackageApiAnalyzer {
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
         _getNormalizedAbsolutePath(packagePath);
+    final normalizedAbsoluteClusterPath =
+        _getNormalizedAbsolutePath(clusterPath);
 
     final yamlContent =
         await File(path.join(normalizedAbsoluteProjectPath, 'pubspec.yaml'))
@@ -112,6 +116,7 @@ class PackageApiAnalyzer {
               shownNames: fileToAnalyze.shownNames,
               hiddenNames: fileToAnalyze.hiddenNames,
               rootPath: normalizedAbsoluteProjectPath,
+              clusterRootPath: normalizedAbsoluteClusterPath,
             );
             unitResult.libraryElement.accept(collector);
             final skippedInterfaces = <int>[];
@@ -324,6 +329,7 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
+    final normalizedClusterPath = path.normalize(path.absolute(clusterPath));
     final androidPlatformConstraints = doAnalyzePlatformConstraints
         ? await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
             packagePath: normalizedProjectPath,
@@ -350,6 +356,7 @@ class PackageApiAnalyzer {
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
       packagePath: normalizedProjectPath,
+      clusterPath: normalizedClusterPath,
       interfaceDeclarations: packageInterfaceDeclarations,
       executableDeclarations: packageExecutableDeclarations,
       fieldDeclarations: packageFieldDeclarations,

@@ -138,6 +138,7 @@ Affects only local references.
     stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
+      clusterPath: preparedRef.tempDirectory ?? packagePath,
       doMergeBaseClasses: doMergeBaseClasses,
       doAnalyzePlatformConstraints: doAnalyzePlatformConstraints,
     );
