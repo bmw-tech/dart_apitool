@@ -58,7 +58,8 @@ class TypeHierarchy {
       targetTypeIdentifier = targetTypeIdentifier.asNonOptional();
     }
 
-    if (typeIdentifierToAssign == targetTypeIdentifier) {
+    /// if the names are equal we consider then to be equal
+    if (typeIdentifierToAssign.name == targetTypeIdentifier.name) {
       return true;
     }
 
