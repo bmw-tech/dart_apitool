@@ -52,8 +52,8 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
-          oldProjectRootPath: oldApi.clusterPath,
-          newProjectRootPath: newApi.clusterPath,
+          oldProjectClusterRootPath: oldApi.clusterPath,
+          newProjectClusterRootPath: newApi.clusterPath,
         ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
@@ -61,8 +61,8 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
-          oldProjectRootPath: oldApi.clusterPath,
-          newProjectRootPath: newApi.clusterPath,
+          oldProjectClusterRootPath: oldApi.clusterPath,
+          newProjectClusterRootPath: newApi.clusterPath,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
@@ -106,8 +106,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
@@ -127,8 +127,8 @@ class PackageApiDiffer {
         context,
         isExperimental: newInterface.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
-        oldProjectRootPath: oldProjectRootPath,
-        newProjectRootPath: newProjectRootPath,
+        oldProjectClusterRootPath: oldProjectClusterRootPath,
+        newProjectClusterRootPath: newProjectClusterRootPath,
       ));
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
@@ -160,8 +160,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
@@ -172,8 +172,8 @@ class PackageApiDiffer {
           isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectRootPath: oldProjectRootPath,
-          newProjectRootPath: newProjectRootPath,
+          oldProjectClusterRootPath: oldProjectClusterRootPath,
+          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
         ..._calculateFieldsDiff(
           oldInterface.fieldDeclarations,
@@ -239,8 +239,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
       oldExecutables,
@@ -260,8 +260,8 @@ class PackageApiDiffer {
         isInterfaceRequired: isInterfaceRequired,
         isExperimental: newEx.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
-        oldProjectRootPath: oldProjectRootPath,
-        newProjectRootPath: newProjectRootPath,
+        oldProjectClusterRootPath: oldProjectClusterRootPath,
+        newProjectClusterRootPath: newProjectClusterRootPath,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -307,8 +307,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
@@ -319,8 +319,8 @@ class PackageApiDiffer {
           isInterfaceRequired: isInterfaceRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectRootPath: oldProjectRootPath,
-          newProjectRootPath: newProjectRootPath,
+          oldProjectClusterRootPath: oldProjectClusterRootPath,
+          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
         ..._calculateTypeParametersDiff(
           oldExecutable.typeParameterNames,
@@ -478,8 +478,8 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
@@ -501,8 +501,8 @@ class PackageApiDiffer {
           context,
           isExperimental: matchingNewParam.isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectRootPath: oldProjectRootPath,
-          newProjectRootPath: newProjectRootPath,
+          oldProjectClusterRootPath: oldProjectClusterRootPath,
+          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
       );
     }
@@ -554,8 +554,8 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectRootPath,
-    required String newProjectRootPath,
+    required String oldProjectClusterRootPath,
+    required String newProjectClusterRootPath,
   }) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
@@ -620,14 +620,14 @@ class PackageApiDiffer {
       TypeIdentifier(
         name: oldParam.typeName,
         fullLibraryName: NamingUtils.getFullLibraryPath(
-          clusterRootPath: oldProjectRootPath,
+          clusterRootPath: oldProjectClusterRootPath,
           fullLibraryName: oldParam.typeFullLibraryName,
         ),
       ),
       TypeIdentifier(
         name: newParam.typeName,
         fullLibraryName: NamingUtils.getFullLibraryPath(
-          clusterRootPath: newProjectRootPath,
+          clusterRootPath: newProjectClusterRootPath,
           fullLibraryName: newParam.typeFullLibraryName,
         ),
       ),
