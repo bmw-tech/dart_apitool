@@ -15,29 +15,31 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TypeHierarchy {
-  /// the type hierarchy items
-  Map<String, TypeHierarchyItem> get types =>
-      throw _privateConstructorUsedError;
+mixin _$TypeIdentifier {
+  /// the name of this type
+  String get name => throw _privateConstructorUsedError;
+
+  /// the full library name
+  String? get fullLibraryName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TypeHierarchyCopyWith<TypeHierarchy> get copyWith =>
+  $TypeIdentifierCopyWith<TypeIdentifier> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TypeHierarchyCopyWith<$Res> {
-  factory $TypeHierarchyCopyWith(
-          TypeHierarchy value, $Res Function(TypeHierarchy) then) =
-      _$TypeHierarchyCopyWithImpl<$Res, TypeHierarchy>;
+abstract class $TypeIdentifierCopyWith<$Res> {
+  factory $TypeIdentifierCopyWith(
+          TypeIdentifier value, $Res Function(TypeIdentifier) then) =
+      _$TypeIdentifierCopyWithImpl<$Res, TypeIdentifier>;
   @useResult
-  $Res call({Map<String, TypeHierarchyItem> types});
+  $Res call({String name, String? fullLibraryName});
 }
 
 /// @nodoc
-class _$TypeHierarchyCopyWithImpl<$Res, $Val extends TypeHierarchy>
-    implements $TypeHierarchyCopyWith<$Res> {
-  _$TypeHierarchyCopyWithImpl(this._value, this._then);
+class _$TypeIdentifierCopyWithImpl<$Res, $Val extends TypeIdentifier>
+    implements $TypeIdentifierCopyWith<$Res> {
+  _$TypeIdentifierCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -47,120 +49,127 @@ class _$TypeHierarchyCopyWithImpl<$Res, $Val extends TypeHierarchy>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? types = null,
+    Object? name = null,
+    Object? fullLibraryName = freezed,
   }) {
     return _then(_value.copyWith(
-      types: null == types
-          ? _value.types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<String, TypeHierarchyItem>,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullLibraryName: freezed == fullLibraryName
+          ? _value.fullLibraryName
+          : fullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_TypeHierarchyCopyWith<$Res>
-    implements $TypeHierarchyCopyWith<$Res> {
-  factory _$$_TypeHierarchyCopyWith(
-          _$_TypeHierarchy value, $Res Function(_$_TypeHierarchy) then) =
-      __$$_TypeHierarchyCopyWithImpl<$Res>;
+abstract class _$$_TypeIdentifierCopyWith<$Res>
+    implements $TypeIdentifierCopyWith<$Res> {
+  factory _$$_TypeIdentifierCopyWith(
+          _$_TypeIdentifier value, $Res Function(_$_TypeIdentifier) then) =
+      __$$_TypeIdentifierCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, TypeHierarchyItem> types});
+  $Res call({String name, String? fullLibraryName});
 }
 
 /// @nodoc
-class __$$_TypeHierarchyCopyWithImpl<$Res>
-    extends _$TypeHierarchyCopyWithImpl<$Res, _$_TypeHierarchy>
-    implements _$$_TypeHierarchyCopyWith<$Res> {
-  __$$_TypeHierarchyCopyWithImpl(
-      _$_TypeHierarchy _value, $Res Function(_$_TypeHierarchy) _then)
+class __$$_TypeIdentifierCopyWithImpl<$Res>
+    extends _$TypeIdentifierCopyWithImpl<$Res, _$_TypeIdentifier>
+    implements _$$_TypeIdentifierCopyWith<$Res> {
+  __$$_TypeIdentifierCopyWithImpl(
+      _$_TypeIdentifier _value, $Res Function(_$_TypeIdentifier) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? types = null,
+    Object? name = null,
+    Object? fullLibraryName = freezed,
   }) {
-    return _then(_$_TypeHierarchy(
-      types: null == types
-          ? _value._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<String, TypeHierarchyItem>,
+    return _then(_$_TypeIdentifier(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullLibraryName: freezed == fullLibraryName
+          ? _value.fullLibraryName
+          : fullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_TypeHierarchy extends _TypeHierarchy {
-  const _$_TypeHierarchy({required final Map<String, TypeHierarchyItem> types})
-      : _types = types,
-        super._();
+class _$_TypeIdentifier extends _TypeIdentifier {
+  const _$_TypeIdentifier({required this.name, required this.fullLibraryName})
+      : super._();
 
-  /// the type hierarchy items
-  final Map<String, TypeHierarchyItem> _types;
-
-  /// the type hierarchy items
+  /// the name of this type
   @override
-  Map<String, TypeHierarchyItem> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
+  final String name;
+
+  /// the full library name
+  @override
+  final String? fullLibraryName;
 
   @override
   String toString() {
-    return 'TypeHierarchy(types: $types)';
+    return 'TypeIdentifier(name: $name, fullLibraryName: $fullLibraryName)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TypeHierarchy &&
-            const DeepCollectionEquality().equals(other._types, _types));
+            other is _$_TypeIdentifier &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.fullLibraryName, fullLibraryName) ||
+                other.fullLibraryName == fullLibraryName));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_types));
+  int get hashCode => Object.hash(runtimeType, name, fullLibraryName);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TypeHierarchyCopyWith<_$_TypeHierarchy> get copyWith =>
-      __$$_TypeHierarchyCopyWithImpl<_$_TypeHierarchy>(this, _$identity);
+  _$$_TypeIdentifierCopyWith<_$_TypeIdentifier> get copyWith =>
+      __$$_TypeIdentifierCopyWithImpl<_$_TypeIdentifier>(this, _$identity);
 }
 
-abstract class _TypeHierarchy extends TypeHierarchy {
-  const factory _TypeHierarchy(
-      {required final Map<String, TypeHierarchyItem> types}) = _$_TypeHierarchy;
-  const _TypeHierarchy._() : super._();
+abstract class _TypeIdentifier extends TypeIdentifier {
+  const factory _TypeIdentifier(
+      {required final String name,
+      required final String? fullLibraryName}) = _$_TypeIdentifier;
+  const _TypeIdentifier._() : super._();
 
   @override
 
-  /// the type hierarchy items
-  Map<String, TypeHierarchyItem> get types;
+  /// the name of this type
+  String get name;
+  @override
+
+  /// the full library name
+  String? get fullLibraryName;
   @override
   @JsonKey(ignore: true)
-  _$$_TypeHierarchyCopyWith<_$_TypeHierarchy> get copyWith =>
+  _$$_TypeIdentifierCopyWith<_$_TypeIdentifier> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$TypeHierarchyItem {
-  /// the name of this type
-  String get name => throw _privateConstructorUsedError;
-
-  /// the namespace of this type. This gets populated if the type got imported with a prefix
-  String get namespace => throw _privateConstructorUsedError;
-
-  /// the full library name
-  String? get fullLibraryName => throw _privateConstructorUsedError;
+  /// the identifier of this type
+  TypeIdentifier get typeIdentifier => throw _privateConstructorUsedError;
 
   /// the type identifiers of the super types of this type
-  Set<String> get baseTypeIdentifiers => throw _privateConstructorUsedError;
+  Set<TypeIdentifier> get baseTypeIdentifiers =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TypeHierarchyItemCopyWith<TypeHierarchyItem> get copyWith =>
@@ -174,10 +183,9 @@ abstract class $TypeHierarchyItemCopyWith<$Res> {
       _$TypeHierarchyItemCopyWithImpl<$Res, TypeHierarchyItem>;
   @useResult
   $Res call(
-      {String name,
-      String namespace,
-      String? fullLibraryName,
-      Set<String> baseTypeIdentifiers});
+      {TypeIdentifier typeIdentifier, Set<TypeIdentifier> baseTypeIdentifiers});
+
+  $TypeIdentifierCopyWith<$Res> get typeIdentifier;
 }
 
 /// @nodoc
@@ -193,29 +201,27 @@ class _$TypeHierarchyItemCopyWithImpl<$Res, $Val extends TypeHierarchyItem>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? namespace = null,
-    Object? fullLibraryName = freezed,
+    Object? typeIdentifier = null,
     Object? baseTypeIdentifiers = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      namespace: null == namespace
-          ? _value.namespace
-          : namespace // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullLibraryName: freezed == fullLibraryName
-          ? _value.fullLibraryName
-          : fullLibraryName // ignore: cast_nullable_to_non_nullable
-              as String?,
+      typeIdentifier: null == typeIdentifier
+          ? _value.typeIdentifier
+          : typeIdentifier // ignore: cast_nullable_to_non_nullable
+              as TypeIdentifier,
       baseTypeIdentifiers: null == baseTypeIdentifiers
           ? _value.baseTypeIdentifiers
           : baseTypeIdentifiers // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<TypeIdentifier>,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TypeIdentifierCopyWith<$Res> get typeIdentifier {
+    return $TypeIdentifierCopyWith<$Res>(_value.typeIdentifier, (value) {
+      return _then(_value.copyWith(typeIdentifier: value) as $Val);
+    });
   }
 }
 
@@ -228,10 +234,10 @@ abstract class _$$_TypeHierarchyItemCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      String namespace,
-      String? fullLibraryName,
-      Set<String> baseTypeIdentifiers});
+      {TypeIdentifier typeIdentifier, Set<TypeIdentifier> baseTypeIdentifiers});
+
+  @override
+  $TypeIdentifierCopyWith<$Res> get typeIdentifier;
 }
 
 /// @nodoc
@@ -245,28 +251,18 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? namespace = null,
-    Object? fullLibraryName = freezed,
+    Object? typeIdentifier = null,
     Object? baseTypeIdentifiers = null,
   }) {
     return _then(_$_TypeHierarchyItem(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      namespace: null == namespace
-          ? _value.namespace
-          : namespace // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullLibraryName: freezed == fullLibraryName
-          ? _value.fullLibraryName
-          : fullLibraryName // ignore: cast_nullable_to_non_nullable
-              as String?,
+      typeIdentifier: null == typeIdentifier
+          ? _value.typeIdentifier
+          : typeIdentifier // ignore: cast_nullable_to_non_nullable
+              as TypeIdentifier,
       baseTypeIdentifiers: null == baseTypeIdentifiers
           ? _value._baseTypeIdentifiers
           : baseTypeIdentifiers // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
+              as Set<TypeIdentifier>,
     ));
   }
 }
@@ -275,31 +271,21 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
 
 class _$_TypeHierarchyItem extends _TypeHierarchyItem {
   const _$_TypeHierarchyItem(
-      {required this.name,
-      required this.namespace,
-      required this.fullLibraryName,
-      required final Set<String> baseTypeIdentifiers})
+      {required this.typeIdentifier,
+      required final Set<TypeIdentifier> baseTypeIdentifiers})
       : _baseTypeIdentifiers = baseTypeIdentifiers,
         super._();
 
-  /// the name of this type
+  /// the identifier of this type
   @override
-  final String name;
-
-  /// the namespace of this type. This gets populated if the type got imported with a prefix
-  @override
-  final String namespace;
-
-  /// the full library name
-  @override
-  final String? fullLibraryName;
+  final TypeIdentifier typeIdentifier;
 
   /// the type identifiers of the super types of this type
-  final Set<String> _baseTypeIdentifiers;
+  final Set<TypeIdentifier> _baseTypeIdentifiers;
 
   /// the type identifiers of the super types of this type
   @override
-  Set<String> get baseTypeIdentifiers {
+  Set<TypeIdentifier> get baseTypeIdentifiers {
     if (_baseTypeIdentifiers is EqualUnmodifiableSetView)
       return _baseTypeIdentifiers;
     // ignore: implicit_dynamic_type
@@ -308,7 +294,7 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
 
   @override
   String toString() {
-    return 'TypeHierarchyItem(name: $name, namespace: $namespace, fullLibraryName: $fullLibraryName, baseTypeIdentifiers: $baseTypeIdentifiers)';
+    return 'TypeHierarchyItem(typeIdentifier: $typeIdentifier, baseTypeIdentifiers: $baseTypeIdentifiers)';
   }
 
   @override
@@ -316,17 +302,14 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TypeHierarchyItem &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.namespace, namespace) ||
-                other.namespace == namespace) &&
-            (identical(other.fullLibraryName, fullLibraryName) ||
-                other.fullLibraryName == fullLibraryName) &&
+            (identical(other.typeIdentifier, typeIdentifier) ||
+                other.typeIdentifier == typeIdentifier) &&
             const DeepCollectionEquality()
                 .equals(other._baseTypeIdentifiers, _baseTypeIdentifiers));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, namespace, fullLibraryName,
+  int get hashCode => Object.hash(runtimeType, typeIdentifier,
       const DeepCollectionEquality().hash(_baseTypeIdentifiers));
 
   @JsonKey(ignore: true)
@@ -339,28 +322,19 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
 
 abstract class _TypeHierarchyItem extends TypeHierarchyItem {
   const factory _TypeHierarchyItem(
-      {required final String name,
-      required final String namespace,
-      required final String? fullLibraryName,
-      required final Set<String> baseTypeIdentifiers}) = _$_TypeHierarchyItem;
+          {required final TypeIdentifier typeIdentifier,
+          required final Set<TypeIdentifier> baseTypeIdentifiers}) =
+      _$_TypeHierarchyItem;
   const _TypeHierarchyItem._() : super._();
 
   @override
 
-  /// the name of this type
-  String get name;
-  @override
-
-  /// the namespace of this type. This gets populated if the type got imported with a prefix
-  String get namespace;
-  @override
-
-  /// the full library name
-  String? get fullLibraryName;
+  /// the identifier of this type
+  TypeIdentifier get typeIdentifier;
   @override
 
   /// the type identifiers of the super types of this type
-  Set<String> get baseTypeIdentifiers;
+  Set<TypeIdentifier> get baseTypeIdentifiers;
   @override
   @JsonKey(ignore: true)
   _$$_TypeHierarchyItemCopyWith<_$_TypeHierarchyItem> get copyWith =>

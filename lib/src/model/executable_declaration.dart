@@ -20,13 +20,6 @@ class ExecutableParameterDeclaration
     implements Declaration {
   const ExecutableParameterDeclaration._();
 
-  String getUniqueTypeName(String projectRootPath) =>
-      NamingUtils.computeUniqueTypeNameFromNames(
-        projectRootPath: projectRootPath,
-        fullLibraryName: typeFullLibraryName,
-        name: typeName,
-      );
-
   @Implements<Declaration>()
   const factory ExecutableParameterDeclaration({
     /// whether the parameter is required

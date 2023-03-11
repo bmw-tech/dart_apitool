@@ -42,8 +42,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     /// the root path of the cluster of packages
     required String clusterRootPath,
 
-    /// the already collected type hierarchy items
-    Map<String, TypeHierarchyItem>? typeHierarchyItems,
+    /// the already collected type hierarchy
+    required this.typeHierarchy,
   }) : _context = _AnalysisContext(
           shownNames: shownNames,
           hiddenNames: hiddenNames,
@@ -54,9 +54,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _collectedElementIds = <int>{};
     if (collectedElementIds != null) {
       _collectedElementIds.addAll(collectedElementIds);
-    }
-    if (typeHierarchyItems != null) {
-      _typeHierarchyItems.addAll(typeHierarchyItems);
     }
   }
 
@@ -70,7 +67,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
   final Set<int> _requiredElementIds = {};
-  final Map<String, TypeHierarchyItem> _typeHierarchyItems = {};
+  final TypeHierarchy typeHierarchy;
 
   /// all found class declarations
   List<InternalInterfaceDeclaration> get interfaceDeclarations =>
@@ -89,9 +86,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   /// all element ids that are used in a required context (e.g. implementable / extendable by the user)
   Set<int> get requiredElementIds => _requiredElementIds;
-
-  /// the collected type hierarchy
-  Map<String, TypeHierarchyItem> get typeHierarchyItems => _typeHierarchyItems;
 
   /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
@@ -119,7 +113,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         privateElementExceptions: [directElement.id],
         // pass on the already collected elements to make sure that we don't collect elements twice even if we are going down the usage tree
         collectedElementIds: _collectedElementIds,
-        typeHierarchyItems: _typeHierarchyItems,
+        typeHierarchy: typeHierarchy,
         namespace: InternalDeclarationUtils.getNamespaceForElement(
             type.element2, referringElement),
         rootPath: _context.rootPath,
@@ -128,7 +122,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       directElement.accept(collector);
       // merge result with this result
       _collectedElementIds.addAll(collector._collectedElementIds);
-      _typeHierarchyItems.addAll(collector._typeHierarchyItems);
       interfaceDeclarations.addAll(collector.interfaceDeclarations);
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
@@ -150,25 +143,29 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   void _collectTypeHierarchy(Element? element) {
-    final baseTypeIdentifiers = <String>{};
+    final baseTypeIdentifiers = <TypeIdentifier>{};
     if (element is InterfaceElement) {
       for (final st in element.allSupertypes) {
         baseTypeIdentifiers.add(
-          NamingUtils.computeUniqueTypeName(
-              _context.clusterRootPath, st.element),
+          TypeIdentifier(
+            name: st.element.name,
+            fullLibraryName: NamingUtils.getFullLibraryPathFromElement(
+              clusterRootPath: _context.clusterRootPath,
+              element: st.element,
+            ),
+          ),
         );
       }
-      final hierarchyItem = TypeHierarchyItem(
-        name: element.name,
-        namespace: _context.namespace ?? '',
-        fullLibraryName: element.librarySource.fullName,
-        baseTypeIdentifiers: baseTypeIdentifiers,
+      typeHierarchy.registerType(
+        TypeIdentifier(
+          name: element.name,
+          fullLibraryName: NamingUtils.getFullLibraryPathFromElement(
+            clusterRootPath: _context.clusterRootPath,
+            element: element,
+          ),
+        ),
+        baseTypeIdentifiers,
       );
-      if (!_typeHierarchyItems
-          .containsKey(hierarchyItem.getUniqueName(_context.clusterRootPath))) {
-        _typeHierarchyItems[hierarchyItem
-            .getUniqueName(_context.clusterRootPath)] = hierarchyItem;
-      }
     }
   }
 

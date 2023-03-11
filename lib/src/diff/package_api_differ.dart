@@ -617,15 +617,19 @@ class PackageApiDiffer {
       isExperimental: isExperimental,
     );
     _compareParameterTypesAndAddChange(
-      NamingUtils.computeUniqueTypeNameFromNames(
-        projectRootPath: oldProjectRootPath,
-        fullLibraryName: oldParam.typeFullLibraryName,
+      TypeIdentifier(
         name: oldParam.typeName,
+        fullLibraryName: NamingUtils.getFullLibraryPath(
+          clusterRootPath: oldProjectRootPath,
+          fullLibraryName: oldParam.typeFullLibraryName,
+        ),
       ),
-      NamingUtils.computeUniqueTypeNameFromNames(
-        projectRootPath: newProjectRootPath,
-        fullLibraryName: newParam.typeFullLibraryName,
+      TypeIdentifier(
         name: newParam.typeName,
+        fullLibraryName: NamingUtils.getFullLibraryPath(
+          clusterRootPath: newProjectRootPath,
+          fullLibraryName: newParam.typeFullLibraryName,
+        ),
       ),
       context,
       newParam,
@@ -1194,8 +1198,8 @@ class PackageApiDiffer {
   }
 
   _compareParameterTypesAndAddChange(
-    String oldTypeidentifier,
-    String newTypeIdentifier,
+    TypeIdentifier oldTypeidentifier,
+    TypeIdentifier newTypeIdentifier,
     Stack<Declaration> context,
     Declaration affectedDeclaration,
     String changeDescription,

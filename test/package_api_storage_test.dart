@@ -145,7 +145,7 @@ final testPackage1Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
-  typeHierarchy: TypeHierarchy(types: {}),
+  typeHierarchy: TypeHierarchy.empty(),
 );
 
 final package1JsonString = '''
@@ -296,7 +296,7 @@ final testPackage2Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
-  typeHierarchy: TypeHierarchy(types: {}),
+  typeHierarchy: TypeHierarchy.empty(),
 );
 
 final package2JsonString = '''

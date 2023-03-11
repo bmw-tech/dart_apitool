@@ -98,7 +98,6 @@ abstract class $PackageApiCopyWith<$Res> {
 
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
-  $TypeHierarchyCopyWith<$Res> get typeHierarchy;
 }
 
 /// @nodoc
@@ -219,14 +218,6 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
       return _then(_value.copyWith(iosPlatformConstraints: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TypeHierarchyCopyWith<$Res> get typeHierarchy {
-    return $TypeHierarchyCopyWith<$Res>(_value.typeHierarchy, (value) {
-      return _then(_value.copyWith(typeHierarchy: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -258,8 +249,6 @@ abstract class _$$_PackageApiCopyWith<$Res>
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
   @override
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
-  @override
-  $TypeHierarchyCopyWith<$Res> get typeHierarchy;
 }
 
 /// @nodoc
