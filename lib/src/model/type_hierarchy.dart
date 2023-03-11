@@ -31,10 +31,12 @@ class TypeHierarchy {
 
   TypeHierarchy._();
 
+  /// creates an empty type hierarchy
   factory TypeHierarchy.empty() {
     return TypeHierarchy._();
   }
 
+  /// registers the given [typeIdentifier] with the given [baseTypeIdentifiers]
   void registerType(
     TypeIdentifier typeIdentifier,
     Set<TypeIdentifier> baseTypeIdentifiers,

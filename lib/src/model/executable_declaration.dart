@@ -40,9 +40,6 @@ class ExecutableParameterDeclaration
     /// type name of this parameter
     required String typeName,
 
-    /// the namespace of the type
-    required String? typeNamespace,
-
     /// the relative type library path
     required String? typeFullLibraryName,
 

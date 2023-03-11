@@ -110,8 +110,6 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               isDeprecated: e.hasDeprecated,
               isExperimental: InternalDeclarationUtils.hasExperimental(e),
               typeName: e.type.getDisplayString(withNullability: true),
-              typeNamespace: InternalDeclarationUtils.getNamespaceForElement(
-                  e.type.element2, e),
               typeFullLibraryName: e.type.element2?.librarySource?.fullName,
               relativePath: relativePath,
             ))

@@ -34,9 +34,6 @@ mixin _$ExecutableParameterDeclaration {
   /// type name of this parameter
   String get typeName => throw _privateConstructorUsedError;
 
-  /// the namespace of the type
-  String? get typeNamespace => throw _privateConstructorUsedError;
-
   /// the relative type library path
   String? get typeFullLibraryName => throw _privateConstructorUsedError;
 
@@ -63,7 +60,6 @@ abstract class $ExecutableParameterDeclarationCopyWith<$Res> {
       bool isDeprecated,
       bool isExperimental,
       String typeName,
-      String? typeNamespace,
       String? typeFullLibraryName,
       String relativePath});
 }
@@ -88,7 +84,6 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
-    Object? typeNamespace = freezed,
     Object? typeFullLibraryName = freezed,
     Object? relativePath = null,
   }) {
@@ -117,10 +112,6 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      typeNamespace: freezed == typeNamespace
-          ? _value.typeNamespace
-          : typeNamespace // ignore: cast_nullable_to_non_nullable
-              as String?,
       typeFullLibraryName: freezed == typeFullLibraryName
           ? _value.typeFullLibraryName
           : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
@@ -149,7 +140,6 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
       bool isDeprecated,
       bool isExperimental,
       String typeName,
-      String? typeNamespace,
       String? typeFullLibraryName,
       String relativePath});
 }
@@ -173,7 +163,6 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? typeName = null,
-    Object? typeNamespace = freezed,
     Object? typeFullLibraryName = freezed,
     Object? relativePath = null,
   }) {
@@ -202,10 +191,6 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      typeNamespace: freezed == typeNamespace
-          ? _value.typeNamespace
-          : typeNamespace // ignore: cast_nullable_to_non_nullable
-              as String?,
       typeFullLibraryName: freezed == typeFullLibraryName
           ? _value.typeFullLibraryName
           : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
@@ -229,7 +214,6 @@ class _$_ExecutableParameterDeclaration
       required this.isDeprecated,
       required this.isExperimental,
       required this.typeName,
-      required this.typeNamespace,
       required this.typeFullLibraryName,
       required this.relativePath})
       : super._();
@@ -258,10 +242,6 @@ class _$_ExecutableParameterDeclaration
   @override
   final String typeName;
 
-  /// the namespace of the type
-  @override
-  final String? typeNamespace;
-
   /// the relative type library path
   @override
   final String? typeFullLibraryName;
@@ -272,7 +252,7 @@ class _$_ExecutableParameterDeclaration
 
   @override
   String toString() {
-    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, typeNamespace: $typeNamespace, typeFullLibraryName: $typeFullLibraryName, relativePath: $relativePath)';
+    return 'ExecutableParameterDeclaration(isRequired: $isRequired, isNamed: $isNamed, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, relativePath: $relativePath)';
   }
 
   @override
@@ -290,8 +270,6 @@ class _$_ExecutableParameterDeclaration
                 other.isExperimental == isExperimental) &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
-            (identical(other.typeNamespace, typeNamespace) ||
-                other.typeNamespace == typeNamespace) &&
             (identical(other.typeFullLibraryName, typeFullLibraryName) ||
                 other.typeFullLibraryName == typeFullLibraryName) &&
             (identical(other.relativePath, relativePath) ||
@@ -307,7 +285,6 @@ class _$_ExecutableParameterDeclaration
       isDeprecated,
       isExperimental,
       typeName,
-      typeNamespace,
       typeFullLibraryName,
       relativePath);
 
@@ -328,7 +305,6 @@ abstract class _ExecutableParameterDeclaration
       required final bool isDeprecated,
       required final bool isExperimental,
       required final String typeName,
-      required final String? typeNamespace,
       required final String? typeFullLibraryName,
       required final String relativePath}) = _$_ExecutableParameterDeclaration;
   const _ExecutableParameterDeclaration._() : super._();
@@ -357,10 +333,6 @@ abstract class _ExecutableParameterDeclaration
 
   /// type name of this parameter
   String get typeName;
-  @override
-
-  /// the namespace of the type
-  String? get typeNamespace;
   @override
 
   /// the relative type library path
