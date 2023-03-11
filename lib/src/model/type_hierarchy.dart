@@ -69,10 +69,7 @@ class TypeHierarchy {
   bool _isSubTypeOf(TypeIdentifier potentialSubTypeIdentifier,
       TypeIdentifier superTypeIdentifier) {
     // find potential sub type
-    final items = _types[potentialSubTypeIdentifier.name];
-    if (items == null) {
-      return false;
-    }
+    final items = {...(_types[potentialSubTypeIdentifier.name] ?? {})};
 
     if (items.length > 1) {
       // there are more than one type with the same name => we need to check the full library name
