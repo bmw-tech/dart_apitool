@@ -8,7 +8,6 @@ import 'package:tuple/tuple.dart';
 
 import '../model/model.dart';
 import '../errors/errors.dart';
-import '../utils/utils.dart';
 import 'api_change.dart';
 import 'api_change_code.dart';
 import 'api_change_type.dart';
@@ -52,8 +51,6 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
-          oldProjectClusterRootPath: oldApi.clusterPath,
-          newProjectClusterRootPath: newApi.clusterPath,
         ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
@@ -61,8 +58,6 @@ class PackageApiDiffer {
           Stack<Declaration>(),
           isExperimental: false,
           typeHierarchy: newApi.typeHierarchy,
-          oldProjectClusterRootPath: oldApi.clusterPath,
-          newProjectClusterRootPath: newApi.clusterPath,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
@@ -106,8 +101,6 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
@@ -127,8 +120,6 @@ class PackageApiDiffer {
         context,
         isExperimental: newInterface.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
-        oldProjectClusterRootPath: oldProjectClusterRootPath,
-        newProjectClusterRootPath: newProjectClusterRootPath,
       ));
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
@@ -160,8 +151,6 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     return _executeInContext(context, newInterface, (context) {
       final changes = [
@@ -172,8 +161,6 @@ class PackageApiDiffer {
           isInterfaceRequired: newInterface.isRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectClusterRootPath: oldProjectClusterRootPath,
-          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
         ..._calculateFieldsDiff(
           oldInterface.fieldDeclarations,
@@ -239,8 +226,6 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     final executableListDiff = _diffIterables<ExecutableDeclaration>(
       oldExecutables,
@@ -260,8 +245,6 @@ class PackageApiDiffer {
         isInterfaceRequired: isInterfaceRequired,
         isExperimental: newEx.isExperimental || isExperimental,
         typeHierarchy: typeHierarchy,
-        oldProjectClusterRootPath: oldProjectClusterRootPath,
-        newProjectClusterRootPath: newProjectClusterRootPath,
       ));
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
@@ -307,8 +290,6 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     return _executeInContext(context, newExecutable, (context) {
       final changes = [
@@ -319,8 +300,6 @@ class PackageApiDiffer {
           isInterfaceRequired: isInterfaceRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectClusterRootPath: oldProjectClusterRootPath,
-          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
         ..._calculateTypeParametersDiff(
           oldExecutable.typeParameterNames,
@@ -478,8 +457,6 @@ class PackageApiDiffer {
     bool? isInterfaceRequired,
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     final parameterMatchesTuple =
         _findMatchingParameters(oldParameters, newParameters);
@@ -501,8 +478,6 @@ class PackageApiDiffer {
           context,
           isExperimental: matchingNewParam.isExperimental,
           typeHierarchy: typeHierarchy,
-          oldProjectClusterRootPath: oldProjectClusterRootPath,
-          newProjectClusterRootPath: newProjectClusterRootPath,
         ),
       );
     }
@@ -554,8 +529,6 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
-    required String oldProjectClusterRootPath,
-    required String newProjectClusterRootPath,
   }) {
     final changes = <ApiChange>[];
     _comparePropertiesAndAddChange(
@@ -617,19 +590,13 @@ class PackageApiDiffer {
       isExperimental: isExperimental,
     );
     _compareParameterTypesAndAddChange(
-      TypeIdentifier(
-        name: oldParam.typeName,
-        fullLibraryName: NamingUtils.getFullLibraryPath(
-          clusterRootPath: oldProjectClusterRootPath,
-          fullLibraryName: oldParam.typeFullLibraryName,
-        ),
+      TypeIdentifier.fromNameAndLibraryPath(
+        typeName: oldParam.typeName,
+        libraryPath: oldParam.typeFullLibraryName,
       ),
-      TypeIdentifier(
-        name: newParam.typeName,
-        fullLibraryName: NamingUtils.getFullLibraryPath(
-          clusterRootPath: newProjectClusterRootPath,
-          fullLibraryName: newParam.typeFullLibraryName,
-        ),
+      TypeIdentifier.fromNameAndLibraryPath(
+        typeName: newParam.typeName,
+        libraryPath: newParam.typeFullLibraryName,
       ),
       context,
       newParam,
@@ -1208,7 +1175,8 @@ class PackageApiDiffer {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
   }) {
-    if (oldTypeidentifier.name != newTypeIdentifier.name) {
+    if (oldTypeidentifier.packageAndTypeName !=
+        newTypeIdentifier.packageAndTypeName) {
       final isBreaking =
           !typeHierarchy.canBeAssigned(oldTypeidentifier, newTypeIdentifier);
       changes.add(ApiChange(

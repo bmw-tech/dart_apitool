@@ -39,9 +39,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     /// the root path of the project
     required String rootPath,
 
-    /// the root path of the cluster of packages
-    required String clusterRootPath,
-
     /// the already collected type hierarchy
     required this.typeHierarchy,
   }) : _context = _AnalysisContext(
@@ -49,7 +46,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
           hiddenNames: hiddenNames,
           namespace: namespace,
           rootPath: rootPath,
-          clusterRootPath: clusterRootPath,
         ) {
     _collectedElementIds = <int>{};
     if (collectedElementIds != null) {
@@ -117,7 +113,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         namespace: InternalDeclarationUtils.getNamespaceForElement(
             type.element2, referringElement),
         rootPath: _context.rootPath,
-        clusterRootPath: _context.clusterRootPath,
       );
       directElement.accept(collector);
       // merge result with this result
@@ -146,21 +141,17 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     final baseTypeIdentifiers = <TypeIdentifier>{};
     if (element is InterfaceElement) {
       for (final st in element.allSupertypes) {
-        baseTypeIdentifiers.add(
-          TypeIdentifier(
-            name: st.element.name,
-            fullLibraryName: NamingUtils.getFullLibraryPathFromElement(
-              clusterRootPath: _context.clusterRootPath,
-              element: st.element,
-            ),
+        baseTypeIdentifiers.add(TypeIdentifier.fromNameAndLibraryPath(
+          typeName: st.element.name,
+          libraryPath: NamingUtils.getFullLibraryPathFromElement(
+            element: st.element,
           ),
-        );
+        ));
       }
       typeHierarchy.registerType(
-        TypeIdentifier(
-          name: element.name,
-          fullLibraryName: NamingUtils.getFullLibraryPathFromElement(
-            clusterRootPath: _context.clusterRootPath,
+        TypeIdentifier.fromNameAndLibraryPath(
+          typeName: element.name,
+          libraryPath: NamingUtils.getFullLibraryPathFromElement(
             element: element,
           ),
         ),
@@ -429,15 +420,10 @@ class _AnalysisContext {
   final String? namespace;
   final String rootPath;
 
-  /// the root path for the package cluster we analyze in. Most of the time this is rootPath
-  /// only if we copy a cluster because of path dependencies they will differ
-  final String clusterRootPath;
-
   _AnalysisContext({
     this.shownNames = const [],
     this.hiddenNames = const [],
     this.namespace,
     required this.rootPath,
-    required this.clusterRootPath,
   });
 }

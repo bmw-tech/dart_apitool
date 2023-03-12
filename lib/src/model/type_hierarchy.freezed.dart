@@ -17,10 +17,13 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TypeIdentifier {
   /// the name of this type
-  String get name => throw _privateConstructorUsedError;
+  String get typeName => throw _privateConstructorUsedError;
 
-  /// the full library name
-  String? get fullLibraryName => throw _privateConstructorUsedError;
+  /// the name of the package defining that type
+  String get packageName => throw _privateConstructorUsedError;
+
+  /// the library path inside the package defining that type
+  String get packageRelativeLibraryPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TypeIdentifierCopyWith<TypeIdentifier> get copyWith =>
@@ -33,7 +36,8 @@ abstract class $TypeIdentifierCopyWith<$Res> {
           TypeIdentifier value, $Res Function(TypeIdentifier) then) =
       _$TypeIdentifierCopyWithImpl<$Res, TypeIdentifier>;
   @useResult
-  $Res call({String name, String? fullLibraryName});
+  $Res call(
+      {String typeName, String packageName, String packageRelativeLibraryPath});
 }
 
 /// @nodoc
@@ -49,18 +53,23 @@ class _$TypeIdentifierCopyWithImpl<$Res, $Val extends TypeIdentifier>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? fullLibraryName = freezed,
+    Object? typeName = null,
+    Object? packageName = null,
+    Object? packageRelativeLibraryPath = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      typeName: null == typeName
+          ? _value.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      fullLibraryName: freezed == fullLibraryName
-          ? _value.fullLibraryName
-          : fullLibraryName // ignore: cast_nullable_to_non_nullable
-              as String?,
+      packageName: null == packageName
+          ? _value.packageName
+          : packageName // ignore: cast_nullable_to_non_nullable
+              as String,
+      packageRelativeLibraryPath: null == packageRelativeLibraryPath
+          ? _value.packageRelativeLibraryPath
+          : packageRelativeLibraryPath // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -73,7 +82,8 @@ abstract class _$$_TypeIdentifierCopyWith<$Res>
       __$$_TypeIdentifierCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String? fullLibraryName});
+  $Res call(
+      {String typeName, String packageName, String packageRelativeLibraryPath});
 }
 
 /// @nodoc
@@ -87,18 +97,23 @@ class __$$_TypeIdentifierCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? fullLibraryName = freezed,
+    Object? typeName = null,
+    Object? packageName = null,
+    Object? packageRelativeLibraryPath = null,
   }) {
     return _then(_$_TypeIdentifier(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      typeName: null == typeName
+          ? _value.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
               as String,
-      fullLibraryName: freezed == fullLibraryName
-          ? _value.fullLibraryName
-          : fullLibraryName // ignore: cast_nullable_to_non_nullable
-              as String?,
+      packageName: null == packageName
+          ? _value.packageName
+          : packageName // ignore: cast_nullable_to_non_nullable
+              as String,
+      packageRelativeLibraryPath: null == packageRelativeLibraryPath
+          ? _value.packageRelativeLibraryPath
+          : packageRelativeLibraryPath // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -106,20 +121,27 @@ class __$$_TypeIdentifierCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TypeIdentifier extends _TypeIdentifier {
-  const _$_TypeIdentifier({required this.name, required this.fullLibraryName})
+  const _$_TypeIdentifier(
+      {required this.typeName,
+      required this.packageName,
+      required this.packageRelativeLibraryPath})
       : super._();
 
   /// the name of this type
   @override
-  final String name;
+  final String typeName;
 
-  /// the full library name
+  /// the name of the package defining that type
   @override
-  final String? fullLibraryName;
+  final String packageName;
+
+  /// the library path inside the package defining that type
+  @override
+  final String packageRelativeLibraryPath;
 
   @override
   String toString() {
-    return 'TypeIdentifier(name: $name, fullLibraryName: $fullLibraryName)';
+    return 'TypeIdentifier(typeName: $typeName, packageName: $packageName, packageRelativeLibraryPath: $packageRelativeLibraryPath)';
   }
 
   @override
@@ -127,13 +149,19 @@ class _$_TypeIdentifier extends _TypeIdentifier {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TypeIdentifier &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.fullLibraryName, fullLibraryName) ||
-                other.fullLibraryName == fullLibraryName));
+            (identical(other.typeName, typeName) ||
+                other.typeName == typeName) &&
+            (identical(other.packageName, packageName) ||
+                other.packageName == packageName) &&
+            (identical(other.packageRelativeLibraryPath,
+                    packageRelativeLibraryPath) ||
+                other.packageRelativeLibraryPath ==
+                    packageRelativeLibraryPath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, fullLibraryName);
+  int get hashCode => Object.hash(
+      runtimeType, typeName, packageName, packageRelativeLibraryPath);
 
   @JsonKey(ignore: true)
   @override
@@ -144,18 +172,23 @@ class _$_TypeIdentifier extends _TypeIdentifier {
 
 abstract class _TypeIdentifier extends TypeIdentifier {
   const factory _TypeIdentifier(
-      {required final String name,
-      required final String? fullLibraryName}) = _$_TypeIdentifier;
+      {required final String typeName,
+      required final String packageName,
+      required final String packageRelativeLibraryPath}) = _$_TypeIdentifier;
   const _TypeIdentifier._() : super._();
 
   @override
 
   /// the name of this type
-  String get name;
+  String get typeName;
   @override
 
-  /// the full library name
-  String? get fullLibraryName;
+  /// the name of the package defining that type
+  String get packageName;
+  @override
+
+  /// the library path inside the package defining that type
+  String get packageRelativeLibraryPath;
   @override
   @JsonKey(ignore: true)
   _$$_TypeIdentifierCopyWith<_$_TypeIdentifier> get copyWith =>

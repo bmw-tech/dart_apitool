@@ -34,7 +34,7 @@ mixin _$ExecutableParameterDeclaration {
   /// type name of this parameter
   String get typeName => throw _privateConstructorUsedError;
 
-  /// the relative type library path
+  /// the type library path
   String? get typeFullLibraryName => throw _privateConstructorUsedError;
 
   /// the relative path of the library
@@ -242,7 +242,7 @@ class _$_ExecutableParameterDeclaration
   @override
   final String typeName;
 
-  /// the relative type library path
+  /// the type library path
   @override
   final String? typeFullLibraryName;
 
@@ -335,7 +335,7 @@ abstract class _ExecutableParameterDeclaration
   String get typeName;
   @override
 
-  /// the relative type library path
+  /// the type library path
   String? get typeFullLibraryName;
   @override
 

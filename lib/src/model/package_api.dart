@@ -28,9 +28,6 @@ class PackageApi with _$PackageApi {
     /// path to the package
     required String packagePath,
 
-    /// path to the package cluster
-    required String clusterPath,
-
     /// interface declarations this package has
     required List<InterfaceDeclaration> interfaceDeclarations,
 

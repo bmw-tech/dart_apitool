@@ -70,8 +70,6 @@ class PackageApiAnalyzer {
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
         _getNormalizedAbsolutePath(packagePath);
-    final normalizedAbsoluteClusterPath =
-        _getNormalizedAbsolutePath(clusterPath);
 
     final yamlContent =
         await File(path.join(normalizedAbsoluteProjectPath, 'pubspec.yaml'))
@@ -117,7 +115,6 @@ class PackageApiAnalyzer {
               shownNames: fileToAnalyze.shownNames,
               hiddenNames: fileToAnalyze.hiddenNames,
               rootPath: normalizedAbsoluteProjectPath,
-              clusterRootPath: normalizedAbsoluteClusterPath,
               typeHierarchy: typeHierarchy,
             );
             unitResult.libraryElement.accept(collector);
@@ -330,7 +327,6 @@ class PackageApiAnalyzer {
     }
 
     final normalizedProjectPath = path.normalize(path.absolute(packagePath));
-    final normalizedClusterPath = path.normalize(path.absolute(clusterPath));
     final androidPlatformConstraints = doAnalyzePlatformConstraints
         ? await AndroidPlatformConstraintsHelper.getAndroidPlatformConstraints(
             packagePath: normalizedProjectPath,
@@ -357,7 +353,6 @@ class PackageApiAnalyzer {
       packageName: pubSpec.name,
       packageVersion: pubSpec.version?.toString(),
       packagePath: normalizedProjectPath,
-      clusterPath: normalizedClusterPath,
       interfaceDeclarations: packageInterfaceDeclarations,
       executableDeclarations: packageExecutableDeclarations,
       fieldDeclarations: packageFieldDeclarations,

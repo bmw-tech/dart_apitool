@@ -25,9 +25,6 @@ mixin _$PackageApi {
   /// path to the package
   String get packagePath => throw _privateConstructorUsedError;
 
-  /// path to the package cluster
-  String get clusterPath => throw _privateConstructorUsedError;
-
   /// interface declarations this package has
   List<InterfaceDeclaration> get interfaceDeclarations =>
       throw _privateConstructorUsedError;
@@ -83,7 +80,6 @@ abstract class $PackageApiCopyWith<$Res> {
       {String packageName,
       String? packageVersion,
       String packagePath,
-      String clusterPath,
       List<InterfaceDeclaration> interfaceDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
@@ -116,7 +112,6 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     Object? packageName = null,
     Object? packageVersion = freezed,
     Object? packagePath = null,
-    Object? clusterPath = null,
     Object? interfaceDeclarations = null,
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
@@ -141,10 +136,6 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
       packagePath: null == packagePath
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      clusterPath: null == clusterPath
-          ? _value.clusterPath
-          : clusterPath // ignore: cast_nullable_to_non_nullable
               as String,
       interfaceDeclarations: null == interfaceDeclarations
           ? _value.interfaceDeclarations
@@ -232,7 +223,6 @@ abstract class _$$_PackageApiCopyWith<$Res>
       {String packageName,
       String? packageVersion,
       String packagePath,
-      String clusterPath,
       List<InterfaceDeclaration> interfaceDeclarations,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
@@ -265,7 +255,6 @@ class __$$_PackageApiCopyWithImpl<$Res>
     Object? packageName = null,
     Object? packageVersion = freezed,
     Object? packagePath = null,
-    Object? clusterPath = null,
     Object? interfaceDeclarations = null,
     Object? executableDeclarations = null,
     Object? fieldDeclarations = null,
@@ -290,10 +279,6 @@ class __$$_PackageApiCopyWithImpl<$Res>
       packagePath: null == packagePath
           ? _value.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      clusterPath: null == clusterPath
-          ? _value.clusterPath
-          : clusterPath // ignore: cast_nullable_to_non_nullable
               as String,
       interfaceDeclarations: null == interfaceDeclarations
           ? _value._interfaceDeclarations
@@ -350,7 +335,6 @@ class _$_PackageApi extends _PackageApi {
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
-      required this.clusterPath,
       required final List<InterfaceDeclaration> interfaceDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
@@ -381,10 +365,6 @@ class _$_PackageApi extends _PackageApi {
   /// path to the package
   @override
   final String packagePath;
-
-  /// path to the package cluster
-  @override
-  final String clusterPath;
 
   /// interface declarations this package has
   final List<InterfaceDeclaration> _interfaceDeclarations;
@@ -480,7 +460,7 @@ class _$_PackageApi extends _PackageApi {
 
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, clusterPath: $clusterPath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
   }
 
   @override
@@ -494,8 +474,6 @@ class _$_PackageApi extends _PackageApi {
                 other.packageVersion == packageVersion) &&
             (identical(other.packagePath, packagePath) ||
                 other.packagePath == packagePath) &&
-            (identical(other.clusterPath, clusterPath) ||
-                other.clusterPath == clusterPath) &&
             const DeepCollectionEquality()
                 .equals(other._interfaceDeclarations, _interfaceDeclarations) &&
             const DeepCollectionEquality().equals(
@@ -527,7 +505,6 @@ class _$_PackageApi extends _PackageApi {
       packageName,
       packageVersion,
       packagePath,
-      clusterPath,
       const DeepCollectionEquality().hash(_interfaceDeclarations),
       const DeepCollectionEquality().hash(_executableDeclarations),
       const DeepCollectionEquality().hash(_fieldDeclarations),
@@ -552,7 +529,6 @@ abstract class _PackageApi extends PackageApi {
       {required final String packageName,
       required final String? packageVersion,
       required final String packagePath,
-      required final String clusterPath,
       required final List<InterfaceDeclaration> interfaceDeclarations,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
@@ -578,10 +554,6 @@ abstract class _PackageApi extends PackageApi {
 
   /// path to the package
   String get packagePath;
-  @override
-
-  /// path to the package cluster
-  String get clusterPath;
   @override
 
   /// interface declarations this package has

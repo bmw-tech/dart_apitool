@@ -40,7 +40,7 @@ class ExecutableParameterDeclaration
     /// type name of this parameter
     required String typeName,
 
-    /// the relative type library path
+    /// the type library path
     required String? typeFullLibraryName,
 
     /// the relative path of the library

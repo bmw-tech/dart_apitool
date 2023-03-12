@@ -12,7 +12,6 @@ void main() {
       packageName: 'test_package',
       packageVersion: packageVersion,
       packagePath: 'test_package',
-      clusterPath: 'test_package',
       interfaceDeclarations: [],
       executableDeclarations: [],
       fieldDeclarations: [],

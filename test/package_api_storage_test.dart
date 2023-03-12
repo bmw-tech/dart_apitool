@@ -81,7 +81,6 @@ final testPackage1Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  clusterPath: '.',
   interfaceDeclarations: [
     InterfaceDeclaration(
       name: 'StorageTestClass',
@@ -216,7 +215,6 @@ final testPackage2Api = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  clusterPath: '.',
   interfaceDeclarations: [
     InterfaceDeclaration(
       name: 'StorageTestClass',
