@@ -1208,7 +1208,7 @@ class PackageApiDiffer {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
   }) {
-    if (oldTypeidentifier != newTypeIdentifier) {
+    if (oldTypeidentifier.name != newTypeIdentifier.name) {
       final isBreaking =
           !typeHierarchy.canBeAssigned(oldTypeidentifier, newTypeIdentifier);
       changes.add(ApiChange(
