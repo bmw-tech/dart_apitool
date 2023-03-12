@@ -6,6 +6,8 @@ import 'package:path/path.dart' as path;
 import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:tuple/tuple.dart';
 
+import '../tooling/tooling.dart';
+
 part 'type_hierarchy.freezed.dart';
 
 /// represents a type identifier
@@ -66,10 +68,20 @@ class TypeIdentifier with _$TypeIdentifier {
       );
     }
     // search for the nearest pubspec
-    final pathParts = path.split(path.normalize(path.dirname(libraryPath)));
+    final normalizedLibraryPath = path.normalize(path.dirname(libraryPath));
+    final pubCacheDir = PubInteraction.pubCacheDir;
+    final pathParts = path.split(normalizedLibraryPath);
     String? pubspecDirectoryPath;
     for (var i = pathParts.length - 1; i >= 0; i--) {
       final currentPath = path.joinAll(pathParts.sublist(0, i + 1));
+      if (path.absolute(pubCacheDir) == path.absolute(currentPath)) {
+        // safety measure #1: we don't want to leave the pub cache if libraryPath happens to be there
+        break;
+      }
+      if (pathParts[i] == 'dart-sdk') {
+        // safety measure #2: we don't want to leave the dart cache if libraryPath happens to be there
+        break;
+      }
       final currentPubspecPath = path.join(currentPath, 'pubspec.yaml');
       if (File(currentPubspecPath).existsSync()) {
         pubspecDirectoryPath = currentPath;
