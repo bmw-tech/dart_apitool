@@ -140,11 +140,6 @@ class _$_TypeIdentifier extends _TypeIdentifier {
   final String packageRelativeLibraryPath;
 
   @override
-  String toString() {
-    return 'TypeIdentifier(typeName: $typeName, packageName: $packageName, packageRelativeLibraryPath: $packageRelativeLibraryPath)';
-  }
-
-  @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -323,11 +318,6 @@ class _$__TypeHierarchyItem extends __TypeHierarchyItem {
       return _baseTypeIdentifiers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_baseTypeIdentifiers);
-  }
-
-  @override
-  String toString() {
-    return '_TypeHierarchyItem(typeIdentifier: $typeIdentifier, baseTypeIdentifiers: $baseTypeIdentifiers)';
   }
 
   @override

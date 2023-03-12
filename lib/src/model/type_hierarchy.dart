@@ -38,6 +38,11 @@ class TypeIdentifier with _$TypeIdentifier {
     required String packageRelativeLibraryPath,
   }) = _TypeIdentifier;
 
+  @override
+  String toString() {
+    return '$packageName:$typeName ($packageRelativeLibraryPath)';
+  }
+
   /// returns a copy of this type identifier without the optional flag
   TypeIdentifier asNonNullable() => TypeIdentifier(
         typeName: nonNullableTypeName,
@@ -221,4 +226,9 @@ class _TypeHierarchyItem with _$_TypeHierarchyItem {
     /// the type identifiers of the super types of this type
     required Set<TypeIdentifier> baseTypeIdentifiers,
   }) = __TypeHierarchyItem;
+
+  @override
+  String toString() {
+    return '$typeIdentifier [${baseTypeIdentifiers.join(', ')}]';
+  }
 }
