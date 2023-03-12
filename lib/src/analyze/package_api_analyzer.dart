@@ -33,7 +33,6 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
-  final String clusterPath;
   final bool doMergeBaseClasses;
   final bool doAnalyzePlatformConstraints;
   final bool doConsiderNonSrcAsEntryPoints;
@@ -48,11 +47,10 @@ class PackageApiAnalyzer {
   /// [doConsiderNonSrcAsEntryPoints] defines if all files that are not in the lib/src subdirectory are considered as entry points. Otherwise only files directly in the lib subdirectory are considered as entry points.
   PackageApiAnalyzer({
     required this.packagePath,
-    String? clusterPath,
     this.doMergeBaseClasses = true,
     this.doAnalyzePlatformConstraints = true,
     this.doConsiderNonSrcAsEntryPoints = false,
-  }) : clusterPath = clusterPath ?? packagePath {
+  }) {
     if (doMergeBaseClasses) {
       semantics.add(PackageApiSemantics.mergeBaseClasses);
     }
