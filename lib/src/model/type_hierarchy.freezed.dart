@@ -163,7 +163,7 @@ abstract class _TypeIdentifier extends TypeIdentifier {
 }
 
 /// @nodoc
-mixin _$TypeHierarchyItem {
+mixin _$_TypeHierarchyItem {
   /// the identifier of this type
   TypeIdentifier get typeIdentifier => throw _privateConstructorUsedError;
 
@@ -172,15 +172,15 @@ mixin _$TypeHierarchyItem {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TypeHierarchyItemCopyWith<TypeHierarchyItem> get copyWith =>
+  _$TypeHierarchyItemCopyWith<_TypeHierarchyItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TypeHierarchyItemCopyWith<$Res> {
-  factory $TypeHierarchyItemCopyWith(
-          TypeHierarchyItem value, $Res Function(TypeHierarchyItem) then) =
-      _$TypeHierarchyItemCopyWithImpl<$Res, TypeHierarchyItem>;
+abstract class _$TypeHierarchyItemCopyWith<$Res> {
+  factory _$TypeHierarchyItemCopyWith(
+          _TypeHierarchyItem value, $Res Function(_TypeHierarchyItem) then) =
+      __$TypeHierarchyItemCopyWithImpl<$Res, _TypeHierarchyItem>;
   @useResult
   $Res call(
       {TypeIdentifier typeIdentifier, Set<TypeIdentifier> baseTypeIdentifiers});
@@ -189,9 +189,9 @@ abstract class $TypeHierarchyItemCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TypeHierarchyItemCopyWithImpl<$Res, $Val extends TypeHierarchyItem>
-    implements $TypeHierarchyItemCopyWith<$Res> {
-  _$TypeHierarchyItemCopyWithImpl(this._value, this._then);
+class __$TypeHierarchyItemCopyWithImpl<$Res, $Val extends _TypeHierarchyItem>
+    implements _$TypeHierarchyItemCopyWith<$Res> {
+  __$TypeHierarchyItemCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -226,11 +226,11 @@ class _$TypeHierarchyItemCopyWithImpl<$Res, $Val extends TypeHierarchyItem>
 }
 
 /// @nodoc
-abstract class _$$_TypeHierarchyItemCopyWith<$Res>
-    implements $TypeHierarchyItemCopyWith<$Res> {
-  factory _$$_TypeHierarchyItemCopyWith(_$_TypeHierarchyItem value,
-          $Res Function(_$_TypeHierarchyItem) then) =
-      __$$_TypeHierarchyItemCopyWithImpl<$Res>;
+abstract class _$$__TypeHierarchyItemCopyWith<$Res>
+    implements _$TypeHierarchyItemCopyWith<$Res> {
+  factory _$$__TypeHierarchyItemCopyWith(_$__TypeHierarchyItem value,
+          $Res Function(_$__TypeHierarchyItem) then) =
+      __$$__TypeHierarchyItemCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -241,11 +241,11 @@ abstract class _$$_TypeHierarchyItemCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TypeHierarchyItemCopyWithImpl<$Res>
-    extends _$TypeHierarchyItemCopyWithImpl<$Res, _$_TypeHierarchyItem>
-    implements _$$_TypeHierarchyItemCopyWith<$Res> {
-  __$$_TypeHierarchyItemCopyWithImpl(
-      _$_TypeHierarchyItem _value, $Res Function(_$_TypeHierarchyItem) _then)
+class __$$__TypeHierarchyItemCopyWithImpl<$Res>
+    extends __$TypeHierarchyItemCopyWithImpl<$Res, _$__TypeHierarchyItem>
+    implements _$$__TypeHierarchyItemCopyWith<$Res> {
+  __$$__TypeHierarchyItemCopyWithImpl(
+      _$__TypeHierarchyItem _value, $Res Function(_$__TypeHierarchyItem) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -254,7 +254,7 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
     Object? typeIdentifier = null,
     Object? baseTypeIdentifiers = null,
   }) {
-    return _then(_$_TypeHierarchyItem(
+    return _then(_$__TypeHierarchyItem(
       typeIdentifier: null == typeIdentifier
           ? _value.typeIdentifier
           : typeIdentifier // ignore: cast_nullable_to_non_nullable
@@ -269,8 +269,8 @@ class __$$_TypeHierarchyItemCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TypeHierarchyItem extends _TypeHierarchyItem {
-  const _$_TypeHierarchyItem(
+class _$__TypeHierarchyItem extends __TypeHierarchyItem {
+  const _$__TypeHierarchyItem(
       {required this.typeIdentifier,
       required final Set<TypeIdentifier> baseTypeIdentifiers})
       : _baseTypeIdentifiers = baseTypeIdentifiers,
@@ -294,14 +294,14 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
 
   @override
   String toString() {
-    return 'TypeHierarchyItem(typeIdentifier: $typeIdentifier, baseTypeIdentifiers: $baseTypeIdentifiers)';
+    return '_TypeHierarchyItem(typeIdentifier: $typeIdentifier, baseTypeIdentifiers: $baseTypeIdentifiers)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TypeHierarchyItem &&
+            other is _$__TypeHierarchyItem &&
             (identical(other.typeIdentifier, typeIdentifier) ||
                 other.typeIdentifier == typeIdentifier) &&
             const DeepCollectionEquality()
@@ -315,17 +315,17 @@ class _$_TypeHierarchyItem extends _TypeHierarchyItem {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TypeHierarchyItemCopyWith<_$_TypeHierarchyItem> get copyWith =>
-      __$$_TypeHierarchyItemCopyWithImpl<_$_TypeHierarchyItem>(
+  _$$__TypeHierarchyItemCopyWith<_$__TypeHierarchyItem> get copyWith =>
+      __$$__TypeHierarchyItemCopyWithImpl<_$__TypeHierarchyItem>(
           this, _$identity);
 }
 
-abstract class _TypeHierarchyItem extends TypeHierarchyItem {
-  const factory _TypeHierarchyItem(
+abstract class __TypeHierarchyItem extends _TypeHierarchyItem {
+  const factory __TypeHierarchyItem(
           {required final TypeIdentifier typeIdentifier,
           required final Set<TypeIdentifier> baseTypeIdentifiers}) =
-      _$_TypeHierarchyItem;
-  const _TypeHierarchyItem._() : super._();
+      _$__TypeHierarchyItem;
+  const __TypeHierarchyItem._() : super._();
 
   @override
 
@@ -337,6 +337,6 @@ abstract class _TypeHierarchyItem extends TypeHierarchyItem {
   Set<TypeIdentifier> get baseTypeIdentifiers;
   @override
   @JsonKey(ignore: true)
-  _$$_TypeHierarchyItemCopyWith<_$_TypeHierarchyItem> get copyWith =>
+  _$$__TypeHierarchyItemCopyWith<_$__TypeHierarchyItem> get copyWith =>
       throw _privateConstructorUsedError;
 }

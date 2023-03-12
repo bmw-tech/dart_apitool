@@ -2,12 +2,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'type_hierarchy.freezed.dart';
 
+/// represents a type identifier
+/// consists of name and full library name
 @freezed
 class TypeIdentifier with _$TypeIdentifier {
   const TypeIdentifier._();
 
+  /// returns true if this type identifier contains the optional flag
   bool get isOptional => name.endsWith('?');
 
+  /// returns the name without the optional flag
   String get nameWithoutOptional =>
       name.endsWith('?') ? name.substring(0, name.length - 1) : name;
 
@@ -19,6 +23,7 @@ class TypeIdentifier with _$TypeIdentifier {
     required String? fullLibraryName,
   }) = _TypeIdentifier;
 
+  /// returns a copy of this type identifier without the optional flag
   TypeIdentifier asNonOptional() => TypeIdentifier(
         name: nameWithoutOptional,
         fullLibraryName: fullLibraryName,
@@ -27,7 +32,7 @@ class TypeIdentifier with _$TypeIdentifier {
 
 /// represents the type hierarchy of the public API of a package
 class TypeHierarchy {
-  final Map<String, Set<TypeHierarchyItem>> _types = {};
+  final Map<String, Set<_TypeHierarchyItem>> _types = {};
 
   TypeHierarchy._();
 
@@ -44,10 +49,14 @@ class TypeHierarchy {
     if (!_types.containsKey(typeIdentifier.name)) {
       _types[typeIdentifier.name] = {};
     }
-    _types[typeIdentifier.name]!.add(TypeHierarchyItem(
-      typeIdentifier: typeIdentifier,
-      baseTypeIdentifiers: baseTypeIdentifiers,
-    ));
+    // the set type the new item gets added to makes sure that we don't add the same type twice
+    // only if there are multiple occasions of types with the same name then we end up with multiple entries here (which is intended)
+    _types[typeIdentifier.name]!.add(
+      _TypeHierarchyItem(
+        typeIdentifier: typeIdentifier,
+        baseTypeIdentifiers: baseTypeIdentifiers,
+      ),
+    );
   }
 
   /// checks if [typeIdentifierToAssign] can be assigned to [targetTypeIdentifier]
@@ -68,18 +77,26 @@ class TypeHierarchy {
     return _isSubTypeOf(typeIdentifierToAssign, targetTypeIdentifier);
   }
 
-  bool _isSubTypeOf(TypeIdentifier potentialSubTypeIdentifier,
-      TypeIdentifier superTypeIdentifier) {
+  bool _isSubTypeOf(
+    TypeIdentifier potentialSubTypeIdentifier,
+    TypeIdentifier superTypeIdentifier,
+  ) {
     // find potential sub type
+    // we copy the set to avoid modifying the original set when removing items later
     final items = {...(_types[potentialSubTypeIdentifier.name] ?? {})};
 
     if (items.length > 1) {
-      // there are more than one type with the same name => we need to check the full library name
+      // there is more than one type with the same name => we need to check the full library name
+      // and remove all occurences that don't match
       items.removeWhere((i) =>
           i.typeIdentifier.fullLibraryName !=
           potentialSubTypeIdentifier.fullLibraryName);
     }
+
     // after removal of non-matching types: if there are no entries left or more than 1 entry is left => we can't tell and return false
+
+    // this can happen if the potentialSubTypeIdentifier and superTypeIdentifier come from different analyze runs and the folder structure changed
+    // between the runs (this happens always if path dependencies are involved => in that case we are screwed as there is no way of knowing which type is the correct one)
     if (items.isEmpty || items.length > 1) {
       return false;
     }
@@ -98,14 +115,14 @@ class TypeHierarchy {
 
 /// represents a type in the type hierarchy
 @freezed
-class TypeHierarchyItem with _$TypeHierarchyItem {
-  const TypeHierarchyItem._();
+class _TypeHierarchyItem with _$_TypeHierarchyItem {
+  const _TypeHierarchyItem._();
 
-  const factory TypeHierarchyItem({
+  const factory _TypeHierarchyItem({
     /// the identifier of this type
     required TypeIdentifier typeIdentifier,
 
     /// the type identifiers of the super types of this type
     required Set<TypeIdentifier> baseTypeIdentifiers,
-  }) = _TypeHierarchyItem;
+  }) = __TypeHierarchyItem;
 }
