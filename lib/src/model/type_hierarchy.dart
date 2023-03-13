@@ -16,16 +16,24 @@ part 'type_hierarchy.freezed.dart';
 class TypeIdentifier with _$TypeIdentifier {
   const TypeIdentifier._();
 
-  /// returns true if this type identifier contains the optional flag
+  /// returns true if this type identifier contains the nullable flag
   bool get isNullable => typeName.endsWith('?');
 
-  /// returns the name without the optional flag
+  /// returns the name without the nullable flag
   String get nonNullableTypeName => typeName.endsWith('?')
       ? typeName.substring(0, typeName.length - 1)
       : typeName;
 
+  /// returns the name with the nullable flag
+  String get nullableTypeName =>
+      typeName.endsWith('?') ? typeName : '$typeName?';
+
   /// returns a String containing the package name and the type name
   String get packageAndTypeName => '$packageName:$typeName';
+
+  /// returns a String containing the package name and the type name without nullable flag
+  String get nonNullablePackageAndTypeName =>
+      '$packageName:$nonNullableTypeName';
 
   const factory TypeIdentifier({
     /// the name of this type
@@ -43,9 +51,16 @@ class TypeIdentifier with _$TypeIdentifier {
     return '$packageName:$typeName ($packageRelativeLibraryPath)';
   }
 
-  /// returns a copy of this type identifier without the optional flag
+  /// returns a copy of this type identifier without the nullable flag
   TypeIdentifier asNonNullable() => TypeIdentifier(
         typeName: nonNullableTypeName,
+        packageName: packageName,
+        packageRelativeLibraryPath: packageRelativeLibraryPath,
+      );
+
+  /// returns a copy of this type identifier with the nullable flag
+  TypeIdentifier asNullable() => TypeIdentifier(
+        typeName: nullableTypeName,
         packageName: packageName,
         packageRelativeLibraryPath: packageRelativeLibraryPath,
       );
@@ -162,12 +177,16 @@ class TypeHierarchy {
     TypeIdentifier typeIdentifierToAssign,
     TypeIdentifier targetTypeIdentifier,
   ) {
-    // remove the optional flag as non-optionals can be assigned to optionals
-    if (!typeIdentifierToAssign.isNullable && targetTypeIdentifier.isNullable) {
-      targetTypeIdentifier = targetTypeIdentifier.asNonNullable();
+    // if we try to assign a nullable type to a non-nullable then we can return early
+    if (!targetTypeIdentifier.isNullable && typeIdentifierToAssign.isNullable) {
+      return false;
     }
 
-    /// if the names and packages are equal we consider then to be equal
+    // and then compare the types without Nullable
+    targetTypeIdentifier = targetTypeIdentifier.asNonNullable();
+    typeIdentifierToAssign = typeIdentifierToAssign.asNonNullable();
+
+    /// if the names and packages are equal we consider them to be equal
     if (typeIdentifierToAssign.packageAndTypeName ==
         targetTypeIdentifier.packageAndTypeName) {
       return true;
@@ -180,6 +199,14 @@ class TypeHierarchy {
     TypeIdentifier potentialSubTypeIdentifier,
     TypeIdentifier superTypeIdentifier,
   ) {
+    // if we can't find the type we try to use the nullable / non-nullable variant
+    if (!_types.containsKey(potentialSubTypeIdentifier.packageAndTypeName)) {
+      if (potentialSubTypeIdentifier.isNullable) {
+        potentialSubTypeIdentifier = potentialSubTypeIdentifier.asNonNullable();
+      } else {
+        potentialSubTypeIdentifier = potentialSubTypeIdentifier.asNullable();
+      }
+    }
     // find potential sub type
     // we copy the set to avoid modifying the original set when removing items later
     final items = {
@@ -205,7 +232,9 @@ class TypeHierarchy {
 
     // walk up the type hierarchy to check if we find [superTypeIdentifier]
     return potentialSubType.baseTypeIdentifiers.any((bti) {
-      if (bti.packageAndTypeName == superTypeIdentifier.packageAndTypeName) {
+      // compare the types null-flag independent by converting both sides to their nonNullable variants
+      if (bti.nonNullablePackageAndTypeName ==
+          superTypeIdentifier.nonNullablePackageAndTypeName) {
         return true;
       }
 
