@@ -111,7 +111,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
         collectedElementIds: _collectedElementIds,
         typeHierarchy: typeHierarchy,
         namespace: InternalDeclarationUtils.getNamespaceForElement(
-            type.element2, referringElement),
+            directElement, referringElement),
         rootPath: _context.rootPath,
       );
       directElement.accept(collector);
