@@ -92,6 +92,8 @@ class PackageApiAnalyzer {
     filesToAnalyze.addAll(
         _findPublicFilesInProject(normalizedAbsolutePublicEntrypointPath));
 
+    final typeHierarchy = TypeHierarchy.empty();
+
     while (filesToAnalyze.isNotEmpty) {
       final fileToAnalyze = filesToAnalyze.first;
       filesToAnalyze.removeFirst();
@@ -111,6 +113,7 @@ class PackageApiAnalyzer {
               shownNames: fileToAnalyze.shownNames,
               hiddenNames: fileToAnalyze.hiddenNames,
               rootPath: normalizedAbsoluteProjectPath,
+              typeHierarchy: typeHierarchy,
             );
             unitResult.libraryElement.accept(collector);
             final skippedInterfaces = <int>[];
@@ -358,6 +361,7 @@ class PackageApiAnalyzer {
       sdkType: isFlutter ? SdkType.flutter : SdkType.dart,
       minSdkVersion: minSdkVersion ?? Version.none,
       packageDependencies: packageDependencies,
+      typeHierarchy: typeHierarchy,
     );
   }
 

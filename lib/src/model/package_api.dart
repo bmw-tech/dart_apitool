@@ -9,6 +9,7 @@ import 'field_declaration.dart';
 import 'package_api_semantics.dart';
 import 'package_dependency.dart';
 import 'sdk_type.dart';
+import 'type_hierarchy.dart';
 
 part 'package_api.freezed.dart';
 
@@ -56,5 +57,8 @@ class PackageApi with _$PackageApi {
 
     /// minimum sdk version
     required Version minSdkVersion,
+
+    /// the type hierarchy of the public API
+    required TypeHierarchy typeHierarchy,
   }) = _PackageApi;
 }

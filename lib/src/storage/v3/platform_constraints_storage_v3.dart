@@ -16,12 +16,6 @@ class IOSPlatformConstraintsStorageV3 with _$IOSPlatformConstraintsStorageV3 {
   factory IOSPlatformConstraintsStorageV3.fromJson(Map<String, Object?> json) =>
       _$IOSPlatformConstraintsStorageV3FromJson(json);
 
-  IOSPlatformConstraints toIOSPlatformConstraints() {
-    return IOSPlatformConstraints(
-      minimumOsVersion: minimumOsVersion,
-    );
-  }
-
   static IOSPlatformConstraintsStorageV3? fromIOSPlatformConstraints(
       IOSPlatformConstraints? iosPlatformConstraints) {
     if (iosPlatformConstraints == null) {
@@ -47,14 +41,6 @@ class AndroidPlatformConstraintsStorageV3
   factory AndroidPlatformConstraintsStorageV3.fromJson(
           Map<String, Object?> json) =>
       _$AndroidPlatformConstraintsStorageV3FromJson(json);
-
-  AndroidPlatformConstraints toAndroidPlatformConstraints() {
-    return AndroidPlatformConstraints(
-      minSdkVersion: minSdkVersion,
-      compileSdkVersion: compileSdkVersion,
-      targetSdkVersion: targetSdkVersion,
-    );
-  }
 
   static AndroidPlatformConstraintsStorageV3? fromAndroidPlatformConstraints(
       AndroidPlatformConstraints? constraints) {

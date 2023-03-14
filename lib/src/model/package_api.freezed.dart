@@ -62,6 +62,9 @@ mixin _$PackageApi {
   /// minimum sdk version
   Version get minSdkVersion => throw _privateConstructorUsedError;
 
+  /// the type hierarchy of the public API
+  TypeHierarchy get typeHierarchy => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $PackageApiCopyWith<PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
@@ -86,7 +89,8 @@ abstract class $PackageApiCopyWith<$Res> {
       IOSPlatformConstraints? iosPlatformConstraints,
       SdkType sdkType,
       List<PackageDependency> packageDependencies,
-      Version minSdkVersion});
+      Version minSdkVersion,
+      TypeHierarchy typeHierarchy});
 
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
@@ -118,6 +122,7 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     Object? sdkType = null,
     Object? packageDependencies = null,
     Object? minSdkVersion = null,
+    Object? typeHierarchy = null,
   }) {
     return _then(_value.copyWith(
       packageName: null == packageName
@@ -172,6 +177,10 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      typeHierarchy: null == typeHierarchy
+          ? _value.typeHierarchy
+          : typeHierarchy // ignore: cast_nullable_to_non_nullable
+              as TypeHierarchy,
     ) as $Val);
   }
 
@@ -223,7 +232,8 @@ abstract class _$$_PackageApiCopyWith<$Res>
       IOSPlatformConstraints? iosPlatformConstraints,
       SdkType sdkType,
       List<PackageDependency> packageDependencies,
-      Version minSdkVersion});
+      Version minSdkVersion,
+      TypeHierarchy typeHierarchy});
 
   @override
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
@@ -255,6 +265,7 @@ class __$$_PackageApiCopyWithImpl<$Res>
     Object? sdkType = null,
     Object? packageDependencies = null,
     Object? minSdkVersion = null,
+    Object? typeHierarchy = null,
   }) {
     return _then(_$_PackageApi(
       packageName: null == packageName
@@ -309,6 +320,10 @@ class __$$_PackageApiCopyWithImpl<$Res>
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
+      typeHierarchy: null == typeHierarchy
+          ? _value.typeHierarchy
+          : typeHierarchy // ignore: cast_nullable_to_non_nullable
+              as TypeHierarchy,
     ));
   }
 }
@@ -329,7 +344,8 @@ class _$_PackageApi extends _PackageApi {
       this.iosPlatformConstraints,
       required this.sdkType,
       required final List<PackageDependency> packageDependencies,
-      required this.minSdkVersion})
+      required this.minSdkVersion,
+      required this.typeHierarchy})
       : _interfaceDeclarations = interfaceDeclarations,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -438,9 +454,13 @@ class _$_PackageApi extends _PackageApi {
   @override
   final Version minSdkVersion;
 
+  /// the type hierarchy of the public API
+  @override
+  final TypeHierarchy typeHierarchy;
+
   @override
   String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion)';
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
   }
 
   @override
@@ -474,7 +494,9 @@ class _$_PackageApi extends _PackageApi {
             const DeepCollectionEquality()
                 .equals(other._packageDependencies, _packageDependencies) &&
             (identical(other.minSdkVersion, minSdkVersion) ||
-                other.minSdkVersion == minSdkVersion));
+                other.minSdkVersion == minSdkVersion) &&
+            (identical(other.typeHierarchy, typeHierarchy) ||
+                other.typeHierarchy == typeHierarchy));
   }
 
   @override
@@ -492,7 +514,8 @@ class _$_PackageApi extends _PackageApi {
       iosPlatformConstraints,
       sdkType,
       const DeepCollectionEquality().hash(_packageDependencies),
-      minSdkVersion);
+      minSdkVersion,
+      typeHierarchy);
 
   @JsonKey(ignore: true)
   @override
@@ -515,7 +538,8 @@ abstract class _PackageApi extends PackageApi {
       final IOSPlatformConstraints? iosPlatformConstraints,
       required final SdkType sdkType,
       required final List<PackageDependency> packageDependencies,
-      required final Version minSdkVersion}) = _$_PackageApi;
+      required final Version minSdkVersion,
+      required final TypeHierarchy typeHierarchy}) = _$_PackageApi;
   const _PackageApi._() : super._();
 
   @override
@@ -570,6 +594,10 @@ abstract class _PackageApi extends PackageApi {
 
   /// minimum sdk version
   Version get minSdkVersion;
+  @override
+
+  /// the type hierarchy of the public API
+  TypeHierarchy get typeHierarchy;
   @override
   @JsonKey(ignore: true)
   _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>

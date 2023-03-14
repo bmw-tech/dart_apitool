@@ -65,7 +65,8 @@ this is a non-breaking change.
 this is a breaking change.
 
 ### <a name="CE08" />Executable parameter type is changed (CE08)
-this is a breaking change.
+This change is considered breaking if the new type of the parameter is narrower than or completely unrelated to the old type.
+If the new type is wider (like making it nullable or using a supertype) then the change is non-breaking.
 
 ### <a name="CE09" />Executable return type is changed (CE09)
 This is always a breaking change.

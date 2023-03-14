@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.14.0
+- improves change type detection for parameter type changes
+
 ## Version 0.13.0
 - fixes an issue with required interface detection on property and field usage
 - default behavior of `--ignore-prerelease` is now `on`

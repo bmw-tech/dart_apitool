@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:analyzer/dart/element/element.dart';
 
 import '../executable_declaration.dart';
@@ -57,9 +59,11 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           isExperimental:
               InternalDeclarationUtils.hasExperimental(executableElement),
           parameters: _computeParameterList(
-              executableElement.parameters,
-              InternalDeclarationUtils.getRelativePath(
-                  rootPath, executableElement)),
+            executableElement.parameters,
+            InternalDeclarationUtils.getRelativePath(
+                rootPath, executableElement),
+            rootPath,
+          ),
           typeParameterNames:
               _computeTypeParameters(executableElement.typeParameters),
           type: _computeExecutableType(executableElement),
@@ -95,16 +99,20 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   }
 
   static List<ExecutableParameterDeclaration> _computeParameterList(
-      List<ParameterElement> parameterElementList, String relativePath) {
+      List<ParameterElement> parameterElementList,
+      String relativePath,
+      String rootPath) {
     return parameterElementList
         .map((e) => ExecutableParameterDeclaration(
-            isRequired: e.isRequired,
-            isNamed: e.isNamed,
-            name: e.name,
-            isDeprecated: e.hasDeprecated,
-            isExperimental: InternalDeclarationUtils.hasExperimental(e),
-            typeName: e.type.getDisplayString(withNullability: true),
-            relativePath: relativePath))
+              isRequired: e.isRequired,
+              isNamed: e.isNamed,
+              name: e.name,
+              isDeprecated: e.hasDeprecated,
+              isExperimental: InternalDeclarationUtils.hasExperimental(e),
+              typeName: e.type.getDisplayString(withNullability: true),
+              typeFullLibraryName: e.type.element2?.librarySource?.fullName,
+              relativePath: relativePath,
+            ))
         .toList();
   }
 

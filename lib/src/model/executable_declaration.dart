@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../utils/string_utils.dart';
+import '../utils/utils.dart';
 import 'declaration.dart';
 
 part 'executable_declaration.freezed.dart';
@@ -39,6 +39,9 @@ class ExecutableParameterDeclaration
 
     /// type name of this parameter
     required String typeName,
+
+    /// the type library path
+    required String? typeFullLibraryName,
 
     /// the relative path of the library
     required String relativePath,

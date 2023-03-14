@@ -19,6 +19,7 @@ void main() {
       sdkType: sdkType,
       packageDependencies: [],
       minSdkVersion: Version.parse('2.10.5'),
+      typeHierarchy: TypeHierarchy.empty(),
     );
   }
 

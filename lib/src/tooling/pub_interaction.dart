@@ -42,12 +42,8 @@ abstract class PubInteraction {
     return true;
   }
 
-  /// returns the cache path of a package with the given [packageName] and [version]
-  static String getPackagePathInCache(String packageName, String version) {
-    String getHostedDirectory(String cacheDir, String hostedUrl) {
-      return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
-    }
-
+  /// gets the pub cache directory
+  static String get pubCacheDir {
     String? cacheDir = Platform.environment['PUB_CACHE'];
     if (cacheDir == null) {
       if (Platform.isWindows) {
@@ -57,6 +53,17 @@ abstract class PubInteraction {
         cacheDir = path.join(Platform.environment['HOME']!, '.pub-cache');
       }
     }
+    return cacheDir;
+  }
+
+  /// returns the cache path of a package with the given [packageName] and [version]
+  static String getPackagePathInCache(String packageName, String version) {
+    String getHostedDirectory(String cacheDir, String hostedUrl) {
+      return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
+    }
+
+    final cacheDir = pubCacheDir;
+
     final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
     final envHosted =
         envHostedUrl == null ? null : Uri.parse(envHostedUrl).host;

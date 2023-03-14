@@ -22,17 +22,6 @@ class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
   factory TypeAliasDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
       _$TypeAliasDeclarationStorageV3FromJson(json);
 
-  TypeAliasDeclaration toTypeAliasDeclaration() {
-    return TypeAliasDeclaration(
-      name: name,
-      aliasedTypeName: aliasedTypeName,
-      isDeprecated: isDeprecated,
-      isExperimental: isExperimental,
-      entryPoints: entryPoints,
-      relativePath: relativePath,
-    );
-  }
-
   static TypeAliasDeclarationStorageV3 fromTypeAliasDeclaration(
       TypeAliasDeclaration typeAliasDeclaration) {
     return TypeAliasDeclarationStorageV3(

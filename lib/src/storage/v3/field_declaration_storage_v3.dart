@@ -23,18 +23,6 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
   factory FieldDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
       _$FieldDeclarationStorageV3FromJson(json);
 
-  FieldDeclaration toFieldDeclaration() {
-    return FieldDeclaration(
-      typeName: typeName,
-      name: name,
-      isDeprecated: isDeprecated,
-      isExperimental: isExperimental,
-      isStatic: isStatic,
-      entryPoints: entryPoints,
-      relativePath: relativePath,
-    );
-  }
-
   static FieldDeclarationStorageV3 fromFieldDeclaration(
       FieldDeclaration fieldDeclaration) {
     return FieldDeclarationStorageV3(

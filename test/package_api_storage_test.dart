@@ -103,6 +103,7 @@ final testPackage1Api = PackageApi(
               isDeprecated: false,
               isExperimental: false,
               typeName: 'T',
+              typeFullLibraryName: null,
               relativePath: '',
             ),
             ExecutableParameterDeclaration(
@@ -112,6 +113,7 @@ final testPackage1Api = PackageApi(
               isDeprecated: false,
               isExperimental: false,
               typeName: 'GetStringMode',
+              typeFullLibraryName: null,
               relativePath: '',
             ),
           ],
@@ -140,6 +142,7 @@ final testPackage1Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy.empty(),
 );
 
 final package1JsonString = '''
@@ -234,6 +237,7 @@ final testPackage2Api = PackageApi(
               isDeprecated: false,
               isExperimental: false,
               typeName: 'T',
+              typeFullLibraryName: null,
               relativePath: '',
             ),
             ExecutableParameterDeclaration(
@@ -243,6 +247,7 @@ final testPackage2Api = PackageApi(
               isDeprecated: false,
               isExperimental: false,
               typeName: 'GetStringMode',
+              typeFullLibraryName: null,
               relativePath: '',
             ),
           ],
@@ -285,6 +290,7 @@ final testPackage2Api = PackageApi(
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
   packageDependencies: [],
+  typeHierarchy: TypeHierarchy.empty(),
 );
 
 final package2JsonString = '''
