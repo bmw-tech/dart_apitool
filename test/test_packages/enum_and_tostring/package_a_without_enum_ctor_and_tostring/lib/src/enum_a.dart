@@ -3,7 +3,7 @@ enum EnumA {
   val2(2),
   val3(3);
 
-  const EnumA._(this.val)
+  const EnumA._(this.val);
 
   final int val;
 }
