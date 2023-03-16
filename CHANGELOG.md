@@ -2,7 +2,7 @@
 
 ## Version 0.14.0
 - improves change type detection for parameter type changes (widening types is now considered non-breaking)
-- ignores enum constructors and Object elements (toString and hashCode) as they are not relevant for the API
+- ignores enum constructors and elements marked with @override
 
 ## Version 0.13.0
 - fixes an issue with required interface detection on property and field usage
