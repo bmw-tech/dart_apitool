@@ -177,23 +177,17 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   bool _isElementAllowedToBeCollected(Element element) {
-    // here we filter out elements that are technically part of the public API but actually aren't
-    // either because they can not be used (like Enum constructors) or are present via the Object base class anyways
+    // here we filter out elements that are technically part of the public API but actually aren't accessible
+    // (like Enum constructors)
     if (element is ConstructorElement) {
       // constructors of enums aren't collected
       if (element.enclosingElement is EnumElement) {
         return false;
       }
-    } else if (element is MethodElement) {
-      // don't collect toString of Objects
-      if (element.name == 'toString' && element.parameters.isEmpty) {
-        return false;
-      }
-    } else if (element is FieldElement) {
-      // don't collect hashCode of Objects
-      if (element.name == 'hashCode') {
-        return false;
-      }
+    }
+    // don't collect any override -> already part of the source
+    if (element.hasOverride) {
+      return false;
     }
 
     // if the element is public, it is allowed to be collected
