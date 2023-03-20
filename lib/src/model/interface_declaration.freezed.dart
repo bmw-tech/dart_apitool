@@ -25,6 +25,9 @@ mixin _$InterfaceDeclaration {
   /// whether this interface is experimental
   bool get isExperimental => throw _privateConstructorUsedError;
 
+  /// determines if this declaration is sealed
+  bool get isSealed => throw _privateConstructorUsedError;
+
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   bool get isRequired => throw _privateConstructorUsedError;
 
@@ -63,6 +66,7 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
       {String name,
       bool isDeprecated,
       bool isExperimental,
+      bool isSealed,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -89,6 +93,7 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isExperimental = null,
+    Object? isSealed = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -109,6 +114,10 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
       isExperimental: null == isExperimental
           ? _value.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSealed: null == isSealed
+          ? _value.isSealed
+          : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -154,6 +163,7 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
       {String name,
       bool isDeprecated,
       bool isExperimental,
+      bool isSealed,
       bool isRequired,
       List<String> typeParameterNames,
       List<String> superTypeNames,
@@ -177,6 +187,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
     Object? name = null,
     Object? isDeprecated = null,
     Object? isExperimental = null,
+    Object? isSealed = null,
     Object? isRequired = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
@@ -197,6 +208,10 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
       isExperimental: null == isExperimental
           ? _value.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSealed: null == isSealed
+          ? _value.isSealed
+          : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
           ? _value.isRequired
@@ -237,6 +252,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       {required this.name,
       required this.isDeprecated,
       required this.isExperimental,
+      required this.isSealed,
       required this.isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
@@ -262,6 +278,10 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   /// whether this interface is experimental
   @override
   final bool isExperimental;
+
+  /// determines if this declaration is sealed
+  @override
+  final bool isSealed;
 
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
   @override
@@ -333,7 +353,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
 
   @override
   String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -346,6 +366,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
                 other.isDeprecated == isDeprecated) &&
             (identical(other.isExperimental, isExperimental) ||
                 other.isExperimental == isExperimental) &&
+            (identical(other.isSealed, isSealed) ||
+                other.isSealed == isSealed) &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             const DeepCollectionEquality()
@@ -368,6 +390,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       name,
       isDeprecated,
       isExperimental,
+      isSealed,
       isRequired,
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
@@ -390,6 +413,7 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       {required final String name,
       required final bool isDeprecated,
       required final bool isExperimental,
+      required final bool isSealed,
       required final bool isRequired,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
@@ -411,6 +435,10 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
 
   /// whether this interface is experimental
   bool get isExperimental;
+  @override
+
+  /// determines if this declaration is sealed
+  bool get isSealed;
   @override
 
   /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package

@@ -29,6 +29,9 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
     /// whether this interface is experimental
     required bool isExperimental,
 
+    /// determines if this declaration is sealed
+    required bool isSealed,
+
     /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
     required bool isRequired,
 

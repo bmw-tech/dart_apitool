@@ -86,6 +86,7 @@ final testPackage1Api = PackageApi(
       name: 'StorageTestClass',
       isDeprecated: false,
       isExperimental: false,
+      isSealed: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
@@ -220,6 +221,7 @@ final testPackage2Api = PackageApi(
       name: 'StorageTestClass',
       isDeprecated: false,
       isExperimental: false,
+      isSealed: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [

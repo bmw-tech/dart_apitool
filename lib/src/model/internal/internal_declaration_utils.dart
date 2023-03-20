@@ -40,6 +40,17 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
+  static bool hasSealed(Element element) {
+    bool result = element.metadata.any((annotation) {
+      // this is really hacky but currently there is no other way of getting into the guts of the annotation
+      dynamic dynamicAnnotation = annotation;
+      final String annotationName = dynamicAnnotation.annotationAst.name.name;
+
+      return annotationName == 'sealed' || annotationName == 'Sealed';
+    });
+    return result;
+  }
+
   static String getRelativePath(String rootPath, Element? element) {
     final name = element?.librarySource?.fullName;
     if (name != null) {

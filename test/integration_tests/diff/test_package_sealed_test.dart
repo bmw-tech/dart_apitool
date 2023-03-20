@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:path/path.dart' as path;
 
 void main() {
-  group('test_package_experimental (experimental)', () {
+  group('test_package_experimental (sealed)', () {
     late PackageApiAnalyzer packageAWithExperimental;
     late PackageApiAnalyzer packageAWithoutExperimental;
 
@@ -25,7 +25,7 @@ void main() {
         ));
       },
     );
-    group('with experimental to without experimental', () {
+    group('with sealed to without sealed', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
@@ -34,13 +34,14 @@ void main() {
         );
       });
 
-      test('detects removal of experimental flag', () {
+      test('detects removal of sealed flag', () {
         expect(diffResult.apiChanges.length,
             6); // experimental + meta package + sealed + remove method
         expect(
           diffResult.apiChanges.any(
             (element) =>
-                element.affectedDeclaration?.name == 'ClassA' &&
+                element.affectedDeclaration?.name == 'ClassD' &&
+                element.changeDescription.contains('Sealed') &&
                 !element.isBreaking,
           ),
           isTrue,
@@ -48,22 +49,14 @@ void main() {
         expect(
           diffResult.apiChanges.any(
             (element) =>
-                element.affectedDeclaration?.name == 'name' &&
-                !element.isBreaking,
-          ),
-          isTrue,
-        );
-        expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'getName' &&
-                !element.isBreaking,
+                element.affectedDeclaration?.name == 'newMethod' &&
+                element.isBreaking,
           ),
           isTrue,
         );
       });
     });
-    group('without experimental to with experimental', () {
+    group('without sealed to with sealed', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
@@ -72,13 +65,14 @@ void main() {
         );
       });
 
-      test('detects addition of experimental flag', () {
+      test('detects addition of sealed flag', () {
         expect(diffResult.apiChanges.length,
-            6); // experimental + meta package + sealed + remove method
+            6); // experimental + meta package + sealed + add method
         expect(
           diffResult.apiChanges.any(
             (element) =>
-                element.affectedDeclaration?.name == 'ClassA' &&
+                element.affectedDeclaration?.name == 'ClassD' &&
+                element.changeDescription.contains('Sealed') &&
                 element.isBreaking,
           ),
           isTrue,
@@ -86,16 +80,8 @@ void main() {
         expect(
           diffResult.apiChanges.any(
             (element) =>
-                element.affectedDeclaration?.name == 'name' &&
-                element.isBreaking,
-          ),
-          isTrue,
-        );
-        expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'getName' &&
-                element.isBreaking,
+                element.affectedDeclaration?.name == 'newMethod' &&
+                !element.isBreaking,
           ),
           isTrue,
         );

@@ -40,6 +40,9 @@ This is a non-breaking change.
 ### <a name="CI10" />The experimental status of an interface is changed (CI10)
 If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
 
+### <a name="CI11" />The sealed status of an interface is changed (CI10)
+If the flag got removed then this change is non-breaking. Adding a sealed flag is considered a breaking change.
+
 ## Executables are constructors, methods and functions. They are all treated the same way.
 
 ### <a name="CE01" />Executable parameter(s) are removed (CE01)
