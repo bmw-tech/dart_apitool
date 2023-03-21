@@ -9,7 +9,7 @@ enum ApiChangeCode {
   ci08._('CI08', 'type parameter removed'),
   ci09._('CI09', 'deprecated status changed'),
   ci10._('CI10', 'experimental status changed'),
-  ci11._('CI10', 'sealed status changed'),
+  ci11._('CI11', 'sealed status changed'),
   ce01._('CE01', 'executable parameters removed'),
   ce02._('CE02', 'executable parameters added'),
   ce03._('CE03', 'executable parameters renamed'),
