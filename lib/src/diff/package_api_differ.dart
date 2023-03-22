@@ -214,6 +214,18 @@ class PackageApiDiffer {
         isExperimental:
             false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
       );
+      _comparePropertiesAndAddChange(
+        oldInterface.isSealed,
+        newInterface.isSealed,
+        context,
+        newInterface,
+        'Sealed Flag changed. ${oldInterface.isSealed} -> ${newInterface.isSealed}',
+        changes,
+        isCompatibleChange: !newInterface
+            .isSealed, //this is only non-breaking if the sealed flag is removed
+        changeCode: ApiChangeCode.ci11,
+        isExperimental: isExperimental,
+      );
 
       return changes;
     });

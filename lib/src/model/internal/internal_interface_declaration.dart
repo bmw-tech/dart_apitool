@@ -20,6 +20,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   final bool isPrivate;
   final bool isDeprecated;
   final bool isExperimental;
+  final bool isSealed;
   final bool isAbstract;
   final List<String> typeParameterNames;
   final List<String> superTypeNames;
@@ -39,6 +40,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
     required this.isPrivate,
     required this.isDeprecated,
     required this.isExperimental,
+    required this.isSealed,
     required this.isAbstract,
     required this.typeParameterNames,
     required this.superTypeNames,
@@ -63,6 +65,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           isDeprecated: interfaceElement.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(interfaceElement),
+          isSealed: InternalDeclarationUtils.hasSealed(interfaceElement),
           isAbstract:
               (interfaceElement is ClassElement) && interfaceElement.isAbstract,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
@@ -94,6 +97,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           isDeprecated: extensionElement.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(extensionElement),
+          isSealed: InternalDeclarationUtils.hasSealed(extensionElement),
           isAbstract: false,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               extensionElement.typeParameters),
@@ -112,6 +116,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
+      isSealed: isSealed,
       typeParameterNames: typeParameterNames,
       superTypeNames: superTypeNames,
       executableDeclarations: executableDeclarations,

@@ -28,16 +28,28 @@ abstract class InternalDeclarationUtils {
         .toList();
   }
 
-  static bool hasExperimental(Element element) {
+  static bool containsAnnotation(Element element, String name,
+      {bool ignoreCase = true}) {
     bool result = element.metadata.any((annotation) {
       // this is really hacky but currently there is no other way of getting into the guts of the annotation
       dynamic dynamicAnnotation = annotation;
       final String annotationName = dynamicAnnotation.annotationAst.name.name;
 
-      return annotationName == 'experimental' ||
-          annotationName == 'Experimental';
+      if (ignoreCase) {
+        return annotationName.toUpperCase() == name.toUpperCase();
+      } else {
+        return annotationName == name;
+      }
     });
     return result;
+  }
+
+  static bool hasExperimental(Element element) {
+    return containsAnnotation(element, 'experimental');
+  }
+
+  static bool hasSealed(Element element) {
+    return containsAnnotation(element, 'sealed');
   }
 
   static String getRelativePath(String rootPath, Element? element) {

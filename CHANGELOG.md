@@ -3,6 +3,7 @@
 ## Version 0.14.0
 - improves change type detection for parameter type changes (widening types is now considered non-breaking)
 - ignores enum constructors and elements marked with @override
+- detects @sealed classes and doesn't consider them as required interfaces
 
 ## Version 0.13.0
 - fixes an issue with required interface detection on property and field usage

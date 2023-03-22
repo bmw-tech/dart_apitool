@@ -320,7 +320,9 @@ class PackageApiAnalyzer {
             'We found multiple classes sharing the same classId!');
         final cd = entry.interfaceDeclarations.single;
         packageInterfaceDeclarations.add(cd.toInterfaceDeclaration(
-            isRequired: cd.isAbstract && requiredElements.contains(cd.id)));
+          isRequired:
+              cd.isAbstract && requiredElements.contains(cd.id) && !cd.isSealed,
+        ));
       }
     }
 

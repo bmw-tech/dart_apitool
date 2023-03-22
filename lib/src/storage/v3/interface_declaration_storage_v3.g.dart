@@ -14,6 +14,7 @@ _$_InterfaceDeclarationStorageV3 _$$_InterfaceDeclarationStorageV3FromJson(
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       isExperimental: json['isExperimental'] as bool,
+      isSealed: json['isSealed'] as bool,
       isRequired: json['isRequired'] as bool,
       typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
           .map((e) => e as String)
@@ -41,6 +42,7 @@ Map<String, dynamic> _$$_InterfaceDeclarationStorageV3ToJson(
       'name': instance.name,
       'isDeprecated': instance.isDeprecated,
       'isExperimental': instance.isExperimental,
+      'isSealed': instance.isSealed,
       'isRequired': instance.isRequired,
       'typeParameterNames': instance.typeParameterNames,
       'superTypeNames': instance.superTypeNames,
