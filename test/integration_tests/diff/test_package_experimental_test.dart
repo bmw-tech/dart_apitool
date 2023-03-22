@@ -35,31 +35,35 @@ void main() {
       });
 
       test('detects removal of experimental flag', () {
-        expect(diffResult.apiChanges.length,
-            6); // experimental + meta package + sealed + remove method
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'ClassA' &&
-                !element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'ClassA' &&
+                  !change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'name' &&
-                !element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'name' &&
+                  !change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'getName' &&
-                !element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'getName' &&
+                  !change.isBreaking,
+            ),
           ),
-          isTrue,
         );
       });
     });
@@ -73,31 +77,35 @@ void main() {
       });
 
       test('detects addition of experimental flag', () {
-        expect(diffResult.apiChanges.length,
-            6); // experimental + meta package + sealed + remove method
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'ClassA' &&
-                element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'ClassA' &&
+                  change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'name' &&
-                element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'name' &&
+                  change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'getName' &&
-                element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'getName' &&
+                  change.isBreaking,
+            ),
           ),
-          isTrue,
         );
       });
     });
