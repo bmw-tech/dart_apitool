@@ -14,7 +14,6 @@ String _optionNameNew = 'new';
 String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameVersionCheckMode = 'version-check-mode';
 String _optionNameIgnorePrerelease = 'ignore-prerelease';
-String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
 String _optionNameCheckSdkVersion = 'check-sdk-version';
@@ -72,12 +71,6 @@ You may want to do this if you want to make sure
       negatable: true,
     );
     argParser.addFlag(
-      _optionNameNoMergeBaseClasses,
-      help: 'Disables base class merging.',
-      defaultsTo: false,
-      negatable: false,
-    );
-    argParser.addFlag(
       _optionNameNoAnalyzePlatformConstraints,
       help: 'Disables analysis of platform constraints.',
       defaultsTo: false,
@@ -107,8 +100,6 @@ You may want to do this if you want to make sure
         (element) => element.name == argResults![_optionNameVersionCheckMode]);
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
     final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
-    final noMergeBaseClasses =
-        argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
     final dependencyCheckMode = DependencyCheckMode.values.firstWhere(
@@ -127,13 +118,11 @@ You may want to do this if you want to make sure
 
     final oldPackageApi = await analyze(
       preparedOldPackageRef,
-      doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,
     );
     final newPackageApi = await analyze(
       preparedNewPackageRef,
-      doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,
     );

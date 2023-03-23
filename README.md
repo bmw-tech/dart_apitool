@@ -56,7 +56,6 @@ Usage: dart-apitool extract [arguments]
                                          (defaults to off)
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
-    --no-merge-base-classes              Disables base class merging.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
@@ -95,7 +94,6 @@ Usage: dart-apitool diff [arguments]
                                          You may want to do this if you want to make sure
                                          (in your CI) that the version - once ready - matches semver.
                                          (defaults to on)
-    --no-merge-base-classes              Disables base class merging.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
     --dependency-check-mode              Defines the mode package dependency changes are handled.
                                          [none, allowAdding, strict (default)]

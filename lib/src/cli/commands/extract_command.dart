@@ -9,7 +9,6 @@ import 'command_mixin.dart';
 String _optionNameInput = 'input';
 String _optionNameIncludePathDependencies = 'include-path-dependencies';
 String _optionNameOutput = 'output';
-String _optionNameNoMergeBaseClasses = 'no-merge-base-classes';
 String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
 String _optionNameRemoveExample = 'remove-example';
@@ -42,12 +41,6 @@ If not specified the extracted API will be printed to the console.
 ''',
     );
     argParser.addFlag(
-      _optionNameNoMergeBaseClasses,
-      help: 'Disables base class merging.',
-      defaultsTo: false,
-      negatable: false,
-    );
-    argParser.addFlag(
       _optionNameNoAnalyzePlatformConstraints,
       help: 'Disables analysis of platform constraints.',
       defaultsTo: false,
@@ -66,8 +59,6 @@ If not specified the extracted API will be printed to the console.
     final packageRef = PackageRef(argResults![_optionNameInput]);
     final shouldCheckPathDependencies =
         argResults![_optionNameIncludePathDependencies] as bool;
-    final noMergeBaseClasses =
-        argResults![_optionNameNoMergeBaseClasses] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
     final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
@@ -78,7 +69,6 @@ If not specified the extracted API will be printed to the console.
     );
     final packageApi = await analyze(
       preparedPackageRef,
-      doMergeBaseClasses: !noMergeBaseClasses,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,
     );
@@ -95,6 +85,15 @@ If not specified the extracted API will be printed to the console.
       stdout.writeln('Public API of "$packageRef" written to $outFilePath');
     } else {
       stdout.writeln(jsonString);
+    }
+
+    final declarationsWithoutEntryPoints =
+        packageApi.getRootDeclarationsWithoutEntryPoints();
+    if (declarationsWithoutEntryPoints.isNotEmpty) {
+      stdout.writeln('The following declarations do not have an entry point:');
+      for (final declaration in declarationsWithoutEntryPoints) {
+        stdout.writeln('  ${declaration.name}');
+      }
     }
     return 0;
   }

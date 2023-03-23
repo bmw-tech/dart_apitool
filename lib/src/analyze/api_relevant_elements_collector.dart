@@ -54,6 +54,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   }
 
   late final Set<int> _collectedElementIds;
+
+  /// [directlyCollectedElementIds] is the set of element ids that are directly collected by this visitor
+  Set<int> directlyCollectedElementIds = {};
+
   final _AnalysisContext _context;
 
   String? _packageName;
@@ -201,6 +205,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   /// marks the given element as collected.
   /// Returns [true] if it got marked, returns [false] if it is already marked as collected
   bool _markElementAsCollected(Element element) {
+    directlyCollectedElementIds.add(element.id);
     if (_collectedElementIds.contains(element.id)) {
       return false;
     }

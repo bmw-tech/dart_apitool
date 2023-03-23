@@ -22,7 +22,6 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
-import '../utils/string_utils.dart';
 import 'constraints/android_platform_constraints_helper.dart';
 import 'constraints/ios_platform_contraints_helper.dart';
 import 'dependencies/package_dependencies_helper.dart';
@@ -33,7 +32,6 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
-  final bool doMergeBaseClasses;
   final bool doAnalyzePlatformConstraints;
   final bool doConsiderNonSrcAsEntryPoints;
 
@@ -42,18 +40,13 @@ class PackageApiAnalyzer {
   final semantics = <PackageApiSemantics>{};
 
   /// constructor
-  /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of class declarations.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   /// [doConsiderNonSrcAsEntryPoints] defines if all files that are not in the lib/src subdirectory are considered as entry points. Otherwise only files directly in the lib subdirectory are considered as entry points.
   PackageApiAnalyzer({
     required this.packagePath,
-    this.doMergeBaseClasses = true,
     this.doAnalyzePlatformConstraints = true,
     this.doConsiderNonSrcAsEntryPoints = false,
   }) {
-    if (doMergeBaseClasses) {
-      semantics.add(PackageApiSemantics.mergeBaseClasses);
-    }
     if (doAnalyzePlatformConstraints) {
       semantics.add(PackageApiSemantics.containsPlatformConstraints);
     }
@@ -129,15 +122,18 @@ class PackageApiAnalyzer {
                 skippedInterfaces.add(cd.id);
               }
 
-              // set entry point
-              _addEntryPoints<InternalInterfaceDeclaration>(
-                collectedInterfaces[cd.id]!.interfaceDeclarations,
-                cd.id,
-                {
-                  if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
-                  ...fileToAnalyze.exportedBy
-                },
-              );
+              // only register the entry points if the element is collected directly (and not transitively)
+              if (collector.directlyCollectedElementIds.contains(cd.id)) {
+                // set entry point
+                _addEntryPoints<InternalInterfaceDeclaration>(
+                  collectedInterfaces[cd.id]!.interfaceDeclarations,
+                  cd.id,
+                  {
+                    if (_isPublicEntryPoint(relativeFilePath)) relativeFilePath,
+                    ...fileToAnalyze.exportedBy
+                  },
+                );
+              }
             }
             for (final exd in collector.executableDeclarations) {
               if (skippedInterfaces.contains(exd.parentClassId)) {
@@ -155,8 +151,10 @@ class PackageApiAnalyzer {
                     .executableDeclarations
                     .add(exd);
               }
-              if (exd.parentClassId == null) {
-                //we only store the entry point on root elements
+              if (exd.parentClassId == null &&
+                  collector.directlyCollectedElementIds.contains(exd.id)) {
+                // we only store the entry point on root elements
+                // only register the entry points if the element is collected directly (and not transitively)
                 _addEntryPoints<InternalExecutableDeclaration>(
                   collectedInterfaces[exd.parentClassId]!
                       .executableDeclarations,
@@ -184,8 +182,10 @@ class PackageApiAnalyzer {
                     .fieldDeclarations
                     .add(fd);
               }
-              if (fd.parentClassId == null) {
-                //we only store the entry point on root elements
+              if (fd.parentClassId == null &&
+                  collector.directlyCollectedElementIds.contains(fd.id)) {
+                // we only store the entry point on root elements
+                // only register the entry points if the element is collected directly (and not transitively)
                 _addEntryPoints<InternalFieldDeclaration>(
                   collectedInterfaces[fd.parentClassId]!.fieldDeclarations,
                   fd.id,
@@ -212,8 +212,10 @@ class PackageApiAnalyzer {
                     .typeAliasDeclarations
                     .add(tad);
               }
-              if (tad.parentClassId == null) {
-                //we only store the entry point on root elements
+              if (tad.parentClassId == null &&
+                  collector.directlyCollectedElementIds.contains(tad.id)) {
+                // we only store the entry point on root elements
+                // only register the entry points if the element is collected directly (and not transitively)
                 _addEntryPoints<InternalTypeAliasDeclaration>(
                   collectedInterfaces[tad.parentClassId]!.typeAliasDeclarations,
                   tad.id,
@@ -301,9 +303,7 @@ class PackageApiAnalyzer {
     collectedInterfaces.removeWhere(
         (key, value) => key != null && value.interfaceDeclarations.isEmpty);
 
-    if (doMergeBaseClasses) {
-      _mergeSuperTypes(collectedInterfaces);
-    }
+    _mergeSuperTypes(collectedInterfaces);
 
     // extract package declarations
     for (final classId in collectedInterfaces.keys) {
@@ -455,11 +455,11 @@ class PackageApiAnalyzer {
       mergedSuperTypeIds.addAll(_mergeSuperTypesInto(collectedInterfaces,
           interfaceDeclaration.superClassIds, interfaceDeclaration));
     }
-    // now we remove all private classes that got merged into their derived classes
+    // now we remove all classes that got merged into their derived classes and are not exported
     for (final mergedSuperTypeId in mergedSuperTypeIds) {
       final entry = collectedInterfaces[mergedSuperTypeId]!;
       final interfaceDeclaration = entry.interfaceDeclarations.single;
-      if (interfaceDeclaration.isPrivate) {
+      if (interfaceDeclaration.entryPoints?.isEmpty ?? true) {
         collectedInterfaces.remove(mergedSuperTypeId);
       }
     }

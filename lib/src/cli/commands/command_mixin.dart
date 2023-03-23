@@ -6,7 +6,6 @@ import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-import '../../utils/utils.dart';
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
 
@@ -102,7 +101,6 @@ Affects only local references.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   Future<PackageApi> analyze(
     PreparedPackageRef preparedRef, {
-    bool doMergeBaseClasses = true,
     bool doAnalyzePlatformConstraints = true,
     bool doRemoveExample = true,
   }) async {
@@ -138,7 +136,6 @@ Affects only local references.
     stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
-      doMergeBaseClasses: doMergeBaseClasses,
       doAnalyzePlatformConstraints: doAnalyzePlatformConstraints,
     );
     return await analyzer.analyze();
