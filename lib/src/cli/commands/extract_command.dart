@@ -90,7 +90,8 @@ If not specified the extracted API will be printed to the console.
     final declarationsWithoutEntryPoints =
         packageApi.getRootDeclarationsWithoutEntryPoints();
     if (declarationsWithoutEntryPoints.isNotEmpty) {
-      stdout.writeln('The following declarations do not have an entry point:');
+      stdout.writeln(
+          'The following declarations do not have an entry point (did you miss to export them?):');
       for (final declaration in declarationsWithoutEntryPoints) {
         stdout.writeln('  ${declaration.name}');
       }

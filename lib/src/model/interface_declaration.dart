@@ -6,6 +6,7 @@ import '../utils/string_utils.dart';
 import 'declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
+import 'type_usage.dart';
 
 part 'interface_declaration.freezed.dart';
 
@@ -32,8 +33,11 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
     /// determines if this declaration is sealed
     required bool isSealed,
 
-    /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
-    required bool isRequired,
+    /// determines if this declaration is abstract
+    required bool isAbstract,
+
+    /// usages of this interface
+    required Set<TypeUsage> typeUsages,
 
     /// list of type parameter names
     required List<String> typeParameterNames,
@@ -62,4 +66,8 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
     final typeParameterSuffix = getTypeParameterSuffix(typeParameterNames);
     return '$name$typeParameterSuffix$superTypeSuffix';
   }
+
+  /// determines if this interface is required (meaning: can be used in a type hierarchy by the consumer)
+  bool get isRequired =>
+      isAbstract && !isSealed && typeUsages.contains(TypeUsage.input);
 }

@@ -9,3 +9,4 @@ export 'platform_constraints.dart';
 export 'sdk_type.dart';
 export 'type_alias_declaration.dart';
 export 'type_hierarchy.dart';
+export 'type_usage.dart';

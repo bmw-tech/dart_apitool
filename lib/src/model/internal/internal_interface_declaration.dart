@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import '../interface_declaration.dart';
 import '../executable_declaration.dart';
 import '../field_declaration.dart';
+import '../type_usage.dart';
 import 'internal_declaration.dart';
 import 'internal_declaration_utils.dart';
 
@@ -110,19 +111,21 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           superClassIds: [],
         );
 
-  InterfaceDeclaration toInterfaceDeclaration({required bool isRequired}) {
+  InterfaceDeclaration toInterfaceDeclaration(
+      {required Set<TypeUsage> typeUsages}) {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return InterfaceDeclaration(
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
       isSealed: isSealed,
+      isAbstract: isAbstract,
       typeParameterNames: typeParameterNames,
       superTypeNames: superTypeNames,
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,
-      isRequired: isRequired,
+      typeUsages: typeUsages,
       relativePath: relativePath,
     );
   }

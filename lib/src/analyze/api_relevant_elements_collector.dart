@@ -66,7 +66,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   final List<InternalExecutableDeclaration> _executableDeclarations = [];
   final List<InternalFieldDeclaration> _fieldDeclarations = [];
   final List<InternalTypeAliasDeclaration> _typeAliasDeclarations = [];
-  final Set<int> _requiredElementIds = {};
+  final Map<int, Set<TypeUsage>> typeUsages = {};
   final TypeHierarchy typeHierarchy;
 
   /// all found class declarations
@@ -84,22 +84,20 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   List<InternalTypeAliasDeclaration> get typeAliasDeclarations =>
       _typeAliasDeclarations;
 
-  /// all element ids that are used in a required context (e.g. implementable / extendable by the user)
-  Set<int> get requiredElementIds => _requiredElementIds;
-
   /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
 
   void _onTypeUsed(DartType type, Element referringElement,
-      {required bool isRequired}) {
+      {required TypeUsage typeUsage}) {
     final directElement = type.element2;
     final directElementLibrary = directElement?.library;
     if (directElement == null || directElementLibrary == null) {
       return;
     }
-    if (isRequired) {
-      _requiredElementIds.add(directElement.id);
+    if (!typeUsages.containsKey(directElement.id)) {
+      typeUsages[directElement.id] = {};
     }
+    typeUsages[directElement.id]!.add(typeUsage);
     if (_collectedElementIds.contains(directElement.id)) {
       return;
     }
@@ -125,18 +123,31 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       executableDeclarations.addAll(collector.executableDeclarations);
       fieldDeclarations.addAll(collector.fieldDeclarations);
       typeAliasDeclarations.addAll(collector.typeAliasDeclarations);
-      _requiredElementIds.addAll(collector.requiredElementIds);
+      for (final tu in collector.typeUsages.entries) {
+        if (!typeUsages.containsKey(tu.key)) {
+          typeUsages[tu.key] = {};
+        }
+        typeUsages[tu.key]!.addAll(tu.value);
+      }
     }
     if (type is InterfaceType) {
       for (final ta in type.typeArguments) {
         if (ta is InterfaceType) {
-          _onTypeUsed(ta, referringElement, isRequired: false);
+          _onTypeUsed(
+            ta,
+            referringElement,
+            typeUsage: TypeUsage.hierarchy,
+          );
         }
       }
     } else if (type is TypeAlias) {
       final aliasedType = type.alias?.element.aliasedType;
       if (aliasedType != null) {
-        _onTypeUsed(aliasedType, referringElement, isRequired: false);
+        _onTypeUsed(
+          aliasedType,
+          referringElement,
+          typeUsage: TypeUsage.hierarchy,
+        );
       }
     }
   }
@@ -232,7 +243,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     for (final st in interfaceElement.allSupertypes) {
       if (!st.isDartCoreObject && !st.isDartCoreEnum) {
-        _onTypeUsed(st, interfaceElement, isRequired: false);
+        _onTypeUsed(st, interfaceElement, typeUsage: TypeUsage.hierarchy);
       }
     }
     return true;
@@ -278,7 +289,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
           !element.isConst &&
           !element.isPrivate &&
           element.setter != null;
-      _onTypeUsed(element.type, element, isRequired: canBeSet);
+      _onTypeUsed(element.type, element, typeUsage: TypeUsage.output);
+      if (canBeSet) {
+        _onTypeUsed(element.type, element, typeUsage: TypeUsage.input);
+      }
     }
   }
 
@@ -300,7 +314,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     if (element.type.element2 != null) {
       bool canBeSet =
           !element.isFinal && !element.isConst && !element.isPrivate;
-      _onTypeUsed(element.type, element, isRequired: canBeSet);
+      _onTypeUsed(element.type, element, typeUsage: TypeUsage.output);
+      if (canBeSet) {
+        _onTypeUsed(element.type, element, typeUsage: TypeUsage.input);
+      }
     }
   }
 
@@ -314,7 +331,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     }
     // this includes method, function and constructor calls
     if (element.type.element2 != null) {
-      _onTypeUsed(element.type, element, isRequired: true);
+      _onTypeUsed(element.type, element, typeUsage: TypeUsage.input);
     }
   }
 
@@ -334,7 +351,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitMethodElement(element);
     if (element.returnType.element2 != null) {
-      _onTypeUsed(element.returnType, element, isRequired: false);
+      _onTypeUsed(element.returnType, element, typeUsage: TypeUsage.output);
     }
   }
 
@@ -355,7 +372,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitFunctionElement(element);
     if (element.returnType.element2 != null) {
-      _onTypeUsed(element.returnType, element, isRequired: false);
+      _onTypeUsed(element.returnType, element, typeUsage: TypeUsage.output);
     }
   }
 
@@ -395,7 +412,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     ));
     super.visitTypeAliasElement(element);
     if (element.aliasedType.element2 != null) {
-      _onTypeUsed(element.aliasedType, element, isRequired: false);
+      _onTypeUsed(element.aliasedType, element, typeUsage: TypeUsage.hierarchy);
     }
   }
 
@@ -404,7 +421,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
     if (element.bound?.element2 != null) {
-      _onTypeUsed(element.bound!, element, isRequired: false);
+      _onTypeUsed(element.bound!, element, typeUsage: TypeUsage.hierarchy);
     }
   }
 
@@ -427,7 +444,8 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     if (element.extendedType.element2 != null) {
-      _onTypeUsed(element.extendedType, element, isRequired: false);
+      _onTypeUsed(element.extendedType, element,
+          typeUsage: TypeUsage.hierarchy);
     }
 
     super.visitExtensionElement(element);

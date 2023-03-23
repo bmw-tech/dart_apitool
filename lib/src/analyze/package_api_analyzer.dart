@@ -78,7 +78,6 @@ class PackageApiAnalyzer {
     );
 
     final collectedInterfaces = <int?, _InterfaceCollectionResult>{};
-    final requiredElements = <int>{};
 
     final analyzedFiles = List<_FileToAnalyzeEntry>.empty(growable: true);
     final filesToAnalyze = Queue<_FileToAnalyzeEntry>();
@@ -226,7 +225,11 @@ class PackageApiAnalyzer {
                 );
               }
             }
-            requiredElements.addAll(collector.requiredElementIds);
+            for (final tu in collector.typeUsages.keys) {
+              collectedInterfaces[tu]
+                  ?.typeUsages
+                  .addAll(collector.typeUsages[tu]!);
+            }
           }
 
           final referencedFilesCollector = ExportedFilesCollector();
@@ -319,10 +322,8 @@ class PackageApiAnalyzer {
         assert(entry.interfaceDeclarations.length == 1,
             'We found multiple classes sharing the same classId!');
         final cd = entry.interfaceDeclarations.single;
-        packageInterfaceDeclarations.add(cd.toInterfaceDeclaration(
-          isRequired:
-              cd.isAbstract && requiredElements.contains(cd.id) && !cd.isSealed,
-        ));
+        packageInterfaceDeclarations
+            .add(cd.toInterfaceDeclaration(typeUsages: entry.typeUsages));
       }
     }
 
@@ -459,7 +460,11 @@ class PackageApiAnalyzer {
     for (final mergedSuperTypeId in mergedSuperTypeIds) {
       final entry = collectedInterfaces[mergedSuperTypeId]!;
       final interfaceDeclaration = entry.interfaceDeclarations.single;
-      if (interfaceDeclaration.entryPoints?.isEmpty ?? true) {
+      // a merged element can be removed if it is not used as input or output and is unreachable from the outside
+      bool isReachable = interfaceDeclaration.entryPoints?.isNotEmpty ?? false;
+      bool isInput = entry.typeUsages.contains(TypeUsage.input);
+      bool isOutput = entry.typeUsages.contains(TypeUsage.output);
+      if (!isReachable && !isInput && !isOutput) {
         collectedInterfaces.remove(mergedSuperTypeId);
       }
     }
@@ -524,6 +529,7 @@ class _InterfaceCollectionResult {
       List<InternalFieldDeclaration>.empty(growable: true);
   final typeAliasDeclarations =
       List<InternalTypeAliasDeclaration>.empty(growable: true);
+  final typeUsages = <TypeUsage>{};
 }
 
 @freezed
