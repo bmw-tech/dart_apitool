@@ -35,24 +35,26 @@ void main() {
       });
 
       test('detects removal of sealed flag', () {
-        expect(diffResult.apiChanges.length,
-            6); // experimental + meta package + sealed + remove method
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'ClassD' &&
-                element.changeDescription.contains('Sealed') &&
-                !element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'ClassD' &&
+                  change.changeDescription.contains('Sealed') &&
+                  !change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'newMethod' &&
-                element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'newMethod' &&
+                  change.isBreaking,
+            ),
           ),
-          isTrue,
         );
       });
     });
@@ -66,24 +68,26 @@ void main() {
       });
 
       test('detects addition of sealed flag', () {
-        expect(diffResult.apiChanges.length,
-            6); // experimental + meta package + sealed + add method
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'ClassD' &&
-                element.changeDescription.contains('Sealed') &&
-                element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'ClassD' &&
+                  change.changeDescription.contains('Sealed') &&
+                  change.isBreaking,
+            ),
           ),
-          isTrue,
         );
         expect(
-          diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration?.name == 'newMethod' &&
-                !element.isBreaking,
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.affectedDeclaration?.name == 'newMethod' &&
+                  !change.isBreaking,
+            ),
           ),
-          isTrue,
         );
       });
     });
