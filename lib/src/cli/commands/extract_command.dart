@@ -12,6 +12,7 @@ String _optionNameOutput = 'output';
 String _optionNameNoAnalyzePlatformConstraints =
     'no-analyze-platform-constraints';
 String _optionNameRemoveExample = 'remove-example';
+String _optionNameSetExitCodeOnMissingExport = 'set-exit-on-missing-export';
 
 /// command to extract the public API of a package.
 /// This is used when, for example, the public API needs to be stored on disk
@@ -52,6 +53,13 @@ If not specified the extracted API will be printed to the console.
       defaultsTo: true,
       negatable: true,
     );
+    argParser.addFlag(
+      _optionNameSetExitCodeOnMissingExport,
+      help:
+          'Sets exit code to != 0 if missing exports are detected in the API.',
+      defaultsTo: false,
+      negatable: true,
+    );
   }
 
   @override
@@ -62,6 +70,8 @@ If not specified the extracted API will be printed to the console.
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
     final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
+    final doSetExitCodeOnMissingExport =
+        argResults![_optionNameSetExitCodeOnMissingExport] as bool;
 
     final preparedPackageRef = await prepare(
       packageRef,
@@ -94,6 +104,9 @@ If not specified the extracted API will be printed to the console.
           'The following declarations do not have an entry point (did you miss to export them?):');
       for (final declaration in declarationsWithoutEntryPoints) {
         stdout.writeln('  ${declaration.name}');
+      }
+      if (doSetExitCodeOnMissingExport) {
+        return -1;
       }
     }
     return 0;

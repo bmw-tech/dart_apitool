@@ -59,6 +59,7 @@ Usage: dart-apitool extract [arguments]
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
+    --[no-]set-exit-on-missing-export    Sets exit code to != 0 if missing exports are detected in the API.
 ```
 
 ### diff
