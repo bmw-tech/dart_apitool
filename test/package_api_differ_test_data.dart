@@ -5,6 +5,7 @@ final simpleClassA = InterfaceDeclaration(
   isDeprecated: false,
   isExperimental: false,
   isSealed: false,
+  isAbstract: false,
   typeParameterNames: const [],
   superTypeNames: const [],
   executableDeclarations: const [
@@ -21,7 +22,7 @@ final simpleClassA = InterfaceDeclaration(
     ),
   ],
   fieldDeclarations: const [],
-  isRequired: false,
+  typeUsages: {},
   relativePath: '',
 );
 final simpleClassB = InterfaceDeclaration(
@@ -29,6 +30,7 @@ final simpleClassB = InterfaceDeclaration(
   isDeprecated: false,
   isExperimental: false,
   isSealed: false,
+  isAbstract: false,
   typeParameterNames: const [],
   superTypeNames: const [],
   executableDeclarations: const [
@@ -45,7 +47,7 @@ final simpleClassB = InterfaceDeclaration(
     ),
   ],
   fieldDeclarations: const [],
-  isRequired: false,
+  typeUsages: {},
   relativePath: '',
 );
 

@@ -1,15 +1,6 @@
-import 'package:dart_apitool/src/model/platform_constraints.dart';
-import 'package:dart_apitool/src/model/type_alias_declaration.dart';
+import 'package:dart_apitool/api_tool.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pub_semver/pub_semver.dart';
-
-import 'interface_declaration.dart';
-import 'executable_declaration.dart';
-import 'field_declaration.dart';
-import 'package_api_semantics.dart';
-import 'package_dependency.dart';
-import 'sdk_type.dart';
-import 'type_hierarchy.dart';
 
 part 'package_api.freezed.dart';
 
@@ -61,4 +52,15 @@ class PackageApi with _$PackageApi {
     /// the type hierarchy of the public API
     required TypeHierarchy typeHierarchy,
   }) = _PackageApi;
+
+  /// returns all root level declarations of this package that don't have any entry points
+  Iterable<Declaration> getRootDeclarationsWithoutEntryPoints() {
+    return [
+      ...interfaceDeclarations.where((id) => id.entryPoints?.isEmpty ?? false),
+      ...executableDeclarations.where((ed) => ed.entryPoints?.isEmpty ?? false),
+      ...typeAliasDeclarations
+          .where((tad) => tad.entryPoints?.isEmpty ?? false),
+      ...fieldDeclarations.where((fd) => fd.entryPoints?.isEmpty ?? false),
+    ];
+  }
 }

@@ -4,6 +4,10 @@
 - improves change type detection for parameter type changes (widening types is now considered non-breaking)
 - ignores enum constructors and elements marked with @override
 - detects @sealed classes and doesn't consider them as required interfaces
+- removes '[no]-merge-base-classes' option as this functionality is crucial now
+- improved entry point tracking
+- warning if a root level type is part of the public API but not exported
+  - can be turned into an error with `--[no-]set-exit-on-missing-export`
 
 ## Version 0.13.0
 - fixes an issue with required interface detection on property and field usage

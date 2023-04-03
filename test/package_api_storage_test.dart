@@ -87,6 +87,7 @@ final testPackage1Api = PackageApi(
       isDeprecated: false,
       isExperimental: false,
       isSealed: false,
+      isAbstract: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
@@ -133,7 +134,7 @@ final testPackage1Api = PackageApi(
           relativePath: '',
         ),
       ],
-      isRequired: false,
+      typeUsages: {},
       relativePath: '',
     )
   ],
@@ -222,6 +223,7 @@ final testPackage2Api = PackageApi(
       isDeprecated: false,
       isExperimental: false,
       isSealed: false,
+      isAbstract: false,
       typeParameterNames: const ['T'],
       superTypeNames: const ['SuperType'],
       executableDeclarations: [
@@ -271,7 +273,7 @@ final testPackage2Api = PackageApi(
         ),
       ],
       entryPoints: {},
-      isRequired: false,
+      typeUsages: {},
       relativePath: '',
     ),
   ],

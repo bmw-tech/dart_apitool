@@ -104,5 +104,50 @@ void main() {
       ]);
       expect(exitCode, 0);
     });
+
+    test('Handles `set-exit-on-missing-export` well if nothing is missing',
+        () async {
+      final extractCommand = ExtractCommand();
+      final runner =
+          CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+            ..addCommand(extractCommand);
+      // executes "extract" command for a package that doesn't misses an export
+      // `--set-exit-on-missing-export` is set` and the exit code should be 0 (no missing export found)
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'nested_path_references',
+          'package_a',
+        ),
+        '--include-path-dependencies',
+        '--set-exit-on-missing-export',
+      ]);
+      expect(exitCode, 0);
+    });
+
+    test('Handles `set-exit-on-missing-export` well if an export is missing',
+        () async {
+      final extractCommand = ExtractCommand();
+      final runner =
+          CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+            ..addCommand(extractCommand);
+      // executes "extract" command for a package that misses an export
+      // `--set-exit-on-missing-export` is set` and the exit code should be -1
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'missing_export',
+          'package_a',
+        ),
+        '--set-exit-on-missing-export',
+      ]);
+      expect(exitCode, -1);
+    });
   }, timeout: Timeout(Duration(minutes: 2)));
 }

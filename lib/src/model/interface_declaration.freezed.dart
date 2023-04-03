@@ -28,8 +28,11 @@ mixin _$InterfaceDeclaration {
   /// determines if this declaration is sealed
   bool get isSealed => throw _privateConstructorUsedError;
 
-  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
-  bool get isRequired => throw _privateConstructorUsedError;
+  /// determines if this declaration is abstract
+  bool get isAbstract => throw _privateConstructorUsedError;
+
+  /// usages of this interface
+  Set<TypeUsage> get typeUsages => throw _privateConstructorUsedError;
 
   /// list of type parameter names
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
@@ -67,7 +70,8 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
       bool isDeprecated,
       bool isExperimental,
       bool isSealed,
-      bool isRequired,
+      bool isAbstract,
+      Set<TypeUsage> typeUsages,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -94,7 +98,8 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? isSealed = null,
-    Object? isRequired = null,
+    Object? isAbstract = null,
+    Object? typeUsages = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
     Object? executableDeclarations = null,
@@ -119,10 +124,14 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
           ? _value.isSealed
           : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
-      isRequired: null == isRequired
-          ? _value.isRequired
-          : isRequired // ignore: cast_nullable_to_non_nullable
+      isAbstract: null == isAbstract
+          ? _value.isAbstract
+          : isAbstract // ignore: cast_nullable_to_non_nullable
               as bool,
+      typeUsages: null == typeUsages
+          ? _value.typeUsages
+          : typeUsages // ignore: cast_nullable_to_non_nullable
+              as Set<TypeUsage>,
       typeParameterNames: null == typeParameterNames
           ? _value.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -164,7 +173,8 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
       bool isDeprecated,
       bool isExperimental,
       bool isSealed,
-      bool isRequired,
+      bool isAbstract,
+      Set<TypeUsage> typeUsages,
       List<String> typeParameterNames,
       List<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
@@ -188,7 +198,8 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
     Object? isDeprecated = null,
     Object? isExperimental = null,
     Object? isSealed = null,
-    Object? isRequired = null,
+    Object? isAbstract = null,
+    Object? typeUsages = null,
     Object? typeParameterNames = null,
     Object? superTypeNames = null,
     Object? executableDeclarations = null,
@@ -213,10 +224,14 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
           ? _value.isSealed
           : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
-      isRequired: null == isRequired
-          ? _value.isRequired
-          : isRequired // ignore: cast_nullable_to_non_nullable
+      isAbstract: null == isAbstract
+          ? _value.isAbstract
+          : isAbstract // ignore: cast_nullable_to_non_nullable
               as bool,
+      typeUsages: null == typeUsages
+          ? _value._typeUsages
+          : typeUsages // ignore: cast_nullable_to_non_nullable
+              as Set<TypeUsage>,
       typeParameterNames: null == typeParameterNames
           ? _value._typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
@@ -253,14 +268,16 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       required this.isDeprecated,
       required this.isExperimental,
       required this.isSealed,
-      required this.isRequired,
+      required this.isAbstract,
+      required final Set<TypeUsage> typeUsages,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       final Set<String>? entryPoints,
       required this.relativePath})
-      : _typeParameterNames = typeParameterNames,
+      : _typeUsages = typeUsages,
+        _typeParameterNames = typeParameterNames,
         _superTypeNames = superTypeNames,
         _executableDeclarations = executableDeclarations,
         _fieldDeclarations = fieldDeclarations,
@@ -283,9 +300,20 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   @override
   final bool isSealed;
 
-  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
+  /// determines if this declaration is abstract
   @override
-  final bool isRequired;
+  final bool isAbstract;
+
+  /// usages of this interface
+  final Set<TypeUsage> _typeUsages;
+
+  /// usages of this interface
+  @override
+  Set<TypeUsage> get typeUsages {
+    if (_typeUsages is EqualUnmodifiableSetView) return _typeUsages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_typeUsages);
+  }
 
   /// list of type parameter names
   final List<String> _typeParameterNames;
@@ -353,7 +381,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
 
   @override
   String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isAbstract: $isAbstract, typeUsages: $typeUsages, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -368,8 +396,10 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
                 other.isExperimental == isExperimental) &&
             (identical(other.isSealed, isSealed) ||
                 other.isSealed == isSealed) &&
-            (identical(other.isRequired, isRequired) ||
-                other.isRequired == isRequired) &&
+            (identical(other.isAbstract, isAbstract) ||
+                other.isAbstract == isAbstract) &&
+            const DeepCollectionEquality()
+                .equals(other._typeUsages, _typeUsages) &&
             const DeepCollectionEquality()
                 .equals(other._typeParameterNames, _typeParameterNames) &&
             const DeepCollectionEquality()
@@ -391,7 +421,8 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       isDeprecated,
       isExperimental,
       isSealed,
-      isRequired,
+      isAbstract,
+      const DeepCollectionEquality().hash(_typeUsages),
       const DeepCollectionEquality().hash(_typeParameterNames),
       const DeepCollectionEquality().hash(_superTypeNames),
       const DeepCollectionEquality().hash(_executableDeclarations),
@@ -414,7 +445,8 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       required final bool isDeprecated,
       required final bool isExperimental,
       required final bool isSealed,
-      required final bool isRequired,
+      required final bool isAbstract,
+      required final Set<TypeUsage> typeUsages,
       required final List<String> typeParameterNames,
       required final List<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
@@ -441,8 +473,12 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   bool get isSealed;
   @override
 
-  /// whether this interface is "required" meaning: is meant to be implemented by the user of the containing package
-  bool get isRequired;
+  /// determines if this declaration is abstract
+  bool get isAbstract;
+  @override
+
+  /// usages of this interface
+  Set<TypeUsage> get typeUsages;
   @override
 
   /// list of type parameter names

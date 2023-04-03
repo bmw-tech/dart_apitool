@@ -4,3 +4,4 @@ export 'src/storage/storage.dart';
 export 'src/tooling/tooling.dart';
 export 'src/diff/diff.dart';
 export 'src/errors/errors.dart';
+export 'src/utils/utils.dart';
