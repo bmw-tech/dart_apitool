@@ -8,6 +8,7 @@
 - improved entry point tracking
 - warning if a root level type is part of the public API but not exported
   - can be turned into an error with `--[no-]set-exit-on-missing-export`
+- new option `--ignore-requiredness` to be less strict about interface changes (only advised for packages with controlled usage)
 
 ## Version 0.13.0
 - fixes an issue with required interface detection on property and field usage
