@@ -19,6 +19,7 @@ String _optionNameNoAnalyzePlatformConstraints =
 String _optionNameCheckSdkVersion = 'check-sdk-version';
 String _optionNameDependencyCheckMode = 'dependency-check-mode';
 String _optionNameRemoveExample = 'remove-example';
+String _optionNameIgnoreRequiredness = 'ignore-requiredness';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -88,6 +89,13 @@ You may want to do this if you want to make sure
       defaultsTo: true,
       negatable: true,
     );
+    argParser.addFlag(
+      _optionNameIgnoreRequiredness,
+      help:
+          'Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)',
+      defaultsTo: false,
+      negatable: true,
+    );
   }
 
   @override
@@ -106,6 +114,8 @@ You may want to do this if you want to make sure
         (element) =>
             element.name == argResults![_optionNameDependencyCheckMode]);
     final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
+    final doIgnoreRequiredness =
+        argResults![_optionNameIgnoreRequiredness] as bool;
 
     final preparedOldPackageRef = await prepare(
       oldPackageRef,
@@ -134,6 +144,7 @@ You may want to do this if you want to make sure
       options: PackageApiDifferOptions(
         doCheckSdkVersion: doCheckSdkVersion,
         dependencyCheckMode: dependencyCheckMode,
+        doIgnoreRequiredness: doIgnoreRequiredness,
       ),
     );
     final diffResult =

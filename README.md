@@ -100,6 +100,7 @@ Usage: dart-apitool diff [arguments]
                                          [none, allowAdding, strict (default)]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
+    --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)
 ```
 
 ## Integration

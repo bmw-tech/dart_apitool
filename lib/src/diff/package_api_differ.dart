@@ -153,12 +153,15 @@ class PackageApiDiffer {
     required TypeHierarchy typeHierarchy,
   }) {
     return _executeInContext(context, newInterface, (context) {
+      // we treat the new interface as required if it is and we do not ignore the requiredness of interfaces
+      final treatNewInterfaceAsRequired =
+          newInterface.isRequired && !options.doIgnoreRequiredness;
       final changes = [
         ..._calculateExecutablesDiff(
           oldInterface.executableDeclarations,
           newInterface.executableDeclarations,
           context,
-          isInterfaceRequired: newInterface.isRequired,
+          isInterfaceRequired: treatNewInterfaceAsRequired,
           isExperimental: isExperimental,
           typeHierarchy: typeHierarchy,
         ),
@@ -166,7 +169,7 @@ class PackageApiDiffer {
           oldInterface.fieldDeclarations,
           newInterface.fieldDeclarations,
           context,
-          isInterfaceRequired: newInterface.isRequired,
+          isInterfaceRequired: treatNewInterfaceAsRequired,
           isExperimental: isExperimental,
         ),
         ..._calculateSuperTypesDiff(
@@ -179,7 +182,7 @@ class PackageApiDiffer {
           oldInterface.typeParameterNames,
           newInterface.typeParameterNames,
           context,
-          isInterfaceRequired: newInterface.isRequired,
+          isInterfaceRequired: treatNewInterfaceAsRequired,
           isExperimental: isExperimental,
         ),
         ..._calculateEntryPointsDiff(
