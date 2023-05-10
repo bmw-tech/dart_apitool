@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import '../helper/integration_test_helper.dart';
 
 void main() {
-  group('flutter_blue version diff', () {
+  group('cloud_firestore version diff', () {
     group('4.3.1 to 4.3.2', () {
       final packageName = 'cloud_firestore';
       final retriever_4_3_1 = PackageApiRetriever(packageName, '4.3.1');
