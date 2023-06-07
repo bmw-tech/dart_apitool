@@ -37,7 +37,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
       name: interfaceDeclaration.name,
       isDeprecated: interfaceDeclaration.isDeprecated,
       isExperimental: interfaceDeclaration.isExperimental,
-      isSealed: interfaceDeclaration.isExperimental,
+      isSealed: interfaceDeclaration.isSealed,
       isRequired: interfaceDeclaration.isRequired,
       typeParameterNames: interfaceDeclaration.typeParameterNames,
       superTypeNames: interfaceDeclaration.superTypeNames,

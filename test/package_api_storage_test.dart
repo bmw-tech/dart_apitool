@@ -23,6 +23,8 @@ void main() {
       expect(interfaceDeclarationJson, isNotNull);
       expect(interfaceDeclarationJson['name'], 'StorageTestClass');
       expect(interfaceDeclarationJson['isDeprecated'], false);
+      expect(interfaceDeclarationJson['isSealed'], false,
+          reason: 'isSealed should be false for StorageTestClass');
       expect(interfaceDeclarationJson['typeParameterNames'], ['T']);
       expect(interfaceDeclarationJson['superTypeNames'], ['SuperType']);
       final classExecutableDeclarationsJson =
@@ -65,6 +67,11 @@ void main() {
       expect(classFieldDeclaration['name'], 'printDebug');
       expect(classFieldDeclaration['isDeprecated'], false);
       expect(classFieldDeclaration['isStatic'], false);
+      final sealedInterfaceDeclarationJson = interfaceDeclarationsJson[1];
+      expect(sealedInterfaceDeclarationJson, isNotNull);
+      expect(sealedInterfaceDeclarationJson['name'], 'SealedStorageTestClass');
+      expect(sealedInterfaceDeclarationJson['isSealed'], true,
+          reason: 'isSealed should be true for SealedStorageTestClass');
       final typeAliasDeclarationsJson = packageApiJson['typeAliasDeclarations'];
       expect(typeAliasDeclarationsJson, isNotNull);
       final typeAliasDeclaration = typeAliasDeclarationsJson.first;
@@ -275,6 +282,20 @@ final testPackage2Api = PackageApi(
       entryPoints: {},
       typeUsages: {},
       relativePath: '',
+    ),
+    InterfaceDeclaration(
+      name: 'SealedStorageTestClass',
+      isDeprecated: false,
+      isExperimental: false,
+      isSealed: true,
+      isAbstract: false,
+      typeParameterNames: const [],
+      superTypeNames: const [],
+      executableDeclarations: [],
+      fieldDeclarations: [],
+      typeUsages: {},
+      relativePath: '',
+      entryPoints: {},
     ),
   ],
   executableDeclarations: const [],
