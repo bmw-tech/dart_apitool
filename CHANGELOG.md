@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.14.1
+- Fixes an issue with path dev-dependencies
+
 ## Version 0.14.0
 - improves change type detection for parameter type changes (widening types is now considered non-breaking)
 - ignores enum constructors and elements marked with @override
