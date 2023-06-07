@@ -162,8 +162,10 @@ Affects only local references.
 
     final yamlContent = await pubspecFile.readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
-    await Future.forEach<Dependency>(pubSpec.dependencies.values,
-        (dependency) async {
+    await Future.forEach<Dependency>([
+      ...pubSpec.dependencies.values,
+      ...pubSpec.devDependencies.values,
+    ], (dependency) async {
       if (dependency is PathDependency) {
         String pathDependencyPath =
             p.normalize(p.join(packagePath, dependency.path));
