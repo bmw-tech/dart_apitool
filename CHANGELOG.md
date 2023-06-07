@@ -2,6 +2,7 @@
 
 ## Version 0.14.1
 - Fixes an issue with path dev-dependencies
+- Fixes issues with isSealed handling (extracted JSON was wrong) thanks @hamsbrar
 
 ## Version 0.14.0
 - improves change type detection for parameter type changes (widening types is now considered non-breaking)
