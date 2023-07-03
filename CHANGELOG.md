@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.14.2
+## Version 0.15.0
 - Remove effect of `--dependency-check-mode` and add a deprecation warning (for why refer to https://github.com/bmw-tech/dart_apitool/issues/144)
 
 ## Version 0.14.1
