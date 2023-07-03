@@ -64,7 +64,6 @@ This affects the exit code of this program.
       help: '''
 Determines if the pre-release aspect of the new version
 shall be ignored when checking versions.
-This only makes sense in combination with --$_optionNameDependencyCheckMode != ${VersionCheckMode.none.name}.
 You may want to do this if you want to make sure
 (in your CI) that the version - once ready - matches semver.
 ''',
@@ -79,9 +78,11 @@ You may want to do this if you want to make sure
     );
     argParser.addOption(
       _optionNameDependencyCheckMode,
-      help: 'Defines the mode package dependency changes are handled.',
+      help: 'DEPRECATED - this option as no effect any more',
+      // ignore: deprecated_member_use_from_same_package
       allowed: DependencyCheckMode.values.map((e) => e.name).toList(),
-      defaultsTo: DependencyCheckMode.strict.name,
+      // ignore: deprecated_member_use_from_same_package
+      defaultsTo: DependencyCheckMode.allowAdding.name,
     );
     argParser.addFlag(
       _optionNameRemoveExample,
@@ -110,9 +111,12 @@ You may want to do this if you want to make sure
     final doCheckSdkVersion = argResults![_optionNameCheckSdkVersion] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
-    final dependencyCheckMode = DependencyCheckMode.values.firstWhere(
-        (element) =>
-            element.name == argResults![_optionNameDependencyCheckMode]);
+    if (argResults?.arguments
+            .any((a) => a == '--$_optionNameDependencyCheckMode') ??
+        false) {
+      stdout.writeln(
+          'You are using the option "$_optionNameDependencyCheckMode" that has no effect any more and will be removed in a future release (and will lead to an exception if specified)');
+    }
     final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
     final doIgnoreRequiredness =
         argResults![_optionNameIgnoreRequiredness] as bool;
@@ -143,7 +147,6 @@ You may want to do this if you want to make sure
     final differ = PackageApiDiffer(
       options: PackageApiDifferOptions(
         doCheckSdkVersion: doCheckSdkVersion,
-        dependencyCheckMode: dependencyCheckMode,
         doIgnoreRequiredness: doIgnoreRequiredness,
       ),
     );

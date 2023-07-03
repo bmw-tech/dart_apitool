@@ -29,7 +29,7 @@ void main() {
             diffResult.apiChanges.any((element) =>
                 element.changeDescription.contains('dependency') &&
                 element.changeDescription.contains('rxdart') &&
-                element.type == ApiChangeType.addBreaking),
+                element.type == ApiChangeType.addCompatibleMinor),
             isTrue);
         expect(
             diffResult.apiChanges.any((element) =>
@@ -37,33 +37,7 @@ void main() {
                 element.changeDescription.contains('protobuf') &&
                 element.changeDescription.contains('^0.10.5') &&
                 element.changeDescription.contains('^0.13.12') &&
-                element.type == ApiChangeType.changeBreaking),
-            isTrue);
-      });
-
-      test('Differ option "allowAdd" works', () async {
-        final allowAddDiffResult = PackageApiDiffer(
-            options: PackageApiDifferOptions(
-          dependencyCheckMode: DependencyCheckMode.allowAdding,
-        )).diff(
-            oldApi: await retriever_0_5_0.retrieve(),
-            newApi: await retriever_0_6_0.retrieve());
-
-        // adding dependencies is no not breaking
-        expect(
-            allowAddDiffResult.apiChanges.any((element) =>
-                element.changeDescription.contains('dependency') &&
-                element.changeDescription.contains('rxdart') &&
-                element.type == ApiChangeType.addCompatibleMinor),
-            isTrue);
-        // changes are still breaking
-        expect(
-            allowAddDiffResult.apiChanges.any((element) =>
-                element.changeDescription.contains('dependency') &&
-                element.changeDescription.contains('protobuf') &&
-                element.changeDescription.contains('^0.10.5') &&
-                element.changeDescription.contains('^0.13.12') &&
-                element.type == ApiChangeType.changeBreaking),
+                element.type == ApiChangeType.changeCompatibleMinor),
             isTrue);
       });
     });

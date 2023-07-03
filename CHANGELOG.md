@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.14.2
+- Remove effect of `--dependency-check-mode` and add a deprecation warning (for why refer to https://github.com/bmw-tech/dart_apitool/issues/144)
+
 ## Version 0.14.1
 - Fixes an issue with path dev-dependencies
 - Fixes issues with isSealed handling (extracted JSON was wrong) thanks @hamsbrar
