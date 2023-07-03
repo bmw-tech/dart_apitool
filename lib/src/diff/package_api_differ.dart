@@ -11,7 +11,6 @@ import '../errors/errors.dart';
 import 'api_change.dart';
 import 'api_change_code.dart';
 import 'api_change_type.dart';
-import 'dependency_check_mode.dart';
 import 'package_api_diff_result.dart';
 import 'package_api_differ_options.dart';
 
