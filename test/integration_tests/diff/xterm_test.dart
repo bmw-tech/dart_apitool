@@ -77,7 +77,7 @@ void main() {
                 element.changeDescription.contains('quiver') &&
                 element.changeDescription.contains('^2.1.3') &&
                 element.changeDescription.contains('^3.0.0') &&
-                element.type == ApiChangeType.changeBreaking),
+                element.type == ApiChangeType.changeCompatibleMinor),
             isTrue);
       });
     });

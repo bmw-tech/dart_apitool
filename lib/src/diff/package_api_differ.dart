@@ -11,7 +11,6 @@ import '../errors/errors.dart';
 import 'api_change.dart';
 import 'api_change_code.dart';
 import 'api_change_type.dart';
-import 'dependency_check_mode.dart';
 import 'package_api_diff_result.dart';
 import 'package_api_differ_options.dart';
 
@@ -1075,9 +1074,6 @@ class PackageApiDiffer {
       PackageApi oldApi, PackageApi newApi,
       {required bool isExperimental}) {
     final result = <ApiChange>[];
-    if (options.dependencyCheckMode == DependencyCheckMode.none) {
-      return result;
-    }
     final oldDependencies = oldApi.packageDependencies;
     final newDependencies = newApi.packageDependencies;
     final oldDependenciesMap =
@@ -1098,9 +1094,7 @@ class PackageApiDiffer {
             changeCode: ApiChangeCode.cd01,
             affectedDeclaration: null,
             contextTrace: [],
-            type: options.dependencyCheckMode == DependencyCheckMode.allowAdding
-                ? ApiChangeType.addCompatibleMinor
-                : ApiChangeType.addBreaking,
+            type: ApiChangeType.addCompatibleMinor,
             isExperimental: isExperimental,
             changeDescription: 'Package dependency added: "$dependencyName"',
           ),
@@ -1145,7 +1139,7 @@ class PackageApiDiffer {
             affectedDeclaration: null,
             contextTrace: [],
             type: !isNonBreakingVersionChange
-                ? ApiChangeType.changeBreaking
+                ? ApiChangeType.changeCompatibleMinor
                 : ApiChangeType.changeCompatiblePatch,
             isExperimental: isExperimental,
             changeDescription:

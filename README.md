@@ -91,13 +91,10 @@ Usage: dart-apitool diff [arguments]
                                          (defaults to on)
     --[no-]ignore-prerelease             Determines if the pre-release aspect of the new version
                                          shall be ignored when checking versions.
-                                         This only makes sense in combination with --dependency-check-mode != none.
                                          You may want to do this if you want to make sure
                                          (in your CI) that the version - once ready - matches semver.
                                          (defaults to on)
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
-    --dependency-check-mode              Defines the mode package dependency changes are handled.
-                                         [none, allowAdding, strict (default)]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
     --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)
