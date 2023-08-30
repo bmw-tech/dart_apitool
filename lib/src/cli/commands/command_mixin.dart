@@ -153,6 +153,7 @@ Affects only local references.
   }
 
   Future<Set<String>> _listPathDependencies(String packagePath) async {
+    /// Read in pubspec file
     File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
     if (!pubspecFile.existsSync()) {
       throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
@@ -162,9 +163,22 @@ Affects only local references.
 
     final yamlContent = await pubspecFile.readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
+
+    /// Read in pubspec_overrides file
+    File pubspecOverridesFile =
+        File(p.join(packagePath, 'pubspec_overrides.yaml'));
+    PubspecOverrides? pubspecOverrides;
+    if (pubspecOverridesFile.existsSync()) {
+      final overrideFileContent = await pubspecOverridesFile.readAsString();
+      pubspecOverrides = PubspecOverrides.parse(overrideFileContent);
+    }
+
     await Future.forEach<Dependency>([
       ...pubSpec.dependencies.values,
+      ...pubSpec.dependencyOverrides.values,
       ...pubSpec.devDependencies.values,
+      if (pubspecOverrides != null)
+        ...pubspecOverrides.dependencyOverrides.values,
     ], (dependency) async {
       if (dependency is PathDependency) {
         String pathDependencyPath =

@@ -2,10 +2,10 @@ name: dart_apitool
 description: A tool to analyze the public API of a package, create a model of it and diff it against another version to check semver.
 repository: https://github.com/bmw-tech/dart_apitool
 
-version: 0.15.1-dev
+version: 0.15.1
 
 environment:
-  sdk: ">=2.17.5 <3.0.0"
+  sdk: ^3.0.0
 
 dependencies:
   analyzer: ^5.2.0
@@ -20,7 +20,11 @@ dependencies:
   path: ^1.8.2
   plist_parser: ^0.0.9
   pub_semver: ^2.1.1
-  pubspec_parse: ^1.2.0
+  pubspec_parse:
+    # TODO: Remove before merging 
+    git:
+      url: git@github.com:dart-lang/pubspec_parse
+      ref: pubspecOverrides
   stack: ^0.2.1
   tuple: ^2.0.0
   yaml: ^3.1.1
@@ -35,3 +39,11 @@ dev_dependencies:
 
 executables:
   dart-apitool: main
+
+
+# TODO: Remove before merging
+dependency_overrides:
+  pubspec_parse:
+    git:
+      url: git@github.com:dart-lang/pubspec_parse
+      ref: pubspecOverrides
