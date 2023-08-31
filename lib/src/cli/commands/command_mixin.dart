@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
+import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -153,42 +153,10 @@ Affects only local references.
   }
 
   Future<Set<String>> _listPathDependencies(String packagePath) async {
-    /// Read in pubspec file
-    File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
-    if (!pubspecFile.existsSync()) {
-      throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
-    }
+    var packageConfig = await findPackageConfig(Directory(packagePath));
 
-    Set<String> pathDependencies = {};
-
-    final yamlContent = await pubspecFile.readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
-
-    /// Read in pubspec_overrides file
-    File pubspecOverridesFile =
-        File(p.join(packagePath, 'pubspec_overrides.yaml'));
-    PubspecOverrides? pubspecOverrides;
-    if (pubspecOverridesFile.existsSync()) {
-      final overrideFileContent = await pubspecOverridesFile.readAsString();
-      pubspecOverrides = PubspecOverrides.parse(overrideFileContent);
-    }
-
-    await Future.forEach<Dependency>([
-      ...pubSpec.dependencies.values,
-      ...pubSpec.dependencyOverrides.values,
-      ...pubSpec.devDependencies.values,
-      if (pubspecOverrides != null)
-        ...pubspecOverrides.dependencyOverrides.values,
-    ], (dependency) async {
-      if (dependency is PathDependency) {
-        String pathDependencyPath =
-            p.normalize(p.join(packagePath, dependency.path));
-        pathDependencies.add(pathDependencyPath);
-        pathDependencies = pathDependencies
-            .union(await _listPathDependencies(pathDependencyPath));
-      }
-    });
-
+    Set<String> pathDependencies =
+        packageConfig!.packages.map((e) => e.packageUriRoot.path).toSet();
     return pathDependencies;
   }
 
@@ -230,7 +198,7 @@ Affects only local references.
       return;
     }
     if (await Directory(to).exists()) {
-      await Directory(to).delete();
+      await Directory(to).delete(recursive: true);
     }
     await Directory(to).create(recursive: true);
     await for (final file in Directory(from).list(recursive: true)) {

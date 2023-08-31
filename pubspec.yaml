@@ -28,6 +28,7 @@ dependencies:
   stack: ^0.2.1
   tuple: ^2.0.0
   yaml: ^3.1.1
+  package_config: ^2.1.0
 
 dev_dependencies:
   build_runner: ^2.2.0
