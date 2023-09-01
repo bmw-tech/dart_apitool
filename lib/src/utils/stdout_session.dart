@@ -15,8 +15,13 @@ class StdoutSession {
 
   Completer<void>? _writeCompleter;
 
+  final bool silent;
+
+  StdoutSession(this.silent);
+
   /// writes the given [bytes] to the console
   Future write(List<int> bytes) async {
+    if (silent) return;
     // make sure that only one write is active at a time (needed for flush to work)
     if (_writeCompleter != null) {
       await _writeCompleter!.future;
@@ -45,11 +50,13 @@ class StdoutSession {
 
   /// writes the given [string] to the console
   Future writeln([String string = ""]) async {
+    if (silent) return;
     await write(_utf8Encoder.convert('$string\n'));
   }
 
   /// opens a subprocess output window with the given [height]
   void openSubprocessOutputWindow({int height = 10}) {
+    if (silent) return;
     // only open a subprocess output window if a terminal is attached to stdout
     if (stdout.hasTerminal) {
       _windowLines.clear();
@@ -61,6 +68,7 @@ class StdoutSession {
 
   /// closes the subprocess output window
   void closeSubprocessOutputWindow() {
+    if (silent) return;
     if (_currentWindowSize != null) {
       _drawWindow(doClear: true); // erase window
       _windowLines.clear();
@@ -72,6 +80,7 @@ class StdoutSession {
   }
 
   void _drawWindow({bool doClear = false}) {
+    if (silent) return;
     if (_lastDrawnWindowSize != null) {
       Console.moveCursorUp(_lastDrawnWindowSize!);
     }

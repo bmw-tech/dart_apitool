@@ -14,10 +14,11 @@ abstract class VersionCheck {
     required PackageApi newPackageApi,
     required bool ignorePrerelease,
     required VersionCheckMode versionCheckMode,
+    bool silent = false,
   }) {
-    stdout.writeln('');
-    stdout.writeln('Checking Package version');
-    stdout.writeln('');
+    write(silent, '');
+    write(silent, 'Checking Package version');
+    write(silent, '');
     if (oldPackageApi.packageVersion == null) {
       throw PackageApiDiffError(
           message: 'Old package doesn\'t contain a version]');
@@ -36,19 +37,19 @@ abstract class VersionCheck {
         diffResult.apiChanges.any((change) => !change.type.requiresMinorBump);
 
     if (versionCheckMode == VersionCheckMode.none) {
-      stdout.writeln('Skipping version check completely');
+      write(silent, 'Skipping version check completely');
       return true;
     }
     if (versionCheckMode == VersionCheckMode.onlyBreakingChanges &&
         !containsBreakingChanges) {
-      stdout.writeln(
+      write(silent,
           'Skipping version check because there are no breaking changes');
       return true;
     }
 
     if (ignorePrerelease) {
       // if we want to ignore pre-release then we just remove the prerelease part of the Version
-      stdout.writeln('ignoring prerelease');
+      write(silent, 'ignoring prerelease');
       newVersion.preRelease.clear();
     }
 
@@ -57,7 +58,7 @@ abstract class VersionCheck {
       final oldVersionWithoutPreRelease = Version.parse(oldVersion.toString());
       oldVersionWithoutPreRelease.preRelease.clear();
       if (oldVersionWithoutPreRelease <= newVersion) {
-        stdout.writeln(
+        write(silent,
             'Skipping version check because the old version is a pre-release and the new version is the same or higher without the pre-release part');
         return true;
       }
@@ -65,18 +66,18 @@ abstract class VersionCheck {
 
     if (newVersion.isPreRelease) {
       // pre-release. We don't look at differentiation between breaking and non-breaking changes
-      stdout.writeln(
+      write(silent,
           'We got a pre release. We only check if there are any changes');
       if (containsAnyChanges && oldVersion >= newVersion) {
-        stdout.writeln(
+        write(silent,
             'Got "${Colorize(newVersion.toString()).bold()}" expected > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)');
         return false;
       }
-      stdout.writeln(Colorize('New version is OK!').green());
+      write(silent, Colorize('New version is OK!').green());
       final explaination = containsAnyChanges
           ? 'which is > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)'
           : 'and no changes';
-      stdout.writeln(
+      write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" $explaination');
       return true;
     }
@@ -99,19 +100,25 @@ abstract class VersionCheck {
       }
     }
 
-    stdout.writeln('Old version: "$oldVersion"');
-    stdout.writeln(
+    write(silent, 'Old version: "$oldVersion"');
+    write(silent,
         'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
     if (newVersion < expectedMinVersion) {
-      stdout.writeln(Colorize('New Version is too low!').red());
-      stdout.writeln(
+      write(silent, Colorize('New Version is too low!').red());
+      write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}"');
       return false;
     } else {
-      stdout.writeln(Colorize('New version is OK!').green());
-      stdout.writeln(
+      write(silent, Colorize('New version is OK!').green());
+      write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" which is >= "${Colorize(expectedMinVersion.toString()).bold()}"');
       return true;
+    }
+  }
+
+  static void write(bool silent, Object? s) {
+    if (!silent) {
+      stdout.writeln(s);
     }
   }
 }

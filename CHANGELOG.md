@@ -2,6 +2,7 @@
 
 ## Version 0.15.1-dev
 - Fix [#148](https://github.com/bmw-tech/dart_apitool/issues/148).
+- Add JSON output to `diff` command.
 
 ## Version 0.15.0
 - Remove effect of `--dependency-check-mode` and add a deprecation warning (for why refer to https://github.com/bmw-tech/dart_apitool/issues/144)

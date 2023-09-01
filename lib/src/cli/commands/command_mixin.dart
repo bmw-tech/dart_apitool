@@ -36,8 +36,9 @@ Affects only local references.
   Future<PreparedPackageRef> prepare(
     PackageRef ref, {
     bool shouldCheckPathDependencies = false,
+    bool silent = false,
   }) async {
-    final stdoutSession = StdoutSession();
+    final stdoutSession = StdoutSession(silent);
     List<SourceItem> sources = [];
     String? packageRelativePath;
     String packageName;
@@ -111,8 +112,9 @@ Affects only local references.
     PreparedPackageRef preparedRef, {
     bool doAnalyzePlatformConstraints = true,
     bool doRemoveExample = true,
+    bool silent = false,
   }) async {
-    final stdoutSession = StdoutSession();
+    final stdoutSession = StdoutSession(silent);
     String? path;
     if (preparedRef.packageRef.isDirectoryPath) {
       path = preparedRef.packageRef.ref;
@@ -152,8 +154,8 @@ Affects only local references.
 
   /// If the prepared package contains anything that has to be cleaned up
   /// (like created temp directories) then [cleanUp] takes care of that
-  Future cleanUp(PreparedPackageRef preparedPackageRef) {
-    stdout.writeln('Cleaning up');
+  Future cleanUp(PreparedPackageRef preparedPackageRef, {bool silent = false}) {
+    if (!silent) stdout.writeln('Cleaning up');
     if (preparedPackageRef.tempDirectory != null) {
       return Directory(preparedPackageRef.tempDirectory!)
           .delete(recursive: true);
