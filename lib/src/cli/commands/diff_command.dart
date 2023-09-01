@@ -5,7 +5,6 @@ import 'package:args/command_runner.dart';
 import 'package:colorize/colorize.dart';
 import 'package:console/console.dart';
 import 'package:dart_apitool/api_tool.dart';
-import 'package:path/path.dart';
 
 import '../package_ref.dart';
 import 'command_mixin.dart';
