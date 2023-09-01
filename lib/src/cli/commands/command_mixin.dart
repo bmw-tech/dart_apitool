@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
-import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -120,18 +121,16 @@ Affects only local references.
     }
 
     String packagePath = preparedRef.packageDirectory ?? path;
-    // The analysis options might limit the scope of dart_apitool
-    final analysisOptionsFile =
-        File(p.join(packagePath, 'analysis_options.yaml'));
-    if (await analysisOptionsFile.exists()) {
-      await analysisOptionsFile.delete();
-    }
-    final exampleDirPath = p.join(packagePath, 'example');
-    if (doRemoveExample && await Directory(exampleDirPath).exists()) {
-      await Directory(exampleDirPath).delete(recursive: true);
-    }
-    stdoutSession.writeln('Running pub get');
-    await PubInteraction.runPubGet(packagePath, stdoutSession: stdoutSession);
+
+    final dummyPackagePath = createDummyPackage(packagePath);
+
+    stdoutSession.writeln('Running pub get in dummy package');
+    await PubInteraction.runPubGet(
+      dummyPackagePath,
+      stdoutSession: stdoutSession,
+    );
+
+    copyDummyPackageConfig(dummyPackagePath, packagePath);
 
     stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
@@ -153,10 +152,28 @@ Affects only local references.
   }
 
   Future<Set<String>> _listPathDependencies(String packagePath) async {
-    var packageConfig = await findPackageConfig(Directory(packagePath));
+    File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
+    if (!pubspecFile.existsSync()) {
+      throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
+    }
 
-    Set<String> pathDependencies =
-        packageConfig!.packages.map((e) => e.packageUriRoot.path).toSet();
+    Set<String> pathDependencies = {};
+
+    final yamlContent = await pubspecFile.readAsString();
+    final pubSpec = Pubspec.parse(yamlContent);
+    await Future.forEach<Dependency>([
+      ...pubSpec.dependencies.values,
+      ...pubSpec.devDependencies.values,
+    ], (dependency) async {
+      if (dependency is PathDependency) {
+        String pathDependencyPath =
+            p.normalize(p.join(packagePath, dependency.path));
+        pathDependencies.add(pathDependencyPath);
+        pathDependencies = pathDependencies
+            .union(await _listPathDependencies(pathDependencyPath));
+      }
+    });
+
     return pathDependencies;
   }
 
@@ -198,7 +215,7 @@ Affects only local references.
       return;
     }
     if (await Directory(to).exists()) {
-      await Directory(to).delete(recursive: true);
+      await Directory(to).delete();
     }
     await Directory(to).create(recursive: true);
     await for (final file in Directory(from).list(recursive: true)) {
@@ -212,4 +229,26 @@ Affects only local references.
       }
     }
   }
+}
+
+void copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
+  var dummyConfig =
+      File(p.join(dummyPackagePath, '.dart_tool', 'package_config.json'));
+  var newConfig = File(p.join(packagePath, '.dart_tool', 'package_config.json'))
+    ..createSync(recursive: true);
+  dummyConfig.copySync(newConfig.path);
+}
+
+String createDummyPackage(String packagePath) {
+  var dummyPackagePath = p.join(packagePath, '../_dummy_package/');
+  var file = File(p.join(dummyPackagePath, 'pubspec.yaml'))
+    ..createSync(recursive: true);
+  file.writeAsStringSync(jsonEncode({
+    "name": "_dummy_package",
+    "dependencies": {
+      "firehose": {"path": packagePath}
+    },
+    "environment": {"sdk": "^3.0.0"}
+  }));
+  return dummyPackagePath;
 }
