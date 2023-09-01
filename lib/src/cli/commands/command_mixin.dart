@@ -122,7 +122,7 @@ Affects only local references.
 
     String packagePath = preparedRef.packageDirectory ?? path;
 
-    final dummyPackagePath = createDummyPackage(packagePath);
+    final dummyPackagePath = _createDummyPackage(packagePath);
 
     stdoutSession.writeln('Running pub get in dummy package');
     await PubInteraction.runPubGet(
@@ -130,7 +130,7 @@ Affects only local references.
       stdoutSession: stdoutSession,
     );
 
-    copyDummyPackageConfig(dummyPackagePath, packagePath);
+    _copyDummyPackageConfig(dummyPackagePath, packagePath);
 
     stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
@@ -231,7 +231,7 @@ Affects only local references.
   }
 }
 
-void copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
+void _copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
   var dummyConfig =
       File(p.join(dummyPackagePath, '.dart_tool', 'package_config.json'));
   var newConfig = File(p.join(packagePath, '.dart_tool', 'package_config.json'))
@@ -239,7 +239,7 @@ void copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
   dummyConfig.copySync(newConfig.path);
 }
 
-String createDummyPackage(String packagePath) {
+String _createDummyPackage(String packagePath) {
   var dummyPackagePath = p.join(packagePath, '../_dummy_package/');
   var file = File(p.join(dummyPackagePath, 'pubspec.yaml'))
     ..createSync(recursive: true);
