@@ -8,6 +8,7 @@ import 'package:dart_apitool/api_tool.dart';
 
 import '../package_ref.dart';
 import 'command_mixin.dart';
+import 'output_mode.dart';
 import 'version_check.dart';
 
 String _optionNameOld = 'old';
@@ -178,31 +179,37 @@ You may want to do this if you want to make sure
 
     if (!silent) stdout.writeln();
 
+    VersionCheck? versionCheck;
+    if (versionCheckMode != VersionCheckMode.none) {
+      versionCheck = VersionCheck.versionChangeMatchesChanges(
+        diffResult: diffResult,
+        oldPackageApi: oldPackageApi,
+        newPackageApi: newPackageApi,
+        ignorePrerelease: ignorePrerelease,
+        versionCheckMode: versionCheckMode,
+        silent: silent,
+      );
+    }
     // print the diffs
-    printDiffResult(diffResult, outputMode);
+    printDiffResult(diffResult, versionCheck, outputMode);
 
-    if (versionCheckMode != VersionCheckMode.none &&
-        !VersionCheck.versionChangeMatchesChanges(
-          diffResult: diffResult,
-          oldPackageApi: oldPackageApi,
-          newPackageApi: newPackageApi,
-          ignorePrerelease: ignorePrerelease,
-          versionCheckMode: versionCheckMode,
-          silent: silent,
-        )) {
+    if (!(versionCheck?.success ?? true)) {
       return -1;
     }
-
     return 0;
   }
 
-  void printDiffResult(PackageApiDiffResult diffResult, OutputMode outputMode) {
+  void printDiffResult(
+    PackageApiDiffResult diffResult,
+    VersionCheck? versionCheck,
+    OutputMode outputMode,
+  ) {
     switch (outputMode) {
       case OutputMode.humanReadable:
         printHumanReadable(diffResult);
         break;
       case OutputMode.json:
-        printJson(diffResult);
+        printJson(diffResult, versionCheck);
         break;
     }
   }
@@ -290,16 +297,17 @@ You may want to do this if you want to make sure
 
   Map<String, dynamic> getJson(PackageApiDiffResult diffResult) {
     Map<String, dynamic> nodeToTree(ApiChangeTreeNode n, bool breaking) {
-      final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
-      final changeNodes = relevantChanges.map((c) => {
-            'description': c.changeDescription,
-            'code': c.changeCode.code,
-            'breaking': c.isBreaking,
-            'minor': c.type.requiresMinorBump,
+      final relevantChanges =
+          n.changes.where((change) => change.isBreaking == breaking);
+      final changeNodes = relevantChanges.map((change) => {
+            'description': change.changeDescription,
+            'code': change.changeCode.code,
+            'breaking': change.isBreaking,
+            'minor': change.type.requiresMinorBump,
           });
       final childNodes = n.children.values
-          .map((value) => nodeToTree(value, breaking))
-          .where((element) => element.isNotEmpty);
+          .map((node) => nodeToTree(node, breaking))
+          .where((tree) => tree.isNotEmpty);
       final allChildren = [
         ...changeNodes,
         ...childNodes,
@@ -317,24 +325,18 @@ You may want to do this if you want to make sure
       };
     }
 
-    var object = {
+    return {
       'breaking': nodeToTree(diffResult.rootNode, true),
       'nonbreaking': nodeToTree(diffResult.rootNode, false),
     };
-    return object;
   }
 
-  void printJson(PackageApiDiffResult diffResult) {
+  void printJson(PackageApiDiffResult diffResult, VersionCheck? versionCheck) {
     JsonEncoder encoder = JsonEncoder.withIndent('  ');
-    print(encoder.convert(getJson(diffResult)));
+    var diffResultJson = getJson(diffResult);
+    print(encoder.convert({
+      'diff': diffResultJson,
+      if (versionCheck != null) 'version': versionCheck.toMap(),
+    }));
   }
-}
-
-enum OutputMode {
-  humanReadable._('human-readable'),
-  json._('json');
-
-  final String optionName;
-
-  const OutputMode._(this.optionName);
 }

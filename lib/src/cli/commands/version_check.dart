@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:colorize/colorize.dart';
@@ -6,9 +7,14 @@ import 'package:pub_semver/pub_semver.dart';
 import '../../../api_tool.dart';
 
 /// helper class to check if the version change matches the changes
-abstract class VersionCheck {
+class VersionCheck {
+  final Version oldVersion;
+  final Version? expectedMinimum;
+  final Version newVersion;
+  final bool success;
+
   /// checks if the version change between [oldPackageApi] and [newPackageApi] matches the changes in [diffResult]
-  static bool versionChangeMatchesChanges({
+  factory VersionCheck.versionChangeMatchesChanges({
     required PackageApiDiffResult diffResult,
     required PackageApi oldPackageApi,
     required PackageApi newPackageApi,
@@ -38,13 +44,21 @@ abstract class VersionCheck {
 
     if (versionCheckMode == VersionCheckMode.none) {
       write(silent, 'Skipping version check completely');
-      return true;
+      return VersionCheck(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        success: true,
+      );
     }
     if (versionCheckMode == VersionCheckMode.onlyBreakingChanges &&
         !containsBreakingChanges) {
       write(silent,
           'Skipping version check because there are no breaking changes');
-      return true;
+      return VersionCheck(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        success: true,
+      );
     }
 
     if (ignorePrerelease) {
@@ -60,7 +74,11 @@ abstract class VersionCheck {
       if (oldVersionWithoutPreRelease <= newVersion) {
         write(silent,
             'Skipping version check because the old version is a pre-release and the new version is the same or higher without the pre-release part');
-        return true;
+        return VersionCheck(
+          oldVersion: oldVersion,
+          newVersion: newVersion,
+          success: true,
+        );
       }
     }
 
@@ -71,7 +89,12 @@ abstract class VersionCheck {
       if (containsAnyChanges && oldVersion >= newVersion) {
         write(silent,
             'Got "${Colorize(newVersion.toString()).bold()}" expected > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)');
-        return false;
+        return VersionCheck(
+          oldVersion: oldVersion,
+          newVersion: newVersion,
+          expectedMinimum: oldVersion,
+          success: true,
+        );
       }
       write(silent, Colorize('New version is OK!').green());
       final explaination = containsAnyChanges
@@ -79,7 +102,11 @@ abstract class VersionCheck {
           : 'and no changes';
       write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" $explaination');
-      return true;
+      return VersionCheck(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        success: true,
+      );
     }
 
     Version expectedMinVersion =
@@ -107,18 +134,44 @@ abstract class VersionCheck {
       write(silent, Colorize('New Version is too low!').red());
       write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}"');
-      return false;
+      return VersionCheck(
+        oldVersion: oldVersion,
+        expectedMinimum: expectedMinVersion,
+        newVersion: newVersion,
+        success: false,
+      );
     } else {
       write(silent, Colorize('New version is OK!').green());
       write(silent,
           'Got "${Colorize(newVersion.toString()).bold()}" which is >= "${Colorize(expectedMinVersion.toString()).bold()}"');
-      return true;
+      return VersionCheck(
+        oldVersion: oldVersion,
+        expectedMinimum: expectedMinVersion,
+        newVersion: newVersion,
+        success: true,
+      );
     }
   }
+
+  VersionCheck({
+    required this.oldVersion,
+    this.expectedMinimum,
+    required this.newVersion,
+    required this.success,
+  });
 
   static void write(bool silent, Object? s) {
     if (!silent) {
       stdout.writeln(s);
     }
   }
+
+  Map<String, dynamic> toMap() => {
+        'oldVersion': oldVersion.toString(),
+        'expectedMinimum': expectedMinimum?.toString(),
+        'newVersion': newVersion.toString(),
+        'success': success,
+      };
+
+  String toJson() => json.encode(toMap());
 }
