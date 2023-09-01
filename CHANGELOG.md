@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.15.1-dev
+## Version 0.16.0-dev
 - Fix [#148](https://github.com/bmw-tech/dart_apitool/issues/148).
 - Add JSON output to `diff` command.
 
