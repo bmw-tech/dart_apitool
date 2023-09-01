@@ -54,8 +54,7 @@ Affects only local references.
 
       if (shouldCheckPathDependencies) {
         String commonPath = sourceDir;
-        final pathDependencies =
-            await _listPathDependencies(sourceDir, pubSpec);
+        final pathDependencies = await _listPathDependencies(sourceDir);
         if (pathDependencies.isNotEmpty) {
           stdoutSession.writeln(
               'Found path dependencies: [\n${pathDependencies.reduce((v, e) => '$v\n$e')}\n]');
@@ -162,8 +161,8 @@ Affects only local references.
     return Future.value();
   }
 
-  Future<Set<String>> _listPathDependencies(
-      String packagePath, Pubspec pubSpec) async {
+  Future<Set<String>> _listPathDependencies(String packagePath) async {
+    final pubSpec = await getPubspec(packagePath);
     Set<String> pathDependencies = {};
     await Future.forEach<Dependency>([
       ...pubSpec.dependencies.values,
@@ -174,7 +173,7 @@ Affects only local references.
             p.normalize(p.join(packagePath, dependency.path));
         pathDependencies.add(pathDependencyPath);
         pathDependencies = pathDependencies
-            .union(await _listPathDependencies(pathDependencyPath, pubSpec));
+            .union(await _listPathDependencies(pathDependencyPath));
       }
     });
 
@@ -238,7 +237,7 @@ Affects only local references.
 Future<Pubspec> getPubspec(String packagePath) async {
   File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
   if (!pubspecFile.existsSync()) {
-    throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
+    throw 'Cannot find pubspec.yaml at ${pubspecFile.path}.';
   }
 
   final yamlContent = await pubspecFile.readAsString();
@@ -261,7 +260,7 @@ String _createDummyPackage(String packageName, String packagePath) {
   file.writeAsStringSync(jsonEncode({
     "name": "_dummy_package",
     "dependencies": {
-      packagePath: {"path": packagePath}
+      packageName: {"path": packagePath}
     },
     "environment": {"sdk": "^3.0.0"}
   }));
