@@ -40,6 +40,7 @@ Affects only local references.
     final stdoutSession = StdoutSession();
     List<SourceItem> sources = [];
     String? packageRelativePath;
+    String packageName;
     if (ref.isDirectoryPath) {
       stdoutSession.writeln('Preparing ${ref.ref}');
       String sourceDir = ref.ref;
@@ -47,9 +48,14 @@ Affects only local references.
         sourceDir =
             sourceDir.substring(0, sourceDir.length - p.separator.length);
       }
+
+      final pubSpec = await getPubspec(sourceDir);
+      packageName = pubSpec.name;
+
       if (shouldCheckPathDependencies) {
         String commonPath = sourceDir;
-        final pathDependencies = await _listPathDependencies(sourceDir);
+        final pathDependencies =
+            await _listPathDependencies(sourceDir, pubSpec);
         if (pathDependencies.isNotEmpty) {
           stdoutSession.writeln(
               'Found path dependencies: [\n${pathDependencies.reduce((v, e) => '$v\n$e')}\n]');
@@ -72,6 +78,7 @@ Affects only local references.
     } else if (ref.isPubRef) {
       stdoutSession.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
       stdoutSession.writeln('Downloading');
+      packageName = ref.pubPackage!;
       String sourceDir = await PubInteraction.installPackageToCache(
         ref.pubPackage!,
         ref.pubVersion!,
@@ -92,6 +99,7 @@ Affects only local references.
           sourceItem.destinationPath(forPrefix: tempDir.path));
     });
     return PreparedPackageRef(
+        packageName: packageName,
         packageRef: ref,
         tempDirectory: tempDir.path,
         packageRelativePath: packageRelativePath);
@@ -122,7 +130,10 @@ Affects only local references.
 
     String packagePath = preparedRef.packageDirectory ?? path;
 
-    final dummyPackagePath = _createDummyPackage(packagePath);
+    final dummyPackagePath = _createDummyPackage(
+      preparedRef.packageName,
+      packagePath,
+    );
 
     stdoutSession.writeln('Running pub get in dummy package');
     await PubInteraction.runPubGet(
@@ -151,16 +162,9 @@ Affects only local references.
     return Future.value();
   }
 
-  Future<Set<String>> _listPathDependencies(String packagePath) async {
-    File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
-    if (!pubspecFile.existsSync()) {
-      throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
-    }
-
+  Future<Set<String>> _listPathDependencies(
+      String packagePath, Pubspec pubSpec) async {
     Set<String> pathDependencies = {};
-
-    final yamlContent = await pubspecFile.readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
     await Future.forEach<Dependency>([
       ...pubSpec.dependencies.values,
       ...pubSpec.devDependencies.values,
@@ -170,7 +174,7 @@ Affects only local references.
             p.normalize(p.join(packagePath, dependency.path));
         pathDependencies.add(pathDependencyPath);
         pathDependencies = pathDependencies
-            .union(await _listPathDependencies(pathDependencyPath));
+            .union(await _listPathDependencies(pathDependencyPath, pubSpec));
       }
     });
 
@@ -231,6 +235,17 @@ Affects only local references.
   }
 }
 
+Future<Pubspec> getPubspec(String packagePath) async {
+  File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
+  if (!pubspecFile.existsSync()) {
+    throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
+  }
+
+  final yamlContent = await pubspecFile.readAsString();
+  final pubSpec = Pubspec.parse(yamlContent);
+  return pubSpec;
+}
+
 void _copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
   var dummyConfig =
       File(p.join(dummyPackagePath, '.dart_tool', 'package_config.json'));
@@ -239,14 +254,14 @@ void _copyDummyPackageConfig(String dummyPackagePath, String packagePath) {
   dummyConfig.copySync(newConfig.path);
 }
 
-String _createDummyPackage(String packagePath) {
+String _createDummyPackage(String packageName, String packagePath) {
   var dummyPackagePath = p.join(packagePath, '../_dummy_package/');
   var file = File(p.join(dummyPackagePath, 'pubspec.yaml'))
     ..createSync(recursive: true);
   file.writeAsStringSync(jsonEncode({
     "name": "_dummy_package",
     "dependencies": {
-      "firehose": {"path": packagePath}
+      packagePath: {"path": packagePath}
     },
     "environment": {"sdk": "^3.0.0"}
   }));
