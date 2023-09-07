@@ -54,7 +54,7 @@ class ProcessUtils {
 
     final exitCode = await process.exitCode;
     for (var element in subscriptions) {
-      element.cancel();
+      await element.cancel();
     }
     stdoutSession?.closeSubprocessOutputWindow();
     final decoder = Utf8Decoder();

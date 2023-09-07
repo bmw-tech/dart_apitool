@@ -8,3 +8,7 @@ analyzer:
     - '**.freezed.dart'
     - scripts/**
     - test/test_packages/**
+
+linter:
+  rules:
+    - unawaited_futures
