@@ -27,10 +27,12 @@ abstract class DartInteraction {
     final yamlContent = await File(pubspecPath).readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
     if (!pubSpec.dependencies.containsKey('flutter')) {
-      return _runDartOrFlutterCommand(_getDartExecutablePath(),
-          workingDirectory: forDirectory,
-          args: args,
-          stdoutSession: stdoutSession);
+      return _runDartOrFlutterCommand(
+        _getDartExecutablePath(),
+        workingDirectory: forDirectory,
+        args: args,
+        stdoutSession: stdoutSession,
+      );
     } else {
       final flutterExecutablePath = await _findFlutterExecutablePath();
       if (flutterExecutablePath == null) {
@@ -70,7 +72,7 @@ abstract class DartInteraction {
     String? workingDirectory,
     List<String> args = const [],
     StdoutSession? stdoutSession,
-    bool runInShell = false,
+    bool? runInShell,
   }) async {
     try {
       return await ProcessUtils.runSubProcess(
@@ -78,7 +80,8 @@ abstract class DartInteraction {
         workingDirectory: workingDirectory,
         args: args,
         stdoutSession: stdoutSession,
-        runInShell: runInShell,
+        //for Windows we execute ".bat" files so we need the shell to resolve correctly
+        runInShell: runInShell ?? Platform.isWindows,
       );
     } catch (e) {
       throw RunDartError(e.toString());
