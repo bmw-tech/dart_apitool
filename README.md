@@ -49,11 +49,7 @@ Usage: dart-apitool extract [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
--p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
-                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
-                                         depending on paths defined by path dependencies.
-                                         Affects only local references.
-                                         (defaults to off)
+-p, --[no-]include-path-dependencies     OBSOLETE: Has no effect anymore.
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
@@ -79,11 +75,7 @@ Usage: dart-apitool diff [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
--p, --[no-]include-path-dependencies     Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
-                                         Warning: This option might cause copy to lift the copying scope outside the current working directory,
-                                         depending on paths defined by path dependencies.
-                                         Affects only local references.
-                                         (defaults to off)
+-p, --[no-]include-path-dependencies     OBSOLETE: Has no effect anymore.
     --version-check-mode                 Defines the mode the versions of the packages shall be compared.
                                          This affects the exit code of this program.
                                          [none, fully (default), onlyBreakingChanges]
@@ -95,6 +87,8 @@ Usage: dart-apitool diff [arguments]
                                          (in your CI) that the version - once ready - matches semver.
                                          (defaults to on)
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
+    --dependency-check-mode              DEPRECATED - this option as no effect any more
+                                         [none, allowAdding (default), strict]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
     --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)
