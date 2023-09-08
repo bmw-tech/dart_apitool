@@ -80,7 +80,6 @@ abstract class DartInteraction {
         workingDirectory: workingDirectory,
         args: args,
         stdoutSession: stdoutSession,
-        //for Windows we execute ".bat" files so we need the shell to resolve correctly
         runInShell: runInShell ?? false,
       );
     } catch (e) {
