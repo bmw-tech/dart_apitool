@@ -81,7 +81,7 @@ abstract class DartInteraction {
         args: args,
         stdoutSession: stdoutSession,
         //for Windows we execute ".bat" files so we need the shell to resolve correctly
-        runInShell: runInShell ?? Platform.isWindows,
+        runInShell: runInShell ?? false,
       );
     } catch (e) {
       throw RunDartError(e.toString());
@@ -95,6 +95,9 @@ abstract class DartInteraction {
   static Future<String?> _findFlutterExecutablePath() async {
     final dartExecutableDirPath = _getDartExecutablePath();
 
+    final flutterExecutableName =
+        Platform.isWindows ? 'flutter.bat' : 'flutter';
+
     // trying to search in the first bin folder from the dart executable path
     // we have to search for it this way as we want to find the matching flutter executable.
     // if the user is using e.g. fvm then we can't just run the first flutter executable visible
@@ -103,7 +106,7 @@ abstract class DartInteraction {
     int binIndex = parts.lastIndexOf('bin');
     while (binIndex >= 0) {
       final binPath = path.joinAll(parts.take(binIndex + 1));
-      final flutterFilePath = path.join(binPath, 'flutter');
+      final flutterFilePath = path.join(binPath, flutterExecutableName);
       if (await File(flutterFilePath).exists()) {
         return flutterFilePath;
       }
