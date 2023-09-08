@@ -24,7 +24,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   final bool isSealed;
   final bool isAbstract;
   final List<String> typeParameterNames;
-  final List<String> superTypeNames;
+  final Set<String> superTypeNames;
   final List<ExecutableDeclaration> executableDeclarations;
   final List<FieldDeclaration> fieldDeclarations;
   @override
@@ -102,7 +102,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           isAbstract: false,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               extensionElement.typeParameters),
-          superTypeNames: const [],
+          superTypeNames: const {},
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
@@ -121,7 +121,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       isSealed: isSealed,
       isAbstract: isAbstract,
       typeParameterNames: typeParameterNames,
-      superTypeNames: superTypeNames,
+      superTypeNames: superTypeNames.toList(),
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,
