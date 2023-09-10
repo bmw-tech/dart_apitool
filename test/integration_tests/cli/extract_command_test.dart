@@ -7,15 +7,17 @@ import '../helper/integration_test_helper.dart';
 
 void main() {
   group('Extract command', () {
+    late CommandRunner<int> runner;
+
+    setUp(() {
+      final extractCommand = ExtractCommand();
+      runner = CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+        ..addCommand(extractCommand);
+    });
+
     test(
       'Can handle complex path dependencies',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a set of packages that is linked via path dependencies
-        // using "expect()" here results in an early return due to FakeAsync not being able to handle this
         final exitCode = await runner.run([
           'extract',
           '--input',
@@ -35,12 +37,6 @@ void main() {
     test(
       'Fails with path dependencies pointing outside without include-path-dependencies argument',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a set of packages that is linked via path dependencies
-        // using "expect()" here results in an early return due to FakeAsync not being able to handle this
         Object? catchedException;
         try {
           await runner.run([
@@ -66,18 +62,13 @@ void main() {
     test(
       'Can handle pub ref with --include-path-dependencies',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a set of packages that is linked via path dependencies
-        // using "expect()" here results in an early return due to FakeAsync not being able to handle this
-        await runner.run([
+        final exitCode = await runner.run([
           'extract',
           '--input',
           'pub://dart_apitool/0.5.0',
           '--include-path-dependencies',
         ]);
+        expect(exitCode, 0);
       },
       timeout: integrationTestTimeout,
     );
@@ -85,17 +76,12 @@ void main() {
     test(
       'Can handle pub ref',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a set of packages that is linked via path dependencies
-        // using "expect()" here results in an early return due to FakeAsync not being able to handle this
-        await runner.run([
+        final exitCode = await runner.run([
           'extract',
           '--input',
           'pub://dart_apitool/0.4.0',
         ]);
+        expect(exitCode, 0);
       },
       timeout: integrationTestTimeout,
     );
@@ -103,12 +89,6 @@ void main() {
     test(
       'Can handle nested path dependencies',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a set of packages that is linked via path dependencies
-        // using "expect()" here results in an early return due to FakeAsync not being able to handle this
         final exitCode = await runner.run([
           'extract',
           '--input',
@@ -128,12 +108,6 @@ void main() {
     test(
       'Handles `set-exit-on-missing-export` well if nothing is missing',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a package that doesn't misses an export
-        // `--set-exit-on-missing-export` is set` and the exit code should be 0 (no missing export found)
         final exitCode = await runner.run([
           'extract',
           '--input',
@@ -154,12 +128,6 @@ void main() {
     test(
       'Handles `set-exit-on-missing-export` well if an export is missing',
       () async {
-        final extractCommand = ExtractCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(extractCommand);
-        // executes "extract" command for a package that misses an export
-        // `--set-exit-on-missing-export` is set` and the exit code should be -1
         final exitCode = await runner.run([
           'extract',
           '--input',

@@ -6,11 +6,18 @@ import 'package:path/path.dart' as path;
 import '../helper/integration_test_helper.dart';
 
 void main() {
-  group('diff', () {
+  group('diff command', () {
+    late CommandRunner<int> runner;
+
+    setUp(() {
+      final diffCommand = DiffCommand();
+      runner = CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+        ..addCommand(diffCommand);
+    });
+
     test(
       'diffing the same package works',
       () async {
-        final diffCommand = DiffCommand();
         final packagePath = path.join(
           'test',
           'test_packages',
@@ -18,9 +25,6 @@ void main() {
           'cluster_a',
           'package_a',
         );
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(diffCommand);
         final exitCode = await runner.run([
           'diff',
           '--old',
@@ -36,10 +40,6 @@ void main() {
     test(
       'diffing grpc 3.2.2 to 3.2.3',
       () async {
-        final diffCommand = DiffCommand();
-        final runner =
-            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
-              ..addCommand(diffCommand);
         final exitCode = await runner.run([
           'diff',
           '--old',
