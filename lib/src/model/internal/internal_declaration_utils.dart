@@ -22,10 +22,12 @@ abstract class InternalDeclarationUtils {
     return typeParameters.map((e) => e.name).toList();
   }
 
-  static List<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
+  static Set<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
     return allSupertypes
         .map((st) => st.getDisplayString(withNullability: true))
-        .toList();
+        // if there are supertypes with the same name then only one survives
+        // this is accepted for now as we don't want to dig that far into type hierarchy changes
+        .toSet();
   }
 
   static bool containsAnnotation(Element element, String name,
