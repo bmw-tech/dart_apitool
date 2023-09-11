@@ -37,8 +37,8 @@ mixin _$InterfaceDeclaration {
   /// list of type parameter names
   List<String> get typeParameterNames => throw _privateConstructorUsedError;
 
-  /// list of super type names
-  List<String> get superTypeNames => throw _privateConstructorUsedError;
+  /// set of super type names
+  Set<String> get superTypeNames => throw _privateConstructorUsedError;
 
   /// executables that belong to this interface
   List<ExecutableDeclaration> get executableDeclarations =>
@@ -73,7 +73,7 @@ abstract class $InterfaceDeclarationCopyWith<$Res> {
       bool isAbstract,
       Set<TypeUsage> typeUsages,
       List<String> typeParameterNames,
-      List<String> superTypeNames,
+      Set<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       Set<String>? entryPoints,
@@ -139,7 +139,7 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
       superTypeNames: null == superTypeNames
           ? _value.superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Set<String>,
       executableDeclarations: null == executableDeclarations
           ? _value.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
       bool isAbstract,
       Set<TypeUsage> typeUsages,
       List<String> typeParameterNames,
-      List<String> superTypeNames,
+      Set<String> superTypeNames,
       List<ExecutableDeclaration> executableDeclarations,
       List<FieldDeclaration> fieldDeclarations,
       Set<String>? entryPoints,
@@ -239,7 +239,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
       superTypeNames: null == superTypeNames
           ? _value._superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Set<String>,
       executableDeclarations: null == executableDeclarations
           ? _value._executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
@@ -271,7 +271,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
       required this.isAbstract,
       required final Set<TypeUsage> typeUsages,
       required final List<String> typeParameterNames,
-      required final List<String> superTypeNames,
+      required final Set<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       final Set<String>? entryPoints,
@@ -327,15 +327,15 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
     return EqualUnmodifiableListView(_typeParameterNames);
   }
 
-  /// list of super type names
-  final List<String> _superTypeNames;
+  /// set of super type names
+  final Set<String> _superTypeNames;
 
-  /// list of super type names
+  /// set of super type names
   @override
-  List<String> get superTypeNames {
-    if (_superTypeNames is EqualUnmodifiableListView) return _superTypeNames;
+  Set<String> get superTypeNames {
+    if (_superTypeNames is EqualUnmodifiableSetView) return _superTypeNames;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_superTypeNames);
+    return EqualUnmodifiableSetView(_superTypeNames);
   }
 
   /// executables that belong to this interface
@@ -448,7 +448,7 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       required final bool isAbstract,
       required final Set<TypeUsage> typeUsages,
       required final List<String> typeParameterNames,
-      required final List<String> superTypeNames,
+      required final Set<String> superTypeNames,
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       final Set<String>? entryPoints,
@@ -485,8 +485,8 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   List<String> get typeParameterNames;
   @override
 
-  /// list of super type names
-  List<String> get superTypeNames;
+  /// set of super type names
+  Set<String> get superTypeNames;
   @override
 
   /// executables that belong to this interface

@@ -718,8 +718,8 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculateSuperTypesDiff(
-    List<String> oldSuperTypes,
-    List<String> newSuperTypes,
+    Set<String> oldSuperTypes,
+    Set<String> newSuperTypes,
     Stack<Declaration> context, {
     required bool isExperimental,
   }) {

@@ -121,7 +121,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       isSealed: isSealed,
       isAbstract: isAbstract,
       typeParameterNames: typeParameterNames,
-      superTypeNames: superTypeNames.toList(),
+      superTypeNames: superTypeNames,
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,

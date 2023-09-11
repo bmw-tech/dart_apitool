@@ -7,7 +7,7 @@ final simpleClassA = InterfaceDeclaration(
   isSealed: false,
   isAbstract: false,
   typeParameterNames: const [],
-  superTypeNames: const [],
+  superTypeNames: const {},
   executableDeclarations: const [
     ExecutableDeclaration(
       returnTypeName: 'ClassA',
@@ -32,7 +32,7 @@ final simpleClassB = InterfaceDeclaration(
   isSealed: false,
   isAbstract: false,
   typeParameterNames: const [],
-  superTypeNames: const [],
+  superTypeNames: const {},
   executableDeclarations: const [
     ExecutableDeclaration(
       returnTypeName: 'ClassB',

@@ -40,7 +40,7 @@ class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
       isSealed: interfaceDeclaration.isSealed,
       isRequired: interfaceDeclaration.isRequired,
       typeParameterNames: interfaceDeclaration.typeParameterNames,
-      superTypeNames: interfaceDeclaration.superTypeNames,
+      superTypeNames: interfaceDeclaration.superTypeNames.toList(),
       executableDeclarations: interfaceDeclaration.executableDeclarations
           .map((e) =>
               ExecutableDeclarationStorageV3.fromExecutableDeclaration(e))
