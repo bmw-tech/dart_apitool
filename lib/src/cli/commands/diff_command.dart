@@ -103,8 +103,6 @@ You may want to do this if you want to make sure
   Future<int> run() async {
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
-    final shouldCheckPathDependencies =
-        argResults![_optionNameIncludePathDependencies] as bool;
     final versionCheckMode = VersionCheckMode.values.firstWhere(
         (element) => element.name == argResults![_optionNameVersionCheckMode]);
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
@@ -123,11 +121,9 @@ You may want to do this if you want to make sure
 
     final preparedOldPackageRef = await prepare(
       oldPackageRef,
-      shouldCheckPathDependencies: shouldCheckPathDependencies,
     );
     final preparedNewPackageRef = await prepare(
       newPackageRef,
-      shouldCheckPathDependencies: shouldCheckPathDependencies,
     );
 
     final oldPackageApi = await analyze(

@@ -27,10 +27,12 @@ abstract class DartInteraction {
     final yamlContent = await File(pubspecPath).readAsString();
     final pubSpec = Pubspec.parse(yamlContent);
     if (!pubSpec.dependencies.containsKey('flutter')) {
-      return _runDartOrFlutterCommand(_getDartExecutablePath(),
-          workingDirectory: forDirectory,
-          args: args,
-          stdoutSession: stdoutSession);
+      return _runDartOrFlutterCommand(
+        _getDartExecutablePath(),
+        workingDirectory: forDirectory,
+        args: args,
+        stdoutSession: stdoutSession,
+      );
     } else {
       final flutterExecutablePath = await _findFlutterExecutablePath();
       if (flutterExecutablePath == null) {
@@ -70,7 +72,7 @@ abstract class DartInteraction {
     String? workingDirectory,
     List<String> args = const [],
     StdoutSession? stdoutSession,
-    bool runInShell = false,
+    bool? runInShell,
   }) async {
     try {
       return await ProcessUtils.runSubProcess(
@@ -78,7 +80,7 @@ abstract class DartInteraction {
         workingDirectory: workingDirectory,
         args: args,
         stdoutSession: stdoutSession,
-        runInShell: runInShell,
+        runInShell: runInShell ?? false,
       );
     } catch (e) {
       throw RunDartError(e.toString());
@@ -92,6 +94,9 @@ abstract class DartInteraction {
   static Future<String?> _findFlutterExecutablePath() async {
     final dartExecutableDirPath = _getDartExecutablePath();
 
+    final flutterExecutableName =
+        Platform.isWindows ? 'flutter.bat' : 'flutter';
+
     // trying to search in the first bin folder from the dart executable path
     // we have to search for it this way as we want to find the matching flutter executable.
     // if the user is using e.g. fvm then we can't just run the first flutter executable visible
@@ -100,7 +105,7 @@ abstract class DartInteraction {
     int binIndex = parts.lastIndexOf('bin');
     while (binIndex >= 0) {
       final binPath = path.joinAll(parts.take(binIndex + 1));
-      final flutterFilePath = path.join(binPath, 'flutter');
+      final flutterFilePath = path.join(binPath, flutterExecutableName);
       if (await File(flutterFilePath).exists()) {
         return flutterFilePath;
       }

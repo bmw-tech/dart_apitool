@@ -42,8 +42,8 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
     /// list of type parameter names
     required List<String> typeParameterNames,
 
-    /// list of super type names
-    required List<String> superTypeNames,
+    /// set of super type names
+    required Set<String> superTypeNames,
 
     /// executables that belong to this interface
     required List<ExecutableDeclaration> executableDeclarations,

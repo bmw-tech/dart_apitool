@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -20,11 +18,7 @@ Package reference can be one of:
 ''';
 
   final includePathDependenciesExplanation = '''
-Scans package for path dependencies and makes sure to copy all path dependencies for evaluation.
-Warning: This option might cause copy to lift the copying scope outside the current working directory,
-depending on paths defined by path dependencies.
-Affects only local references.
-(defaults to off)
+OBSOLETE: Has no effect anymore.
  ''';
 
   /// prepares given [ref]. Depending on the type of ref this can include
@@ -32,51 +26,35 @@ Affects only local references.
   /// - running pub get
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
-  Future<PreparedPackageRef> prepare(
-    PackageRef ref, {
-    bool shouldCheckPathDependencies = false,
-  }) async {
+  Future<PreparedPackageRef> prepare(PackageRef ref) async {
     final stdoutSession = StdoutSession();
     List<SourceItem> sources = [];
     String? packageRelativePath;
     if (ref.isDirectoryPath) {
-      stdoutSession.writeln('Preparing ${ref.ref}');
+      await stdoutSession.writeln('Preparing ${ref.ref}');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
         sourceDir =
             sourceDir.substring(0, sourceDir.length - p.separator.length);
       }
-      if (shouldCheckPathDependencies) {
-        String commonPath = sourceDir;
-        final pathDependencies = await _listPathDependencies(sourceDir);
-        if (pathDependencies.isNotEmpty) {
-          stdoutSession.writeln(
-              'Found path dependencies: [\n${pathDependencies.reduce((v, e) => '$v\n$e')}\n]');
-          commonPath = _commonRootPathForPackagesPaths(
-              paths: pathDependencies.toList() + [sourceDir]);
-          stdoutSession.writeln('Common path: $commonPath');
-          for (final path in pathDependencies) {
-            sources.add(SourceItem.forCommonPath(
-                sourceDir: path, commonPath: commonPath));
-          }
-        }
 
-        final sourceItem = SourceItem.forCommonPath(
-            sourceDir: sourceDir, commonPath: commonPath);
-        packageRelativePath = sourceItem.relativeDestinationDir;
-        sources.add(sourceItem);
-      } else {
-        sources.add(SourceItem(sourceDir: sourceDir));
-      }
+      sources.add(SourceItem(
+        sourceDir: sourceDir,
+        isInCache: false,
+      ));
     } else if (ref.isPubRef) {
-      stdoutSession.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
-      stdoutSession.writeln('Downloading');
+      await stdoutSession
+          .writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
+      await stdoutSession.writeln('Downloading');
       String sourceDir = await PubInteraction.installPackageToCache(
         ref.pubPackage!,
         ref.pubVersion!,
         stdoutSession: stdoutSession,
       );
-      sources.add(SourceItem(sourceDir: sourceDir));
+      sources.add(SourceItem(
+        sourceDir: sourceDir,
+        isInCache: true,
+      ));
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
@@ -86,9 +64,22 @@ Affects only local references.
         sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
     final tempDir = await Directory.systemTemp.createTemp();
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
-      stdoutSession.writeln('Copying sources from ${sourceItem.sourceDir}');
+      await stdoutSession
+          .writeln('Copying sources from ${sourceItem.sourceDir}');
       await _copyPath(sourceItem.sourceDir,
           sourceItem.destinationPath(forPrefix: tempDir.path));
+      if (!sourceItem.isInCache) {
+        await stdoutSession.writeln(
+            'Preparing package dependencies for local package ${sourceItem.sourceDir}');
+        await PubInteraction.runPubGet(sourceItem.sourceDir,
+            stdoutSession: stdoutSession);
+        final sourcePackageConfig =
+            File(_getPackageConfigPathForPackage(sourceItem.sourceDir));
+        final targetPackageConfig =
+            File(_getPackageConfigPathForPackage(tempDir.path))
+              ..createSync(recursive: true);
+        await sourcePackageConfig.copy(targetPackageConfig.path);
+      }
     });
     return PreparedPackageRef(
         packageRef: ref,
@@ -130,10 +121,18 @@ Affects only local references.
     if (doRemoveExample && await Directory(exampleDirPath).exists()) {
       await Directory(exampleDirPath).delete(recursive: true);
     }
-    stdoutSession.writeln('Running pub get');
-    await PubInteraction.runPubGet(packagePath, stdoutSession: stdoutSession);
 
-    stdoutSession.writeln('Analyzing $path');
+    // Check if the package_config.json is already present from the preparation step
+    final packageConfig = File(_getPackageConfigPathForPackage(packagePath));
+    if (!packageConfig.existsSync()) {
+      await stdoutSession.writeln('Running pub get');
+      await PubInteraction.runPubGet(packagePath, stdoutSession: stdoutSession);
+    } else {
+      await stdoutSession
+          .writeln('Omitting pub get (package config already present)');
+    }
+
+    await stdoutSession.writeln('Analyzing $path');
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
       doAnalyzePlatformConstraints: doAnalyzePlatformConstraints,
@@ -150,55 +149,6 @@ Affects only local references.
           .delete(recursive: true);
     }
     return Future.value();
-  }
-
-  Future<Set<String>> _listPathDependencies(String packagePath) async {
-    File pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
-    if (!pubspecFile.existsSync()) {
-      throw 'Cannot find pubspec.yaml at ${pubspecFile.path}, while searching for path dependencies.';
-    }
-
-    Set<String> pathDependencies = {};
-
-    final yamlContent = await pubspecFile.readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
-    await Future.forEach<Dependency>([
-      ...pubSpec.dependencies.values,
-      ...pubSpec.devDependencies.values,
-    ], (dependency) async {
-      if (dependency is PathDependency) {
-        String pathDependencyPath =
-            p.normalize(p.join(packagePath, dependency.path));
-        pathDependencies.add(pathDependencyPath);
-        pathDependencies = pathDependencies
-            .union(await _listPathDependencies(pathDependencyPath));
-      }
-    });
-
-    return pathDependencies;
-  }
-
-  String _commonRootPathForPackagesPaths({required List<String> paths}) {
-    if (paths.isEmpty) {
-      return '';
-    }
-    return paths.reduce((value, element) {
-      final valueComponents = p.split(value);
-      final elementComponents = p.split(element);
-      List<String> commonComponents = [];
-
-      for (int i = 0;
-          i < min(valueComponents.length, elementComponents.length);
-          i++) {
-        if (valueComponents[i] == elementComponents[i]) {
-          commonComponents.add(valueComponents[i]);
-        } else {
-          break;
-        }
-      }
-
-      return p.joinAll(commonComponents);
-    });
   }
 
   bool _doNothing(String from, String to) {
@@ -231,3 +181,6 @@ Affects only local references.
     }
   }
 }
+
+String _getPackageConfigPathForPackage(String packagePath) =>
+    p.join(packagePath, '.dart_tool', 'package_config.json');

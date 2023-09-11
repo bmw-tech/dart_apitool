@@ -65,8 +65,6 @@ If not specified the extracted API will be printed to the console.
   @override
   Future<int> run() async {
     final packageRef = PackageRef(argResults![_optionNameInput]);
-    final shouldCheckPathDependencies =
-        argResults![_optionNameIncludePathDependencies] as bool;
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
     final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
@@ -75,7 +73,6 @@ If not specified the extracted API will be printed to the console.
 
     final preparedPackageRef = await prepare(
       packageRef,
-      shouldCheckPathDependencies: shouldCheckPathDependencies,
     );
     final packageApi = await analyze(
       preparedPackageRef,

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.16.0
+- simplify preparation of packages by replacing the directory structure copy operation with carrying over the package config (that contains the absolute paths to the original path references). Thanks to @mosuem and @jonasfj for this idea! This makes the `--include-path-dependencies` option obsolete. This option has no effect anymore and will be removed in a future version.
+
 ## Version 0.15.0
 - Remove effect of `--dependency-check-mode` and add a deprecation warning (for why refer to https://github.com/bmw-tech/dart_apitool/issues/144)
 

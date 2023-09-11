@@ -7,25 +7,13 @@ import 'package:path/path.dart' as path;
 class SourceItem {
   final String relativeDestinationDir;
   final String sourceDir;
+  final bool isInCache;
 
   SourceItem({
     required this.sourceDir,
+    required this.isInCache,
     this.relativeDestinationDir = '.',
   });
-
-  factory SourceItem.forCommonPath({
-    required String sourceDir,
-    required String commonPath,
-  }) {
-    if (path.isWithin(commonPath, sourceDir)) {
-      final commonRelativePath = path.relative(sourceDir, from: commonPath);
-      return SourceItem(
-        sourceDir: sourceDir,
-        relativeDestinationDir: commonRelativePath,
-      );
-    }
-    return SourceItem(sourceDir: sourceDir);
-  }
 
   String destinationPath({required String forPrefix}) {
     return path.normalize(path.join(forPrefix, relativeDestinationDir));

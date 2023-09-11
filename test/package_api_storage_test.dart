@@ -96,7 +96,7 @@ final testPackage1Api = PackageApi(
       isSealed: false,
       isAbstract: false,
       typeParameterNames: const ['T'],
-      superTypeNames: const ['SuperType'],
+      superTypeNames: const {'SuperType'},
       executableDeclarations: [
         ExecutableDeclaration(
           returnTypeName: 'String',
@@ -232,7 +232,7 @@ final testPackage2Api = PackageApi(
       isSealed: false,
       isAbstract: false,
       typeParameterNames: const ['T'],
-      superTypeNames: const ['SuperType'],
+      superTypeNames: const {'SuperType'},
       executableDeclarations: [
         ExecutableDeclaration(
           returnTypeName: 'String',
@@ -290,7 +290,7 @@ final testPackage2Api = PackageApi(
       isSealed: true,
       isAbstract: false,
       typeParameterNames: const [],
-      superTypeNames: const [],
+      superTypeNames: const {'SuperType'},
       executableDeclarations: [],
       fieldDeclarations: [],
       typeUsages: {},
