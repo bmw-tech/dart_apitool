@@ -39,3 +39,5 @@ expectPackageDependency(
   expect(packageDependency!.packageVersion, packageVersion,
       reason: '$packageName doesn\'t have version $packageVersion');
 }
+
+const integrationTestTimeout = Timeout(Duration(minutes: 5));
