@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/diff/report/diff_reporter.dart';
 import 'package:dart_apitool/src/diff/report/json_diff_reporter.dart';
+import 'package:dart_apitool/src/diff/report/report_format.dart';
 
 import '../../diff/report/console_diff_reporter.dart';
 import '../../diff/report/markdown_diff_reporter.dart';
@@ -104,8 +105,8 @@ You may want to do this if you want to make sure
     argParser.addOption(
       _optionReportFormat,
       help: 'Which output format should be used',
-      defaultsTo: 'cli',
-      allowed: ['cli', 'markdown', 'json'],
+      defaultsTo: ReportFormat.cli.name,
+      allowed: ReportFormat.values.map((e) => e.name),
       mandatory: false,
     );
     argParser.addOption(
@@ -119,14 +120,15 @@ You may want to do this if you want to make sure
   Future<int> run() async {
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
-    final outputFormatter = argResults![_optionReportFormat];
+    final outputFormatter = ReportFormat.values.firstWhere(
+        (element) => element.name == argResults![_optionReportFormat]);
     final outputFile = argResults![_optionReportPath];
 
-    if (outputFormatter != 'cli' && outputFile == null) {
+    if (outputFormatter != ReportFormat.cli && outputFile == null) {
       throw 'You need to define an output file using the $_optionReportPath parameter when not using the cli option';
     }
 
-    if (outputFormatter == 'cli' && outputFile != null) {
+    if (outputFormatter == ReportFormat.cli && outputFile != null) {
       stdout.writeln(
           'WARNING: $_optionReportPath has no effect because $_optionReportFormat is set to cli');
     }
@@ -179,14 +181,14 @@ You may want to do this if you want to make sure
 
     DiffReporter reporter = (() {
       switch (outputFormatter) {
-        case 'cli':
+        case ReportFormat.cli:
           return ConsoleDiffReporter();
-        case 'markdown':
+        case ReportFormat.markdown:
           return MarkdownDiffReporter(
               oldPackageRef: oldPackageRef,
               newPackageRef: newPackageRef,
               outputFile: File(outputFile));
-        case 'json':
+        case ReportFormat.json:
           return JsonDiffReporter(
               oldPackageRef: oldPackageRef,
               newPackageRef: newPackageRef,
