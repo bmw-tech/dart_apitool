@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:colorize/colorize.dart';
-import 'package:console/console.dart';
 import 'package:dart_apitool/api_tool.dart';
+import 'package:dart_apitool/src/diff/report/diff_reporter.dart';
+import 'package:dart_apitool/src/diff/report/json_diff_reporter.dart';
+import 'package:dart_apitool/src/diff/report/report_format.dart';
 
+import '../../diff/report/console_diff_reporter.dart';
+import '../../diff/report/markdown_diff_reporter.dart';
 import '../package_ref.dart';
 import 'command_mixin.dart';
 import 'version_check.dart';
@@ -20,6 +23,8 @@ String _optionNameCheckSdkVersion = 'check-sdk-version';
 String _optionNameDependencyCheckMode = 'dependency-check-mode';
 String _optionNameRemoveExample = 'remove-example';
 String _optionNameIgnoreRequiredness = 'ignore-requiredness';
+String _optionReportFormat = 'report-format';
+String _optionReportPath = 'report-file-path';
 
 /// command for diffing two packages
 class DiffCommand extends Command<int> with CommandMixin {
@@ -97,12 +102,37 @@ You may want to do this if you want to make sure
       defaultsTo: false,
       negatable: true,
     );
+    argParser.addOption(
+      _optionReportFormat,
+      help: 'Which output format should be used',
+      defaultsTo: ReportFormat.cli.name,
+      allowed: ReportFormat.values.map((e) => e.name),
+      mandatory: false,
+    );
+    argParser.addOption(
+      _optionReportPath,
+      help: 'Where to store the report file (no effect on cli option)',
+      mandatory: false,
+    );
   }
 
   @override
   Future<int> run() async {
     final oldPackageRef = PackageRef(argResults![_optionNameOld]);
     final newPackageRef = PackageRef(argResults![_optionNameNew]);
+    final outputFormatter = ReportFormat.values.firstWhere(
+        (element) => element.name == argResults![_optionReportFormat]);
+    final outputFile = argResults![_optionReportPath];
+
+    if (outputFormatter != ReportFormat.cli && outputFile == null) {
+      throw 'You need to define an output file using the $_optionReportPath parameter when not using the cli option';
+    }
+
+    if (outputFormatter == ReportFormat.cli && outputFile != null) {
+      stdout.writeln(
+          'WARNING: $_optionReportPath has no effect because $_optionReportFormat is set to cli');
+    }
+
     final versionCheckMode = VersionCheckMode.values.firstWhere(
         (element) => element.name == argResults![_optionNameVersionCheckMode]);
     final ignorePrerelease = argResults![_optionNameIgnorePrerelease] as bool;
@@ -149,29 +179,27 @@ You may want to do this if you want to make sure
     final diffResult =
         differ.diff(oldApi: oldPackageApi, newApi: newPackageApi);
 
-    stdout.writeln();
+    DiffReporter reporter = (() {
+      switch (outputFormatter) {
+        case ReportFormat.cli:
+          return ConsoleDiffReporter();
+        case ReportFormat.markdown:
+          return MarkdownDiffReporter(
+              oldPackageRef: oldPackageRef,
+              newPackageRef: newPackageRef,
+              outputFile: File(outputFile));
+        case ReportFormat.json:
+          return JsonDiffReporter(
+              oldPackageRef: oldPackageRef,
+              newPackageRef: newPackageRef,
+              outputFile: File(outputFile));
+        default:
+          throw 'Unknown format speicified $outputFormatter';
+      }
+    })();
 
-    // print the diffs
-    if (diffResult.hasChanges) {
-      final breakingChanges = _printApiChangeNode(diffResult.rootNode, true);
-      if (breakingChanges == null) {
-        stdout.writeln('No breaking changes!');
-      } else {
-        stdout.write(breakingChanges);
-      }
-      final nonBreakingChanges =
-          _printApiChangeNode(diffResult.rootNode, false);
-      if (nonBreakingChanges == null) {
-        stdout.writeln('No non-breaking changes!');
-      } else {
-        stdout.write(nonBreakingChanges);
-      }
-      stdout.writeln();
-      stdout.writeln(
-          'To learn more about the detected changes visit: https://github.com/bmw-tech/dart_apitool/blob/main/readme/change_codes.md');
-    } else {
-      stdout.writeln('No changes detected!');
-    }
+    stdout.writeln('-- Generating report using: ${reporter.reporterName} --');
+    await reporter.generateReport(diffResult);
 
     if (versionCheckMode != VersionCheckMode.none &&
         !VersionCheck.versionChangeMatchesChanges(
@@ -184,60 +212,5 @@ You may want to do this if you want to make sure
     }
 
     return 0;
-  }
-
-  String _getDeclarationNodeHeadline(Declaration declaration) {
-    var prefix = '';
-    if (declaration is ExecutableDeclaration) {
-      switch (declaration.type) {
-        case ExecutableType.constructor:
-          prefix = 'Constructor ';
-          break;
-        case ExecutableType.method:
-          prefix = 'Method ';
-          break;
-      }
-    } else if (declaration is FieldDeclaration) {
-      prefix = 'Field ';
-    } else if (declaration is InterfaceDeclaration) {
-      prefix = 'Class ';
-    }
-    return prefix + declaration.name;
-  }
-
-  String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
-    Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
-      final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
-      final changeNodes = relevantChanges.map((c) =>
-          '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})${c.isBreaking ? '' : c.type.requiresMinorBump ? ' (minor)' : ' (patch)'}');
-      final childNodes = n.children.values
-          .map((value) => nodeToTree(value))
-          .where((element) => element.isNotEmpty);
-      final allChildren = [
-        ...changeNodes,
-        ...childNodes,
-      ];
-      if (allChildren.isEmpty) {
-        return {};
-      }
-      return {
-        'label': Colorize(labelOverride ??
-                (n.nodeDeclaration == null
-                    ? ''
-                    : _getDeclarationNodeHeadline(n.nodeDeclaration!)))
-            .bold()
-            .toString(),
-        'nodes': allChildren,
-      };
-    }
-
-    final nodes = nodeToTree(node,
-        labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes');
-
-    if (nodes.isEmpty) {
-      return null;
-    }
-
-    return createTree(nodes);
   }
 }

@@ -92,6 +92,9 @@ Usage: dart-apitool diff [arguments]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
     --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)
+    --report-format                      Which output format should be used
+                                         [cli (default), markdown, json]
+    --report-file-path                   Where to store the report file (no effect on cli option)
 ```
 
 ## Integration

@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.16.3
+- adds more diff result reporting options (cli, json, markdown)
+
 ## Version 0.16.2
 - fixes relative path handling in package config (leading to unresolvable types)
 
