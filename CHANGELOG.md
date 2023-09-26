@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.16.2
+- fixes relative path handling in package config (leading to unresolvable types)
+
 ## Version 0.16.1
 - fixes issues with pubspec_overrides.yaml that got published with a pub package
 

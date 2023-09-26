@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_apitool/api_tool.dart';
@@ -79,6 +80,10 @@ OBSOLETE: Has no effect anymore.
             File(_getPackageConfigPathForPackage(tempDir.path))
               ..createSync(recursive: true);
         await sourcePackageConfig.copy(targetPackageConfig.path);
+        await _adaptPackageConfigToAbsolutePaths(
+          targetPackageConfigPath: targetPackageConfig.absolute.path,
+          sourcePackageConfigPath: sourcePackageConfig.absolute.path,
+        );
       } else {
         await stdoutSession.writeln('Cleaning up local copy of pub package');
         // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
@@ -190,7 +195,34 @@ OBSOLETE: Has no effect anymore.
       }
     }
   }
-}
 
-String _getPackageConfigPathForPackage(String packagePath) =>
-    p.join(packagePath, '.dart_tool', 'package_config.json');
+  Future _adaptPackageConfigToAbsolutePaths({
+    required String targetPackageConfigPath,
+    required String sourcePackageConfigPath,
+  }) async {
+    final sourcePackageConfigDirPath = p.dirname(sourcePackageConfigPath);
+    final targetPackageConfigContent =
+        jsonDecode(await File(targetPackageConfigPath).readAsString());
+    // iterate through the package_config.json content and look for relative paths
+    for (final packageConfig in targetPackageConfigContent['packages']) {
+      final rootUri = Uri.parse(packageConfig['rootUri']);
+      final packagePath = p.fromUri(rootUri);
+      if (p.isRelative(packagePath)) {
+        // we make the relative path absolute by using the origin of the source package config as a base
+        final normalizedPackagePath =
+            p.normalize(p.join(sourcePackageConfigDirPath, packagePath));
+        // and write the new absolute path back to the json structure
+        packageConfig['rootUri'] = p.toUri(normalizedPackagePath).toString();
+      }
+    }
+    final encoder = JsonEncoder.withIndent('    ');
+    // replace the package config with the new content
+    await File(targetPackageConfigPath).writeAsString(
+      encoder.convert(targetPackageConfigContent),
+      mode: FileMode.write,
+    );
+  }
+
+  String _getPackageConfigPathForPackage(String packagePath) =>
+      p.join(packagePath, '.dart_tool', 'package_config.json');
+}
