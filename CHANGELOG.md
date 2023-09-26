@@ -1,7 +1,9 @@
 # Changelog
 
-## Version 0.16.1
+## Version 0.16.2
 - adds more diff result reporting options (cli, json, markdown)
+
+## Version 0.16.1
 - fixes issues with pubspec_overrides.yaml that got published with a pub package
 
 ## Version 0.16.0
