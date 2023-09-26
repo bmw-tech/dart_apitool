@@ -66,7 +66,10 @@ Affects only local references.
         packageRelativePath = sourceItem.relativeDestinationDir;
         sources.add(sourceItem);
       } else {
-        sources.add(SourceItem(sourceDir: sourceDir));
+        sources.add(SourceItem(
+          sourceDir: sourceDir,
+          isInCache: false,
+        ));
       }
     } else if (ref.isPubRef) {
       stdoutSession.writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
@@ -76,7 +79,10 @@ Affects only local references.
         ref.pubVersion!,
         stdoutSession: stdoutSession,
       );
-      sources.add(SourceItem(sourceDir: sourceDir));
+      sources.add(SourceItem(
+        sourceDir: sourceDir,
+        isInCache: true,
+      ));
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
@@ -86,9 +92,21 @@ Affects only local references.
         sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
     final tempDir = await Directory.systemTemp.createTemp();
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
-      stdoutSession.writeln('Copying sources from ${sourceItem.sourceDir}');
+      await stdoutSession
+          .writeln('Copying sources from ${sourceItem.sourceDir}');
       await _copyPath(sourceItem.sourceDir,
           sourceItem.destinationPath(forPrefix: tempDir.path));
+      if (sourceItem.isInCache) {
+        await stdoutSession.writeln('Cleaning up local copy of pub package');
+        // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
+        final pubspecOverrides = File(p.join(
+            sourceItem.destinationPath(forPrefix: tempDir.path),
+            'pubspec_overrides.yaml'));
+        if (await pubspecOverrides.exists()) {
+          await pubspecOverrides.delete();
+          await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
+        }
+      }
     });
     return PreparedPackageRef(
         packageRef: ref,

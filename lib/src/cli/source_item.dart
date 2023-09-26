@@ -7,10 +7,12 @@ import 'package:path/path.dart' as path;
 class SourceItem {
   final String relativeDestinationDir;
   final String sourceDir;
+  final bool isInCache;
 
   SourceItem({
     required this.sourceDir,
     this.relativeDestinationDir = '.',
+    required this.isInCache,
   });
 
   factory SourceItem.forCommonPath({
@@ -22,9 +24,13 @@ class SourceItem {
       return SourceItem(
         sourceDir: sourceDir,
         relativeDestinationDir: commonRelativePath,
+        isInCache: false,
       );
     }
-    return SourceItem(sourceDir: sourceDir);
+    return SourceItem(
+      sourceDir: sourceDir,
+      isInCache: false,
+    );
   }
 
   String destinationPath({required String forPrefix}) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.15.1
+- fixes issues with pubspec_overrides.yaml that got published with a pub package
+
+
 ## Version 0.15.0
 - Remove effect of `--dependency-check-mode` and add a deprecation warning (for why refer to https://github.com/bmw-tech/dart_apitool/issues/144)
 
