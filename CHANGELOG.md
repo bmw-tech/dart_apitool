@@ -2,6 +2,7 @@
 
 ## Version 0.16.1
 - adds more diff result reporting options (cli, json, markdown)
+- fixes issues with pubspec_overrides.yaml that got published with a pub package
 
 ## Version 0.16.0
 - simplify preparation of packages by replacing the directory structure copy operation with carrying over the package config (that contains the absolute paths to the original path references). Thanks to @mosuem and @jonasfj for this idea! This makes the `--include-path-dependencies` option obsolete. This option has no effect anymore and will be removed in a future version.
