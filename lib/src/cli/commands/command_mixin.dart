@@ -79,6 +79,16 @@ OBSOLETE: Has no effect anymore.
             File(_getPackageConfigPathForPackage(tempDir.path))
               ..createSync(recursive: true);
         await sourcePackageConfig.copy(targetPackageConfig.path);
+      } else {
+        await stdoutSession.writeln('Cleaning up local copy of pub package');
+        // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
+        final pubspecOverrides = File(p.join(
+            sourceItem.destinationPath(forPrefix: tempDir.path),
+            'pubspec_overrides.yaml'));
+        if (await pubspecOverrides.exists()) {
+          await pubspecOverrides.delete();
+          await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
+        }
       }
     });
     return PreparedPackageRef(
