@@ -102,12 +102,12 @@ class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TypeAliasDeclarationStorageV3CopyWith<$Res>
+abstract class _$$TypeAliasDeclarationStorageV3ImplCopyWith<$Res>
     implements $TypeAliasDeclarationStorageV3CopyWith<$Res> {
-  factory _$$_TypeAliasDeclarationStorageV3CopyWith(
-          _$_TypeAliasDeclarationStorageV3 value,
-          $Res Function(_$_TypeAliasDeclarationStorageV3) then) =
-      __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>;
+  factory _$$TypeAliasDeclarationStorageV3ImplCopyWith(
+          _$TypeAliasDeclarationStorageV3Impl value,
+          $Res Function(_$TypeAliasDeclarationStorageV3Impl) then) =
+      __$$TypeAliasDeclarationStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -120,13 +120,13 @@ abstract class _$$_TypeAliasDeclarationStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
+class __$$TypeAliasDeclarationStorageV3ImplCopyWithImpl<$Res>
     extends _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
-        _$_TypeAliasDeclarationStorageV3>
-    implements _$$_TypeAliasDeclarationStorageV3CopyWith<$Res> {
-  __$$_TypeAliasDeclarationStorageV3CopyWithImpl(
-      _$_TypeAliasDeclarationStorageV3 _value,
-      $Res Function(_$_TypeAliasDeclarationStorageV3) _then)
+        _$TypeAliasDeclarationStorageV3Impl>
+    implements _$$TypeAliasDeclarationStorageV3ImplCopyWith<$Res> {
+  __$$TypeAliasDeclarationStorageV3ImplCopyWithImpl(
+      _$TypeAliasDeclarationStorageV3Impl _value,
+      $Res Function(_$TypeAliasDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -139,7 +139,7 @@ class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
     Object? entryPoints = null,
     Object? relativePath = null,
   }) {
-    return _then(_$_TypeAliasDeclarationStorageV3(
+    return _then(_$TypeAliasDeclarationStorageV3Impl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -170,8 +170,9 @@ class __$$_TypeAliasDeclarationStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
-  const _$_TypeAliasDeclarationStorageV3(
+class _$TypeAliasDeclarationStorageV3Impl
+    extends _TypeAliasDeclarationStorageV3 {
+  const _$TypeAliasDeclarationStorageV3Impl(
       {required this.name,
       required this.aliasedTypeName,
       required this.isDeprecated,
@@ -181,9 +182,9 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
       : _entryPoints = entryPoints,
         super._();
 
-  factory _$_TypeAliasDeclarationStorageV3.fromJson(
+  factory _$TypeAliasDeclarationStorageV3Impl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_TypeAliasDeclarationStorageV3FromJson(json);
+      _$$TypeAliasDeclarationStorageV3ImplFromJson(json);
 
   @override
   final String name;
@@ -213,7 +214,7 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TypeAliasDeclarationStorageV3 &&
+            other is _$TypeAliasDeclarationStorageV3Impl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.aliasedTypeName, aliasedTypeName) ||
                 other.aliasedTypeName == aliasedTypeName) &&
@@ -241,13 +242,14 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TypeAliasDeclarationStorageV3CopyWith<_$_TypeAliasDeclarationStorageV3>
-      get copyWith => __$$_TypeAliasDeclarationStorageV3CopyWithImpl<
-          _$_TypeAliasDeclarationStorageV3>(this, _$identity);
+  _$$TypeAliasDeclarationStorageV3ImplCopyWith<
+          _$TypeAliasDeclarationStorageV3Impl>
+      get copyWith => __$$TypeAliasDeclarationStorageV3ImplCopyWithImpl<
+          _$TypeAliasDeclarationStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TypeAliasDeclarationStorageV3ToJson(
+    return _$$TypeAliasDeclarationStorageV3ImplToJson(
       this,
     );
   }
@@ -256,16 +258,17 @@ class _$_TypeAliasDeclarationStorageV3 extends _TypeAliasDeclarationStorageV3 {
 abstract class _TypeAliasDeclarationStorageV3
     extends TypeAliasDeclarationStorageV3 {
   const factory _TypeAliasDeclarationStorageV3(
-      {required final String name,
-      required final String aliasedTypeName,
-      required final bool isDeprecated,
-      required final bool isExperimental,
-      required final Set<String> entryPoints,
-      required final String relativePath}) = _$_TypeAliasDeclarationStorageV3;
+          {required final String name,
+          required final String aliasedTypeName,
+          required final bool isDeprecated,
+          required final bool isExperimental,
+          required final Set<String> entryPoints,
+          required final String relativePath}) =
+      _$TypeAliasDeclarationStorageV3Impl;
   const _TypeAliasDeclarationStorageV3._() : super._();
 
   factory _TypeAliasDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_TypeAliasDeclarationStorageV3.fromJson;
+      _$TypeAliasDeclarationStorageV3Impl.fromJson;
 
   @override
   String get name;
@@ -281,6 +284,7 @@ abstract class _TypeAliasDeclarationStorageV3
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_TypeAliasDeclarationStorageV3CopyWith<_$_TypeAliasDeclarationStorageV3>
+  _$$TypeAliasDeclarationStorageV3ImplCopyWith<
+          _$TypeAliasDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -212,11 +212,11 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
 }
 
 /// @nodoc
-abstract class _$$_PackageApiCopyWith<$Res>
+abstract class _$$PackageApiImplCopyWith<$Res>
     implements $PackageApiCopyWith<$Res> {
-  factory _$$_PackageApiCopyWith(
-          _$_PackageApi value, $Res Function(_$_PackageApi) then) =
-      __$$_PackageApiCopyWithImpl<$Res>;
+  factory _$$PackageApiImplCopyWith(
+          _$PackageApiImpl value, $Res Function(_$PackageApiImpl) then) =
+      __$$PackageApiImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -242,11 +242,11 @@ abstract class _$$_PackageApiCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PackageApiCopyWithImpl<$Res>
-    extends _$PackageApiCopyWithImpl<$Res, _$_PackageApi>
-    implements _$$_PackageApiCopyWith<$Res> {
-  __$$_PackageApiCopyWithImpl(
-      _$_PackageApi _value, $Res Function(_$_PackageApi) _then)
+class __$$PackageApiImplCopyWithImpl<$Res>
+    extends _$PackageApiCopyWithImpl<$Res, _$PackageApiImpl>
+    implements _$$PackageApiImplCopyWith<$Res> {
+  __$$PackageApiImplCopyWithImpl(
+      _$PackageApiImpl _value, $Res Function(_$PackageApiImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -267,7 +267,7 @@ class __$$_PackageApiCopyWithImpl<$Res>
     Object? minSdkVersion = null,
     Object? typeHierarchy = null,
   }) {
-    return _then(_$_PackageApi(
+    return _then(_$PackageApiImpl(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -330,8 +330,8 @@ class __$$_PackageApiCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PackageApi extends _PackageApi {
-  const _$_PackageApi(
+class _$PackageApiImpl extends _PackageApi {
+  const _$PackageApiImpl(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
@@ -467,7 +467,7 @@ class _$_PackageApi extends _PackageApi {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageApi &&
+            other is _$PackageApiImpl &&
             (identical(other.packageName, packageName) ||
                 other.packageName == packageName) &&
             (identical(other.packageVersion, packageVersion) ||
@@ -520,8 +520,8 @@ class _$_PackageApi extends _PackageApi {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
-      __$$_PackageApiCopyWithImpl<_$_PackageApi>(this, _$identity);
+  _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
+      __$$PackageApiImplCopyWithImpl<_$PackageApiImpl>(this, _$identity);
 }
 
 abstract class _PackageApi extends PackageApi {
@@ -539,7 +539,7 @@ abstract class _PackageApi extends PackageApi {
       required final SdkType sdkType,
       required final List<PackageDependency> packageDependencies,
       required final Version minSdkVersion,
-      required final TypeHierarchy typeHierarchy}) = _$_PackageApi;
+      required final TypeHierarchy typeHierarchy}) = _$PackageApiImpl;
   const _PackageApi._() : super._();
 
   @override
@@ -600,6 +600,6 @@ abstract class _PackageApi extends PackageApi {
   TypeHierarchy get typeHierarchy;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageApiCopyWith<_$_PackageApi> get copyWith =>
+  _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

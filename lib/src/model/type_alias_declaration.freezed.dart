@@ -105,11 +105,11 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
+abstract class _$$TypeAliasDeclarationImplCopyWith<$Res>
     implements $TypeAliasDeclarationCopyWith<$Res> {
-  factory _$$_TypeAliasDeclarationCopyWith(_$_TypeAliasDeclaration value,
-          $Res Function(_$_TypeAliasDeclaration) then) =
-      __$$_TypeAliasDeclarationCopyWithImpl<$Res>;
+  factory _$$TypeAliasDeclarationImplCopyWith(_$TypeAliasDeclarationImpl value,
+          $Res Function(_$TypeAliasDeclarationImpl) then) =
+      __$$TypeAliasDeclarationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -122,11 +122,11 @@ abstract class _$$_TypeAliasDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
-    extends _$TypeAliasDeclarationCopyWithImpl<$Res, _$_TypeAliasDeclaration>
-    implements _$$_TypeAliasDeclarationCopyWith<$Res> {
-  __$$_TypeAliasDeclarationCopyWithImpl(_$_TypeAliasDeclaration _value,
-      $Res Function(_$_TypeAliasDeclaration) _then)
+class __$$TypeAliasDeclarationImplCopyWithImpl<$Res>
+    extends _$TypeAliasDeclarationCopyWithImpl<$Res, _$TypeAliasDeclarationImpl>
+    implements _$$TypeAliasDeclarationImplCopyWith<$Res> {
+  __$$TypeAliasDeclarationImplCopyWithImpl(_$TypeAliasDeclarationImpl _value,
+      $Res Function(_$TypeAliasDeclarationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -139,7 +139,7 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
     Object? entryPoints = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$_TypeAliasDeclaration(
+    return _then(_$TypeAliasDeclarationImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -170,8 +170,8 @@ class __$$_TypeAliasDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
-  const _$_TypeAliasDeclaration(
+class _$TypeAliasDeclarationImpl extends _TypeAliasDeclaration {
+  const _$TypeAliasDeclarationImpl(
       {required this.name,
       required this.aliasedTypeName,
       required this.isDeprecated,
@@ -223,7 +223,7 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TypeAliasDeclaration &&
+            other is _$TypeAliasDeclarationImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.aliasedTypeName, aliasedTypeName) ||
                 other.aliasedTypeName == aliasedTypeName) &&
@@ -250,9 +250,10 @@ class _$_TypeAliasDeclaration extends _TypeAliasDeclaration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TypeAliasDeclarationCopyWith<_$_TypeAliasDeclaration> get copyWith =>
-      __$$_TypeAliasDeclarationCopyWithImpl<_$_TypeAliasDeclaration>(
-          this, _$identity);
+  _$$TypeAliasDeclarationImplCopyWith<_$TypeAliasDeclarationImpl>
+      get copyWith =>
+          __$$TypeAliasDeclarationImplCopyWithImpl<_$TypeAliasDeclarationImpl>(
+              this, _$identity);
 }
 
 abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
@@ -263,7 +264,7 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
       required final bool isDeprecated,
       required final bool isExperimental,
       final Set<String>? entryPoints,
-      required final String relativePath}) = _$_TypeAliasDeclaration;
+      required final String relativePath}) = _$TypeAliasDeclarationImpl;
   const _TypeAliasDeclaration._() : super._();
 
   @override
@@ -292,6 +293,6 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_TypeAliasDeclarationCopyWith<_$_TypeAliasDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$TypeAliasDeclarationImplCopyWith<_$TypeAliasDeclarationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

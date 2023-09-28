@@ -112,12 +112,12 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ExecutableParameterDeclarationStorageV3CopyWith<$Res>
+abstract class _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<$Res>
     implements $ExecutableParameterDeclarationStorageV3CopyWith<$Res> {
-  factory _$$_ExecutableParameterDeclarationStorageV3CopyWith(
-          _$_ExecutableParameterDeclarationStorageV3 value,
-          $Res Function(_$_ExecutableParameterDeclarationStorageV3) then) =
-      __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>;
+  factory _$$ExecutableParameterDeclarationStorageV3ImplCopyWith(
+          _$ExecutableParameterDeclarationStorageV3Impl value,
+          $Res Function(_$ExecutableParameterDeclarationStorageV3Impl) then) =
+      __$$ExecutableParameterDeclarationStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,13 +131,13 @@ abstract class _$$_ExecutableParameterDeclarationStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
+class __$$ExecutableParameterDeclarationStorageV3ImplCopyWithImpl<$Res>
     extends _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
-        _$_ExecutableParameterDeclarationStorageV3>
-    implements _$$_ExecutableParameterDeclarationStorageV3CopyWith<$Res> {
-  __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl(
-      _$_ExecutableParameterDeclarationStorageV3 _value,
-      $Res Function(_$_ExecutableParameterDeclarationStorageV3) _then)
+        _$ExecutableParameterDeclarationStorageV3Impl>
+    implements _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<$Res> {
+  __$$ExecutableParameterDeclarationStorageV3ImplCopyWithImpl(
+      _$ExecutableParameterDeclarationStorageV3Impl _value,
+      $Res Function(_$ExecutableParameterDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -151,7 +151,7 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
     Object? typeName = null,
     Object? relativePath = null,
   }) {
-    return _then(_$_ExecutableParameterDeclarationStorageV3(
+    return _then(_$ExecutableParameterDeclarationStorageV3Impl(
       isRequired: null == isRequired
           ? _value.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
@@ -186,9 +186,9 @@ class __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ExecutableParameterDeclarationStorageV3
+class _$ExecutableParameterDeclarationStorageV3Impl
     extends _ExecutableParameterDeclarationStorageV3 {
-  const _$_ExecutableParameterDeclarationStorageV3(
+  const _$ExecutableParameterDeclarationStorageV3Impl(
       {required this.isRequired,
       required this.isNamed,
       required this.name,
@@ -198,9 +198,9 @@ class _$_ExecutableParameterDeclarationStorageV3
       required this.relativePath})
       : super._();
 
-  factory _$_ExecutableParameterDeclarationStorageV3.fromJson(
+  factory _$ExecutableParameterDeclarationStorageV3Impl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ExecutableParameterDeclarationStorageV3FromJson(json);
+      _$$ExecutableParameterDeclarationStorageV3ImplFromJson(json);
 
   @override
   final bool isRequired;
@@ -226,7 +226,7 @@ class _$_ExecutableParameterDeclarationStorageV3
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableParameterDeclarationStorageV3 &&
+            other is _$ExecutableParameterDeclarationStorageV3Impl &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             (identical(other.isNamed, isNamed) || other.isNamed == isNamed) &&
@@ -249,14 +249,15 @@ class _$_ExecutableParameterDeclarationStorageV3
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExecutableParameterDeclarationStorageV3CopyWith<
-          _$_ExecutableParameterDeclarationStorageV3>
-      get copyWith => __$$_ExecutableParameterDeclarationStorageV3CopyWithImpl<
-          _$_ExecutableParameterDeclarationStorageV3>(this, _$identity);
+  _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<
+          _$ExecutableParameterDeclarationStorageV3Impl>
+      get copyWith =>
+          __$$ExecutableParameterDeclarationStorageV3ImplCopyWithImpl<
+              _$ExecutableParameterDeclarationStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExecutableParameterDeclarationStorageV3ToJson(
+    return _$$ExecutableParameterDeclarationStorageV3ImplToJson(
       this,
     );
   }
@@ -272,12 +273,12 @@ abstract class _ExecutableParameterDeclarationStorageV3
           required final bool isExperimental,
           required final String typeName,
           required final String relativePath}) =
-      _$_ExecutableParameterDeclarationStorageV3;
+      _$ExecutableParameterDeclarationStorageV3Impl;
   const _ExecutableParameterDeclarationStorageV3._() : super._();
 
   factory _ExecutableParameterDeclarationStorageV3.fromJson(
           Map<String, dynamic> json) =
-      _$_ExecutableParameterDeclarationStorageV3.fromJson;
+      _$ExecutableParameterDeclarationStorageV3Impl.fromJson;
 
   @override
   bool get isRequired;
@@ -295,8 +296,8 @@ abstract class _ExecutableParameterDeclarationStorageV3
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableParameterDeclarationStorageV3CopyWith<
-          _$_ExecutableParameterDeclarationStorageV3>
+  _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<
+          _$ExecutableParameterDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -417,12 +418,12 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ExecutableDeclarationStorageV3CopyWith<$Res>
+abstract class _$$ExecutableDeclarationStorageV3ImplCopyWith<$Res>
     implements $ExecutableDeclarationStorageV3CopyWith<$Res> {
-  factory _$$_ExecutableDeclarationStorageV3CopyWith(
-          _$_ExecutableDeclarationStorageV3 value,
-          $Res Function(_$_ExecutableDeclarationStorageV3) then) =
-      __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>;
+  factory _$$ExecutableDeclarationStorageV3ImplCopyWith(
+          _$ExecutableDeclarationStorageV3Impl value,
+          $Res Function(_$ExecutableDeclarationStorageV3Impl) then) =
+      __$$ExecutableDeclarationStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -439,13 +440,13 @@ abstract class _$$_ExecutableDeclarationStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
+class __$$ExecutableDeclarationStorageV3ImplCopyWithImpl<$Res>
     extends _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
-        _$_ExecutableDeclarationStorageV3>
-    implements _$$_ExecutableDeclarationStorageV3CopyWith<$Res> {
-  __$$_ExecutableDeclarationStorageV3CopyWithImpl(
-      _$_ExecutableDeclarationStorageV3 _value,
-      $Res Function(_$_ExecutableDeclarationStorageV3) _then)
+        _$ExecutableDeclarationStorageV3Impl>
+    implements _$$ExecutableDeclarationStorageV3ImplCopyWith<$Res> {
+  __$$ExecutableDeclarationStorageV3ImplCopyWithImpl(
+      _$ExecutableDeclarationStorageV3Impl _value,
+      $Res Function(_$ExecutableDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -462,7 +463,7 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
     Object? entryPoints = null,
     Object? relativePath = null,
   }) {
-    return _then(_$_ExecutableDeclarationStorageV3(
+    return _then(_$ExecutableDeclarationStorageV3Impl(
       returnTypeName: null == returnTypeName
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
@@ -509,9 +510,9 @@ class __$$_ExecutableDeclarationStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ExecutableDeclarationStorageV3
+class _$ExecutableDeclarationStorageV3Impl
     extends _ExecutableDeclarationStorageV3 {
-  const _$_ExecutableDeclarationStorageV3(
+  const _$ExecutableDeclarationStorageV3Impl(
       {required this.returnTypeName,
       required this.name,
       required this.isDeprecated,
@@ -527,9 +528,9 @@ class _$_ExecutableDeclarationStorageV3
         _entryPoints = entryPoints,
         super._();
 
-  factory _$_ExecutableDeclarationStorageV3.fromJson(
+  factory _$ExecutableDeclarationStorageV3Impl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ExecutableDeclarationStorageV3FromJson(json);
+      _$$ExecutableDeclarationStorageV3ImplFromJson(json);
 
   @override
   final String returnTypeName;
@@ -580,7 +581,7 @@ class _$_ExecutableDeclarationStorageV3
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableDeclarationStorageV3 &&
+            other is _$ExecutableDeclarationStorageV3Impl &&
             (identical(other.returnTypeName, returnTypeName) ||
                 other.returnTypeName == returnTypeName) &&
             (identical(other.name, name) || other.name == name) &&
@@ -619,13 +620,14 @@ class _$_ExecutableDeclarationStorageV3
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExecutableDeclarationStorageV3CopyWith<_$_ExecutableDeclarationStorageV3>
-      get copyWith => __$$_ExecutableDeclarationStorageV3CopyWithImpl<
-          _$_ExecutableDeclarationStorageV3>(this, _$identity);
+  _$$ExecutableDeclarationStorageV3ImplCopyWith<
+          _$ExecutableDeclarationStorageV3Impl>
+      get copyWith => __$$ExecutableDeclarationStorageV3ImplCopyWithImpl<
+          _$ExecutableDeclarationStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExecutableDeclarationStorageV3ToJson(
+    return _$$ExecutableDeclarationStorageV3ImplToJson(
       this,
     );
   }
@@ -643,11 +645,12 @@ abstract class _ExecutableDeclarationStorageV3
       required final ExecutableTypeStorageV3 type,
       required final bool isStatic,
       required final Set<String> entryPoints,
-      required final String relativePath}) = _$_ExecutableDeclarationStorageV3;
+      required final String
+          relativePath}) = _$ExecutableDeclarationStorageV3Impl;
   const _ExecutableDeclarationStorageV3._() : super._();
 
   factory _ExecutableDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_ExecutableDeclarationStorageV3.fromJson;
+      _$ExecutableDeclarationStorageV3Impl.fromJson;
 
   @override
   String get returnTypeName;
@@ -671,6 +674,7 @@ abstract class _ExecutableDeclarationStorageV3
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableDeclarationStorageV3CopyWith<_$_ExecutableDeclarationStorageV3>
+  _$$ExecutableDeclarationStorageV3ImplCopyWith<
+          _$ExecutableDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

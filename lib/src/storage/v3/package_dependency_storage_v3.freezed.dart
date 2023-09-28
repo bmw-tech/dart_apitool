@@ -71,25 +71,25 @@ class _$PackageDependencyStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PackageDependencyStorageV3CopyWith<$Res>
+abstract class _$$PackageDependencyStorageV3ImplCopyWith<$Res>
     implements $PackageDependencyStorageV3CopyWith<$Res> {
-  factory _$$_PackageDependencyStorageV3CopyWith(
-          _$_PackageDependencyStorageV3 value,
-          $Res Function(_$_PackageDependencyStorageV3) then) =
-      __$$_PackageDependencyStorageV3CopyWithImpl<$Res>;
+  factory _$$PackageDependencyStorageV3ImplCopyWith(
+          _$PackageDependencyStorageV3Impl value,
+          $Res Function(_$PackageDependencyStorageV3Impl) then) =
+      __$$PackageDependencyStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
-class __$$_PackageDependencyStorageV3CopyWithImpl<$Res>
+class __$$PackageDependencyStorageV3ImplCopyWithImpl<$Res>
     extends _$PackageDependencyStorageV3CopyWithImpl<$Res,
-        _$_PackageDependencyStorageV3>
-    implements _$$_PackageDependencyStorageV3CopyWith<$Res> {
-  __$$_PackageDependencyStorageV3CopyWithImpl(
-      _$_PackageDependencyStorageV3 _value,
-      $Res Function(_$_PackageDependencyStorageV3) _then)
+        _$PackageDependencyStorageV3Impl>
+    implements _$$PackageDependencyStorageV3ImplCopyWith<$Res> {
+  __$$PackageDependencyStorageV3ImplCopyWithImpl(
+      _$PackageDependencyStorageV3Impl _value,
+      $Res Function(_$PackageDependencyStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +98,7 @@ class __$$_PackageDependencyStorageV3CopyWithImpl<$Res>
     Object? packageName = null,
     Object? packageVersion = freezed,
   }) {
-    return _then(_$_PackageDependencyStorageV3(
+    return _then(_$PackageDependencyStorageV3Impl(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -113,13 +113,14 @@ class __$$_PackageDependencyStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
-  const _$_PackageDependencyStorageV3(
+class _$PackageDependencyStorageV3Impl extends _PackageDependencyStorageV3 {
+  const _$PackageDependencyStorageV3Impl(
       {required this.packageName, required this.packageVersion})
       : super._();
 
-  factory _$_PackageDependencyStorageV3.fromJson(Map<String, dynamic> json) =>
-      _$$_PackageDependencyStorageV3FromJson(json);
+  factory _$PackageDependencyStorageV3Impl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$PackageDependencyStorageV3ImplFromJson(json);
 
   @override
   final String packageName;
@@ -135,7 +136,7 @@ class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageDependencyStorageV3 &&
+            other is _$PackageDependencyStorageV3Impl &&
             (identical(other.packageName, packageName) ||
                 other.packageName == packageName) &&
             (identical(other.packageVersion, packageVersion) ||
@@ -149,13 +150,13 @@ class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackageDependencyStorageV3CopyWith<_$_PackageDependencyStorageV3>
-      get copyWith => __$$_PackageDependencyStorageV3CopyWithImpl<
-          _$_PackageDependencyStorageV3>(this, _$identity);
+  _$$PackageDependencyStorageV3ImplCopyWith<_$PackageDependencyStorageV3Impl>
+      get copyWith => __$$PackageDependencyStorageV3ImplCopyWithImpl<
+          _$PackageDependencyStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PackageDependencyStorageV3ToJson(
+    return _$$PackageDependencyStorageV3ImplToJson(
       this,
     );
   }
@@ -163,12 +164,13 @@ class _$_PackageDependencyStorageV3 extends _PackageDependencyStorageV3 {
 
 abstract class _PackageDependencyStorageV3 extends PackageDependencyStorageV3 {
   const factory _PackageDependencyStorageV3(
-      {required final String packageName,
-      required final String? packageVersion}) = _$_PackageDependencyStorageV3;
+          {required final String packageName,
+          required final String? packageVersion}) =
+      _$PackageDependencyStorageV3Impl;
   const _PackageDependencyStorageV3._() : super._();
 
   factory _PackageDependencyStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_PackageDependencyStorageV3.fromJson;
+      _$PackageDependencyStorageV3Impl.fromJson;
 
   @override
   String get packageName;
@@ -176,6 +178,6 @@ abstract class _PackageDependencyStorageV3 extends PackageDependencyStorageV3 {
   String? get packageVersion;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageDependencyStorageV3CopyWith<_$_PackageDependencyStorageV3>
+  _$$PackageDependencyStorageV3ImplCopyWith<_$PackageDependencyStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

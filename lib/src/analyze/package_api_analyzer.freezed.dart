@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$_FileToAnalyzeEntry {
+mixin _$FileToAnalyzeEntry {
   String get filePath => throw _privateConstructorUsedError;
   List<String> get shownNames => throw _privateConstructorUsedError;
   List<String> get hiddenNames => throw _privateConstructorUsedError;
@@ -79,11 +79,11 @@ class __$FileToAnalyzeEntryCopyWithImpl<$Res, $Val extends _FileToAnalyzeEntry>
 }
 
 /// @nodoc
-abstract class _$$__FileToAnalyzeEntryCopyWith<$Res>
+abstract class _$$_FileToAnalyzeEntryImplCopyWith<$Res>
     implements _$FileToAnalyzeEntryCopyWith<$Res> {
-  factory _$$__FileToAnalyzeEntryCopyWith(_$__FileToAnalyzeEntry value,
-          $Res Function(_$__FileToAnalyzeEntry) then) =
-      __$$__FileToAnalyzeEntryCopyWithImpl<$Res>;
+  factory _$$_FileToAnalyzeEntryImplCopyWith(_$_FileToAnalyzeEntryImpl value,
+          $Res Function(_$_FileToAnalyzeEntryImpl) then) =
+      __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$__FileToAnalyzeEntryCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
-    extends __$FileToAnalyzeEntryCopyWithImpl<$Res, _$__FileToAnalyzeEntry>
-    implements _$$__FileToAnalyzeEntryCopyWith<$Res> {
-  __$$__FileToAnalyzeEntryCopyWithImpl(_$__FileToAnalyzeEntry _value,
-      $Res Function(_$__FileToAnalyzeEntry) _then)
+class __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>
+    extends __$FileToAnalyzeEntryCopyWithImpl<$Res, _$_FileToAnalyzeEntryImpl>
+    implements _$$_FileToAnalyzeEntryImplCopyWith<$Res> {
+  __$$_FileToAnalyzeEntryImplCopyWithImpl(_$_FileToAnalyzeEntryImpl _value,
+      $Res Function(_$_FileToAnalyzeEntryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
     Object? hiddenNames = null,
     Object? exportedBy = null,
   }) {
-    return _then(_$__FileToAnalyzeEntry(
+    return _then(_$_FileToAnalyzeEntryImpl(
       filePath: null == filePath
           ? _value.filePath
           : filePath // ignore: cast_nullable_to_non_nullable
@@ -132,8 +132,8 @@ class __$$__FileToAnalyzeEntryCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
-  const _$__FileToAnalyzeEntry(
+class _$_FileToAnalyzeEntryImpl implements __FileToAnalyzeEntry {
+  const _$_FileToAnalyzeEntryImpl(
       {required this.filePath,
       final List<String> shownNames = const [],
       final List<String> hiddenNames = const [],
@@ -179,7 +179,7 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$__FileToAnalyzeEntry &&
+            other is _$_FileToAnalyzeEntryImpl &&
             (identical(other.filePath, filePath) ||
                 other.filePath == filePath) &&
             const DeepCollectionEquality()
@@ -201,8 +201,8 @@ class _$__FileToAnalyzeEntry implements __FileToAnalyzeEntry {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$__FileToAnalyzeEntryCopyWith<_$__FileToAnalyzeEntry> get copyWith =>
-      __$$__FileToAnalyzeEntryCopyWithImpl<_$__FileToAnalyzeEntry>(
+  _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
+      __$$_FileToAnalyzeEntryImplCopyWithImpl<_$_FileToAnalyzeEntryImpl>(
           this, _$identity);
 }
 
@@ -211,7 +211,7 @@ abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
       {required final String filePath,
       final List<String> shownNames,
       final List<String> hiddenNames,
-      required final Set<String> exportedBy}) = _$__FileToAnalyzeEntry;
+      required final Set<String> exportedBy}) = _$_FileToAnalyzeEntryImpl;
 
   @override
   String get filePath;
@@ -223,6 +223,6 @@ abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
   Set<String> get exportedBy;
   @override
   @JsonKey(ignore: true)
-  _$$__FileToAnalyzeEntryCopyWith<_$__FileToAnalyzeEntry> get copyWith =>
+  _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -113,11 +113,11 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
 }
 
 /// @nodoc
-abstract class _$$_FieldDeclarationCopyWith<$Res>
+abstract class _$$FieldDeclarationImplCopyWith<$Res>
     implements $FieldDeclarationCopyWith<$Res> {
-  factory _$$_FieldDeclarationCopyWith(
-          _$_FieldDeclaration value, $Res Function(_$_FieldDeclaration) then) =
-      __$$_FieldDeclarationCopyWithImpl<$Res>;
+  factory _$$FieldDeclarationImplCopyWith(_$FieldDeclarationImpl value,
+          $Res Function(_$FieldDeclarationImpl) then) =
+      __$$FieldDeclarationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -131,11 +131,11 @@ abstract class _$$_FieldDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FieldDeclarationCopyWithImpl<$Res>
-    extends _$FieldDeclarationCopyWithImpl<$Res, _$_FieldDeclaration>
-    implements _$$_FieldDeclarationCopyWith<$Res> {
-  __$$_FieldDeclarationCopyWithImpl(
-      _$_FieldDeclaration _value, $Res Function(_$_FieldDeclaration) _then)
+class __$$FieldDeclarationImplCopyWithImpl<$Res>
+    extends _$FieldDeclarationCopyWithImpl<$Res, _$FieldDeclarationImpl>
+    implements _$$FieldDeclarationImplCopyWith<$Res> {
+  __$$FieldDeclarationImplCopyWithImpl(_$FieldDeclarationImpl _value,
+      $Res Function(_$FieldDeclarationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +149,7 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
     Object? entryPoints = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$_FieldDeclaration(
+    return _then(_$FieldDeclarationImpl(
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_FieldDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FieldDeclaration extends _FieldDeclaration {
-  const _$_FieldDeclaration(
+class _$FieldDeclarationImpl extends _FieldDeclaration {
+  const _$FieldDeclarationImpl(
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
@@ -242,7 +242,7 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FieldDeclaration &&
+            other is _$FieldDeclarationImpl &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
             (identical(other.name, name) || other.name == name) &&
@@ -272,8 +272,9 @@ class _$_FieldDeclaration extends _FieldDeclaration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
-      __$$_FieldDeclarationCopyWithImpl<_$_FieldDeclaration>(this, _$identity);
+  _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
+      __$$FieldDeclarationImplCopyWithImpl<_$FieldDeclarationImpl>(
+          this, _$identity);
 }
 
 abstract class _FieldDeclaration extends FieldDeclaration
@@ -285,7 +286,7 @@ abstract class _FieldDeclaration extends FieldDeclaration
       required final bool isStatic,
       required final bool isExperimental,
       final Set<String>? entryPoints,
-      required final String relativePath}) = _$_FieldDeclaration;
+      required final String relativePath}) = _$FieldDeclarationImpl;
   const _FieldDeclaration._() : super._();
 
   @override
@@ -318,6 +319,6 @@ abstract class _FieldDeclaration extends FieldDeclaration
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_FieldDeclarationCopyWith<_$_FieldDeclaration> get copyWith =>
+  _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
