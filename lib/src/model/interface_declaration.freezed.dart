@@ -161,11 +161,11 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_InterfaceDeclarationCopyWith<$Res>
+abstract class _$$InterfaceDeclarationImplCopyWith<$Res>
     implements $InterfaceDeclarationCopyWith<$Res> {
-  factory _$$_InterfaceDeclarationCopyWith(_$_InterfaceDeclaration value,
-          $Res Function(_$_InterfaceDeclaration) then) =
-      __$$_InterfaceDeclarationCopyWithImpl<$Res>;
+  factory _$$InterfaceDeclarationImplCopyWith(_$InterfaceDeclarationImpl value,
+          $Res Function(_$InterfaceDeclarationImpl) then) =
+      __$$InterfaceDeclarationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -184,11 +184,11 @@ abstract class _$$_InterfaceDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_InterfaceDeclarationCopyWithImpl<$Res>
-    extends _$InterfaceDeclarationCopyWithImpl<$Res, _$_InterfaceDeclaration>
-    implements _$$_InterfaceDeclarationCopyWith<$Res> {
-  __$$_InterfaceDeclarationCopyWithImpl(_$_InterfaceDeclaration _value,
-      $Res Function(_$_InterfaceDeclaration) _then)
+class __$$InterfaceDeclarationImplCopyWithImpl<$Res>
+    extends _$InterfaceDeclarationCopyWithImpl<$Res, _$InterfaceDeclarationImpl>
+    implements _$$InterfaceDeclarationImplCopyWith<$Res> {
+  __$$InterfaceDeclarationImplCopyWithImpl(_$InterfaceDeclarationImpl _value,
+      $Res Function(_$InterfaceDeclarationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -207,7 +207,7 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
     Object? entryPoints = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$_InterfaceDeclaration(
+    return _then(_$InterfaceDeclarationImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -262,8 +262,8 @@ class __$$_InterfaceDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InterfaceDeclaration extends _InterfaceDeclaration {
-  const _$_InterfaceDeclaration(
+class _$InterfaceDeclarationImpl extends _InterfaceDeclaration {
+  const _$InterfaceDeclarationImpl(
       {required this.name,
       required this.isDeprecated,
       required this.isExperimental,
@@ -388,7 +388,7 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InterfaceDeclaration &&
+            other is _$InterfaceDeclarationImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -433,9 +433,10 @@ class _$_InterfaceDeclaration extends _InterfaceDeclaration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InterfaceDeclarationCopyWith<_$_InterfaceDeclaration> get copyWith =>
-      __$$_InterfaceDeclarationCopyWithImpl<_$_InterfaceDeclaration>(
-          this, _$identity);
+  _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
+      get copyWith =>
+          __$$InterfaceDeclarationImplCopyWithImpl<_$InterfaceDeclarationImpl>(
+              this, _$identity);
 }
 
 abstract class _InterfaceDeclaration extends InterfaceDeclaration
@@ -452,7 +453,7 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       required final List<ExecutableDeclaration> executableDeclarations,
       required final List<FieldDeclaration> fieldDeclarations,
       final Set<String>? entryPoints,
-      required final String relativePath}) = _$_InterfaceDeclaration;
+      required final String relativePath}) = _$InterfaceDeclarationImpl;
   const _InterfaceDeclaration._() : super._();
 
   @override
@@ -505,6 +506,6 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_InterfaceDeclarationCopyWith<_$_InterfaceDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

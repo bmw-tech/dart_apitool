@@ -107,12 +107,12 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
+abstract class _$$FieldDeclarationStorageV3ImplCopyWith<$Res>
     implements $FieldDeclarationStorageV3CopyWith<$Res> {
-  factory _$$_FieldDeclarationStorageV3CopyWith(
-          _$_FieldDeclarationStorageV3 value,
-          $Res Function(_$_FieldDeclarationStorageV3) then) =
-      __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>;
+  factory _$$FieldDeclarationStorageV3ImplCopyWith(
+          _$FieldDeclarationStorageV3Impl value,
+          $Res Function(_$FieldDeclarationStorageV3Impl) then) =
+      __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,13 +126,13 @@ abstract class _$$_FieldDeclarationStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
+class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
     extends _$FieldDeclarationStorageV3CopyWithImpl<$Res,
-        _$_FieldDeclarationStorageV3>
-    implements _$$_FieldDeclarationStorageV3CopyWith<$Res> {
-  __$$_FieldDeclarationStorageV3CopyWithImpl(
-      _$_FieldDeclarationStorageV3 _value,
-      $Res Function(_$_FieldDeclarationStorageV3) _then)
+        _$FieldDeclarationStorageV3Impl>
+    implements _$$FieldDeclarationStorageV3ImplCopyWith<$Res> {
+  __$$FieldDeclarationStorageV3ImplCopyWithImpl(
+      _$FieldDeclarationStorageV3Impl _value,
+      $Res Function(_$FieldDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -146,7 +146,7 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
     Object? entryPoints = null,
     Object? relativePath = null,
   }) {
-    return _then(_$_FieldDeclarationStorageV3(
+    return _then(_$FieldDeclarationStorageV3Impl(
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
@@ -181,8 +181,8 @@ class __$$_FieldDeclarationStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
-  const _$_FieldDeclarationStorageV3(
+class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
+  const _$FieldDeclarationStorageV3Impl(
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
@@ -193,8 +193,8 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
       : _entryPoints = entryPoints,
         super._();
 
-  factory _$_FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =>
-      _$$_FieldDeclarationStorageV3FromJson(json);
+  factory _$FieldDeclarationStorageV3Impl.fromJson(Map<String, dynamic> json) =>
+      _$$FieldDeclarationStorageV3ImplFromJson(json);
 
   @override
   final String typeName;
@@ -226,7 +226,7 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FieldDeclarationStorageV3 &&
+            other is _$FieldDeclarationStorageV3Impl &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
             (identical(other.name, name) || other.name == name) &&
@@ -257,13 +257,13 @@ class _$_FieldDeclarationStorageV3 extends _FieldDeclarationStorageV3 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FieldDeclarationStorageV3CopyWith<_$_FieldDeclarationStorageV3>
-      get copyWith => __$$_FieldDeclarationStorageV3CopyWithImpl<
-          _$_FieldDeclarationStorageV3>(this, _$identity);
+  _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
+      get copyWith => __$$FieldDeclarationStorageV3ImplCopyWithImpl<
+          _$FieldDeclarationStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FieldDeclarationStorageV3ToJson(
+    return _$$FieldDeclarationStorageV3ImplToJson(
       this,
     );
   }
@@ -277,11 +277,11 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
       required final bool isExperimental,
       required final bool isStatic,
       required final Set<String> entryPoints,
-      required final String relativePath}) = _$_FieldDeclarationStorageV3;
+      required final String relativePath}) = _$FieldDeclarationStorageV3Impl;
   const _FieldDeclarationStorageV3._() : super._();
 
   factory _FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_FieldDeclarationStorageV3.fromJson;
+      _$FieldDeclarationStorageV3Impl.fromJson;
 
   @override
   String get typeName;
@@ -299,6 +299,6 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_FieldDeclarationStorageV3CopyWith<_$_FieldDeclarationStorageV3>
+  _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

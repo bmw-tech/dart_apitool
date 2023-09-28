@@ -186,11 +186,11 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
 }
 
 /// @nodoc
-abstract class _$$_PackageApiStorageV3CopyWith<$Res>
+abstract class _$$PackageApiStorageV3ImplCopyWith<$Res>
     implements $PackageApiStorageV3CopyWith<$Res> {
-  factory _$$_PackageApiStorageV3CopyWith(_$_PackageApiStorageV3 value,
-          $Res Function(_$_PackageApiStorageV3) then) =
-      __$$_PackageApiStorageV3CopyWithImpl<$Res>;
+  factory _$$PackageApiStorageV3ImplCopyWith(_$PackageApiStorageV3Impl value,
+          $Res Function(_$PackageApiStorageV3Impl) then) =
+      __$$PackageApiStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -216,11 +216,11 @@ abstract class _$$_PackageApiStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PackageApiStorageV3CopyWithImpl<$Res>
-    extends _$PackageApiStorageV3CopyWithImpl<$Res, _$_PackageApiStorageV3>
-    implements _$$_PackageApiStorageV3CopyWith<$Res> {
-  __$$_PackageApiStorageV3CopyWithImpl(_$_PackageApiStorageV3 _value,
-      $Res Function(_$_PackageApiStorageV3) _then)
+class __$$PackageApiStorageV3ImplCopyWithImpl<$Res>
+    extends _$PackageApiStorageV3CopyWithImpl<$Res, _$PackageApiStorageV3Impl>
+    implements _$$PackageApiStorageV3ImplCopyWith<$Res> {
+  __$$PackageApiStorageV3ImplCopyWithImpl(_$PackageApiStorageV3Impl _value,
+      $Res Function(_$PackageApiStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -240,7 +240,7 @@ class __$$_PackageApiStorageV3CopyWithImpl<$Res>
     Object? minSdkVersion = null,
     Object? packageDependencies = null,
   }) {
-    return _then(_$_PackageApiStorageV3(
+    return _then(_$PackageApiStorageV3Impl(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -299,8 +299,8 @@ class __$$_PackageApiStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
-  const _$_PackageApiStorageV3(
+class _$PackageApiStorageV3Impl extends _PackageApiStorageV3 {
+  const _$PackageApiStorageV3Impl(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
@@ -323,8 +323,8 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
         _packageDependencies = packageDependencies,
         super._();
 
-  factory _$_PackageApiStorageV3.fromJson(Map<String, dynamic> json) =>
-      _$$_PackageApiStorageV3FromJson(json);
+  factory _$PackageApiStorageV3Impl.fromJson(Map<String, dynamic> json) =>
+      _$$PackageApiStorageV3ImplFromJson(json);
 
   @override
   final String packageName;
@@ -403,7 +403,7 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageApiStorageV3 &&
+            other is _$PackageApiStorageV3Impl &&
             (identical(other.packageName, packageName) ||
                 other.packageName == packageName) &&
             (identical(other.packageVersion, packageVersion) ||
@@ -454,13 +454,13 @@ class _$_PackageApiStorageV3 extends _PackageApiStorageV3 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>
-      __$$_PackageApiStorageV3CopyWithImpl<_$_PackageApiStorageV3>(
+  _$$PackageApiStorageV3ImplCopyWith<_$PackageApiStorageV3Impl> get copyWith =>
+      __$$PackageApiStorageV3ImplCopyWithImpl<_$PackageApiStorageV3Impl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PackageApiStorageV3ToJson(
+    return _$$PackageApiStorageV3ImplToJson(
       this,
     );
   }
@@ -482,11 +482,11 @@ abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
       required final SdkTypeStorageV3 sdkType,
       @VersionJsonConverter() required final Version minSdkVersion,
       required final List<PackageDependencyStorageV3>
-          packageDependencies}) = _$_PackageApiStorageV3;
+          packageDependencies}) = _$PackageApiStorageV3Impl;
   const _PackageApiStorageV3._() : super._();
 
   factory _PackageApiStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_PackageApiStorageV3.fromJson;
+      _$PackageApiStorageV3Impl.fromJson;
 
   @override
   String get packageName;
@@ -517,6 +517,6 @@ abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
   List<PackageDependencyStorageV3> get packageDependencies;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageApiStorageV3CopyWith<_$_PackageApiStorageV3> get copyWith =>
+  _$$PackageApiStorageV3ImplCopyWith<_$PackageApiStorageV3Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }

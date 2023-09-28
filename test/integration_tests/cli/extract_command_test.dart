@@ -76,6 +76,45 @@ void main() {
     );
 
     test(
+      'local packages don\'t break own package refs',
+      () async {
+        final tempDir = await Directory.systemTemp.createTemp();
+        final tempFilePath = path.join(tempDir.path, 'extract_paths_test.json');
+        final exitCode = await runner.run([
+          'extract',
+          '--input',
+          path.join(
+            'test',
+            'test_packages',
+            'path_references',
+            'cluster_a',
+            'package_a',
+          ),
+          '--output',
+          tempFilePath,
+        ]);
+        expect(exitCode, 0);
+
+        final jsonReportFile = File(tempFilePath);
+        expect(await jsonReportFile.exists(), isTrue);
+
+        final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+        await tempDir.delete(recursive: true);
+
+        // check if the thisIsAMixinField in ClassA was extracted
+        final interfaceDeclarations =
+            jsonReport['packageApi']['interfaceDeclarations'] as List;
+        final classADeclaration =
+            interfaceDeclarations.singleWhere((id) => id['name'] == 'ClassA');
+        final thisIsAMixinFields =
+            (classADeclaration['fieldDeclarations'] as List)
+                .where((fd) => fd['name'] == 'thisIsAMixinField');
+        expect(thisIsAMixinFields.length, 1);
+      },
+      timeout: integrationTestTimeout,
+    );
+
+    test(
       'Can handle pub ref',
       () async {
         final exitCode = await runner.run([

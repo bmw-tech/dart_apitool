@@ -245,7 +245,7 @@ class TypeHierarchy {
 
 /// represents a type in the type hierarchy
 @freezed
-class _TypeHierarchyItem with _$_TypeHierarchyItem {
+class _TypeHierarchyItem with _$TypeHierarchyItem {
   const _TypeHierarchyItem._();
 
   const factory _TypeHierarchyItem({

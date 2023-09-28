@@ -59,23 +59,25 @@ class _$IOSPlatformConstraintsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IOSPlatformConstraintsCopyWith<$Res>
+abstract class _$$IOSPlatformConstraintsImplCopyWith<$Res>
     implements $IOSPlatformConstraintsCopyWith<$Res> {
-  factory _$$_IOSPlatformConstraintsCopyWith(_$_IOSPlatformConstraints value,
-          $Res Function(_$_IOSPlatformConstraints) then) =
-      __$$_IOSPlatformConstraintsCopyWithImpl<$Res>;
+  factory _$$IOSPlatformConstraintsImplCopyWith(
+          _$IOSPlatformConstraintsImpl value,
+          $Res Function(_$IOSPlatformConstraintsImpl) then) =
+      __$$IOSPlatformConstraintsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({num? minimumOsVersion});
 }
 
 /// @nodoc
-class __$$_IOSPlatformConstraintsCopyWithImpl<$Res>
+class __$$IOSPlatformConstraintsImplCopyWithImpl<$Res>
     extends _$IOSPlatformConstraintsCopyWithImpl<$Res,
-        _$_IOSPlatformConstraints>
-    implements _$$_IOSPlatformConstraintsCopyWith<$Res> {
-  __$$_IOSPlatformConstraintsCopyWithImpl(_$_IOSPlatformConstraints _value,
-      $Res Function(_$_IOSPlatformConstraints) _then)
+        _$IOSPlatformConstraintsImpl>
+    implements _$$IOSPlatformConstraintsImplCopyWith<$Res> {
+  __$$IOSPlatformConstraintsImplCopyWithImpl(
+      _$IOSPlatformConstraintsImpl _value,
+      $Res Function(_$IOSPlatformConstraintsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -83,7 +85,7 @@ class __$$_IOSPlatformConstraintsCopyWithImpl<$Res>
   $Res call({
     Object? minimumOsVersion = freezed,
   }) {
-    return _then(_$_IOSPlatformConstraints(
+    return _then(_$IOSPlatformConstraintsImpl(
       minimumOsVersion: freezed == minimumOsVersion
           ? _value.minimumOsVersion
           : minimumOsVersion // ignore: cast_nullable_to_non_nullable
@@ -94,8 +96,8 @@ class __$$_IOSPlatformConstraintsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_IOSPlatformConstraints implements _IOSPlatformConstraints {
-  const _$_IOSPlatformConstraints({required this.minimumOsVersion});
+class _$IOSPlatformConstraintsImpl implements _IOSPlatformConstraints {
+  const _$IOSPlatformConstraintsImpl({required this.minimumOsVersion});
 
   /// minimum iOS version
   @override
@@ -110,7 +112,7 @@ class _$_IOSPlatformConstraints implements _IOSPlatformConstraints {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IOSPlatformConstraints &&
+            other is _$IOSPlatformConstraintsImpl &&
             (identical(other.minimumOsVersion, minimumOsVersion) ||
                 other.minimumOsVersion == minimumOsVersion));
   }
@@ -121,14 +123,14 @@ class _$_IOSPlatformConstraints implements _IOSPlatformConstraints {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IOSPlatformConstraintsCopyWith<_$_IOSPlatformConstraints> get copyWith =>
-      __$$_IOSPlatformConstraintsCopyWithImpl<_$_IOSPlatformConstraints>(
-          this, _$identity);
+  _$$IOSPlatformConstraintsImplCopyWith<_$IOSPlatformConstraintsImpl>
+      get copyWith => __$$IOSPlatformConstraintsImplCopyWithImpl<
+          _$IOSPlatformConstraintsImpl>(this, _$identity);
 }
 
 abstract class _IOSPlatformConstraints implements IOSPlatformConstraints {
   const factory _IOSPlatformConstraints(
-      {required final num? minimumOsVersion}) = _$_IOSPlatformConstraints;
+      {required final num? minimumOsVersion}) = _$IOSPlatformConstraintsImpl;
 
   @override
 
@@ -136,8 +138,8 @@ abstract class _IOSPlatformConstraints implements IOSPlatformConstraints {
   num? get minimumOsVersion;
   @override
   @JsonKey(ignore: true)
-  _$$_IOSPlatformConstraintsCopyWith<_$_IOSPlatformConstraints> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$IOSPlatformConstraintsImplCopyWith<_$IOSPlatformConstraintsImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -203,12 +205,12 @@ class _$AndroidPlatformConstraintsCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AndroidPlatformConstraintsCopyWith<$Res>
+abstract class _$$AndroidPlatformConstraintsImplCopyWith<$Res>
     implements $AndroidPlatformConstraintsCopyWith<$Res> {
-  factory _$$_AndroidPlatformConstraintsCopyWith(
-          _$_AndroidPlatformConstraints value,
-          $Res Function(_$_AndroidPlatformConstraints) then) =
-      __$$_AndroidPlatformConstraintsCopyWithImpl<$Res>;
+  factory _$$AndroidPlatformConstraintsImplCopyWith(
+          _$AndroidPlatformConstraintsImpl value,
+          $Res Function(_$AndroidPlatformConstraintsImpl) then) =
+      __$$AndroidPlatformConstraintsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -216,13 +218,13 @@ abstract class _$$_AndroidPlatformConstraintsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AndroidPlatformConstraintsCopyWithImpl<$Res>
+class __$$AndroidPlatformConstraintsImplCopyWithImpl<$Res>
     extends _$AndroidPlatformConstraintsCopyWithImpl<$Res,
-        _$_AndroidPlatformConstraints>
-    implements _$$_AndroidPlatformConstraintsCopyWith<$Res> {
-  __$$_AndroidPlatformConstraintsCopyWithImpl(
-      _$_AndroidPlatformConstraints _value,
-      $Res Function(_$_AndroidPlatformConstraints) _then)
+        _$AndroidPlatformConstraintsImpl>
+    implements _$$AndroidPlatformConstraintsImplCopyWith<$Res> {
+  __$$AndroidPlatformConstraintsImplCopyWithImpl(
+      _$AndroidPlatformConstraintsImpl _value,
+      $Res Function(_$AndroidPlatformConstraintsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -232,7 +234,7 @@ class __$$_AndroidPlatformConstraintsCopyWithImpl<$Res>
     Object? compileSdkVersion = freezed,
     Object? targetSdkVersion = freezed,
   }) {
-    return _then(_$_AndroidPlatformConstraints(
+    return _then(_$AndroidPlatformConstraintsImpl(
       minSdkVersion: freezed == minSdkVersion
           ? _value.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
@@ -251,8 +253,8 @@ class __$$_AndroidPlatformConstraintsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AndroidPlatformConstraints implements _AndroidPlatformConstraints {
-  const _$_AndroidPlatformConstraints(
+class _$AndroidPlatformConstraintsImpl implements _AndroidPlatformConstraints {
+  const _$AndroidPlatformConstraintsImpl(
       {required this.minSdkVersion,
       required this.compileSdkVersion,
       required this.targetSdkVersion});
@@ -278,7 +280,7 @@ class _$_AndroidPlatformConstraints implements _AndroidPlatformConstraints {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AndroidPlatformConstraints &&
+            other is _$AndroidPlatformConstraintsImpl &&
             (identical(other.minSdkVersion, minSdkVersion) ||
                 other.minSdkVersion == minSdkVersion) &&
             (identical(other.compileSdkVersion, compileSdkVersion) ||
@@ -294,9 +296,9 @@ class _$_AndroidPlatformConstraints implements _AndroidPlatformConstraints {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AndroidPlatformConstraintsCopyWith<_$_AndroidPlatformConstraints>
-      get copyWith => __$$_AndroidPlatformConstraintsCopyWithImpl<
-          _$_AndroidPlatformConstraints>(this, _$identity);
+  _$$AndroidPlatformConstraintsImplCopyWith<_$AndroidPlatformConstraintsImpl>
+      get copyWith => __$$AndroidPlatformConstraintsImplCopyWithImpl<
+          _$AndroidPlatformConstraintsImpl>(this, _$identity);
 }
 
 abstract class _AndroidPlatformConstraints
@@ -304,7 +306,7 @@ abstract class _AndroidPlatformConstraints
   const factory _AndroidPlatformConstraints(
       {required final int? minSdkVersion,
       required final int? compileSdkVersion,
-      required final int? targetSdkVersion}) = _$_AndroidPlatformConstraints;
+      required final int? targetSdkVersion}) = _$AndroidPlatformConstraintsImpl;
 
   @override
 
@@ -320,6 +322,6 @@ abstract class _AndroidPlatformConstraints
   int? get targetSdkVersion;
   @override
   @JsonKey(ignore: true)
-  _$$_AndroidPlatformConstraintsCopyWith<_$_AndroidPlatformConstraints>
+  _$$AndroidPlatformConstraintsImplCopyWith<_$AndroidPlatformConstraintsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

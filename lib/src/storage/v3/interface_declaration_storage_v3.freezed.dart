@@ -139,12 +139,12 @@ class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_InterfaceDeclarationStorageV3CopyWith<$Res>
+abstract class _$$InterfaceDeclarationStorageV3ImplCopyWith<$Res>
     implements $InterfaceDeclarationStorageV3CopyWith<$Res> {
-  factory _$$_InterfaceDeclarationStorageV3CopyWith(
-          _$_InterfaceDeclarationStorageV3 value,
-          $Res Function(_$_InterfaceDeclarationStorageV3) then) =
-      __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>;
+  factory _$$InterfaceDeclarationStorageV3ImplCopyWith(
+          _$InterfaceDeclarationStorageV3Impl value,
+          $Res Function(_$InterfaceDeclarationStorageV3Impl) then) =
+      __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -162,13 +162,13 @@ abstract class _$$_InterfaceDeclarationStorageV3CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
+class __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>
     extends _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
-        _$_InterfaceDeclarationStorageV3>
-    implements _$$_InterfaceDeclarationStorageV3CopyWith<$Res> {
-  __$$_InterfaceDeclarationStorageV3CopyWithImpl(
-      _$_InterfaceDeclarationStorageV3 _value,
-      $Res Function(_$_InterfaceDeclarationStorageV3) _then)
+        _$InterfaceDeclarationStorageV3Impl>
+    implements _$$InterfaceDeclarationStorageV3ImplCopyWith<$Res> {
+  __$$InterfaceDeclarationStorageV3ImplCopyWithImpl(
+      _$InterfaceDeclarationStorageV3Impl _value,
+      $Res Function(_$InterfaceDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -186,7 +186,7 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
     Object? entryPoints = null,
     Object? relativePath = null,
   }) {
-    return _then(_$_InterfaceDeclarationStorageV3(
+    return _then(_$InterfaceDeclarationStorageV3Impl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -237,8 +237,9 @@ class __$$_InterfaceDeclarationStorageV3CopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
-  const _$_InterfaceDeclarationStorageV3(
+class _$InterfaceDeclarationStorageV3Impl
+    extends _InterfaceDeclarationStorageV3 {
+  const _$InterfaceDeclarationStorageV3Impl(
       {required this.name,
       required this.isDeprecated,
       required this.isExperimental,
@@ -258,9 +259,9 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
         _entryPoints = entryPoints,
         super._();
 
-  factory _$_InterfaceDeclarationStorageV3.fromJson(
+  factory _$InterfaceDeclarationStorageV3Impl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_InterfaceDeclarationStorageV3FromJson(json);
+      _$$InterfaceDeclarationStorageV3ImplFromJson(json);
 
   @override
   final String name;
@@ -327,7 +328,7 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InterfaceDeclarationStorageV3 &&
+            other is _$InterfaceDeclarationStorageV3Impl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -370,13 +371,14 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InterfaceDeclarationStorageV3CopyWith<_$_InterfaceDeclarationStorageV3>
-      get copyWith => __$$_InterfaceDeclarationStorageV3CopyWithImpl<
-          _$_InterfaceDeclarationStorageV3>(this, _$identity);
+  _$$InterfaceDeclarationStorageV3ImplCopyWith<
+          _$InterfaceDeclarationStorageV3Impl>
+      get copyWith => __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<
+          _$InterfaceDeclarationStorageV3Impl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_InterfaceDeclarationStorageV3ToJson(
+    return _$$InterfaceDeclarationStorageV3ImplToJson(
       this,
     );
   }
@@ -385,22 +387,23 @@ class _$_InterfaceDeclarationStorageV3 extends _InterfaceDeclarationStorageV3 {
 abstract class _InterfaceDeclarationStorageV3
     extends InterfaceDeclarationStorageV3 {
   const factory _InterfaceDeclarationStorageV3(
-      {required final String name,
-      required final bool isDeprecated,
-      required final bool isExperimental,
-      required final bool isSealed,
-      required final bool isRequired,
-      required final List<String> typeParameterNames,
-      required final List<String> superTypeNames,
-      required final List<ExecutableDeclarationStorageV3>
-          executableDeclarations,
-      required final List<FieldDeclarationStorageV3> fieldDeclarations,
-      required final Set<String> entryPoints,
-      required final String relativePath}) = _$_InterfaceDeclarationStorageV3;
+          {required final String name,
+          required final bool isDeprecated,
+          required final bool isExperimental,
+          required final bool isSealed,
+          required final bool isRequired,
+          required final List<String> typeParameterNames,
+          required final List<String> superTypeNames,
+          required final List<ExecutableDeclarationStorageV3>
+              executableDeclarations,
+          required final List<FieldDeclarationStorageV3> fieldDeclarations,
+          required final Set<String> entryPoints,
+          required final String relativePath}) =
+      _$InterfaceDeclarationStorageV3Impl;
   const _InterfaceDeclarationStorageV3._() : super._();
 
   factory _InterfaceDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$_InterfaceDeclarationStorageV3.fromJson;
+      _$InterfaceDeclarationStorageV3Impl.fromJson;
 
   @override
   String get name;
@@ -426,6 +429,7 @@ abstract class _InterfaceDeclarationStorageV3
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_InterfaceDeclarationStorageV3CopyWith<_$_InterfaceDeclarationStorageV3>
+  _$$InterfaceDeclarationStorageV3ImplCopyWith<
+          _$InterfaceDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

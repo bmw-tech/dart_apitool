@@ -125,12 +125,12 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
+abstract class _$$ExecutableParameterDeclarationImplCopyWith<$Res>
     implements $ExecutableParameterDeclarationCopyWith<$Res> {
-  factory _$$_ExecutableParameterDeclarationCopyWith(
-          _$_ExecutableParameterDeclaration value,
-          $Res Function(_$_ExecutableParameterDeclaration) then) =
-      __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>;
+  factory _$$ExecutableParameterDeclarationImplCopyWith(
+          _$ExecutableParameterDeclarationImpl value,
+          $Res Function(_$ExecutableParameterDeclarationImpl) then) =
+      __$$ExecutableParameterDeclarationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -145,13 +145,13 @@ abstract class _$$_ExecutableParameterDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
+class __$$ExecutableParameterDeclarationImplCopyWithImpl<$Res>
     extends _$ExecutableParameterDeclarationCopyWithImpl<$Res,
-        _$_ExecutableParameterDeclaration>
-    implements _$$_ExecutableParameterDeclarationCopyWith<$Res> {
-  __$$_ExecutableParameterDeclarationCopyWithImpl(
-      _$_ExecutableParameterDeclaration _value,
-      $Res Function(_$_ExecutableParameterDeclaration) _then)
+        _$ExecutableParameterDeclarationImpl>
+    implements _$$ExecutableParameterDeclarationImplCopyWith<$Res> {
+  __$$ExecutableParameterDeclarationImplCopyWithImpl(
+      _$ExecutableParameterDeclarationImpl _value,
+      $Res Function(_$ExecutableParameterDeclarationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -166,7 +166,7 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
     Object? typeFullLibraryName = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$_ExecutableParameterDeclaration(
+    return _then(_$ExecutableParameterDeclarationImpl(
       isRequired: null == isRequired
           ? _value.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
@@ -205,9 +205,9 @@ class __$$_ExecutableParameterDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ExecutableParameterDeclaration
+class _$ExecutableParameterDeclarationImpl
     extends _ExecutableParameterDeclaration {
-  const _$_ExecutableParameterDeclaration(
+  const _$ExecutableParameterDeclarationImpl(
       {required this.isRequired,
       required this.isNamed,
       required this.name,
@@ -259,7 +259,7 @@ class _$_ExecutableParameterDeclaration
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableParameterDeclaration &&
+            other is _$ExecutableParameterDeclarationImpl &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             (identical(other.isNamed, isNamed) || other.isNamed == isNamed) &&
@@ -291,22 +291,24 @@ class _$_ExecutableParameterDeclaration
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
-      get copyWith => __$$_ExecutableParameterDeclarationCopyWithImpl<
-          _$_ExecutableParameterDeclaration>(this, _$identity);
+  _$$ExecutableParameterDeclarationImplCopyWith<
+          _$ExecutableParameterDeclarationImpl>
+      get copyWith => __$$ExecutableParameterDeclarationImplCopyWithImpl<
+          _$ExecutableParameterDeclarationImpl>(this, _$identity);
 }
 
 abstract class _ExecutableParameterDeclaration
     extends ExecutableParameterDeclaration implements Declaration {
   const factory _ExecutableParameterDeclaration(
-      {required final bool isRequired,
-      required final bool isNamed,
-      required final String name,
-      required final bool isDeprecated,
-      required final bool isExperimental,
-      required final String typeName,
-      required final String? typeFullLibraryName,
-      required final String relativePath}) = _$_ExecutableParameterDeclaration;
+          {required final bool isRequired,
+          required final bool isNamed,
+          required final String name,
+          required final bool isDeprecated,
+          required final bool isExperimental,
+          required final String typeName,
+          required final String? typeFullLibraryName,
+          required final String relativePath}) =
+      _$ExecutableParameterDeclarationImpl;
   const _ExecutableParameterDeclaration._() : super._();
 
   @override
@@ -343,7 +345,8 @@ abstract class _ExecutableParameterDeclaration
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableParameterDeclarationCopyWith<_$_ExecutableParameterDeclaration>
+  _$$ExecutableParameterDeclarationImplCopyWith<
+          _$ExecutableParameterDeclarationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -475,11 +478,12 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ExecutableDeclarationCopyWith<$Res>
+abstract class _$$ExecutableDeclarationImplCopyWith<$Res>
     implements $ExecutableDeclarationCopyWith<$Res> {
-  factory _$$_ExecutableDeclarationCopyWith(_$_ExecutableDeclaration value,
-          $Res Function(_$_ExecutableDeclaration) then) =
-      __$$_ExecutableDeclarationCopyWithImpl<$Res>;
+  factory _$$ExecutableDeclarationImplCopyWith(
+          _$ExecutableDeclarationImpl value,
+          $Res Function(_$ExecutableDeclarationImpl) then) =
+      __$$ExecutableDeclarationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -496,11 +500,12 @@ abstract class _$$_ExecutableDeclarationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ExecutableDeclarationCopyWithImpl<$Res>
-    extends _$ExecutableDeclarationCopyWithImpl<$Res, _$_ExecutableDeclaration>
-    implements _$$_ExecutableDeclarationCopyWith<$Res> {
-  __$$_ExecutableDeclarationCopyWithImpl(_$_ExecutableDeclaration _value,
-      $Res Function(_$_ExecutableDeclaration) _then)
+class __$$ExecutableDeclarationImplCopyWithImpl<$Res>
+    extends _$ExecutableDeclarationCopyWithImpl<$Res,
+        _$ExecutableDeclarationImpl>
+    implements _$$ExecutableDeclarationImplCopyWith<$Res> {
+  __$$ExecutableDeclarationImplCopyWithImpl(_$ExecutableDeclarationImpl _value,
+      $Res Function(_$ExecutableDeclarationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -517,7 +522,7 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
     Object? entryPoints = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$_ExecutableDeclaration(
+    return _then(_$ExecutableDeclarationImpl(
       returnTypeName: null == returnTypeName
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
@@ -564,8 +569,8 @@ class __$$_ExecutableDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ExecutableDeclaration extends _ExecutableDeclaration {
-  const _$_ExecutableDeclaration(
+class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
+  const _$ExecutableDeclarationImpl(
       {required this.returnTypeName,
       required this.name,
       required this.isDeprecated,
@@ -654,7 +659,7 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExecutableDeclaration &&
+            other is _$ExecutableDeclarationImpl &&
             (identical(other.returnTypeName, returnTypeName) ||
                 other.returnTypeName == returnTypeName) &&
             (identical(other.name, name) || other.name == name) &&
@@ -692,9 +697,9 @@ class _$_ExecutableDeclaration extends _ExecutableDeclaration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
-      __$$_ExecutableDeclarationCopyWithImpl<_$_ExecutableDeclaration>(
-          this, _$identity);
+  _$$ExecutableDeclarationImplCopyWith<_$ExecutableDeclarationImpl>
+      get copyWith => __$$ExecutableDeclarationImplCopyWithImpl<
+          _$ExecutableDeclarationImpl>(this, _$identity);
 }
 
 abstract class _ExecutableDeclaration extends ExecutableDeclaration {
@@ -708,7 +713,7 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final ExecutableType type,
       required final bool isStatic,
       final Set<String>? entryPoints,
-      required final String relativePath}) = _$_ExecutableDeclaration;
+      required final String relativePath}) = _$ExecutableDeclarationImpl;
   const _ExecutableDeclaration._() : super._();
 
   @override
@@ -753,6 +758,6 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   String get relativePath;
   @override
   @JsonKey(ignore: true)
-  _$$_ExecutableDeclarationCopyWith<_$_ExecutableDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ExecutableDeclarationImplCopyWith<_$ExecutableDeclarationImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

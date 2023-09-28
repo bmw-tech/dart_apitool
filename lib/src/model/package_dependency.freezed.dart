@@ -66,22 +66,22 @@ class _$PackageDependencyCopyWithImpl<$Res, $Val extends PackageDependency>
 }
 
 /// @nodoc
-abstract class _$$_PackageDependencyCopyWith<$Res>
+abstract class _$$PackageDependencyImplCopyWith<$Res>
     implements $PackageDependencyCopyWith<$Res> {
-  factory _$$_PackageDependencyCopyWith(_$_PackageDependency value,
-          $Res Function(_$_PackageDependency) then) =
-      __$$_PackageDependencyCopyWithImpl<$Res>;
+  factory _$$PackageDependencyImplCopyWith(_$PackageDependencyImpl value,
+          $Res Function(_$PackageDependencyImpl) then) =
+      __$$PackageDependencyImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String packageName, String? packageVersion});
 }
 
 /// @nodoc
-class __$$_PackageDependencyCopyWithImpl<$Res>
-    extends _$PackageDependencyCopyWithImpl<$Res, _$_PackageDependency>
-    implements _$$_PackageDependencyCopyWith<$Res> {
-  __$$_PackageDependencyCopyWithImpl(
-      _$_PackageDependency _value, $Res Function(_$_PackageDependency) _then)
+class __$$PackageDependencyImplCopyWithImpl<$Res>
+    extends _$PackageDependencyCopyWithImpl<$Res, _$PackageDependencyImpl>
+    implements _$$PackageDependencyImplCopyWith<$Res> {
+  __$$PackageDependencyImplCopyWithImpl(_$PackageDependencyImpl _value,
+      $Res Function(_$PackageDependencyImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -90,7 +90,7 @@ class __$$_PackageDependencyCopyWithImpl<$Res>
     Object? packageName = null,
     Object? packageVersion = freezed,
   }) {
-    return _then(_$_PackageDependency(
+    return _then(_$PackageDependencyImpl(
       packageName: null == packageName
           ? _value.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
@@ -105,8 +105,8 @@ class __$$_PackageDependencyCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PackageDependency implements _PackageDependency {
-  _$_PackageDependency(
+class _$PackageDependencyImpl implements _PackageDependency {
+  _$PackageDependencyImpl(
       {required this.packageName, required this.packageVersion});
 
   /// name of the package
@@ -126,7 +126,7 @@ class _$_PackageDependency implements _PackageDependency {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageDependency &&
+            other is _$PackageDependencyImpl &&
             (identical(other.packageName, packageName) ||
                 other.packageName == packageName) &&
             (identical(other.packageVersion, packageVersion) ||
@@ -139,15 +139,15 @@ class _$_PackageDependency implements _PackageDependency {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackageDependencyCopyWith<_$_PackageDependency> get copyWith =>
-      __$$_PackageDependencyCopyWithImpl<_$_PackageDependency>(
+  _$$PackageDependencyImplCopyWith<_$PackageDependencyImpl> get copyWith =>
+      __$$PackageDependencyImplCopyWithImpl<_$PackageDependencyImpl>(
           this, _$identity);
 }
 
 abstract class _PackageDependency implements PackageDependency {
   factory _PackageDependency(
       {required final String packageName,
-      required final String? packageVersion}) = _$_PackageDependency;
+      required final String? packageVersion}) = _$PackageDependencyImpl;
 
   @override
 
@@ -159,6 +159,6 @@ abstract class _PackageDependency implements PackageDependency {
   String? get packageVersion;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageDependencyCopyWith<_$_PackageDependency> get copyWith =>
+  _$$PackageDependencyImplCopyWith<_$PackageDependencyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

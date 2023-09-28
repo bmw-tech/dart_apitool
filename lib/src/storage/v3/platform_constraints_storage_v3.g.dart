@@ -8,29 +8,29 @@ part of 'platform_constraints_storage_v3.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_IOSPlatformConstraintsStorageV3 _$$_IOSPlatformConstraintsStorageV3FromJson(
-        Map<String, dynamic> json) =>
-    _$_IOSPlatformConstraintsStorageV3(
-      minimumOsVersion: json['minimumOsVersion'] as num?,
-    );
+_$IOSPlatformConstraintsStorageV3Impl
+    _$$IOSPlatformConstraintsStorageV3ImplFromJson(Map<String, dynamic> json) =>
+        _$IOSPlatformConstraintsStorageV3Impl(
+          minimumOsVersion: json['minimumOsVersion'] as num?,
+        );
 
-Map<String, dynamic> _$$_IOSPlatformConstraintsStorageV3ToJson(
-        _$_IOSPlatformConstraintsStorageV3 instance) =>
+Map<String, dynamic> _$$IOSPlatformConstraintsStorageV3ImplToJson(
+        _$IOSPlatformConstraintsStorageV3Impl instance) =>
     <String, dynamic>{
       'minimumOsVersion': instance.minimumOsVersion,
     };
 
-_$_AndroidPlatformConstraintsStorageV3
-    _$$_AndroidPlatformConstraintsStorageV3FromJson(
+_$AndroidPlatformConstraintsStorageV3Impl
+    _$$AndroidPlatformConstraintsStorageV3ImplFromJson(
             Map<String, dynamic> json) =>
-        _$_AndroidPlatformConstraintsStorageV3(
+        _$AndroidPlatformConstraintsStorageV3Impl(
           minSdkVersion: json['minSdkVersion'] as int?,
           compileSdkVersion: json['compileSdkVersion'] as int?,
           targetSdkVersion: json['targetSdkVersion'] as int?,
         );
 
-Map<String, dynamic> _$$_AndroidPlatformConstraintsStorageV3ToJson(
-        _$_AndroidPlatformConstraintsStorageV3 instance) =>
+Map<String, dynamic> _$$AndroidPlatformConstraintsStorageV3ImplToJson(
+        _$AndroidPlatformConstraintsStorageV3Impl instance) =>
     <String, dynamic>{
       'minSdkVersion': instance.minSdkVersion,
       'compileSdkVersion': instance.compileSdkVersion,

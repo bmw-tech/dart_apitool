@@ -201,6 +201,8 @@ OBSOLETE: Has no effect anymore.
     required String sourcePackageConfigPath,
   }) async {
     final sourcePackageConfigDirPath = p.dirname(sourcePackageConfigPath);
+    final sourcePackageDirPath =
+        Directory(sourcePackageConfigDirPath).parent.path;
     final targetPackageConfigContent =
         jsonDecode(await File(targetPackageConfigPath).readAsString());
     // iterate through the package_config.json content and look for relative paths
@@ -211,6 +213,10 @@ OBSOLETE: Has no effect anymore.
         // we make the relative path absolute by using the origin of the source package config as a base
         final normalizedPackagePath =
             p.normalize(p.join(sourcePackageConfigDirPath, packagePath));
+        // if the relative path is the package path, then don't make it absolute
+        if (p.equals(sourcePackageDirPath, normalizedPackagePath)) {
+          continue;
+        }
         // and write the new absolute path back to the json structure
         packageConfig['rootUri'] = p.toUri(normalizedPackagePath).toString();
       }
