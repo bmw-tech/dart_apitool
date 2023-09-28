@@ -1,0 +1,3 @@
+mixin MixinA {
+  int thisIsAMixinField;
+}
