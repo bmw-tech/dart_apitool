@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.16.4
+- adds support for Dart 3 Record types
+- bump dart SDK requirements to >=3.0.0
+
 ## Version 0.16.3
 - adds more diff result reporting options (cli, json, markdown)
 - fixes broken local packages refs
