@@ -40,27 +40,27 @@ void main() {
 
   group('Version Check', () {
     test('is fine with breaking change and major version change', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
         newPackageApi: createTestPackageApi(packageVersion: '2.0.0'),
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test('is NOT fine with breaking change and minor version change', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
         newPackageApi: createTestPackageApi(packageVersion: '1.1.0'),
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isFalse);
+      expect(versionChangeCheckResult.success, isFalse);
     });
     test('is fine with non-breaking change and minor version change', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult:
             createDiffResult(changeTypes: [ApiChangeType.addCompatibleMinor]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
@@ -68,10 +68,10 @@ void main() {
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test('is NOT fine with non-breaking change and patch version change', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult:
             createDiffResult(changeTypes: [ApiChangeType.addCompatibleMinor]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
@@ -79,11 +79,11 @@ void main() {
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isFalse);
+      expect(versionChangeCheckResult.success, isFalse);
     });
     test('is fine with non-breaking (patch) change and patch version change',
         () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult:
             createDiffResult(changeTypes: [ApiChangeType.addCompatiblePatch]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
@@ -91,11 +91,11 @@ void main() {
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test('is fine with non-breaking (patch) change and minor version change',
         () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult:
             createDiffResult(changeTypes: [ApiChangeType.addCompatiblePatch]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
@@ -103,11 +103,11 @@ void main() {
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test('is fine with non-breaking (patch) change and major version change',
         () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult:
             createDiffResult(changeTypes: [ApiChangeType.addCompatiblePatch]),
         oldPackageApi: createTestPackageApi(packageVersion: '1.0.0'),
@@ -115,51 +115,51 @@ void main() {
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test(
         'is fine with breaking change and only prerelease tag in version change',
         () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '2.0.0-dev01'),
         newPackageApi: createTestPackageApi(packageVersion: '2.0.1'),
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test('ignores prerelease tag if ignorePrerelease is set', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '2.0.0'),
         newPackageApi: createTestPackageApi(packageVersion: '2.1.0-dev01'),
         ignorePrerelease: true,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isFalse);
+      expect(versionChangeCheckResult.success, isFalse);
     });
     test('if old and new version have prerelease set, nothing matters', () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '2.0.0-dev00'),
         newPackageApi: createTestPackageApi(packageVersion: '2.1.0-dev01'),
         ignorePrerelease: false,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isTrue);
+      expect(versionChangeCheckResult.success, isTrue);
     });
     test(
         'if old and new version have prerelease set, the base version still has to be the same or higher for the new package',
         () {
-      bool versionChangeCheckResult = VersionCheck.versionChangeMatchesChanges(
+      final versionChangeCheckResult = VersionCheck.check(
         diffResult: createDiffResult(changeTypes: [ApiChangeType.addBreaking]),
         oldPackageApi: createTestPackageApi(packageVersion: '2.1.0-dev00'),
         newPackageApi: createTestPackageApi(packageVersion: '2.0.0-dev01'),
         ignorePrerelease: false,
         versionCheckMode: VersionCheckMode.fully,
       );
-      expect(versionChangeCheckResult, isFalse);
+      expect(versionChangeCheckResult.success, isFalse);
     });
   });
 }

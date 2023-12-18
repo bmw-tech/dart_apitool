@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dart_apitool/api_tool_cli.dart';
 
+import '../../cli/commands/version_check.dart';
 import 'diff_reporter.dart';
 
 const changeCodesReadMe =
@@ -20,7 +21,10 @@ class MarkdownDiffReporter extends DiffReporter {
   });
 
   @override
-  Future<void> generateReport(PackageApiDiffResult diffResult) async {
+  Future<void> generateReport(
+    PackageApiDiffResult diffResult,
+    VersionCheckResult? versionCheckResult,
+  ) async {
     final markdownReport = StringBuffer();
     markdownReport
       ..writeln('# API Changes Report')
@@ -60,6 +64,23 @@ class MarkdownDiffReporter extends DiffReporter {
       markdownReport
         ..writeln('### No Changes Detected')
         ..writeln('No changes detected!');
+    }
+
+    if (versionCheckResult != null) {
+      stdout.writeln('### Version Check');
+      if (versionCheckResult.success) {
+        stdout.writeln('New version is OK!');
+      } else {
+        stdout.writeln('New Version is too low!');
+      }
+      stdout.writeln();
+      stdout.writeln('Old version: "${versionCheckResult.oldVersion}"');
+      stdout.writeln('New version: "${versionCheckResult.newVersion}"');
+      if (versionCheckResult.neededVersion != null) {
+        stdout.writeln('Needed version: "${versionCheckResult.neededVersion}"');
+      }
+      stdout.writeln();
+      stdout.writeln(versionCheckResult.explanation);
     }
 
     // Write the Markdown report to a file

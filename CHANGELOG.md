@@ -3,6 +3,7 @@
 ## Version 0.16.3
 - adds more diff result reporting options (cli, json, markdown)
 - fixes broken local packages refs
+- Add version check to reported output.
 
 ## Version 0.16.2
 - fixes relative path handling in package config (leading to unresolvable types)
