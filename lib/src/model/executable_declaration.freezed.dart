@@ -256,7 +256,7 @@ class _$ExecutableParameterDeclarationImpl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExecutableParameterDeclarationImpl &&
@@ -656,7 +656,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExecutableDeclarationImpl &&

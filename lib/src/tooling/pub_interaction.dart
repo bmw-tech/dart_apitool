@@ -58,26 +58,54 @@ abstract class PubInteraction {
 
   /// returns the cache path of a package with the given [packageName] and [version]
   static String getPackagePathInCache(String packageName, String version) {
-    String getHostedDirectory(String cacheDir, String hostedUrl) {
-      return path.join(cacheDir, 'hosted', hostedUrl, '$packageName-$version');
+    String? findHostedDirectory(List<String> hostedUrls) {
+      for (final hostedUrl in hostedUrls) {
+        final packagePath = path.join(hostedUrl, '$packageName-$version');
+        if (Directory(packagePath).existsSync()) {
+          return packagePath;
+        } else {
+          return null;
+        }
+      }
+      return null;
     }
 
     final cacheDir = pubCacheDir;
+    final hostedDir = path.join(cacheDir, 'hosted');
+    List<String> hostedDirs = [];
+
+    if (Directory(hostedDir).existsSync()) {
+      Directory(hostedDir)
+          .listSync()
+          .map((entity) => entity.path)
+          .forEach((path) {
+        if (Directory(path).existsSync()) {
+          hostedDirs.add(path);
+        }
+      });
+    }
 
     final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
     final envHosted =
         envHostedUrl == null ? null : Uri.parse(envHostedUrl).host;
-    if (envHosted == null) {
+
+    final List<String> hostPriorities = [
+      // first check PUB_HOSTED_URL from environment variable if set
+      if (envHosted != null) envHosted,
       // Flutter 3.7 changed the name of the pub.dev directory => first test the old one, then the new one
-      var packageDirectory = getHostedDirectory(cacheDir, 'pub.dartlang.org');
-      if (Directory(packageDirectory).existsSync()) {
-        return packageDirectory;
+      'pub.dartlang.org',
+      'pub.dev',
+    ];
+
+    for (final hostPriority in hostPriorities) {
+      final matchingHostedDirs =
+          hostedDirs.where((dir) => dir.startsWith(hostPriority)).toList();
+      final foundPackagePath = findHostedDirectory(matchingHostedDirs);
+      if (foundPackagePath != null) {
+        return foundPackagePath;
       }
-      packageDirectory = getHostedDirectory(cacheDir, 'pub.dev');
-      return packageDirectory;
-    } else {
-      return getHostedDirectory(cacheDir, envHosted);
     }
+    return findHostedDirectory(hostedDirs)!;
   }
 
   /// runs pub get in the given [packageDirectory]
