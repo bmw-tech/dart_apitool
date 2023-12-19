@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../../../api_tool_cli.dart';
+import '../../cli/commands/version_check.dart';
 import 'diff_reporter.dart';
 
 class JsonDiffReporter extends DiffReporter {
@@ -17,8 +18,11 @@ class JsonDiffReporter extends DiffReporter {
   });
 
   @override
-  Future<void> generateReport(PackageApiDiffResult diffResult) async {
-    final jsonReport = <String, dynamic>{
+  Future<void> generateReport(
+    PackageApiDiffResult diffResult,
+    VersionCheckResult? versionCheckResult,
+  ) async {
+    final report = <String, dynamic>{
       'reportName': 'API Changes Report',
       'apiToolInfo': {
         'toolName': 'dart_apitool',
@@ -27,15 +31,33 @@ class JsonDiffReporter extends DiffReporter {
         'generatedAt': DateTime.now().toUtc().toLocal().toString(),
         'oldRef': oldPackageRef.ref,
         'newRef': newPackageRef.ref
-      },
-      'report': {},
+      }
     };
 
+    if (versionCheckResult != null) {
+      report['version'] = {
+        'success': versionCheckResult.success,
+        'old': versionCheckResult.oldVersion.toString(),
+        'new': versionCheckResult.newVersion.toString(),
+        'needed': versionCheckResult.neededVersion?.toString(),
+        'explanation': versionCheckResult.explanation.toString(),
+      };
+    }
+
+    report['report'] = getChanges(diffResult);
+    // Write the JSON report to a file
+    await outputFile.writeAsString(jsonEncode(report));
+
+    print('JSON report generated at ${outputFile.path}');
+  }
+
+  Map<String, dynamic> getChanges(PackageApiDiffResult diffResult) {
+    final changeReport = <String, dynamic>{};
     void addChanges(bool breaking) {
       final changes = _printApiChangeNode(diffResult.rootNode, breaking);
       if (changes != null) {
-        jsonReport['report']
-            [breaking ? 'breakingChanges' : 'nonBreakingChanges'] = changes;
+        changeReport[breaking ? 'breakingChanges' : 'nonBreakingChanges'] =
+            changes;
       }
     }
 
@@ -44,13 +66,9 @@ class JsonDiffReporter extends DiffReporter {
       addChanges(true); // Breaking changes
       addChanges(false); // Non-breaking changes
     } else {
-      jsonReport['report']['noChangesDetected'] = true;
+      changeReport['noChangesDetected'] = true;
     }
-
-    // Write the JSON report to a file
-    await outputFile.writeAsString(jsonEncode(jsonReport));
-
-    print('JSON report generated at ${outputFile.path}');
+    return changeReport;
   }
 
   Map<String, dynamic>? _printApiChangeNode(

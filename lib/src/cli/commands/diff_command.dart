@@ -198,19 +198,23 @@ You may want to do this if you want to make sure
       }
     })();
 
-    stdout.writeln('-- Generating report using: ${reporter.reporterName} --');
-    await reporter.generateReport(diffResult);
-
-    if (versionCheckMode != VersionCheckMode.none &&
-        !VersionCheck.versionChangeMatchesChanges(
-            diffResult: diffResult,
-            oldPackageApi: oldPackageApi,
-            newPackageApi: newPackageApi,
-            ignorePrerelease: ignorePrerelease,
-            versionCheckMode: versionCheckMode)) {
-      return -1;
+    VersionCheckResult? versionCheckResult;
+    if (versionCheckMode != VersionCheckMode.none) {
+      versionCheckResult = VersionCheck.check(
+        diffResult: diffResult,
+        oldPackageApi: oldPackageApi,
+        newPackageApi: newPackageApi,
+        ignorePrerelease: ignorePrerelease,
+        versionCheckMode: versionCheckMode,
+      );
     }
 
-    return 0;
+    stdout.writeln('-- Generating report using: ${reporter.reporterName} --');
+    await reporter.generateReport(diffResult, versionCheckResult);
+    if (versionCheckResult?.success ?? true) {
+      return 0;
+    } else {
+      return -1;
+    }
   }
 }

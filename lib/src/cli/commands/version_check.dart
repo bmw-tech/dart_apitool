@@ -1,23 +1,43 @@
 import 'dart:io';
 
-import 'package:colorize/colorize.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../../api_tool.dart';
 
+class VersionCheckResult {
+  final bool success;
+  final Version oldVersion;
+  final Version newVersion;
+  final Version? neededVersion;
+  final String explanation;
+
+  VersionCheckResult.success({
+    required this.oldVersion,
+    required this.newVersion,
+    Version? neededVersion,
+    required this.explanation,
+  })  : success = true,
+        neededVersion = neededVersion ?? newVersion;
+
+  VersionCheckResult.failure({
+    required this.oldVersion,
+    required this.newVersion,
+    required this.neededVersion,
+    required this.explanation,
+  }) : success = false;
+}
+
 /// helper class to check if the version change matches the changes
 abstract class VersionCheck {
   /// checks if the version change between [oldPackageApi] and [newPackageApi] matches the changes in [diffResult]
-  static bool versionChangeMatchesChanges({
+  static VersionCheckResult check({
     required PackageApiDiffResult diffResult,
     required PackageApi oldPackageApi,
     required PackageApi newPackageApi,
     required bool ignorePrerelease,
     required VersionCheckMode versionCheckMode,
   }) {
-    stdout.writeln('');
     stdout.writeln('Checking Package version');
-    stdout.writeln('');
     if (oldPackageApi.packageVersion == null) {
       throw PackageApiDiffError(
           message: 'Old package doesn\'t contain a version]');
@@ -36,14 +56,21 @@ abstract class VersionCheck {
         diffResult.apiChanges.any((change) => !change.type.requiresMinorBump);
 
     if (versionCheckMode == VersionCheckMode.none) {
-      stdout.writeln('Skipping version check completely');
-      return true;
+      return VersionCheckResult.success(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        explanation:
+            'Skipping version check completely as the version check mode is $versionCheckMode',
+      );
     }
     if (versionCheckMode == VersionCheckMode.onlyBreakingChanges &&
         !containsBreakingChanges) {
-      stdout.writeln(
-          'Skipping version check because there are no breaking changes');
-      return true;
+      return VersionCheckResult.success(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        explanation:
+            'Skipping version check because there are no breaking changes',
+      );
     }
 
     if (ignorePrerelease) {
@@ -57,28 +84,35 @@ abstract class VersionCheck {
       final oldVersionWithoutPreRelease = Version.parse(oldVersion.toString());
       oldVersionWithoutPreRelease.preRelease.clear();
       if (oldVersionWithoutPreRelease <= newVersion) {
-        stdout.writeln(
-            'Skipping version check because the old version is a pre-release and the new version is the same or higher without the pre-release part');
-        return true;
+        return VersionCheckResult.success(
+          oldVersion: oldVersion,
+          newVersion: newVersion,
+          explanation:
+              'Skipping version check because the old version is a pre-release and the new version is the same or higher without the pre-release part',
+        );
       }
     }
 
     if (newVersion.isPreRelease) {
       // pre-release. We don't look at differentiation between breaking and non-breaking changes
-      stdout.writeln(
-          'We got a pre release. We only check if there are any changes');
+      final prefix =
+          'We got a pre release. We only check if there are any changes.';
       if (containsAnyChanges && oldVersion >= newVersion) {
-        stdout.writeln(
-            'Got "${Colorize(newVersion.toString()).bold()}" expected > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)');
-        return false;
+        return VersionCheckResult.failure(
+          oldVersion: oldVersion,
+          newVersion: newVersion,
+          neededVersion: null,
+          explanation:
+              '$prefix Got "$newVersion" expected > "$oldVersion" (pre-release but changes)',
+        );
       }
-      stdout.writeln(Colorize('New version is OK!').green());
-      final explaination = containsAnyChanges
-          ? 'which is > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)'
+      final explanation = containsAnyChanges
+          ? 'which is > "$oldVersion" (pre-release but changes)'
           : 'and no changes';
-      stdout.writeln(
-          'Got "${Colorize(newVersion.toString()).bold()}" $explaination');
-      return true;
+      return VersionCheckResult.success(
+          oldVersion: oldVersion,
+          newVersion: newVersion,
+          explanation: '$prefix Got "$newVersion" $explanation');
     }
 
     Version expectedMinVersion =
@@ -99,19 +133,22 @@ abstract class VersionCheck {
       }
     }
 
-    stdout.writeln('Old version: "$oldVersion"');
-    stdout.writeln(
-        'Expecting minimum version: "$expectedMinVersion" ($versionExplanation)');
     if (newVersion < expectedMinVersion) {
-      stdout.writeln(Colorize('New Version is too low!').red());
-      stdout.writeln(
-          'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}"');
-      return false;
+      return VersionCheckResult.failure(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        neededVersion: expectedMinVersion,
+        explanation:
+            'Got "$newVersion" expected >= "$expectedMinVersion" ($versionExplanation)',
+      );
     } else {
-      stdout.writeln(Colorize('New version is OK!').green());
-      stdout.writeln(
-          'Got "${Colorize(newVersion.toString()).bold()}" which is >= "${Colorize(expectedMinVersion.toString()).bold()}"');
-      return true;
+      return VersionCheckResult.success(
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        neededVersion: expectedMinVersion,
+        explanation:
+            'Got "$newVersion" which is >= "$expectedMinVersion" ($versionExplanation)',
+      );
     }
   }
 }

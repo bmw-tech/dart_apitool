@@ -4,6 +4,7 @@ import 'package:colorize/colorize.dart';
 import 'package:console/console.dart';
 
 import '../../../api_tool.dart';
+import '../../cli/commands/version_check.dart';
 import 'diff_reporter.dart';
 
 class ConsoleDiffReporter extends DiffReporter {
@@ -11,7 +12,10 @@ class ConsoleDiffReporter extends DiffReporter {
   final String reporterName = 'Console Reporter';
 
   @override
-  Future<void> generateReport(PackageApiDiffResult diffResult) async {
+  Future<void> generateReport(
+    PackageApiDiffResult diffResult,
+    VersionCheckResult? versionCheckResult,
+  ) async {
     void printChanges(bool breaking) {
       final changes = _printApiChangeNode(diffResult.rootNode, breaking);
       if (changes == null) {
@@ -31,6 +35,23 @@ class ConsoleDiffReporter extends DiffReporter {
       );
     } else {
       stdout.writeln('No changes detected!');
+    }
+
+    if (versionCheckResult != null) {
+      stdout.writeln('Version Check');
+      if (versionCheckResult.success) {
+        stdout.writeln(Colorize('New version is OK!').green());
+      } else {
+        stdout.writeln(Colorize('New Version is too low!').red());
+      }
+      stdout.writeln();
+      stdout.writeln('Old version: "${versionCheckResult.oldVersion}"');
+      stdout.writeln('New version: "${versionCheckResult.newVersion}"');
+      if (versionCheckResult.neededVersion != null) {
+        stdout.writeln('Needed version: "${versionCheckResult.neededVersion}"');
+      }
+      stdout.writeln();
+      stdout.writeln(versionCheckResult.explanation);
     }
   }
 
