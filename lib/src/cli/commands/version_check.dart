@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:colorize/colorize.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../../api_tool.dart';
@@ -104,17 +103,16 @@ abstract class VersionCheck {
           newVersion: newVersion,
           neededVersion: null,
           explanation:
-              '$prefix Got "${Colorize(newVersion.toString()).bold()}" expected > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)',
+              '$prefix Got "$newVersion" expected > "$oldVersion" (pre-release but changes)',
         );
       }
       final explanation = containsAnyChanges
-          ? 'which is > "${Colorize(oldVersion.toString()).bold()}" (pre-release but changes)'
+          ? 'which is > "$oldVersion" (pre-release but changes)'
           : 'and no changes';
       return VersionCheckResult.success(
           oldVersion: oldVersion,
           newVersion: newVersion,
-          explanation:
-              '$prefix Got "${Colorize(newVersion.toString()).bold()}" $explanation');
+          explanation: '$prefix Got "$newVersion" $explanation');
     }
 
     Version expectedMinVersion =
@@ -141,7 +139,7 @@ abstract class VersionCheck {
         newVersion: newVersion,
         neededVersion: expectedMinVersion,
         explanation:
-            'Got "${Colorize(newVersion.toString()).bold()}" expected >= "${Colorize(expectedMinVersion.toString()).bold()}" ($versionExplanation)',
+            'Got "$newVersion" expected >= "$expectedMinVersion" ($versionExplanation)',
       );
     } else {
       return VersionCheckResult.success(
@@ -149,7 +147,7 @@ abstract class VersionCheck {
         newVersion: newVersion,
         neededVersion: expectedMinVersion,
         explanation:
-            'Got "${Colorize(newVersion.toString()).bold()}" which is >= "${Colorize(expectedMinVersion.toString()).bold()}" ($versionExplanation)',
+            'Got "$newVersion" which is >= "$expectedMinVersion" ($versionExplanation)',
       );
     }
   }
