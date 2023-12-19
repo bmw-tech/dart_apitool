@@ -63,8 +63,6 @@ abstract class PubInteraction {
         final packagePath = path.join(hostedUrl, '$packageName-$version');
         if (Directory(packagePath).existsSync()) {
           return packagePath;
-        } else {
-          return null;
         }
       }
       return null;
