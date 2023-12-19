@@ -37,10 +37,10 @@ class JsonDiffReporter extends DiffReporter {
     if (versionCheckResult != null) {
       report['version'] = {
         'success': versionCheckResult.success,
-        'old': versionCheckResult.oldVersion,
-        'new': versionCheckResult.newVersion,
-        'needed': versionCheckResult.neededVersion,
-        'explanation': versionCheckResult.explanation,
+        'old': versionCheckResult.oldVersion.toString(),
+        'new': versionCheckResult.newVersion.toString(),
+        'needed': versionCheckResult.neededVersion?.toString(),
+        'explanation': versionCheckResult.explanation.toString(),
       };
     }
 
