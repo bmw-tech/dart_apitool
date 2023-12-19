@@ -121,7 +121,7 @@ class _$IOSPlatformConstraintsStorageV3Impl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$IOSPlatformConstraintsStorageV3Impl &&
@@ -307,7 +307,7 @@ class _$AndroidPlatformConstraintsStorageV3Impl
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AndroidPlatformConstraintsStorageV3Impl &&
