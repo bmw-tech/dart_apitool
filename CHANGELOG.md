@@ -3,6 +3,7 @@
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
 - Search downloaded packages in entire .pub-cache hosted directory in case path namining changes
+- adds information about the package versions and the version check result to the reports (console, json, markdown)
 
 ## Version 0.16.3
 - adds more diff result reporting options (cli, json, markdown)
