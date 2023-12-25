@@ -126,7 +126,7 @@ class PackageApiDiffer {
           return true;
         }
 
-        // if we are here then we only consider the interfaces equal (by name) id they are not top-level
+        // if we are here then we only consider the interfaces equal (by name) if they are not top-level
         return context.isNotEmpty;
       },
     );
