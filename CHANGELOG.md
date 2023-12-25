@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.17.1
+- fixes interface equality logic in the differ functionality to be less strict on library renaming (if the entry points are still the same)
+
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
 - Search downloaded packages in entire .pub-cache hosted directory in case path namining changes
