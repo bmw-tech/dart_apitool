@@ -140,7 +140,7 @@ class _$TypeIdentifierImpl extends _TypeIdentifier {
   final String packageRelativeLibraryPath;
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TypeIdentifierImpl &&
@@ -322,7 +322,7 @@ class _$_TypeHierarchyItemImpl extends __TypeHierarchyItem {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TypeHierarchyItemImpl &&

@@ -857,6 +857,30 @@ class PackageApiDiffer {
         context,
         isExperimental: isExperimental,
       ));
+      _comparePropertiesAndAddChange(
+        oldField.isReadable,
+        newField.isReadable,
+        context,
+        newField,
+        'Readablility changed. ${oldField.isReadable} -> ${newField.isReadable}',
+        changes,
+        changeCode: ApiChangeCode.cf07,
+        isExperimental: isExperimental,
+        // the change is compatible if the field gained readablility
+        isCompatibleChange: newField.isReadable,
+      );
+      _comparePropertiesAndAddChange(
+        oldField.isWriteable,
+        newField.isWriteable,
+        context,
+        newField,
+        'Writability changed. ${oldField.isWriteable} -> ${newField.isWriteable}',
+        changes,
+        changeCode: ApiChangeCode.cf08,
+        isExperimental: isExperimental,
+        // the change is compatible if the field gained writability
+        isCompatibleChange: newField.isWriteable,
+      );
 
       return changes;
     });

@@ -133,7 +133,7 @@ class _$PackageDependencyStorageV3Impl extends _PackageDependencyStorageV3 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PackageDependencyStorageV3Impl &&

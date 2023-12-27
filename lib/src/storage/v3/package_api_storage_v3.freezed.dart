@@ -400,7 +400,7 @@ class _$PackageApiStorageV3Impl extends _PackageApiStorageV3 {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PackageApiStorageV3Impl &&

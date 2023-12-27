@@ -325,7 +325,7 @@ class _$InterfaceDeclarationStorageV3Impl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InterfaceDeclarationStorageV3Impl &&

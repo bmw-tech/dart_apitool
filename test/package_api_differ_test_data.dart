@@ -425,6 +425,8 @@ final simpleFieldDeclarationA = FieldDeclaration(
   isExperimental: false,
   isStatic: false,
   relativePath: '',
+  isReadable: true,
+  isWriteable: true,
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
@@ -433,6 +435,8 @@ final simpleFieldDeclarationB = FieldDeclaration(
   isExperimental: false,
   isStatic: false,
   relativePath: '',
+  isReadable: true,
+  isWriteable: true,
 );
 
 final packageFieldA = PackageApi(

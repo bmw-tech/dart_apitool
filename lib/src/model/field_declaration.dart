@@ -36,6 +36,12 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
 
     /// the relative path of the library
     required String relativePath,
+
+    /// whether this field is readable
+    required bool isReadable,
+
+    /// whether this field is writeable
+    required bool isWriteable,
   }) = _FieldDeclaration;
 
   /// helper to compute the signature of a field

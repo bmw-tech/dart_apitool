@@ -220,7 +220,7 @@ class _$TypeAliasDeclarationImpl extends _TypeAliasDeclaration {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TypeAliasDeclarationImpl &&

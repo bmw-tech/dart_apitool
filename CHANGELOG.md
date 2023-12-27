@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.17.1
+- adds analysis of readability and writability of fields.
+
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
 - Search downloaded packages in entire .pub-cache hosted directory in case path namining changes

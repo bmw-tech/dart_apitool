@@ -109,7 +109,7 @@ class _$IOSPlatformConstraintsImpl implements _IOSPlatformConstraints {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$IOSPlatformConstraintsImpl &&
@@ -277,7 +277,7 @@ class _$AndroidPlatformConstraintsImpl implements _AndroidPlatformConstraints {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AndroidPlatformConstraintsImpl &&
