@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.17.1
+## Version 0.18.0
 - adds analysis of readability and writability of fields.
 
 ## Version 0.17.0
