@@ -39,7 +39,9 @@ void main() {
           diffResult.apiChanges,
           containsOnce(
             predicate(
-              (ApiChange change) => change.isBreaking,
+              (ApiChange change) =>
+                  change.isBreaking &&
+                  change.affectedDeclaration.toString().contains('stringValue'),
             ),
           ),
         );
