@@ -63,6 +63,10 @@ void main() {
         final jsonReport = jsonDecode(await jsonReportFile.readAsString());
         await tempDir.delete(recursive: true);
 
+        // make sure that no missing entry points are reported
+        final missingEntryPoints = jsonReport['missingEntryPoints'] as List;
+        expect(missingEntryPoints.length, 0);
+
         // check if the ClassB field in ClassA has resolved its type
         final interfaceDeclarations =
             jsonReport['packageApi']['interfaceDeclarations'] as List;
@@ -184,8 +188,11 @@ void main() {
     );
 
     test(
-      'Handles `set-exit-on-missing-export` well if an export is missing',
+      'reports missing exports in extract result',
       () async {
+        final tempDir = await Directory.systemTemp.createTemp();
+        final tempFilePath =
+            path.join(tempDir.path, 'extract_missing_exports_test.json');
         final exitCode = await runner.run([
           'extract',
           '--input',
@@ -195,9 +202,22 @@ void main() {
             'missing_export',
             'package_a',
           ),
-          '--set-exit-on-missing-export',
+          '--output',
+          tempFilePath,
         ]);
-        expect(exitCode, -1);
+        expect(exitCode, 0);
+
+        final jsonReportFile = File(tempFilePath);
+        expect(await jsonReportFile.exists(), isTrue);
+
+        final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+        await tempDir.delete(recursive: true);
+
+        final missingEntryPoints = jsonReport['missingEntryPoints'] as List;
+
+        // we expect to find elements with missing entry points here
+        expect(missingEntryPoints.length, 1);
+        expect(missingEntryPoints.first, 'ClassB');
       },
       timeout: integrationTestTimeout,
     );

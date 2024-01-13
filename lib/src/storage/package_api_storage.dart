@@ -9,8 +9,7 @@ import 'v3/storage_v3.dart';
 abstract class PackageApiStorage {
   /// writes the [packageApi] to storage (JSON string)
   static String packageApitoStorageJson(
-    PackageApi packageApi,
-    Iterable<Declaration> missingEntryPoints, {
+    PackageApi packageApi, {
     bool pretty = false,
   }) {
     final packageApiStorage = _packageApiToStorage(packageApi);
@@ -18,7 +17,9 @@ abstract class PackageApiStorage {
     return encoder.convert({
       'version': 3,
       'packageApi': packageApiStorage.toJson(),
-      'missingEntryPoints': missingEntryPoints.map((e) => e.name).toList(),
+      'missingEntryPoints': packageApi.rootDeclarationsWithoutEntryPoints
+          .map((e) => e.name)
+          .toList(),
     });
   }
 

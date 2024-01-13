@@ -81,12 +81,8 @@ If not specified the extracted API will be printed to the console.
     );
     await cleanUp(preparedPackageRef);
 
-    final declarationsWithoutEntryPoints =
-        packageApi.rootDeclarationsWithoutEntryPoints;
-
     final jsonString = PackageApiStorage.packageApitoStorageJson(
       packageApi,
-      declarationsWithoutEntryPoints,
       pretty: true,
     );
     final outFilePath = argResults![_optionNameOutput] as String?;
@@ -100,6 +96,9 @@ If not specified the extracted API will be printed to the console.
     } else {
       stdout.writeln(jsonString);
     }
+
+    final declarationsWithoutEntryPoints =
+        packageApi.rootDeclarationsWithoutEntryPoints;
 
     if (declarationsWithoutEntryPoints.isNotEmpty) {
       if (outFilePath == null) {

@@ -9,7 +9,6 @@ void main() {
     test('Storage v3 gets exported correctly', () {
       final typedJson = PackageApiStorage.packageApitoStorageJson(
         testPackage2Api,
-        testPackage2Api.rootDeclarationsWithoutEntryPoints,
       );
       final json = jsonDecode(typedJson);
 
