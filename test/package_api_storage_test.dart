@@ -8,7 +8,7 @@ void main() {
   group('PackageApi storage tests', () {
     test('Storage v3 gets exported correctly', () {
       final typedJson = PackageApiStorage.packageApitoStorageJson(
-        testPackage2Api,
+        testPackageApi,
       );
       final json = jsonDecode(typedJson);
 
@@ -85,7 +85,7 @@ void main() {
   });
 }
 
-final testPackage2Api = PackageApi(
+final testPackageApi = PackageApi(
   packageName: 'storage_test_package',
   packageVersion: '1.0.0',
   packagePath: '.',
