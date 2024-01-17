@@ -54,7 +54,7 @@ class PackageApi with _$PackageApi {
   }) = _PackageApi;
 
   /// returns all root level declarations of this package that don't have any entry points
-  Iterable<Declaration> getRootDeclarationsWithoutEntryPoints() {
+  Iterable<Declaration> get rootDeclarationsWithoutEntryPoints {
     return [
       ...interfaceDeclarations.where((id) => id.entryPoints?.isEmpty ?? false),
       ...executableDeclarations.where((ed) => ed.entryPoints?.isEmpty ?? false),

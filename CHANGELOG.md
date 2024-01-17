@@ -1,6 +1,7 @@
 # Changelog
 
-## Version 0.17.1
+## Version 0.18.0
+- add missing export to json output for `extract` command
 - fixes interface equality logic in the differ functionality to be less strict on library renaming (if the entry points are still the same)
 
 ## Version 0.17.0
