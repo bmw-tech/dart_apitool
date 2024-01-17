@@ -80,8 +80,11 @@ If not specified the extracted API will be printed to the console.
       doRemoveExample: doRemoveExample,
     );
     await cleanUp(preparedPackageRef);
-    final jsonString =
-        PackageApiStorage.packageApitoStorageJson(packageApi, pretty: true);
+
+    final jsonString = PackageApiStorage.packageApitoStorageJson(
+      packageApi,
+      pretty: true,
+    );
     final outFilePath = argResults![_optionNameOutput] as String?;
     if (outFilePath != null) {
       final outFile = File(outFilePath);
@@ -95,12 +98,15 @@ If not specified the extracted API will be printed to the console.
     }
 
     final declarationsWithoutEntryPoints =
-        packageApi.getRootDeclarationsWithoutEntryPoints();
+        packageApi.rootDeclarationsWithoutEntryPoints;
+
     if (declarationsWithoutEntryPoints.isNotEmpty) {
-      stdout.writeln(
-          'The following declarations do not have an entry point (did you miss to export them?):');
-      for (final declaration in declarationsWithoutEntryPoints) {
-        stdout.writeln('  ${declaration.name}');
+      if (outFilePath == null) {
+        stdout.writeln(
+            'The following declarations do not have an entry point (did you miss to export them?):');
+        for (final declaration in declarationsWithoutEntryPoints) {
+          stdout.writeln('  ${declaration.name}');
+        }
       }
       if (doSetExitCodeOnMissingExport) {
         return -1;

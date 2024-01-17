@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.18.0
+- add missing export to json output for `extract` command
 - adds analysis of readability and writability of fields.
 
 ## Version 0.17.0
