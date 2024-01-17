@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.18.0
+- add missing export to json output for `extract` command
+
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
 - Search downloaded packages in entire .pub-cache hosted directory in case path namining changes

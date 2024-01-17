@@ -8,13 +8,18 @@ import 'v3/storage_v3.dart';
 /// and uses the latest storage version when writing to storage
 abstract class PackageApiStorage {
   /// writes the [packageApi] to storage (JSON string)
-  static String packageApitoStorageJson(PackageApi packageApi,
-      {bool pretty = false}) {
+  static String packageApitoStorageJson(
+    PackageApi packageApi, {
+    bool pretty = false,
+  }) {
     final packageApiStorage = _packageApiToStorage(packageApi);
     final encoder = pretty ? JsonEncoder.withIndent('    ') : JsonEncoder();
     return encoder.convert({
       'version': 3,
       'packageApi': packageApiStorage.toJson(),
+      'missingEntryPoints': packageApi.rootDeclarationsWithoutEntryPoints
+          .map((e) => e.name)
+          .toList(),
     });
   }
 
