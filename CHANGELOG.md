@@ -2,6 +2,7 @@
 
 ## Version 0.18.0
 - add missing export to json output for `extract` command
+- fix change compatibility check for `dynamic` and `Object?` parameters
 
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
