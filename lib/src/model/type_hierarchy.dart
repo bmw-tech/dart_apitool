@@ -19,6 +19,9 @@ class TypeIdentifier with _$TypeIdentifier {
   /// returns true if this type identifier contains the nullable flag
   bool get isNullable => typeName.endsWith('?');
 
+  /// returns true if this type identifier is the dynamic type
+  bool get isDynamic => typeName == 'dynamic';
+
   /// returns the name without the nullable flag
   String get nonNullableTypeName => typeName.endsWith('?')
       ? typeName.substring(0, typeName.length - 1)
@@ -177,6 +180,12 @@ class TypeHierarchy {
     TypeIdentifier typeIdentifierToAssign,
     TypeIdentifier targetTypeIdentifier,
   ) {
+    if (targetTypeIdentifier.isDynamic) {
+      return true;
+    }
+    if (targetTypeIdentifier.typeName == 'Object?') {
+      return true;
+    }
     // if we try to assign a nullable type to a non-nullable then we can return early
     if (!targetTypeIdentifier.isNullable && typeIdentifierToAssign.isNullable) {
       return false;
