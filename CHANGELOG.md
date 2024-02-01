@@ -3,6 +3,7 @@
 ## Version 0.18.0
 - add missing export to json output for `extract` command
 - fixes interface equality logic in the differ functionality to be less strict on library renaming (if the entry points are still the same)
+- fix change compatibility check for `dynamic` and `Object?` parameters
 
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0

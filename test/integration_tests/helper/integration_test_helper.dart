@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
@@ -24,6 +26,43 @@ class PackageApiRetriever {
     );
     print('Analyzing $packageName $packageVersion');
     return await analyzer.analyze();
+  }
+}
+
+class GitPackageApiRetriever {
+  final String gitUrl;
+  final String gitRef;
+  final bool doConsiderNonSrcAsEntryPoints;
+
+  GitPackageApiRetriever(
+    this.gitUrl,
+    this.gitRef, {
+    this.doConsiderNonSrcAsEntryPoints = false,
+  });
+
+  Future<PackageApi> retrieve() async {
+    print('Downloading $gitUrl $gitRef');
+    //create temp directory
+    final tempDir = await Directory.systemTemp.createTemp();
+    final gitCloneResult =
+        await Process.run('git', ['clone', gitUrl, tempDir.path]);
+    if (gitCloneResult.exitCode != 0) {
+      throw Exception('Unable to clone git repository $gitUrl');
+    }
+    final gitCheckoutResult = await Process.run('git', ['checkout', gitRef],
+        workingDirectory: tempDir.path);
+    if (gitCheckoutResult.exitCode != 0) {
+      throw Exception('Unable to check out $gitRef of git repository $gitUrl');
+    }
+
+    final analyzer = PackageApiAnalyzer(
+      packagePath: tempDir.path,
+      doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
+    );
+    print('Analyzing $gitUrl $gitRef');
+    final result = await analyzer.analyze();
+    await tempDir.delete(recursive: true);
+    return result;
   }
 }
 
