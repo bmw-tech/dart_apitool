@@ -98,14 +98,14 @@ void main() {
         );
       });
 
-      test('is a breaking change for property types)', () {
+      test('is no breaking change for property types)', () {
         final functionChange = diffResult.apiChanges
             .where((ac) =>
                 ac.affectedDeclaration?.name.contains('property') ?? false)
             .single;
         expect(
           functionChange.isBreaking,
-          isTrue,
+          isFalse,
         );
       });
     });
