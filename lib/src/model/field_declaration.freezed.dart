@@ -19,6 +19,9 @@ mixin _$FieldDeclaration {
   /// type of this field
   String get typeName => throw _privateConstructorUsedError;
 
+  /// full library name for the type
+  String? get typeFullLibraryName => throw _privateConstructorUsedError;
+
   /// name of this field
   String get name => throw _privateConstructorUsedError;
 
@@ -50,6 +53,7 @@ abstract class $FieldDeclarationCopyWith<$Res> {
   @useResult
   $Res call(
       {String typeName,
+      String? typeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isStatic,
@@ -72,6 +76,7 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
   @override
   $Res call({
     Object? typeName = null,
+    Object? typeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
@@ -84,6 +89,10 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -122,6 +131,7 @@ abstract class _$$FieldDeclarationImplCopyWith<$Res>
   @useResult
   $Res call(
       {String typeName,
+      String? typeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isStatic,
@@ -142,6 +152,7 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? typeName = null,
+    Object? typeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
@@ -154,6 +165,10 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -187,6 +202,7 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
 class _$FieldDeclarationImpl extends _FieldDeclaration {
   const _$FieldDeclarationImpl(
       {required this.typeName,
+      required this.typeFullLibraryName,
       required this.name,
       required this.isDeprecated,
       required this.isStatic,
@@ -199,6 +215,10 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
   /// type of this field
   @override
   final String typeName;
+
+  /// full library name for the type
+  @override
+  final String? typeFullLibraryName;
 
   /// name of this field
   @override
@@ -235,7 +255,7 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
 
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath)';
+    return 'FieldDeclaration(typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -245,6 +265,8 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
             other is _$FieldDeclarationImpl &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
+            (identical(other.typeFullLibraryName, typeFullLibraryName) ||
+                other.typeFullLibraryName == typeFullLibraryName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -262,6 +284,7 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
   int get hashCode => Object.hash(
       runtimeType,
       typeName,
+      typeFullLibraryName,
       name,
       isDeprecated,
       isStatic,
@@ -281,6 +304,7 @@ abstract class _FieldDeclaration extends FieldDeclaration
     implements Declaration {
   const factory _FieldDeclaration(
       {required final String typeName,
+      required final String? typeFullLibraryName,
       required final String name,
       required final bool isDeprecated,
       required final bool isStatic,
@@ -293,6 +317,10 @@ abstract class _FieldDeclaration extends FieldDeclaration
 
   /// type of this field
   String get typeName;
+  @override
+
+  /// full library name for the type
+  String? get typeFullLibraryName;
   @override
 
   /// name of this field

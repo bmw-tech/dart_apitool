@@ -137,6 +137,7 @@ final testPackageApi = PackageApi(
       fieldDeclarations: [
         FieldDeclaration(
           typeName: 'bool',
+          typeFullLibraryName: null,
           name: 'printDebug',
           isDeprecated: false,
           isExperimental: false,
