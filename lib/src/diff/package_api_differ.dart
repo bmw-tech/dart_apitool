@@ -354,7 +354,17 @@ class PackageApiDiffer {
         newExecutable,
         'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
-        isCompatibleChange: false,
+        isCompatibleChange: typeHierarchy.isCompatibleReplacement(
+          oldTypeIdentifier: TypeIdentifier.fromNameAndLibraryPath(
+            typeName: oldExecutable.returnTypeName,
+            libraryPath: oldExecutable.returnTypeFullLibraryName,
+          ),
+          newTypeIdentifier: TypeIdentifier.fromNameAndLibraryPath(
+            typeName: newExecutable.returnTypeName,
+            libraryPath: newExecutable.returnTypeFullLibraryName,
+          ),
+          isTypePassedIn: false,
+        ),
         changeCode: ApiChangeCode.ce09,
         isExperimental: isExperimental,
       );
@@ -1186,8 +1196,11 @@ class PackageApiDiffer {
   }) {
     if (oldTypeidentifier.packageAndTypeName !=
         newTypeIdentifier.packageAndTypeName) {
-      final isBreaking =
-          !typeHierarchy.canBeAssigned(oldTypeidentifier, newTypeIdentifier);
+      final isBreaking = !typeHierarchy.isCompatibleReplacement(
+        oldTypeIdentifier: oldTypeidentifier,
+        newTypeIdentifier: newTypeIdentifier,
+        isTypePassedIn: true,
+      );
       changes.add(ApiChange(
         changeCode: changeCode,
         affectedDeclaration: affectedDeclaration,
