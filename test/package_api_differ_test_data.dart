@@ -424,6 +424,7 @@ final packageExecutable1Executable2Api = PackageApi(
 
 final simpleFieldDeclarationA = FieldDeclaration(
   typeName: 'String',
+  typeFullLibraryName: null,
   name: 'fieldA',
   isDeprecated: false,
   isExperimental: false,
@@ -434,6 +435,7 @@ final simpleFieldDeclarationA = FieldDeclaration(
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
+  typeFullLibraryName: null,
   name: 'fieldB',
   isDeprecated: false,
   isExperimental: false,

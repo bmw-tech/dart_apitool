@@ -19,6 +19,9 @@ mixin _$FieldDeclaration {
   /// type of this field
   String get typeName => throw _privateConstructorUsedError;
 
+  /// full library name for the type
+  String? get typeFullLibraryName => throw _privateConstructorUsedError;
+
   /// name of this field
   String get name => throw _privateConstructorUsedError;
 
@@ -37,12 +40,6 @@ mixin _$FieldDeclaration {
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// whether this field is readable
-  bool get isReadable => throw _privateConstructorUsedError;
-
-  /// whether this field is writeable
-  bool get isWriteable => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
@@ -56,14 +53,13 @@ abstract class $FieldDeclarationCopyWith<$Res> {
   @useResult
   $Res call(
       {String typeName,
+      String? typeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isStatic,
       bool isExperimental,
       Set<String>? entryPoints,
-      String relativePath,
-      bool isReadable,
-      bool isWriteable});
+      String relativePath});
 }
 
 /// @nodoc
@@ -80,20 +76,23 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
   @override
   $Res call({
     Object? typeName = null,
+    Object? typeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
     Object? relativePath = null,
-    Object? isReadable = null,
-    Object? isWriteable = null,
   }) {
     return _then(_value.copyWith(
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -118,14 +117,6 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
-      isReadable: null == isReadable
-          ? _value.isReadable
-          : isReadable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWriteable: null == isWriteable
-          ? _value.isWriteable
-          : isWriteable // ignore: cast_nullable_to_non_nullable
-              as bool,
     ) as $Val);
   }
 }
@@ -140,14 +131,13 @@ abstract class _$$FieldDeclarationImplCopyWith<$Res>
   @useResult
   $Res call(
       {String typeName,
+      String? typeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isStatic,
       bool isExperimental,
       Set<String>? entryPoints,
-      String relativePath,
-      bool isReadable,
-      bool isWriteable});
+      String relativePath});
 }
 
 /// @nodoc
@@ -162,20 +152,23 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? typeName = null,
+    Object? typeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isStatic = null,
     Object? isExperimental = null,
     Object? entryPoints = freezed,
     Object? relativePath = null,
-    Object? isReadable = null,
-    Object? isWriteable = null,
   }) {
     return _then(_$FieldDeclarationImpl(
       typeName: null == typeName
           ? _value.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _value.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -200,14 +193,6 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
-      isReadable: null == isReadable
-          ? _value.isReadable
-          : isReadable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWriteable: null == isWriteable
-          ? _value.isWriteable
-          : isWriteable // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -217,20 +202,23 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
 class _$FieldDeclarationImpl extends _FieldDeclaration {
   const _$FieldDeclarationImpl(
       {required this.typeName,
+      required this.typeFullLibraryName,
       required this.name,
       required this.isDeprecated,
       required this.isStatic,
       required this.isExperimental,
       final Set<String>? entryPoints,
-      required this.relativePath,
-      required this.isReadable,
-      required this.isWriteable})
+      required this.relativePath})
       : _entryPoints = entryPoints,
         super._();
 
   /// type of this field
   @override
   final String typeName;
+
+  /// full library name for the type
+  @override
+  final String? typeFullLibraryName;
 
   /// name of this field
   @override
@@ -265,17 +253,9 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
   @override
   final String relativePath;
 
-  /// whether this field is readable
-  @override
-  final bool isReadable;
-
-  /// whether this field is writeable
-  @override
-  final bool isWriteable;
-
   @override
   String toString() {
-    return 'FieldDeclaration(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
+    return 'FieldDeclaration(typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -285,6 +265,8 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
             other is _$FieldDeclarationImpl &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
+            (identical(other.typeFullLibraryName, typeFullLibraryName) ||
+                other.typeFullLibraryName == typeFullLibraryName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -295,25 +277,20 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints) &&
             (identical(other.relativePath, relativePath) ||
-                other.relativePath == relativePath) &&
-            (identical(other.isReadable, isReadable) ||
-                other.isReadable == isReadable) &&
-            (identical(other.isWriteable, isWriteable) ||
-                other.isWriteable == isWriteable));
+                other.relativePath == relativePath));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       typeName,
+      typeFullLibraryName,
       name,
       isDeprecated,
       isStatic,
       isExperimental,
       const DeepCollectionEquality().hash(_entryPoints),
-      relativePath,
-      isReadable,
-      isWriteable);
+      relativePath);
 
   @JsonKey(ignore: true)
   @override
@@ -327,20 +304,23 @@ abstract class _FieldDeclaration extends FieldDeclaration
     implements Declaration {
   const factory _FieldDeclaration(
       {required final String typeName,
+      required final String? typeFullLibraryName,
       required final String name,
       required final bool isDeprecated,
       required final bool isStatic,
       required final bool isExperimental,
       final Set<String>? entryPoints,
-      required final String relativePath,
-      required final bool isReadable,
-      required final bool isWriteable}) = _$FieldDeclarationImpl;
+      required final String relativePath}) = _$FieldDeclarationImpl;
   const _FieldDeclaration._() : super._();
 
   @override
 
   /// type of this field
   String get typeName;
+  @override
+
+  /// full library name for the type
+  String? get typeFullLibraryName;
   @override
 
   /// name of this field
@@ -365,14 +345,6 @@ abstract class _FieldDeclaration extends FieldDeclaration
 
   /// the relative path of the library
   String get relativePath;
-  @override
-
-  /// whether this field is readable
-  bool get isReadable;
-  @override
-
-  /// whether this field is writeable
-  bool get isWriteable;
   @override
   @JsonKey(ignore: true)
   _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>

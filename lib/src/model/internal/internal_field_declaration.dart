@@ -12,6 +12,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
 
   // field declaration data
   final String typeName;
+  final String? typeFullLibraryName;
   final String name;
   final String? namespace;
   final bool isDeprecated;
@@ -28,6 +29,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
     required this.id,
     this.parentClassId,
     required this.typeName,
+    required this.typeFullLibraryName,
     required this.name,
     required this.namespace,
     required this.isDeprecated,
@@ -48,6 +50,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               fieldElement.enclosingElement),
           typeName: fieldElement.type.getDisplayString(withNullability: true),
+          typeFullLibraryName:
+              fieldElement.type.element?.librarySource?.fullName,
           name: fieldElement.name,
           namespace: namespace,
           isDeprecated: fieldElement.hasDeprecated,
@@ -65,6 +69,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return FieldDeclaration(
       typeName: typeName,
+      typeFullLibraryName: typeFullLibraryName,
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,

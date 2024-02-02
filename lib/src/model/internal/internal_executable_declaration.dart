@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:analyzer/dart/element/element.dart';
 
 import '../executable_declaration.dart';
@@ -56,7 +54,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           returnTypeName: executableElement.returnType
               .getDisplayString(withNullability: true),
           returnTypeFullLibraryName:
-              executableElement.returnType.element2?.librarySource?.fullName,
+              executableElement.returnType.element?.librarySource?.fullName,
           name: executableElement.displayName,
           namespace: namespace,
           isDeprecated: executableElement.hasDeprecated,
@@ -115,7 +113,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               isDeprecated: e.hasDeprecated,
               isExperimental: InternalDeclarationUtils.hasExperimental(e),
               typeName: e.type.getDisplayString(withNullability: true),
-              typeFullLibraryName: e.type.element2?.librarySource?.fullName,
+              typeFullLibraryName: e.type.element?.librarySource?.fullName,
               relativePath: relativePath,
             ))
         .toList();
