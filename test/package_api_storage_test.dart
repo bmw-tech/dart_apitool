@@ -101,6 +101,7 @@ final testPackageApi = PackageApi(
       executableDeclarations: [
         ExecutableDeclaration(
           returnTypeName: 'String',
+          returnTypeFullLibraryName: null,
           name: 'getString',
           isDeprecated: false,
           isExperimental: false,

@@ -17,7 +17,7 @@ class TypeIdentifier with _$TypeIdentifier {
   const TypeIdentifier._();
 
   /// returns true if this type identifier contains the nullable flag
-  bool get isNullable => typeName.endsWith('?');
+  bool get isNullable => isDynamic || typeName.endsWith('?');
 
   /// returns true if this type identifier is the dynamic type
   bool get isDynamic => typeName == 'dynamic';
@@ -28,8 +28,12 @@ class TypeIdentifier with _$TypeIdentifier {
       : typeName;
 
   /// returns the name with the nullable flag
-  String get nullableTypeName =>
-      typeName.endsWith('?') ? typeName : '$typeName?';
+  String get nullableTypeName {
+    if (isDynamic) {
+      return typeName;
+    }
+    return typeName.endsWith('?') ? typeName : '$typeName?';
+  }
 
   /// returns a String containing the package name and the type name
   String get packageAndTypeName => '$packageName:$typeName';
@@ -175,33 +179,57 @@ class TypeHierarchy {
     );
   }
 
-  /// checks if [typeIdentifierToAssign] can be assigned to [targetTypeIdentifier]
-  bool canBeAssigned(
-    TypeIdentifier typeIdentifierToAssign,
-    TypeIdentifier targetTypeIdentifier,
-  ) {
-    if (targetTypeIdentifier.isDynamic) {
-      return true;
+  /// checks if [newTypeIdentifier] is a compatible replacement for [oldTypeIdentifier]
+  bool isCompatibleReplacement({
+    required TypeIdentifier oldTypeIdentifier,
+    required TypeIdentifier newTypeIdentifier,
+    required bool isTypePassedIn,
+  }) {
+    if (isTypePassedIn) {
+      // for types passed in: dynamic and Object? are equivalent and compatible to whatever has been there before
+      if (newTypeIdentifier.isDynamic) {
+        return true;
+      }
+      if (newTypeIdentifier.typeName == 'Object?') {
+        return true;
+      }
+    } else {
+      // for types returned changing from anything to dynamic is compatible
+      if (newTypeIdentifier.isDynamic) {
+        return true;
+      }
     }
-    if (targetTypeIdentifier.typeName == 'Object?') {
-      return true;
+    // if we try to replace a nullable type with a non-nullable for types passed in then we can return early
+    if (isTypePassedIn &&
+        !newTypeIdentifier.isNullable &&
+        oldTypeIdentifier.isNullable) {
+      return false;
     }
-    // if we try to assign a nullable type to a non-nullable then we can return early
-    if (!targetTypeIdentifier.isNullable && typeIdentifierToAssign.isNullable) {
+    // if we try to replace a non-nullable type with a nullable for types passed out then we can return early
+    if (!isTypePassedIn &&
+        newTypeIdentifier.isNullable &&
+        !oldTypeIdentifier.isNullable) {
       return false;
     }
 
     // and then compare the types without Nullable
-    targetTypeIdentifier = targetTypeIdentifier.asNonNullable();
-    typeIdentifierToAssign = typeIdentifierToAssign.asNonNullable();
+    oldTypeIdentifier = oldTypeIdentifier.asNonNullable();
+    newTypeIdentifier = newTypeIdentifier.asNonNullable();
 
     /// if the names and packages are equal we consider them to be equal
-    if (typeIdentifierToAssign.packageAndTypeName ==
-        targetTypeIdentifier.packageAndTypeName) {
+    if (oldTypeIdentifier.packageAndTypeName ==
+        newTypeIdentifier.packageAndTypeName) {
       return true;
     }
 
-    return _isSubTypeOf(typeIdentifierToAssign, targetTypeIdentifier);
+    final newIsSubtypeOfOld =
+        _isSubTypeOf(newTypeIdentifier, oldTypeIdentifier);
+    final oldIsSubtypeOfNew =
+        _isSubTypeOf(oldTypeIdentifier, newTypeIdentifier);
+
+    // if we pass the type in then it can get wider
+    // if we pass it out then it can get narrower
+    return isTypePassedIn ? oldIsSubtypeOfNew : newIsSubtypeOfOld;
   }
 
   bool _isSubTypeOf(
