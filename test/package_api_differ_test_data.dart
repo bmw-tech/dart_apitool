@@ -11,6 +11,7 @@ final simpleClassA = InterfaceDeclaration(
   executableDeclarations: const [
     ExecutableDeclaration(
       returnTypeName: 'ClassA',
+      returnTypeFullLibraryName: null,
       name: 'ClassA',
       isDeprecated: false,
       isExperimental: false,
@@ -36,6 +37,7 @@ final simpleClassB = InterfaceDeclaration(
   executableDeclarations: const [
     ExecutableDeclaration(
       returnTypeName: 'ClassB',
+      returnTypeFullLibraryName: null,
       name: 'ClassB',
       isDeprecated: false,
       isExperimental: false,
@@ -161,6 +163,7 @@ final packageClassAClassBApi = PackageApi(
 
 final simpleExecutable1 = ExecutableDeclaration(
   returnTypeName: '',
+  returnTypeFullLibraryName: null,
   name: 'doSomething1',
   isDeprecated: false,
   isExperimental: false,
@@ -184,6 +187,7 @@ final simpleExecutable1 = ExecutableDeclaration(
 
 final simpleExecutable2 = ExecutableDeclaration(
   returnTypeName: '',
+  returnTypeFullLibraryName: null,
   name: 'doSomething2',
   isDeprecated: false,
   isExperimental: false,
@@ -420,6 +424,7 @@ final packageExecutable1Executable2Api = PackageApi(
 
 final simpleFieldDeclarationA = FieldDeclaration(
   typeName: 'String',
+  typeFullLibraryName: null,
   name: 'fieldA',
   isDeprecated: false,
   isExperimental: false,
@@ -428,6 +433,7 @@ final simpleFieldDeclarationA = FieldDeclaration(
 );
 final simpleFieldDeclarationB = FieldDeclaration(
   typeName: 'bool',
+  typeFullLibraryName: null,
   name: 'fieldB',
   isDeprecated: false,
   isExperimental: false,

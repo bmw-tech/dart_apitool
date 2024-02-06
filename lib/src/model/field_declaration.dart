@@ -19,6 +19,9 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     /// type of this field
     required String typeName,
 
+    /// full library name for the type
+    required String? typeFullLibraryName,
+
     /// name of this field
     required String name,
 

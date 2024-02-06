@@ -101,6 +101,7 @@ final testPackageApi = PackageApi(
       executableDeclarations: [
         ExecutableDeclaration(
           returnTypeName: 'String',
+          returnTypeFullLibraryName: null,
           name: 'getString',
           isDeprecated: false,
           isExperimental: false,
@@ -136,6 +137,7 @@ final testPackageApi = PackageApi(
       fieldDeclarations: [
         FieldDeclaration(
           typeName: 'bool',
+          typeFullLibraryName: null,
           name: 'printDebug',
           isDeprecated: false,
           isExperimental: false,
