@@ -68,7 +68,7 @@ class ExecutableDeclaration
     /// name of the return type
     required String returnTypeName,
 
-    // fill library name of the return type
+    // full library name of the return type
     required String? returnTypeFullLibraryName,
 
     /// name of the executable
