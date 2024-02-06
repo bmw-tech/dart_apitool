@@ -4,10 +4,11 @@
 - add missing export to json output for `extract` command
 - fixes interface equality logic in the differ functionality to be less strict on library renaming (if the entry points are still the same)
 - fix change compatibility check for `dynamic` and `Object?` parameters
+- fix compatibility checks for return types of executables
 
 ## Version 0.17.0
 - bump dart SDK requirements to >=3.0.0
-- Search downloaded packages in entire .pub-cache hosted directory in case path namining changes
+- Search downloaded packages in entire .pub-cache hosted directory in case path naming changes
 - adds information about the package versions and the version check result to the reports (console, json, markdown)
 
 ## Version 0.16.3

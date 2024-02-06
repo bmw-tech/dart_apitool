@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:analyzer/dart/element/element.dart';
 
 import '../executable_declaration.dart';
@@ -14,6 +12,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
 
   // executable declaration data
   final String returnTypeName;
+  final String? returnTypeFullLibraryName;
   final String name;
   final String? namespace;
   final bool isDeprecated;
@@ -31,6 +30,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
     required this.id,
     this.parentClassId,
     required this.returnTypeName,
+    required this.returnTypeFullLibraryName,
     required this.name,
     required this.namespace,
     required this.isDeprecated,
@@ -53,6 +53,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               executableElement.enclosingElement),
           returnTypeName: executableElement.returnType
               .getDisplayString(withNullability: true),
+          returnTypeFullLibraryName:
+              executableElement.returnType.element?.librarySource?.fullName,
           name: executableElement.displayName,
           namespace: namespace,
           isDeprecated: executableElement.hasDeprecated,
@@ -77,6 +79,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return ExecutableDeclaration(
       returnTypeName: returnTypeName,
+      returnTypeFullLibraryName: returnTypeFullLibraryName,
       name: '$namespacePrefix$name',
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
@@ -110,7 +113,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               isDeprecated: e.hasDeprecated,
               isExperimental: InternalDeclarationUtils.hasExperimental(e),
               typeName: e.type.getDisplayString(withNullability: true),
-              typeFullLibraryName: e.type.element2?.librarySource?.fullName,
+              typeFullLibraryName: e.type.element?.librarySource?.fullName,
               relativePath: relativePath,
             ))
         .toList();

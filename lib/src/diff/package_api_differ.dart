@@ -63,6 +63,7 @@ class PackageApiDiffer {
           newApi.fieldDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
+          typeHierarchy: newApi.typeHierarchy,
         ),
         ..._calculateIOSPlatformConstraintsDiff(
           oldApi.iosPlatformConstraints,
@@ -190,6 +191,7 @@ class PackageApiDiffer {
           context,
           isInterfaceRequired: treatNewInterfaceAsRequired,
           isExperimental: isExperimental,
+          typeHierarchy: typeHierarchy,
         ),
         ..._calculateSuperTypesDiff(
           oldInterface.superTypeNames,
@@ -374,7 +376,17 @@ class PackageApiDiffer {
         newExecutable,
         'Return type changed. ${oldExecutable.returnTypeName} -> ${newExecutable.returnTypeName}',
         changes,
-        isCompatibleChange: false,
+        isCompatibleChange: typeHierarchy.isCompatibleReplacement(
+          oldTypeIdentifier: TypeIdentifier.fromNameAndLibraryPath(
+            typeName: oldExecutable.returnTypeName,
+            libraryPath: oldExecutable.returnTypeFullLibraryName,
+          ),
+          newTypeIdentifier: TypeIdentifier.fromNameAndLibraryPath(
+            typeName: newExecutable.returnTypeName,
+            libraryPath: newExecutable.returnTypeFullLibraryName,
+          ),
+          isTypePassedIn: false,
+        ),
         changeCode: ApiChangeCode.ce09,
         isExperimental: isExperimental,
       );
@@ -773,6 +785,7 @@ class PackageApiDiffer {
     Stack<Declaration> context, {
     bool? isInterfaceRequired,
     required isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     final fieldsDiff = _diffIterables<FieldDeclaration>(
       oldFieldDeclarations,
@@ -792,6 +805,7 @@ class PackageApiDiffer {
           newField,
           context,
           isExperimental: newField.isExperimental || isExperimental,
+          typeHierarchy: typeHierarchy,
         ),
       );
     }
@@ -824,6 +838,7 @@ class PackageApiDiffer {
     FieldDeclaration newField,
     Stack<Declaration> context, {
     required bool isExperimental,
+    required TypeHierarchy typeHierarchy,
   }) {
     return _executeInContext(context, newField, (context) {
       final changes = <ApiChange>[];
@@ -851,6 +866,14 @@ class PackageApiDiffer {
         isExperimental:
             false, //we don't pass the experimental flag here because this would cause in a non-breaking change when the flag is added
       );
+      final oldTypeIdentifier = TypeIdentifier.fromNameAndLibraryPath(
+        typeName: oldField.typeName,
+        libraryPath: oldField.typeFullLibraryName,
+      );
+      final newTypeIdentifier = TypeIdentifier.fromNameAndLibraryPath(
+        typeName: newField.typeName,
+        libraryPath: newField.typeFullLibraryName,
+      );
       _comparePropertiesAndAddChange(
         oldField.typeName,
         newField.typeName,
@@ -860,6 +883,17 @@ class PackageApiDiffer {
         changes,
         changeCode: ApiChangeCode.cf04,
         isExperimental: isExperimental,
+        // field type change is compatible if the type change is compatible if passed in and out
+        isCompatibleChange: typeHierarchy.isCompatibleReplacement(
+              oldTypeIdentifier: oldTypeIdentifier,
+              newTypeIdentifier: newTypeIdentifier,
+              isTypePassedIn: true,
+            ) &&
+            typeHierarchy.isCompatibleReplacement(
+              oldTypeIdentifier: oldTypeIdentifier,
+              newTypeIdentifier: newTypeIdentifier,
+              isTypePassedIn: false,
+            ),
       );
       _comparePropertiesAndAddChange(
         oldField.isStatic,
@@ -1206,8 +1240,11 @@ class PackageApiDiffer {
   }) {
     if (oldTypeidentifier.packageAndTypeName !=
         newTypeIdentifier.packageAndTypeName) {
-      final isBreaking =
-          !typeHierarchy.canBeAssigned(oldTypeidentifier, newTypeIdentifier);
+      final isBreaking = !typeHierarchy.isCompatibleReplacement(
+        oldTypeIdentifier: oldTypeidentifier,
+        newTypeIdentifier: newTypeIdentifier,
+        isTypePassedIn: true,
+      );
       changes.add(ApiChange(
         changeCode: changeCode,
         affectedDeclaration: affectedDeclaration,

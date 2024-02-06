@@ -12,7 +12,7 @@ part of 'executable_declaration.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ExecutableParameterDeclaration {
@@ -353,7 +353,9 @@ abstract class _ExecutableParameterDeclaration
 /// @nodoc
 mixin _$ExecutableDeclaration {
   /// name of the return type
-  String get returnTypeName => throw _privateConstructorUsedError;
+  String get returnTypeName =>
+      throw _privateConstructorUsedError; // fill library name of the return type
+  String? get returnTypeFullLibraryName => throw _privateConstructorUsedError;
 
   /// name of the executable
   String get name => throw _privateConstructorUsedError;
@@ -396,6 +398,7 @@ abstract class $ExecutableDeclarationCopyWith<$Res> {
   @useResult
   $Res call(
       {String returnTypeName,
+      String? returnTypeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isExperimental,
@@ -422,6 +425,7 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
   @override
   $Res call({
     Object? returnTypeName = null,
+    Object? returnTypeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isExperimental = null,
@@ -437,6 +441,10 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
               as String,
+      returnTypeFullLibraryName: freezed == returnTypeFullLibraryName
+          ? _value.returnTypeFullLibraryName
+          : returnTypeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -488,6 +496,7 @@ abstract class _$$ExecutableDeclarationImplCopyWith<$Res>
   @useResult
   $Res call(
       {String returnTypeName,
+      String? returnTypeFullLibraryName,
       String name,
       bool isDeprecated,
       bool isExperimental,
@@ -512,6 +521,7 @@ class __$$ExecutableDeclarationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? returnTypeName = null,
+    Object? returnTypeFullLibraryName = freezed,
     Object? name = null,
     Object? isDeprecated = null,
     Object? isExperimental = null,
@@ -527,6 +537,10 @@ class __$$ExecutableDeclarationImplCopyWithImpl<$Res>
           ? _value.returnTypeName
           : returnTypeName // ignore: cast_nullable_to_non_nullable
               as String,
+      returnTypeFullLibraryName: freezed == returnTypeFullLibraryName
+          ? _value.returnTypeFullLibraryName
+          : returnTypeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -572,6 +586,7 @@ class __$$ExecutableDeclarationImplCopyWithImpl<$Res>
 class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
   const _$ExecutableDeclarationImpl(
       {required this.returnTypeName,
+      required this.returnTypeFullLibraryName,
       required this.name,
       required this.isDeprecated,
       required this.isExperimental,
@@ -589,6 +604,9 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
   /// name of the return type
   @override
   final String returnTypeName;
+// fill library name of the return type
+  @override
+  final String? returnTypeFullLibraryName;
 
   /// name of the executable
   @override
@@ -652,7 +670,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
 
   @override
   String toString() {
-    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
+    return 'ExecutableDeclaration(returnTypeName: $returnTypeName, returnTypeFullLibraryName: $returnTypeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, parameters: $parameters, typeParameterNames: $typeParameterNames, type: $type, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 
   @override
@@ -662,6 +680,9 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
             other is _$ExecutableDeclarationImpl &&
             (identical(other.returnTypeName, returnTypeName) ||
                 other.returnTypeName == returnTypeName) &&
+            (identical(other.returnTypeFullLibraryName,
+                    returnTypeFullLibraryName) ||
+                other.returnTypeFullLibraryName == returnTypeFullLibraryName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -684,6 +705,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
   int get hashCode => Object.hash(
       runtimeType,
       returnTypeName,
+      returnTypeFullLibraryName,
       name,
       isDeprecated,
       isExperimental,
@@ -705,6 +727,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
 abstract class _ExecutableDeclaration extends ExecutableDeclaration {
   const factory _ExecutableDeclaration(
       {required final String returnTypeName,
+      required final String? returnTypeFullLibraryName,
       required final String name,
       required final bool isDeprecated,
       required final bool isExperimental,
@@ -720,6 +743,8 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
 
   /// name of the return type
   String get returnTypeName;
+  @override // fill library name of the return type
+  String? get returnTypeFullLibraryName;
   @override
 
   /// name of the executable
