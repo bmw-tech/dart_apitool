@@ -180,7 +180,7 @@ jobs:
       - name: Install Dependencies
         run: |
           dart pub get
-          dart pub global activate pana
+          dart pub global activate pana 0.21.45 #temporary as the latest version 0.22.0 has issues with the dartdoc interface
 
       - name: Verify Pub Score
         run: |
