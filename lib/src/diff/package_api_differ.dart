@@ -105,11 +105,31 @@ class PackageApiDiffer {
     final interfaceListDiff = _diffIterables<InterfaceDeclaration>(
       oldInterfaces,
       newInterfaces,
-      (oldInterface, newInterface) =>
-          // for top level elements we have to consider the path as well as we might run into duplicate namings otherwise
-          oldInterface.name == newInterface.name &&
-          (context.isNotEmpty ||
-              oldInterface.relativePath == newInterface.relativePath),
+      (oldInterface, newInterface) {
+        // if the names are not the same, we already have a mismatch
+        if (oldInterface.name != newInterface.name) {
+          return false;
+        }
+
+        // we need to do additional checks as we might have naming conflicts otherwise
+
+        // if the entry points are the same, then we can assume that the interfaces are the same (independent of their relative path)
+        if (SetEquality<String>()
+            .equals(oldInterface.entryPoints, newInterface.entryPoints)) {
+          return true;
+        }
+
+        // here the name is equal but we have different entry points.
+        // to support detection of entry point changes we consider the interfaces equal if they have the same relative path
+        // (only works for top level elements)
+        if (context.isEmpty &&
+            oldInterface.relativePath == newInterface.relativePath) {
+          return true;
+        }
+
+        // if we are here then we only consider the interfaces equal (by name) if they are not top-level
+        return context.isNotEmpty;
+      },
     );
     final changes = <ApiChange>[];
     for (final oldInterface in interfaceListDiff.matches.keys) {
