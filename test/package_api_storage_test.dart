@@ -144,6 +144,8 @@ final testPackageApi = PackageApi(
           isStatic: false,
           entryPoints: {},
           relativePath: '',
+          isReadable: true,
+          isWriteable: true,
         ),
       ],
       entryPoints: {},

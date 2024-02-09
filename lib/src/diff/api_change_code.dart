@@ -105,6 +105,12 @@ enum ApiChangeCode {
   /// field experimental status changed
   cf06._('CF06', 'field experimental status changed'),
 
+  /// field readability changed
+  cf07._('CF07', 'field readability changed'),
+
+  /// field writability changed
+  cf08._('CF08', 'field writability changed'),
+
   /// iOS platform added
   cpi01._('CPI01', 'iOS platform added'),
 

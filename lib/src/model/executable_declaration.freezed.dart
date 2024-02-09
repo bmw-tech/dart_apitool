@@ -354,7 +354,7 @@ abstract class _ExecutableParameterDeclaration
 mixin _$ExecutableDeclaration {
   /// name of the return type
   String get returnTypeName =>
-      throw _privateConstructorUsedError; // fill library name of the return type
+      throw _privateConstructorUsedError; // full library name of the return type
   String? get returnTypeFullLibraryName => throw _privateConstructorUsedError;
 
   /// name of the executable
@@ -604,7 +604,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
   /// name of the return type
   @override
   final String returnTypeName;
-// fill library name of the return type
+// full library name of the return type
   @override
   final String? returnTypeFullLibraryName;
 
@@ -743,7 +743,7 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
 
   /// name of the return type
   String get returnTypeName;
-  @override // fill library name of the return type
+  @override // full library name of the return type
   String? get returnTypeFullLibraryName;
   @override
 

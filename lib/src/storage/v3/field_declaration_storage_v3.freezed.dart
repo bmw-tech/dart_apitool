@@ -28,6 +28,8 @@ mixin _$FieldDeclarationStorageV3 {
   bool get isStatic => throw _privateConstructorUsedError;
   Set<String> get entryPoints => throw _privateConstructorUsedError;
   String get relativePath => throw _privateConstructorUsedError;
+  bool get isReadable => throw _privateConstructorUsedError;
+  bool get isWriteable => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +50,9 @@ abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
       bool isExperimental,
       bool isStatic,
       Set<String> entryPoints,
-      String relativePath});
+      String relativePath,
+      bool isReadable,
+      bool isWriteable});
 }
 
 /// @nodoc
@@ -72,6 +76,8 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
     Object? isStatic = null,
     Object? entryPoints = null,
     Object? relativePath = null,
+    Object? isReadable = null,
+    Object? isWriteable = null,
   }) {
     return _then(_value.copyWith(
       typeName: null == typeName
@@ -102,6 +108,14 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
+      isReadable: null == isReadable
+          ? _value.isReadable
+          : isReadable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isWriteable: null == isWriteable
+          ? _value.isWriteable
+          : isWriteable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -122,7 +136,9 @@ abstract class _$$FieldDeclarationStorageV3ImplCopyWith<$Res>
       bool isExperimental,
       bool isStatic,
       Set<String> entryPoints,
-      String relativePath});
+      String relativePath,
+      bool isReadable,
+      bool isWriteable});
 }
 
 /// @nodoc
@@ -145,6 +161,8 @@ class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
     Object? isStatic = null,
     Object? entryPoints = null,
     Object? relativePath = null,
+    Object? isReadable = null,
+    Object? isWriteable = null,
   }) {
     return _then(_$FieldDeclarationStorageV3Impl(
       typeName: null == typeName
@@ -175,6 +193,14 @@ class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
+      isReadable: null == isReadable
+          ? _value.isReadable
+          : isReadable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isWriteable: null == isWriteable
+          ? _value.isWriteable
+          : isWriteable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -189,7 +215,9 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
       required this.isExperimental,
       required this.isStatic,
       required final Set<String> entryPoints,
-      required this.relativePath})
+      required this.relativePath,
+      required this.isReadable,
+      required this.isWriteable})
       : _entryPoints = entryPoints,
         super._();
 
@@ -216,10 +244,14 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
 
   @override
   final String relativePath;
+  @override
+  final bool isReadable;
+  @override
+  final bool isWriteable;
 
   @override
   String toString() {
-    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath)';
+    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
   }
 
   @override
@@ -239,7 +271,11 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
             const DeepCollectionEquality()
                 .equals(other._entryPoints, _entryPoints) &&
             (identical(other.relativePath, relativePath) ||
-                other.relativePath == relativePath));
+                other.relativePath == relativePath) &&
+            (identical(other.isReadable, isReadable) ||
+                other.isReadable == isReadable) &&
+            (identical(other.isWriteable, isWriteable) ||
+                other.isWriteable == isWriteable));
   }
 
   @JsonKey(ignore: true)
@@ -252,7 +288,9 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
       isExperimental,
       isStatic,
       const DeepCollectionEquality().hash(_entryPoints),
-      relativePath);
+      relativePath,
+      isReadable,
+      isWriteable);
 
   @JsonKey(ignore: true)
   @override
@@ -277,7 +315,9 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
       required final bool isExperimental,
       required final bool isStatic,
       required final Set<String> entryPoints,
-      required final String relativePath}) = _$FieldDeclarationStorageV3Impl;
+      required final String relativePath,
+      required final bool isReadable,
+      required final bool isWriteable}) = _$FieldDeclarationStorageV3Impl;
   const _FieldDeclarationStorageV3._() : super._();
 
   factory _FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
@@ -297,6 +337,10 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
   Set<String> get entryPoints;
   @override
   String get relativePath;
+  @override
+  bool get isReadable;
+  @override
+  bool get isWriteable;
   @override
   @JsonKey(ignore: true)
   _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>

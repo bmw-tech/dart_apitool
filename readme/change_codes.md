@@ -215,6 +215,22 @@ This is a breaking change.
 
 If the flag got removed then this change is non-breaking. Adding an experimental flag is considered a breaking change.
 
+### CF07
+
+> Field readability changed
+
+The fact that a field can be read changed.
+If it is now readable then this is a non-breaking change.
+If it is not readable anymore then this is a breaking change.
+
+### CF08
+
+> Field writability changed
+
+The fact that a field can be written to, changed.
+If it is now writable then this is a non-breaking change.
+If it is not writable anymore then this is a breaking change.
+
 ## Entry points
 
 Entry points are the imports that lead to this type being usable. Any change in those entry points is an API change.

@@ -22,6 +22,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
   final Set<String>? entryPoints;
   @override
   final String relativePath;
+  final bool isWriteable;
+  final bool isReadable;
 
   InternalFieldDeclaration._({
     required this.id,
@@ -35,6 +37,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
     required this.isStatic,
     required this.entryPoints,
     required this.relativePath,
+    required this.isReadable,
+    required this.isWriteable,
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
@@ -57,6 +61,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
           entryPoints: {},
           relativePath:
               InternalDeclarationUtils.getRelativePath(rootPath, fieldElement),
+          isReadable: fieldElement.getter != null,
+          isWriteable: fieldElement.setter != null,
         );
 
   FieldDeclaration toFieldDeclaration() {
@@ -70,6 +76,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
       isStatic: isStatic,
       entryPoints: entryPoints,
       relativePath: relativePath,
+      isReadable: isReadable,
+      isWriteable: isWriteable,
     );
   }
 }

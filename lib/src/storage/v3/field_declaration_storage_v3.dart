@@ -18,6 +18,8 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
     required bool isStatic,
     required Set<String> entryPoints,
     required String relativePath,
+    required bool isReadable,
+    required bool isWriteable,
   }) = _FieldDeclarationStorageV3;
 
   factory FieldDeclarationStorageV3.fromJson(Map<String, Object?> json) =>
@@ -33,6 +35,8 @@ class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       isStatic: fieldDeclaration.isStatic,
       entryPoints: fieldDeclaration.entryPoints!,
       relativePath: fieldDeclaration.relativePath,
+      isReadable: fieldDeclaration.isReadable,
+      isWriteable: fieldDeclaration.isWriteable,
     );
   }
 }

@@ -2,6 +2,7 @@
 
 ## Version 0.18.0
 - add missing export to json output for `extract` command
+- adds analysis of readability and writability of fields.
 - fixes interface equality logic in the differ functionality to be less strict on library renaming (if the entry points are still the same)
 - fix change compatibility check for `dynamic` and `Object?` parameters
 - fix compatibility checks for return types of executables
