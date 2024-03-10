@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.19.0
+- introduces `override-use-flutter` option for all commands to override the automatic decision whether to use Flutter or Dart.
+
 ## Version 0.18.0
 - add missing export to json output for `extract` command
 - adds analysis of readability and writability of fields.
