@@ -97,8 +97,10 @@ You may want to do this if you want to make sure
     );
     argParser.addFlag(
       _optionNameIgnoreRequiredness,
-      help:
-          'Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)',
+      help: '''
+Whether to ignore the required aspect of interfaces 
+(yielding less strict version bump requirements)
+''',
       defaultsTo: false,
       negatable: true,
     );
@@ -114,6 +116,7 @@ You may want to do this if you want to make sure
       help: 'Where to store the report file (no effect on cli option)',
       mandatory: false,
     );
+    init(argParser);
   }
 
   @override
@@ -150,18 +153,22 @@ You may want to do this if you want to make sure
         argResults![_optionNameIgnoreRequiredness] as bool;
 
     final preparedOldPackageRef = await prepare(
+      argResults!,
       oldPackageRef,
     );
     final preparedNewPackageRef = await prepare(
+      argResults!,
       newPackageRef,
     );
 
     final oldPackageApi = await analyze(
+      argResults!,
       preparedOldPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,
     );
     final newPackageApi = await analyze(
+      argResults!,
       preparedNewPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,
