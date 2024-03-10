@@ -11,22 +11,35 @@ import '../utils/utils.dart';
 /// Helper class for interacting with Dart and Flutter
 abstract class DartInteraction {
   /// runs the dart or flutter command with the given [args].
-  /// The decision which command to run is taken from the pubspeck.yaml file in
+  /// The decision which command to run is taken from the pubspec.yaml file in
   /// [forDirectory]
+  /// This command determines which tool to use based on the pubspcec.yaml file.
+  /// If [overrideUseFlutterCommand] is given then this value will be used to
+  /// determine which tool to use. [true] means Flutter, [false] means Dart
   static Future runDartOrFlutterCommand(
     String forDirectory, {
     List<String> args = const [],
     StdoutSession? stdoutSession,
+    bool? overrideUseFlutterCommand,
   }) async {
-    final pubspecPath = path.join(forDirectory, 'pubspec.yaml');
-    final pubspecExists = await File(pubspecPath).exists();
-    if (!pubspecExists) {
-      throw RunDartError(
-          'Error running pub get in $forDirectory:\nThis is not a valid dart package directory');
+    bool useFlutter = false;
+    if (overrideUseFlutterCommand == null) {
+      // if no override is specified we get the information which tool to use
+      // from the pubspec.yaml file
+      final pubspecPath = path.join(forDirectory, 'pubspec.yaml');
+      final pubspecExists = await File(pubspecPath).exists();
+      if (!pubspecExists) {
+        throw RunDartError(
+            'Error running pub get in $forDirectory:\nThis is not a valid dart package directory');
+      }
+      final yamlContent = await File(pubspecPath).readAsString();
+      final pubSpec = Pubspec.parse(yamlContent);
+      useFlutter = pubSpec.dependencies.containsKey('flutter');
+    } else {
+      // if the decision is overridden we use the given value (overrideUseFlutterCommand == true => Flutter, == false => Dart)
+      useFlutter = overrideUseFlutterCommand;
     }
-    final yamlContent = await File(pubspecPath).readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
-    if (!pubSpec.dependencies.containsKey('flutter')) {
+    if (!useFlutter) {
       return _runDartOrFlutterCommand(
         _getDartExecutablePath(),
         workingDirectory: forDirectory,
