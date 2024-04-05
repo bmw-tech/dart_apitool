@@ -13,7 +13,7 @@ abstract class DartInteraction {
   /// runs the dart or flutter command with the given [args].
   /// The decision which command to run is taken from the pubspec.yaml file in
   /// [forDirectory]
-  /// This command determines which tool to use based on the pubspcec.yaml file.
+  /// This command determines which tool to use based on the pubspec.yaml file.
   /// If [forceUseFlutterTool] is given then this value will be used to
   /// determine which tool to use. [true] means Flutter, [false] means Dart
   static Future runDartOrFlutterCommand(
