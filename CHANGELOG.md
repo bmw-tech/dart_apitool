@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.19.0
+- introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
+
 ## Version 0.18.0
 - add missing export to json output for `extract` command
 - adds analysis of readability and writability of fields.

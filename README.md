@@ -56,6 +56,10 @@ Usage: dart-apitool extract [arguments]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
     --[no-]set-exit-on-missing-export    Sets exit code to != 0 if missing exports are detected in the API.
+    --force-use-flutter                  If present forces dart_apitool to use Flutter
+                                         (instead of Dart if the project is Dart only)
+
+Run "dart-apitool help" to see global options.
 ```
 
 ### diff
@@ -91,10 +95,15 @@ Usage: dart-apitool diff [arguments]
                                          [none, allowAdding (default), strict]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
-    --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces (yielding less strict version bump requirements)
+    --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces
+                                         (yielding less strict version bump requirements)
     --report-format                      Which output format should be used
                                          [cli (default), markdown, json]
     --report-file-path                   Where to store the report file (no effect on cli option)
+    --force-use-flutter                  If present forces dart_apitool to use Flutter
+                                         (instead of Dart if the project is Dart only)
+
+Run "dart-apitool help" to see global options.
 ```
 
 ## Integration

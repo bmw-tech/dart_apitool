@@ -60,6 +60,7 @@ If not specified the extracted API will be printed to the console.
       defaultsTo: false,
       negatable: true,
     );
+    init(argParser);
   }
 
   @override
@@ -72,9 +73,11 @@ If not specified the extracted API will be printed to the console.
         argResults![_optionNameSetExitCodeOnMissingExport] as bool;
 
     final preparedPackageRef = await prepare(
+      argResults!,
       packageRef,
     );
     final packageApi = await analyze(
+      argResults!,
       preparedPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
       doRemoveExample: doRemoveExample,

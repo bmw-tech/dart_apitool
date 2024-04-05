@@ -11,22 +11,35 @@ import '../utils/utils.dart';
 /// Helper class for interacting with Dart and Flutter
 abstract class DartInteraction {
   /// runs the dart or flutter command with the given [args].
-  /// The decision which command to run is taken from the pubspeck.yaml file in
+  /// The decision which command to run is taken from the pubspec.yaml file in
   /// [forDirectory]
+  /// This command determines which tool to use based on the pubspec.yaml file.
+  /// If [forceUseFlutterTool] is given then this value will be used to
+  /// determine which tool to use. [true] means Flutter, [false] means Dart
   static Future runDartOrFlutterCommand(
     String forDirectory, {
     List<String> args = const [],
     StdoutSession? stdoutSession,
+    bool forceUseFlutterTool = false,
   }) async {
-    final pubspecPath = path.join(forDirectory, 'pubspec.yaml');
-    final pubspecExists = await File(pubspecPath).exists();
-    if (!pubspecExists) {
-      throw RunDartError(
-          'Error running pub get in $forDirectory:\nThis is not a valid dart package directory');
+    bool useFlutter = false;
+    if (!forceUseFlutterTool) {
+      // if we are not forced to use Flutter then we get this information
+      // from the pubspec.yaml file
+      final pubspecPath = path.join(forDirectory, 'pubspec.yaml');
+      final pubspecExists = await File(pubspecPath).exists();
+      if (!pubspecExists) {
+        throw RunDartError(
+            'Error running pub get in $forDirectory:\nThis is not a valid dart package directory');
+      }
+      final yamlContent = await File(pubspecPath).readAsString();
+      final pubSpec = Pubspec.parse(yamlContent);
+      useFlutter = pubSpec.dependencies.containsKey('flutter');
+    } else {
+      // here we are forced to use Flutter (forceUseFlutterTool == true)
+      useFlutter = true;
     }
-    final yamlContent = await File(pubspecPath).readAsString();
-    final pubSpec = Pubspec.parse(yamlContent);
-    if (!pubSpec.dependencies.containsKey('flutter')) {
+    if (!useFlutter) {
       return _runDartOrFlutterCommand(
         _getDartExecutablePath(),
         workingDirectory: forDirectory,

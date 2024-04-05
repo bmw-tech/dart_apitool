@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
@@ -22,17 +23,41 @@ Package reference can be one of:
 OBSOLETE: Has no effect anymore.
  ''';
 
+  static final String _flagNameForceUseFlutter = 'force-use-flutter';
+  static final String _helpTextForceUseFlutter =
+      'If present forces dart_apitool to use Flutter\n(instead of Dart if the project is Dart only)';
+
+  void init(ArgParser argParser) {
+    argParser.addFlag(
+      _flagNameForceUseFlutter,
+      help: _helpTextForceUseFlutter,
+      defaultsTo: false,
+      negatable: false,
+    );
+  }
+
   /// prepares given [ref]. Depending on the type of ref this can include
   /// - copying the package to a temporary directory
   /// - running pub get
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
-  Future<PreparedPackageRef> prepare(PackageRef ref) async {
+  Future<PreparedPackageRef> prepare(
+    ArgResults argResults,
+    PackageRef ref,
+  ) async {
     final stdoutSession = StdoutSession();
+
+    final forceUseFlutterTool =
+        (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
+
     List<SourceItem> sources = [];
     String? packageRelativePath;
     if (ref.isDirectoryPath) {
-      await stdoutSession.writeln('Preparing ${ref.ref}');
+      String forceUseFlutterSuffix = '';
+      if (forceUseFlutterTool) {
+        forceUseFlutterSuffix = ' (forced Flutter)';
+      }
+      await stdoutSession.writeln('Preparing ${ref.ref}$forceUseFlutterSuffix');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
         sourceDir =
@@ -70,10 +95,18 @@ OBSOLETE: Has no effect anymore.
       await _copyPath(sourceItem.sourceDir,
           sourceItem.destinationPath(forPrefix: tempDir.path));
       if (!sourceItem.isInCache) {
+        String forceUseFlutterSuffix = '';
+        if (forceUseFlutterTool) {
+          forceUseFlutterSuffix = ' (forced Flutter)';
+        }
+
         await stdoutSession.writeln(
-            'Preparing package dependencies for local package ${sourceItem.sourceDir}');
-        await PubInteraction.runPubGet(sourceItem.sourceDir,
-            stdoutSession: stdoutSession);
+            'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
+        await PubInteraction.runPubGet(
+          sourceItem.sourceDir,
+          stdoutSession: stdoutSession,
+          forceUseFlutterTool: forceUseFlutterTool,
+        );
         final sourcePackageConfig =
             File(_getPackageConfigPathForPackage(sourceItem.sourceDir));
         final targetPackageConfig =
@@ -106,11 +139,16 @@ OBSOLETE: Has no effect anymore.
   /// [doMergeBaseClasses] defines if base classes should be merged into derived ones. This allows to remove private base classes from the list of interface declarations.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   Future<PackageApi> analyze(
+    ArgResults argResults,
     PreparedPackageRef preparedRef, {
     bool doAnalyzePlatformConstraints = true,
     bool doRemoveExample = true,
   }) async {
     final stdoutSession = StdoutSession();
+
+    final forceUseFlutterTool =
+        (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
+
     String? path;
     if (preparedRef.packageRef.isDirectoryPath) {
       path = preparedRef.packageRef.ref;
@@ -141,7 +179,11 @@ OBSOLETE: Has no effect anymore.
     final packageConfig = File(_getPackageConfigPathForPackage(packagePath));
     if (!packageConfig.existsSync()) {
       await stdoutSession.writeln('Running pub get');
-      await PubInteraction.runPubGet(packagePath, stdoutSession: stdoutSession);
+      await PubInteraction.runPubGet(
+        packagePath,
+        stdoutSession: stdoutSession,
+        forceUseFlutterTool: forceUseFlutterTool,
+      );
     } else {
       await stdoutSession
           .writeln('Omitting pub get (package config already present)');
