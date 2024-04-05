@@ -23,15 +23,15 @@ Package reference can be one of:
 OBSOLETE: Has no effect anymore.
  ''';
 
-  static final String _optionNameOverrideUserFlutter = 'override-use-flutter';
-  static final String _helpTextOverrideUserFlutter =
-      'Overrides automatic decision whether to use Flutter or Dart.';
+  static final String _flagNameForceUseFlutter = 'force-use-flutter';
+  static final String _helpTextForceUseFlutter =
+      'If present forces dart_apitool to use Flutter\n(instead of Dart if the project is Dart only)';
 
   void init(ArgParser argParser) {
     argParser.addFlag(
-      _optionNameOverrideUserFlutter,
-      help: _helpTextOverrideUserFlutter,
-      defaultsTo: null,
+      _flagNameForceUseFlutter,
+      help: _helpTextForceUseFlutter,
+      defaultsTo: false,
       negatable: false,
     );
   }
@@ -47,8 +47,8 @@ OBSOLETE: Has no effect anymore.
   ) async {
     final stdoutSession = StdoutSession();
 
-    final overrideUseFlutterCommand =
-        argResults[_optionNameOverrideUserFlutter] as bool?;
+    final forceUseFlutterTool =
+        (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
 
     List<SourceItem> sources = [];
     String? packageRelativePath;
@@ -96,7 +96,7 @@ OBSOLETE: Has no effect anymore.
         await PubInteraction.runPubGet(
           sourceItem.sourceDir,
           stdoutSession: stdoutSession,
-          overrideUseFlutterCommand: overrideUseFlutterCommand,
+          forceUseFlutterTool: forceUseFlutterTool,
         );
         final sourcePackageConfig =
             File(_getPackageConfigPathForPackage(sourceItem.sourceDir));
@@ -137,8 +137,8 @@ OBSOLETE: Has no effect anymore.
   }) async {
     final stdoutSession = StdoutSession();
 
-    final overrideUseFlutterCommand =
-        argResults[_optionNameOverrideUserFlutter] as bool?;
+    final forceUseFlutterTool =
+        (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
 
     String? path;
     if (preparedRef.packageRef.isDirectoryPath) {
@@ -173,7 +173,7 @@ OBSOLETE: Has no effect anymore.
       await PubInteraction.runPubGet(
         packagePath,
         stdoutSession: stdoutSession,
-        overrideUseFlutterCommand: overrideUseFlutterCommand,
+        forceUseFlutterTool: forceUseFlutterTool,
       );
     } else {
       await stdoutSession

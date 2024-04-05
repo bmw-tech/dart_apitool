@@ -56,7 +56,10 @@ Usage: dart-apitool extract [arguments]
     --[no-]remove-example                Removes examples from the package to analyze.
                                          (defaults to on)
     --[no-]set-exit-on-missing-export    Sets exit code to != 0 if missing exports are detected in the API.
-    --override-use-flutter               Overrides automatic decision whether to use Flutter or Dart.
+    --force-use-flutter                  If present forces dart_apitool to use Flutter
+                                         (instead of Dart if the project is Dart only)
+
+Run "dart-apitool help" to see global options.
 ```
 
 ### diff
@@ -97,7 +100,10 @@ Usage: dart-apitool diff [arguments]
     --report-format                      Which output format should be used
                                          [cli (default), markdown, json]
     --report-file-path                   Where to store the report file (no effect on cli option)
-    --override-use-flutter               Overrides automatic decision whether to use Flutter or Dart.
+    --force-use-flutter                  If present forces dart_apitool to use Flutter
+                                         (instead of Dart if the project is Dart only)
+
+Run "dart-apitool help" to see global options.
 ```
 
 ## Integration

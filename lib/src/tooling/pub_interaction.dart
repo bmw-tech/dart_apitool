@@ -111,7 +111,7 @@ abstract class PubInteraction {
   static Future runPubGet(
     String packageDirectory, {
     StdoutSession? stdoutSession,
-    bool? overrideUseFlutterCommand,
+    bool forceUseFlutterTool = false,
   }) async {
     return DartInteraction.runDartOrFlutterCommand(
       packageDirectory,
@@ -120,7 +120,7 @@ abstract class PubInteraction {
         'get',
       ],
       stdoutSession: stdoutSession,
-      overrideUseFlutterCommand: overrideUseFlutterCommand,
+      forceUseFlutterTool: forceUseFlutterTool,
     );
   }
 }
