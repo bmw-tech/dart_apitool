@@ -53,7 +53,11 @@ OBSOLETE: Has no effect anymore.
     List<SourceItem> sources = [];
     String? packageRelativePath;
     if (ref.isDirectoryPath) {
-      await stdoutSession.writeln('Preparing ${ref.ref}');
+      String forceUseFlutterSuffix = '';
+      if (forceUseFlutterTool) {
+        forceUseFlutterSuffix = ' (forced Flutter)';
+      }
+      await stdoutSession.writeln('Preparing ${ref.ref}$forceUseFlutterSuffix');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
         sourceDir =
@@ -91,8 +95,13 @@ OBSOLETE: Has no effect anymore.
       await _copyPath(sourceItem.sourceDir,
           sourceItem.destinationPath(forPrefix: tempDir.path));
       if (!sourceItem.isInCache) {
+        String forceUseFlutterSuffix = '';
+        if (forceUseFlutterTool) {
+          forceUseFlutterSuffix = ' (forced Flutter)';
+        }
+
         await stdoutSession.writeln(
-            'Preparing package dependencies for local package ${sourceItem.sourceDir}');
+            'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
         await PubInteraction.runPubGet(
           sourceItem.sourceDir,
           stdoutSession: stdoutSession,
