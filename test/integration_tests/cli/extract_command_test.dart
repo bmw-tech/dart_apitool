@@ -188,6 +188,25 @@ void main() {
     );
 
     test(
+      'Handles `set-exit-on-missing-export` well if only @visibleForTesting usages are leaking',
+      () async {
+        final exitCode = await runner.run([
+          'extract',
+          '--input',
+          path.join(
+            'test',
+            'test_packages',
+            'missing_export_for_test',
+            'package_a',
+          ),
+          '--set-exit-on-missing-export',
+        ]);
+        expect(exitCode, 0);
+      },
+      timeout: integrationTestTimeout,
+    );
+
+    test(
       'reports missing exports in extract result',
       () async {
         final tempDir = await Directory.systemTemp.createTemp();
