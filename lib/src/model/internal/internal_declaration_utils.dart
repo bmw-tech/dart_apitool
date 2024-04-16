@@ -72,16 +72,23 @@ abstract class InternalDeclarationUtils {
     /// stop at compilation unit level + adapt display name to show the relative path
     if (element is CompilationUnitElement) {
       Uri uri = element.source.uri;
-      try {
+      if (uri.isScheme('file')) {
         final pathParts = path.split(uri.toFilePath());
         final libIndex = pathParts.lastIndexOf('lib');
         if (libIndex >= 0) {
-          pathParts.removeRange(0, libIndex);
+          pathParts.removeRange(0, libIndex + 1);
         }
         return path.joinAll(pathParts);
-      } on UnsupportedError catch (_) {
-        return uri.toString();
       }
+      // in case we have a URI we just show the path segments. If we happen to find "src" then we only show the path after that
+      // this works as we only have usages in our own package
+      final uriPathSegments = [...uri.pathSegments];
+      final srcIndex = uriPathSegments.lastIndexOf('src');
+      if (srcIndex >= 0) {
+        uriPathSegments.removeRange(0, srcIndex + 1);
+      }
+
+      return uriPathSegments.join('/');
     }
 
     if (element.enclosingElement != null) {
