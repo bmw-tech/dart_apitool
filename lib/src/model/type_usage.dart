@@ -1,14 +1,22 @@
-/// specifies how a type is used
-enum TypeUsage {
-  /// the type is provided in the public API
-  provide,
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  /// the type is used to be passed into the API
-  input,
+import 'type_usage_kind.dart';
 
-  /// the type is used to be returned from the API
-  output,
+part 'type_usage.freezed.dart';
 
-  /// the type is used as a hierarchy element (base class, mixin, interface, type parameter ...)
-  hierarchy,
+/// represents the usage of a type
+@freezed
+class TypeUsage with _$TypeUsage {
+  const TypeUsage._();
+
+  const factory TypeUsage({
+    /// kind of usage
+    required TypeUsageKind kind,
+
+    /// the name of the referring element
+    required String referringElementName,
+
+    /// defines if the usage happened in a visibleForTesting context
+    required bool isVisibleForTesting,
+  }) = _TypeUsage;
 }

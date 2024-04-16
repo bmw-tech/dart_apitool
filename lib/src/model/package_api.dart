@@ -54,13 +54,19 @@ class PackageApi with _$PackageApi {
   }) = _PackageApi;
 
   /// returns all root level declarations of this package that don't have any entry points
-  Iterable<Declaration> get rootDeclarationsWithoutEntryPoints {
+  Iterable<Declaration>
+      get rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests {
     return [
-      ...interfaceDeclarations.where((id) => id.entryPoints?.isEmpty ?? false),
+      ...interfaceDeclarations.where((id) =>
+          (id.entryPoints?.isEmpty ?? false) && _isUsedOutsideTests(id)),
       ...executableDeclarations.where((ed) => ed.entryPoints?.isEmpty ?? false),
       ...typeAliasDeclarations
           .where((tad) => tad.entryPoints?.isEmpty ?? false),
       ...fieldDeclarations.where((fd) => fd.entryPoints?.isEmpty ?? false),
     ];
+  }
+
+  static bool _isUsedOutsideTests(InterfaceDeclaration interfaceDeclaration) {
+    return interfaceDeclaration.typeUsages.any((tu) => !tu.isVisibleForTesting);
   }
 }

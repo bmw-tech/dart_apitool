@@ -22,6 +22,7 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 import '../model/internal/internal_interface_declaration.dart';
 import '../model/internal/internal_executable_declaration.dart';
 import '../model/internal/internal_field_declaration.dart';
+import '../model/internal/internal_type_usage.dart';
 import 'constraints/android_platform_constraints_helper.dart';
 import 'constraints/ios_platform_contraints_helper.dart';
 import 'dependencies/package_dependencies_helper.dart';
@@ -462,8 +463,10 @@ class PackageApiAnalyzer {
       final interfaceDeclaration = entry.interfaceDeclarations.single;
       // a merged element can be removed if it is not used as input or output and is unreachable from the outside
       bool isReachable = interfaceDeclaration.entryPoints?.isNotEmpty ?? false;
-      bool isInput = entry.typeUsages.contains(TypeUsage.input);
-      bool isOutput = entry.typeUsages.contains(TypeUsage.output);
+      bool isInput =
+          entry.typeUsages.any((tu) => tu.kind == TypeUsageKind.input);
+      bool isOutput =
+          entry.typeUsages.any((tu) => tu.kind == TypeUsageKind.output);
       if (!isReachable && !isInput && !isOutput) {
         collectedInterfaces.remove(mergedSuperTypeId);
       }
@@ -529,7 +532,7 @@ class _InterfaceCollectionResult {
       List<InternalFieldDeclaration>.empty(growable: true);
   final typeAliasDeclarations =
       List<InternalTypeAliasDeclaration>.empty(growable: true);
-  final typeUsages = <TypeUsage>{};
+  final typeUsages = <InternalTypeUsage>{};
 }
 
 @freezed

@@ -46,6 +46,10 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
+  static bool hasVisibleForTesting(Element element) {
+    return containsAnnotation(element, 'visibleForTesting');
+  }
+
   static bool hasExperimental(Element element) {
     return containsAnnotation(element, 'experimental');
   }
@@ -60,6 +64,34 @@ abstract class InternalDeclarationUtils {
       return path.relative(name, from: rootPath);
     }
     return '';
+  }
+
+  static String getFullQualifiedNameFor(Element element) {
+    final parts = <String>[];
+
+    /// stop at compilation unit level + adapt display name to show the relative path
+    if (element is CompilationUnitElement) {
+      Uri uri = element.source.uri;
+      String filePath;
+      try {
+        filePath = uri.toFilePath();
+        final pathParts = path.split(uri.toFilePath());
+        final libIndex = pathParts.lastIndexOf('lib');
+        if (libIndex >= 0) {
+          pathParts.removeRange(0, libIndex);
+        }
+        return path.joinAll(pathParts);
+      } on UnsupportedError catch (_) {
+        return uri.toString();
+      }
+    }
+
+    if (element.enclosingElement != null) {
+      parts.add(getFullQualifiedNameFor(element.enclosingElement!));
+    }
+    parts.add(element.displayName);
+
+    return parts.join('::');
   }
 
   static String? getNamespaceForElement(

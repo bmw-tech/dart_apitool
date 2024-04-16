@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dart_apitool/src/storage/storage.dart';
 
+import '../../model/model.dart';
 import '../package_ref.dart';
 import 'command_mixin.dart';
 
@@ -100,15 +101,20 @@ If not specified the extracted API will be printed to the console.
       stdout.writeln(jsonString);
     }
 
-    final declarationsWithoutEntryPoints =
-        packageApi.rootDeclarationsWithoutEntryPoints;
+    final declarationsWithoutEntryPointsOutsideTests =
+        packageApi.rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests;
 
-    if (declarationsWithoutEntryPoints.isNotEmpty) {
+    if (declarationsWithoutEntryPointsOutsideTests.isNotEmpty) {
       if (outFilePath == null) {
         stdout.writeln(
             'The following declarations do not have an entry point (did you miss to export them?):');
-        for (final declaration in declarationsWithoutEntryPoints) {
+        for (final declaration in declarationsWithoutEntryPointsOutsideTests) {
           stdout.writeln('  ${declaration.name}');
+          if (declaration is InterfaceDeclaration) {
+            for (final typeUsage in declaration.typeUsages) {
+              stdout.writeln('  - ${typeUsage.referringElementName}');
+            }
+          }
         }
       }
       if (doSetExitCodeOnMissingExport) {
