@@ -72,9 +72,7 @@ abstract class InternalDeclarationUtils {
     /// stop at compilation unit level + adapt display name to show the relative path
     if (element is CompilationUnitElement) {
       Uri uri = element.source.uri;
-      String filePath;
       try {
-        filePath = uri.toFilePath();
         final pathParts = path.split(uri.toFilePath());
         final libIndex = pathParts.lastIndexOf('lib');
         if (libIndex >= 0) {
