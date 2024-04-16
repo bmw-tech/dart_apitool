@@ -23,20 +23,14 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      flutter-version: ${{ steps.step_extract_version.outputs.flutter-version }}
+      flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - uses: kuhnroyal/flutter-fvm-config-action@v1
-        with:
-          path: '.fvm/fvm_config.json'
-
-      - id: step_extract_version
-        run: |
-          FLUTTER_VERSION=${{ env.FLUTTER_VERSION }}
-          echo "flutter-version=${FLUTTER_VERSION}" >> $GITHUB_OUTPUT
-
+      - uses: kuhnroyal/flutter-fvm-config-action@v2
+        id: fvm-config-action
+        
   get_last_released_version:
     needs: check_label
     runs-on: ubuntu-latest
