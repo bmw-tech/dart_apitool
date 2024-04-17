@@ -111,8 +111,14 @@ If not specified the extracted API will be printed to the console.
         for (final declaration in declarationsWithoutEntryPointsOutsideTests) {
           stdout.writeln('  ${declaration.name}');
           if (declaration is InterfaceDeclaration) {
-            for (final typeUsage in declaration.typeUsages) {
-              stdout.writeln('  - ${typeUsage.referringElementName}');
+            final filteredUsages = declaration.typeUsages
+                .where((tu) => !tu.isVisibleForTesting)
+                .toList();
+            if (filteredUsages.isNotEmpty) {
+              stdout.writeln('    Usage(s):');
+              for (final typeUsage in filteredUsages) {
+                stdout.writeln('    - ${typeUsage.referringElementName}');
+              }
             }
           }
         }
