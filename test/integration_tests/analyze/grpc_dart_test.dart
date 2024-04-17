@@ -17,7 +17,9 @@ void main() {
       packageApi = await retriever.retrieve();
     });
 
-    test('No missing exports are detected', () {
+    test(
+        "Detects 2 missing exports correctly (especially doesn't complain about 'ServerHandler')",
+        () {
       final rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests =
           packageApi.rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
               .toList();
@@ -31,6 +33,10 @@ void main() {
           rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
               .any((decl) => decl.name == 'Any'),
           isTrue);
+      expect(
+          rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
+              .any((decl) => decl.name == 'ServerHandler'),
+          isFalse);
     });
   });
 }
