@@ -7,6 +7,7 @@ import 'declaration.dart';
 import 'executable_declaration.dart';
 import 'field_declaration.dart';
 import 'type_usage.dart';
+import 'type_usage_kind.dart';
 
 part 'interface_declaration.freezed.dart';
 
@@ -69,5 +70,7 @@ class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
 
   /// determines if this interface is required (meaning: can be used in a type hierarchy by the consumer)
   bool get isRequired =>
-      isAbstract && !isSealed && typeUsages.contains(TypeUsage.input);
+      isAbstract &&
+      !isSealed &&
+      typeUsages.any((tu) => tu.kind == TypeUsageKind.input);
 }

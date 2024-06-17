@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:package_b/package_b.dart';
 
 import 'class_b.dart';
 

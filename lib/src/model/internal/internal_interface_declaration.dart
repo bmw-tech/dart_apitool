@@ -7,6 +7,7 @@ import '../field_declaration.dart';
 import '../type_usage.dart';
 import 'internal_declaration.dart';
 import 'internal_declaration_utils.dart';
+import 'internal_type_usage.dart';
 
 /// Internal extension of [InterfaceDeclaration] that adds the [id] and [parentClassId] that is not stable between runs
 class InternalInterfaceDeclaration implements InternalDeclaration {
@@ -112,7 +113,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
         );
 
   InterfaceDeclaration toInterfaceDeclaration(
-      {required Set<TypeUsage> typeUsages}) {
+      {required Set<InternalTypeUsage> typeUsages}) {
     final namespacePrefix = namespace == null ? '' : '$namespace.';
     return InterfaceDeclaration(
       name: '$namespacePrefix$name',
@@ -125,7 +126,13 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
       executableDeclarations: executableDeclarations,
       fieldDeclarations: fieldDeclarations,
       entryPoints: entryPoints,
-      typeUsages: typeUsages,
+      typeUsages: typeUsages
+          .map((itu) => TypeUsage(
+                kind: itu.kind,
+                referringElementName: itu.referringElementName,
+                isVisibleForTesting: itu.isVisibleForTesting,
+              ))
+          .toSet(),
       relativePath: relativePath,
     );
   }

@@ -17,7 +17,8 @@ abstract class PackageApiStorage {
     return encoder.convert({
       'version': 3,
       'packageApi': packageApiStorage.toJson(),
-      'missingEntryPoints': packageApi.rootDeclarationsWithoutEntryPoints
+      'missingEntryPoints': packageApi
+          .rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
           .map((e) => e.name)
           .toList(),
     });
