@@ -81,7 +81,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
               rootPath, interfaceElement),
           superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
-              .whereNotNull()
+              .nonNulls
               .toList(),
         );
 
