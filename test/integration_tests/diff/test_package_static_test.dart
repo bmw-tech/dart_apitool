@@ -34,7 +34,7 @@ void main() {
         );
       });
 
-      test('detects the addition of the static type', () {
+      test('detects the addition of a static method', () {
         expect(
           diffResult.apiChanges,
           containsOnce(
@@ -46,13 +46,63 @@ void main() {
         );
       });
 
-      test('addition of the static type is not breaking', () {
+      test('addition of a static method is not breaking', () {
         expect(
           diffResult.apiChanges,
           containsOnce(
             predicate(
               (ApiChange change) =>
                   change.changeDescription.contains('thisIsANewStaticMethod') &&
+                  !change.isBreaking,
+            ),
+          ),
+        );
+      });
+
+      test('detects the addition of a static field', () {
+        expect(
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.changeDescription.contains('thisIsANewStaticField'),
+            ),
+          ),
+        );
+      });
+
+      test('addition of a static field is not breaking', () {
+        expect(
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.changeDescription.contains('thisIsANewStaticField') &&
+                  !change.isBreaking,
+            ),
+          ),
+        );
+      });
+
+      test('detects the addition of a const', () {
+        expect(
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.changeDescription.contains('thisIsANewConst'),
+            ),
+          ),
+        );
+      });
+
+      test('addition of a const is not breaking', () {
+        expect(
+          diffResult.apiChanges,
+          containsOnce(
+            predicate(
+              (ApiChange change) =>
+                  change.changeDescription.contains('thisIsANewConst') &&
                   !change.isBreaking,
             ),
           ),

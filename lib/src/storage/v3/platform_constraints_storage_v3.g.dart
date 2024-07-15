@@ -24,9 +24,9 @@ _$AndroidPlatformConstraintsStorageV3Impl
     _$$AndroidPlatformConstraintsStorageV3ImplFromJson(
             Map<String, dynamic> json) =>
         _$AndroidPlatformConstraintsStorageV3Impl(
-          minSdkVersion: (json['minSdkVersion'] as num?)?.toInt(),
-          compileSdkVersion: (json['compileSdkVersion'] as num?)?.toInt(),
-          targetSdkVersion: (json['targetSdkVersion'] as num?)?.toInt(),
+          minSdkVersion: json['minSdkVersion'] as int?,
+          compileSdkVersion: json['compileSdkVersion'] as int?,
+          targetSdkVersion: json['targetSdkVersion'] as int?,
         );
 
 Map<String, dynamic> _$$AndroidPlatformConstraintsStorageV3ImplToJson(

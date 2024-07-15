@@ -18,6 +18,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
   final bool isDeprecated;
   final bool isExperimental;
   final bool isStatic;
+  final bool isConst;
   @override
   final Set<String>? entryPoints;
   @override
@@ -35,6 +36,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
     required this.isDeprecated,
     required this.isExperimental,
     required this.isStatic,
+    required this.isConst,
     required this.entryPoints,
     required this.relativePath,
     required this.isReadable,
@@ -58,6 +60,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
           isExperimental:
               InternalDeclarationUtils.hasExperimental(fieldElement),
           isStatic: fieldElement.isStatic,
+          isConst: fieldElement.isConst,
           entryPoints: {},
           relativePath:
               InternalDeclarationUtils.getRelativePath(rootPath, fieldElement),
@@ -74,6 +77,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
       isDeprecated: isDeprecated,
       isExperimental: isExperimental,
       isStatic: isStatic,
+      isConst: isConst,
       entryPoints: entryPoints,
       relativePath: relativePath,
       isReadable: isReadable,

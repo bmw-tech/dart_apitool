@@ -6,6 +6,9 @@ abstract class ClassA {
   static String thisIsANewStaticMethod() {
     return 'staticMethod';
   }
+
+  static int thisIsANewStaticField = 5;
+  const int thisIsANewConst = 42;
 }
 
 String useClassASoThatItBecomesRequired(ClassA classA) {

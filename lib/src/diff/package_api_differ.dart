@@ -274,38 +274,44 @@ class PackageApiDiffer {
     final changes = <ApiChange>[];
     for (final oldEx in executableListDiff.matches.keys) {
       final newEx = executableListDiff.matches[oldEx]!;
-      changes.addAll(_calculateExecutableDiff(
-        oldEx,
-        newEx,
-        context,
-        isInterfaceRequired: isInterfaceRequired,
-        isExperimental: newEx.isExperimental || isExperimental,
-        typeHierarchy: typeHierarchy,
-      ));
+      changes.addAll(
+        _calculateExecutableDiff(
+          oldEx,
+          newEx,
+          context,
+          isInterfaceRequired: isInterfaceRequired,
+          isExperimental: newEx.isExperimental || isExperimental,
+          typeHierarchy: typeHierarchy,
+        ),
+      );
     }
     for (final removedExecutable in executableListDiff.remainingOld) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ce10,
-        affectedDeclaration: removedExecutable,
-        contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.remove,
-        isExperimental: isExperimental,
-        changeDescription:
-            '${_getExecutableTypeName(removedExecutable.type, context.isNotEmpty)} "${removedExecutable.name}" removed',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ce10,
+          affectedDeclaration: removedExecutable,
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.remove,
+          isExperimental: isExperimental,
+          changeDescription:
+              '${_getExecutableTypeName(removedExecutable.type, context.isNotEmpty)} "${removedExecutable.name}" removed',
+        ),
+      );
     }
     for (final addedExecutable in executableListDiff.remainingNew) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ce11,
-        affectedDeclaration: addedExecutable,
-        contextTrace: _contextTraceFromStack(context),
-        type: isInterfaceRequired ?? false
-            ? ApiChangeType.addBreaking
-            : ApiChangeType.addCompatibleMinor,
-        isExperimental: isExperimental,
-        changeDescription:
-            '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ce11,
+          affectedDeclaration: addedExecutable,
+          contextTrace: _contextTraceFromStack(context),
+          type: (isInterfaceRequired ?? false) && !addedExecutable.isStatic
+              ? ApiChangeType.addBreaking
+              : ApiChangeType.addCompatibleMinor,
+          isExperimental: isExperimental,
+          changeDescription:
+              '${_getExecutableTypeName(addedExecutable.type, context.isNotEmpty)} "${addedExecutable.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
+        ),
+      );
     }
     return changes;
   }
@@ -823,7 +829,9 @@ class PackageApiDiffer {
           changeCode: ApiChangeCode.cf02,
           affectedDeclaration: addedField,
           contextTrace: _contextTraceFromStack(context),
-          type: (isInterfaceRequired ?? false)
+          type: (isInterfaceRequired ?? false) &&
+                  !addedField.isStatic &&
+                  !addedField.isConst
               ? ApiChangeType.addBreaking
               : ApiChangeType.addCompatibleMinor,
           isExperimental: isExperimental,
