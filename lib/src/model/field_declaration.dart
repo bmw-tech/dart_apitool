@@ -31,6 +31,9 @@ class FieldDeclaration with _$FieldDeclaration implements Declaration {
     /// whether this field is static
     required bool isStatic,
 
+    /// whether this field is a constant
+    required bool isConst,
+
     /// whether this field is experimental
     required bool isExperimental,
 

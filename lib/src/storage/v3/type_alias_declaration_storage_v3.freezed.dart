@@ -28,8 +28,12 @@ mixin _$TypeAliasDeclarationStorageV3 {
   Set<String> get entryPoints => throw _privateConstructorUsedError;
   String get relativePath => throw _privateConstructorUsedError;
 
+  /// Serializes this TypeAliasDeclarationStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TypeAliasDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TypeAliasDeclarationStorageV3CopyWith<TypeAliasDeclarationStorageV3>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$TypeAliasDeclarationStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TypeAliasDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,6 +135,8 @@ class __$$TypeAliasDeclarationStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$TypeAliasDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TypeAliasDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -228,7 +236,7 @@ class _$TypeAliasDeclarationStorageV3Impl
                 other.relativePath == relativePath));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -239,7 +247,9 @@ class _$TypeAliasDeclarationStorageV3Impl
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypeAliasDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TypeAliasDeclarationStorageV3ImplCopyWith<
@@ -282,8 +292,11 @@ abstract class _TypeAliasDeclarationStorageV3
   Set<String> get entryPoints;
   @override
   String get relativePath;
+
+  /// Create a copy of TypeAliasDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TypeAliasDeclarationStorageV3ImplCopyWith<
           _$TypeAliasDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;

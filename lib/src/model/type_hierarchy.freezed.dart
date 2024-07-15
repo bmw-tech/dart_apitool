@@ -25,7 +25,9 @@ mixin _$TypeIdentifier {
   /// the library path inside the package defining that type
   String get packageRelativeLibraryPath => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypeIdentifier
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TypeIdentifierCopyWith<TypeIdentifier> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$TypeIdentifierCopyWithImpl<$Res, $Val extends TypeIdentifier>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TypeIdentifier
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,6 +98,8 @@ class __$$TypeIdentifierImplCopyWithImpl<$Res>
       _$TypeIdentifierImpl _value, $Res Function(_$TypeIdentifierImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TypeIdentifier
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,7 +164,9 @@ class _$TypeIdentifierImpl extends _TypeIdentifier {
   int get hashCode => Object.hash(
       runtimeType, typeName, packageName, packageRelativeLibraryPath);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TypeIdentifier
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TypeIdentifierImplCopyWith<_$TypeIdentifierImpl> get copyWith =>
@@ -173,20 +181,22 @@ abstract class _TypeIdentifier extends TypeIdentifier {
       required final String packageRelativeLibraryPath}) = _$TypeIdentifierImpl;
   const _TypeIdentifier._() : super._();
 
-  @override
-
   /// the name of this type
-  String get typeName;
   @override
+  String get typeName;
 
   /// the name of the package defining that type
-  String get packageName;
   @override
+  String get packageName;
 
   /// the library path inside the package defining that type
-  String get packageRelativeLibraryPath;
   @override
-  @JsonKey(ignore: true)
+  String get packageRelativeLibraryPath;
+
+  /// Create a copy of TypeIdentifier
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TypeIdentifierImplCopyWith<_$TypeIdentifierImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -200,7 +210,9 @@ mixin _$TypeHierarchyItem {
   Set<TypeIdentifier> get baseTypeIdentifiers =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$TypeHierarchyItemCopyWith<_TypeHierarchyItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -227,6 +239,8 @@ class __$TypeHierarchyItemCopyWithImpl<$Res, $Val extends _TypeHierarchyItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,6 +259,8 @@ class __$TypeHierarchyItemCopyWithImpl<$Res, $Val extends _TypeHierarchyItem>
     ) as $Val);
   }
 
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TypeIdentifierCopyWith<$Res> get typeIdentifier {
@@ -277,6 +293,8 @@ class __$$_TypeHierarchyItemImplCopyWithImpl<$Res>
       $Res Function(_$_TypeHierarchyItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -336,7 +354,9 @@ class _$_TypeHierarchyItemImpl extends __TypeHierarchyItem {
   int get hashCode => Object.hash(runtimeType, typeIdentifier,
       const DeepCollectionEquality().hash(_baseTypeIdentifiers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$_TypeHierarchyItemImplCopyWith<_$_TypeHierarchyItemImpl> get copyWith =>
@@ -351,16 +371,18 @@ abstract class __TypeHierarchyItem extends _TypeHierarchyItem {
       _$_TypeHierarchyItemImpl;
   const __TypeHierarchyItem._() : super._();
 
-  @override
-
   /// the identifier of this type
-  TypeIdentifier get typeIdentifier;
   @override
+  TypeIdentifier get typeIdentifier;
 
   /// the type identifiers of the super types of this type
-  Set<TypeIdentifier> get baseTypeIdentifiers;
   @override
-  @JsonKey(ignore: true)
+  Set<TypeIdentifier> get baseTypeIdentifiers;
+
+  /// Create a copy of _TypeHierarchyItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$_TypeHierarchyItemImplCopyWith<_$_TypeHierarchyItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

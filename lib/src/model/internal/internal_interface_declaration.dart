@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:collection/collection.dart';
 
 import '../interface_declaration.dart';
 import '../executable_declaration.dart';
@@ -81,7 +80,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
               rootPath, interfaceElement),
           superClassIds: interfaceElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
-              .whereNotNull()
+              .nonNulls
               .toList(),
         );
 

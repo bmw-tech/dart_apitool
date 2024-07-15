@@ -31,8 +31,12 @@ mixin _$FieldDeclarationStorageV3 {
   bool get isReadable => throw _privateConstructorUsedError;
   bool get isWriteable => throw _privateConstructorUsedError;
 
+  /// Serializes this FieldDeclarationStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FieldDeclarationStorageV3CopyWith<FieldDeclarationStorageV3> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,6 +157,8 @@ class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$FieldDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -278,7 +286,7 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
                 other.isWriteable == isWriteable));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -292,7 +300,9 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
       isReadable,
       isWriteable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
@@ -341,8 +351,11 @@ abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
   bool get isReadable;
   @override
   bool get isWriteable;
+
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

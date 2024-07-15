@@ -142,6 +142,7 @@ final testPackageApi = PackageApi(
           isDeprecated: false,
           isExperimental: false,
           isStatic: false,
+          isConst: false,
           entryPoints: {},
           relativePath: '',
           isReadable: true,

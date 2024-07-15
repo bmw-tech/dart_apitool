@@ -22,7 +22,9 @@ mixin _$PackageDependency {
   /// String representation of the version range. Can be null if the dependency is a path or git dependency
   String? get packageVersion => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PackageDependency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PackageDependencyCopyWith<PackageDependency> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$PackageDependencyCopyWithImpl<$Res, $Val extends PackageDependency>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PackageDependency
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -84,6 +88,8 @@ class __$$PackageDependencyImplCopyWithImpl<$Res>
       $Res Function(_$PackageDependencyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PackageDependency
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,7 +142,9 @@ class _$PackageDependencyImpl implements _PackageDependency {
   @override
   int get hashCode => Object.hash(runtimeType, packageName, packageVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PackageDependency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PackageDependencyImplCopyWith<_$PackageDependencyImpl> get copyWith =>
@@ -149,16 +157,18 @@ abstract class _PackageDependency implements PackageDependency {
       {required final String packageName,
       required final String? packageVersion}) = _$PackageDependencyImpl;
 
-  @override
-
   /// name of the package
-  String get packageName;
   @override
+  String get packageName;
 
   /// String representation of the version range. Can be null if the dependency is a path or git dependency
-  String? get packageVersion;
   @override
-  @JsonKey(ignore: true)
+  String? get packageVersion;
+
+  /// Create a copy of PackageDependency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PackageDependencyImplCopyWith<_$PackageDependencyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
