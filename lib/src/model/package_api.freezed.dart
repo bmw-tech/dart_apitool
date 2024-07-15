@@ -65,7 +65,9 @@ mixin _$PackageApi {
   /// the type hierarchy of the public API
   TypeHierarchy get typeHierarchy => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PackageApiCopyWith<PackageApi> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -106,6 +108,8 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -184,6 +188,8 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     ) as $Val);
   }
 
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
@@ -197,6 +203,8 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     });
   }
 
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
@@ -249,6 +257,8 @@ class __$$PackageApiImplCopyWithImpl<$Res>
       _$PackageApiImpl _value, $Res Function(_$PackageApiImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -517,7 +527,9 @@ class _$PackageApiImpl extends _PackageApi {
       minSdkVersion,
       typeHierarchy);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
@@ -542,64 +554,66 @@ abstract class _PackageApi extends PackageApi {
       required final TypeHierarchy typeHierarchy}) = _$PackageApiImpl;
   const _PackageApi._() : super._();
 
-  @override
-
   /// name of the package
-  String get packageName;
   @override
+  String get packageName;
 
   /// version of the package
-  String? get packageVersion;
   @override
+  String? get packageVersion;
 
   /// path to the package
-  String get packagePath;
   @override
+  String get packagePath;
 
   /// interface declarations this package has
-  List<InterfaceDeclaration> get interfaceDeclarations;
   @override
+  List<InterfaceDeclaration> get interfaceDeclarations;
 
   /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations;
   @override
+  List<ExecutableDeclaration> get executableDeclarations;
 
   /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations;
   @override
+  List<FieldDeclaration> get fieldDeclarations;
 
   /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations;
   @override
+  List<TypeAliasDeclaration> get typeAliasDeclarations;
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<PackageApiSemantics> get semantics;
   @override
+  Set<PackageApiSemantics> get semantics;
 
   /// used Android platform constraints
-  AndroidPlatformConstraints? get androidPlatformConstraints;
   @override
+  AndroidPlatformConstraints? get androidPlatformConstraints;
 
   /// used iOS platform constraints
-  IOSPlatformConstraints? get iosPlatformConstraints;
   @override
+  IOSPlatformConstraints? get iosPlatformConstraints;
 
   /// type of sdk needed
-  SdkType get sdkType;
   @override
+  SdkType get sdkType;
 
   /// package dependencies
-  List<PackageDependency> get packageDependencies;
   @override
+  List<PackageDependency> get packageDependencies;
 
   /// minimum sdk version
-  Version get minSdkVersion;
   @override
+  Version get minSdkVersion;
 
   /// the type hierarchy of the public API
-  TypeHierarchy get typeHierarchy;
   @override
-  @JsonKey(ignore: true)
+  TypeHierarchy get typeHierarchy;
+
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

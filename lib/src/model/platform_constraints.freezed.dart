@@ -19,7 +19,9 @@ mixin _$IOSPlatformConstraints {
   /// minimum iOS version
   num? get minimumOsVersion => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IOSPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IOSPlatformConstraintsCopyWith<IOSPlatformConstraints> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$IOSPlatformConstraintsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IOSPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +84,8 @@ class __$$IOSPlatformConstraintsImplCopyWithImpl<$Res>
       $Res Function(_$IOSPlatformConstraintsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IOSPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -120,7 +126,9 @@ class _$IOSPlatformConstraintsImpl implements _IOSPlatformConstraints {
   @override
   int get hashCode => Object.hash(runtimeType, minimumOsVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IOSPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IOSPlatformConstraintsImplCopyWith<_$IOSPlatformConstraintsImpl>
@@ -132,12 +140,14 @@ abstract class _IOSPlatformConstraints implements IOSPlatformConstraints {
   const factory _IOSPlatformConstraints(
       {required final num? minimumOsVersion}) = _$IOSPlatformConstraintsImpl;
 
-  @override
-
   /// minimum iOS version
-  num? get minimumOsVersion;
   @override
-  @JsonKey(ignore: true)
+  num? get minimumOsVersion;
+
+  /// Create a copy of IOSPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IOSPlatformConstraintsImplCopyWith<_$IOSPlatformConstraintsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -153,7 +163,9 @@ mixin _$AndroidPlatformConstraints {
   /// target SDK version
   int? get targetSdkVersion => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AndroidPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AndroidPlatformConstraintsCopyWith<AndroidPlatformConstraints>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -180,6 +192,8 @@ class _$AndroidPlatformConstraintsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AndroidPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -227,6 +241,8 @@ class __$$AndroidPlatformConstraintsImplCopyWithImpl<$Res>
       $Res Function(_$AndroidPlatformConstraintsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AndroidPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -293,7 +309,9 @@ class _$AndroidPlatformConstraintsImpl implements _AndroidPlatformConstraints {
   int get hashCode => Object.hash(
       runtimeType, minSdkVersion, compileSdkVersion, targetSdkVersion);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AndroidPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AndroidPlatformConstraintsImplCopyWith<_$AndroidPlatformConstraintsImpl>
@@ -308,20 +326,22 @@ abstract class _AndroidPlatformConstraints
       required final int? compileSdkVersion,
       required final int? targetSdkVersion}) = _$AndroidPlatformConstraintsImpl;
 
-  @override
-
   /// minimum SDK version
-  int? get minSdkVersion;
   @override
+  int? get minSdkVersion;
 
   /// compile SDK version
-  int? get compileSdkVersion;
   @override
+  int? get compileSdkVersion;
 
   /// target SDK version
-  int? get targetSdkVersion;
   @override
-  @JsonKey(ignore: true)
+  int? get targetSdkVersion;
+
+  /// Create a copy of AndroidPlatformConstraints
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AndroidPlatformConstraintsImplCopyWith<_$AndroidPlatformConstraintsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

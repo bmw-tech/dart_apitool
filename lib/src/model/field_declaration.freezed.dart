@@ -49,7 +49,9 @@ mixin _$FieldDeclaration {
   /// whether this field is writeable
   bool get isWriteable => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -84,6 +86,8 @@ class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,6 +182,8 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
       $Res Function(_$FieldDeclarationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -360,7 +366,9 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
       isReadable,
       isWriteable);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
@@ -384,52 +392,54 @@ abstract class _FieldDeclaration extends FieldDeclaration
       required final bool isWriteable}) = _$FieldDeclarationImpl;
   const _FieldDeclaration._() : super._();
 
-  @override
-
   /// type of this field
-  String get typeName;
   @override
+  String get typeName;
 
   /// full library name for the type
-  String? get typeFullLibraryName;
   @override
+  String? get typeFullLibraryName;
 
   /// name of this field
-  String get name;
   @override
+  String get name;
 
   /// whether this field is deprecated
-  bool get isDeprecated;
   @override
+  bool get isDeprecated;
 
   /// whether this field is static
-  bool get isStatic;
   @override
+  bool get isStatic;
 
   /// whether this field is a constant
-  bool get isConst;
   @override
+  bool get isConst;
 
   /// whether this field is experimental
-  bool get isExperimental;
   @override
+  bool get isExperimental;
 
   /// entry points this field is reachable through
-  Set<String>? get entryPoints;
   @override
+  Set<String>? get entryPoints;
 
   /// the relative path of the library
-  String get relativePath;
   @override
+  String get relativePath;
 
   /// whether this field is readable
-  bool get isReadable;
   @override
+  bool get isReadable;
 
   /// whether this field is writeable
-  bool get isWriteable;
   @override
-  @JsonKey(ignore: true)
+  bool get isWriteable;
+
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
