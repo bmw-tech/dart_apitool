@@ -3,6 +3,7 @@
 ## Version 0.19.0
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
 - extend type usage tracking and fix situations in which types that are used in @visibleForTesting contexts were detected as not exported
+- fix: don't treat adding static elements (methods, fields) or consts to a required interface as breaking
 
 ## Version 0.18.0
 - add missing export to json output for `extract` command
