@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:path/path.dart' as path;
 
@@ -23,20 +22,9 @@ abstract class InternalDeclarationUtils {
     return typeParameters.map((e) => e.name).toList();
   }
 
-  static String getNullabilitySuffixString(
-      NullabilitySuffix nullabilitySuffix) {
-    return switch (nullabilitySuffix) {
-      NullabilitySuffix.none => '',
-      NullabilitySuffix.question => '?',
-      NullabilitySuffix.star => '*',
-    };
-  }
-
   static Set<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
     return allSupertypes
-        .map((st) =>
-            st.getDisplayString() +
-            getNullabilitySuffixString(st.nullabilitySuffix))
+        .map((st) => st.getDisplayString())
         // if there are supertypes with the same name then only one survives
         // this is accepted for now as we don't want to dig that far into type hierarchy changes
         .toSet();

@@ -43,9 +43,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
                 typeAliasElement.enclosingElement),
             name: typeAliasElement.name,
             namespace: namespace,
-            aliasedTypeName: typeAliasElement.aliasedType.getDisplayString() +
-                InternalDeclarationUtils.getNullabilitySuffixString(
-                    typeAliasElement.aliasedType.nullabilitySuffix),
+            aliasedTypeName: typeAliasElement.aliasedType.getDisplayString(),
             isDeprecated: typeAliasElement.hasDeprecated,
             isExperimental:
                 InternalDeclarationUtils.hasExperimental(typeAliasElement),

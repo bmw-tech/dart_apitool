@@ -51,10 +51,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               executableElement.enclosingElement),
-          returnTypeName: executableElement.returnType.getDisplayString() +
-              InternalDeclarationUtils.getNullabilitySuffixString(
-                executableElement.returnType.nullabilitySuffix,
-              ),
+          returnTypeName: executableElement.returnType.getDisplayString(),
           returnTypeFullLibraryName:
               executableElement.returnType.element?.librarySource?.fullName,
           name: executableElement.displayName,
@@ -114,9 +111,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
               name: e.name,
               isDeprecated: e.hasDeprecated,
               isExperimental: InternalDeclarationUtils.hasExperimental(e),
-              typeName: e.type.getDisplayString() +
-                  InternalDeclarationUtils.getNullabilitySuffixString(
-                      e.type.nullabilitySuffix),
+              typeName: e.type.getDisplayString(),
               typeFullLibraryName: e.type.element?.librarySource?.fullName,
               relativePath: relativePath,
             ))

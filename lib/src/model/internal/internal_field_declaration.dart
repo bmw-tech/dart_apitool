@@ -51,9 +51,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
           id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
               fieldElement.enclosingElement),
-          typeName: fieldElement.type.getDisplayString() +
-              InternalDeclarationUtils.getNullabilitySuffixString(
-                  fieldElement.type.nullabilitySuffix),
+          typeName: fieldElement.type.getDisplayString(),
           typeFullLibraryName:
               fieldElement.type.element?.librarySource?.fullName,
           name: fieldElement.name,
