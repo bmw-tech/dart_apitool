@@ -84,7 +84,7 @@ Usage: dart-apitool diff [arguments]
                                          This affects the exit code of this program.
                                          [none, fully (default), onlyBreakingChanges]
     --[no-]check-sdk-version             Determines if the SDK version should be checked.
-                                         (defaults to on)
+                                         (defaults to off)
     --[no-]ignore-prerelease             Determines if the pre-release aspect of the new version
                                          shall be ignored when checking versions.
                                          You may want to do this if you want to make sure

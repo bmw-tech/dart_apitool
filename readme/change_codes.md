@@ -77,7 +77,8 @@ If the flag got removed then this change is non-breaking. Adding an experimental
 
 If the flag got removed then this change is non-breaking. Adding a sealed flag is considered a breaking change.
 
-## Executables are constructors, methods, and functions. They are all treated the same way.
+## Executables
+Executables are constructors, methods, and functions. They are all treated the same way.
 
 ### CE01
 
@@ -102,7 +103,7 @@ If a renaming of a named parameter is detected, then this change is breaking. A 
 
 > Executable parameters are reordered
 
-That's a tricky one. Dart-apitool tries to match the old and the new parameters based on name and type to try to follow the reordering. If a reordering happened with named parameters and dart-apitool is able to match them then we have a non-breaking change. If it has (or dart-apitool things that it has) any effect on the user's code then we have a breaking change.
+That's a tricky one. Dart-apitool tries to match the old and the new parameters based on name and type to try to follow the reordering. If a reordering happened with named parameters and dart-apitool is able to match them then we have a non-breaking change. If it has (or dart-apitool thinks that it has) any effect on the user's code then we have a breaking change.
 
 ### CE05
 
