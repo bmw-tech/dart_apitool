@@ -60,8 +60,9 @@ This affects the exit code of this program.
     );
     argParser.addFlag(
       _optionNameCheckSdkVersion,
-      help: 'Determines if the SDK version should be checked.',
-      defaultsTo: true,
+      help:
+          'Determines if the SDK version should be checked.\n(defaults to off)',
+      defaultsTo: false,
       negatable: true,
     );
     argParser.addFlag(

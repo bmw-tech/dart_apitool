@@ -4,6 +4,7 @@
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
 - extend type usage tracking and fix situations in which types that are used in @visibleForTesting contexts were detected as not exported
 - fix: don't treat adding static elements (methods, fields) or consts to a required interface as breaking
+- fix: changed default for `--check-sdk-version` from `on` to `off as changing the SDK version can not lead to breaking existing consumer code
 
 ## Version 0.18.0
 - add missing export to json output for `extract` command

@@ -75,12 +75,12 @@ class PackageApiDiffer {
           newApi.androidPlatformConstraints,
           isExperimental: false,
         ),
-        if (options.doCheckSdkVersion)
-          ..._calculateSdkDiff(
-            oldApi,
-            newApi,
-            isExperimental: false,
-          ),
+        ..._calculateSdkDiff(
+          oldApi,
+          newApi,
+          isExperimental: false,
+          doCheckSdkVersion: options.doCheckSdkVersion,
+        ),
         ..._calculatePackageDependenciesDiff(
           oldApi,
           newApi,
@@ -1123,8 +1123,12 @@ class PackageApiDiffer {
     return changes;
   }
 
-  List<ApiChange> _calculateSdkDiff(PackageApi oldApi, PackageApi newApi,
-      {required bool isExperimental}) {
+  List<ApiChange> _calculateSdkDiff(
+    PackageApi oldApi,
+    PackageApi newApi, {
+    required bool isExperimental,
+    required bool doCheckSdkVersion,
+  }) {
     final result = <ApiChange>[];
     if (oldApi.sdkType != newApi.sdkType) {
       result.add(
@@ -1139,19 +1143,21 @@ class PackageApiDiffer {
         ),
       );
     }
-    // lowering the version is no problem => check if new version is higher
-    if (oldApi.minSdkVersion < newApi.minSdkVersion) {
-      result.add(
-        ApiChange(
-          changeCode: ApiChangeCode.csdk02,
-          affectedDeclaration: null,
-          contextTrace: [],
-          type: ApiChangeType.changeBreaking,
-          isExperimental: isExperimental,
-          changeDescription:
-              'Minimum SDK version changed from ${oldApi.minSdkVersion} to ${newApi.minSdkVersion}',
-        ),
-      );
+    if (doCheckSdkVersion) {
+      // lowering the version is no problem => check if new version is higher
+      if (oldApi.minSdkVersion < newApi.minSdkVersion) {
+        result.add(
+          ApiChange(
+            changeCode: ApiChangeCode.csdk02,
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.changeBreaking,
+            isExperimental: isExperimental,
+            changeDescription:
+                'Minimum SDK version changed from ${oldApi.minSdkVersion} to ${newApi.minSdkVersion}',
+          ),
+        );
+      }
     }
     return result;
   }
