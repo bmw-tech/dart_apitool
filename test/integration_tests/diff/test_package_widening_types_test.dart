@@ -57,6 +57,13 @@ void main() {
           isFalse,
         );
       });
+
+      test('detects return type change and is breaking', () {
+        final localReturnTypeParamChange = diffResult.apiChanges
+            .where((ac) => ac.affectedDeclaration?.name == 'returnSomeInstance')
+            .single;
+        expect(localReturnTypeParamChange.isBreaking, isTrue);
+      });
     });
     group('narrowing types', () {
       late PackageApiDiffResult diffResult;
@@ -88,6 +95,13 @@ void main() {
           localTypeParamChange.isBreaking,
           isTrue,
         );
+      });
+
+      test('detects return type change and is breaking', () {
+        final localReturnTypeParamChange = diffResult.apiChanges
+            .where((ac) => ac.affectedDeclaration?.name == 'returnSomeInstance')
+            .single;
+        expect(localReturnTypeParamChange.isBreaking, isTrue);
       });
     });
   });

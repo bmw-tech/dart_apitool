@@ -87,14 +87,14 @@ void main() {
         );
       });
 
-      test('is no breaking change for function return types', () {
+      test('is a breaking change for function return types', () {
         final functionChange = diffResult.apiChanges
             .where((ac) =>
                 ac.affectedDeclaration?.name.contains('function') ?? false)
             .single;
         expect(
           functionChange.isBreaking,
-          isFalse,
+          isTrue,
         );
       });
 

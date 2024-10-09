@@ -6,6 +6,10 @@ class ClassA {
   void methodUsingLocalType(SomeSuperType localTypeParam) {
     print(param);
   }
+
+  SomeSuperType returnSomeInstance() {
+    return SomeSubType();
+  }
 }
 
 class SomeSuperType {}
