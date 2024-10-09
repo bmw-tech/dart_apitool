@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.19.1
+- fixes widening return types not being detected as a breaking change
+
 ## Version 0.19.0
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
 - extend type usage tracking and fix situations in which types that are used in @visibleForTesting contexts were detected as not exported
