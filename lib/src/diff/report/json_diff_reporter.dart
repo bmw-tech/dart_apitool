@@ -81,7 +81,11 @@ class JsonDiffReporter extends DiffReporter {
                 'changeDescription': c.changeDescription,
                 'changeCode': c.changeCode.code,
                 'isBreaking': c.isBreaking,
-                'type': c.type.requiresMinorBump ? 'minor' : 'patch',
+                'type': c.isBreaking
+                    ? 'major'
+                    : c.type.requiresMinorBump
+                        ? 'minor'
+                        : 'patch',
               })
           .toList();
       final childNodes = n.children.values
