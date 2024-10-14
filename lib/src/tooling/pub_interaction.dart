@@ -72,8 +72,7 @@ abstract class PubInteraction {
       throw RunDartError('No version of $packageName found');
     }
 
-    versions.sort();
-    return versions.last;
+    return versions.reduce((v1, v2) => v1 > v2 ? v1 : v2);
   }
 
   static Map<Version, String> getAllPackageVersionsForPackageInCache(
