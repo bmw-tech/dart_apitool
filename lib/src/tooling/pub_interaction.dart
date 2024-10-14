@@ -3,15 +3,17 @@ import 'dart:io';
 import 'package:dart_apitool/src/tooling/dart_interaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
+import 'package:pub_semver/pub_semver.dart';
 import '../errors/run_dart_error.dart';
 import '../utils/utils.dart';
 
 /// helper class for interactions with pub
 abstract class PubInteraction {
   /// installs a package to the pub cache and returns the path to it throws [RunDartError] on failure
+  /// if no [version] is provided dart will decide what version to use ("the best of all known versions")
   static Future<String> installPackageToCache(
     String packageName,
-    String version, {
+    String? version, {
     StdoutSession? stdoutSession,
   }) async {
     await DartInteraction.runDartCommand(
@@ -20,10 +22,17 @@ abstract class PubInteraction {
         'cache',
         'add',
         packageName,
-        '-v $version',
+        if (version != null) '-v $version',
       ],
       stdoutSession: stdoutSession,
     );
+    if (version == null) {
+      await stdoutSession?.writeln(
+          'No version for $packageName specified, using latest version');
+      final latestVersion = getLatestVersionInCacheFor(packageName);
+      version = latestVersion.toString();
+      await stdoutSession?.writeln('Using version $version');
+    }
     return getPackagePathInCache(packageName, version);
   }
 
@@ -56,8 +65,51 @@ abstract class PubInteraction {
     return cacheDir;
   }
 
+  static Version getLatestVersionInCacheFor(String packageName) {
+    final allVersions = getAllPackageVersionsForPackageInCache(packageName);
+    final versions = allVersions.keys.toList(growable: false);
+    if (versions.isEmpty) {
+      throw RunDartError('No version of $packageName found');
+    }
+
+    return versions.reduce((v1, v2) => v1 > v2 ? v1 : v2);
+  }
+
+  static Map<Version, String> getAllPackageVersionsForPackageInCache(
+      String packageName) {
+    final cacheDir = pubCacheDir;
+    final hostedDir = path.join(cacheDir, 'hosted');
+
+    final versions = <Version, String>{};
+
+    final repositoryDirs =
+        Directory(hostedDir).listSync().whereType<Directory>().toList();
+
+    for (final repositoryDir in repositoryDirs) {
+      for (final potentialPackageDir
+          in repositoryDir.listSync().whereType<Directory>()) {
+        final packageDirName = path.basename(potentialPackageDir.path);
+        final dirParts = packageDirName.split('-').toList();
+        final versionPart = dirParts.last;
+        dirParts.removeLast();
+        final packageNamePart = dirParts.join('-');
+
+        if (packageNamePart != packageName) {
+          continue;
+        }
+
+        final version = Version.parse(versionPart);
+        versions[version] = potentialPackageDir.path;
+      }
+    }
+    return versions;
+  }
+
   /// returns the cache path of a package with the given [packageName] and [version]
-  static String getPackagePathInCache(String packageName, String version) {
+  /// if [version] is null the latest version is used
+  static String getPackagePathInCache(String packageName, String? version) {
+    version ??= getLatestVersionInCacheFor(packageName).toString();
+
     String? findHostedDirectory(List<String> hostedUrls) {
       for (final hostedUrl in hostedUrls) {
         final packagePath = path.join(hostedUrl, '$packageName-$version');

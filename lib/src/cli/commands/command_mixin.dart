@@ -69,12 +69,12 @@ OBSOLETE: Has no effect anymore.
         isInCache: false,
       ));
     } else if (ref.isPubRef) {
-      await stdoutSession
-          .writeln('Preparing ${ref.pubPackage!}:${ref.pubVersion!}');
+      await stdoutSession.writeln(
+          'Preparing ${ref.pubPackage!}:${ref.pubVersion ?? 'latest'}');
       await stdoutSession.writeln('Downloading');
       String sourceDir = await PubInteraction.installPackageToCache(
         ref.pubPackage!,
-        ref.pubVersion!,
+        ref.pubVersion,
         stdoutSession: stdoutSession,
       );
       sources.add(SourceItem(
@@ -156,7 +156,7 @@ OBSOLETE: Has no effect anymore.
     if (preparedRef.packageRef.isPubRef) {
       path = PubInteraction.getPackagePathInCache(
           preparedRef.packageRef.pubPackage!,
-          preparedRef.packageRef.pubVersion!);
+          preparedRef.packageRef.pubVersion);
     }
     if (path == null) {
       throw ArgumentError(

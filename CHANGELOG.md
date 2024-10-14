@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.19.1
+- fix JSON report to specify "major" as change type for breaking changes
+- adapt pub ref mechanism to also support omitting the version (and using the latest version if no version has been specified)
+
 ## Version 0.19.0
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
 - extend type usage tracking and fix situations in which types that are used in @visibleForTesting contexts were detected as not exported

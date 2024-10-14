@@ -41,7 +41,11 @@ class PackageRef {
       return null;
     }
     final uri = Uri.parse(ref);
-    return uri.path.replaceAll('/', '');
+    final path = uri.path.replaceAll('/', '');
+    if (path.isEmpty) {
+      return null;
+    }
+    return path;
   }
 
   @override
