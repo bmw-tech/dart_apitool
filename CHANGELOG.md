@@ -3,6 +3,7 @@
 ## Version 0.19.1
 - fix JSON report to specify "major" as change type for breaking changes
 - adapt pub ref mechanism to also support omitting the version (and using the latest version if no version has been specified)
+- fix: locking upper version of analyzer and adding required 'withNullability' param
 
 ## Version 0.19.0
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.

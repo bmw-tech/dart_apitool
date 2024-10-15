@@ -34,9 +34,7 @@ mixin _$TypeAliasDeclaration {
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Create a copy of TypeAliasDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TypeAliasDeclarationCopyWith<TypeAliasDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,8 +65,6 @@ class _$TypeAliasDeclarationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TypeAliasDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,8 +129,6 @@ class __$$TypeAliasDeclarationImplCopyWithImpl<$Res>
       $Res Function(_$TypeAliasDeclarationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TypeAliasDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -253,9 +247,7 @@ class _$TypeAliasDeclarationImpl extends _TypeAliasDeclaration {
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  /// Create a copy of TypeAliasDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TypeAliasDeclarationImplCopyWith<_$TypeAliasDeclarationImpl>
@@ -275,34 +267,32 @@ abstract class _TypeAliasDeclaration extends TypeAliasDeclaration
       required final String relativePath}) = _$TypeAliasDeclarationImpl;
   const _TypeAliasDeclaration._() : super._();
 
-  /// name of this type alias
   @override
+
+  /// name of this type alias
   String get name;
+  @override
 
   /// name of the aliased type
-  @override
   String get aliasedTypeName;
+  @override
 
   /// whether this type alias is deprecated
-  @override
   bool get isDeprecated;
+  @override
 
   /// whether this type alias is experimental
-  @override
   bool get isExperimental;
+  @override
 
   /// entry points this type alias is reachable through
-  @override
   Set<String>? get entryPoints;
+  @override
 
   /// the relative path of the library
-  @override
   String get relativePath;
-
-  /// Create a copy of TypeAliasDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TypeAliasDeclarationImplCopyWith<_$TypeAliasDeclarationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

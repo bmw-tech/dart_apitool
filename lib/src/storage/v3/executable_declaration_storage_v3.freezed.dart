@@ -30,12 +30,8 @@ mixin _$ExecutableParameterDeclarationStorageV3 {
   String get typeName => throw _privateConstructorUsedError;
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Serializes this ExecutableParameterDeclarationStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ExecutableParameterDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ExecutableParameterDeclarationStorageV3CopyWith<
           ExecutableParameterDeclarationStorageV3>
       get copyWith => throw _privateConstructorUsedError;
@@ -71,8 +67,6 @@ class _$ExecutableParameterDeclarationStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ExecutableParameterDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,8 +140,6 @@ class __$$ExecutableParameterDeclarationStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$ExecutableParameterDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ExecutableParameterDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,14 +241,12 @@ class _$ExecutableParameterDeclarationStorageV3Impl
                 other.relativePath == relativePath));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, isRequired, isNamed, name,
       isDeprecated, isExperimental, typeName, relativePath);
 
-  /// Create a copy of ExecutableParameterDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<
@@ -304,11 +294,8 @@ abstract class _ExecutableParameterDeclarationStorageV3
   String get typeName;
   @override
   String get relativePath;
-
-  /// Create a copy of ExecutableParameterDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ExecutableParameterDeclarationStorageV3ImplCopyWith<
           _$ExecutableParameterDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
@@ -333,12 +320,8 @@ mixin _$ExecutableDeclarationStorageV3 {
   Set<String> get entryPoints => throw _privateConstructorUsedError;
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Serializes this ExecutableDeclarationStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ExecutableDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ExecutableDeclarationStorageV3CopyWith<ExecutableDeclarationStorageV3>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -375,8 +358,6 @@ class _$ExecutableDeclarationStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ExecutableDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -468,8 +449,6 @@ class __$$ExecutableDeclarationStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$ExecutableDeclarationStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ExecutableDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -623,7 +602,7 @@ class _$ExecutableDeclarationStorageV3Impl
                 other.relativePath == relativePath));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -638,9 +617,7 @@ class _$ExecutableDeclarationStorageV3Impl
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  /// Create a copy of ExecutableDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ExecutableDeclarationStorageV3ImplCopyWith<
@@ -695,11 +672,8 @@ abstract class _ExecutableDeclarationStorageV3
   Set<String> get entryPoints;
   @override
   String get relativePath;
-
-  /// Create a copy of ExecutableDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ExecutableDeclarationStorageV3ImplCopyWith<
           _$ExecutableDeclarationStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;

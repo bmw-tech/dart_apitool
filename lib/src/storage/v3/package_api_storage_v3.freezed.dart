@@ -42,12 +42,8 @@ mixin _$PackageApiStorageV3 {
   List<PackageDependencyStorageV3> get packageDependencies =>
       throw _privateConstructorUsedError;
 
-  /// Serializes this PackageApiStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PackageApiStorageV3CopyWith<PackageApiStorageV3> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -88,8 +84,6 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,8 +157,6 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
     ) as $Val);
   }
 
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsStorageV3CopyWith<$Res>? get iosPlatformConstraints {
@@ -178,8 +170,6 @@ class _$PackageApiStorageV3CopyWithImpl<$Res, $Val extends PackageApiStorageV3>
     });
   }
 
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AndroidPlatformConstraintsStorageV3CopyWith<$Res>?
@@ -233,8 +223,6 @@ class __$$PackageApiStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$PackageApiStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -445,7 +433,7 @@ class _$PackageApiStorageV3Impl extends _PackageApiStorageV3 {
                 .equals(other._packageDependencies, _packageDependencies));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -463,9 +451,7 @@ class _$PackageApiStorageV3Impl extends _PackageApiStorageV3 {
       minSdkVersion,
       const DeepCollectionEquality().hash(_packageDependencies));
 
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PackageApiStorageV3ImplCopyWith<_$PackageApiStorageV3Impl> get copyWith =>
@@ -529,11 +515,8 @@ abstract class _PackageApiStorageV3 extends PackageApiStorageV3 {
   Version get minSdkVersion;
   @override
   List<PackageDependencyStorageV3> get packageDependencies;
-
-  /// Create a copy of PackageApiStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PackageApiStorageV3ImplCopyWith<_$PackageApiStorageV3Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }

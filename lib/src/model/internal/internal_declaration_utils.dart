@@ -24,7 +24,7 @@ abstract class InternalDeclarationUtils {
 
   static Set<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
     return allSupertypes
-        .map((st) => st.getDisplayString())
+        .map((st) => st.getDisplayString(withNullability: true))
         // if there are supertypes with the same name then only one survives
         // this is accepted for now as we don't want to dig that far into type hierarchy changes
         .toSet();

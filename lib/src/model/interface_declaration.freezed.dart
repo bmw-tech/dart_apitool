@@ -54,9 +54,7 @@ mixin _$InterfaceDeclaration {
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $InterfaceDeclarationCopyWith<InterfaceDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -93,8 +91,6 @@ class _$InterfaceDeclarationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -195,8 +191,6 @@ class __$$InterfaceDeclarationImplCopyWithImpl<$Res>
       $Res Function(_$InterfaceDeclarationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -436,9 +430,7 @@ class _$InterfaceDeclarationImpl extends _InterfaceDeclaration {
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
@@ -464,58 +456,56 @@ abstract class _InterfaceDeclaration extends InterfaceDeclaration
       required final String relativePath}) = _$InterfaceDeclarationImpl;
   const _InterfaceDeclaration._() : super._();
 
-  /// name of this interface
   @override
+
+  /// name of this interface
   String get name;
+  @override
 
   /// whether this interface is deprecated
-  @override
   bool get isDeprecated;
+  @override
 
   /// whether this interface is experimental
-  @override
   bool get isExperimental;
+  @override
 
   /// determines if this declaration is sealed
-  @override
   bool get isSealed;
+  @override
 
   /// determines if this declaration is abstract
-  @override
   bool get isAbstract;
+  @override
 
   /// usages of this interface
-  @override
   Set<TypeUsage> get typeUsages;
+  @override
 
   /// list of type parameter names
-  @override
   List<String> get typeParameterNames;
+  @override
 
   /// set of super type names
-  @override
   Set<String> get superTypeNames;
+  @override
 
   /// executables that belong to this interface
-  @override
   List<ExecutableDeclaration> get executableDeclarations;
+  @override
 
   /// fields that belong to this interface
-  @override
   List<FieldDeclaration> get fieldDeclarations;
+  @override
 
   /// entry points this interface is reachable through
-  @override
   Set<String>? get entryPoints;
+  @override
 
   /// the relative path of the library
-  @override
   String get relativePath;
-
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
