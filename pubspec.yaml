@@ -2,13 +2,13 @@ name: dart_apitool
 description: A tool to analyze the public API of a package, create a model of it and diff it against another version to check semver.
 repository: https://github.com/bmw-tech/dart_apitool
 
-version: 0.19.1-dev
+version: 0.20.0-dev
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  analyzer: ^6.2.0
+  analyzer: ^6.5.0
   args: ^2.3.1
   collection: ^1.16.0
   colorize: ^3.0.0
