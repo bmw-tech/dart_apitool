@@ -40,9 +40,7 @@ mixin _$ExecutableParameterDeclaration {
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Create a copy of ExecutableParameterDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ExecutableParameterDeclarationCopyWith<ExecutableParameterDeclaration>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -77,8 +75,6 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ExecutableParameterDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,8 +154,6 @@ class __$$ExecutableParameterDeclarationImplCopyWithImpl<$Res>
       $Res Function(_$ExecutableParameterDeclarationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ExecutableParameterDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -294,9 +288,7 @@ class _$ExecutableParameterDeclarationImpl
       typeFullLibraryName,
       relativePath);
 
-  /// Create a copy of ExecutableParameterDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ExecutableParameterDeclarationImplCopyWith<
@@ -319,42 +311,40 @@ abstract class _ExecutableParameterDeclaration
       _$ExecutableParameterDeclarationImpl;
   const _ExecutableParameterDeclaration._() : super._();
 
-  /// whether the parameter is required
   @override
+
+  /// whether the parameter is required
   bool get isRequired;
+  @override
 
   /// whether the parameter is named
-  @override
   bool get isNamed;
+  @override
 
   /// the name of the parameter
-  @override
   String get name;
+  @override
 
   /// whether the parameter is deprecated
-  @override
   bool get isDeprecated;
+  @override
 
   /// whether the parameter is experimental
-  @override
   bool get isExperimental;
+  @override
 
   /// type name of this parameter
-  @override
   String get typeName;
+  @override
 
   /// the type library path
-  @override
   String? get typeFullLibraryName;
+  @override
 
   /// the relative path of the library
-  @override
   String get relativePath;
-
-  /// Create a copy of ExecutableParameterDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ExecutableParameterDeclarationImplCopyWith<
           _$ExecutableParameterDeclarationImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -395,9 +385,7 @@ mixin _$ExecutableDeclaration {
   /// the relative path of the library
   String get relativePath => throw _privateConstructorUsedError;
 
-  /// Create a copy of ExecutableDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ExecutableDeclarationCopyWith<ExecutableDeclaration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -433,8 +421,6 @@ class _$ExecutableDeclarationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ExecutableDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -531,8 +517,6 @@ class __$$ExecutableDeclarationImplCopyWithImpl<$Res>
       $Res Function(_$ExecutableDeclarationImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ExecutableDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -732,9 +716,7 @@ class _$ExecutableDeclarationImpl extends _ExecutableDeclaration {
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  /// Create a copy of ExecutableDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ExecutableDeclarationImplCopyWith<_$ExecutableDeclarationImpl>
@@ -757,52 +739,50 @@ abstract class _ExecutableDeclaration extends ExecutableDeclaration {
       required final String relativePath}) = _$ExecutableDeclarationImpl;
   const _ExecutableDeclaration._() : super._();
 
+  @override
+
   /// name of the return type
-  @override
-  String get returnTypeName; // full library name of the return type
-  @override
+  String get returnTypeName;
+  @override // full library name of the return type
   String? get returnTypeFullLibraryName;
+  @override
 
   /// name of the executable
-  @override
   String get name;
+  @override
 
   /// whether the executable is deprecated
-  @override
   bool get isDeprecated;
+  @override
 
   /// whether the executable is experimental
-  @override
   bool get isExperimental;
+  @override
 
   /// list of the executables parameters ([ExecutableOParameterDeclaration]s)
-  @override
   List<ExecutableParameterDeclaration> get parameters;
+  @override
 
   /// type parameter names of this executable
-  @override
   List<String> get typeParameterNames;
+  @override
 
   /// type of the executable
-  @override
   ExecutableType get type;
+  @override
 
   /// whether the executable is a static method
-  @override
   bool get isStatic;
+  @override
 
   /// entry points for this executable
-  @override
   Set<String>? get entryPoints;
+  @override
 
   /// the relative path of the library
-  @override
   String get relativePath;
-
-  /// Create a copy of ExecutableDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ExecutableDeclarationImplCopyWith<_$ExecutableDeclarationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

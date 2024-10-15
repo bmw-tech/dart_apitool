@@ -23,12 +23,8 @@ IOSPlatformConstraintsStorageV3 _$IOSPlatformConstraintsStorageV3FromJson(
 mixin _$IOSPlatformConstraintsStorageV3 {
   num? get minimumOsVersion => throw _privateConstructorUsedError;
 
-  /// Serializes this IOSPlatformConstraintsStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IOSPlatformConstraintsStorageV3CopyWith<IOSPlatformConstraintsStorageV3>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55,8 +51,6 @@ class _$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,8 +87,6 @@ class __$$IOSPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$IOSPlatformConstraintsStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,13 +129,11 @@ class _$IOSPlatformConstraintsStorageV3Impl
                 other.minimumOsVersion == minimumOsVersion));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, minimumOsVersion);
 
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IOSPlatformConstraintsStorageV3ImplCopyWith<
@@ -171,11 +161,8 @@ abstract class _IOSPlatformConstraintsStorageV3
 
   @override
   num? get minimumOsVersion;
-
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IOSPlatformConstraintsStorageV3ImplCopyWith<
           _$IOSPlatformConstraintsStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
@@ -192,12 +179,8 @@ mixin _$AndroidPlatformConstraintsStorageV3 {
   int? get compileSdkVersion => throw _privateConstructorUsedError;
   int? get targetSdkVersion => throw _privateConstructorUsedError;
 
-  /// Serializes this AndroidPlatformConstraintsStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AndroidPlatformConstraintsStorageV3CopyWith<
           AndroidPlatformConstraintsStorageV3>
       get copyWith => throw _privateConstructorUsedError;
@@ -226,8 +209,6 @@ class _$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -275,8 +256,6 @@ class __$$AndroidPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$AndroidPlatformConstraintsStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -340,14 +319,12 @@ class _$AndroidPlatformConstraintsStorageV3Impl
                 other.targetSdkVersion == targetSdkVersion));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, minSdkVersion, compileSdkVersion, targetSdkVersion);
 
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<
@@ -382,11 +359,8 @@ abstract class _AndroidPlatformConstraintsStorageV3
   int? get compileSdkVersion;
   @override
   int? get targetSdkVersion;
-
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<
           _$AndroidPlatformConstraintsStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;

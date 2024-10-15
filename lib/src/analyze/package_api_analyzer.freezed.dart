@@ -21,9 +21,7 @@ mixin _$FileToAnalyzeEntry {
   List<String> get hiddenNames => throw _privateConstructorUsedError;
   Set<String> get exportedBy => throw _privateConstructorUsedError;
 
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$FileToAnalyzeEntryCopyWith<_FileToAnalyzeEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,8 +49,6 @@ class __$FileToAnalyzeEntryCopyWithImpl<$Res, $Val extends _FileToAnalyzeEntry>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,8 +101,6 @@ class __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>
       $Res Function(_$_FileToAnalyzeEntryImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -204,9 +198,7 @@ class _$_FileToAnalyzeEntryImpl implements __FileToAnalyzeEntry {
       const DeepCollectionEquality().hash(_hiddenNames),
       const DeepCollectionEquality().hash(_exportedBy));
 
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
@@ -229,11 +221,8 @@ abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
   List<String> get hiddenNames;
   @override
   Set<String> get exportedBy;
-
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

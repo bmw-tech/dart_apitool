@@ -24,12 +24,8 @@ mixin _$PackageDependencyStorageV3 {
   String get packageName => throw _privateConstructorUsedError;
   String? get packageVersion => throw _privateConstructorUsedError;
 
-  /// Serializes this PackageDependencyStorageV3 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of PackageDependencyStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PackageDependencyStorageV3CopyWith<PackageDependencyStorageV3>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -55,8 +51,6 @@ class _$PackageDependencyStorageV3CopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PackageDependencyStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,8 +92,6 @@ class __$$PackageDependencyStorageV3ImplCopyWithImpl<$Res>
       $Res Function(_$PackageDependencyStorageV3Impl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PackageDependencyStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,13 +143,11 @@ class _$PackageDependencyStorageV3Impl extends _PackageDependencyStorageV3 {
                 other.packageVersion == packageVersion));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, packageName, packageVersion);
 
-  /// Create a copy of PackageDependencyStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PackageDependencyStorageV3ImplCopyWith<_$PackageDependencyStorageV3Impl>
@@ -186,11 +176,8 @@ abstract class _PackageDependencyStorageV3 extends PackageDependencyStorageV3 {
   String get packageName;
   @override
   String? get packageVersion;
-
-  /// Create a copy of PackageDependencyStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PackageDependencyStorageV3ImplCopyWith<_$PackageDependencyStorageV3Impl>
       get copyWith => throw _privateConstructorUsedError;
 }

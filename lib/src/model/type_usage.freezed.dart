@@ -25,9 +25,7 @@ mixin _$TypeUsage {
   /// defines if the usage happened in a visibleForTesting context
   bool get isVisibleForTesting => throw _privateConstructorUsedError;
 
-  /// Create a copy of TypeUsage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TypeUsageCopyWith<TypeUsage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +51,6 @@ class _$TypeUsageCopyWithImpl<$Res, $Val extends TypeUsage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TypeUsage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,8 +97,6 @@ class __$$TypeUsageImplCopyWithImpl<$Res>
       _$TypeUsageImpl _value, $Res Function(_$TypeUsageImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TypeUsage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -169,9 +163,7 @@ class _$TypeUsageImpl extends _TypeUsage {
   int get hashCode =>
       Object.hash(runtimeType, kind, referringElementName, isVisibleForTesting);
 
-  /// Create a copy of TypeUsage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TypeUsageImplCopyWith<_$TypeUsageImpl> get copyWith =>
@@ -185,22 +177,20 @@ abstract class _TypeUsage extends TypeUsage {
       required final bool isVisibleForTesting}) = _$TypeUsageImpl;
   const _TypeUsage._() : super._();
 
-  /// kind of usage
   @override
+
+  /// kind of usage
   TypeUsageKind get kind;
+  @override
 
   /// the name of the referring element
-  @override
   String get referringElementName;
+  @override
 
   /// defines if the usage happened in a visibleForTesting context
-  @override
   bool get isVisibleForTesting;
-
-  /// Create a copy of TypeUsage
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TypeUsageImplCopyWith<_$TypeUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
