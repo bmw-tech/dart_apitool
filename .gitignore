@@ -30,3 +30,6 @@ coverage
 
 # FVM Version Cache
 .fvm/
+
+# asdf config
+/.tool-versions
