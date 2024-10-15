@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.20.0
+- update analyzer's lower boundary 
+
 ## Version 0.19.1
 - fix JSON report to specify "major" as change type for breaking changes
 - adapt pub ref mechanism to also support omitting the version (and using the latest version if no version has been specified)
