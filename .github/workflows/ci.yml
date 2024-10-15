@@ -159,7 +159,6 @@ jobs:
           dart pub global run dlcov:dlcov -c 75
 
   pana:
-    if: false
     needs: [check_label, get_flutter_version]
     runs-on: ubuntu-latest
 
