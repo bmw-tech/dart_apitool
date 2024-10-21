@@ -77,6 +77,9 @@ jobs:
       - name: Analyze project source
         run: dart analyze --fatal-infos --fatal-warnings .
 
+      - name: Check lower bound of dependencies
+        run: dart scripts/ci_util/bin/ci_util.dart check-lower-bound-dependencies
+
   semver:
     needs: [get_last_released_version, get_flutter_version]
     uses: bmw-tech/dart_apitool/.github/workflows/check_version.yml@workflow/v1
