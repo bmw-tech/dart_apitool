@@ -18,25 +18,25 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final String apiToolRootPath = _getApiToolRootPath();
 
     // get all dependencies
-    final pubspec =
-        PubSpec.loadFromPath(path.join(apiToolRootPath, 'pubspec.yaml'));
+    final pubspec = PubSpec.loadFromPath(path.join(apiToolRootPath, 'pubspec.yaml'));
 
-    final testFutures = pubspec.dependencies.list
-        .whereType<DependencyVersioned>()
-        .map((d) async {
+    final testFutures = pubspec.dependencies.list.whereType<DependencyVersioned>().map((d) async {
       try {
         await _testWithFixedDependency((d as Dependency).name);
       } catch (e) {
-        return (d as Dependency).name + ': ' + e.toString();
+        return LowerBoundCheckResult(dependencyName: (d as Dependency).name, error: e.toString());
       }
-      return null;
+      return LowerBoundCheckResult(dependencyName: (d as Dependency).name);
     });
-    final failedDependencies = (await Future.wait(testFutures))
-        .where((element) => element != null)
-        .toList();
+    final failedDependencies = (await Future.wait(testFutures)).where((element) => element.error != null).toList();
     if (failedDependencies.isNotEmpty) {
-      throw Exception(
-          'Following dependencies failed when locked to their lower bound: \n${failedDependencies.join('\n-----------\n')}');
+      final errorMessage = StringBuffer();
+      errorMessage.writeln('Following dependencies failed when locked to their lower bound:');
+      errorMessage.writeln(failedDependencies.map((e) => e.dependencyName).join('\n'));
+      errorMessage.writeln();
+      errorMessage.writeln('See error messages for details:');
+      errorMessage.writeln(failedDependencies.map((e) => e.error!).join('\n-----------\n'));
+      throw Exception(errorMessage.toString());
     }
   }
 
@@ -45,8 +45,7 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final tempDir = await Directory.systemTemp.createTemp();
     try {
       await _copyPath(apiToolRootPath, tempDir.path);
-      await _fixDependency(
-          path.join(tempDir.path, 'pubspec.yaml'), dependencyName);
+      await _fixDependency(path.join(tempDir.path, 'pubspec.yaml'), dependencyName);
       await _executePubGet(tempDir.path);
       await _executeBuild(tempDir.path);
     } finally {
@@ -101,11 +100,9 @@ class CheckLowerBoundDependenciesCommand extends Command {
     // adapt dependency
     bool adaptedOne = false;
     for (final dependency in pubspec.dependencies.list) {
-      if (dependency.name == dependencyName &&
-          dependency is DependencyVersioned) {
+      if (dependency.name == dependencyName && dependency is DependencyVersioned) {
         final castedDependency = dependency as DependencyVersioned;
-        castedDependency.versionConstraint =
-            castedDependency.versionConstraint.replaceFirst('^', '');
+        castedDependency.versionConstraint = castedDependency.versionConstraint.replaceFirst('^', '');
         adaptedOne = true;
       }
     }
@@ -149,4 +146,11 @@ class CheckLowerBoundDependenciesCommand extends Command {
     }
     return false;
   }
+}
+
+class LowerBoundCheckResult {
+  final String dependencyName;
+  final String? error;
+
+  LowerBoundCheckResult({required this.dependencyName, this.error});
 }
