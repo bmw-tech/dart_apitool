@@ -78,7 +78,11 @@ jobs:
         run: dart analyze --fatal-infos --fatal-warnings .
 
       - name: Check lower bound of dependencies
-        run: dart scripts/ci_util/bin/ci_util.dart check-lower-bound-dependencies
+        run: |
+          pushd scripts/ci_util
+          dart pub get
+          popd
+          dart scripts/ci_util/bin/ci_util.dart check-lower-bound-dependencies
 
   semver:
     needs: [get_last_released_version, get_flutter_version]
