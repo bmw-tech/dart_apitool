@@ -384,6 +384,9 @@ class PackageApiAnalyzer {
 
   Iterable<_FileToAnalyzeEntry> _findPublicFilesInProject(
       String normalizedAbsolutePath) {
+    if (!Directory(normalizedAbsolutePath).existsSync()) {
+      return [];
+    }
     final srcPath = path.join(normalizedAbsolutePath, 'src');
     return Directory(normalizedAbsolutePath)
         // if we want to consider all files that are not in the src folder as potential entry points
