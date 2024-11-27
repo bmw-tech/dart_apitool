@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as path;
+import 'package:pool/pool.dart';
 import 'package:pubspec_manager/pubspec_manager.dart';
 
 class CheckLowerBoundDependenciesCommand extends Command {
@@ -21,20 +22,40 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final pubspec =
         PubSpec.loadFromPath(path.join(apiToolRootPath, 'pubspec.yaml'));
 
-    final testFutures = pubspec.dependencies.list
+    final testExecutions = pubspec.dependencies.list
         .whereType<DependencyVersioned>()
-        .map((d) async {
-      try {
-        await _testWithFixedDependency((d as Dependency).name);
-      } catch (e) {
-        return LowerBoundCheckResult(
-            dependencyName: (d as Dependency).name, error: e.toString());
-      }
-      return LowerBoundCheckResult(dependencyName: (d as Dependency).name);
-    });
-    final failedDependencies = (await Future.wait(testFutures))
-        .where((element) => element.error != null)
-        .toList();
+        .map((d) async => () async {
+              final dependencyName = (d as Dependency).name;
+              stdout.writeln('Testing lower bound of $dependencyName');
+              try {
+                await _testWithFixedDependency(dependencyName);
+              } catch (e) {
+                return LowerBoundCheckResult(
+                    dependencyName: dependencyName, error: e.toString());
+              }
+              return LowerBoundCheckResult(dependencyName: dependencyName);
+            })
+        .toList(growable: true);
+
+    final numberOfParallelTasks = (Platform.numberOfProcessors / 2).ceil();
+
+    final pool = Pool(numberOfParallelTasks);
+    final failedDependencies = <LowerBoundCheckResult>[];
+
+    try {
+      final results = await Future.wait(
+        testExecutions.map((run) => pool.withResource(() async {
+              return (await run)();
+            })),
+      );
+
+      failedDependencies.addAll(
+        results.where((element) => element.error != null),
+      );
+    } finally {
+      pool.close();
+    }
+
     if (failedDependencies.isNotEmpty) {
       final errorMessage = StringBuffer();
       errorMessage.writeln(
@@ -53,10 +74,15 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final String apiToolRootPath = _getApiToolRootPath();
     final tempDir = await Directory.systemTemp.createTemp();
     try {
+      stdout
+          .writeln('[$dependencyName] Copying api tool to temporary directory');
       await _copyPath(apiToolRootPath, tempDir.path);
+      stdout.writeln('[$dependencyName] Fixing dependency');
       await _fixDependency(
           path.join(tempDir.path, 'pubspec.yaml'), dependencyName);
+      stdout.writeln('[$dependencyName] Running pub get');
       await _executePubGet(tempDir.path);
+      stdout.writeln('[$dependencyName] Running build');
       await _executeBuild(tempDir.path);
     } finally {
       await tempDir.delete(recursive: true);
@@ -116,6 +142,8 @@ class CheckLowerBoundDependenciesCommand extends Command {
         castedDependency.versionConstraint =
             castedDependency.versionConstraint.replaceFirst('^', '');
         adaptedOne = true;
+        stdout.writeln(
+            '[$dependencyName] Fixing dependency to ${castedDependency.versionConstraint}');
       }
     }
     if (!adaptedOne) {
