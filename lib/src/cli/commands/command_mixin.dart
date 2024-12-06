@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_manager/pubspec_manager.dart';
 
@@ -179,15 +180,20 @@ OBSOLETE: Has no effect anymore.
     // remove any dependency overrides from the pubspec.yaml
     final pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
     if (pubspecFile.existsSync()) {
-      final pubSpec = PubSpec.load(directory: packagePath);
-      // removeAll of dependencyOverrides has an issue in the current version of pubspec_manager
-      // as it doesn't remove the section part of the dependency overrides and therefore are not removed
-      // in the saved version of the pubspec.yaml file
-      // workaround: remove all dependency overrides manually
-      for (final depOverride in pubSpec.dependencyOverrides.list) {
-        pubSpec.dependencyOverrides.remove(depOverride.name);
+      try {
+        final pubSpec = PubSpec.load(directory: packagePath);
+        // removeAll of dependencyOverrides has an issue in the current version of pubspec_manager
+        // as it doesn't remove the section part of the dependency overrides and therefore are not removed
+        // in the saved version of the pubspec.yaml file
+        // workaround: remove all dependency overrides manually
+        for (final depOverride in pubSpec.dependencyOverrides.list) {
+          pubSpec.dependencyOverrides.remove(depOverride.name);
+        }
+        pubSpec.save();
+      } catch (e) {
+        await stdoutSession.writeln(
+            'Error removing dependency overrides from pubspec.yaml: $e');
       }
-      pubSpec.save();
     }
 
     // Check if the package_config.json is already present from the preparation step
