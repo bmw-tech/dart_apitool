@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_manager/pubspec_manager.dart';
 
