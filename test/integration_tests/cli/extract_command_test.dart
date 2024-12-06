@@ -240,5 +240,16 @@ void main() {
       },
       timeout: integrationTestTimeout,
     );
+    test('Can handle ffigen dependency overrides correctly', () async {
+      final packageName = 'ffigen';
+      final packageVersion = '16.0.0';
+
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        'pub://$packageName/$packageVersion',
+      ]);
+      expect(exitCode, 0);
+    });
   });
 }

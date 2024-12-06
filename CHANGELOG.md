@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.20.1
+- fix: remove dependency overrides from the pubspec.yaml file of the package to analyze as those might point to relative paths that are not resolvable in the context of the package to analyze
+
 ## Version 0.20.0
 - update analyzer's lower boundary to avoid the 'withNullability' required param (it is required on lower versions)
 
