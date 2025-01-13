@@ -91,8 +91,8 @@ abstract class InternalDeclarationUtils {
       return uriPathSegments.join('/');
     }
 
-    if (element.enclosingElement != null) {
-      parts.add(getFullQualifiedNameFor(element.enclosingElement!));
+    if (element.enclosingElement3 != null) {
+      parts.add(getFullQualifiedNameFor(element.enclosingElement3!));
     }
     parts.add(element.displayName);
 

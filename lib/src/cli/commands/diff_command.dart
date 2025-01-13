@@ -201,8 +201,6 @@ Whether to ignore the required aspect of interfaces
               oldPackageRef: oldPackageRef,
               newPackageRef: newPackageRef,
               outputFile: File(outputFile));
-        default:
-          throw 'Unknown format speicified $outputFormatter';
       }
     })();
 

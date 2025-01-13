@@ -340,7 +340,7 @@ class PackageApiAnalyzer {
           )
         : null;
 
-    final sdkVersion = pubSpec.environment?['sdk'];
+    final sdkVersion = pubSpec.environment['sdk'];
     Version? minSdkVersion;
     if (sdkVersion is VersionRange) {
       minSdkVersion = sdkVersion.min;
