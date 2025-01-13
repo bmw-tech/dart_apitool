@@ -15,13 +15,13 @@ dependencies:
   colorize_lumberdash: ^3.0.0
   console: ^4.1.0
   freezed_annotation: ^2.4.2
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   lumberdash: ^3.0.0
   path: ^1.9.0
   plist_parser: ^0.0.9
   pub_semver: ^2.1.4
   pubspec_manager: ^1.0.0
-  pubspec_parse: ^1.2.0
+  pubspec_parse: ^1.5.0
   stack: ^0.2.1
   tuple: ^2.0.0
   yaml: ^3.1.1
