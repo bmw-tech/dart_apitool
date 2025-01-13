@@ -108,11 +108,17 @@ OBSOLETE: Has no effect anymore.
           stdoutSession: stdoutSession,
           forceUseFlutterTool: forceUseFlutterTool,
         );
-        final sourcePackageConfig =
-            File(_getPackageConfigPathForPackage(sourceItem.sourceDir));
-        final targetPackageConfig =
-            File(_getPackageConfigPathForPackage(tempDir.path))
-              ..createSync(recursive: true);
+        final sourcePackageConfig = File(_getPackageConfigPathForPackage(
+          sourceItem.sourceDir,
+          stdoutSession: stdoutSession,
+          doCheckWorkspace: true,
+        ));
+        final targetPackageConfig = File(_getPackageConfigPathForPackage(
+          tempDir.path,
+          stdoutSession: stdoutSession,
+          doCheckWorkspace: false,
+        ))
+          ..createSync(recursive: true);
         await sourcePackageConfig.copy(targetPackageConfig.path);
         await _adaptPackageConfigToAbsolutePaths(
           targetPackageConfigPath: targetPackageConfig.absolute.path,
@@ -176,7 +182,7 @@ OBSOLETE: Has no effect anymore.
       await Directory(exampleDirPath).delete(recursive: true);
     }
 
-    // remove any dependency overrides from the pubspec.yaml
+    // remove any dependency overrides and workspace resolutions from the pubspec.yaml
     final pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
     if (pubspecFile.existsSync()) {
       try {
@@ -188,6 +194,10 @@ OBSOLETE: Has no effect anymore.
         for (final depOverride in pubSpec.dependencyOverrides.list) {
           pubSpec.dependencyOverrides.remove(depOverride.name);
         }
+        if (!pubSpec.document.findSectionForKey('resolution').missing) {
+          pubSpec.document.removeAll(
+              pubSpec.document.findSectionForKey('resolution').lines);
+        }
         pubSpec.save();
       } catch (e) {
         await stdoutSession.writeln(
@@ -196,7 +206,11 @@ OBSOLETE: Has no effect anymore.
     }
 
     // Check if the package_config.json is already present from the preparation step
-    final packageConfig = File(_getPackageConfigPathForPackage(packagePath));
+    final packageConfig = File(_getPackageConfigPathForPackage(
+      packagePath,
+      stdoutSession: stdoutSession,
+      doCheckWorkspace: true,
+    ));
     if (!packageConfig.existsSync()) {
       await stdoutSession.writeln('Running pub get');
       await PubInteraction.runPubGet(
@@ -291,6 +305,55 @@ OBSOLETE: Has no effect anymore.
     );
   }
 
-  String _getPackageConfigPathForPackage(String packagePath) =>
-      p.join(packagePath, '.dart_tool', 'package_config.json');
+  String _getPackageConfigPathForPackage(
+    String packagePath, {
+    required StdoutSession stdoutSession,
+    required bool doCheckWorkspace,
+  }) {
+    String packageConfigPackagePath = packagePath;
+    final packageDir = Directory(packagePath);
+    if (doCheckWorkspace && packageDir.existsSync()) {
+      // if the package directory exists (source) then we check if we have to deal with a workspace
+      try {
+        final pubspec = PubSpec.load(directory: packagePath);
+        final resolutionSection =
+            pubspec.document.findSectionForKey('resolution');
+        if (!resolutionSection.missing) {
+          final resolvesWithWorkspace = resolutionSection.lines.length == 1 &&
+              resolutionSection.lines.first.text.endsWith('workspace');
+          if (resolvesWithWorkspace) {
+            final workspacePath = _findWorkspacePath(packagePath);
+            if (workspacePath == null) {
+              stdoutSession
+                  .writeln('Could not find workspace for package $packagePath');
+            } else {
+              packageConfigPackagePath = workspacePath;
+            }
+          }
+        }
+      } catch (e) {
+        stdoutSession
+            .writeln('Error loading pubspec.yaml, continuing anyways: $e');
+      }
+    }
+    return p.join(
+        packageConfigPackagePath, '.dart_tool', 'package_config.json');
+  }
+}
+
+String? _findWorkspacePath(String packagePath) {
+  Directory currentDirectory = Directory(packagePath).parent;
+  while (currentDirectory.path != currentDirectory.parent.path) {
+    if (!File(p.join(currentDirectory.path, 'pubspec.yaml')).existsSync()) {
+      currentDirectory = currentDirectory.parent;
+      continue;
+    }
+    final pubspec = PubSpec.load(directory: currentDirectory.path);
+    if (pubspec.document.findSectionForKey('workspace').missing) {
+      currentDirectory = currentDirectory.parent;
+    } else {
+      return currentDirectory.path;
+    }
+  }
+  return null;
 }

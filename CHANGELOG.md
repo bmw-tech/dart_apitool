@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.20.2
+- feat: adds support for Dart workspaces
+
 ## Version 0.20.1
 - fix: remove dependency overrides from the pubspec.yaml file of the package to analyze as those might point to relative paths that are not resolvable in the context of the package to analyze
 
@@ -15,7 +18,7 @@
 - introduces `force-use-flutter` option for all commands to force dart_apitool to use the `flutter` command.
 - extend type usage tracking and fix situations in which types that are used in @visibleForTesting contexts were detected as not exported
 - fix: don't treat adding static elements (methods, fields) or consts to a required interface as breaking
-- fix: changed default for `--check-sdk-version` from `on` to `off as changing the SDK version can not lead to breaking existing consumer code
+- fix: changed default for `--check-sdk-version` from `on` to `off` as changing the SDK version can not lead to breaking existing consumer code
 
 ## Version 0.18.0
 - add missing export to json output for `extract` command
