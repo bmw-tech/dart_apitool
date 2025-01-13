@@ -10,7 +10,7 @@ environment:
 dependencies:
   analyzer: ^6.9.0
   args: ^2.3.1
-  collection: ^1.17.0
+  collection: ^1.19.0
   colorize: ^3.0.0
   colorize_lumberdash: ^3.0.0
   console: ^4.1.0
