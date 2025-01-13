@@ -110,7 +110,8 @@ abstract class InternalDeclarationUtils {
       return null;
     }
     // search for the import of the referred library
-    for (final libraryImport in sourceLibrary.libraryImports) {
+    for (final libraryImport
+        in sourceLibrary.definingCompilationUnit.libraryImports) {
       final importedLibrary = libraryImport.importedLibrary;
       if (importedLibrary == null) {
         continue;
