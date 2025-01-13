@@ -290,5 +290,45 @@ void main() {
         tempDir.deleteSync(recursive: true);
       }
     });
+
+    test(
+      'can handle packages in a workspace',
+      () async {
+        final tempDir = await Directory.systemTemp.createTemp();
+        final tempFilePath =
+            path.join(tempDir.path, 'handles_workspace_package.json');
+        final exitCode = await runner.run([
+          'extract',
+          '--input',
+          path.join(
+            'test',
+            'test_packages',
+            'test_workspace',
+            'packages',
+            'workspace_package1',
+          ),
+          '--output',
+          tempFilePath,
+        ]);
+        expect(exitCode, 0);
+
+        final jsonReportFile = File(tempFilePath);
+        expect(await jsonReportFile.exists(), isTrue);
+
+        final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+        await tempDir.delete(recursive: true);
+
+        // make sure that the property "awesomePath" is reported
+        final interfaceDeclarations =
+            jsonReport['packageApi']['interfaceDeclarations'] as List;
+        final awesomeDeclaration =
+            interfaceDeclarations.singleWhere((id) => id['name'] == 'Awesome');
+        final awesomePathField =
+            (awesomeDeclaration['fieldDeclarations'] as List)
+                .singleWhere((fd) => fd['name'] == 'awesomePath');
+        expect(awesomePathField['typeName'], 'String');
+      },
+      timeout: integrationTestTimeout,
+    );
   });
 }
