@@ -90,7 +90,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
 
   void _onTypeUsed(DartType type, Element referringElement,
       {required TypeUsageKind typeUsageKind}) {
-    final directElement = type.element2;
+    final directElement = type.element;
     final directElementLibrary = directElement?.library;
     if (directElement == null || directElementLibrary == null) {
       return;
@@ -203,7 +203,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     // (like Enum constructors)
     if (element is ConstructorElement) {
       // constructors of enums aren't collected
-      if (element.enclosingElement is EnumElement) {
+      if (element.enclosingElement3 is EnumElement) {
         return false;
       }
     }
@@ -292,7 +292,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     super.visitFieldElement(element);
-    if (element.type.element2 != null) {
+    if (element.type.element != null) {
       bool canBeSet = !element.isFinal &&
           !element.isConst &&
           !element.isPrivate &&
@@ -319,7 +319,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     super.visitTopLevelVariableElement(element);
-    if (element.type.element2 != null) {
+    if (element.type.element != null) {
       bool canBeSet =
           !element.isFinal && !element.isConst && !element.isPrivate;
       _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.output);
@@ -334,11 +334,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
     _onVisitAnyElement(element);
     super.visitParameterElement(element);
     // exclude parameters for fields and properties as they are handled separately
-    if (element.enclosingElement is PropertyAccessorElement) {
+    if (element.enclosingElement3 is PropertyAccessorElement) {
       return;
     }
     // this includes method, function and constructor calls
-    if (element.type.element2 != null) {
+    if (element.type.element != null) {
       _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.input);
     }
   }
@@ -358,7 +358,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     super.visitMethodElement(element);
-    if (element.returnType.element2 != null) {
+    if (element.returnType.element != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
     }
@@ -380,7 +380,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     super.visitFunctionElement(element);
-    if (element.returnType.element2 != null) {
+    if (element.returnType.element != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
     }
@@ -421,7 +421,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       rootPath: _context.rootPath,
     ));
     super.visitTypeAliasElement(element);
-    if (element.aliasedType.element2 != null) {
+    if (element.aliasedType.element != null) {
       _onTypeUsed(element.aliasedType, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }
@@ -431,7 +431,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
   visitTypeParameterElement(TypeParameterElement element) {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
-    if (element.bound?.element2 != null) {
+    if (element.bound?.element != null) {
       _onTypeUsed(element.bound!, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }
@@ -455,7 +455,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor<void> {
       namespace: _context.namespace,
       rootPath: _context.rootPath,
     ));
-    if (element.extendedType.element2 != null) {
+    if (element.extendedType.element != null) {
       _onTypeUsed(element.extendedType, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }
