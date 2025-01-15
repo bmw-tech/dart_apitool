@@ -50,7 +50,7 @@ class InternalFieldDeclaration implements InternalDeclaration {
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              fieldElement.enclosingElement),
+              fieldElement.enclosingElement3),
           typeName: fieldElement.type.getDisplayString(),
           typeFullLibraryName:
               fieldElement.type.element?.librarySource?.fullName,

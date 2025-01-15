@@ -59,7 +59,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              interfaceElement.enclosingElement),
+              interfaceElement.enclosingElement3),
           name: interfaceElement.name,
           namespace: namespace,
           isPrivate: interfaceElement.isPrivate,
@@ -91,7 +91,7 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              extensionElement.enclosingElement),
+              extensionElement.enclosingElement3),
           name: extensionElement.name ?? extensionElement.displayName,
           namespace: namespace,
           isPrivate: extensionElement.isPrivate,

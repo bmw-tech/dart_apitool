@@ -40,7 +40,7 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
   }) : this._(
             id: InternalDeclarationUtils.getIdFromElement(typeAliasElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-                typeAliasElement.enclosingElement),
+                typeAliasElement.enclosingElement3),
             name: typeAliasElement.name,
             namespace: namespace,
             aliasedTypeName: typeAliasElement.aliasedType.getDisplayString(),

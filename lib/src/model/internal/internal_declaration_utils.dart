@@ -91,8 +91,8 @@ abstract class InternalDeclarationUtils {
       return uriPathSegments.join('/');
     }
 
-    if (element.enclosingElement != null) {
-      parts.add(getFullQualifiedNameFor(element.enclosingElement!));
+    if (element.enclosingElement3 != null) {
+      parts.add(getFullQualifiedNameFor(element.enclosingElement3!));
     }
     parts.add(element.displayName);
 
@@ -110,7 +110,8 @@ abstract class InternalDeclarationUtils {
       return null;
     }
     // search for the import of the referred library
-    for (final libraryImport in sourceLibrary.libraryImports) {
+    for (final libraryImport
+        in sourceLibrary.definingCompilationUnit.libraryImports) {
       final importedLibrary = libraryImport.importedLibrary;
       if (importedLibrary == null) {
         continue;
