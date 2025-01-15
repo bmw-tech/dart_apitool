@@ -319,8 +319,14 @@ OBSOLETE: Has no effect anymore.
         final resolutionSection =
             pubspec.document.findSectionForKey('resolution');
         if (!resolutionSection.missing) {
-          final resolvesWithWorkspace = resolutionSection.lines.length == 1 &&
-              resolutionSection.lines.first.text.endsWith('workspace');
+          bool resolvesWithWorkspace = false;
+          for (final line in resolutionSection.lines) {
+            if (line.text.contains('resolution:') &&
+                line.text.trim().endsWith('workspace')) {
+              resolvesWithWorkspace = true;
+              break;
+            }
+          }
           if (resolvesWithWorkspace) {
             final workspacePath = _findWorkspacePath(packagePath);
             if (workspacePath == null) {
