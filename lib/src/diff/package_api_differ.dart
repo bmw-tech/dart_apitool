@@ -1339,9 +1339,13 @@ class PackageApiDiffer {
       final sameMatches =
           newList.where((newItem) => isSameFun(oldItem, newItem));
       if (sameMatches.isNotEmpty) {
-        // if we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
-        // => we use `single` here to make sure that we crash if this happens
-        final matchingNewItem = sameMatches.single;
+        final matchingNewItem = sameMatches.singleOrNull;
+
+        if (matchingNewItem == null) {
+          // If we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
+          throw ArgumentError('Multiple new items found with the same '
+              'structure as the old item $oldItem: $sameMatches');
+        }
         remainingOld.remove(oldItem);
         remainingNew.remove(matchingNewItem);
 

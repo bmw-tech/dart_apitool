@@ -54,7 +54,11 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           returnTypeName: executableElement.returnType.getDisplayString(),
           returnTypeFullLibraryName:
               executableElement.returnType.element?.librarySource?.fullName,
-          name: executableElement.displayName,
+          // This is a fix for the only method overloading in Dart the `-` operator
+          name: executableElement.isOperator
+              ? (executableElement.parameters.isEmpty ? 'unary' : 'nonunary') +
+                  executableElement.displayName
+              : executableElement.displayName,
           namespace: namespace,
           isDeprecated: executableElement.hasDeprecated,
           isExperimental:
