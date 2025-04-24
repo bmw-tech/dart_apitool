@@ -9,7 +9,7 @@ part 'package_api_storage_v3.freezed.dart';
 part 'package_api_storage_v3.g.dart';
 
 @freezed
-class PackageApiStorageV3 with _$PackageApiStorageV3 {
+sealed class PackageApiStorageV3 with _$PackageApiStorageV3 {
   const PackageApiStorageV3._();
 
   const factory PackageApiStorageV3({

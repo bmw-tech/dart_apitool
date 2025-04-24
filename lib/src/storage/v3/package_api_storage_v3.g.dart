@@ -8,9 +8,8 @@ part of 'package_api_storage_v3.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PackageApiStorageV3Impl _$$PackageApiStorageV3ImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PackageApiStorageV3Impl(
+_PackageApiStorageV3 _$PackageApiStorageV3FromJson(Map<String, dynamic> json) =>
+    _PackageApiStorageV3(
       packageName: json['packageName'] as String,
       packageVersion: json['packageVersion'] as String?,
       packagePath: json['packagePath'] as String,
@@ -50,8 +49,8 @@ _$PackageApiStorageV3Impl _$$PackageApiStorageV3ImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$PackageApiStorageV3ImplToJson(
-        _$PackageApiStorageV3Impl instance) =>
+Map<String, dynamic> _$PackageApiStorageV3ToJson(
+        _PackageApiStorageV3 instance) =>
     <String, dynamic>{
       'packageName': instance.packageName,
       'packageVersion': instance.packageVersion,

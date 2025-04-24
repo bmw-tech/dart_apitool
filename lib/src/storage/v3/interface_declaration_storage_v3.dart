@@ -11,7 +11,8 @@ part 'interface_declaration_storage_v3.g.dart';
 
 /// Represents a found class declaration
 @freezed
-class InterfaceDeclarationStorageV3 with _$InterfaceDeclarationStorageV3 {
+sealed class InterfaceDeclarationStorageV3
+    with _$InterfaceDeclarationStorageV3 {
   const InterfaceDeclarationStorageV3._();
 
   const factory InterfaceDeclarationStorageV3({

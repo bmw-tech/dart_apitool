@@ -33,7 +33,7 @@ enum ExecutableTypeStorageV3 {
 }
 
 @freezed
-class ExecutableParameterDeclarationStorageV3
+sealed class ExecutableParameterDeclarationStorageV3
     with _$ExecutableParameterDeclarationStorageV3 {
   const ExecutableParameterDeclarationStorageV3._();
 
@@ -68,7 +68,8 @@ class ExecutableParameterDeclarationStorageV3
 
 /// Represents an executable declaration
 @freezed
-class ExecutableDeclarationStorageV3 with _$ExecutableDeclarationStorageV3 {
+sealed class ExecutableDeclarationStorageV3
+    with _$ExecutableDeclarationStorageV3 {
   const ExecutableDeclarationStorageV3._();
 
   const factory ExecutableDeclarationStorageV3({

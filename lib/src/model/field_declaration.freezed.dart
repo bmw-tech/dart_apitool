@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,156 +10,105 @@ part of 'field_declaration.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FieldDeclaration {
   /// type of this field
-  String get typeName => throw _privateConstructorUsedError;
+  String get typeName;
 
   /// full library name for the type
-  String? get typeFullLibraryName => throw _privateConstructorUsedError;
+  String? get typeFullLibraryName;
 
   /// name of this field
-  String get name => throw _privateConstructorUsedError;
+  String get name;
 
   /// whether this field is deprecated
-  bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isDeprecated;
 
   /// whether this field is static
-  bool get isStatic => throw _privateConstructorUsedError;
+  bool get isStatic;
 
   /// whether this field is a constant
-  bool get isConst => throw _privateConstructorUsedError;
+  bool get isConst;
 
   /// whether this field is experimental
-  bool get isExperimental => throw _privateConstructorUsedError;
+  bool get isExperimental;
 
   /// entry points this field is reachable through
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints;
 
   /// the relative path of the library
-  String get relativePath => throw _privateConstructorUsedError;
+  String get relativePath;
 
   /// whether this field is readable
-  bool get isReadable => throw _privateConstructorUsedError;
+  bool get isReadable;
 
   /// whether this field is writeable
-  bool get isWriteable => throw _privateConstructorUsedError;
+  bool get isWriteable;
 
   /// Create a copy of FieldDeclaration
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FieldDeclarationCopyWith<$Res> {
-  factory $FieldDeclarationCopyWith(
-          FieldDeclaration value, $Res Function(FieldDeclaration) then) =
-      _$FieldDeclarationCopyWithImpl<$Res, FieldDeclaration>;
-  @useResult
-  $Res call(
-      {String typeName,
-      String? typeFullLibraryName,
-      String name,
-      bool isDeprecated,
-      bool isStatic,
-      bool isConst,
-      bool isExperimental,
-      Set<String>? entryPoints,
-      String relativePath,
-      bool isReadable,
-      bool isWriteable});
-}
-
-/// @nodoc
-class _$FieldDeclarationCopyWithImpl<$Res, $Val extends FieldDeclaration>
-    implements $FieldDeclarationCopyWith<$Res> {
-  _$FieldDeclarationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FieldDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $FieldDeclarationCopyWith<FieldDeclaration> get copyWith =>
+      _$FieldDeclarationCopyWithImpl<FieldDeclaration>(
+          this as FieldDeclaration, _$identity);
+
   @override
-  $Res call({
-    Object? typeName = null,
-    Object? typeFullLibraryName = freezed,
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isStatic = null,
-    Object? isConst = null,
-    Object? isExperimental = null,
-    Object? entryPoints = freezed,
-    Object? relativePath = null,
-    Object? isReadable = null,
-    Object? isWriteable = null,
-  }) {
-    return _then(_value.copyWith(
-      typeName: null == typeName
-          ? _value.typeName
-          : typeName // ignore: cast_nullable_to_non_nullable
-              as String,
-      typeFullLibraryName: freezed == typeFullLibraryName
-          ? _value.typeFullLibraryName
-          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
-          : isDeprecated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isStatic: null == isStatic
-          ? _value.isStatic
-          : isStatic // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isConst: null == isConst
-          ? _value.isConst
-          : isConst // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExperimental: null == isExperimental
-          ? _value.isExperimental
-          : isExperimental // ignore: cast_nullable_to_non_nullable
-              as bool,
-      entryPoints: freezed == entryPoints
-          ? _value.entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
-      relativePath: null == relativePath
-          ? _value.relativePath
-          : relativePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      isReadable: null == isReadable
-          ? _value.isReadable
-          : isReadable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWriteable: null == isWriteable
-          ? _value.isWriteable
-          : isWriteable // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FieldDeclaration &&
+            (identical(other.typeName, typeName) ||
+                other.typeName == typeName) &&
+            (identical(other.typeFullLibraryName, typeFullLibraryName) ||
+                other.typeFullLibraryName == typeFullLibraryName) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.isStatic, isStatic) ||
+                other.isStatic == isStatic) &&
+            (identical(other.isConst, isConst) || other.isConst == isConst) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
+            const DeepCollectionEquality()
+                .equals(other.entryPoints, entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath) &&
+            (identical(other.isReadable, isReadable) ||
+                other.isReadable == isReadable) &&
+            (identical(other.isWriteable, isWriteable) ||
+                other.isWriteable == isWriteable));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      typeName,
+      typeFullLibraryName,
+      name,
+      isDeprecated,
+      isStatic,
+      isConst,
+      isExperimental,
+      const DeepCollectionEquality().hash(entryPoints),
+      relativePath,
+      isReadable,
+      isWriteable);
+
+  @override
+  String toString() {
+    return 'FieldDeclaration(typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isConst: $isConst, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
   }
 }
 
 /// @nodoc
-abstract class _$$FieldDeclarationImplCopyWith<$Res>
-    implements $FieldDeclarationCopyWith<$Res> {
-  factory _$$FieldDeclarationImplCopyWith(_$FieldDeclarationImpl value,
-          $Res Function(_$FieldDeclarationImpl) then) =
-      __$$FieldDeclarationImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FieldDeclarationCopyWith<$Res> {
+  factory $FieldDeclarationCopyWith(
+          FieldDeclaration value, $Res Function(FieldDeclaration) _then) =
+      _$FieldDeclarationCopyWithImpl;
   @useResult
   $Res call(
       {String typeName,
@@ -175,12 +125,12 @@ abstract class _$$FieldDeclarationImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FieldDeclarationImplCopyWithImpl<$Res>
-    extends _$FieldDeclarationCopyWithImpl<$Res, _$FieldDeclarationImpl>
-    implements _$$FieldDeclarationImplCopyWith<$Res> {
-  __$$FieldDeclarationImplCopyWithImpl(_$FieldDeclarationImpl _value,
-      $Res Function(_$FieldDeclarationImpl) _then)
-      : super(_value, _then);
+class _$FieldDeclarationCopyWithImpl<$Res>
+    implements $FieldDeclarationCopyWith<$Res> {
+  _$FieldDeclarationCopyWithImpl(this._self, this._then);
+
+  final FieldDeclaration _self;
+  final $Res Function(FieldDeclaration) _then;
 
   /// Create a copy of FieldDeclaration
   /// with the given fields replaced by the non-null parameter values.
@@ -199,49 +149,49 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
     Object? isReadable = null,
     Object? isWriteable = null,
   }) {
-    return _then(_$FieldDeclarationImpl(
+    return _then(_self.copyWith(
       typeName: null == typeName
-          ? _value.typeName
+          ? _self.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
       typeFullLibraryName: freezed == typeFullLibraryName
-          ? _value.typeFullLibraryName
+          ? _self.typeFullLibraryName
           : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
               as String?,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
+          ? _self.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
       isStatic: null == isStatic
-          ? _value.isStatic
+          ? _self.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
       isConst: null == isConst
-          ? _value.isConst
+          ? _self.isConst
           : isConst // ignore: cast_nullable_to_non_nullable
               as bool,
       isExperimental: null == isExperimental
-          ? _value.isExperimental
+          ? _self.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: freezed == entryPoints
-          ? _value._entryPoints
+          ? _self.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
       relativePath: null == relativePath
-          ? _value.relativePath
+          ? _self.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
       isReadable: null == isReadable
-          ? _value.isReadable
+          ? _self.isReadable
           : isReadable // ignore: cast_nullable_to_non_nullable
               as bool,
       isWriteable: null == isWriteable
-          ? _value.isWriteable
+          ? _self.isWriteable
           : isWriteable // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
@@ -250,8 +200,8 @@ class __$$FieldDeclarationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FieldDeclarationImpl extends _FieldDeclaration {
-  const _$FieldDeclarationImpl(
+class _FieldDeclaration extends FieldDeclaration implements Declaration {
+  const _FieldDeclaration(
       {required this.typeName,
       required this.typeFullLibraryName,
       required this.name,
@@ -319,16 +269,19 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
   @override
   final bool isWriteable;
 
+  /// Create a copy of FieldDeclaration
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FieldDeclaration(typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isConst: $isConst, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FieldDeclarationCopyWith<_FieldDeclaration> get copyWith =>
+      __$FieldDeclarationCopyWithImpl<_FieldDeclaration>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FieldDeclarationImpl &&
+            other is _FieldDeclaration &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
             (identical(other.typeFullLibraryName, typeFullLibraryName) ||
@@ -366,80 +319,106 @@ class _$FieldDeclarationImpl extends _FieldDeclaration {
       isReadable,
       isWriteable);
 
+  @override
+  String toString() {
+    return 'FieldDeclaration(typeName: $typeName, typeFullLibraryName: $typeFullLibraryName, name: $name, isDeprecated: $isDeprecated, isStatic: $isStatic, isConst: $isConst, isExperimental: $isExperimental, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FieldDeclarationCopyWith<$Res>
+    implements $FieldDeclarationCopyWith<$Res> {
+  factory _$FieldDeclarationCopyWith(
+          _FieldDeclaration value, $Res Function(_FieldDeclaration) _then) =
+      __$FieldDeclarationCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String typeName,
+      String? typeFullLibraryName,
+      String name,
+      bool isDeprecated,
+      bool isStatic,
+      bool isConst,
+      bool isExperimental,
+      Set<String>? entryPoints,
+      String relativePath,
+      bool isReadable,
+      bool isWriteable});
+}
+
+/// @nodoc
+class __$FieldDeclarationCopyWithImpl<$Res>
+    implements _$FieldDeclarationCopyWith<$Res> {
+  __$FieldDeclarationCopyWithImpl(this._self, this._then);
+
+  final _FieldDeclaration _self;
+  final $Res Function(_FieldDeclaration) _then;
+
   /// Create a copy of FieldDeclaration
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
-      __$$FieldDeclarationImplCopyWithImpl<_$FieldDeclarationImpl>(
-          this, _$identity);
+  $Res call({
+    Object? typeName = null,
+    Object? typeFullLibraryName = freezed,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isStatic = null,
+    Object? isConst = null,
+    Object? isExperimental = null,
+    Object? entryPoints = freezed,
+    Object? relativePath = null,
+    Object? isReadable = null,
+    Object? isWriteable = null,
+  }) {
+    return _then(_FieldDeclaration(
+      typeName: null == typeName
+          ? _self.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
+              as String,
+      typeFullLibraryName: freezed == typeFullLibraryName
+          ? _self.typeFullLibraryName
+          : typeFullLibraryName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDeprecated: null == isDeprecated
+          ? _self.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isStatic: null == isStatic
+          ? _self.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isConst: null == isConst
+          ? _self.isConst
+          : isConst // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _self.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      entryPoints: freezed == entryPoints
+          ? _self._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
+      relativePath: null == relativePath
+          ? _self.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      isReadable: null == isReadable
+          ? _self.isReadable
+          : isReadable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isWriteable: null == isWriteable
+          ? _self.isWriteable
+          : isWriteable // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _FieldDeclaration extends FieldDeclaration
-    implements Declaration {
-  const factory _FieldDeclaration(
-      {required final String typeName,
-      required final String? typeFullLibraryName,
-      required final String name,
-      required final bool isDeprecated,
-      required final bool isStatic,
-      required final bool isConst,
-      required final bool isExperimental,
-      final Set<String>? entryPoints,
-      required final String relativePath,
-      required final bool isReadable,
-      required final bool isWriteable}) = _$FieldDeclarationImpl;
-  const _FieldDeclaration._() : super._();
-
-  /// type of this field
-  @override
-  String get typeName;
-
-  /// full library name for the type
-  @override
-  String? get typeFullLibraryName;
-
-  /// name of this field
-  @override
-  String get name;
-
-  /// whether this field is deprecated
-  @override
-  bool get isDeprecated;
-
-  /// whether this field is static
-  @override
-  bool get isStatic;
-
-  /// whether this field is a constant
-  @override
-  bool get isConst;
-
-  /// whether this field is experimental
-  @override
-  bool get isExperimental;
-
-  /// entry points this field is reachable through
-  @override
-  Set<String>? get entryPoints;
-
-  /// the relative path of the library
-  @override
-  String get relativePath;
-
-  /// whether this field is readable
-  @override
-  bool get isReadable;
-
-  /// whether this field is writeable
-  @override
-  bool get isWriteable;
-
-  /// Create a copy of FieldDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FieldDeclarationImplCopyWith<_$FieldDeclarationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

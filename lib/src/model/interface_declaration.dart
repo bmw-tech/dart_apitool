@@ -13,7 +13,9 @@ part 'interface_declaration.freezed.dart';
 
 /// Represents a found interface declaration
 @freezed
-class InterfaceDeclaration with _$InterfaceDeclaration implements Declaration {
+sealed class InterfaceDeclaration
+    with _$InterfaceDeclaration
+    implements Declaration {
   /// the signature of this interface condensed to one String
   /// contains Type arguments as well as base types or implemented interfaces
   String get signature => _computeSignature();

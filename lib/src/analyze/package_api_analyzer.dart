@@ -539,7 +539,7 @@ class _InterfaceCollectionResult {
 }
 
 @freezed
-class _FileToAnalyzeEntry with _$FileToAnalyzeEntry {
+sealed class _FileToAnalyzeEntry with _$FileToAnalyzeEntry {
   const factory _FileToAnalyzeEntry({
     required String filePath,
     @Default([]) List<String> shownNames,

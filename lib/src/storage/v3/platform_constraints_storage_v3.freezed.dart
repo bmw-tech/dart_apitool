@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,130 +10,30 @@ part of 'platform_constraints_storage_v3.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-IOSPlatformConstraintsStorageV3 _$IOSPlatformConstraintsStorageV3FromJson(
-    Map<String, dynamic> json) {
-  return _IOSPlatformConstraintsStorageV3.fromJson(json);
-}
 
 /// @nodoc
 mixin _$IOSPlatformConstraintsStorageV3 {
-  num? get minimumOsVersion => throw _privateConstructorUsedError;
-
-  /// Serializes this IOSPlatformConstraintsStorageV3 to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  num? get minimumOsVersion;
 
   /// Create a copy of IOSPlatformConstraintsStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsStorageV3CopyWith<IOSPlatformConstraintsStorageV3>
-      get copyWith => throw _privateConstructorUsedError;
-}
+      get copyWith => _$IOSPlatformConstraintsStorageV3CopyWithImpl<
+              IOSPlatformConstraintsStorageV3>(
+          this as IOSPlatformConstraintsStorageV3, _$identity);
 
-/// @nodoc
-abstract class $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
-  factory $IOSPlatformConstraintsStorageV3CopyWith(
-          IOSPlatformConstraintsStorageV3 value,
-          $Res Function(IOSPlatformConstraintsStorageV3) then) =
-      _$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res,
-          IOSPlatformConstraintsStorageV3>;
-  @useResult
-  $Res call({num? minimumOsVersion});
-}
-
-/// @nodoc
-class _$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res,
-        $Val extends IOSPlatformConstraintsStorageV3>
-    implements $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
-  _$IOSPlatformConstraintsStorageV3CopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? minimumOsVersion = freezed,
-  }) {
-    return _then(_value.copyWith(
-      minimumOsVersion: freezed == minimumOsVersion
-          ? _value.minimumOsVersion
-          : minimumOsVersion // ignore: cast_nullable_to_non_nullable
-              as num?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$IOSPlatformConstraintsStorageV3ImplCopyWith<$Res>
-    implements $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
-  factory _$$IOSPlatformConstraintsStorageV3ImplCopyWith(
-          _$IOSPlatformConstraintsStorageV3Impl value,
-          $Res Function(_$IOSPlatformConstraintsStorageV3Impl) then) =
-      __$$IOSPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({num? minimumOsVersion});
-}
-
-/// @nodoc
-class __$$IOSPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>
-    extends _$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res,
-        _$IOSPlatformConstraintsStorageV3Impl>
-    implements _$$IOSPlatformConstraintsStorageV3ImplCopyWith<$Res> {
-  __$$IOSPlatformConstraintsStorageV3ImplCopyWithImpl(
-      _$IOSPlatformConstraintsStorageV3Impl _value,
-      $Res Function(_$IOSPlatformConstraintsStorageV3Impl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? minimumOsVersion = freezed,
-  }) {
-    return _then(_$IOSPlatformConstraintsStorageV3Impl(
-      minimumOsVersion: freezed == minimumOsVersion
-          ? _value.minimumOsVersion
-          : minimumOsVersion // ignore: cast_nullable_to_non_nullable
-              as num?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$IOSPlatformConstraintsStorageV3Impl
-    extends _IOSPlatformConstraintsStorageV3 {
-  const _$IOSPlatformConstraintsStorageV3Impl({required this.minimumOsVersion})
-      : super._();
-
-  factory _$IOSPlatformConstraintsStorageV3Impl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$IOSPlatformConstraintsStorageV3ImplFromJson(json);
-
-  @override
-  final num? minimumOsVersion;
-
-  @override
-  String toString() {
-    return 'IOSPlatformConstraintsStorageV3(minimumOsVersion: $minimumOsVersion)';
-  }
+  /// Serializes this IOSPlatformConstraintsStorageV3 to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$IOSPlatformConstraintsStorageV3Impl &&
+            other is IOSPlatformConstraintsStorageV3 &&
             (identical(other.minimumOsVersion, minimumOsVersion) ||
                 other.minimumOsVersion == minimumOsVersion));
   }
@@ -141,197 +42,153 @@ class _$IOSPlatformConstraintsStorageV3Impl
   @override
   int get hashCode => Object.hash(runtimeType, minimumOsVersion);
 
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$IOSPlatformConstraintsStorageV3ImplCopyWith<
-          _$IOSPlatformConstraintsStorageV3Impl>
-      get copyWith => __$$IOSPlatformConstraintsStorageV3ImplCopyWithImpl<
-          _$IOSPlatformConstraintsStorageV3Impl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$IOSPlatformConstraintsStorageV3ImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _IOSPlatformConstraintsStorageV3
-    extends IOSPlatformConstraintsStorageV3 {
-  const factory _IOSPlatformConstraintsStorageV3(
-          {required final num? minimumOsVersion}) =
-      _$IOSPlatformConstraintsStorageV3Impl;
-  const _IOSPlatformConstraintsStorageV3._() : super._();
-
-  factory _IOSPlatformConstraintsStorageV3.fromJson(Map<String, dynamic> json) =
-      _$IOSPlatformConstraintsStorageV3Impl.fromJson;
-
-  @override
-  num? get minimumOsVersion;
-
-  /// Create a copy of IOSPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$IOSPlatformConstraintsStorageV3ImplCopyWith<
-          _$IOSPlatformConstraintsStorageV3Impl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-AndroidPlatformConstraintsStorageV3
-    _$AndroidPlatformConstraintsStorageV3FromJson(Map<String, dynamic> json) {
-  return _AndroidPlatformConstraintsStorageV3.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AndroidPlatformConstraintsStorageV3 {
-  int? get minSdkVersion => throw _privateConstructorUsedError;
-  int? get compileSdkVersion => throw _privateConstructorUsedError;
-  int? get targetSdkVersion => throw _privateConstructorUsedError;
-
-  /// Serializes this AndroidPlatformConstraintsStorageV3 to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AndroidPlatformConstraintsStorageV3CopyWith<
-          AndroidPlatformConstraintsStorageV3>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
-  factory $AndroidPlatformConstraintsStorageV3CopyWith(
-          AndroidPlatformConstraintsStorageV3 value,
-          $Res Function(AndroidPlatformConstraintsStorageV3) then) =
-      _$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res,
-          AndroidPlatformConstraintsStorageV3>;
-  @useResult
-  $Res call(
-      {int? minSdkVersion, int? compileSdkVersion, int? targetSdkVersion});
-}
-
-/// @nodoc
-class _$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res,
-        $Val extends AndroidPlatformConstraintsStorageV3>
-    implements $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
-  _$AndroidPlatformConstraintsStorageV3CopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? minSdkVersion = freezed,
-    Object? compileSdkVersion = freezed,
-    Object? targetSdkVersion = freezed,
-  }) {
-    return _then(_value.copyWith(
-      minSdkVersion: freezed == minSdkVersion
-          ? _value.minSdkVersion
-          : minSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      compileSdkVersion: freezed == compileSdkVersion
-          ? _value.compileSdkVersion
-          : compileSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      targetSdkVersion: freezed == targetSdkVersion
-          ? _value.targetSdkVersion
-          : targetSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+  String toString() {
+    return 'IOSPlatformConstraintsStorageV3(minimumOsVersion: $minimumOsVersion)';
   }
 }
 
 /// @nodoc
-abstract class _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<$Res>
-    implements $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
-  factory _$$AndroidPlatformConstraintsStorageV3ImplCopyWith(
-          _$AndroidPlatformConstraintsStorageV3Impl value,
-          $Res Function(_$AndroidPlatformConstraintsStorageV3Impl) then) =
-      __$$AndroidPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
+  factory $IOSPlatformConstraintsStorageV3CopyWith(
+          IOSPlatformConstraintsStorageV3 value,
+          $Res Function(IOSPlatformConstraintsStorageV3) _then) =
+      _$IOSPlatformConstraintsStorageV3CopyWithImpl;
   @useResult
-  $Res call(
-      {int? minSdkVersion, int? compileSdkVersion, int? targetSdkVersion});
+  $Res call({num? minimumOsVersion});
 }
 
 /// @nodoc
-class __$$AndroidPlatformConstraintsStorageV3ImplCopyWithImpl<$Res>
-    extends _$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res,
-        _$AndroidPlatformConstraintsStorageV3Impl>
-    implements _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<$Res> {
-  __$$AndroidPlatformConstraintsStorageV3ImplCopyWithImpl(
-      _$AndroidPlatformConstraintsStorageV3Impl _value,
-      $Res Function(_$AndroidPlatformConstraintsStorageV3Impl) _then)
-      : super(_value, _then);
+class _$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res>
+    implements $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
+  _$IOSPlatformConstraintsStorageV3CopyWithImpl(this._self, this._then);
 
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
+  final IOSPlatformConstraintsStorageV3 _self;
+  final $Res Function(IOSPlatformConstraintsStorageV3) _then;
+
+  /// Create a copy of IOSPlatformConstraintsStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? minSdkVersion = freezed,
-    Object? compileSdkVersion = freezed,
-    Object? targetSdkVersion = freezed,
+    Object? minimumOsVersion = freezed,
   }) {
-    return _then(_$AndroidPlatformConstraintsStorageV3Impl(
-      minSdkVersion: freezed == minSdkVersion
-          ? _value.minSdkVersion
-          : minSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      compileSdkVersion: freezed == compileSdkVersion
-          ? _value.compileSdkVersion
-          : compileSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
-      targetSdkVersion: freezed == targetSdkVersion
-          ? _value.targetSdkVersion
-          : targetSdkVersion // ignore: cast_nullable_to_non_nullable
-              as int?,
+    return _then(_self.copyWith(
+      minimumOsVersion: freezed == minimumOsVersion
+          ? _self.minimumOsVersion
+          : minimumOsVersion // ignore: cast_nullable_to_non_nullable
+              as num?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AndroidPlatformConstraintsStorageV3Impl
-    extends _AndroidPlatformConstraintsStorageV3 {
-  const _$AndroidPlatformConstraintsStorageV3Impl(
-      {required this.minSdkVersion,
-      required this.compileSdkVersion,
-      required this.targetSdkVersion})
+class _IOSPlatformConstraintsStorageV3 extends IOSPlatformConstraintsStorageV3 {
+  const _IOSPlatformConstraintsStorageV3({required this.minimumOsVersion})
       : super._();
-
-  factory _$AndroidPlatformConstraintsStorageV3Impl.fromJson(
+  factory _IOSPlatformConstraintsStorageV3.fromJson(
           Map<String, dynamic> json) =>
-      _$$AndroidPlatformConstraintsStorageV3ImplFromJson(json);
+      _$IOSPlatformConstraintsStorageV3FromJson(json);
 
   @override
-  final int? minSdkVersion;
+  final num? minimumOsVersion;
+
+  /// Create a copy of IOSPlatformConstraintsStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  final int? compileSdkVersion;
-  @override
-  final int? targetSdkVersion;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$IOSPlatformConstraintsStorageV3CopyWith<_IOSPlatformConstraintsStorageV3>
+      get copyWith => __$IOSPlatformConstraintsStorageV3CopyWithImpl<
+          _IOSPlatformConstraintsStorageV3>(this, _$identity);
 
   @override
-  String toString() {
-    return 'AndroidPlatformConstraintsStorageV3(minSdkVersion: $minSdkVersion, compileSdkVersion: $compileSdkVersion, targetSdkVersion: $targetSdkVersion)';
+  Map<String, dynamic> toJson() {
+    return _$IOSPlatformConstraintsStorageV3ToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AndroidPlatformConstraintsStorageV3Impl &&
+            other is _IOSPlatformConstraintsStorageV3 &&
+            (identical(other.minimumOsVersion, minimumOsVersion) ||
+                other.minimumOsVersion == minimumOsVersion));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, minimumOsVersion);
+
+  @override
+  String toString() {
+    return 'IOSPlatformConstraintsStorageV3(minimumOsVersion: $minimumOsVersion)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$IOSPlatformConstraintsStorageV3CopyWith<$Res>
+    implements $IOSPlatformConstraintsStorageV3CopyWith<$Res> {
+  factory _$IOSPlatformConstraintsStorageV3CopyWith(
+          _IOSPlatformConstraintsStorageV3 value,
+          $Res Function(_IOSPlatformConstraintsStorageV3) _then) =
+      __$IOSPlatformConstraintsStorageV3CopyWithImpl;
+  @override
+  @useResult
+  $Res call({num? minimumOsVersion});
+}
+
+/// @nodoc
+class __$IOSPlatformConstraintsStorageV3CopyWithImpl<$Res>
+    implements _$IOSPlatformConstraintsStorageV3CopyWith<$Res> {
+  __$IOSPlatformConstraintsStorageV3CopyWithImpl(this._self, this._then);
+
+  final _IOSPlatformConstraintsStorageV3 _self;
+  final $Res Function(_IOSPlatformConstraintsStorageV3) _then;
+
+  /// Create a copy of IOSPlatformConstraintsStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? minimumOsVersion = freezed,
+  }) {
+    return _then(_IOSPlatformConstraintsStorageV3(
+      minimumOsVersion: freezed == minimumOsVersion
+          ? _self.minimumOsVersion
+          : minimumOsVersion // ignore: cast_nullable_to_non_nullable
+              as num?,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$AndroidPlatformConstraintsStorageV3 {
+  int? get minSdkVersion;
+  int? get compileSdkVersion;
+  int? get targetSdkVersion;
+
+  /// Create a copy of AndroidPlatformConstraintsStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AndroidPlatformConstraintsStorageV3CopyWith<
+          AndroidPlatformConstraintsStorageV3>
+      get copyWith => _$AndroidPlatformConstraintsStorageV3CopyWithImpl<
+              AndroidPlatformConstraintsStorageV3>(
+          this as AndroidPlatformConstraintsStorageV3, _$identity);
+
+  /// Serializes this AndroidPlatformConstraintsStorageV3 to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AndroidPlatformConstraintsStorageV3 &&
             (identical(other.minSdkVersion, minSdkVersion) ||
                 other.minSdkVersion == minSdkVersion) &&
             (identical(other.compileSdkVersion, compileSdkVersion) ||
@@ -345,49 +202,163 @@ class _$AndroidPlatformConstraintsStorageV3Impl
   int get hashCode => Object.hash(
       runtimeType, minSdkVersion, compileSdkVersion, targetSdkVersion);
 
-  /// Create a copy of AndroidPlatformConstraintsStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<
-          _$AndroidPlatformConstraintsStorageV3Impl>
-      get copyWith => __$$AndroidPlatformConstraintsStorageV3ImplCopyWithImpl<
-          _$AndroidPlatformConstraintsStorageV3Impl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AndroidPlatformConstraintsStorageV3ImplToJson(
-      this,
-    );
+  String toString() {
+    return 'AndroidPlatformConstraintsStorageV3(minSdkVersion: $minSdkVersion, compileSdkVersion: $compileSdkVersion, targetSdkVersion: $targetSdkVersion)';
   }
 }
 
-abstract class _AndroidPlatformConstraintsStorageV3
+/// @nodoc
+abstract mixin class $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
+  factory $AndroidPlatformConstraintsStorageV3CopyWith(
+          AndroidPlatformConstraintsStorageV3 value,
+          $Res Function(AndroidPlatformConstraintsStorageV3) _then) =
+      _$AndroidPlatformConstraintsStorageV3CopyWithImpl;
+  @useResult
+  $Res call(
+      {int? minSdkVersion, int? compileSdkVersion, int? targetSdkVersion});
+}
+
+/// @nodoc
+class _$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res>
+    implements $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
+  _$AndroidPlatformConstraintsStorageV3CopyWithImpl(this._self, this._then);
+
+  final AndroidPlatformConstraintsStorageV3 _self;
+  final $Res Function(AndroidPlatformConstraintsStorageV3) _then;
+
+  /// Create a copy of AndroidPlatformConstraintsStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? minSdkVersion = freezed,
+    Object? compileSdkVersion = freezed,
+    Object? targetSdkVersion = freezed,
+  }) {
+    return _then(_self.copyWith(
+      minSdkVersion: freezed == minSdkVersion
+          ? _self.minSdkVersion
+          : minSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      compileSdkVersion: freezed == compileSdkVersion
+          ? _self.compileSdkVersion
+          : compileSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetSdkVersion: freezed == targetSdkVersion
+          ? _self.targetSdkVersion
+          : targetSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _AndroidPlatformConstraintsStorageV3
     extends AndroidPlatformConstraintsStorageV3 {
-  const factory _AndroidPlatformConstraintsStorageV3(
-          {required final int? minSdkVersion,
-          required final int? compileSdkVersion,
-          required final int? targetSdkVersion}) =
-      _$AndroidPlatformConstraintsStorageV3Impl;
-  const _AndroidPlatformConstraintsStorageV3._() : super._();
-
+  const _AndroidPlatformConstraintsStorageV3(
+      {required this.minSdkVersion,
+      required this.compileSdkVersion,
+      required this.targetSdkVersion})
+      : super._();
   factory _AndroidPlatformConstraintsStorageV3.fromJson(
-          Map<String, dynamic> json) =
-      _$AndroidPlatformConstraintsStorageV3Impl.fromJson;
+          Map<String, dynamic> json) =>
+      _$AndroidPlatformConstraintsStorageV3FromJson(json);
 
   @override
-  int? get minSdkVersion;
+  final int? minSdkVersion;
   @override
-  int? get compileSdkVersion;
+  final int? compileSdkVersion;
   @override
-  int? get targetSdkVersion;
+  final int? targetSdkVersion;
 
   /// Create a copy of AndroidPlatformConstraintsStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AndroidPlatformConstraintsStorageV3ImplCopyWith<
-          _$AndroidPlatformConstraintsStorageV3Impl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$AndroidPlatformConstraintsStorageV3CopyWith<
+          _AndroidPlatformConstraintsStorageV3>
+      get copyWith => __$AndroidPlatformConstraintsStorageV3CopyWithImpl<
+          _AndroidPlatformConstraintsStorageV3>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AndroidPlatformConstraintsStorageV3ToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AndroidPlatformConstraintsStorageV3 &&
+            (identical(other.minSdkVersion, minSdkVersion) ||
+                other.minSdkVersion == minSdkVersion) &&
+            (identical(other.compileSdkVersion, compileSdkVersion) ||
+                other.compileSdkVersion == compileSdkVersion) &&
+            (identical(other.targetSdkVersion, targetSdkVersion) ||
+                other.targetSdkVersion == targetSdkVersion));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, minSdkVersion, compileSdkVersion, targetSdkVersion);
+
+  @override
+  String toString() {
+    return 'AndroidPlatformConstraintsStorageV3(minSdkVersion: $minSdkVersion, compileSdkVersion: $compileSdkVersion, targetSdkVersion: $targetSdkVersion)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$AndroidPlatformConstraintsStorageV3CopyWith<$Res>
+    implements $AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
+  factory _$AndroidPlatformConstraintsStorageV3CopyWith(
+          _AndroidPlatformConstraintsStorageV3 value,
+          $Res Function(_AndroidPlatformConstraintsStorageV3) _then) =
+      __$AndroidPlatformConstraintsStorageV3CopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int? minSdkVersion, int? compileSdkVersion, int? targetSdkVersion});
+}
+
+/// @nodoc
+class __$AndroidPlatformConstraintsStorageV3CopyWithImpl<$Res>
+    implements _$AndroidPlatformConstraintsStorageV3CopyWith<$Res> {
+  __$AndroidPlatformConstraintsStorageV3CopyWithImpl(this._self, this._then);
+
+  final _AndroidPlatformConstraintsStorageV3 _self;
+  final $Res Function(_AndroidPlatformConstraintsStorageV3) _then;
+
+  /// Create a copy of AndroidPlatformConstraintsStorageV3
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? minSdkVersion = freezed,
+    Object? compileSdkVersion = freezed,
+    Object? targetSdkVersion = freezed,
+  }) {
+    return _then(_AndroidPlatformConstraintsStorageV3(
+      minSdkVersion: freezed == minSdkVersion
+          ? _self.minSdkVersion
+          : minSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      compileSdkVersion: freezed == compileSdkVersion
+          ? _self.compileSdkVersion
+          : compileSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+      targetSdkVersion: freezed == targetSdkVersion
+          ? _self.targetSdkVersion
+          : targetSdkVersion // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+// dart format on

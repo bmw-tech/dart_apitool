@@ -7,7 +7,7 @@ part 'field_declaration_storage_v3.g.dart';
 
 /// represents a found FieldDeclaration
 @freezed
-class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
+sealed class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
   const FieldDeclarationStorageV3._();
 
   const factory FieldDeclarationStorageV3({

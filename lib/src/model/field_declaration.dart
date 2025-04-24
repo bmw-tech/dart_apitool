@@ -6,7 +6,7 @@ part 'field_declaration.freezed.dart';
 
 /// represents a found FieldDeclaration
 @freezed
-class FieldDeclaration with _$FieldDeclaration implements Declaration {
+sealed class FieldDeclaration with _$FieldDeclaration implements Declaration {
   const FieldDeclaration._();
 
   /// the signature of this field declaration.

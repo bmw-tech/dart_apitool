@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,131 +10,81 @@ part of 'field_declaration_storage_v3.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-FieldDeclarationStorageV3 _$FieldDeclarationStorageV3FromJson(
-    Map<String, dynamic> json) {
-  return _FieldDeclarationStorageV3.fromJson(json);
-}
 
 /// @nodoc
 mixin _$FieldDeclarationStorageV3 {
-  String get typeName => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  bool get isDeprecated => throw _privateConstructorUsedError;
-  bool get isExperimental => throw _privateConstructorUsedError;
-  bool get isStatic => throw _privateConstructorUsedError;
-  Set<String> get entryPoints => throw _privateConstructorUsedError;
-  String get relativePath => throw _privateConstructorUsedError;
-  bool get isReadable => throw _privateConstructorUsedError;
-  bool get isWriteable => throw _privateConstructorUsedError;
-
-  /// Serializes this FieldDeclarationStorageV3 to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get typeName;
+  String get name;
+  bool get isDeprecated;
+  bool get isExperimental;
+  bool get isStatic;
+  Set<String> get entryPoints;
+  String get relativePath;
+  bool get isReadable;
+  bool get isWriteable;
 
   /// Create a copy of FieldDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FieldDeclarationStorageV3CopyWith<FieldDeclarationStorageV3> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FieldDeclarationStorageV3CopyWith<$Res> {
-  factory $FieldDeclarationStorageV3CopyWith(FieldDeclarationStorageV3 value,
-          $Res Function(FieldDeclarationStorageV3) then) =
-      _$FieldDeclarationStorageV3CopyWithImpl<$Res, FieldDeclarationStorageV3>;
-  @useResult
-  $Res call(
-      {String typeName,
-      String name,
-      bool isDeprecated,
-      bool isExperimental,
-      bool isStatic,
-      Set<String> entryPoints,
-      String relativePath,
-      bool isReadable,
-      bool isWriteable});
-}
-
-/// @nodoc
-class _$FieldDeclarationStorageV3CopyWithImpl<$Res,
-        $Val extends FieldDeclarationStorageV3>
-    implements $FieldDeclarationStorageV3CopyWith<$Res> {
-  _$FieldDeclarationStorageV3CopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of FieldDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $FieldDeclarationStorageV3CopyWith<FieldDeclarationStorageV3> get copyWith =>
+      _$FieldDeclarationStorageV3CopyWithImpl<FieldDeclarationStorageV3>(
+          this as FieldDeclarationStorageV3, _$identity);
+
+  /// Serializes this FieldDeclarationStorageV3 to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? typeName = null,
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isExperimental = null,
-    Object? isStatic = null,
-    Object? entryPoints = null,
-    Object? relativePath = null,
-    Object? isReadable = null,
-    Object? isWriteable = null,
-  }) {
-    return _then(_value.copyWith(
-      typeName: null == typeName
-          ? _value.typeName
-          : typeName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
-          : isDeprecated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExperimental: null == isExperimental
-          ? _value.isExperimental
-          : isExperimental // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isStatic: null == isStatic
-          ? _value.isStatic
-          : isStatic // ignore: cast_nullable_to_non_nullable
-              as bool,
-      entryPoints: null == entryPoints
-          ? _value.entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
-      relativePath: null == relativePath
-          ? _value.relativePath
-          : relativePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      isReadable: null == isReadable
-          ? _value.isReadable
-          : isReadable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isWriteable: null == isWriteable
-          ? _value.isWriteable
-          : isWriteable // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FieldDeclarationStorageV3 &&
+            (identical(other.typeName, typeName) ||
+                other.typeName == typeName) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
+            (identical(other.isStatic, isStatic) ||
+                other.isStatic == isStatic) &&
+            const DeepCollectionEquality()
+                .equals(other.entryPoints, entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath) &&
+            (identical(other.isReadable, isReadable) ||
+                other.isReadable == isReadable) &&
+            (identical(other.isWriteable, isWriteable) ||
+                other.isWriteable == isWriteable));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      typeName,
+      name,
+      isDeprecated,
+      isExperimental,
+      isStatic,
+      const DeepCollectionEquality().hash(entryPoints),
+      relativePath,
+      isReadable,
+      isWriteable);
+
+  @override
+  String toString() {
+    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
   }
 }
 
 /// @nodoc
-abstract class _$$FieldDeclarationStorageV3ImplCopyWith<$Res>
-    implements $FieldDeclarationStorageV3CopyWith<$Res> {
-  factory _$$FieldDeclarationStorageV3ImplCopyWith(
-          _$FieldDeclarationStorageV3Impl value,
-          $Res Function(_$FieldDeclarationStorageV3Impl) then) =
-      __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $FieldDeclarationStorageV3CopyWith<$Res> {
+  factory $FieldDeclarationStorageV3CopyWith(FieldDeclarationStorageV3 value,
+          $Res Function(FieldDeclarationStorageV3) _then) =
+      _$FieldDeclarationStorageV3CopyWithImpl;
   @useResult
   $Res call(
       {String typeName,
@@ -148,14 +99,12 @@ abstract class _$$FieldDeclarationStorageV3ImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
-    extends _$FieldDeclarationStorageV3CopyWithImpl<$Res,
-        _$FieldDeclarationStorageV3Impl>
-    implements _$$FieldDeclarationStorageV3ImplCopyWith<$Res> {
-  __$$FieldDeclarationStorageV3ImplCopyWithImpl(
-      _$FieldDeclarationStorageV3Impl _value,
-      $Res Function(_$FieldDeclarationStorageV3Impl) _then)
-      : super(_value, _then);
+class _$FieldDeclarationStorageV3CopyWithImpl<$Res>
+    implements $FieldDeclarationStorageV3CopyWith<$Res> {
+  _$FieldDeclarationStorageV3CopyWithImpl(this._self, this._then);
+
+  final FieldDeclarationStorageV3 _self;
+  final $Res Function(FieldDeclarationStorageV3) _then;
 
   /// Create a copy of FieldDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
@@ -172,41 +121,41 @@ class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
     Object? isReadable = null,
     Object? isWriteable = null,
   }) {
-    return _then(_$FieldDeclarationStorageV3Impl(
+    return _then(_self.copyWith(
       typeName: null == typeName
-          ? _value.typeName
+          ? _self.typeName
           : typeName // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
+          ? _self.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
       isExperimental: null == isExperimental
-          ? _value.isExperimental
+          ? _self.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isStatic: null == isStatic
-          ? _value.isStatic
+          ? _self.isStatic
           : isStatic // ignore: cast_nullable_to_non_nullable
               as bool,
       entryPoints: null == entryPoints
-          ? _value._entryPoints
+          ? _self.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
       relativePath: null == relativePath
-          ? _value.relativePath
+          ? _self.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
       isReadable: null == isReadable
-          ? _value.isReadable
+          ? _self.isReadable
           : isReadable // ignore: cast_nullable_to_non_nullable
               as bool,
       isWriteable: null == isWriteable
-          ? _value.isWriteable
+          ? _self.isWriteable
           : isWriteable // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
@@ -215,8 +164,8 @@ class __$$FieldDeclarationStorageV3ImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
-  const _$FieldDeclarationStorageV3Impl(
+class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
+  const _FieldDeclarationStorageV3(
       {required this.typeName,
       required this.name,
       required this.isDeprecated,
@@ -228,9 +177,8 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
       required this.isWriteable})
       : _entryPoints = entryPoints,
         super._();
-
-  factory _$FieldDeclarationStorageV3Impl.fromJson(Map<String, dynamic> json) =>
-      _$$FieldDeclarationStorageV3ImplFromJson(json);
+  factory _FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =>
+      _$FieldDeclarationStorageV3FromJson(json);
 
   @override
   final String typeName;
@@ -257,16 +205,28 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
   @override
   final bool isWriteable;
 
+  /// Create a copy of FieldDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FieldDeclarationStorageV3CopyWith<_FieldDeclarationStorageV3>
+      get copyWith =>
+          __$FieldDeclarationStorageV3CopyWithImpl<_FieldDeclarationStorageV3>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FieldDeclarationStorageV3ToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FieldDeclarationStorageV3Impl &&
+            other is _FieldDeclarationStorageV3 &&
             (identical(other.typeName, typeName) ||
                 other.typeName == typeName) &&
             (identical(other.name, name) || other.name == name) &&
@@ -300,62 +260,94 @@ class _$FieldDeclarationStorageV3Impl extends _FieldDeclarationStorageV3 {
       isReadable,
       isWriteable);
 
-  /// Create a copy of FieldDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
-      get copyWith => __$$FieldDeclarationStorageV3ImplCopyWithImpl<
-          _$FieldDeclarationStorageV3Impl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$FieldDeclarationStorageV3ImplToJson(
-      this,
-    );
+  String toString() {
+    return 'FieldDeclarationStorageV3(typeName: $typeName, name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isStatic: $isStatic, entryPoints: $entryPoints, relativePath: $relativePath, isReadable: $isReadable, isWriteable: $isWriteable)';
   }
 }
 
-abstract class _FieldDeclarationStorageV3 extends FieldDeclarationStorageV3 {
-  const factory _FieldDeclarationStorageV3(
-      {required final String typeName,
-      required final String name,
-      required final bool isDeprecated,
-      required final bool isExperimental,
-      required final bool isStatic,
-      required final Set<String> entryPoints,
-      required final String relativePath,
-      required final bool isReadable,
-      required final bool isWriteable}) = _$FieldDeclarationStorageV3Impl;
-  const _FieldDeclarationStorageV3._() : super._();
+/// @nodoc
+abstract mixin class _$FieldDeclarationStorageV3CopyWith<$Res>
+    implements $FieldDeclarationStorageV3CopyWith<$Res> {
+  factory _$FieldDeclarationStorageV3CopyWith(_FieldDeclarationStorageV3 value,
+          $Res Function(_FieldDeclarationStorageV3) _then) =
+      __$FieldDeclarationStorageV3CopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String typeName,
+      String name,
+      bool isDeprecated,
+      bool isExperimental,
+      bool isStatic,
+      Set<String> entryPoints,
+      String relativePath,
+      bool isReadable,
+      bool isWriteable});
+}
 
-  factory _FieldDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$FieldDeclarationStorageV3Impl.fromJson;
+/// @nodoc
+class __$FieldDeclarationStorageV3CopyWithImpl<$Res>
+    implements _$FieldDeclarationStorageV3CopyWith<$Res> {
+  __$FieldDeclarationStorageV3CopyWithImpl(this._self, this._then);
 
-  @override
-  String get typeName;
-  @override
-  String get name;
-  @override
-  bool get isDeprecated;
-  @override
-  bool get isExperimental;
-  @override
-  bool get isStatic;
-  @override
-  Set<String> get entryPoints;
-  @override
-  String get relativePath;
-  @override
-  bool get isReadable;
-  @override
-  bool get isWriteable;
+  final _FieldDeclarationStorageV3 _self;
+  final $Res Function(_FieldDeclarationStorageV3) _then;
 
   /// Create a copy of FieldDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FieldDeclarationStorageV3ImplCopyWith<_$FieldDeclarationStorageV3Impl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? typeName = null,
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isExperimental = null,
+    Object? isStatic = null,
+    Object? entryPoints = null,
+    Object? relativePath = null,
+    Object? isReadable = null,
+    Object? isWriteable = null,
+  }) {
+    return _then(_FieldDeclarationStorageV3(
+      typeName: null == typeName
+          ? _self.typeName
+          : typeName // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDeprecated: null == isDeprecated
+          ? _self.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _self.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isStatic: null == isStatic
+          ? _self.isStatic
+          : isStatic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      entryPoints: null == entryPoints
+          ? _self._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+      relativePath: null == relativePath
+          ? _self.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      isReadable: null == isReadable
+          ? _self.isReadable
+          : isReadable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isWriteable: null == isWriteable
+          ? _self.isWriteable
+          : isWriteable // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
+
+// dart format on

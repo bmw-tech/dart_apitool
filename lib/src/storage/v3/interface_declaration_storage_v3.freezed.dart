@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,149 +10,91 @@ part of 'interface_declaration_storage_v3.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-InterfaceDeclarationStorageV3 _$InterfaceDeclarationStorageV3FromJson(
-    Map<String, dynamic> json) {
-  return _InterfaceDeclarationStorageV3.fromJson(json);
-}
 
 /// @nodoc
 mixin _$InterfaceDeclarationStorageV3 {
-  String get name => throw _privateConstructorUsedError;
-  bool get isDeprecated => throw _privateConstructorUsedError;
-  bool get isExperimental => throw _privateConstructorUsedError;
-  bool get isSealed => throw _privateConstructorUsedError;
-  bool get isRequired => throw _privateConstructorUsedError;
-  List<String> get typeParameterNames => throw _privateConstructorUsedError;
-  List<String> get superTypeNames => throw _privateConstructorUsedError;
-  List<ExecutableDeclarationStorageV3> get executableDeclarations =>
-      throw _privateConstructorUsedError;
-  List<FieldDeclarationStorageV3> get fieldDeclarations =>
-      throw _privateConstructorUsedError;
-  Set<String> get entryPoints => throw _privateConstructorUsedError;
-  String get relativePath => throw _privateConstructorUsedError;
-
-  /// Serializes this InterfaceDeclarationStorageV3 to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get name;
+  bool get isDeprecated;
+  bool get isExperimental;
+  bool get isSealed;
+  bool get isRequired;
+  List<String> get typeParameterNames;
+  List<String> get superTypeNames;
+  List<ExecutableDeclarationStorageV3> get executableDeclarations;
+  List<FieldDeclarationStorageV3> get fieldDeclarations;
+  Set<String> get entryPoints;
+  String get relativePath;
 
   /// Create a copy of InterfaceDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $InterfaceDeclarationStorageV3CopyWith<InterfaceDeclarationStorageV3>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $InterfaceDeclarationStorageV3CopyWith<$Res> {
-  factory $InterfaceDeclarationStorageV3CopyWith(
-          InterfaceDeclarationStorageV3 value,
-          $Res Function(InterfaceDeclarationStorageV3) then) =
-      _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
-          InterfaceDeclarationStorageV3>;
-  @useResult
-  $Res call(
-      {String name,
-      bool isDeprecated,
-      bool isExperimental,
-      bool isSealed,
-      bool isRequired,
-      List<String> typeParameterNames,
-      List<String> superTypeNames,
-      List<ExecutableDeclarationStorageV3> executableDeclarations,
-      List<FieldDeclarationStorageV3> fieldDeclarations,
-      Set<String> entryPoints,
-      String relativePath});
-}
-
-/// @nodoc
-class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
-        $Val extends InterfaceDeclarationStorageV3>
-    implements $InterfaceDeclarationStorageV3CopyWith<$Res> {
-  _$InterfaceDeclarationStorageV3CopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of InterfaceDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $InterfaceDeclarationStorageV3CopyWith<InterfaceDeclarationStorageV3>
+      get copyWith => _$InterfaceDeclarationStorageV3CopyWithImpl<
+              InterfaceDeclarationStorageV3>(
+          this as InterfaceDeclarationStorageV3, _$identity);
+
+  /// Serializes this InterfaceDeclarationStorageV3 to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isExperimental = null,
-    Object? isSealed = null,
-    Object? isRequired = null,
-    Object? typeParameterNames = null,
-    Object? superTypeNames = null,
-    Object? executableDeclarations = null,
-    Object? fieldDeclarations = null,
-    Object? entryPoints = null,
-    Object? relativePath = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
-          : isDeprecated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExperimental: null == isExperimental
-          ? _value.isExperimental
-          : isExperimental // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSealed: null == isSealed
-          ? _value.isSealed
-          : isSealed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isRequired: null == isRequired
-          ? _value.isRequired
-          : isRequired // ignore: cast_nullable_to_non_nullable
-              as bool,
-      typeParameterNames: null == typeParameterNames
-          ? _value.typeParameterNames
-          : typeParameterNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      superTypeNames: null == superTypeNames
-          ? _value.superTypeNames
-          : superTypeNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      executableDeclarations: null == executableDeclarations
-          ? _value.executableDeclarations
-          : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclarationStorageV3>,
-      fieldDeclarations: null == fieldDeclarations
-          ? _value.fieldDeclarations
-          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclarationStorageV3>,
-      entryPoints: null == entryPoints
-          ? _value.entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
-      relativePath: null == relativePath
-          ? _value.relativePath
-          : relativePath // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is InterfaceDeclarationStorageV3 &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
+            (identical(other.isSealed, isSealed) ||
+                other.isSealed == isSealed) &&
+            (identical(other.isRequired, isRequired) ||
+                other.isRequired == isRequired) &&
+            const DeepCollectionEquality()
+                .equals(other.typeParameterNames, typeParameterNames) &&
+            const DeepCollectionEquality()
+                .equals(other.superTypeNames, superTypeNames) &&
+            const DeepCollectionEquality()
+                .equals(other.executableDeclarations, executableDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.fieldDeclarations, fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.entryPoints, entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      isDeprecated,
+      isExperimental,
+      isSealed,
+      isRequired,
+      const DeepCollectionEquality().hash(typeParameterNames),
+      const DeepCollectionEquality().hash(superTypeNames),
+      const DeepCollectionEquality().hash(executableDeclarations),
+      const DeepCollectionEquality().hash(fieldDeclarations),
+      const DeepCollectionEquality().hash(entryPoints),
+      relativePath);
+
+  @override
+  String toString() {
+    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 }
 
 /// @nodoc
-abstract class _$$InterfaceDeclarationStorageV3ImplCopyWith<$Res>
-    implements $InterfaceDeclarationStorageV3CopyWith<$Res> {
-  factory _$$InterfaceDeclarationStorageV3ImplCopyWith(
-          _$InterfaceDeclarationStorageV3Impl value,
-          $Res Function(_$InterfaceDeclarationStorageV3Impl) then) =
-      __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $InterfaceDeclarationStorageV3CopyWith<$Res> {
+  factory $InterfaceDeclarationStorageV3CopyWith(
+          InterfaceDeclarationStorageV3 value,
+          $Res Function(InterfaceDeclarationStorageV3) _then) =
+      _$InterfaceDeclarationStorageV3CopyWithImpl;
   @useResult
   $Res call(
       {String name,
@@ -168,14 +111,12 @@ abstract class _$$InterfaceDeclarationStorageV3ImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>
-    extends _$InterfaceDeclarationStorageV3CopyWithImpl<$Res,
-        _$InterfaceDeclarationStorageV3Impl>
-    implements _$$InterfaceDeclarationStorageV3ImplCopyWith<$Res> {
-  __$$InterfaceDeclarationStorageV3ImplCopyWithImpl(
-      _$InterfaceDeclarationStorageV3Impl _value,
-      $Res Function(_$InterfaceDeclarationStorageV3Impl) _then)
-      : super(_value, _then);
+class _$InterfaceDeclarationStorageV3CopyWithImpl<$Res>
+    implements $InterfaceDeclarationStorageV3CopyWith<$Res> {
+  _$InterfaceDeclarationStorageV3CopyWithImpl(this._self, this._then);
+
+  final InterfaceDeclarationStorageV3 _self;
+  final $Res Function(InterfaceDeclarationStorageV3) _then;
 
   /// Create a copy of InterfaceDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
@@ -194,49 +135,49 @@ class __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>
     Object? entryPoints = null,
     Object? relativePath = null,
   }) {
-    return _then(_$InterfaceDeclarationStorageV3Impl(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
+          ? _self.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
       isExperimental: null == isExperimental
-          ? _value.isExperimental
+          ? _self.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isSealed: null == isSealed
-          ? _value.isSealed
+          ? _self.isSealed
           : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
       isRequired: null == isRequired
-          ? _value.isRequired
+          ? _self.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
               as bool,
       typeParameterNames: null == typeParameterNames
-          ? _value._typeParameterNames
+          ? _self.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       superTypeNames: null == superTypeNames
-          ? _value._superTypeNames
+          ? _self.superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       executableDeclarations: null == executableDeclarations
-          ? _value._executableDeclarations
+          ? _self.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclarationStorageV3>,
       fieldDeclarations: null == fieldDeclarations
-          ? _value._fieldDeclarations
+          ? _self.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclarationStorageV3>,
       entryPoints: null == entryPoints
-          ? _value._entryPoints
+          ? _self.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>,
       relativePath: null == relativePath
-          ? _value.relativePath
+          ? _self.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -245,9 +186,8 @@ class __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$InterfaceDeclarationStorageV3Impl
-    extends _InterfaceDeclarationStorageV3 {
-  const _$InterfaceDeclarationStorageV3Impl(
+class _InterfaceDeclarationStorageV3 extends InterfaceDeclarationStorageV3 {
+  const _InterfaceDeclarationStorageV3(
       {required this.name,
       required this.isDeprecated,
       required this.isExperimental,
@@ -266,10 +206,8 @@ class _$InterfaceDeclarationStorageV3Impl
         _fieldDeclarations = fieldDeclarations,
         _entryPoints = entryPoints,
         super._();
-
-  factory _$InterfaceDeclarationStorageV3Impl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$InterfaceDeclarationStorageV3ImplFromJson(json);
+  factory _InterfaceDeclarationStorageV3.fromJson(Map<String, dynamic> json) =>
+      _$InterfaceDeclarationStorageV3FromJson(json);
 
   @override
   final String name;
@@ -327,16 +265,27 @@ class _$InterfaceDeclarationStorageV3Impl
   @override
   final String relativePath;
 
+  /// Create a copy of InterfaceDeclarationStorageV3
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$InterfaceDeclarationStorageV3CopyWith<_InterfaceDeclarationStorageV3>
+      get copyWith => __$InterfaceDeclarationStorageV3CopyWithImpl<
+          _InterfaceDeclarationStorageV3>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$InterfaceDeclarationStorageV3ToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InterfaceDeclarationStorageV3Impl &&
+            other is _InterfaceDeclarationStorageV3 &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -376,73 +325,107 @@ class _$InterfaceDeclarationStorageV3Impl
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
-  /// Create a copy of InterfaceDeclarationStorageV3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$InterfaceDeclarationStorageV3ImplCopyWith<
-          _$InterfaceDeclarationStorageV3Impl>
-      get copyWith => __$$InterfaceDeclarationStorageV3ImplCopyWithImpl<
-          _$InterfaceDeclarationStorageV3Impl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$InterfaceDeclarationStorageV3ImplToJson(
-      this,
-    );
+  String toString() {
+    return 'InterfaceDeclarationStorageV3(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isRequired: $isRequired, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 }
 
-abstract class _InterfaceDeclarationStorageV3
-    extends InterfaceDeclarationStorageV3 {
-  const factory _InterfaceDeclarationStorageV3(
-          {required final String name,
-          required final bool isDeprecated,
-          required final bool isExperimental,
-          required final bool isSealed,
-          required final bool isRequired,
-          required final List<String> typeParameterNames,
-          required final List<String> superTypeNames,
-          required final List<ExecutableDeclarationStorageV3>
-              executableDeclarations,
-          required final List<FieldDeclarationStorageV3> fieldDeclarations,
-          required final Set<String> entryPoints,
-          required final String relativePath}) =
-      _$InterfaceDeclarationStorageV3Impl;
-  const _InterfaceDeclarationStorageV3._() : super._();
+/// @nodoc
+abstract mixin class _$InterfaceDeclarationStorageV3CopyWith<$Res>
+    implements $InterfaceDeclarationStorageV3CopyWith<$Res> {
+  factory _$InterfaceDeclarationStorageV3CopyWith(
+          _InterfaceDeclarationStorageV3 value,
+          $Res Function(_InterfaceDeclarationStorageV3) _then) =
+      __$InterfaceDeclarationStorageV3CopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      bool isDeprecated,
+      bool isExperimental,
+      bool isSealed,
+      bool isRequired,
+      List<String> typeParameterNames,
+      List<String> superTypeNames,
+      List<ExecutableDeclarationStorageV3> executableDeclarations,
+      List<FieldDeclarationStorageV3> fieldDeclarations,
+      Set<String> entryPoints,
+      String relativePath});
+}
 
-  factory _InterfaceDeclarationStorageV3.fromJson(Map<String, dynamic> json) =
-      _$InterfaceDeclarationStorageV3Impl.fromJson;
+/// @nodoc
+class __$InterfaceDeclarationStorageV3CopyWithImpl<$Res>
+    implements _$InterfaceDeclarationStorageV3CopyWith<$Res> {
+  __$InterfaceDeclarationStorageV3CopyWithImpl(this._self, this._then);
 
-  @override
-  String get name;
-  @override
-  bool get isDeprecated;
-  @override
-  bool get isExperimental;
-  @override
-  bool get isSealed;
-  @override
-  bool get isRequired;
-  @override
-  List<String> get typeParameterNames;
-  @override
-  List<String> get superTypeNames;
-  @override
-  List<ExecutableDeclarationStorageV3> get executableDeclarations;
-  @override
-  List<FieldDeclarationStorageV3> get fieldDeclarations;
-  @override
-  Set<String> get entryPoints;
-  @override
-  String get relativePath;
+  final _InterfaceDeclarationStorageV3 _self;
+  final $Res Function(_InterfaceDeclarationStorageV3) _then;
 
   /// Create a copy of InterfaceDeclarationStorageV3
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InterfaceDeclarationStorageV3ImplCopyWith<
-          _$InterfaceDeclarationStorageV3Impl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isExperimental = null,
+    Object? isSealed = null,
+    Object? isRequired = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
+    Object? entryPoints = null,
+    Object? relativePath = null,
+  }) {
+    return _then(_InterfaceDeclarationStorageV3(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDeprecated: null == isDeprecated
+          ? _self.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _self.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSealed: null == isSealed
+          ? _self.isSealed
+          : isSealed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isRequired: null == isRequired
+          ? _self.isRequired
+          : isRequired // ignore: cast_nullable_to_non_nullable
+              as bool,
+      typeParameterNames: null == typeParameterNames
+          ? _self._typeParameterNames
+          : typeParameterNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      superTypeNames: null == superTypeNames
+          ? _self._superTypeNames
+          : superTypeNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      executableDeclarations: null == executableDeclarations
+          ? _self._executableDeclarations
+          : executableDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<ExecutableDeclarationStorageV3>,
+      fieldDeclarations: null == fieldDeclarations
+          ? _self._fieldDeclarations
+          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<FieldDeclarationStorageV3>,
+      entryPoints: null == entryPoints
+          ? _self._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+      relativePath: null == relativePath
+          ? _self.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

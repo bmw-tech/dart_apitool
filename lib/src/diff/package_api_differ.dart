@@ -95,6 +95,14 @@ class PackageApiDiffer {
     }
   }
 
+  String _interfaceNameWithoutNamespace(String fullName) {
+    final lastDotIndex = fullName.lastIndexOf('.');
+    if (lastDotIndex == -1) {
+      return fullName;
+    }
+    return fullName.substring(lastDotIndex + 1);
+  }
+
   List<ApiChange> _calculateInterfacesDiff(
     List<InterfaceDeclaration> oldInterfaces,
     List<InterfaceDeclaration> newInterfaces,
@@ -107,7 +115,8 @@ class PackageApiDiffer {
       newInterfaces,
       (oldInterface, newInterface) {
         // if the names are not the same, we already have a mismatch
-        if (oldInterface.name != newInterface.name) {
+        if (_interfaceNameWithoutNamespace(oldInterface.name) !=
+            _interfaceNameWithoutNamespace(newInterface.name)) {
           return false;
         }
 
