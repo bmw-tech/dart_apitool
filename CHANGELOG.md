@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.20.3
+- fix: unary and binary operators can have the same name and crashed dart_apitool
+
 ## Version 0.20.2
 - feat: adds support for Dart workspaces
 
