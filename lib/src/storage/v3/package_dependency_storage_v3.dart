@@ -7,7 +7,7 @@ part 'package_dependency_storage_v3.g.dart';
 
 /// represents a package dependency
 @freezed
-class PackageDependencyStorageV3 with _$PackageDependencyStorageV3 {
+sealed class PackageDependencyStorageV3 with _$PackageDependencyStorageV3 {
   const PackageDependencyStorageV3._();
 
   const factory PackageDependencyStorageV3({

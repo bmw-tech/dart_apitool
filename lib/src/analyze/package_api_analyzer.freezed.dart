@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,86 +10,58 @@ part of 'package_api_analyzer.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$FileToAnalyzeEntry {
-  String get filePath => throw _privateConstructorUsedError;
-  List<String> get shownNames => throw _privateConstructorUsedError;
-  List<String> get hiddenNames => throw _privateConstructorUsedError;
-  Set<String> get exportedBy => throw _privateConstructorUsedError;
+  String get filePath;
+  List<String> get shownNames;
+  List<String> get hiddenNames;
+  Set<String> get exportedBy;
 
   /// Create a copy of _FileToAnalyzeEntry
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$FileToAnalyzeEntryCopyWith<_FileToAnalyzeEntry> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$FileToAnalyzeEntryCopyWith<$Res> {
-  factory _$FileToAnalyzeEntryCopyWith(
-          _FileToAnalyzeEntry value, $Res Function(_FileToAnalyzeEntry) then) =
-      __$FileToAnalyzeEntryCopyWithImpl<$Res, _FileToAnalyzeEntry>;
-  @useResult
-  $Res call(
-      {String filePath,
-      List<String> shownNames,
-      List<String> hiddenNames,
-      Set<String> exportedBy});
-}
-
-/// @nodoc
-class __$FileToAnalyzeEntryCopyWithImpl<$Res, $Val extends _FileToAnalyzeEntry>
-    implements _$FileToAnalyzeEntryCopyWith<$Res> {
-  __$FileToAnalyzeEntryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  _$FileToAnalyzeEntryCopyWith<_FileToAnalyzeEntry> get copyWith =>
+      __$FileToAnalyzeEntryCopyWithImpl<_FileToAnalyzeEntry>(
+          this as _FileToAnalyzeEntry, _$identity);
+
   @override
-  $Res call({
-    Object? filePath = null,
-    Object? shownNames = null,
-    Object? hiddenNames = null,
-    Object? exportedBy = null,
-  }) {
-    return _then(_value.copyWith(
-      filePath: null == filePath
-          ? _value.filePath
-          : filePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      shownNames: null == shownNames
-          ? _value.shownNames
-          : shownNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      hiddenNames: null == hiddenNames
-          ? _value.hiddenNames
-          : hiddenNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      exportedBy: null == exportedBy
-          ? _value.exportedBy
-          : exportedBy // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FileToAnalyzeEntry &&
+            (identical(other.filePath, filePath) ||
+                other.filePath == filePath) &&
+            const DeepCollectionEquality()
+                .equals(other.shownNames, shownNames) &&
+            const DeepCollectionEquality()
+                .equals(other.hiddenNames, hiddenNames) &&
+            const DeepCollectionEquality()
+                .equals(other.exportedBy, exportedBy));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      filePath,
+      const DeepCollectionEquality().hash(shownNames),
+      const DeepCollectionEquality().hash(hiddenNames),
+      const DeepCollectionEquality().hash(exportedBy));
+
+  @override
+  String toString() {
+    return '_FileToAnalyzeEntry(filePath: $filePath, shownNames: $shownNames, hiddenNames: $hiddenNames, exportedBy: $exportedBy)';
   }
 }
 
 /// @nodoc
-abstract class _$$_FileToAnalyzeEntryImplCopyWith<$Res>
-    implements _$FileToAnalyzeEntryCopyWith<$Res> {
-  factory _$$_FileToAnalyzeEntryImplCopyWith(_$_FileToAnalyzeEntryImpl value,
-          $Res Function(_$_FileToAnalyzeEntryImpl) then) =
-      __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class _$FileToAnalyzeEntryCopyWith<$Res> {
+  factory _$FileToAnalyzeEntryCopyWith(
+          _FileToAnalyzeEntry value, $Res Function(_FileToAnalyzeEntry) _then) =
+      __$FileToAnalyzeEntryCopyWithImpl;
   @useResult
   $Res call(
       {String filePath,
@@ -98,12 +71,12 @@ abstract class _$$_FileToAnalyzeEntryImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>
-    extends __$FileToAnalyzeEntryCopyWithImpl<$Res, _$_FileToAnalyzeEntryImpl>
-    implements _$$_FileToAnalyzeEntryImplCopyWith<$Res> {
-  __$$_FileToAnalyzeEntryImplCopyWithImpl(_$_FileToAnalyzeEntryImpl _value,
-      $Res Function(_$_FileToAnalyzeEntryImpl) _then)
-      : super(_value, _then);
+class __$FileToAnalyzeEntryCopyWithImpl<$Res>
+    implements _$FileToAnalyzeEntryCopyWith<$Res> {
+  __$FileToAnalyzeEntryCopyWithImpl(this._self, this._then);
+
+  final _FileToAnalyzeEntry _self;
+  final $Res Function(_FileToAnalyzeEntry) _then;
 
   /// Create a copy of _FileToAnalyzeEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -115,21 +88,21 @@ class __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>
     Object? hiddenNames = null,
     Object? exportedBy = null,
   }) {
-    return _then(_$_FileToAnalyzeEntryImpl(
+    return _then(_self.copyWith(
       filePath: null == filePath
-          ? _value.filePath
+          ? _self.filePath
           : filePath // ignore: cast_nullable_to_non_nullable
               as String,
       shownNames: null == shownNames
-          ? _value._shownNames
+          ? _self.shownNames
           : shownNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       hiddenNames: null == hiddenNames
-          ? _value._hiddenNames
+          ? _self.hiddenNames
           : hiddenNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       exportedBy: null == exportedBy
-          ? _value._exportedBy
+          ? _self.exportedBy
           : exportedBy // ignore: cast_nullable_to_non_nullable
               as Set<String>,
     ));
@@ -138,8 +111,8 @@ class __$$_FileToAnalyzeEntryImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FileToAnalyzeEntryImpl implements __FileToAnalyzeEntry {
-  const _$_FileToAnalyzeEntryImpl(
+class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
+  const __FileToAnalyzeEntry(
       {required this.filePath,
       final List<String> shownNames = const [],
       final List<String> hiddenNames = const [],
@@ -176,16 +149,20 @@ class _$_FileToAnalyzeEntryImpl implements __FileToAnalyzeEntry {
     return EqualUnmodifiableSetView(_exportedBy);
   }
 
+  /// Create a copy of _FileToAnalyzeEntry
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return '_FileToAnalyzeEntry(filePath: $filePath, shownNames: $shownNames, hiddenNames: $hiddenNames, exportedBy: $exportedBy)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$_FileToAnalyzeEntryCopyWith<__FileToAnalyzeEntry> get copyWith =>
+      __$_FileToAnalyzeEntryCopyWithImpl<__FileToAnalyzeEntry>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FileToAnalyzeEntryImpl &&
+            other is __FileToAnalyzeEntry &&
             (identical(other.filePath, filePath) ||
                 other.filePath == filePath) &&
             const DeepCollectionEquality()
@@ -204,36 +181,64 @@ class _$_FileToAnalyzeEntryImpl implements __FileToAnalyzeEntry {
       const DeepCollectionEquality().hash(_hiddenNames),
       const DeepCollectionEquality().hash(_exportedBy));
 
+  @override
+  String toString() {
+    return '_FileToAnalyzeEntry(filePath: $filePath, shownNames: $shownNames, hiddenNames: $hiddenNames, exportedBy: $exportedBy)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$_FileToAnalyzeEntryCopyWith<$Res>
+    implements _$FileToAnalyzeEntryCopyWith<$Res> {
+  factory _$_FileToAnalyzeEntryCopyWith(__FileToAnalyzeEntry value,
+          $Res Function(__FileToAnalyzeEntry) _then) =
+      __$_FileToAnalyzeEntryCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String filePath,
+      List<String> shownNames,
+      List<String> hiddenNames,
+      Set<String> exportedBy});
+}
+
+/// @nodoc
+class __$_FileToAnalyzeEntryCopyWithImpl<$Res>
+    implements _$_FileToAnalyzeEntryCopyWith<$Res> {
+  __$_FileToAnalyzeEntryCopyWithImpl(this._self, this._then);
+
+  final __FileToAnalyzeEntry _self;
+  final $Res Function(__FileToAnalyzeEntry) _then;
+
   /// Create a copy of _FileToAnalyzeEntry
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
-      __$$_FileToAnalyzeEntryImplCopyWithImpl<_$_FileToAnalyzeEntryImpl>(
-          this, _$identity);
+  $Res call({
+    Object? filePath = null,
+    Object? shownNames = null,
+    Object? hiddenNames = null,
+    Object? exportedBy = null,
+  }) {
+    return _then(__FileToAnalyzeEntry(
+      filePath: null == filePath
+          ? _self.filePath
+          : filePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      shownNames: null == shownNames
+          ? _self._shownNames
+          : shownNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      hiddenNames: null == hiddenNames
+          ? _self._hiddenNames
+          : hiddenNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      exportedBy: null == exportedBy
+          ? _self._exportedBy
+          : exportedBy // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+    ));
+  }
 }
 
-abstract class __FileToAnalyzeEntry implements _FileToAnalyzeEntry {
-  const factory __FileToAnalyzeEntry(
-      {required final String filePath,
-      final List<String> shownNames,
-      final List<String> hiddenNames,
-      required final Set<String> exportedBy}) = _$_FileToAnalyzeEntryImpl;
-
-  @override
-  String get filePath;
-  @override
-  List<String> get shownNames;
-  @override
-  List<String> get hiddenNames;
-  @override
-  Set<String> get exportedBy;
-
-  /// Create a copy of _FileToAnalyzeEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$_FileToAnalyzeEntryImplCopyWith<_$_FileToAnalyzeEntryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

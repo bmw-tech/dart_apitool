@@ -6,7 +6,8 @@ part 'platform_constraints_storage_v3.freezed.dart';
 part 'platform_constraints_storage_v3.g.dart';
 
 @freezed
-class IOSPlatformConstraintsStorageV3 with _$IOSPlatformConstraintsStorageV3 {
+sealed class IOSPlatformConstraintsStorageV3
+    with _$IOSPlatformConstraintsStorageV3 {
   const IOSPlatformConstraintsStorageV3._();
 
   const factory IOSPlatformConstraintsStorageV3({
@@ -28,7 +29,7 @@ class IOSPlatformConstraintsStorageV3 with _$IOSPlatformConstraintsStorageV3 {
 }
 
 @freezed
-class AndroidPlatformConstraintsStorageV3
+sealed class AndroidPlatformConstraintsStorageV3
     with _$AndroidPlatformConstraintsStorageV3 {
   const AndroidPlatformConstraintsStorageV3._();
 

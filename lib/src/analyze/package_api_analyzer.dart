@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, deprecated_member_use
 
 import 'dart:collection';
 import 'dart:io';
@@ -539,7 +539,7 @@ class _InterfaceCollectionResult {
 }
 
 @freezed
-class _FileToAnalyzeEntry with _$FileToAnalyzeEntry {
+sealed class _FileToAnalyzeEntry with _$FileToAnalyzeEntry {
   const factory _FileToAnalyzeEntry({
     required String filePath,
     @Default([]) List<String> shownNames,

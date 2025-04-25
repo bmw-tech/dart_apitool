@@ -5,7 +5,7 @@ part 'package_dependency.freezed.dart';
 @freezed
 
 /// represents a package dependency
-class PackageDependency with _$PackageDependency {
+sealed class PackageDependency with _$PackageDependency {
   factory PackageDependency({
     /// name of the package
     required String packageName,

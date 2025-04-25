@@ -8,15 +8,15 @@ part of 'package_dependency_storage_v3.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PackageDependencyStorageV3Impl _$$PackageDependencyStorageV3ImplFromJson(
+_PackageDependencyStorageV3 _$PackageDependencyStorageV3FromJson(
         Map<String, dynamic> json) =>
-    _$PackageDependencyStorageV3Impl(
+    _PackageDependencyStorageV3(
       packageName: json['packageName'] as String,
       packageVersion: json['packageVersion'] as String?,
     );
 
-Map<String, dynamic> _$$PackageDependencyStorageV3ImplToJson(
-        _$PackageDependencyStorageV3Impl instance) =>
+Map<String, dynamic> _$PackageDependencyStorageV3ToJson(
+        _PackageDependencyStorageV3 instance) =>
     <String, dynamic>{
       'packageName': instance.packageName,
       'packageVersion': instance.packageVersion,

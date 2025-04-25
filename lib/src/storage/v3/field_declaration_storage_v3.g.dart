@@ -8,9 +8,9 @@ part of 'field_declaration_storage_v3.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FieldDeclarationStorageV3Impl _$$FieldDeclarationStorageV3ImplFromJson(
+_FieldDeclarationStorageV3 _$FieldDeclarationStorageV3FromJson(
         Map<String, dynamic> json) =>
-    _$FieldDeclarationStorageV3Impl(
+    _FieldDeclarationStorageV3(
       typeName: json['typeName'] as String,
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
@@ -24,8 +24,8 @@ _$FieldDeclarationStorageV3Impl _$$FieldDeclarationStorageV3ImplFromJson(
       isWriteable: json['isWriteable'] as bool,
     );
 
-Map<String, dynamic> _$$FieldDeclarationStorageV3ImplToJson(
-        _$FieldDeclarationStorageV3Impl instance) =>
+Map<String, dynamic> _$FieldDeclarationStorageV3ToJson(
+        _FieldDeclarationStorageV3 instance) =>
     <String, dynamic>{
       'typeName': instance.typeName,
       'name': instance.name,

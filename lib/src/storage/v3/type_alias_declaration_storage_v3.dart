@@ -7,7 +7,8 @@ part 'type_alias_declaration_storage_v3.g.dart';
 
 /// represents a found FieldDeclaration
 @freezed
-class TypeAliasDeclarationStorageV3 with _$TypeAliasDeclarationStorageV3 {
+sealed class TypeAliasDeclarationStorageV3
+    with _$TypeAliasDeclarationStorageV3 {
   const TypeAliasDeclarationStorageV3._();
 
   const factory TypeAliasDeclarationStorageV3({

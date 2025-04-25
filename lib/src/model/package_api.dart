@@ -6,7 +6,7 @@ part 'package_api.freezed.dart';
 
 /// represents the model of a public package API.
 @freezed
-class PackageApi with _$PackageApi {
+sealed class PackageApi with _$PackageApi {
   const PackageApi._();
 
   const factory PackageApi({

@@ -95,6 +95,14 @@ class PackageApiDiffer {
     }
   }
 
+  String _interfaceNameWithoutNamespace(String fullName) {
+    final lastDotIndex = fullName.lastIndexOf('.');
+    if (lastDotIndex == -1) {
+      return fullName;
+    }
+    return fullName.substring(lastDotIndex + 1);
+  }
+
   List<ApiChange> _calculateInterfacesDiff(
     List<InterfaceDeclaration> oldInterfaces,
     List<InterfaceDeclaration> newInterfaces,
@@ -107,7 +115,8 @@ class PackageApiDiffer {
       newInterfaces,
       (oldInterface, newInterface) {
         // if the names are not the same, we already have a mismatch
-        if (oldInterface.name != newInterface.name) {
+        if (_interfaceNameWithoutNamespace(oldInterface.name) !=
+            _interfaceNameWithoutNamespace(newInterface.name)) {
           return false;
         }
 
@@ -1339,9 +1348,13 @@ class PackageApiDiffer {
       final sameMatches =
           newList.where((newItem) => isSameFun(oldItem, newItem));
       if (sameMatches.isNotEmpty) {
-        // if we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
-        // => we use `single` here to make sure that we crash if this happens
-        final matchingNewItem = sameMatches.single;
+        final matchingNewItem = sameMatches.singleOrNull;
+
+        if (matchingNewItem == null) {
+          // If we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
+          throw ArgumentError('Multiple new items found with the same '
+              'structure as the old item $oldItem: $sameMatches');
+        }
         remainingOld.remove(oldItem);
         remainingNew.remove(matchingNewItem);
 

@@ -13,7 +13,7 @@ part 'type_hierarchy.freezed.dart';
 /// represents a type identifier
 /// consists of name and full library name
 @freezed
-class TypeIdentifier with _$TypeIdentifier {
+sealed class TypeIdentifier with _$TypeIdentifier {
   const TypeIdentifier._();
 
   /// returns true if this type identifier contains the nullable flag
@@ -282,7 +282,7 @@ class TypeHierarchy {
 
 /// represents a type in the type hierarchy
 @freezed
-class _TypeHierarchyItem with _$TypeHierarchyItem {
+sealed class _TypeHierarchyItem with _$TypeHierarchyItem {
   const _TypeHierarchyItem._();
 
   const factory _TypeHierarchyItem({

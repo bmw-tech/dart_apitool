@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,74 +10,124 @@ part of 'package_api.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PackageApi {
   /// name of the package
-  String get packageName => throw _privateConstructorUsedError;
+  String get packageName;
 
   /// version of the package
-  String? get packageVersion => throw _privateConstructorUsedError;
+  String? get packageVersion;
 
   /// path to the package
-  String get packagePath => throw _privateConstructorUsedError;
+  String get packagePath;
 
   /// interface declarations this package has
-  List<InterfaceDeclaration> get interfaceDeclarations =>
-      throw _privateConstructorUsedError;
+  List<InterfaceDeclaration> get interfaceDeclarations;
 
   /// root level executable declarations this package has
-  List<ExecutableDeclaration> get executableDeclarations =>
-      throw _privateConstructorUsedError;
+  List<ExecutableDeclaration> get executableDeclarations;
 
   /// root level field declarations this package has
-  List<FieldDeclaration> get fieldDeclarations =>
-      throw _privateConstructorUsedError;
+  List<FieldDeclaration> get fieldDeclarations;
 
   /// type alias declarations this package has
-  List<TypeAliasDeclaration> get typeAliasDeclarations =>
-      throw _privateConstructorUsedError;
+  List<TypeAliasDeclaration> get typeAliasDeclarations;
 
   /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  Set<PackageApiSemantics> get semantics => throw _privateConstructorUsedError;
+  Set<PackageApiSemantics> get semantics;
 
   /// used Android platform constraints
-  AndroidPlatformConstraints? get androidPlatformConstraints =>
-      throw _privateConstructorUsedError;
+  AndroidPlatformConstraints? get androidPlatformConstraints;
 
   /// used iOS platform constraints
-  IOSPlatformConstraints? get iosPlatformConstraints =>
-      throw _privateConstructorUsedError;
+  IOSPlatformConstraints? get iosPlatformConstraints;
 
   /// type of sdk needed
-  SdkType get sdkType => throw _privateConstructorUsedError;
+  SdkType get sdkType;
 
   /// package dependencies
-  List<PackageDependency> get packageDependencies =>
-      throw _privateConstructorUsedError;
+  List<PackageDependency> get packageDependencies;
 
   /// minimum sdk version
-  Version get minSdkVersion => throw _privateConstructorUsedError;
+  Version get minSdkVersion;
 
   /// the type hierarchy of the public API
-  TypeHierarchy get typeHierarchy => throw _privateConstructorUsedError;
+  TypeHierarchy get typeHierarchy;
 
   /// Create a copy of PackageApi
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $PackageApiCopyWith<PackageApi> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$PackageApiCopyWithImpl<PackageApi>(this as PackageApi, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PackageApi &&
+            (identical(other.packageName, packageName) ||
+                other.packageName == packageName) &&
+            (identical(other.packageVersion, packageVersion) ||
+                other.packageVersion == packageVersion) &&
+            (identical(other.packagePath, packagePath) ||
+                other.packagePath == packagePath) &&
+            const DeepCollectionEquality()
+                .equals(other.interfaceDeclarations, interfaceDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.executableDeclarations, executableDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.fieldDeclarations, fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.typeAliasDeclarations, typeAliasDeclarations) &&
+            const DeepCollectionEquality().equals(other.semantics, semantics) &&
+            (identical(other.androidPlatformConstraints,
+                    androidPlatformConstraints) ||
+                other.androidPlatformConstraints ==
+                    androidPlatformConstraints) &&
+            (identical(other.iosPlatformConstraints, iosPlatformConstraints) ||
+                other.iosPlatformConstraints == iosPlatformConstraints) &&
+            (identical(other.sdkType, sdkType) || other.sdkType == sdkType) &&
+            const DeepCollectionEquality()
+                .equals(other.packageDependencies, packageDependencies) &&
+            (identical(other.minSdkVersion, minSdkVersion) ||
+                other.minSdkVersion == minSdkVersion) &&
+            (identical(other.typeHierarchy, typeHierarchy) ||
+                other.typeHierarchy == typeHierarchy));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      packageName,
+      packageVersion,
+      packagePath,
+      const DeepCollectionEquality().hash(interfaceDeclarations),
+      const DeepCollectionEquality().hash(executableDeclarations),
+      const DeepCollectionEquality().hash(fieldDeclarations),
+      const DeepCollectionEquality().hash(typeAliasDeclarations),
+      const DeepCollectionEquality().hash(semantics),
+      androidPlatformConstraints,
+      iosPlatformConstraints,
+      sdkType,
+      const DeepCollectionEquality().hash(packageDependencies),
+      minSdkVersion,
+      typeHierarchy);
+
+  @override
+  String toString() {
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
+  }
 }
 
 /// @nodoc
-abstract class $PackageApiCopyWith<$Res> {
+abstract mixin class $PackageApiCopyWith<$Res> {
   factory $PackageApiCopyWith(
-          PackageApi value, $Res Function(PackageApi) then) =
-      _$PackageApiCopyWithImpl<$Res, PackageApi>;
+          PackageApi value, $Res Function(PackageApi) _then) =
+      _$PackageApiCopyWithImpl;
   @useResult
   $Res call(
       {String packageName,
@@ -99,14 +150,11 @@ abstract class $PackageApiCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
-    implements $PackageApiCopyWith<$Res> {
-  _$PackageApiCopyWithImpl(this._value, this._then);
+class _$PackageApiCopyWithImpl<$Res> implements $PackageApiCopyWith<$Res> {
+  _$PackageApiCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final PackageApi _self;
+  final $Res Function(PackageApi) _then;
 
   /// Create a copy of PackageApi
   /// with the given fields replaced by the non-null parameter values.
@@ -128,64 +176,64 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
     Object? minSdkVersion = null,
     Object? typeHierarchy = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       packageName: null == packageName
-          ? _value.packageName
+          ? _self.packageName
           : packageName // ignore: cast_nullable_to_non_nullable
               as String,
       packageVersion: freezed == packageVersion
-          ? _value.packageVersion
+          ? _self.packageVersion
           : packageVersion // ignore: cast_nullable_to_non_nullable
               as String?,
       packagePath: null == packagePath
-          ? _value.packagePath
+          ? _self.packagePath
           : packagePath // ignore: cast_nullable_to_non_nullable
               as String,
       interfaceDeclarations: null == interfaceDeclarations
-          ? _value.interfaceDeclarations
+          ? _self.interfaceDeclarations
           : interfaceDeclarations // ignore: cast_nullable_to_non_nullable
               as List<InterfaceDeclaration>,
       executableDeclarations: null == executableDeclarations
-          ? _value.executableDeclarations
+          ? _self.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
       fieldDeclarations: null == fieldDeclarations
-          ? _value.fieldDeclarations
+          ? _self.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
       typeAliasDeclarations: null == typeAliasDeclarations
-          ? _value.typeAliasDeclarations
+          ? _self.typeAliasDeclarations
           : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
               as List<TypeAliasDeclaration>,
       semantics: null == semantics
-          ? _value.semantics
+          ? _self.semantics
           : semantics // ignore: cast_nullable_to_non_nullable
               as Set<PackageApiSemantics>,
       androidPlatformConstraints: freezed == androidPlatformConstraints
-          ? _value.androidPlatformConstraints
+          ? _self.androidPlatformConstraints
           : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as AndroidPlatformConstraints?,
       iosPlatformConstraints: freezed == iosPlatformConstraints
-          ? _value.iosPlatformConstraints
+          ? _self.iosPlatformConstraints
           : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
               as IOSPlatformConstraints?,
       sdkType: null == sdkType
-          ? _value.sdkType
+          ? _self.sdkType
           : sdkType // ignore: cast_nullable_to_non_nullable
               as SdkType,
       packageDependencies: null == packageDependencies
-          ? _value.packageDependencies
+          ? _self.packageDependencies
           : packageDependencies // ignore: cast_nullable_to_non_nullable
               as List<PackageDependency>,
       minSdkVersion: null == minSdkVersion
-          ? _value.minSdkVersion
+          ? _self.minSdkVersion
           : minSdkVersion // ignore: cast_nullable_to_non_nullable
               as Version,
       typeHierarchy: null == typeHierarchy
-          ? _value.typeHierarchy
+          ? _self.typeHierarchy
           : typeHierarchy // ignore: cast_nullable_to_non_nullable
               as TypeHierarchy,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of PackageApi
@@ -193,13 +241,13 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
   @override
   @pragma('vm:prefer-inline')
   $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
-    if (_value.androidPlatformConstraints == null) {
+    if (_self.androidPlatformConstraints == null) {
       return null;
     }
 
     return $AndroidPlatformConstraintsCopyWith<$Res>(
-        _value.androidPlatformConstraints!, (value) {
-      return _then(_value.copyWith(androidPlatformConstraints: value) as $Val);
+        _self.androidPlatformConstraints!, (value) {
+      return _then(_self.copyWith(androidPlatformConstraints: value));
     });
   }
 
@@ -208,140 +256,21 @@ class _$PackageApiCopyWithImpl<$Res, $Val extends PackageApi>
   @override
   @pragma('vm:prefer-inline')
   $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
-    if (_value.iosPlatformConstraints == null) {
+    if (_self.iosPlatformConstraints == null) {
       return null;
     }
 
-    return $IOSPlatformConstraintsCopyWith<$Res>(_value.iosPlatformConstraints!,
+    return $IOSPlatformConstraintsCopyWith<$Res>(_self.iosPlatformConstraints!,
         (value) {
-      return _then(_value.copyWith(iosPlatformConstraints: value) as $Val);
+      return _then(_self.copyWith(iosPlatformConstraints: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$PackageApiImplCopyWith<$Res>
-    implements $PackageApiCopyWith<$Res> {
-  factory _$$PackageApiImplCopyWith(
-          _$PackageApiImpl value, $Res Function(_$PackageApiImpl) then) =
-      __$$PackageApiImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String packageName,
-      String? packageVersion,
-      String packagePath,
-      List<InterfaceDeclaration> interfaceDeclarations,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      List<TypeAliasDeclaration> typeAliasDeclarations,
-      Set<PackageApiSemantics> semantics,
-      AndroidPlatformConstraints? androidPlatformConstraints,
-      IOSPlatformConstraints? iosPlatformConstraints,
-      SdkType sdkType,
-      List<PackageDependency> packageDependencies,
-      Version minSdkVersion,
-      TypeHierarchy typeHierarchy});
 
-  @override
-  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
-  @override
-  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
-}
-
-/// @nodoc
-class __$$PackageApiImplCopyWithImpl<$Res>
-    extends _$PackageApiCopyWithImpl<$Res, _$PackageApiImpl>
-    implements _$$PackageApiImplCopyWith<$Res> {
-  __$$PackageApiImplCopyWithImpl(
-      _$PackageApiImpl _value, $Res Function(_$PackageApiImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PackageApi
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? packageName = null,
-    Object? packageVersion = freezed,
-    Object? packagePath = null,
-    Object? interfaceDeclarations = null,
-    Object? executableDeclarations = null,
-    Object? fieldDeclarations = null,
-    Object? typeAliasDeclarations = null,
-    Object? semantics = null,
-    Object? androidPlatformConstraints = freezed,
-    Object? iosPlatformConstraints = freezed,
-    Object? sdkType = null,
-    Object? packageDependencies = null,
-    Object? minSdkVersion = null,
-    Object? typeHierarchy = null,
-  }) {
-    return _then(_$PackageApiImpl(
-      packageName: null == packageName
-          ? _value.packageName
-          : packageName // ignore: cast_nullable_to_non_nullable
-              as String,
-      packageVersion: freezed == packageVersion
-          ? _value.packageVersion
-          : packageVersion // ignore: cast_nullable_to_non_nullable
-              as String?,
-      packagePath: null == packagePath
-          ? _value.packagePath
-          : packagePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      interfaceDeclarations: null == interfaceDeclarations
-          ? _value._interfaceDeclarations
-          : interfaceDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<InterfaceDeclaration>,
-      executableDeclarations: null == executableDeclarations
-          ? _value._executableDeclarations
-          : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
-      fieldDeclarations: null == fieldDeclarations
-          ? _value._fieldDeclarations
-          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
-      typeAliasDeclarations: null == typeAliasDeclarations
-          ? _value._typeAliasDeclarations
-          : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<TypeAliasDeclaration>,
-      semantics: null == semantics
-          ? _value._semantics
-          : semantics // ignore: cast_nullable_to_non_nullable
-              as Set<PackageApiSemantics>,
-      androidPlatformConstraints: freezed == androidPlatformConstraints
-          ? _value.androidPlatformConstraints
-          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as AndroidPlatformConstraints?,
-      iosPlatformConstraints: freezed == iosPlatformConstraints
-          ? _value.iosPlatformConstraints
-          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
-              as IOSPlatformConstraints?,
-      sdkType: null == sdkType
-          ? _value.sdkType
-          : sdkType // ignore: cast_nullable_to_non_nullable
-              as SdkType,
-      packageDependencies: null == packageDependencies
-          ? _value._packageDependencies
-          : packageDependencies // ignore: cast_nullable_to_non_nullable
-              as List<PackageDependency>,
-      minSdkVersion: null == minSdkVersion
-          ? _value.minSdkVersion
-          : minSdkVersion // ignore: cast_nullable_to_non_nullable
-              as Version,
-      typeHierarchy: null == typeHierarchy
-          ? _value.typeHierarchy
-          : typeHierarchy // ignore: cast_nullable_to_non_nullable
-              as TypeHierarchy,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PackageApiImpl extends _PackageApi {
-  const _$PackageApiImpl(
+class _PackageApi extends PackageApi {
+  const _PackageApi(
       {required this.packageName,
       required this.packageVersion,
       required this.packagePath,
@@ -468,16 +397,19 @@ class _$PackageApiImpl extends _PackageApi {
   @override
   final TypeHierarchy typeHierarchy;
 
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PackageApiCopyWith<_PackageApi> get copyWith =>
+      __$PackageApiCopyWithImpl<_PackageApi>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PackageApiImpl &&
+            other is _PackageApi &&
             (identical(other.packageName, packageName) ||
                 other.packageName == packageName) &&
             (identical(other.packageVersion, packageVersion) ||
@@ -527,93 +459,158 @@ class _$PackageApiImpl extends _PackageApi {
       minSdkVersion,
       typeHierarchy);
 
+  @override
+  String toString() {
+    return 'PackageApi(packageName: $packageName, packageVersion: $packageVersion, packagePath: $packagePath, interfaceDeclarations: $interfaceDeclarations, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, typeAliasDeclarations: $typeAliasDeclarations, semantics: $semantics, androidPlatformConstraints: $androidPlatformConstraints, iosPlatformConstraints: $iosPlatformConstraints, sdkType: $sdkType, packageDependencies: $packageDependencies, minSdkVersion: $minSdkVersion, typeHierarchy: $typeHierarchy)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$PackageApiCopyWith<$Res>
+    implements $PackageApiCopyWith<$Res> {
+  factory _$PackageApiCopyWith(
+          _PackageApi value, $Res Function(_PackageApi) _then) =
+      __$PackageApiCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String packageName,
+      String? packageVersion,
+      String packagePath,
+      List<InterfaceDeclaration> interfaceDeclarations,
+      List<ExecutableDeclaration> executableDeclarations,
+      List<FieldDeclaration> fieldDeclarations,
+      List<TypeAliasDeclaration> typeAliasDeclarations,
+      Set<PackageApiSemantics> semantics,
+      AndroidPlatformConstraints? androidPlatformConstraints,
+      IOSPlatformConstraints? iosPlatformConstraints,
+      SdkType sdkType,
+      List<PackageDependency> packageDependencies,
+      Version minSdkVersion,
+      TypeHierarchy typeHierarchy});
+
+  @override
+  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints;
+  @override
+  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints;
+}
+
+/// @nodoc
+class __$PackageApiCopyWithImpl<$Res> implements _$PackageApiCopyWith<$Res> {
+  __$PackageApiCopyWithImpl(this._self, this._then);
+
+  final _PackageApi _self;
+  final $Res Function(_PackageApi) _then;
+
   /// Create a copy of PackageApi
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
-      __$$PackageApiImplCopyWithImpl<_$PackageApiImpl>(this, _$identity);
-}
-
-abstract class _PackageApi extends PackageApi {
-  const factory _PackageApi(
-      {required final String packageName,
-      required final String? packageVersion,
-      required final String packagePath,
-      required final List<InterfaceDeclaration> interfaceDeclarations,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      required final List<TypeAliasDeclaration> typeAliasDeclarations,
-      final Set<PackageApiSemantics> semantics,
-      final AndroidPlatformConstraints? androidPlatformConstraints,
-      final IOSPlatformConstraints? iosPlatformConstraints,
-      required final SdkType sdkType,
-      required final List<PackageDependency> packageDependencies,
-      required final Version minSdkVersion,
-      required final TypeHierarchy typeHierarchy}) = _$PackageApiImpl;
-  const _PackageApi._() : super._();
-
-  /// name of the package
-  @override
-  String get packageName;
-
-  /// version of the package
-  @override
-  String? get packageVersion;
-
-  /// path to the package
-  @override
-  String get packagePath;
-
-  /// interface declarations this package has
-  @override
-  List<InterfaceDeclaration> get interfaceDeclarations;
-
-  /// root level executable declarations this package has
-  @override
-  List<ExecutableDeclaration> get executableDeclarations;
-
-  /// root level field declarations this package has
-  @override
-  List<FieldDeclaration> get fieldDeclarations;
-
-  /// type alias declarations this package has
-  @override
-  List<TypeAliasDeclaration> get typeAliasDeclarations;
-
-  /// the semantics of this model. This indicates if this model is compatible (e.g. for diffing) with another model
-  @override
-  Set<PackageApiSemantics> get semantics;
-
-  /// used Android platform constraints
-  @override
-  AndroidPlatformConstraints? get androidPlatformConstraints;
-
-  /// used iOS platform constraints
-  @override
-  IOSPlatformConstraints? get iosPlatformConstraints;
-
-  /// type of sdk needed
-  @override
-  SdkType get sdkType;
-
-  /// package dependencies
-  @override
-  List<PackageDependency> get packageDependencies;
-
-  /// minimum sdk version
-  @override
-  Version get minSdkVersion;
-
-  /// the type hierarchy of the public API
-  @override
-  TypeHierarchy get typeHierarchy;
+  $Res call({
+    Object? packageName = null,
+    Object? packageVersion = freezed,
+    Object? packagePath = null,
+    Object? interfaceDeclarations = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
+    Object? typeAliasDeclarations = null,
+    Object? semantics = null,
+    Object? androidPlatformConstraints = freezed,
+    Object? iosPlatformConstraints = freezed,
+    Object? sdkType = null,
+    Object? packageDependencies = null,
+    Object? minSdkVersion = null,
+    Object? typeHierarchy = null,
+  }) {
+    return _then(_PackageApi(
+      packageName: null == packageName
+          ? _self.packageName
+          : packageName // ignore: cast_nullable_to_non_nullable
+              as String,
+      packageVersion: freezed == packageVersion
+          ? _self.packageVersion
+          : packageVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      packagePath: null == packagePath
+          ? _self.packagePath
+          : packagePath // ignore: cast_nullable_to_non_nullable
+              as String,
+      interfaceDeclarations: null == interfaceDeclarations
+          ? _self._interfaceDeclarations
+          : interfaceDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<InterfaceDeclaration>,
+      executableDeclarations: null == executableDeclarations
+          ? _self._executableDeclarations
+          : executableDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<ExecutableDeclaration>,
+      fieldDeclarations: null == fieldDeclarations
+          ? _self._fieldDeclarations
+          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<FieldDeclaration>,
+      typeAliasDeclarations: null == typeAliasDeclarations
+          ? _self._typeAliasDeclarations
+          : typeAliasDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<TypeAliasDeclaration>,
+      semantics: null == semantics
+          ? _self._semantics
+          : semantics // ignore: cast_nullable_to_non_nullable
+              as Set<PackageApiSemantics>,
+      androidPlatformConstraints: freezed == androidPlatformConstraints
+          ? _self.androidPlatformConstraints
+          : androidPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as AndroidPlatformConstraints?,
+      iosPlatformConstraints: freezed == iosPlatformConstraints
+          ? _self.iosPlatformConstraints
+          : iosPlatformConstraints // ignore: cast_nullable_to_non_nullable
+              as IOSPlatformConstraints?,
+      sdkType: null == sdkType
+          ? _self.sdkType
+          : sdkType // ignore: cast_nullable_to_non_nullable
+              as SdkType,
+      packageDependencies: null == packageDependencies
+          ? _self._packageDependencies
+          : packageDependencies // ignore: cast_nullable_to_non_nullable
+              as List<PackageDependency>,
+      minSdkVersion: null == minSdkVersion
+          ? _self.minSdkVersion
+          : minSdkVersion // ignore: cast_nullable_to_non_nullable
+              as Version,
+      typeHierarchy: null == typeHierarchy
+          ? _self.typeHierarchy
+          : typeHierarchy // ignore: cast_nullable_to_non_nullable
+              as TypeHierarchy,
+    ));
+  }
 
   /// Create a copy of PackageApi
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PackageApiImplCopyWith<_$PackageApiImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $AndroidPlatformConstraintsCopyWith<$Res>? get androidPlatformConstraints {
+    if (_self.androidPlatformConstraints == null) {
+      return null;
+    }
+
+    return $AndroidPlatformConstraintsCopyWith<$Res>(
+        _self.androidPlatformConstraints!, (value) {
+      return _then(_self.copyWith(androidPlatformConstraints: value));
+    });
+  }
+
+  /// Create a copy of PackageApi
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $IOSPlatformConstraintsCopyWith<$Res>? get iosPlatformConstraints {
+    if (_self.iosPlatformConstraints == null) {
+      return null;
+    }
+
+    return $IOSPlatformConstraintsCopyWith<$Res>(_self.iosPlatformConstraints!,
+        (value) {
+      return _then(_self.copyWith(iosPlatformConstraints: value));
+    });
+  }
 }
+
+// dart format on

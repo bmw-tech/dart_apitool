@@ -6,7 +6,7 @@ part 'type_usage.freezed.dart';
 
 /// represents the usage of a type
 @freezed
-class TypeUsage with _$TypeUsage {
+sealed class TypeUsage with _$TypeUsage {
   const TypeUsage._();
 
   const factory TypeUsage({

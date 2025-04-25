@@ -5,7 +5,7 @@ part 'platform_constraints.freezed.dart';
 @freezed
 
 /// represents iOS platform constraints
-class IOSPlatformConstraints with _$IOSPlatformConstraints {
+sealed class IOSPlatformConstraints with _$IOSPlatformConstraints {
   const factory IOSPlatformConstraints({
     /// minimum iOS version
     required num? minimumOsVersion,
@@ -15,7 +15,7 @@ class IOSPlatformConstraints with _$IOSPlatformConstraints {
 @freezed
 
 /// represents Android platform constraints
-class AndroidPlatformConstraints with _$AndroidPlatformConstraints {
+sealed class AndroidPlatformConstraints with _$AndroidPlatformConstraints {
   const factory AndroidPlatformConstraints({
     /// minimum SDK version
     required int? minSdkVersion,

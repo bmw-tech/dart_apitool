@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,168 +10,112 @@ part of 'interface_declaration.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$InterfaceDeclaration {
   /// name of this interface
-  String get name => throw _privateConstructorUsedError;
+  String get name;
 
   /// whether this interface is deprecated
-  bool get isDeprecated => throw _privateConstructorUsedError;
+  bool get isDeprecated;
 
   /// whether this interface is experimental
-  bool get isExperimental => throw _privateConstructorUsedError;
+  bool get isExperimental;
 
   /// determines if this declaration is sealed
-  bool get isSealed => throw _privateConstructorUsedError;
+  bool get isSealed;
 
   /// determines if this declaration is abstract
-  bool get isAbstract => throw _privateConstructorUsedError;
+  bool get isAbstract;
 
   /// usages of this interface
-  Set<TypeUsage> get typeUsages => throw _privateConstructorUsedError;
+  Set<TypeUsage> get typeUsages;
 
   /// list of type parameter names
-  List<String> get typeParameterNames => throw _privateConstructorUsedError;
+  List<String> get typeParameterNames;
 
   /// set of super type names
-  Set<String> get superTypeNames => throw _privateConstructorUsedError;
+  Set<String> get superTypeNames;
 
   /// executables that belong to this interface
-  List<ExecutableDeclaration> get executableDeclarations =>
-      throw _privateConstructorUsedError;
+  List<ExecutableDeclaration> get executableDeclarations;
 
   /// fields that belong to this interface
-  List<FieldDeclaration> get fieldDeclarations =>
-      throw _privateConstructorUsedError;
+  List<FieldDeclaration> get fieldDeclarations;
 
   /// entry points this interface is reachable through
-  Set<String>? get entryPoints => throw _privateConstructorUsedError;
+  Set<String>? get entryPoints;
 
   /// the relative path of the library
-  String get relativePath => throw _privateConstructorUsedError;
+  String get relativePath;
 
   /// Create a copy of InterfaceDeclaration
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $InterfaceDeclarationCopyWith<InterfaceDeclaration> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $InterfaceDeclarationCopyWith<$Res> {
-  factory $InterfaceDeclarationCopyWith(InterfaceDeclaration value,
-          $Res Function(InterfaceDeclaration) then) =
-      _$InterfaceDeclarationCopyWithImpl<$Res, InterfaceDeclaration>;
-  @useResult
-  $Res call(
-      {String name,
-      bool isDeprecated,
-      bool isExperimental,
-      bool isSealed,
-      bool isAbstract,
-      Set<TypeUsage> typeUsages,
-      List<String> typeParameterNames,
-      Set<String> superTypeNames,
-      List<ExecutableDeclaration> executableDeclarations,
-      List<FieldDeclaration> fieldDeclarations,
-      Set<String>? entryPoints,
-      String relativePath});
-}
-
-/// @nodoc
-class _$InterfaceDeclarationCopyWithImpl<$Res,
-        $Val extends InterfaceDeclaration>
-    implements $InterfaceDeclarationCopyWith<$Res> {
-  _$InterfaceDeclarationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $InterfaceDeclarationCopyWith<InterfaceDeclaration> get copyWith =>
+      _$InterfaceDeclarationCopyWithImpl<InterfaceDeclaration>(
+          this as InterfaceDeclaration, _$identity);
+
   @override
-  $Res call({
-    Object? name = null,
-    Object? isDeprecated = null,
-    Object? isExperimental = null,
-    Object? isSealed = null,
-    Object? isAbstract = null,
-    Object? typeUsages = null,
-    Object? typeParameterNames = null,
-    Object? superTypeNames = null,
-    Object? executableDeclarations = null,
-    Object? fieldDeclarations = null,
-    Object? entryPoints = freezed,
-    Object? relativePath = null,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
-          : isDeprecated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isExperimental: null == isExperimental
-          ? _value.isExperimental
-          : isExperimental // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSealed: null == isSealed
-          ? _value.isSealed
-          : isSealed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAbstract: null == isAbstract
-          ? _value.isAbstract
-          : isAbstract // ignore: cast_nullable_to_non_nullable
-              as bool,
-      typeUsages: null == typeUsages
-          ? _value.typeUsages
-          : typeUsages // ignore: cast_nullable_to_non_nullable
-              as Set<TypeUsage>,
-      typeParameterNames: null == typeParameterNames
-          ? _value.typeParameterNames
-          : typeParameterNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      superTypeNames: null == superTypeNames
-          ? _value.superTypeNames
-          : superTypeNames // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
-      executableDeclarations: null == executableDeclarations
-          ? _value.executableDeclarations
-          : executableDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<ExecutableDeclaration>,
-      fieldDeclarations: null == fieldDeclarations
-          ? _value.fieldDeclarations
-          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
-              as List<FieldDeclaration>,
-      entryPoints: freezed == entryPoints
-          ? _value.entryPoints
-          : entryPoints // ignore: cast_nullable_to_non_nullable
-              as Set<String>?,
-      relativePath: null == relativePath
-          ? _value.relativePath
-          : relativePath // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is InterfaceDeclaration &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.isDeprecated, isDeprecated) ||
+                other.isDeprecated == isDeprecated) &&
+            (identical(other.isExperimental, isExperimental) ||
+                other.isExperimental == isExperimental) &&
+            (identical(other.isSealed, isSealed) ||
+                other.isSealed == isSealed) &&
+            (identical(other.isAbstract, isAbstract) ||
+                other.isAbstract == isAbstract) &&
+            const DeepCollectionEquality()
+                .equals(other.typeUsages, typeUsages) &&
+            const DeepCollectionEquality()
+                .equals(other.typeParameterNames, typeParameterNames) &&
+            const DeepCollectionEquality()
+                .equals(other.superTypeNames, superTypeNames) &&
+            const DeepCollectionEquality()
+                .equals(other.executableDeclarations, executableDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.fieldDeclarations, fieldDeclarations) &&
+            const DeepCollectionEquality()
+                .equals(other.entryPoints, entryPoints) &&
+            (identical(other.relativePath, relativePath) ||
+                other.relativePath == relativePath));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      isDeprecated,
+      isExperimental,
+      isSealed,
+      isAbstract,
+      const DeepCollectionEquality().hash(typeUsages),
+      const DeepCollectionEquality().hash(typeParameterNames),
+      const DeepCollectionEquality().hash(superTypeNames),
+      const DeepCollectionEquality().hash(executableDeclarations),
+      const DeepCollectionEquality().hash(fieldDeclarations),
+      const DeepCollectionEquality().hash(entryPoints),
+      relativePath);
+
+  @override
+  String toString() {
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isAbstract: $isAbstract, typeUsages: $typeUsages, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
   }
 }
 
 /// @nodoc
-abstract class _$$InterfaceDeclarationImplCopyWith<$Res>
-    implements $InterfaceDeclarationCopyWith<$Res> {
-  factory _$$InterfaceDeclarationImplCopyWith(_$InterfaceDeclarationImpl value,
-          $Res Function(_$InterfaceDeclarationImpl) then) =
-      __$$InterfaceDeclarationImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $InterfaceDeclarationCopyWith<$Res> {
+  factory $InterfaceDeclarationCopyWith(InterfaceDeclaration value,
+          $Res Function(InterfaceDeclaration) _then) =
+      _$InterfaceDeclarationCopyWithImpl;
   @useResult
   $Res call(
       {String name,
@@ -188,12 +133,12 @@ abstract class _$$InterfaceDeclarationImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$InterfaceDeclarationImplCopyWithImpl<$Res>
-    extends _$InterfaceDeclarationCopyWithImpl<$Res, _$InterfaceDeclarationImpl>
-    implements _$$InterfaceDeclarationImplCopyWith<$Res> {
-  __$$InterfaceDeclarationImplCopyWithImpl(_$InterfaceDeclarationImpl _value,
-      $Res Function(_$InterfaceDeclarationImpl) _then)
-      : super(_value, _then);
+class _$InterfaceDeclarationCopyWithImpl<$Res>
+    implements $InterfaceDeclarationCopyWith<$Res> {
+  _$InterfaceDeclarationCopyWithImpl(this._self, this._then);
+
+  final InterfaceDeclaration _self;
+  final $Res Function(InterfaceDeclaration) _then;
 
   /// Create a copy of InterfaceDeclaration
   /// with the given fields replaced by the non-null parameter values.
@@ -213,53 +158,53 @@ class __$$InterfaceDeclarationImplCopyWithImpl<$Res>
     Object? entryPoints = freezed,
     Object? relativePath = null,
   }) {
-    return _then(_$InterfaceDeclarationImpl(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       isDeprecated: null == isDeprecated
-          ? _value.isDeprecated
+          ? _self.isDeprecated
           : isDeprecated // ignore: cast_nullable_to_non_nullable
               as bool,
       isExperimental: null == isExperimental
-          ? _value.isExperimental
+          ? _self.isExperimental
           : isExperimental // ignore: cast_nullable_to_non_nullable
               as bool,
       isSealed: null == isSealed
-          ? _value.isSealed
+          ? _self.isSealed
           : isSealed // ignore: cast_nullable_to_non_nullable
               as bool,
       isAbstract: null == isAbstract
-          ? _value.isAbstract
+          ? _self.isAbstract
           : isAbstract // ignore: cast_nullable_to_non_nullable
               as bool,
       typeUsages: null == typeUsages
-          ? _value._typeUsages
+          ? _self.typeUsages
           : typeUsages // ignore: cast_nullable_to_non_nullable
               as Set<TypeUsage>,
       typeParameterNames: null == typeParameterNames
-          ? _value._typeParameterNames
+          ? _self.typeParameterNames
           : typeParameterNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       superTypeNames: null == superTypeNames
-          ? _value._superTypeNames
+          ? _self.superTypeNames
           : superTypeNames // ignore: cast_nullable_to_non_nullable
               as Set<String>,
       executableDeclarations: null == executableDeclarations
-          ? _value._executableDeclarations
+          ? _self.executableDeclarations
           : executableDeclarations // ignore: cast_nullable_to_non_nullable
               as List<ExecutableDeclaration>,
       fieldDeclarations: null == fieldDeclarations
-          ? _value._fieldDeclarations
+          ? _self.fieldDeclarations
           : fieldDeclarations // ignore: cast_nullable_to_non_nullable
               as List<FieldDeclaration>,
       entryPoints: freezed == entryPoints
-          ? _value._entryPoints
+          ? _self.entryPoints
           : entryPoints // ignore: cast_nullable_to_non_nullable
               as Set<String>?,
       relativePath: null == relativePath
-          ? _value.relativePath
+          ? _self.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -268,8 +213,9 @@ class __$$InterfaceDeclarationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InterfaceDeclarationImpl extends _InterfaceDeclaration {
-  const _$InterfaceDeclarationImpl(
+class _InterfaceDeclaration extends InterfaceDeclaration
+    implements Declaration {
+  const _InterfaceDeclaration(
       {required this.name,
       required this.isDeprecated,
       required this.isExperimental,
@@ -385,16 +331,20 @@ class _$InterfaceDeclarationImpl extends _InterfaceDeclaration {
   @override
   final String relativePath;
 
+  /// Create a copy of InterfaceDeclaration
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isAbstract: $isAbstract, typeUsages: $typeUsages, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$InterfaceDeclarationCopyWith<_InterfaceDeclaration> get copyWith =>
+      __$InterfaceDeclarationCopyWithImpl<_InterfaceDeclaration>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InterfaceDeclarationImpl &&
+            other is _InterfaceDeclaration &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isDeprecated, isDeprecated) ||
                 other.isDeprecated == isDeprecated) &&
@@ -436,86 +386,112 @@ class _$InterfaceDeclarationImpl extends _InterfaceDeclaration {
       const DeepCollectionEquality().hash(_entryPoints),
       relativePath);
 
+  @override
+  String toString() {
+    return 'InterfaceDeclaration(name: $name, isDeprecated: $isDeprecated, isExperimental: $isExperimental, isSealed: $isSealed, isAbstract: $isAbstract, typeUsages: $typeUsages, typeParameterNames: $typeParameterNames, superTypeNames: $superTypeNames, executableDeclarations: $executableDeclarations, fieldDeclarations: $fieldDeclarations, entryPoints: $entryPoints, relativePath: $relativePath)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$InterfaceDeclarationCopyWith<$Res>
+    implements $InterfaceDeclarationCopyWith<$Res> {
+  factory _$InterfaceDeclarationCopyWith(_InterfaceDeclaration value,
+          $Res Function(_InterfaceDeclaration) _then) =
+      __$InterfaceDeclarationCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      bool isDeprecated,
+      bool isExperimental,
+      bool isSealed,
+      bool isAbstract,
+      Set<TypeUsage> typeUsages,
+      List<String> typeParameterNames,
+      Set<String> superTypeNames,
+      List<ExecutableDeclaration> executableDeclarations,
+      List<FieldDeclaration> fieldDeclarations,
+      Set<String>? entryPoints,
+      String relativePath});
+}
+
+/// @nodoc
+class __$InterfaceDeclarationCopyWithImpl<$Res>
+    implements _$InterfaceDeclarationCopyWith<$Res> {
+  __$InterfaceDeclarationCopyWithImpl(this._self, this._then);
+
+  final _InterfaceDeclaration _self;
+  final $Res Function(_InterfaceDeclaration) _then;
+
   /// Create a copy of InterfaceDeclaration
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
-      get copyWith =>
-          __$$InterfaceDeclarationImplCopyWithImpl<_$InterfaceDeclarationImpl>(
-              this, _$identity);
+  $Res call({
+    Object? name = null,
+    Object? isDeprecated = null,
+    Object? isExperimental = null,
+    Object? isSealed = null,
+    Object? isAbstract = null,
+    Object? typeUsages = null,
+    Object? typeParameterNames = null,
+    Object? superTypeNames = null,
+    Object? executableDeclarations = null,
+    Object? fieldDeclarations = null,
+    Object? entryPoints = freezed,
+    Object? relativePath = null,
+  }) {
+    return _then(_InterfaceDeclaration(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isDeprecated: null == isDeprecated
+          ? _self.isDeprecated
+          : isDeprecated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExperimental: null == isExperimental
+          ? _self.isExperimental
+          : isExperimental // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSealed: null == isSealed
+          ? _self.isSealed
+          : isSealed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAbstract: null == isAbstract
+          ? _self.isAbstract
+          : isAbstract // ignore: cast_nullable_to_non_nullable
+              as bool,
+      typeUsages: null == typeUsages
+          ? _self._typeUsages
+          : typeUsages // ignore: cast_nullable_to_non_nullable
+              as Set<TypeUsage>,
+      typeParameterNames: null == typeParameterNames
+          ? _self._typeParameterNames
+          : typeParameterNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      superTypeNames: null == superTypeNames
+          ? _self._superTypeNames
+          : superTypeNames // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+      executableDeclarations: null == executableDeclarations
+          ? _self._executableDeclarations
+          : executableDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<ExecutableDeclaration>,
+      fieldDeclarations: null == fieldDeclarations
+          ? _self._fieldDeclarations
+          : fieldDeclarations // ignore: cast_nullable_to_non_nullable
+              as List<FieldDeclaration>,
+      entryPoints: freezed == entryPoints
+          ? _self._entryPoints
+          : entryPoints // ignore: cast_nullable_to_non_nullable
+              as Set<String>?,
+      relativePath: null == relativePath
+          ? _self.relativePath
+          : relativePath // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
-abstract class _InterfaceDeclaration extends InterfaceDeclaration
-    implements Declaration {
-  const factory _InterfaceDeclaration(
-      {required final String name,
-      required final bool isDeprecated,
-      required final bool isExperimental,
-      required final bool isSealed,
-      required final bool isAbstract,
-      required final Set<TypeUsage> typeUsages,
-      required final List<String> typeParameterNames,
-      required final Set<String> superTypeNames,
-      required final List<ExecutableDeclaration> executableDeclarations,
-      required final List<FieldDeclaration> fieldDeclarations,
-      final Set<String>? entryPoints,
-      required final String relativePath}) = _$InterfaceDeclarationImpl;
-  const _InterfaceDeclaration._() : super._();
-
-  /// name of this interface
-  @override
-  String get name;
-
-  /// whether this interface is deprecated
-  @override
-  bool get isDeprecated;
-
-  /// whether this interface is experimental
-  @override
-  bool get isExperimental;
-
-  /// determines if this declaration is sealed
-  @override
-  bool get isSealed;
-
-  /// determines if this declaration is abstract
-  @override
-  bool get isAbstract;
-
-  /// usages of this interface
-  @override
-  Set<TypeUsage> get typeUsages;
-
-  /// list of type parameter names
-  @override
-  List<String> get typeParameterNames;
-
-  /// set of super type names
-  @override
-  Set<String> get superTypeNames;
-
-  /// executables that belong to this interface
-  @override
-  List<ExecutableDeclaration> get executableDeclarations;
-
-  /// fields that belong to this interface
-  @override
-  List<FieldDeclaration> get fieldDeclarations;
-
-  /// entry points this interface is reachable through
-  @override
-  Set<String>? get entryPoints;
-
-  /// the relative path of the library
-  @override
-  String get relativePath;
-
-  /// Create a copy of InterfaceDeclaration
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InterfaceDeclarationImplCopyWith<_$InterfaceDeclarationImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

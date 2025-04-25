@@ -15,7 +15,7 @@ enum ExecutableType {
 
 /// Represents an executable parameter declaration
 @freezed
-class ExecutableParameterDeclaration
+sealed class ExecutableParameterDeclaration
     with _$ExecutableParameterDeclaration
     implements Declaration {
   const ExecutableParameterDeclaration._();
@@ -54,7 +54,7 @@ class ExecutableParameterDeclaration
 
 /// Represents an executable declaration
 @freezed
-class ExecutableDeclaration
+sealed class ExecutableDeclaration
     with _$ExecutableDeclaration
     implements Declaration {
   const ExecutableDeclaration._();

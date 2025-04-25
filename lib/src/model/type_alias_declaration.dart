@@ -6,7 +6,9 @@ part 'type_alias_declaration.freezed.dart';
 
 /// represents a found TypeAliasDeclaration
 @freezed
-class TypeAliasDeclaration with _$TypeAliasDeclaration implements Declaration {
+sealed class TypeAliasDeclaration
+    with _$TypeAliasDeclaration
+    implements Declaration {
   const TypeAliasDeclaration._();
 
   /// the signature of this type alias declaration.
