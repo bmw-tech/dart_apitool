@@ -247,6 +247,7 @@ void main() {
 
       final exitCode = await runner.run([
         'extract',
+        '--force-use-flutter',
         '--input',
         'pub://$packageName/$packageVersion',
       ]);
@@ -282,6 +283,7 @@ void main() {
 
         final exitCode = await runner.run([
           'extract',
+          '--force-use-flutter',
           '--input',
           '${tempDir.path}/$relativePath',
         ]);
