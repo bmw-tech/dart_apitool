@@ -240,58 +240,64 @@ void main() {
       },
       timeout: integrationTestTimeout,
     );
-    test('Can handle ffigen dependency overrides correctly (pub ref)',
-        () async {
-      final packageName = 'ffigen';
-      final packageVersion = '16.0.0';
-
-      final exitCode = await runner.run([
-        'extract',
-        '--force-use-flutter',
-        '--input',
-        'pub://$packageName/$packageVersion',
-      ]);
-      expect(exitCode, 0);
-    });
-    test('Can handle ffigen dependency overrides correctly (git ref)',
-        () async {
-      final gitUrl = 'https://github.com/dart-lang/native.git';
-      final gitRef = 'cb477002e2d2559975d76165210eeca98821688d';
-      final relativePath = 'pkgs/ffigen';
-
-      // create temporary directory
-      final tempDir = await Directory.systemTemp.createTemp();
-
-      try {
-        // clone repo
-        final resultClone = Process.runSync('git', [
-          'clone',
-          gitUrl,
-          tempDir.path,
-        ]);
-        assert(resultClone.exitCode == 0);
-
-        // checkout ref
-        final resultCheckout = Process.runSync(
-            'git',
-            [
-              'checkout',
-              gitRef,
-            ],
-            workingDirectory: tempDir.path);
-        assert(resultCheckout.exitCode == 0);
+    test(
+      'Can handle ffigen dependency overrides correctly (pub ref)',
+      () async {
+        final packageName = 'ffigen';
+        final packageVersion = '16.0.0';
 
         final exitCode = await runner.run([
           'extract',
           '--force-use-flutter',
           '--input',
-          '${tempDir.path}/$relativePath',
+          'pub://$packageName/$packageVersion',
         ]);
         expect(exitCode, 0);
-      } finally {
-        tempDir.deleteSync(recursive: true);
-      }
-    });
+      },
+      timeout: integrationTestTimeout,
+    );
+    test(
+      'Can handle ffigen dependency overrides correctly (git ref)',
+      () async {
+        final gitUrl = 'https://github.com/dart-lang/native.git';
+        final gitRef = 'cb477002e2d2559975d76165210eeca98821688d';
+        final relativePath = 'pkgs/ffigen';
+
+        // create temporary directory
+        final tempDir = await Directory.systemTemp.createTemp();
+
+        try {
+          // clone repo
+          final resultClone = Process.runSync('git', [
+            'clone',
+            gitUrl,
+            tempDir.path,
+          ]);
+          assert(resultClone.exitCode == 0);
+
+          // checkout ref
+          final resultCheckout = Process.runSync(
+              'git',
+              [
+                'checkout',
+                gitRef,
+              ],
+              workingDirectory: tempDir.path);
+          assert(resultCheckout.exitCode == 0);
+
+          final exitCode = await runner.run([
+            'extract',
+            '--force-use-flutter',
+            '--input',
+            '${tempDir.path}/$relativePath',
+          ]);
+          expect(exitCode, 0);
+        } finally {
+          tempDir.deleteSync(recursive: true);
+        }
+      },
+      timeout: integrationTestTimeout,
+    );
 
     test(
       'can handle packages in a workspace',
