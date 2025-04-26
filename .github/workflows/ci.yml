@@ -63,11 +63,11 @@ jobs:
           channel: 'any'
           cache-path: '${{ runner.tool_cache }}/flutter-${{ needs.get_flutter_version.outputs.flutter-version }}-any'
 
-      - name: Verify formatting
-        run: dart format --set-exit-if-changed .
-
       - name: Install dependencies
         run: dart pub get
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
 
       - name: Verify Builder have been run
         run: |
