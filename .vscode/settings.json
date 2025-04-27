@@ -8,5 +8,12 @@
     "**/.fvm": true
   },
   "editor.formatOnSave": true,
-  "dart.lineLength": 80
+  "dart.lineLength": 80,
+  "cSpell.words": [
+    "devmil",
+    "hamsbrar",
+    "jonasfj",
+    "mocktail",
+    "mosuem"
+  ]
 }
