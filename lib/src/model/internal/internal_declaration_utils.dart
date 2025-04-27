@@ -1,27 +1,25 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
-  static int? getIdFromElement(Element? element) {
+  static int? getIdFromElement(Element2? element) {
     if (element == null) {
       return null;
     }
     return element.id;
   }
 
-  static int? getIdFromParentElement(Element? element) {
-    if (element is InterfaceElement || element is ExtensionElement) {
+  static int? getIdFromParentElement(Element2? element) {
+    if (element is InterfaceElement2 || element is ExtensionElement2) {
       return getIdFromElement(element);
     }
     return null;
   }
 
   static List<String> computeTypeParameters(
-      List<TypeParameterElement> typeParameters) {
-    return typeParameters.map((e) => e.name).toList();
+      List<TypeParameterElement2> typeParameters) {
+    return typeParameters.map((e) => e.name3 ?? e.displayName).toList();
   }
 
   static Set<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
@@ -32,9 +30,9 @@ abstract class InternalDeclarationUtils {
         .toSet();
   }
 
-  static bool containsAnnotation(Element element, String name,
+  static bool containsAnnotation(Annotatable element, String name,
       {bool ignoreCase = true}) {
-    bool result = element.metadata.any((annotation) {
+    bool result = element.metadata2.annotations.any((annotation) {
       // this is really hacky but currently there is no other way of getting into the guts of the annotation
       dynamic dynamicAnnotation = annotation;
       final String annotationName = dynamicAnnotation.annotationAst.name.name;
@@ -48,79 +46,81 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
-  static bool hasVisibleForTesting(Element element) {
+  static bool hasVisibleForTesting(Annotatable element) {
     return containsAnnotation(element, 'visibleForTesting');
   }
 
-  static bool hasExperimental(Element element) {
+  static bool hasExperimental(Annotatable element) {
     return containsAnnotation(element, 'experimental');
   }
 
-  static bool hasSealed(Element element) {
-    return containsAnnotation(element, 'sealed');
+  static bool hasSealed(Annotatable element) {
+    return element.metadata2.hasSealed;
   }
 
-  static String getRelativePath(String rootPath, Element? element) {
-    final name = element?.librarySource?.fullName;
-    if (name != null) {
-      return path.relative(name, from: rootPath);
+  static String getRelativePath(String rootPath, Element2? element) {
+    final libraryUri = element?.library2?.uri;
+    if (libraryUri != null) {
+      try {
+        final libraryPath = libraryUri.toFilePath();
+        return path.relative(libraryPath, from: rootPath);
+      } catch (e) {
+        // ignore
+      }
     }
-    return '';
+    return libraryUri.toString();
   }
 
-  static String getFullQualifiedNameFor(Element element) {
+  static String getFullQualifiedNameForLibrary(LibraryElement2 library) {
+    final uri = library.uri;
+    if (uri.isScheme('file')) {
+      final pathParts = path.split(uri.toFilePath());
+      final libIndex = pathParts.lastIndexOf('lib');
+      if (libIndex >= 0) {
+        pathParts.removeRange(0, libIndex + 1);
+      }
+      return path.joinAll(pathParts);
+    }
+    // in case we have a URI we just show the path segments. If we happen to find "src" then we only show the path after that
+    // this works as we only have usages in our own package
+    final uriPathSegments = [...uri.pathSegments];
+    final srcIndex = uriPathSegments.lastIndexOf('src');
+    if (srcIndex >= 0) {
+      uriPathSegments.removeRange(0, srcIndex + 1);
+    }
+
+    return uriPathSegments.join('/');
+  }
+
+  static String getFullQualifiedNameFor(Element2 element) {
     final parts = <String>[];
 
-    /// stop at compilation unit level + adapt display name to show the relative path
-    if (element is CompilationUnitElement) {
-      Uri uri = element.source.uri;
-      if (uri.isScheme('file')) {
-        final pathParts = path.split(uri.toFilePath());
-        final libIndex = pathParts.lastIndexOf('lib');
-        if (libIndex >= 0) {
-          pathParts.removeRange(0, libIndex + 1);
-        }
-        return path.joinAll(pathParts);
-      }
-      // in case we have a URI we just show the path segments. If we happen to find "src" then we only show the path after that
-      // this works as we only have usages in our own package
-      final uriPathSegments = [...uri.pathSegments];
-      final srcIndex = uriPathSegments.lastIndexOf('src');
-      if (srcIndex >= 0) {
-        uriPathSegments.removeRange(0, srcIndex + 1);
-      }
-
-      return uriPathSegments.join('/');
+    if (element.enclosingElement2 != null) {
+      parts.add(getFullQualifiedNameFor(element.enclosingElement2!));
+    } else if (element.library2 != null) {
+      /// stop at root level and add the fully qualified library name
+      parts.add(getFullQualifiedNameForLibrary(element.library2!));
     }
-
-    if (element.enclosingElement3 != null) {
-      parts.add(getFullQualifiedNameFor(element.enclosingElement3!));
-    }
-    parts.add(element.displayName);
+    parts.add(element.name3 ?? element.displayName);
 
     return parts.join('::');
   }
 
   static String? getNamespaceForElement(
-      Element? referredElement, Element referringElement) {
-    final referredElementLibrary = referredElement?.library;
+      Element2? referredElement, Element2 referringElement) {
+    final referredElementLibrary = referredElement?.library2;
     if (referredElementLibrary == null) {
       return null;
     }
-    final sourceLibrary = referringElement.library;
+    final sourceLibrary = referringElement.library2;
     if (sourceLibrary == null) {
       return null;
     }
-    // search for the import of the referred library
-    for (final libraryImport
-        in sourceLibrary.definingCompilationUnit.libraryImports) {
-      final importedLibrary = libraryImport.importedLibrary;
-      if (importedLibrary == null) {
-        continue;
-      }
-      if (importedLibrary.library.id == referredElementLibrary.id) {
-        // we found the import => return the given prefix (if specified)
-        return libraryImport.prefix?.element.name;
+    for (final sourceLibraryFragment in sourceLibrary.fragments) {
+      for (final libraryImport in sourceLibraryFragment.libraryImports2) {
+        if (libraryImport.importedLibrary2?.id == referredElementLibrary.id) {
+          return libraryImport.prefix2?.element.name3;
+        }
       }
     }
 

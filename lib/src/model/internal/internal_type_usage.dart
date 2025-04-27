@@ -1,6 +1,4 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration_utils.dart';
 
 import '../model.dart';
@@ -22,12 +20,13 @@ class InternalTypeUsage {
   /// creates an internal representation of a type usage
   /// from the given [kind] and [element]
   InternalTypeUsage.fromElement(
-      {required TypeUsageKind kind, required Element element})
+      {required TypeUsageKind kind, required Element2 element})
       : this._(
           kind: kind,
           referringElementName:
               InternalDeclarationUtils.getFullQualifiedNameFor(element),
-          isVisibleForTesting:
-              InternalDeclarationUtils.hasVisibleForTesting(element),
+          isVisibleForTesting: (element is Annotatable &&
+              InternalDeclarationUtils.hasVisibleForTesting(
+                  element as Annotatable)),
         );
 }
