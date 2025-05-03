@@ -933,11 +933,11 @@ class PackageApiDiffer {
         newField.isReadable,
         context,
         newField,
-        'Readablility changed. ${oldField.isReadable} -> ${newField.isReadable}',
+        'Readability changed. ${oldField.isReadable} -> ${newField.isReadable}',
         changes,
         changeCode: ApiChangeCode.cf07,
         isExperimental: isExperimental,
-        // the change is compatible if the field gained readablility
+        // the change is compatible if the field gained readability
         isCompatibleChange: newField.isReadable,
       );
       _comparePropertiesAndAddChange(

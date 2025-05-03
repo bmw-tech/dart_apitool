@@ -1,7 +1,5 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/visitor.dart';
+import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/visitor2.dart';
 
 /// represents a file reference extracted from a dart source file
 class FileReference {
@@ -9,10 +7,10 @@ class FileReference {
   final String uri;
 
   /// library the reference comes from
-  final LibraryElement originLibrary;
+  final LibraryElement2 originLibrary;
 
   /// library the reference points to
-  final LibraryElement? referencedLibrary;
+  final LibraryElement2? referencedLibrary;
 
   /// list of show parameters for this reference
   final List<String> shownNames;
@@ -33,24 +31,27 @@ class FileReference {
 /// connector to collect exported files from an Element
 ///
 /// it will collect all encountered export elements and store them to [fileReferences]
-class ExportedFilesCollector extends RecursiveElementVisitor<void> {
+class ExportedFilesCollector extends RecursiveElementVisitor2<void> {
   final fileReferences = List<FileReference>.empty(growable: true);
 
   @override
-  visitLibraryExportElement(LibraryExportElement element) {
-    _addUri(
-      uri: element.uri,
-      originLibrary: element.library,
-      referencedLibrary: element.exportedLibrary,
-      combinators: element.combinators,
-    );
-    super.visitLibraryExportElement(element);
+  void visitLibraryElement(LibraryElement2 element) {
+    for (final libraryFragment in element.fragments) {
+      for (final exportedLibrary in libraryFragment.libraryExports2) {
+        _addUri(
+          uri: exportedLibrary.uri,
+          originLibrary: element,
+          referencedLibrary: exportedLibrary.exportedLibrary2,
+          combinators: exportedLibrary.combinators,
+        );
+      }
+    }
   }
 
   void _addUri({
     required DirectiveUri uri,
-    required LibraryElement originLibrary,
-    LibraryElement? referencedLibrary,
+    required LibraryElement2 originLibrary,
+    LibraryElement2? referencedLibrary,
     required List<NamespaceCombinator> combinators,
   }) {
     if (uri is DirectiveUriWithRelativeUriString) {

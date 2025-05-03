@@ -1,8 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:path/path.dart' as path;
 
 /// returns the type parameter suffix (like `<T>`)
@@ -14,7 +12,7 @@ String getTypeParameterSuffix(List<String> typeParameterNames) {
   return typeParameterSuffix;
 }
 
-String? getPackageNameFromLibrary(LibraryElement library) {
+String? getPackageNameFromLibrary(LibraryElement2 library) {
   String? packageName;
   packageName = _getPackageNameFromPackageUri(library.identifier);
   packageName ??= _getPackageNameFromFilePath(library.identifier);
@@ -52,7 +50,7 @@ String? _getPackageNameFromFilePath(String filePathOrUri) {
     }
   }
   // here we either didn't find a lib folder or the lib folder is not next to a pubspec.yaml
-  // so search for a pubspec.yaml regardles of the lib director
+  // so search for a pubspec.yaml regardless of the lib director
   for (int i = parts.length - 1; i > 0; i--) {
     if (_isPackageDirectory(path.joinAll(parts.take(i)))) {
       return parts[i - 1]; //we can do that as we stop as i>0}

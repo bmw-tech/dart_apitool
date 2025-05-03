@@ -1,13 +1,11 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 
 /// Utilities for naming things
 abstract class NamingUtils {
   /// calculates the full library path
   static String getFullLibraryPathFromElement({
-    required Element? element,
+    required Element2? element,
   }) {
-    return element?.librarySource?.fullName ?? '';
+    return element?.library2?.uri.toString() ?? '';
   }
 }

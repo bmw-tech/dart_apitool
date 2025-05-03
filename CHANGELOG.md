@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.21.0
+- chore: adapt to new analyzer API. This may break things
+
 ## Version 0.20.3
 - fix: unary and binary operators can have the same name and crashed dart_apitool
 
