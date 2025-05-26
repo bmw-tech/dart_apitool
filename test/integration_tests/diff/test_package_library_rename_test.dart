@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithOldLibraryName = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'library_rename_without_entry_point_change',
           'package_a_with_old_library_name',
-        ));
-        packageAWithNewLibraryName = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'library_rename_without_entry_point_change',
           'package_a_with_new_library_name',
-        ));
+        );
+        packageAWithOldLibraryName = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithNewLibraryName = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('diff', () {

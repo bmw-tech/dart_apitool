@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithNarrowTypes = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'widening_types_diff',
           'package_a_with_narrow_types',
-        ));
-        packageAWithWiderTypes = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'widening_types_diff',
           'package_a_with_wider_types',
-        ));
+        );
+        packageAWithNarrowTypes = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithWiderTypes = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('widening types', () {

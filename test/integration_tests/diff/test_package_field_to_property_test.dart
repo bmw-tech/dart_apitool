@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithField = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'field_to_property',
           'package_a_with_field',
-        ));
-        packageAWithProperty = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'field_to_property',
           'package_a_with_property',
-        ));
+        );
+        packageAWithField = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithProperty = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('changing a field to a read-only property', () {

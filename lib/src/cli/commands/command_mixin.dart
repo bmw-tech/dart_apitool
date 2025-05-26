@@ -1,14 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
-import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_manager/pubspec_manager.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 
-import '../package_ref.dart';
-import '../prepared_package_ref.dart';
+import '../cli.dart';
 
 /// mixin for all dart-apitool commands that provides common information and functionality
 mixin CommandMixin {
@@ -37,109 +35,76 @@ OBSOLETE: Has no effect anymore.
     );
   }
 
-  /// prepares given [ref]. Depending on the type of ref this can include
-  /// - copying the package to a temporary directory
-  /// - running pub get
+  /// prepares given [ref]. This will create a dummy package that references the given [ref].
   /// If you use [analyze] with this result then it will take care to clean up
   /// everything (e.g. removing temp directory)
-  Future<PreparedPackageRef> prepare(
+  Future<DummyRefPackage> prepare(
     ArgResults argResults,
     PackageRef ref,
   ) async {
-    final stdoutSession = StdoutSession();
-
     final forceUseFlutterTool =
         (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
 
-    List<SourceItem> sources = [];
-    String? packageRelativePath;
+    final stdoutSession = StdoutSession();
+
+    await stdoutSession.writeln('Preparing $ref');
+
+    String refLines = '  ${ref.pubPackage}: ${ref.pubVersion ?? 'any'}';
     if (ref.isDirectoryPath) {
-      String forceUseFlutterSuffix = '';
-      if (forceUseFlutterTool) {
-        forceUseFlutterSuffix = ' (forced Flutter)';
-      }
-      await stdoutSession.writeln('Preparing ${ref.ref}$forceUseFlutterSuffix');
+      await stdoutSession.writeln('  - Directory path');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
         sourceDir =
             sourceDir.substring(0, sourceDir.length - p.separator.length);
       }
+      final packagePubspec = Pubspec.parse(
+          await File(p.join(sourceDir, 'pubspec.yaml')).readAsString());
+      final packageName = packagePubspec.name;
+      refLines = '''
+  $packageName:
+    path: ${p.absolute(sourceDir)}
+''';
+    } else {
+      await stdoutSession.writeln('  - Pub reference');
+    }
 
-      sources.add(SourceItem(
-        sourceDir: sourceDir,
-        isInCache: false,
-      ));
-    } else if (ref.isPubRef) {
-      await stdoutSession.writeln(
-          'Preparing ${ref.pubPackage!}:${ref.pubVersion ?? 'latest'}');
-      await stdoutSession.writeln('Downloading');
-      String sourceDir = await PubInteraction.installPackageToCache(
+    // 1. create temp directory
+    final tempDirectory = await Directory.systemTemp.createTemp();
+
+    // 2. create dummy dart project referencing [ref]
+    final dummyPubspec = File(p.join(tempDirectory.path, 'pubspec.yaml'));
+    dummyPubspec.createSync(recursive: true);
+    dummyPubspec.writeAsStringSync('''
+name: dummy_ref_package
+
+version: 0.0.1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+$refLines
+''');
+
+    // 3. run pub get
+    await PubInteraction.runPubGet(
+      tempDirectory.path,
+      stdoutSession: stdoutSession,
+      forceUseFlutterTool: forceUseFlutterTool,
+    );
+
+    String packagPath = ref.ref;
+    if (ref.isPubRef) {
+      packagPath = PubInteraction.getPackagePathInCache(
         ref.pubPackage!,
         ref.pubVersion,
-        stdoutSession: stdoutSession,
       );
-      sources.add(SourceItem(
-        sourceDir: sourceDir,
-        isInCache: true,
-      ));
-    } else {
-      throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
-    // merge sources to not copy children of a parent separately
-    // => remove all sources that have a parent in the list
-    sources.removeWhere((sToRemove) =>
-        sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
-    final tempDir = await Directory.systemTemp.createTemp();
-    await Future.forEach<SourceItem>(sources, (sourceItem) async {
-      await stdoutSession
-          .writeln('Copying sources from ${sourceItem.sourceDir}');
-      await _copyPath(sourceItem.sourceDir,
-          sourceItem.destinationPath(forPrefix: tempDir.path));
-      if (!sourceItem.isInCache) {
-        String forceUseFlutterSuffix = '';
-        if (forceUseFlutterTool) {
-          forceUseFlutterSuffix = ' (forced Flutter)';
-        }
 
-        await stdoutSession.writeln(
-            'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
-        await PubInteraction.runPubGet(
-          sourceItem.sourceDir,
-          stdoutSession: stdoutSession,
-          forceUseFlutterTool: forceUseFlutterTool,
-        );
-        final sourcePackageConfig = File(_getPackageConfigPathForPackage(
-          sourceItem.sourceDir,
-          stdoutSession: stdoutSession,
-          doCheckWorkspace: true,
-        ));
-        final targetPackageConfig = File(_getPackageConfigPathForPackage(
-          tempDir.path,
-          stdoutSession: stdoutSession,
-          doCheckWorkspace: false,
-        ))
-          ..createSync(recursive: true);
-        await sourcePackageConfig.copy(targetPackageConfig.path);
-        await _adaptPackageConfigToAbsolutePaths(
-          targetPackageConfigPath: targetPackageConfig.absolute.path,
-          sourcePackageConfigPath: sourcePackageConfig.absolute.path,
-        );
-      } else {
-        await stdoutSession.writeln('Cleaning up local copy of pub package');
-        // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
-        final pubspecOverrides = File(p.join(
-            sourceItem.destinationPath(forPrefix: tempDir.path),
-            'pubspec_overrides.yaml'));
-        if (await pubspecOverrides.exists()) {
-          await pubspecOverrides.delete();
-          await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
-        }
-      }
-    });
-    return PreparedPackageRef(
-        packageRef: ref,
-        tempDirectory: tempDir.path,
-        packageRelativePath: packageRelativePath);
+    return DummyRefPackage(
+      referencedPackagePath: packagPath,
+      tempDirectoryPath: tempDirectory.path,
+    );
   }
 
   /// Analyzes the given prepared Package [ref].
@@ -147,7 +112,7 @@ OBSOLETE: Has no effect anymore.
   /// [doAnalyzePlatformConstraints] defines if the platform constraints of the package shall be analyzed.
   Future<PackageApi> analyze(
     ArgResults argResults,
-    PreparedPackageRef preparedRef, {
+    DummyRefPackage preparedRef, {
     bool doAnalyzePlatformConstraints = true,
     bool doRemoveExample = true,
   }) async {
@@ -156,76 +121,13 @@ OBSOLETE: Has no effect anymore.
     final forceUseFlutterTool =
         (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
 
-    String? path;
-    if (preparedRef.packageRef.isDirectoryPath) {
-      path = preparedRef.packageRef.ref;
-    }
-    if (preparedRef.packageRef.isPubRef) {
-      path = PubInteraction.getPackagePathInCache(
-          preparedRef.packageRef.pubPackage!,
-          preparedRef.packageRef.pubVersion);
-    }
-    if (path == null) {
-      throw ArgumentError(
-          'Don\'t know how to handle ${preparedRef.packageRef.ref}');
-    }
+    final packagePath = preparedRef.referencedPackagePath;
+    final analyzerRootPath = preparedRef.tempDirectoryPath;
 
-    String packagePath = preparedRef.packageDirectory ?? path;
-    // The analysis options might limit the scope of dart_apitool
-    final analysisOptionsFile =
-        File(p.join(packagePath, 'analysis_options.yaml'));
-    if (await analysisOptionsFile.exists()) {
-      await analysisOptionsFile.delete();
-    }
-    final exampleDirPath = p.join(packagePath, 'example');
-    if (doRemoveExample && await Directory(exampleDirPath).exists()) {
-      await Directory(exampleDirPath).delete(recursive: true);
-    }
-
-    // remove any dependency overrides and workspace resolutions from the pubspec.yaml
-    final pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
-    if (pubspecFile.existsSync()) {
-      try {
-        final pubSpec = PubSpec.load(directory: packagePath);
-        // removeAll of dependencyOverrides has an issue in the current version of pubspec_manager
-        // as it doesn't remove the section part of the dependency overrides and therefore are not removed
-        // in the saved version of the pubspec.yaml file
-        // workaround: remove all dependency overrides manually
-        for (final depOverride in pubSpec.dependencyOverrides.list) {
-          pubSpec.dependencyOverrides.remove(depOverride.name);
-        }
-        if (!pubSpec.document.findSectionForKey('resolution').missing) {
-          pubSpec.document.removeAll(
-              pubSpec.document.findSectionForKey('resolution').lines);
-        }
-        pubSpec.save();
-      } catch (e) {
-        await stdoutSession.writeln(
-            'Error removing dependency overrides from pubspec.yaml: $e');
-      }
-    }
-
-    // Check if the package_config.json is already present from the preparation step
-    final packageConfig = File(_getPackageConfigPathForPackage(
-      packagePath,
-      stdoutSession: stdoutSession,
-      doCheckWorkspace: true,
-    ));
-    if (!packageConfig.existsSync()) {
-      await stdoutSession.writeln('Running pub get');
-      await PubInteraction.runPubGet(
-        packagePath,
-        stdoutSession: stdoutSession,
-        forceUseFlutterTool: forceUseFlutterTool,
-      );
-    } else {
-      await stdoutSession
-          .writeln('Omitting pub get (package config already present)');
-    }
-
-    await stdoutSession.writeln('Analyzing $path');
+    await stdoutSession.writeln('Analyzing $packagePath');
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
+      analyzerRootPath: analyzerRootPath,
       doAnalyzePlatformConstraints: doAnalyzePlatformConstraints,
     );
     return await analyzer.analyze();
@@ -233,76 +135,10 @@ OBSOLETE: Has no effect anymore.
 
   /// If the prepared package contains anything that has to be cleaned up
   /// (like created temp directories) then [cleanUp] takes care of that
-  Future cleanUp(PreparedPackageRef preparedPackageRef) {
+  Future cleanUp(DummyRefPackage preparedPackageRef) {
     stdout.writeln('Cleaning up');
-    if (preparedPackageRef.tempDirectory != null) {
-      return Directory(preparedPackageRef.tempDirectory!)
-          .delete(recursive: true);
-    }
-    return Future.value();
-  }
-
-  bool _doNothing(String from, String to) {
-    if (p.canonicalize(from) == p.canonicalize(to)) {
-      return true;
-    }
-    if (p.isWithin(from, to)) {
-      throw ArgumentError('Cannot copy from $from to $to');
-    }
-    return false;
-  }
-
-  Future<void> _copyPath(String from, String to) async {
-    if (_doNothing(from, to)) {
-      return;
-    }
-    if (await Directory(to).exists()) {
-      await Directory(to).delete();
-    }
-    await Directory(to).create(recursive: true);
-    await for (final file in Directory(from).list(recursive: true)) {
-      final copyTo = p.join(to, p.relative(file.path, from: from));
-      if (file is Directory) {
-        await Directory(copyTo).create(recursive: true);
-      } else if (file is File) {
-        await File(file.path).copy(copyTo);
-      } else if (file is Link) {
-        await Link(copyTo).create(await file.target(), recursive: true);
-      }
-    }
-  }
-
-  Future _adaptPackageConfigToAbsolutePaths({
-    required String targetPackageConfigPath,
-    required String sourcePackageConfigPath,
-  }) async {
-    final sourcePackageConfigDirPath = p.dirname(sourcePackageConfigPath);
-    final sourcePackageDirPath =
-        Directory(sourcePackageConfigDirPath).parent.path;
-    final targetPackageConfigContent =
-        jsonDecode(await File(targetPackageConfigPath).readAsString());
-    // iterate through the package_config.json content and look for relative paths
-    for (final packageConfig in targetPackageConfigContent['packages']) {
-      final rootUri = Uri.parse(packageConfig['rootUri']);
-      final packagePath = p.fromUri(rootUri);
-      if (p.isRelative(packagePath)) {
-        // we make the relative path absolute by using the origin of the source package config as a base
-        final normalizedPackagePath =
-            p.normalize(p.join(sourcePackageConfigDirPath, packagePath));
-        // if the relative path is the package path, then don't make it absolute
-        if (p.equals(sourcePackageDirPath, normalizedPackagePath)) {
-          continue;
-        }
-        // and write the new absolute path back to the json structure
-        packageConfig['rootUri'] = p.toUri(normalizedPackagePath).toString();
-      }
-    }
-    final encoder = JsonEncoder.withIndent('    ');
-    // replace the package config with the new content
-    await File(targetPackageConfigPath).writeAsString(
-      encoder.convert(targetPackageConfigContent),
-      mode: FileMode.write,
-    );
+    return Directory(preparedPackageRef.tempDirectoryPath)
+        .delete(recursive: true);
   }
 
   String _getPackageConfigPathForPackage(

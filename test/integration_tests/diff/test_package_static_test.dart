@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithoutStaticElement = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'static_elements',
           'package_a_without_static_element',
-        ));
-        packageAWithStaticElement = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'static_elements',
           'package_a_with_static_element',
-        ));
+        );
+        packageAWithoutStaticElement = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithStaticElement = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('adding a static method to a required type', () {

@@ -7,22 +7,30 @@ void main() {
     late PackageApiAnalyzer packageAWithEnumCtorAndToString;
     late PackageApiAnalyzer packageAWithoutEnumCtorAndToString;
 
+    final packageAPath = path.join(
+      'test',
+      'test_packages',
+      'enum_and_tostring',
+      'package_a_with_enum_ctor_and_tostring',
+    );
+
+    final packageBPath = path.join(
+      'test',
+      'test_packages',
+      'enum_and_tostring',
+      'package_a_without_enum_ctor_and_tostring',
+    );
+
     setUpAll(
       () {
         packageAWithEnumCtorAndToString = PackageApiAnalyzer(
-            packagePath: path.join(
-          'test',
-          'test_packages',
-          'enum_and_tostring',
-          'package_a_with_enum_ctor_and_tostring',
-        ));
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
         packageAWithoutEnumCtorAndToString = PackageApiAnalyzer(
-            packagePath: path.join(
-          'test',
-          'test_packages',
-          'enum_and_tostring',
-          'package_a_without_enum_ctor_and_tostring',
-        ));
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
 

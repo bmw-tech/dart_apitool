@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithRecord = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'records',
           'package_a_with_record',
-        ));
-        packageAWithChangedRecord = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'records',
           'package_a_with_changed_record',
-        ));
+        );
+        packageAWithRecord = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithChangedRecord = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('changing the record type structure', () {

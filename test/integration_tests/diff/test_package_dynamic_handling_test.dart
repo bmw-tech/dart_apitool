@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithDynamic = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'dynamic_handling',
           'package_a_with_dynamic_types',
-        ));
-        packageAWithStricterTypes = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'dynamic_handling',
           'package_a_with_stricter_types',
-        ));
+        );
+        packageAWithDynamic = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithStricterTypes = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('turning dynamic to Object?', () {

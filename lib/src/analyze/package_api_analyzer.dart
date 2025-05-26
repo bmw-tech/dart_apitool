@@ -33,6 +33,7 @@ part 'package_api_analyzer.freezed.dart';
 class PackageApiAnalyzer {
   /// path to the package to analyze
   final String packagePath;
+  final String analyzerRootPath;
   final bool doAnalyzePlatformConstraints;
   final bool doConsiderNonSrcAsEntryPoints;
 
@@ -45,6 +46,7 @@ class PackageApiAnalyzer {
   /// [doConsiderNonSrcAsEntryPoints] defines if all files that are not in the lib/src subdirectory are considered as entry points. Otherwise only files directly in the lib subdirectory are considered as entry points.
   PackageApiAnalyzer({
     required this.packagePath,
+    required this.analyzerRootPath,
     this.doAnalyzePlatformConstraints = true,
     this.doConsiderNonSrcAsEntryPoints = false,
   }) {
@@ -62,6 +64,8 @@ class PackageApiAnalyzer {
   Future<PackageApi> analyze() async {
     final normalizedAbsoluteProjectPath =
         _getNormalizedAbsolutePath(packagePath);
+    final normalizedAbsoluteAnalyzerRootPath =
+        _getNormalizedAbsolutePath(analyzerRootPath);
 
     final yamlContent =
         await File(path.join(normalizedAbsoluteProjectPath, 'pubspec.yaml'))
@@ -74,7 +78,10 @@ class PackageApiAnalyzer {
         path.join(normalizedAbsoluteProjectPath, 'lib'));
 
     final contextCollection = _createAnalysisContextCollection(
-      path: normalizedAbsoluteProjectPath,
+      paths: [
+        normalizedAbsoluteProjectPath,
+        normalizedAbsoluteAnalyzerRootPath,
+      ],
       resourceProvider: resourceProvider,
     );
 
@@ -402,11 +409,11 @@ class PackageApiAnalyzer {
   }
 
   AnalysisContextCollection _createAnalysisContextCollection({
-    required String path,
+    required List<String> paths,
     ResourceProvider? resourceProvider,
   }) {
     AnalysisContextCollection collection = AnalysisContextCollection(
-      includedPaths: <String>[path],
+      includedPaths: paths,
       resourceProvider: resourceProvider ?? PhysicalResourceProvider.INSTANCE,
     );
     return collection;

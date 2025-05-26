@@ -9,20 +9,26 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_with_experimental_and_sealed',
-        ));
-        packageAWithoutExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+        );
+        final packageBPath = path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_without_experimental_and_sealed',
-        ));
+        );
+        packageAWithExperimental = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
+        packageAWithoutExperimental = PackageApiAnalyzer(
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('with experimental to without experimental', () {

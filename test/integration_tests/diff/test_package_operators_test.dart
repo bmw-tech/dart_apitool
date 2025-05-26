@@ -9,22 +9,28 @@ void main() {
 
     setUpAll(
       () {
-        packageAWithRecord = PackageApiAnalyzer(
-            packagePath: path.join(
+        final packageAPath = path.join(
           'test',
           'test_packages',
           'operators',
           'package_a_with_operators',
-        ));
+        );
+        final packageBPath = path.join(
+          'test',
+          'test_packages',
+          'operators',
+          'package_a_with_operators',
+        );
+        packageAWithRecord = PackageApiAnalyzer(
+          packagePath: packageAPath,
+          analyzerRootPath: packageAPath,
+        );
         // we test the same package against itself.
         // We just want to know if the differ can handle two operators with the same name
         packageAWithChangedRecord = PackageApiAnalyzer(
-            packagePath: path.join(
-          'test',
-          'test_packages',
-          'operators',
-          'package_a_with_operators',
-        ));
+          packagePath: packageBPath,
+          analyzerRootPath: packageBPath,
+        );
       },
     );
     group('having the - operator two times (unary and not)', () {

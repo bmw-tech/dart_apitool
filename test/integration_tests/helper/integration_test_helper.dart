@@ -22,6 +22,7 @@ class PackageApiRetriever {
     );
     final analyzer = PackageApiAnalyzer(
       packagePath: packageDirectory,
+      analyzerRootPath: packageDirectory,
       doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
     );
     print('Analyzing $packageName $packageVersion');
@@ -57,6 +58,7 @@ class GitPackageApiRetriever {
 
     final analyzer = PackageApiAnalyzer(
       packagePath: tempDir.path,
+      analyzerRootPath: tempDir.path,
       doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
     );
     print('Analyzing $gitUrl $gitRef');
