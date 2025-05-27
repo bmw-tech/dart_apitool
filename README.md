@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="https://github.com/bmw-tech/dart_apitool/blob/master/dart_apitool/res/dart_apitool_complete.png?raw=true" />
+</div>
+
 # Dart API Tool
 
 A tool to analyze the public API of a package and create a model of it.
