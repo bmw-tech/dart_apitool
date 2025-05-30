@@ -2,6 +2,7 @@
 
 ## Version 0.21.0
 - chore: adapt to new analyzer API. This may break things
+- tech: use different preparation approach for packages (wrapper package instead of copy & adapt)
 
 ## Version 0.20.3
 - fix: unary and binary operators can have the same name and crashed dart_apitool
