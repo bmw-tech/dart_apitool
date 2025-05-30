@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_manager/pubspec_manager.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
 import '../cli.dart';
@@ -118,9 +117,6 @@ $refLines
   }) async {
     final stdoutSession = StdoutSession();
 
-    final forceUseFlutterTool =
-        (argResults[_flagNameForceUseFlutter] as bool?) ?? false;
-
     final packagePath = preparedRef.referencedPackagePath;
     final analyzerRootPath = preparedRef.tempDirectoryPath;
 
@@ -140,62 +136,4 @@ $refLines
     return Directory(preparedPackageRef.tempDirectoryPath)
         .delete(recursive: true);
   }
-
-  String _getPackageConfigPathForPackage(
-    String packagePath, {
-    required StdoutSession stdoutSession,
-    required bool doCheckWorkspace,
-  }) {
-    String packageConfigPackagePath = packagePath;
-    final packageDir = Directory(packagePath);
-    if (doCheckWorkspace && packageDir.existsSync()) {
-      // if the package directory exists (source) then we check if we have to deal with a workspace
-      try {
-        final pubspec = PubSpec.load(directory: packagePath);
-        final resolutionSection =
-            pubspec.document.findSectionForKey('resolution');
-        if (!resolutionSection.missing) {
-          bool resolvesWithWorkspace = false;
-          for (final line in resolutionSection.lines) {
-            if (line.text.contains('resolution:') &&
-                line.text.trim().endsWith('workspace')) {
-              resolvesWithWorkspace = true;
-              break;
-            }
-          }
-          if (resolvesWithWorkspace) {
-            final workspacePath = _findWorkspacePath(packagePath);
-            if (workspacePath == null) {
-              stdoutSession
-                  .writeln('Could not find workspace for package $packagePath');
-            } else {
-              packageConfigPackagePath = workspacePath;
-            }
-          }
-        }
-      } catch (e) {
-        stdoutSession
-            .writeln('Error loading pubspec.yaml, continuing anyways: $e');
-      }
-    }
-    return p.join(
-        packageConfigPackagePath, '.dart_tool', 'package_config.json');
-  }
-}
-
-String? _findWorkspacePath(String packagePath) {
-  Directory currentDirectory = Directory(packagePath).parent;
-  while (currentDirectory.path != currentDirectory.parent.path) {
-    if (!File(p.join(currentDirectory.path, 'pubspec.yaml')).existsSync()) {
-      currentDirectory = currentDirectory.parent;
-      continue;
-    }
-    final pubspec = PubSpec.load(directory: currentDirectory.path);
-    if (pubspec.document.findSectionForKey('workspace').missing) {
-      currentDirectory = currentDirectory.parent;
-    } else {
-      return currentDirectory.path;
-    }
-  }
-  return null;
 }
