@@ -50,7 +50,8 @@ If not specified the extracted API will be printed to the console.
     );
     argParser.addFlag(
       _optionNameRemoveExample,
-      help: 'Removes examples from the package to analyze.',
+      help:
+          'DEPRECATED - Removes examples from the package to analyze. (has no effect any more)',
       defaultsTo: true,
       negatable: true,
     );
@@ -69,7 +70,6 @@ If not specified the extracted API will be printed to the console.
     final packageRef = PackageRef(argResults![_optionNameInput]);
     final noAnalyzePlatformConstraints =
         argResults![_optionNameNoAnalyzePlatformConstraints] as bool;
-    final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
     final doSetExitCodeOnMissingExport =
         argResults![_optionNameSetExitCodeOnMissingExport] as bool;
 
@@ -81,7 +81,6 @@ If not specified the extracted API will be printed to the console.
       argResults!,
       preparedPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
-      doRemoveExample: doRemoveExample,
     );
     await cleanUp(preparedPackageRef);
 

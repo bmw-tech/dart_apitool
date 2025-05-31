@@ -92,7 +92,8 @@ You may want to do this if you want to make sure
     );
     argParser.addFlag(
       _optionNameRemoveExample,
-      help: 'Removes examples from the package to analyze.',
+      help:
+          'DEPRECATED - Removes examples from the package to analyze. (has no effect any more)',
       defaultsTo: true,
       negatable: true,
     );
@@ -149,7 +150,6 @@ Whether to ignore the required aspect of interfaces
       stdout.writeln(
           'You are using the option "$_optionNameDependencyCheckMode" that has no effect any more and will be removed in a future release (and will lead to an exception if specified)');
     }
-    final doRemoveExample = argResults![_optionNameRemoveExample] as bool;
     final doIgnoreRequiredness =
         argResults![_optionNameIgnoreRequiredness] as bool;
 
@@ -166,13 +166,11 @@ Whether to ignore the required aspect of interfaces
       argResults!,
       preparedOldPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
-      doRemoveExample: doRemoveExample,
     );
     final newPackageApi = await analyze(
       argResults!,
       preparedNewPackageRef,
       doAnalyzePlatformConstraints: !noAnalyzePlatformConstraints,
-      doRemoveExample: doRemoveExample,
     );
 
     await cleanUp(preparedOldPackageRef);

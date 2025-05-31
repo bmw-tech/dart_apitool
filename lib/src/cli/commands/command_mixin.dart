@@ -4,7 +4,6 @@ import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_manager/pubspec_manager.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -137,7 +136,6 @@ OBSOLETE: Has no effect anymore.
     ArgResults argResults,
     PreparedPackageRef preparedRef, {
     bool doAnalyzePlatformConstraints = true,
-    bool doRemoveExample = true,
   }) async {
     final stdoutSession = StdoutSession();
 
@@ -164,10 +162,6 @@ OBSOLETE: Has no effect anymore.
         File(p.join(packagePath, 'analysis_options.yaml'));
     if (await analysisOptionsFile.exists()) {
       await analysisOptionsFile.delete();
-    }
-    final exampleDirPath = p.join(packagePath, 'example');
-    if (doRemoveExample && await Directory(exampleDirPath).exists()) {
-      await Directory(exampleDirPath).delete(recursive: true);
     }
 
     // Check if the package_config.json is already present from the preparation step
