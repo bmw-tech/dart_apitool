@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
-import 'package:pubspec_manager/pubspec_manager.dart';
 
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
@@ -108,21 +106,10 @@ OBSOLETE: Has no effect anymore.
           stdoutSession: stdoutSession,
           forceUseFlutterTool: forceUseFlutterTool,
         );
-        final sourcePackageConfig = File(_getPackageConfigPathForPackage(
-          sourceItem.sourceDir,
+        await DartInteraction.transferPackageConfig(
+          fromPackage: sourceItem.sourceDir,
+          toPackage: tempDir.path,
           stdoutSession: stdoutSession,
-          doCheckWorkspace: true,
-        ));
-        final targetPackageConfig = File(_getPackageConfigPathForPackage(
-          tempDir.path,
-          stdoutSession: stdoutSession,
-          doCheckWorkspace: false,
-        ))
-          ..createSync(recursive: true);
-        await sourcePackageConfig.copy(targetPackageConfig.path);
-        await _adaptPackageConfigToAbsolutePaths(
-          targetPackageConfigPath: targetPackageConfig.absolute.path,
-          sourcePackageConfigPath: sourcePackageConfig.absolute.path,
         );
       } else {
         await stdoutSession.writeln('Cleaning up local copy of pub package');
@@ -149,7 +136,6 @@ OBSOLETE: Has no effect anymore.
     ArgResults argResults,
     PreparedPackageRef preparedRef, {
     bool doAnalyzePlatformConstraints = true,
-    bool doRemoveExample = true,
   }) async {
     final stdoutSession = StdoutSession();
 
@@ -177,43 +163,16 @@ OBSOLETE: Has no effect anymore.
     if (await analysisOptionsFile.exists()) {
       await analysisOptionsFile.delete();
     }
-    final exampleDirPath = p.join(packagePath, 'example');
-    if (doRemoveExample && await Directory(exampleDirPath).exists()) {
-      await Directory(exampleDirPath).delete(recursive: true);
-    }
-
-    // remove any dependency overrides and workspace resolutions from the pubspec.yaml
-    final pubspecFile = File(p.join(packagePath, 'pubspec.yaml'));
-    if (pubspecFile.existsSync()) {
-      try {
-        final pubSpec = PubSpec.load(directory: packagePath);
-        // removeAll of dependencyOverrides has an issue in the current version of pubspec_manager
-        // as it doesn't remove the section part of the dependency overrides and therefore are not removed
-        // in the saved version of the pubspec.yaml file
-        // workaround: remove all dependency overrides manually
-        for (final depOverride in pubSpec.dependencyOverrides.list) {
-          pubSpec.dependencyOverrides.remove(depOverride.name);
-        }
-        if (!pubSpec.document.findSectionForKey('resolution').missing) {
-          pubSpec.document.removeAll(
-              pubSpec.document.findSectionForKey('resolution').lines);
-        }
-        pubSpec.save();
-      } catch (e) {
-        await stdoutSession.writeln(
-            'Error removing dependency overrides from pubspec.yaml: $e');
-      }
-    }
 
     // Check if the package_config.json is already present from the preparation step
-    final packageConfig = File(_getPackageConfigPathForPackage(
+    final packageConfig = File(DartInteraction.getPackageConfigPathForPackage(
       packagePath,
       stdoutSession: stdoutSession,
       doCheckWorkspace: true,
     ));
     if (!packageConfig.existsSync()) {
       await stdoutSession.writeln('Running pub get');
-      await PubInteraction.runPubGet(
+      await PubInteraction.runPubGetIndirectly(
         packagePath,
         stdoutSession: stdoutSession,
         forceUseFlutterTool: forceUseFlutterTool,
@@ -271,95 +230,4 @@ OBSOLETE: Has no effect anymore.
       }
     }
   }
-
-  Future _adaptPackageConfigToAbsolutePaths({
-    required String targetPackageConfigPath,
-    required String sourcePackageConfigPath,
-  }) async {
-    final sourcePackageConfigDirPath = p.dirname(sourcePackageConfigPath);
-    final sourcePackageDirPath =
-        Directory(sourcePackageConfigDirPath).parent.path;
-    final targetPackageConfigContent =
-        jsonDecode(await File(targetPackageConfigPath).readAsString());
-    // iterate through the package_config.json content and look for relative paths
-    for (final packageConfig in targetPackageConfigContent['packages']) {
-      final rootUri = Uri.parse(packageConfig['rootUri']);
-      final packagePath = p.fromUri(rootUri);
-      if (p.isRelative(packagePath)) {
-        // we make the relative path absolute by using the origin of the source package config as a base
-        final normalizedPackagePath =
-            p.normalize(p.join(sourcePackageConfigDirPath, packagePath));
-        // if the relative path is the package path, then don't make it absolute
-        if (p.equals(sourcePackageDirPath, normalizedPackagePath)) {
-          continue;
-        }
-        // and write the new absolute path back to the json structure
-        packageConfig['rootUri'] = p.toUri(normalizedPackagePath).toString();
-      }
-    }
-    final encoder = JsonEncoder.withIndent('    ');
-    // replace the package config with the new content
-    await File(targetPackageConfigPath).writeAsString(
-      encoder.convert(targetPackageConfigContent),
-      mode: FileMode.write,
-    );
-  }
-
-  String _getPackageConfigPathForPackage(
-    String packagePath, {
-    required StdoutSession stdoutSession,
-    required bool doCheckWorkspace,
-  }) {
-    String packageConfigPackagePath = packagePath;
-    final packageDir = Directory(packagePath);
-    if (doCheckWorkspace && packageDir.existsSync()) {
-      // if the package directory exists (source) then we check if we have to deal with a workspace
-      try {
-        final pubspec = PubSpec.load(directory: packagePath);
-        final resolutionSection =
-            pubspec.document.findSectionForKey('resolution');
-        if (!resolutionSection.missing) {
-          bool resolvesWithWorkspace = false;
-          for (final line in resolutionSection.lines) {
-            if (line.text.contains('resolution:') &&
-                line.text.trim().endsWith('workspace')) {
-              resolvesWithWorkspace = true;
-              break;
-            }
-          }
-          if (resolvesWithWorkspace) {
-            final workspacePath = _findWorkspacePath(packagePath);
-            if (workspacePath == null) {
-              stdoutSession
-                  .writeln('Could not find workspace for package $packagePath');
-            } else {
-              packageConfigPackagePath = workspacePath;
-            }
-          }
-        }
-      } catch (e) {
-        stdoutSession
-            .writeln('Error loading pubspec.yaml, continuing anyways: $e');
-      }
-    }
-    return p.join(
-        packageConfigPackagePath, '.dart_tool', 'package_config.json');
-  }
-}
-
-String? _findWorkspacePath(String packagePath) {
-  Directory currentDirectory = Directory(packagePath).parent;
-  while (currentDirectory.path != currentDirectory.parent.path) {
-    if (!File(p.join(currentDirectory.path, 'pubspec.yaml')).existsSync()) {
-      currentDirectory = currentDirectory.parent;
-      continue;
-    }
-    final pubspec = PubSpec.load(directory: currentDirectory.path);
-    if (pubspec.document.findSectionForKey('workspace').missing) {
-      currentDirectory = currentDirectory.parent;
-    } else {
-      return currentDirectory.path;
-    }
-  }
-  return null;
 }
