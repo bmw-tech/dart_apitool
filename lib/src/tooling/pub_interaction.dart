@@ -187,6 +187,15 @@ abstract class PubInteraction {
     final forDirectoryPubspec =
         Pubspec.parse(File(forDirectoryPubspecPath).readAsStringSync());
     final packageName = forDirectoryPubspec.name;
+    final isFlutter = forDirectoryPubspec.flutter != null;
+
+    String potentialFlutterBloc = isFlutter
+        ? '''
+  flutter:
+    sdk: flutter
+'''
+        : '';
+
     final tempDirectory = Directory.systemTemp.createTempSync();
     final tempPackagePath = path.join(tempDirectory.path, 'temp_package');
     final tempPackagePubspecPath = path.join(tempPackagePath, 'pubspec.yaml');
@@ -203,6 +212,7 @@ environment:
 dependencies:
   $packageName:
     path: $forDirectory
+$potentialFlutterBloc
 ''',
     );
     await DartInteraction.runDartOrFlutterCommand(tempPackagePath,
