@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:lumberdash/lumberdash.dart';
+import 'package:pubspec_manager/pubspec_manager.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:path/path.dart' as path;
 
@@ -78,6 +80,118 @@ abstract class DartInteraction {
         args: args,
         workingDirectory: workingDirectory,
         stdoutSession: stdoutSession);
+  }
+
+  static String getPackageConfigPathForPackage(
+    String packagePath, {
+    required StdoutSession stdoutSession,
+    required bool doCheckWorkspace,
+  }) {
+    String packageConfigPackagePath = packagePath;
+    final packageDir = Directory(packagePath);
+    if (doCheckWorkspace && packageDir.existsSync()) {
+      // if the package directory exists (source) then we check if we have to deal with a workspace
+      try {
+        final pubspec = PubSpec.load(directory: packagePath);
+        final resolutionSection =
+            pubspec.document.findSectionForKey('resolution');
+        if (!resolutionSection.missing) {
+          bool resolvesWithWorkspace = false;
+          for (final line in resolutionSection.lines) {
+            if (line.text.contains('resolution:') &&
+                line.text.trim().endsWith('workspace')) {
+              resolvesWithWorkspace = true;
+              break;
+            }
+          }
+          if (resolvesWithWorkspace) {
+            final workspacePath = _findWorkspacePath(packagePath);
+            if (workspacePath == null) {
+              stdoutSession
+                  .writeln('Could not find workspace for package $packagePath');
+            } else {
+              packageConfigPackagePath = workspacePath;
+            }
+          }
+        }
+      } catch (e) {
+        stdoutSession
+            .writeln('Error loading pubspec.yaml, continuing anyways: $e');
+      }
+    }
+    return path.join(
+        packageConfigPackagePath, '.dart_tool', 'package_config.json');
+  }
+
+  static Future transferPackageConfig({
+    required String fromPackage,
+    required String toPackage,
+    required StdoutSession stdoutSession,
+  }) async {
+    final fromPackageConfigPath = getPackageConfigPathForPackage(fromPackage,
+        stdoutSession: stdoutSession, doCheckWorkspace: true);
+    final toPackageConfigPath = getPackageConfigPathForPackage(toPackage,
+        stdoutSession: stdoutSession, doCheckWorkspace: true);
+    Directory(path.dirname(toPackageConfigPath)).createSync(recursive: true);
+    File(toPackageConfigPath)
+        .writeAsStringSync(File(fromPackageConfigPath).readAsStringSync());
+    await _adaptPackageConfigToAbsolutePaths(
+      targetPackageConfigPath: toPackageConfigPath,
+      sourcePackageConfigPath: fromPackageConfigPath,
+    );
+  }
+
+  static Future _adaptPackageConfigToAbsolutePaths({
+    required String targetPackageConfigPath,
+    required String sourcePackageConfigPath,
+  }) async {
+    final sourcePackageConfigDirPath = path.dirname(sourcePackageConfigPath);
+    final sourcePackageDirPath =
+        Directory(sourcePackageConfigDirPath).parent.path;
+    final targetPackageConfigContent =
+        jsonDecode(await File(targetPackageConfigPath).readAsString());
+    // iterate through the package_config.json content and look for relative paths
+    for (final packageConfig in targetPackageConfigContent['packages']) {
+      final rootUri = Uri.parse(packageConfig['rootUri']);
+      final packagePath = path.fromUri(rootUri);
+      if (path.isRelative(packagePath)) {
+        // we make the relative path absolute by using the origin of the source package config as a base
+        final normalizedAbsolutePackagePath = path.absolute(
+          path.normalize(path.join(sourcePackageConfigDirPath, packagePath)),
+        );
+        // if the relative path is the package path, then don't make it absolute
+        if (path.equals(sourcePackageDirPath, normalizedAbsolutePackagePath)) {
+          continue;
+        }
+        // and write the new absolute path back to the json structure
+        packageConfig['rootUri'] =
+            path.toUri(normalizedAbsolutePackagePath).toString();
+      }
+    }
+    final encoder = JsonEncoder.withIndent('    ');
+    // replace the package config with the new content
+    await File(targetPackageConfigPath).writeAsString(
+      encoder.convert(targetPackageConfigContent),
+      mode: FileMode.write,
+    );
+  }
+
+  static String? _findWorkspacePath(String packagePath) {
+    Directory currentDirectory = Directory(packagePath).parent;
+    while (currentDirectory.path != currentDirectory.parent.path) {
+      if (!File(path.join(currentDirectory.path, 'pubspec.yaml'))
+          .existsSync()) {
+        currentDirectory = currentDirectory.parent;
+        continue;
+      }
+      final pubspec = PubSpec.load(directory: currentDirectory.path);
+      if (pubspec.document.findSectionForKey('workspace').missing) {
+        currentDirectory = currentDirectory.parent;
+      } else {
+        return currentDirectory.path;
+      }
+    }
+    return null;
   }
 
   static Future<String> _runDartOrFlutterCommand(

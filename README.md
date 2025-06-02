@@ -57,7 +57,7 @@ Usage: dart-apitool extract [arguments]
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
-    --[no-]remove-example                Removes examples from the package to analyze.
+    --[no-]remove-example                DEPRECATED - Removes examples from the package to analyze. (has no effect any more)
                                          (defaults to on)
     --[no-]set-exit-on-missing-export    Sets exit code to != 0 if missing exports are detected in the API.
     --force-use-flutter                  If present forces dart_apitool to use Flutter
@@ -84,7 +84,7 @@ Usage: dart-apitool diff [arguments]
                                          - any package from pub
                                            (e.g. pub://package_name/version)
 -p, --[no-]include-path-dependencies     OBSOLETE: Has no effect anymore.
-    --version-check-mode                 Defines the mode the versions of the packages shall be compared.
+    --version-check-mode                 Defines the mode the versions of the packages shall be compared. 
                                          This affects the exit code of this program.
                                          [none, fully (default), onlyBreakingChanges]
     --[no-]check-sdk-version             Determines if the SDK version should be checked.
@@ -97,9 +97,9 @@ Usage: dart-apitool diff [arguments]
     --no-analyze-platform-constraints    Disables analysis of platform constraints.
     --dependency-check-mode              DEPRECATED - this option as no effect any more
                                          [none, allowAdding (default), strict]
-    --[no-]remove-example                Removes examples from the package to analyze.
+    --[no-]remove-example                DEPRECATED - Removes examples from the package to analyze. (has no effect any more)
                                          (defaults to on)
-    --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces
+    --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces 
                                          (yielding less strict version bump requirements)
     --report-format                      Which output format should be used
                                          [cli (default), markdown, json]

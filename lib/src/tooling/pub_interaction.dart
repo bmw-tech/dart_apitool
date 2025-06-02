@@ -4,6 +4,7 @@ import 'package:dart_apitool/src/tooling/dart_interaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 import '../errors/run_dart_error.dart';
 import '../utils/utils.dart';
 
@@ -174,5 +175,55 @@ abstract class PubInteraction {
       stdoutSession: stdoutSession,
       forceUseFlutterTool: forceUseFlutterTool,
     );
+  }
+
+  /// runs pub get indirectly by creating a temporary package that refers to [forDirectory] and copying the result back
+  static Future runPubGetIndirectly(
+    String forDirectory, {
+    required StdoutSession stdoutSession,
+    bool forceUseFlutterTool = false,
+  }) async {
+    final forDirectoryPubspecPath = path.join(forDirectory, 'pubspec.yaml');
+    final forDirectoryPubspec =
+        Pubspec.parse(File(forDirectoryPubspecPath).readAsStringSync());
+    final packageName = forDirectoryPubspec.name;
+    final isFlutter = forDirectoryPubspec.flutter != null;
+
+    String potentialFlutterDependency = isFlutter
+        ? '''
+  flutter:
+    sdk: flutter
+'''
+        : '';
+
+    final tempDirectory = Directory.systemTemp.createTempSync();
+    final tempPackagePath = path.join(tempDirectory.path, 'temp_package');
+    final tempPackagePubspecPath = path.join(tempPackagePath, 'pubspec.yaml');
+    Directory(tempPackagePath).createSync(recursive: true);
+    File(tempPackagePubspecPath).writeAsStringSync(
+      '''
+name: temp_package
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  $packageName:
+    path: $forDirectory
+$potentialFlutterDependency
+''',
+    );
+    await DartInteraction.runDartOrFlutterCommand(tempPackagePath,
+        args: ['pub', 'get'],
+        stdoutSession: stdoutSession,
+        forceUseFlutterTool: forceUseFlutterTool);
+    await DartInteraction.transferPackageConfig(
+      fromPackage: tempPackagePath,
+      toPackage: forDirectory,
+      stdoutSession: stdoutSession,
+    );
+    await Directory(tempDirectory.path).delete(recursive: true);
   }
 }
