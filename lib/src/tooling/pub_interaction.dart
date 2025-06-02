@@ -189,7 +189,7 @@ abstract class PubInteraction {
     final packageName = forDirectoryPubspec.name;
     final isFlutter = forDirectoryPubspec.flutter != null;
 
-    String potentialFlutterBloc = isFlutter
+    String potentialFlutterDependency = isFlutter
         ? '''
   flutter:
     sdk: flutter
@@ -212,7 +212,7 @@ environment:
 dependencies:
   $packageName:
     path: $forDirectory
-$potentialFlutterBloc
+$potentialFlutterDependency
 ''',
     );
     await DartInteraction.runDartOrFlutterCommand(tempPackagePath,
