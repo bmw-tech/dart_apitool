@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/bmw-tech/dart_apitool/blob/master/dart_apitool/res/dart_apitool_complete.png?raw=true" />
+  <img src="https://github.com/bmw-tech/dart_apitool/blob/main/res/dart_apitool_complete.png?raw=true" />
 </div>
 
 # Dart API Tool
