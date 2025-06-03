@@ -180,6 +180,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y webp
           dart pub get
           dart pub global activate pana
 
