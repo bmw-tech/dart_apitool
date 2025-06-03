@@ -40,4 +40,4 @@ executables:
 
 screenshots:
   - description: dart_apitool logo
-    path: res/dart_apitool.png
+    path: res/dart_apitool.webp
