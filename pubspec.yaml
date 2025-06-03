@@ -37,3 +37,7 @@ dev_dependencies:
 
 executables:
   dart-apitool: main
+
+screenshots:
+  - description: dart_apitool logo
+    path: res/dart_apitool.png
