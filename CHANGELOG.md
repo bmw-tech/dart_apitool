@@ -1,7 +1,11 @@
 # Changelog
 
+## Version 0.21.1
+- fix: Fix analysis of pub cache packages
+
 ## Version 0.21.0
 - chore: adapt to new analyzer API. This may break things
+- feat: run pub get indirectly
 
 ## Version 0.20.3
 - fix: unary and binary operators can have the same name and crashed dart_apitool
