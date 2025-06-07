@@ -223,6 +223,10 @@ $potentialFlutterDependency
       fromPackage: tempPackagePath,
       toPackage: forDirectory,
       stdoutSession: stdoutSession,
+      packageNameReplacementInfo: (
+        oldPackageName: 'temp_package',
+        newPackageName: packageName
+      ),
     );
     await Directory(tempDirectory.path).delete(recursive: true);
   }

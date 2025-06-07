@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:pubspec_manager/pubspec_manager.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
@@ -127,6 +128,10 @@ abstract class DartInteraction {
     required String fromPackage,
     required String toPackage,
     required StdoutSession stdoutSession,
+    ({
+      String oldPackageName,
+      String newPackageName
+    })? packageNameReplacementInfo,
   }) async {
     final fromPackageConfigPath = getPackageConfigPathForPackage(fromPackage,
         stdoutSession: stdoutSession, doCheckWorkspace: true);
@@ -138,22 +143,37 @@ abstract class DartInteraction {
     await _adaptPackageConfigToAbsolutePaths(
       targetPackageConfigPath: toPackageConfigPath,
       sourcePackageConfigPath: fromPackageConfigPath,
+      packageNameReplacementInfo: packageNameReplacementInfo,
     );
   }
 
   static Future _adaptPackageConfigToAbsolutePaths({
     required String targetPackageConfigPath,
     required String sourcePackageConfigPath,
+    ({
+      String newPackageName,
+      String oldPackageName
+    })? packageNameReplacementInfo,
   }) async {
     final sourcePackageConfigDirPath = path.dirname(sourcePackageConfigPath);
     final sourcePackageDirPath =
         Directory(sourcePackageConfigDirPath).parent.path;
     final targetPackageConfigContent =
         jsonDecode(await File(targetPackageConfigPath).readAsString());
+    if (packageNameReplacementInfo != null) {
+      final packages = targetPackageConfigContent['packages'] as List;
+      packages.removeWhere((package) =>
+          package['name'] == packageNameReplacementInfo.newPackageName);
+      packages.singleWhereOrNull((package) =>
+              package['name'] ==
+              packageNameReplacementInfo.oldPackageName)?['name'] =
+          packageNameReplacementInfo.newPackageName;
+    }
     // iterate through the package_config.json content and look for relative paths
     for (final packageConfig in targetPackageConfigContent['packages']) {
       final rootUri = Uri.parse(packageConfig['rootUri']);
       final packagePath = path.fromUri(rootUri);
+
       if (path.isRelative(packagePath)) {
         // we make the relative path absolute by using the origin of the source package config as a base
         final normalizedAbsolutePackagePath = path.absolute(
