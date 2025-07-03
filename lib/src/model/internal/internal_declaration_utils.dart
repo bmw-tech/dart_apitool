@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:collection/collection.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
