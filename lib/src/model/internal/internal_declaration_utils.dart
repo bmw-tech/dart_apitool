@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:collection/collection.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
@@ -103,7 +104,7 @@ abstract class InternalDeclarationUtils {
     }
     parts.add(element.name3 ?? element.displayName);
 
-    return parts.join('::');
+    return parts.where((part) => part.isNotEmpty).join('::');
   }
 
   static String? getNamespaceForElement(
