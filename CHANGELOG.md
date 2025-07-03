@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.21.2-dev
+- feat: Report usages of non-exported interfaces in JSON
+
 ## Version 0.21.1
 - fix: Fix analysis of pub cache packages
 
