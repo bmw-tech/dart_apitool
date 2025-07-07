@@ -182,7 +182,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   void _onVisitAnyElement(Element2 element) {
     // set the package name to the first element's package we see
-    _packageName ??= element.library2?.identifier != null
+    _packageName ??= element.library2?.uri != null
         ? getPackageNameFromLibrary(element.library2!)
         : null;
 

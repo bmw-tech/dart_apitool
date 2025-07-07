@@ -14,34 +14,25 @@ String getTypeParameterSuffix(List<String> typeParameterNames) {
 
 String? getPackageNameFromLibrary(LibraryElement2 library) {
   String? packageName;
-  packageName = _getPackageNameFromPackageUri(library.identifier);
-  packageName ??= _getPackageNameFromFilePath(library.identifier);
+  packageName = _getPackageNameFromPackageUri(library.uri) ??
+      _getPackageNameFromFilePath(library.uri);
   return packageName;
 }
 
-String? _getPackageNameFromPackageUri(String packageUri) {
-  if (!packageUri.startsWith('package:')) {
+String? _getPackageNameFromPackageUri(Uri packageUri) {
+  if (!packageUri.isScheme('package')) {
     return null;
   }
-  int endIndex = packageUri.length;
-  if (packageUri.contains('/')) {
-    endIndex = packageUri.indexOf('/');
-  }
 
-  return packageUri.substring('package:'.length, endIndex);
+  return packageUri.pathSegments.firstOrNull;
 }
 
-String? _getPackageNameFromFilePath(String filePathOrUri) {
+String? _getPackageNameFromFilePath(Uri uri) {
   String? filePath;
-  final parsedUri = Uri.tryParse(filePathOrUri);
-  if (parsedUri != null) {
-    if (!parsedUri.hasAbsolutePath) {
-      return null;
-    }
-    filePath = parsedUri.toFilePath();
-  } else {
-    filePath = filePathOrUri;
+  if (!uri.hasAbsolutePath) {
+    return null;
   }
+  filePath = uri.toFilePath();
   final parts = path.split(filePath);
   // very simple assumption: the package path is the directory that contains lib
   for (int i = parts.length - 1; i > 0; i--) {
