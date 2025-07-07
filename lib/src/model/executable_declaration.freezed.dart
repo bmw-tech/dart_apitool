@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -161,6 +160,211 @@ class _$ExecutableParameterDeclarationCopyWithImpl<$Res>
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ExecutableParameterDeclaration].
+extension ExecutableParameterDeclarationPatterns
+    on ExecutableParameterDeclaration {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ExecutableParameterDeclaration value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ExecutableParameterDeclaration value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ExecutableParameterDeclaration value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            bool isRequired,
+            bool isNamed,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            String typeName,
+            String? typeFullLibraryName,
+            String relativePath)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration() when $default != null:
+        return $default(
+            _that.isRequired,
+            _that.isNamed,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.typeName,
+            _that.typeFullLibraryName,
+            _that.relativePath);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            bool isRequired,
+            bool isNamed,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            String typeName,
+            String? typeFullLibraryName,
+            String relativePath)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration():
+        return $default(
+            _that.isRequired,
+            _that.isNamed,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.typeName,
+            _that.typeFullLibraryName,
+            _that.relativePath);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            bool isRequired,
+            bool isNamed,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            String typeName,
+            String? typeFullLibraryName,
+            String relativePath)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableParameterDeclaration() when $default != null:
+        return $default(
+            _that.isRequired,
+            _that.isNamed,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.typeName,
+            _that.typeFullLibraryName,
+            _that.relativePath);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -519,6 +723,228 @@ class _$ExecutableDeclarationCopyWithImpl<$Res>
           : relativePath // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ExecutableDeclaration].
+extension ExecutableDeclarationPatterns on ExecutableDeclaration {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ExecutableDeclaration value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ExecutableDeclaration value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ExecutableDeclaration value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String returnTypeName,
+            String? returnTypeFullLibraryName,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            List<ExecutableParameterDeclaration> parameters,
+            List<String> typeParameterNames,
+            ExecutableType type,
+            bool isStatic,
+            Set<String>? entryPoints,
+            String relativePath)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration() when $default != null:
+        return $default(
+            _that.returnTypeName,
+            _that.returnTypeFullLibraryName,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.parameters,
+            _that.typeParameterNames,
+            _that.type,
+            _that.isStatic,
+            _that.entryPoints,
+            _that.relativePath);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String returnTypeName,
+            String? returnTypeFullLibraryName,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            List<ExecutableParameterDeclaration> parameters,
+            List<String> typeParameterNames,
+            ExecutableType type,
+            bool isStatic,
+            Set<String>? entryPoints,
+            String relativePath)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration():
+        return $default(
+            _that.returnTypeName,
+            _that.returnTypeFullLibraryName,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.parameters,
+            _that.typeParameterNames,
+            _that.type,
+            _that.isStatic,
+            _that.entryPoints,
+            _that.relativePath);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String returnTypeName,
+            String? returnTypeFullLibraryName,
+            String name,
+            bool isDeprecated,
+            bool isExperimental,
+            List<ExecutableParameterDeclaration> parameters,
+            List<String> typeParameterNames,
+            ExecutableType type,
+            bool isStatic,
+            Set<String>? entryPoints,
+            String relativePath)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ExecutableDeclaration() when $default != null:
+        return $default(
+            _that.returnTypeName,
+            _that.returnTypeFullLibraryName,
+            _that.name,
+            _that.isDeprecated,
+            _that.isExperimental,
+            _that.parameters,
+            _that.typeParameterNames,
+            _that.type,
+            _that.isStatic,
+            _that.entryPoints,
+            _that.relativePath);
+      case _:
+        return null;
+    }
   }
 }
 
