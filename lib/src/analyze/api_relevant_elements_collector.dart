@@ -396,7 +396,6 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       namespace: _context.namespace,
       rootPath: _context.rootPath,
     ));
-    // if the function is internal then we don't collect its return type as used
     if (element.returnType.element3 != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
