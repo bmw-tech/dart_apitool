@@ -211,11 +211,17 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       return false;
     }
 
+    var isInternal = false;
+
+    if (element is Annotatable) {
+      isInternal = InternalDeclarationUtils.hasInternal(element as Annotatable);
+    }
+
     // if the element is public, it is allowed to be collected
-    if (element.isPublic) {
+    if (!isInternal && element.isPublic) {
       return true;
     }
-    // only collect explicitly allowed private elements (are used somewhere and therefore implicitly public)
+    // only collect explicitly allowed private or internal elements (are used somewhere and therefore implicitly public)
     return privateElementExceptions.contains(element.id);
   }
 
@@ -390,6 +396,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       namespace: _context.namespace,
       rootPath: _context.rootPath,
     ));
+    // if the function is internal then we don't collect its return type as used
     if (element.returnType.element3 != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);

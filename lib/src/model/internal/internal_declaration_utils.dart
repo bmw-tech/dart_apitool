@@ -47,6 +47,10 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
+  static bool hasInternal(Annotatable element) {
+    return containsAnnotation(element, 'internal');
+  }
+
   static bool hasVisibleForTesting(Annotatable element) {
     return containsAnnotation(element, 'visibleForTesting');
   }
