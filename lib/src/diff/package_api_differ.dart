@@ -122,13 +122,14 @@ class PackageApiDiffer {
 
         // we need to do additional checks as we might have naming conflicts otherwise
 
-        // if the entry points are the same, then we can assume that the interfaces are the same (independent of their relative path)
+        // if the entry points are the same (and not empty), then we can assume that the interfaces are the same (independent of their relative path)
         if (SetEquality<String>()
-            .equals(oldInterface.entryPoints, newInterface.entryPoints)) {
+                .equals(oldInterface.entryPoints, newInterface.entryPoints) &&
+            (oldInterface.entryPoints ?? {}).isNotEmpty) {
           return true;
         }
 
-        // here the name is equal but we have different entry points.
+        // here the name is equal but we have different (or no) entry points.
         // to support detection of entry point changes we consider the interfaces equal if they have the same relative path
         // (only works for top level elements)
         if (context.isEmpty &&
