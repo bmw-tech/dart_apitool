@@ -33,3 +33,6 @@ coverage
 
 # asdf config
 /.tool-versions
+
+# Kiro
+.kiro
