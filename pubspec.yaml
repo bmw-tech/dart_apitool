@@ -18,7 +18,7 @@ dependencies:
   json_annotation: ^4.9.0
   lumberdash: ^3.0.0
   path: ^1.9.0
-  plist_parser: ^0.0.9
+  plist_parser: ^0.2.2
   pub_semver: ^2.1.4
   pubspec_manager: ^1.0.0
   pubspec_parse: ^1.5.0
