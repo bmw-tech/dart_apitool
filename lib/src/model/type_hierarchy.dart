@@ -283,7 +283,7 @@ class TypeHierarchy {
   }
 
   /// Extracts the base type name from a potentially generic type
-  /// e.g., "List<int>" -> "List", "String" -> "String"
+  /// e.g., "`List<int>`" -> "List", "String" -> "String"
   String _extractBaseTypeName(String typeName) {
     final genericStart = typeName.indexOf('<');
     if (genericStart == -1) {
@@ -292,7 +292,7 @@ class TypeHierarchy {
     return typeName.substring(0, genericStart);
   }
 
-  /// Checks if generic types are covariant (e.g., List<int> is subtype of List<num>)
+  /// Checks if generic types are covariant (e.g., `List<int>` is subtype of `List<num>`)
   bool _isGenericTypeCovariant(String subType, String superType) {
     final subTypeInfo = _parseGenericType(subType);
     final superTypeInfo = _parseGenericType(superType);
