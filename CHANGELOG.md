@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.21.2
+- fix: Fixes an issue if we have to deal with two types with the same name
+- feat: add support for @internal annotations
+
 ## Version 0.21.1
 - fix: Fix analysis of pub cache packages
 
