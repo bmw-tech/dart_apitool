@@ -236,7 +236,7 @@ void main() {
 
         // we expect to find elements with missing entry points here
         expect(missingEntryPoints.length, 1);
-        expect(missingEntryPoints.first, 'ClassB');
+        expect(missingEntryPoints.first['name'], 'ClassB');
       },
       timeout: integrationTestTimeout,
     );
