@@ -206,17 +206,25 @@ class TypeHierarchy {
     required bool isTypePassedIn,
   }) {
     if (isTypePassedIn) {
-      // for types passed in: dynamic and Object? are equivalent and compatible to whatever has been there before
+      // for types passed in: dynamic accepts anything so it's always compatible
       if (newTypeIdentifier.isDynamic) {
         return true;
       }
-      if (newTypeIdentifier.typeName == 'Object?') {
+      // Special case: Object? and dynamic are interchangeable for input parameters
+      if (oldTypeIdentifier.isDynamic &&
+          newTypeIdentifier.typeName == 'Object?') {
+        return true;
+      }
+      if (oldTypeIdentifier.typeName == 'Object?' &&
+          newTypeIdentifier.isDynamic) {
         return true;
       }
     } else {
-      // for types returned changing from anything to dynamic is compatible
-      if (newTypeIdentifier.isDynamic) {
-        return true;
+      // for types returned: narrowing (going to more specific types) is compatible
+      // widening (going to more general types like dynamic) is NOT compatible
+      // Exception: changing FROM dynamic to anything specific is narrowing and compatible
+      if (oldTypeIdentifier.isDynamic && !newTypeIdentifier.isDynamic) {
+        return true; // narrowing from dynamic to specific type is compatible
       }
     }
     // if we try to replace a nullable type with a non-nullable for types passed in then we can return early
@@ -257,6 +265,14 @@ class TypeHierarchy {
     TypeIdentifier potentialSubType,
     TypeIdentifier superType,
   ) {
+    // Handle dynamic type cases
+    if (superType.isDynamic) {
+      return true; // Everything is a subtype of dynamic
+    }
+    if (potentialSubType.isDynamic) {
+      return false; // Dynamic is not a subtype of specific types
+    }
+
     // Extract base type names (without generic parameters)
     final subTypeName =
         _extractBaseTypeName(potentialSubType.nonNullableTypeName);
@@ -321,20 +337,40 @@ class TypeHierarchy {
       final subArg = subTypeInfo.typeArguments[i];
       final superArg = superTypeInfo.typeArguments[i];
 
-      // Create type identifiers for the type arguments
-      final subArgType = TypeIdentifier(
-        typeName: subArg,
-        packageName: '',
-        packageRelativeLibraryPath: '',
-      );
-      final superArgType = TypeIdentifier(
-        typeName: superArg,
-        packageName: '',
-        packageRelativeLibraryPath: '',
-      );
+      // Special handling for Map: only the value type (second parameter) needs to be covariant
+      // The key type (first parameter) should be invariant, but for return types we allow covariance
+      if (subTypeInfo.baseType == 'Map' && i == 0) {
+        // For Map key types, we allow exact match or covariance for return types
+        if (subArg != superArg) {
+          final subArgType = TypeIdentifier(
+            typeName: subArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          );
+          final superArgType = TypeIdentifier(
+            typeName: superArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          );
+          if (!_isTypeArgumentSubtype(subArgType, superArgType)) {
+            return false;
+          }
+        }
+        continue;
+      }
 
-      // Check if subArg is a subtype of superArg
-      if (!_isBuiltInSubType(subArgType, superArgType) && subArg != superArg) {
+      // For other type arguments, check covariance
+      if (!_isTypeArgumentSubtype(
+          TypeIdentifier(
+            typeName: subArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ),
+          TypeIdentifier(
+            typeName: superArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ))) {
         return false;
       }
     }
@@ -342,10 +378,36 @@ class TypeHierarchy {
     return true;
   }
 
+  /// Checks if a type argument is a subtype of another type argument
+  /// This handles special cases like dynamic and nullable types
+  bool _isTypeArgumentSubtype(
+      TypeIdentifier subType, TypeIdentifier superType) {
+    // If super type is dynamic, any type is a subtype
+    if (superType.isDynamic) {
+      return true;
+    }
+
+    // If sub type is dynamic and super type is not, this is narrowing (allowed for return types)
+    if (subType.isDynamic) {
+      return false; // dynamic is not a subtype of specific types
+    }
+
+    // Handle nullable to non-nullable narrowing
+    if (!subType.isNullable && superType.isNullable) {
+      // Non-nullable is a subtype of nullable if the base types match
+      return subType.nonNullableTypeName == superType.nonNullableTypeName;
+    }
+
+    // Use the existing built-in subtype checking
+    return _isBuiltInSubType(subType, superType) ||
+        subType.typeName == superType.typeName;
+  }
+
   /// Checks if a generic type supports covariance
   bool _isCovariantGenericType(String baseType) {
     // These generic types are covariant in Dart
-    return const {'List', 'Set', 'Iterable', 'Future', 'Stream'}
+    // Note: Map is covariant in its value type (second type parameter)
+    return const {'List', 'Set', 'Iterable', 'Future', 'Stream', 'Map'}
         .contains(baseType);
   }
 

@@ -21,11 +21,33 @@ class ApiClass {
   /// Returns supertype (wide type)
   SomeSuperType getSuperType() => SomeSubType();
 
+  SomeSuperType? getSuperType2() => SomeSuperType();
+
   /// Getter returning nullable string (wide type)
   String? get nullableStringGetter => "test";
 
   /// Getter returning general number (wide type)
   num get generalNumberGetter => 42;
+
+  Map<String, dynamic> returnAMap1() {
+    return {'key': 'value'};
+  }
+
+  Map<String, String?> returnAMap2() {
+    return {'key': 'value'};
+  }
+
+  List<dynamic> returnAList1() {
+    return ['value'];
+  }
+
+  List<String?> returnAList2() {
+    return ['value'];
+  }
+
+  dynamic returnSomething() {
+    return 1;
+  }
 }
 
 /// Base class for type hierarchy testing

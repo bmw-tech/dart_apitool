@@ -21,11 +21,33 @@ class ApiClass {
   /// Returns subtype (narrow type)
   SomeSubType getSuperType() => SomeSubType();
 
+  SomeSuperType getSuperType2() => SomeSuperType();
+
   /// Getter returning non-nullable string (narrow type)
   String get nullableStringGetter => "test";
 
   /// Getter returning specific integer (narrow type)
   int get generalNumberGetter => 42;
+
+  Map<String, String> returnAMap1() {
+    return {'key': 'value'};
+  }
+
+  Map<String, String> returnAMap2() {
+    return {'key': 'value'};
+  }
+
+  List<String> returnAList1() {
+    return ['value'];
+  }
+
+  List<String> returnAList2() {
+    return ['value'];
+  }
+
+  int returnSomething() {
+    return 1;
+  }
 }
 
 /// Base class for type hierarchy testing

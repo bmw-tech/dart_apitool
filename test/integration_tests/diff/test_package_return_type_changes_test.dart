@@ -142,6 +142,101 @@ void main() {
               'Narrowing Iterable<num> to List<int> should be non-breaking for return types (both base type and type parameter narrowing)',
         );
       });
+
+      test(
+          'detects Map<String, dynamic> to Map<String, String> as non-breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('Map<String, dynamic> -> Map<String, String>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing Map<String, dynamic> to Map<String, String> should be non-breaking for return types',
+        );
+      });
+
+      test(
+          'detects Map<String, String?> to Map<String, String> as non-breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('Map<String, String?> -> Map<String, String>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing Map<String, String?> to Map<String, String> should be non-breaking for return types',
+        );
+      });
+
+      test('detects List<String?> to List<String> as non-breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('List<String?> -> List<String>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing List<String?> to List<String> should be non-breaking for return types',
+        );
+      });
+
+      test('detects List<dynamic> to List<String> as non-breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('List<dynamic> -> List<String>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing List<dynamic> to List<String> should be non-breaking for return types',
+        );
+      });
+
+      test('detects dynamic to int return type change as non-breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription.contains('dynamic -> int') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing dynamic to int should be non-breaking for return types',
+        );
+      });
+
+      test(
+          'detects SomeSuperType? to SomeSuperType return type change as non-breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('SomeSuperType? -> SomeSuperType') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isFalse,
+          reason:
+              'Narrowing SomeSuperType? to SomeSuperType should be non-breaking for return types',
+        );
+      });
     });
 
     group('return type widening (should be breaking)', () {
@@ -222,6 +317,98 @@ void main() {
           isTrue,
           reason:
               'Widening List<int> to Iterable<num> should be breaking for return types (both base type and type parameter widening)',
+        );
+      });
+
+      test('detects Map<String, String> to Map<String, dynamic> as breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('Map<String, String> -> Map<String, dynamic>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason:
+              'Widening Map<String, String> to Map<String, dynamic> should be breaking for return types',
+        );
+      });
+
+      test('detects Map<String, String> to Map<String, String?> as breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('Map<String, String> -> Map<String, String?>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason:
+              'Widening Map<String, String> to Map<String, String?> should be breaking for return types',
+        );
+      });
+
+      test('detects List<String> to List<String?> as breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('List<String> -> List<String?>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason:
+              'Widening List<String> to List<String?> should be breaking for return types',
+        );
+      });
+
+      test('detects List<String> to List<dynamic> as breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('List<String> -> List<dynamic>') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason:
+              'Widening List<String> to List<dynamic> should be breaking for return types',
+        );
+      });
+
+      test('detects int to dynamic return type change as breaking', () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription.contains('int -> dynamic') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason: 'Widening int to dynamic should be breaking for return types',
+        );
+      });
+
+      test(
+          'detects SomeSuperType to SomeSuperType? return type change as breaking',
+          () {
+        final returnTypeChange = diffResult.apiChanges
+            .where((ac) =>
+                ac.changeDescription
+                    .contains('SomeSuperType -> SomeSuperType?') &&
+                ac.changeDescription.contains('Return type changed'))
+            .single;
+        expect(
+          returnTypeChange.isBreaking,
+          isTrue,
+          reason:
+              'Widening SomeSuperType to SomeSuperType? should be breaking for return types',
         );
       });
     });
