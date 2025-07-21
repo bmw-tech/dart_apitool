@@ -154,6 +154,26 @@ sealed class TypeIdentifier with _$TypeIdentifier {
 class TypeHierarchy {
   final Map<String, Set<_TypeHierarchyItem>> _types = {};
 
+  /// Built-in Dart type hierarchy relationships
+  /// Maps type names to their supertypes
+  static const Map<String, Set<String>> _builtInTypeHierarchy = {
+    'int': {'num', 'Object'},
+    'double': {'num', 'Object'},
+    'num': {'Object'},
+    'String': {'Object'},
+    'bool': {'Object'},
+    'List': {'Iterable', 'Object'},
+    'Set': {'Iterable', 'Object'},
+    'Map': {'Object'},
+    'Iterable': {'Object'},
+    'Future': {'Object'},
+    'Stream': {'Object'},
+    'Symbol': {'Object'},
+    'Type': {'Object'},
+    'Function': {'Object'},
+    'Record': {'Object'},
+  };
+
   TypeHierarchy._();
 
   /// creates an empty type hierarchy
@@ -186,17 +206,25 @@ class TypeHierarchy {
     required bool isTypePassedIn,
   }) {
     if (isTypePassedIn) {
-      // for types passed in: dynamic and Object? are equivalent and compatible to whatever has been there before
+      // for types passed in: dynamic accepts anything so it's always compatible
       if (newTypeIdentifier.isDynamic) {
         return true;
       }
-      if (newTypeIdentifier.typeName == 'Object?') {
+      // Special case: Object? and dynamic are interchangeable for input parameters
+      if (oldTypeIdentifier.isDynamic &&
+          newTypeIdentifier.typeName == 'Object?') {
+        return true;
+      }
+      if (oldTypeIdentifier.typeName == 'Object?' &&
+          newTypeIdentifier.isDynamic) {
         return true;
       }
     } else {
-      // for types returned changing from anything to dynamic is compatible
-      if (newTypeIdentifier.isDynamic) {
-        return true;
+      // for types returned: narrowing (going to more specific types) is compatible
+      // widening (going to more general types like dynamic) is NOT compatible
+      // Exception: changing FROM dynamic to anything specific is narrowing and compatible
+      if (oldTypeIdentifier.isDynamic && !newTypeIdentifier.isDynamic) {
+        return true; // narrowing from dynamic to specific type is compatible
       }
     }
     // if we try to replace a nullable type with a non-nullable for types passed in then we can return early
@@ -232,10 +260,194 @@ class TypeHierarchy {
     return isTypePassedIn ? oldIsSubtypeOfNew : newIsSubtypeOfOld;
   }
 
+  /// Checks if [potentialSubType] is a built-in subtype of [superType]
+  bool _isBuiltInSubType(
+    TypeIdentifier potentialSubType,
+    TypeIdentifier superType,
+  ) {
+    // Handle dynamic type cases
+    if (superType.isDynamic) {
+      return true; // Everything is a subtype of dynamic
+    }
+    if (potentialSubType.isDynamic) {
+      return false; // Dynamic is not a subtype of specific types
+    }
+
+    // Extract base type names (without generic parameters)
+    final subTypeName =
+        _extractBaseTypeName(potentialSubType.nonNullableTypeName);
+    final superTypeName = _extractBaseTypeName(superType.nonNullableTypeName);
+
+    // Check if both types are from the same package (built-in types should have empty package names)
+    if (potentialSubType.packageName != superType.packageName) {
+      return false;
+    }
+
+    // Check direct built-in type relationships
+    final superTypes = _builtInTypeHierarchy[subTypeName];
+    if (superTypes != null && superTypes.contains(superTypeName)) {
+      return true;
+    }
+
+    // Check generic type covariance for common collection types
+    if (_isGenericTypeCovariant(
+        potentialSubType.nonNullableTypeName, superType.nonNullableTypeName)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /// Extracts the base type name from a potentially generic type
+  /// e.g., "`List<int>`" -> "List", "String" -> "String"
+  String _extractBaseTypeName(String typeName) {
+    final genericStart = typeName.indexOf('<');
+    if (genericStart == -1) {
+      return typeName;
+    }
+    return typeName.substring(0, genericStart);
+  }
+
+  /// Checks if generic types are covariant (e.g., `List<int>` is subtype of `List<num>`)
+  bool _isGenericTypeCovariant(String subType, String superType) {
+    final subTypeInfo = _parseGenericType(subType);
+    final superTypeInfo = _parseGenericType(superType);
+
+    // Both must be generic types with the same base type
+    if (subTypeInfo == null || superTypeInfo == null) {
+      return false;
+    }
+
+    if (subTypeInfo.baseType != superTypeInfo.baseType) {
+      return false;
+    }
+
+    // Check if the base type supports covariance
+    if (!_isCovariantGenericType(subTypeInfo.baseType)) {
+      return false;
+    }
+
+    // For covariant types, check if all type arguments are subtypes
+    if (subTypeInfo.typeArguments.length !=
+        superTypeInfo.typeArguments.length) {
+      return false;
+    }
+
+    for (int i = 0; i < subTypeInfo.typeArguments.length; i++) {
+      final subArg = subTypeInfo.typeArguments[i];
+      final superArg = superTypeInfo.typeArguments[i];
+
+      // Special handling for Map: only the value type (second parameter) needs to be covariant
+      // The key type (first parameter) should be invariant, but for return types we allow covariance
+      if (subTypeInfo.baseType == 'Map' && i == 0) {
+        // For Map key types, we allow exact match or covariance for return types
+        if (subArg != superArg) {
+          final subArgType = TypeIdentifier(
+            typeName: subArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          );
+          final superArgType = TypeIdentifier(
+            typeName: superArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          );
+          if (!_isTypeArgumentSubtype(subArgType, superArgType)) {
+            return false;
+          }
+        }
+        continue;
+      }
+
+      // For other type arguments, check covariance
+      if (!_isTypeArgumentSubtype(
+          TypeIdentifier(
+            typeName: subArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ),
+          TypeIdentifier(
+            typeName: superArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /// Checks if a type argument is a subtype of another type argument
+  /// This handles special cases like dynamic and nullable types
+  bool _isTypeArgumentSubtype(
+      TypeIdentifier subType, TypeIdentifier superType) {
+    // If super type is dynamic, any type is a subtype
+    if (superType.isDynamic) {
+      return true;
+    }
+
+    // If sub type is dynamic and super type is not, this is narrowing (allowed for return types)
+    if (subType.isDynamic) {
+      return false; // dynamic is not a subtype of specific types
+    }
+
+    // Handle nullable to non-nullable narrowing
+    if (!subType.isNullable && superType.isNullable) {
+      // Non-nullable is a subtype of nullable if the base types match
+      return subType.nonNullableTypeName == superType.nonNullableTypeName;
+    }
+
+    // Use the existing built-in subtype checking
+    return _isBuiltInSubType(subType, superType) ||
+        subType.typeName == superType.typeName;
+  }
+
+  /// Checks if a generic type supports covariance
+  bool _isCovariantGenericType(String baseType) {
+    // These generic types are covariant in Dart
+    // Note: Map is covariant in its value type (second type parameter)
+    return const {'List', 'Set', 'Iterable', 'Future', 'Stream', 'Map'}
+        .contains(baseType);
+  }
+
+  /// Parses a generic type into base type and type arguments
+  _GenericTypeInfo? _parseGenericType(String typeName) {
+    final genericStart = typeName.indexOf('<');
+    if (genericStart == -1) {
+      return null; // Not a generic type
+    }
+
+    final genericEnd = typeName.lastIndexOf('>');
+    if (genericEnd == -1 || genericEnd <= genericStart) {
+      return null; // Malformed generic type
+    }
+
+    final baseType = typeName.substring(0, genericStart);
+    final typeArgsString = typeName.substring(genericStart + 1, genericEnd);
+
+    // Simple parsing - split by comma (doesn't handle nested generics perfectly)
+    final typeArguments = typeArgsString
+        .split(',')
+        .map((arg) => arg.trim())
+        .where((arg) => arg.isNotEmpty)
+        .toList();
+
+    return _GenericTypeInfo(
+      baseType: baseType,
+      typeArguments: typeArguments,
+    );
+  }
+
   bool _isSubTypeOf(
     TypeIdentifier potentialSubTypeIdentifier,
     TypeIdentifier superTypeIdentifier,
   ) {
+    // First check built-in type relationships
+    if (_isBuiltInSubType(potentialSubTypeIdentifier, superTypeIdentifier)) {
+      return true;
+    }
+
     // if we can't find the type we try to use the nullable / non-nullable variant
     if (!_types.containsKey(potentialSubTypeIdentifier.packageAndTypeName)) {
       if (potentialSubTypeIdentifier.isNullable) {
@@ -278,6 +490,17 @@ class TypeHierarchy {
       return _isSubTypeOf(bti, superTypeIdentifier);
     });
   }
+}
+
+/// Helper class for parsing generic type information
+class _GenericTypeInfo {
+  final String baseType;
+  final List<String> typeArguments;
+
+  _GenericTypeInfo({
+    required this.baseType,
+    required this.typeArguments,
+  });
 }
 
 /// represents a type in the type hierarchy
