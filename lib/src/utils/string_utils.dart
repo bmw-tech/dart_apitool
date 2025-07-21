@@ -23,7 +23,6 @@ String? _getPackageNameFromPackageUri(Uri packageUri) {
   if (!packageUri.isScheme('package')) {
     return null;
   }
-
   return packageUri.pathSegments.firstOrNull;
 }
 

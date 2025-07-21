@@ -1,6 +1,9 @@
 # Changelog
 
-## Version 0.21.2-dev
+## Version 0.21.2
+- fix: Fixes an issue if we have to deal with two types with the same name
+- feat: add support for @internal annotations
+- fix: Narrowing return types (generics) should not be considered a breaking change
 - feat: Report usages of non-exported interfaces in JSON
 
 ## Version 0.21.1

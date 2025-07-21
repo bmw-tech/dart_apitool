@@ -182,7 +182,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   void _onVisitAnyElement(Element2 element) {
     // set the package name to the first element's package we see
-    _packageName ??= element.library2?.uri != null
+    _packageName ??= element.library2 != null
         ? getPackageNameFromLibrary(element.library2!)
         : null;
 
@@ -211,11 +211,17 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       return false;
     }
 
+    var isInternal = false;
+
+    if (element is Annotatable) {
+      isInternal = InternalDeclarationUtils.hasInternal(element as Annotatable);
+    }
+
     // if the element is public, it is allowed to be collected
-    if (element.isPublic) {
+    if (!isInternal && element.isPublic) {
       return true;
     }
-    // only collect explicitly allowed private elements (are used somewhere and therefore implicitly public)
+    // only collect explicitly allowed private or internal elements (are used somewhere and therefore implicitly public)
     return privateElementExceptions.contains(element.id);
   }
 

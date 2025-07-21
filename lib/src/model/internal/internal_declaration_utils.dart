@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/source/file_source.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
@@ -46,6 +47,10 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
+  static bool hasInternal(Annotatable element) {
+    return containsAnnotation(element, 'internal');
+  }
+
   static bool hasVisibleForTesting(Annotatable element) {
     return containsAnnotation(element, 'visibleForTesting');
   }
@@ -59,16 +64,16 @@ abstract class InternalDeclarationUtils {
   }
 
   static String getRelativePath(String rootPath, Element2? element) {
-    final libraryUri = element?.library2?.uri;
-    if (libraryUri != null) {
+    final librarySource = element?.library2?.fragments.firstOrNull?.source;
+    if (librarySource is FileSource) {
       try {
-        final libraryPath = libraryUri.toFilePath();
+        final libraryPath = librarySource.fullName;
         return path.relative(libraryPath, from: rootPath);
       } catch (e) {
         // ignore
       }
     }
-    return libraryUri.toString();
+    return element?.library2?.uri.toString() ?? '';
   }
 
   static String getFullQualifiedNameForLibrary(LibraryElement2 library) {
