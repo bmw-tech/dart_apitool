@@ -17,10 +17,24 @@ abstract class PackageApiStorage {
     return encoder.convert({
       'version': 3,
       'packageApi': packageApiStorage.toJson(),
-      'missingEntryPoints': packageApi
-          .rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
-          .map((e) => e.name)
-          .toList(),
+      'missingEntryPoints':
+          packageApi.rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
+              .map((e) => {
+                    'type': switch (e) {
+                      InterfaceDeclaration() => 'interface',
+                      ExecutableDeclaration() => 'executable',
+                      FieldDeclaration() => 'field',
+                      TypeAliasDeclaration() => 'typeAlias',
+                      Declaration() => throw UnimplementedError(),
+                    },
+                    if (e is InterfaceDeclaration)
+                      'usages': e.typeUsages
+                          .where((tu) => !tu.isVisibleForTesting)
+                          .map((tu) => tu.referringElementName)
+                          .toList(),
+                    'name': e.name
+                  })
+              .toList(),
     });
   }
 

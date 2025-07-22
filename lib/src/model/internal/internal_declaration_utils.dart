@@ -108,7 +108,7 @@ abstract class InternalDeclarationUtils {
     }
     parts.add(element.name3 ?? element.displayName);
 
-    return parts.join('::');
+    return parts.where((part) => part.isNotEmpty).join('::');
   }
 
   static String? getNamespaceForElement(
