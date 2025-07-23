@@ -165,7 +165,7 @@ void main() {
     );
 
     test(
-      'diffing protobuf 4916e6f7d34443869c27d997749d4362870fd7ce to protobuf 7f7d776a1812594b0d2b56bac41439f50006e225 works',
+      'diffing protobuf a9822d881d27a27b454621bc698997fce5abf370 to 4916e6f7d34443869c27d997749d4362870fd7ce works',
       () async {
         // just some random package that we know the git refs of
         final diffCommand = DiffCommand();
@@ -175,9 +175,9 @@ void main() {
         final exitCode = await runner.run([
           'diff',
           '--old',
-          'git://https://github.com/google/protobuf.dart.git/protobuf:4916e6f7d34443869c27d997749d4362870fd7ce',
+          'git://https://github.com/google/protobuf.dart.git/protobuf:a9822d881d27a27b454621bc698997fce5abf370',
           '--new',
-          'git://https://github.com/google/protobuf.dart.git/protobuf:7f7d776a1812594b0d2b56bac41439f50006e225',
+          'git://https://github.com/google/protobuf.dart.git/protobuf:4916e6f7d34443869c27d997749d4362870fd7ce',
         ]);
         expect(exitCode, 0);
       },
