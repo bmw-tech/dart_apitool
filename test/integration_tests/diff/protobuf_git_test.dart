@@ -1,14 +1,3 @@
-/*
-
-            "args": [
-                "diff",
-                "--old",
-                "git://https://github.com/google/protobuf.dart.git/protobuf:4916e6f7d34443869c27d997749d4362870fd7ce",
-                "--new",
-                "git://https://github.com/google/protobuf.dart.git/protobuf:7f7d776a1812594b0d2b56bac41439f50006e225"
-            ]
-
-*/
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
