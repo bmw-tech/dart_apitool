@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.22.1
+- feat: Support git references for package analysis
+  - Supports both HTTPS and SSH git repository formats
+  - Optional branch/tag/commit specification (e.g., git://https://github.com/user/repo:branch)
+  - Automatic cloning, dependency resolution, and cleanup
+  - Formats: git://https://github.com/user/repo or git://git@github.com:user/repo
+
 ## Version 0.22.0
 - fix: Fixes an issue if we have to deal with two types with the same name
 - feat: add support for @internal annotations

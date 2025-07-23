@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'git_ref.dart';
+
 /// representation of a package reference
 ///
 /// a [PackageRef] can be:
@@ -26,6 +28,16 @@ class PackageRef {
     return uri.hasScheme && uri.scheme == 'pub';
   }
 
+  /// determines if this reference references a git repository
+  /// Formats:
+  /// - git://some_ssh_git_ref
+  /// - git://some_ssh_git_ref:`<branch, tag or commit>`
+  /// - git://https://some_http_git_ref
+  /// - git://https://some_http_git_ref:`<branch, tag or commit>`
+  bool get isGitRef {
+    return ref.startsWith('git://');
+  }
+
   /// (only valid if [isPubRef]) gets the package name from the pub ref
   String? get pubPackage {
     if (!isPubRef) {
@@ -48,6 +60,25 @@ class PackageRef {
     return path;
   }
 
+  /// (only valid if [isGitRef]) gets the parsed git reference
+  GitRef? get gitRef {
+    if (!isGitRef) {
+      return null;
+    }
+    return GitRef.fromPackageRef(ref);
+  }
+
+  /// (only valid if [isGitRef]) gets the git URI from the git ref
+  /// Removes the git:// scheme and extracts the actual git URL
+  String? get gitUri {
+    return gitRef?.uri;
+  }
+
+  /// (only valid if [isGitRef]) gets the branch, tag, or commit from the git ref
+  String? get gitRefString {
+    return gitRef?.ref;
+  }
+
   @override
   String toString() {
     var kind = 'Unknown';
@@ -55,6 +86,8 @@ class PackageRef {
       kind = 'Directory';
     } else if (isPubRef) {
       kind = 'Pub ref';
+    } else if (isGitRef) {
+      kind = 'Git ref';
     }
     return '$ref ($kind)';
   }

@@ -53,6 +53,9 @@ Usage: dart-apitool extract [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
+                                         - git repository with optional branch/tag/commit
+                                           (e.g. git://https://github.com/user/repo or git://https://github.com/user/repo:branch)
+                                           (e.g. git://git@github.com:user/repo or git://git@github.com:user/repo:tag)
 -p, --[no-]include-path-dependencies     OBSOLETE: Has no effect anymore.
     --output                             Output file for the extracted Package API.
                                          If not specified the extracted API will be printed to the console.
@@ -78,11 +81,17 @@ Usage: dart-apitool diff [arguments]
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
+                                         - git repository with optional branch/tag/commit
+                                           (e.g. git://https://github.com/user/repo or git://https://github.com/user/repo:branch)
+                                           (e.g. git://git@github.com:user/repo or git://git@github.com:user/repo:tag)
     --new (mandatory)                    New package reference. Package reference can be one of:
                                          - directory path pointing to a package on disk
                                            (e.g. /path/to/package)
                                          - any package from pub
                                            (e.g. pub://package_name/version)
+                                         - git repository with optional branch/tag/commit
+                                           (e.g. git://https://github.com/user/repo or git://https://github.com/user/repo:branch)
+                                           (e.g. git://git@github.com:user/repo or git://git@github.com:user/repo:tag)
 -p, --[no-]include-path-dependencies     OBSOLETE: Has no effect anymore.
     --version-check-mode                 Defines the mode the versions of the packages shall be compared. 
                                          This affects the exit code of this program.
@@ -110,6 +119,53 @@ Usage: dart-apitool diff [arguments]
 Run "dart-apitool help" to see global options.
 ```
 
+## Package References
+
+Dart API Tool supports three types of package references:
+
+### Directory Path
+Points directly to a package directory on your local filesystem:
+```bash
+dart-apitool extract --input /path/to/my/package
+```
+
+### Pub Package
+References a published package from pub.dev:
+```bash
+dart-apitool extract --input pub://package_name/1.0.0
+```
+If you omit the version, the latest version will be used:
+```bash
+dart-apitool extract --input pub://package_name
+```
+
+### Git Repository
+References a package directly from a git repository. Supports both HTTPS and SSH formats:
+
+**HTTPS format:**
+```bash
+# Clone the default branch
+dart-apitool extract --input git://https://github.com/user/repo
+
+# Clone a specific branch, tag, or commit
+dart-apitool extract --input git://https://github.com/user/repo:main
+dart-apitool extract --input git://https://github.com/user/repo:v1.0.0
+dart-apitool extract --input git://https://github.com/user/repo:abc123
+```
+
+**SSH format:**
+```bash
+# Clone the default branch
+dart-apitool extract --input git://git@github.com:user/repo
+
+# Clone a specific branch, tag, or commit
+dart-apitool extract --input git://git@github.com:user/repo:main
+dart-apitool extract --input git://git@github.com:user/repo:v1.0.0
+dart-apitool extract --input git://git@github.com:user/repo:abc123
+```
+
+Git repositories are automatically cloned to temporary directories and cleaned up after analysis. The tool will run `pub get` to ensure all dependencies are properly resolved.
+
 ## Integration
 
 How to best integrate `dart-apitool` in your CI and release process highly depends on your setup.
@@ -134,6 +190,28 @@ version="${tag#releases/}" # to support the old tag format dart_apitool used (e.
 version="${version#v}" # the new tag format (e.g. v0.12.0)
 ```
 You can see this in action in the [workflow](.github/workflows/ci.yml) of this repository. 
+
+### Git Repository Examples
+
+Git references are particularly useful when:
+- Comparing against unreleased changes in a development branch
+- Analyzing forks or private repositories
+- Working with packages not published to pub.dev
+
+**Compare current directory against a specific git tag:**
+```bash
+dart-apitool diff --old git://https://github.com/user/repo:v1.0.0 --new .
+```
+
+**Compare two different git branches:**
+```bash
+dart-apitool diff --old git://https://github.com/user/repo:main --new git://https://github.com/user/repo:develop
+```
+
+**Extract API from a private repository using SSH:**
+```bash
+dart-apitool extract --input git://git@github.com:company/private-repo:main --output api.json
+```
 
 For your convenience there is a reusable workflow that you can integrate in your workflow.
 ```yml
