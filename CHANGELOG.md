@@ -6,6 +6,7 @@
   - Optional branch/tag/commit specification (e.g., git://https://github.com/user/repo:branch)
   - Automatic cloning, dependency resolution, and cleanup
   - Formats: git://https://github.com/user/repo or git://git@github.com:user/repo
+- fix: fix package name resolving for types referenced via a package-reference ('package:some_package/some_entrypoint.dart)
 
 ## Version 0.22.0
 - fix: Fixes an issue if we have to deal with two types with the same name

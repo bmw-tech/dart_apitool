@@ -79,6 +79,11 @@ sealed class TypeIdentifier with _$TypeIdentifier {
     required String typeName,
     required String? libraryPath,
   }) {
+    // turn a potential file URI into a file path
+    final uri = (libraryPath != null) ? Uri.tryParse(libraryPath) : null;
+    if (uri != null && uri.scheme == 'file') {
+      libraryPath = uri.toFilePath();
+    }
     if (_libraryPathToPackageInfoCache.containsKey(libraryPath)) {
       final cachedPackageInfo = _libraryPathToPackageInfoCache[libraryPath];
       return TypeIdentifier(
@@ -91,6 +96,37 @@ sealed class TypeIdentifier with _$TypeIdentifier {
       return TypeIdentifier(
         typeName: typeName,
         packageName: '',
+        packageRelativeLibraryPath: '',
+      );
+    }
+
+    if (libraryPath.startsWith('package:')) {
+      // in case the library is a package ref we know the package name immediately
+      // e.g. package:protobuf/src/api.dart
+      // 1. strip package:
+      libraryPath = libraryPath.substring('package:'.length);
+      // 2. split by /
+      final parts = libraryPath.split('/');
+      // 3. part as package name
+      final packageName = parts[0];
+      // 4. the rest is the package relative library path
+      final packageRelativeLibraryPath = parts.sublist(1).join('/');
+      _libraryPathToPackageInfoCache[libraryPath] = Tuple2(
+        packageName,
+        packageRelativeLibraryPath,
+      );
+      return TypeIdentifier(
+        typeName: typeName,
+        packageName: packageName,
+        packageRelativeLibraryPath: packageRelativeLibraryPath,
+      );
+    }
+
+    if (libraryPath.startsWith('dart:')) {
+      // this is a dart core library
+      return TypeIdentifier(
+        typeName: typeName,
+        packageName: 'dart',
         packageRelativeLibraryPath: '',
       );
     }
@@ -118,10 +154,7 @@ sealed class TypeIdentifier with _$TypeIdentifier {
     if (pubspecDirectoryPath == null) {
       // we can't find a pubspec.yaml => we consider this to be a framework type
       final assumedPackageName = path.basenameWithoutExtension(libraryPath);
-      _libraryPathToPackageInfoCache[libraryPath] = Tuple2(
-        assumedPackageName,
-        '',
-      );
+      // don't add it to the cache because we did not find a pubspec.yaml
       return TypeIdentifier(
         typeName: typeName,
         packageName: assumedPackageName,
