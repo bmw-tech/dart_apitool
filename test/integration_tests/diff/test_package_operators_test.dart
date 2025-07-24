@@ -43,5 +43,40 @@ void main() {
         );
       });
     });
+
+    group('reproducing GitHub issue #225', () {
+      test('unary operator name should not show "unary" twice', () async {
+        // Create a simple test case to check the operator naming
+        final api = await packageAWithRecord.analyze();
+
+        // Find the ClassA interface
+        final classAInterface = api.interfaceDeclarations
+            .firstWhere((interface) => interface.name == 'ClassA');
+
+        // Look for minus operators (binary and unary)
+        final minusOperators = classAInterface.executableDeclarations
+            .where((method) => method.name.contains('-'))
+            .toList();
+
+        // Should have both binary and unary minus operators
+        expect(minusOperators.length, equals(2));
+
+        // Find the specific operators
+        final binaryMinusOperator = minusOperators
+            .firstWhere((op) => op.name == 'binary-');
+        final unaryMinusOperator = minusOperators
+            .firstWhere((op) => op.name == 'unary-');
+
+        // Verify the names are correct (not duplicated)
+        expect(binaryMinusOperator.name, equals('binary-'));
+        expect(unaryMinusOperator.name, equals('unary-'));
+
+        // Check if any of them has duplicated text
+        for (final op in minusOperators) {
+          expect(op.name, isNot(contains('unaryunary')));
+          expect(op.name, isNot(contains('binarybinary')));
+        }
+      });
+    });
   });
 }
