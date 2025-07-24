@@ -8,6 +8,7 @@
   - Formats: git://https://github.com/user/repo or git://git@github.com:user/repo
 - fix: package name resolving for types referenced via a package-reference ('package:some_package/some_entrypoint.dart)
 - fix: private top level methods where treated as part of the public API (resulting in all types used there treated as part of the public API as well)
+- fix: carry over entry points of type aliases to the aliased type (especially important for private types)
 
 ## Version 0.22.0
 - fix: Fixes an issue if we have to deal with two types with the same name
