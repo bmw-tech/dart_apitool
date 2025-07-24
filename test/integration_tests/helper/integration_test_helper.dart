@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
+import 'package:path/path.dart' as p;
 
 class PackageApiRetriever {
   final String packageName;
@@ -32,11 +33,13 @@ class PackageApiRetriever {
 class GitPackageApiRetriever {
   final String gitUrl;
   final String gitRef;
+  final String? relativePackagePath;
   final bool doConsiderNonSrcAsEntryPoints;
 
   GitPackageApiRetriever(
     this.gitUrl,
     this.gitRef, {
+    this.relativePackagePath,
     this.doConsiderNonSrcAsEntryPoints = false,
   });
 
@@ -55,8 +58,13 @@ class GitPackageApiRetriever {
       throw Exception('Unable to check out $gitRef of git repository $gitUrl');
     }
 
+    String packagePath = tempDir.path;
+    if (relativePackagePath != null) {
+      packagePath = p.join(tempDir.path, relativePackagePath);
+    }
+
     final analyzer = PackageApiAnalyzer(
-      packagePath: tempDir.path,
+      packagePath: packagePath,
       doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
     );
     print('Analyzing $gitUrl $gitRef');

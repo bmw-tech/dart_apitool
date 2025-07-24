@@ -5,6 +5,7 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
 
+import '../git_ref.dart';
 import '../package_ref.dart';
 import '../prepared_package_ref.dart';
 
@@ -16,6 +17,9 @@ Package reference can be one of:
   (e.g. /path/to/package)
 - any package from pub
   (e.g. pub://package_name/version)
+- git repository with optional branch/tag/commit
+  (e.g. git://https://github.com/user/repo or git://https://github.com/user/repo:branch)
+  (e.g. git://git@github.com:user/repo or git://git@github.com:user/repo:tag)
 ''';
 
   final includePathDependenciesExplanation = '''
@@ -80,6 +84,18 @@ OBSOLETE: Has no effect anymore.
         sourceDir: sourceDir,
         isInCache: true,
       ));
+    } else if (ref.isGitRef) {
+      final gitRefObj = ref.gitRef!;
+      await stdoutSession.writeln('Preparing git repository: ${gitRefObj.uri}');
+      if (gitRefObj.ref != null) {
+        await stdoutSession.writeln('Using ref: ${gitRefObj.ref}');
+      }
+      // For git repositories, we'll clone directly to the temp directory later
+      // Store the git info in a special SourceItem
+      sources.add(SourceItem(
+        sourceDir: gitRefObj.toInternalString(),
+        isInCache: false, // Treat git repos like local dirs - they need pub get
+      ));
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
@@ -88,45 +104,82 @@ OBSOLETE: Has no effect anymore.
     sources.removeWhere((sToRemove) =>
         sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
     final tempDir = await Directory.systemTemp.createTemp();
+    String? gitPackageRelativePath; // Store the relative path for git packages
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
-      await stdoutSession
-          .writeln('Copying sources from ${sourceItem.sourceDir}');
-      await _copyPath(sourceItem.sourceDir,
-          sourceItem.destinationPath(forPrefix: tempDir.path));
-      if (!sourceItem.isInCache) {
+      if (sourceItem.sourceDir.startsWith('GIT:')) {
+        // Handle git repository
+        final gitRef = GitRef.fromInternalString(sourceItem.sourceDir);
+
+        final targetDir = sourceItem.destinationPath(forPrefix: tempDir.path);
+        final packageDir = await GitInteraction.cloneRepositoryToDirectory(
+          gitRef.uri,
+          targetDir,
+          gitRef.ref,
+          gitRef.path,
+          stdoutSession: stdoutSession,
+        );
+
+        // Calculate the relative path from tempDir to packageDir
+        gitPackageRelativePath = p.relative(packageDir, from: tempDir.path);
+
         String forceUseFlutterSuffix = '';
         if (forceUseFlutterTool) {
           forceUseFlutterSuffix = ' (forced Flutter)';
         }
 
         await stdoutSession.writeln(
-            'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
+            'Preparing package dependencies for git package ${gitRef.uri}$forceUseFlutterSuffix');
         await PubInteraction.runPubGet(
-          sourceItem.sourceDir,
+          packageDir,
           stdoutSession: stdoutSession,
           forceUseFlutterTool: forceUseFlutterTool,
         );
         await DartInteraction.transferPackageConfig(
-          fromPackage: sourceItem.sourceDir,
+          fromPackage: packageDir,
           toPackage: tempDir.path,
           stdoutSession: stdoutSession,
         );
       } else {
-        await stdoutSession.writeln('Cleaning up local copy of pub package');
-        // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
-        final pubspecOverrides = File(p.join(
-            sourceItem.destinationPath(forPrefix: tempDir.path),
-            'pubspec_overrides.yaml'));
-        if (await pubspecOverrides.exists()) {
-          await pubspecOverrides.delete();
-          await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
+        // Handle regular directories and pub packages
+        await stdoutSession
+            .writeln('Copying sources from ${sourceItem.sourceDir}');
+        await _copyPath(sourceItem.sourceDir,
+            sourceItem.destinationPath(forPrefix: tempDir.path));
+        if (!sourceItem.isInCache) {
+          String forceUseFlutterSuffix = '';
+          if (forceUseFlutterTool) {
+            forceUseFlutterSuffix = ' (forced Flutter)';
+          }
+
+          await stdoutSession.writeln(
+              'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
+          await PubInteraction.runPubGet(
+            sourceItem.sourceDir,
+            stdoutSession: stdoutSession,
+            forceUseFlutterTool: forceUseFlutterTool,
+          );
+          await DartInteraction.transferPackageConfig(
+            fromPackage: sourceItem.sourceDir,
+            toPackage: tempDir.path,
+            stdoutSession: stdoutSession,
+          );
+        } else {
+          await stdoutSession.writeln('Cleaning up local copy of pub package');
+          // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
+          final pubspecOverrides = File(p.join(
+              sourceItem.destinationPath(forPrefix: tempDir.path),
+              'pubspec_overrides.yaml'));
+          if (await pubspecOverrides.exists()) {
+            await pubspecOverrides.delete();
+            await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
+          }
         }
       }
     });
     return PreparedPackageRef(
         packageRef: ref,
         tempDirectory: tempDir.path,
-        packageRelativePath: packageRelativePath);
+        packageRelativePath: gitPackageRelativePath ?? packageRelativePath);
   }
 
   /// Analyzes the given prepared Package [ref].
@@ -150,6 +203,10 @@ OBSOLETE: Has no effect anymore.
       path = PubInteraction.getPackagePathInCache(
           preparedRef.packageRef.pubPackage!,
           preparedRef.packageRef.pubVersion);
+    }
+    if (preparedRef.packageRef.isGitRef) {
+      // For git references, use the temp directory where the repository was cloned
+      path = preparedRef.tempDirectory;
     }
     if (path == null) {
       throw ArgumentError(

@@ -163,5 +163,25 @@ void main() {
       },
       timeout: integrationTestTimeout,
     );
+
+    test(
+      'diffing protobuf a9822d881d27a27b454621bc698997fce5abf370 to 4916e6f7d34443869c27d997749d4362870fd7ce works',
+      () async {
+        // just some random package that we know the git refs of
+        final diffCommand = DiffCommand();
+        final runner =
+            CommandRunner<int>('dart_apitool_tests', 'Test for dart_apitool')
+              ..addCommand(diffCommand);
+        final exitCode = await runner.run([
+          'diff',
+          '--old',
+          'git://https://github.com/google/protobuf.dart.git/protobuf:a9822d881d27a27b454621bc698997fce5abf370',
+          '--new',
+          'git://https://github.com/google/protobuf.dart.git/protobuf:4916e6f7d34443869c27d997749d4362870fd7ce',
+        ]);
+        expect(exitCode, 0);
+      },
+      timeout: integrationTestTimeout,
+    );
   });
 }

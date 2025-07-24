@@ -372,23 +372,25 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   @override
   void visitTopLevelFunctionElement(TopLevelFunctionElement element) {
-    _onVisitFunctionElement(element);
-    super.visitTopLevelFunctionElement(element);
+    if (_onVisitFunctionElement(element)) {
+      super.visitTopLevelFunctionElement(element);
+    }
   }
 
   @override
   void visitLocalFunctionElement(LocalFunctionElement element) {
-    _onVisitFunctionElement(element);
-    super.visitLocalFunctionElement(element);
+    if (_onVisitFunctionElement(element)) {
+      super.visitLocalFunctionElement(element);
+    }
   }
 
-  void _onVisitFunctionElement(ExecutableElement2 element) {
+  bool _onVisitFunctionElement(ExecutableElement2 element) {
     _onVisitAnyElement(element);
     if (!_isElementAllowedToBeCollected(element)) {
-      return;
+      return false;
     }
     if (!_markElementAsCollected(element)) {
-      return;
+      return false;
     }
     _executableDeclarations
         .add(InternalExecutableDeclaration.fromExecutableElement(
@@ -400,6 +402,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
     }
+    return true;
   }
 
   @override
