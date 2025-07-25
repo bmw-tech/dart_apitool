@@ -62,10 +62,10 @@ void main() {
         expect(minusOperators.length, equals(2));
 
         // Find the specific operators
-        final binaryMinusOperator = minusOperators
-            .firstWhere((op) => op.name == 'binary-');
-        final unaryMinusOperator = minusOperators
-            .firstWhere((op) => op.name == 'unary-');
+        final binaryMinusOperator =
+            minusOperators.firstWhere((op) => op.name == 'binary-');
+        final unaryMinusOperator =
+            minusOperators.firstWhere((op) => op.name == 'unary-');
 
         // Verify the names are correct (not duplicated)
         expect(binaryMinusOperator.name, equals('binary-'));
