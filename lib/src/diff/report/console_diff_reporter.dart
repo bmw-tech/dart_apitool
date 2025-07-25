@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:colorize/colorize.dart';
 import 'package:console/console.dart';
 
 import '../../../api_tool.dart';
@@ -40,9 +39,9 @@ class ConsoleDiffReporter extends DiffReporter {
     if (versionCheckResult != null) {
       stdout.writeln('Version Check');
       if (versionCheckResult.success) {
-        stdout.writeln(Colorize('New version is OK!').green());
+        stdout.writeln(ColorUtils.green('New version is OK!'));
       } else {
-        stdout.writeln(Colorize('New Version is too low!').red());
+        stdout.writeln(ColorUtils.red('New Version is too low!'));
       }
       stdout.writeln();
       stdout.writeln('Old version: "${versionCheckResult.oldVersion}"');
@@ -59,7 +58,7 @@ class ConsoleDiffReporter extends DiffReporter {
     Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
       final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
       final changeNodes = relevantChanges.map((c) =>
-          '${Colorize(c.changeDescription).italic()} (${c.changeCode.code})${c.isBreaking ? '' : c.type.requiresMinorBump ? ' (minor)' : ' (patch)'}');
+          '${ColorUtils.italic(c.changeDescription)} (${c.changeCode.code})${c.isBreaking ? '' : c.type.requiresMinorBump ? ' (minor)' : ' (patch)'}');
       final childNodes = n.children.values
           .map((value) => nodeToTree(value))
           .where((element) => element.isNotEmpty);
@@ -67,12 +66,10 @@ class ConsoleDiffReporter extends DiffReporter {
       return allChildren.isEmpty
           ? {}
           : {
-              'label': Colorize(labelOverride ??
-                      (n.nodeDeclaration == null
-                          ? ''
-                          : getDeclarationNodeHeadline(n.nodeDeclaration!)))
-                  .bold()
-                  .toString(),
+              'label': ColorUtils.bold(labelOverride ??
+                  (n.nodeDeclaration == null
+                      ? ''
+                      : getDeclarationNodeHeadline(n.nodeDeclaration!))),
               'nodes': allChildren,
             };
     }

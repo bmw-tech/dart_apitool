@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:colorize/colorize.dart';
 import 'package:colorize_lumberdash/colorize_lumberdash.dart';
 import 'package:dart_apitool/api_tool_cli.dart';
 import 'package:lumberdash/lumberdash.dart';
@@ -11,7 +10,7 @@ import 'package:lumberdash/lumberdash.dart';
 void main(List<String> arguments) async {
   putLumberdashToWork(withClients: [ColorizeLumberdash()]);
   final runner = CommandRunner<int>('dart-apitool', '''
-dart-apitool (${Colorize(await getOwnVersion()).bold()})
+dart-apitool (${ColorUtils.bold(await getOwnVersion())})
 
 A set of utilities for Package APIs.
 ''')
@@ -28,14 +27,8 @@ A set of utilities for Package APIs.
     final exitCode = await runner.run(arguments);
     exit(exitCode ?? -1);
   } catch (e) {
-    bool colorize = true;
-    if (e is UsageException) {
-      colorize = false;
-    }
-    final errorMessage =
-        colorize ? Colorize(e.toString()).red() : Colorize(e.toString());
-    final errorPrefix =
-        colorize ? Colorize('Error:').red().bold() : Colorize('Error:');
+    final errorMessage = ColorUtils.redError(e.toString());
+    final errorPrefix = ColorUtils.boldRedError('Error:');
     stderr.writeln('$errorPrefix $errorMessage');
     exit(1);
   }
