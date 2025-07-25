@@ -15,6 +15,9 @@ class StdoutSession {
 
   Completer<void>? _writeCompleter;
 
+  /// Whether colors should be used based on whether stdout is a terminal
+  bool get _shouldUseColors => stdioType(stdout) == StdioType.terminal;
+
   /// writes the given [bytes] to the console
   Future write(List<int> bytes) async {
     // make sure that only one write is active at a time (needed for flush to work)
@@ -75,7 +78,9 @@ class StdoutSession {
     if (_lastDrawnWindowSize != null) {
       Console.moveCursorUp(_lastDrawnWindowSize!);
     }
-    Console.setTextColor(Color.GRAY.id);
+    if (_shouldUseColors) {
+      Console.setTextColor(Color.GRAY.id);
+    }
     _lastDrawnWindowSize = _windowLines.length;
     for (var i = 0; i < _windowLines.length; i++) {
       Console.eraseLine(2);
@@ -85,6 +90,8 @@ class StdoutSession {
       Console.moveCursorDown();
       Console.moveToColumn(0);
     }
-    Console.resetTextColor();
+    if (_shouldUseColors) {
+      Console.resetTextColor();
+    }
   }
 }
