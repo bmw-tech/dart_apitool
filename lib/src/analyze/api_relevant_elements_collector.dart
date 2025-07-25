@@ -313,6 +313,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   @override
   visitTopLevelVariableElement(TopLevelVariableElement2 element) {
     _onVisitAnyElement(element);
+    if (element.name3 != null && !_isNameExported(element.name3!)) {
+      return;
+    }
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
@@ -372,6 +375,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   @override
   void visitTopLevelFunctionElement(TopLevelFunctionElement element) {
+    if (element.name3 != null && !_isNameExported(element.name3!)) {
+      return;
+    }
     if (_onVisitFunctionElement(element)) {
       super.visitTopLevelFunctionElement(element);
     }
@@ -427,6 +433,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   @override
   visitTypeAliasElement(TypeAliasElement2 element) {
     _onVisitAnyElement(element);
+    if (element.name3 != null && !_isNameExported(element.name3!)) {
+      return;
+    }
     if (!_isElementAllowedToBeCollected(element)) {
       return;
     }
