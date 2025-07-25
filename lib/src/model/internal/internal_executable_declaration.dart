@@ -57,10 +57,18 @@ class InternalExecutableDeclaration implements InternalDeclaration {
           // This is a fix for the only method overloading in Dart the `-` operator
           name: (executableElement is MethodElement2 &&
                   executableElement.isOperator)
-              ? (executableElement.formalParameters.isEmpty
+              ? () {
+                  final rawName =
+                      executableElement.name3 ?? executableElement.displayName;
+                  final prefix = executableElement.formalParameters.isEmpty
                       ? 'unary'
-                      : 'binary') +
-                  (executableElement.name3 ?? executableElement.displayName)
+                      : 'binary';
+                  // If the raw name already starts with the prefix then don't add it again
+                  if (rawName.startsWith(prefix)) {
+                    return rawName;
+                  }
+                  return prefix + rawName;
+                }()
               : executableElement.name3 ?? executableElement.displayName,
           namespace: namespace,
           isDeprecated: executableElement.metadata2.hasDeprecated,

@@ -309,6 +309,9 @@ class PackageApiAnalyzer {
 
     _mergeSuperTypes(collectedInterfaces);
 
+    // carry over entry points from typedefs to their aliased types
+    _carryOverTypedefEntryPoints(collectedInterfaces);
+
     // extract package declarations
     for (final classId in collectedInterfaces.keys) {
       final entry = collectedInterfaces[classId]!;
@@ -523,6 +526,51 @@ class PackageApiAnalyzer {
           isTransitive: true));
     }
     return mergedSuperTypeIds;
+  }
+
+  /// Carries over entry points from typedefs to their aliased types.
+  ///
+  /// When a typedef aliases a private type, the private type should have
+  /// the same entry points as the typedef to properly track breaking changes.
+  void _carryOverTypedefEntryPoints(
+      Map<int?, _InterfaceCollectionResult> collectedInterfaces) {
+    // First, collect all typedefs with their entry points
+    final typedefsByAliasedType =
+        <String, List<InternalTypeAliasDeclaration>>{};
+
+    for (final entry in collectedInterfaces.values) {
+      for (final typedef in entry.typeAliasDeclarations) {
+        if (typedef.entryPoints?.isNotEmpty == true) {
+          final aliasedTypeName = typedef.aliasedTypeName;
+          if (!typedefsByAliasedType.containsKey(aliasedTypeName)) {
+            typedefsByAliasedType[aliasedTypeName] = [];
+          }
+          typedefsByAliasedType[aliasedTypeName]!.add(typedef);
+        }
+      }
+    }
+
+    // Then, find matching interface declarations and carry over entry points
+    for (final entry in collectedInterfaces.values) {
+      for (final interface in entry.interfaceDeclarations) {
+        final typedefs = typedefsByAliasedType[interface.name];
+        if (typedefs != null) {
+          // Collect all entry points from all typedefs that alias this type
+          final entryPointsToAdd = <String>{};
+          for (final typedef in typedefs) {
+            if (typedef.entryPoints != null) {
+              entryPointsToAdd.addAll(typedef.entryPoints!);
+            }
+          }
+
+          // Add the entry points to the aliased type
+          if (entryPointsToAdd.isNotEmpty) {
+            _addEntryPoints<InternalInterfaceDeclaration>(
+                entry.interfaceDeclarations, interface.id, entryPointsToAdd);
+          }
+        }
+      }
+    }
   }
 }
 
