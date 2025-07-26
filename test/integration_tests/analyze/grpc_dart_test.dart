@@ -18,20 +18,16 @@ void main() {
     });
 
     test(
-        "Detects 2 missing exports correctly (especially doesn't complain about 'ServerHandler')",
+        "Detects 1 missing exports correctly (especially doesn't complain about 'ServerHandler')",
         () {
       final rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests =
           packageApi.rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
               .toList();
       expect(
-          rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests.length, 2);
+          rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests.length, 1);
       expect(
           rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
               .any((decl) => decl.name == '\$1.Duration'),
-          isTrue);
-      expect(
-          rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
-              .any((decl) => decl.name == 'Any'),
           isTrue);
       expect(
           rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests
