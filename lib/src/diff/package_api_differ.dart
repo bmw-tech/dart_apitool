@@ -841,7 +841,7 @@ class PackageApiDiffer {
   }
 
   /// Extracts the base type name from a potentially generic type
-  /// e.g., "MyClass<int, String>" -> "MyClass"
+  /// e.g., `MyClass<int, String>` -> `MyClass`
   String _extractBaseTypeName(String typeName) {
     final genericStart = typeName.indexOf('<');
     if (genericStart == -1) {
