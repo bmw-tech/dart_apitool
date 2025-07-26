@@ -774,7 +774,41 @@ class PackageApiDiffer {
     final stpnListDiff = _diffIterables<String>(
         oldSuperTypes, newSuperTypes, (oldStpn, newStpn) => oldStpn == newStpn);
     final changes = <ApiChange>[];
-    for (final removedSuperType in stpnListDiff.remainingOld) {
+
+    // Look for supertype changes (same base type, different parameters)
+    final remainingOld = stpnListDiff.remainingOld.toList();
+    final remainingNew = stpnListDiff.remainingNew.toList();
+    final pairedChanges = <String, String>{};
+
+    for (final oldType in [...remainingOld]) {
+      for (final newType in [...remainingNew]) {
+        if (_areRelatedGenericTypes(oldType, newType)) {
+          // Found a pair - this is a supertype change, not remove+add
+          pairedChanges[oldType] = newType;
+          remainingOld.remove(oldType);
+          remainingNew.remove(newType);
+          break; // Move to next old type
+        }
+      }
+    }
+
+    // Report supertype changes
+    for (final entry in pairedChanges.entries) {
+      final oldType = entry.key;
+      final newType = entry.value;
+      changes.add(ApiChange(
+          changeCode:
+              ApiChangeCode.ci12, // New change code for supertype changes
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType
+              .changeBreaking, // Supertype changes are typically breaking
+          isExperimental: isExperimental,
+          changeDescription:
+              'Super Type changed from "$oldType" to "$newType"'));
+    }
+
+    for (final removedSuperType in remainingOld) {
       changes.add(ApiChange(
           changeCode: ApiChangeCode.ci05,
           affectedDeclaration: context.top(),
@@ -783,7 +817,8 @@ class PackageApiDiffer {
           isExperimental: isExperimental,
           changeDescription: 'Super Type "$removedSuperType" removed'));
     }
-    for (final addedSuperType in stpnListDiff.remainingNew) {
+
+    for (final addedSuperType in remainingNew) {
       changes.add(ApiChange(
           changeCode: ApiChangeCode.ci04,
           affectedDeclaration: context.top(),
@@ -793,6 +828,26 @@ class PackageApiDiffer {
           changeDescription: 'Super Type "$addedSuperType" added'));
     }
     return changes;
+  }
+
+  /// Checks if two type strings represent related generic types
+  /// (same base type, potentially different type parameters)
+  bool _areRelatedGenericTypes(String type1, String type2) {
+    final baseType1 = _extractBaseTypeName(type1);
+    final baseType2 = _extractBaseTypeName(type2);
+
+    // They're related if they have the same base type but different full names
+    return baseType1 == baseType2 && type1 != type2;
+  }
+
+  /// Extracts the base type name from a potentially generic type
+  /// e.g., "MyClass<int, String>" -> "MyClass"
+  String _extractBaseTypeName(String typeName) {
+    final genericStart = typeName.indexOf('<');
+    if (genericStart == -1) {
+      return typeName;
+    }
+    return typeName.substring(0, genericStart);
   }
 
   List<ApiChange> _calculateFieldsDiff(

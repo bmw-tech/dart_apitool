@@ -772,4 +772,123 @@ void main() {
       expect(removeChange.type, ApiChangeType.remove);
     });
   });
+
+  group('Generic type compatibility handling', () {
+    test(
+        'Generic types with different parameter counts can be compatible (default parameters)',
+        () {
+      // This test covers the GitHub issue scenario where:
+      // Parent: MyClass<T> -> MyClass<T, O> (with default parameter)
+      // Subclass: extends MyClass<int> -> extends MyClass<int, String>
+      // The subclass change should not be reported as a separate breaking change
+
+      final oldApiWithSubclass = PackageApi(
+        packageName: 'test_package',
+        packageVersion: '1.0.0',
+        packagePath: '.',
+        typeHierarchy: TypeHierarchy.empty(),
+        interfaceDeclarations: [
+          InterfaceDeclaration(
+            name: 'MyClass',
+            typeParameterNames: const ['T'],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+          InterfaceDeclaration(
+            name: 'Other',
+            typeParameterNames: const [],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {'MyClass<int>'},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+        ],
+        executableDeclarations: const [],
+        fieldDeclarations: const [],
+        typeAliasDeclarations: const [],
+        sdkType: SdkType.unknown,
+        minSdkVersion: Version.none,
+        packageDependencies: [],
+      );
+
+      final newApiWithSubclass = PackageApi(
+        packageName: 'test_package',
+        packageVersion: '1.0.0',
+        packagePath: '.',
+        typeHierarchy: TypeHierarchy.empty(),
+        interfaceDeclarations: [
+          InterfaceDeclaration(
+            name: 'MyClass',
+            typeParameterNames: const ['T', 'O'],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+          InterfaceDeclaration(
+            name: 'Other',
+            typeParameterNames: const [],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {'MyClass<int, String>'},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+        ],
+        executableDeclarations: const [],
+        fieldDeclarations: const [],
+        typeAliasDeclarations: const [],
+        sdkType: SdkType.unknown,
+        minSdkVersion: Version.none,
+        packageDependencies: [],
+      );
+
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: oldApiWithSubclass,
+        newApi: newApiWithSubclass,
+      );
+
+      // Should detect: 1) parent type parameter addition, 2) supertype change (not remove+add)
+      expect(diffResult.apiChanges.length, 2);
+
+      final parentTypeParameterChange = diffResult.apiChanges
+          .where((change) => change.affectedDeclaration?.name == 'MyClass')
+          .single;
+      expect(parentTypeParameterChange.type, ApiChangeType.addBreaking);
+      expect(parentTypeParameterChange.changeDescription,
+          contains('Number of type parameters changed'));
+
+      // Verify inheritance is reported as a single "change" not "remove + add"
+      final inheritanceChange = diffResult.apiChanges
+          .where((change) => change.affectedDeclaration?.name == 'Other')
+          .single;
+      expect(inheritanceChange.type, ApiChangeType.changeBreaking);
+      expect(
+          inheritanceChange.changeDescription,
+          contains(
+              'Super Type changed from "MyClass<int>" to "MyClass<int, String>"'));
+    });
+  });
 }
