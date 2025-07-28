@@ -837,7 +837,7 @@ class PackageApiDiffer {
     final baseType2 = _extractBaseTypeName(type2);
 
     // They're related if they have the same base type but different full names
-    return baseType1 == baseType2 && type1 != type2;
+    return baseType1 == baseType2;
   }
 
   /// Extracts the base type name from a potentially generic type
