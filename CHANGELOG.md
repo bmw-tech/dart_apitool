@@ -12,6 +12,7 @@
 - fix: carry over entry points of type aliases to the aliased type (especially important for private types)
 - fix: naming of unary operators was wrong (unaryunary...)
 - fix: handling of top level functions in the context of show / hide in exports
+- fix: report type parameter change in a base class as new change kind instead of removal + addition of base classes
 
 ## Version 0.22.0
 - fix: Fixes an issue if we have to deal with two types with the same name

@@ -32,6 +32,9 @@ enum ApiChangeCode {
   /// sealed status changed
   ci11._('CI11', 'sealed status changed'),
 
+  /// supertype changed
+  ci12._('CI12', 'supertype changed'),
+
   /// executable parameters removed
   ce01._('CE01', 'executable parameters removed'),
 
