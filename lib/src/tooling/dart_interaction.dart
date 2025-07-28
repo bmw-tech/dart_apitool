@@ -133,6 +133,12 @@ abstract class DartInteraction {
       String newPackageName
     })? packageNameReplacementInfo,
   }) async {
+    if (path.isRelative(fromPackage)) {
+      fromPackage = path.absolute(fromPackage);
+    }
+    if (path.isRelative(toPackage)) {
+      toPackage = path.absolute(toPackage);
+    }
     final fromPackageConfigPath = getPackageConfigPathForPackage(fromPackage,
         stdoutSession: stdoutSession, doCheckWorkspace: true);
     final toPackageConfigPath = getPackageConfigPathForPackage(toPackage,
