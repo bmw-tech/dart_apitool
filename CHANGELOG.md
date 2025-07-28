@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.23
+- technical: use package_config to interact with package configs
+
 ## Version 0.22.1
 - feat: Support git references for package analysis
   - Supports both HTTPS and SSH git repository formats
