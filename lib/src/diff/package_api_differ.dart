@@ -835,7 +835,7 @@ class PackageApiDiffer {
   bool _areRelatedGenericTypes(String type1, String type2) {
     final baseType1 = _extractBaseTypeName(type1);
     final baseType2 = _extractBaseTypeName(type2);
-    
+
     return baseType1 == baseType2;
   }
 
