@@ -77,6 +77,11 @@ If the flag got removed then this change is non-breaking. Adding an experimental
 
 If the flag got removed then this change is non-breaking. Adding a sealed flag is considered a breaking change.
 
+###CI12
+> Supertype changed
+
+A supertype of an interface changed. dart_apitool tries to differentiate "change" from "remove" (CI05) and "add" (CI04) where possible.
+
 ## Executables
 Executables are constructors, methods, and functions. They are all treated the same way.
 
