@@ -83,6 +83,10 @@ abstract class DartInteraction {
         stdoutSession: stdoutSession);
   }
 
+  /// Returns the path to the package config file for the given package.
+  /// [packagePath] the `absolute` path to the package directory.
+  /// If [doCheckWorkspace] is true then the function will check if the package
+  /// is part of a workspace and return the package config path for the workspace.
   static String getPackageConfigPathForPackage(
     String packagePath, {
     required StdoutSession stdoutSession,
@@ -133,6 +137,8 @@ abstract class DartInteraction {
       String newPackageName
     })? packageNameReplacementInfo,
   }) async {
+    // we need to turn relative paths into absolute paths as the
+    // functionality to find the package config is relying on absolute paths
     if (path.isRelative(fromPackage)) {
       fromPackage = path.absolute(fromPackage);
     }
