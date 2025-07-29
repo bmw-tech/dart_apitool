@@ -92,6 +92,8 @@ abstract class DartInteraction {
       String newPackageName
     })? packageNameReplacementInfo,
   }) async {
+    // we need to turn relative paths into absolute paths as the
+    // functionality to find the package config is relying on absolute paths
     if (path.isRelative(fromPackage)) {
       fromPackage = path.absolute(fromPackage);
     }
