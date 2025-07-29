@@ -13,6 +13,7 @@
 - fix: naming of unary operators was wrong (unaryunary...)
 - fix: handling of top level functions in the context of show / hide in exports
 - fix: report type parameter change in a base class as new change kind instead of removal + addition of base classes
+- fix: handling of relative package paths
 
 ## Version 0.22.0
 - fix: Fixes an issue if we have to deal with two types with the same name
