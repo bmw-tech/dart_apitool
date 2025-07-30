@@ -4,6 +4,7 @@ import 'package:args/args.dart';
 import 'package:dart_apitool/api_tool.dart';
 import 'package:dart_apitool/src/cli/source_item.dart';
 import 'package:path/path.dart' as p;
+import 'package:package_config/package_config.dart' as package_config;
 
 import '../git_ref.dart';
 import '../package_ref.dart';
@@ -221,13 +222,12 @@ OBSOLETE: Has no effect anymore.
       await analysisOptionsFile.delete();
     }
 
+    final packageConfig =
+        await package_config.findPackageConfig(Directory(packagePath));
+
     // Check if the package_config.json is already present from the preparation step
-    final packageConfig = File(DartInteraction.getPackageConfigPathForPackage(
-      packagePath,
-      stdoutSession: stdoutSession,
-      doCheckWorkspace: true,
-    ));
-    if (!packageConfig.existsSync()) {
+
+    if (packageConfig == null) {
       await stdoutSession.writeln('Running pub get');
       await PubInteraction.runPubGetIndirectly(
         packagePath,
