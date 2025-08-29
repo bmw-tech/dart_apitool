@@ -244,7 +244,7 @@ void main() {
       'Can handle ffigen dependency overrides correctly (pub ref)',
       () async {
         final packageName = 'ffigen';
-        final packageVersion = '16.0.0';
+        final packageVersion = '19.1.0';
 
         final exitCode = await runner.run([
           'extract',
@@ -260,7 +260,7 @@ void main() {
       'Can handle ffigen dependency overrides correctly (git ref)',
       () async {
         final gitUrl = 'https://github.com/dart-lang/native.git';
-        final gitRef = 'cb477002e2d2559975d76165210eeca98821688d';
+        final gitRef = '20556d0c84404b3c74d8b91e40b30ee7f2b2577e';
         final relativePath = 'pkgs/ffigen';
 
         // create temporary directory
@@ -292,6 +292,51 @@ void main() {
             '${tempDir.path}/$relativePath',
           ]);
           expect(exitCode, 0);
+        } finally {
+          tempDir.deleteSync(recursive: true);
+        }
+      },
+      timeout: integrationTestTimeout,
+    );
+
+    test(
+      'Can handle hooks:0.20.0 external types',
+      () async {
+        final pubRef = 'pub://hooks/0.20.0';
+
+        final tempDir = await Directory.systemTemp.createTemp();
+        final tempFilePath =
+            path.join(tempDir.path, 'handles_external_types.json');
+
+        try {
+          final exitCode = await runner.run([
+            'extract',
+            '--input',
+            pubRef,
+            '--output',
+            tempFilePath,
+          ]);
+          expect(exitCode, 0);
+
+          final jsonReportFile = File(tempFilePath);
+          expect(await jsonReportFile.exists(), isTrue);
+
+          final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+
+          final interfaceDeclarations =
+              jsonReport['packageApi']['interfaceDeclarations'] as List;
+          final builderInterface = interfaceDeclarations
+              .singleWhere((id) => id['name'] == 'Builder');
+          final builderExecutableDeclarations =
+              builderInterface['executableDeclarations'] as List;
+          final builderRunExecutable = builderExecutableDeclarations
+              .singleWhere((id) => id['name'] == 'run');
+          final builderRunExecutableParameters =
+              builderRunExecutable['parameters'] as List;
+          final builderRunExecutableLoggerParameter =
+              builderRunExecutableParameters
+                  .singleWhere((id) => id['name'] == 'logger');
+          expect(builderRunExecutableLoggerParameter['typeName'], 'Logger?');
         } finally {
           tempDir.deleteSync(recursive: true);
         }

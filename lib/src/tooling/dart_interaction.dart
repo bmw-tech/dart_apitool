@@ -126,10 +126,18 @@ abstract class DartInteraction {
           packageEntry['rootUri'] = Uri.file(toPackage).toString();
         }
       }
-      if (packageNameReplacementInfo != null &&
-          packageEntry['name'] == packageNameReplacementInfo.oldPackageName) {
-        packageEntry['name'] = packageNameReplacementInfo.newPackageName;
+      if (packageNameReplacementInfo != null) {
+        // adapt rootUri of root package
+        if (packageConfigJson['name'] ==
+            packageNameReplacementInfo.newPackageName) {
+          packageEntry['rootUri'] = '../';
+        }
       }
+    }
+    // remove old package
+    if (packageNameReplacementInfo != null) {
+      (packageConfigJson['packages'] as List<dynamic>).removeWhere((entry) =>
+          entry['name'] == packageNameReplacementInfo.oldPackageName);
     }
     await packageConfigFile.writeAsString(jsonEncode(packageConfigJson));
   }
