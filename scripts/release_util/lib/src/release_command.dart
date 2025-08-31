@@ -39,6 +39,7 @@ class ReleaseCommand extends Command {
     await _publishDryRunAsync();
     _createTag('v${_getCurrentVersion()}');
     _setNextPrereleaseVersion();
+    _addNextVersionToChangelog();
     _commit('Version ${_getCurrentVersion()}');
   }
 
@@ -281,6 +282,18 @@ class ReleaseCommand extends Command {
       'version: $newVersionString',
     );
     File(pubspecPath).writeAsStringSync(newPubspecContent);
+  }
+
+  void _addNextVersionToChangelog() {
+    print('adding next version to changelog');
+    final changelogPath = path.join(_getApiToolRootPath(), 'CHANGELOG.md');
+    final changelogContent = File(changelogPath).readAsStringSync();
+    final newVersion = _getCurrentVersion();
+    final newChangelogContent = changelogContent.replaceFirst(
+      '# Changelog\n',
+      '# Changelog\n\n## Version $newVersion\n',
+    );
+    File(changelogPath).writeAsStringSync(newChangelogContent);
   }
 
   void _updateChangelog(String oldVersion) {
