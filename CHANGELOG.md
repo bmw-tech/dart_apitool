@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.23.0-dev
+## Version 0.23.0
 - technical: use package_config to interact with package configs
 - fix: problem resolving external packages
 
