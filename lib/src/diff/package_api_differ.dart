@@ -1351,7 +1351,7 @@ class PackageApiDiffer {
     return result;
   }
 
-  _compareParameterTypesAndAddChange(
+  void _compareParameterTypesAndAddChange(
     TypeIdentifier oldTypeidentifier,
     TypeIdentifier newTypeIdentifier,
     Stack<Declaration> context,
@@ -1382,7 +1382,7 @@ class PackageApiDiffer {
     }
   }
 
-  _comparePropertiesAndAddChange<T>(
+  void _comparePropertiesAndAddChange<T>(
     T oldValue,
     T newValue,
     Stack<Declaration> context,
