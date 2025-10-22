@@ -63,11 +63,16 @@ class GitPackageApiRetriever {
       packagePath = p.join(tempDir.path, relativePackagePath);
     }
 
+    await DartInteraction.runDartOrFlutterCommand(packagePath,
+        args: ['pub', 'get']);
+
     final analyzer = PackageApiAnalyzer(
       packagePath: packagePath,
       doConsiderNonSrcAsEntryPoints: doConsiderNonSrcAsEntryPoints,
     );
-    print('Analyzing $gitUrl $gitRef');
+    final logSuffix =
+        (relativePackagePath != null) ? ' at $relativePackagePath' : '';
+    print('Analyzing $gitUrl $gitRef$logSuffix');
     final result = await analyzer.analyze();
     await tempDir.delete(recursive: true);
     return result;
