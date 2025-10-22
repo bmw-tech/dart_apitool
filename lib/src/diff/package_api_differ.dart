@@ -42,6 +42,11 @@ class PackageApiDiffer {
               'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');
     }
 
+    final mergedTypeHierarchy = _mergeTypeHierarchy(
+      base: newApi.typeHierarchy,
+      filler: oldApi.typeHierarchy,
+    );
+
     try {
       final changes = [
         ..._calculateInterfacesDiff(
@@ -49,21 +54,21 @@ class PackageApiDiffer {
           newApi.interfaceDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
-          typeHierarchy: newApi.typeHierarchy,
+          typeHierarchy: mergedTypeHierarchy,
         ),
         ..._calculateExecutablesDiff(
           oldApi.executableDeclarations,
           newApi.executableDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
-          typeHierarchy: newApi.typeHierarchy,
+          typeHierarchy: mergedTypeHierarchy,
         ),
         ..._calculateFieldsDiff(
           oldApi.fieldDeclarations,
           newApi.fieldDeclarations,
           Stack<Declaration>(),
           isExperimental: false,
-          typeHierarchy: newApi.typeHierarchy,
+          typeHierarchy: mergedTypeHierarchy,
         ),
         ..._calculateIOSPlatformConstraintsDiff(
           oldApi.iosPlatformConstraints,
@@ -93,6 +98,23 @@ class PackageApiDiffer {
       throw PackageApiDiffError(
           message: 'Error while creating the diff: $e $t');
     }
+  }
+
+  TypeHierarchy _mergeTypeHierarchy({
+    required TypeHierarchy base,
+    required TypeHierarchy filler,
+  }) {
+    final merged = base.clone();
+
+    // add types that were known in the old hierarchy but are no longer known in the new hierarchy
+    for (final oldTypeId in filler.registeredTypes) {
+      if (!merged.containsType(oldTypeId)) {
+        final baseTypes = filler.baseTypesOf(oldTypeId);
+        merged.registerType(oldTypeId, baseTypes);
+      }
+    }
+
+    return merged;
   }
 
   String _interfaceNameWithoutNamespace(String fullName) {

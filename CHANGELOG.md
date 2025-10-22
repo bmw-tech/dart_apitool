@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.23.1-dev
+- Fix type hierarchy calculations when the type no longer is known by the new public API
 
 ## Version 0.23.0
 - technical: use package_config to interact with package configs
