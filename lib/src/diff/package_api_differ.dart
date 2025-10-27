@@ -110,7 +110,7 @@ class PackageApiDiffer {
     for (final oldTypeId in filler.registeredTypes) {
       if (!merged.containsType(oldTypeId)) {
         final baseTypes = filler.baseTypesOf(oldTypeId);
-        merged.registerType(oldTypeId, baseTypes);
+        merged.registerType(oldTypeId, baseTypes ?? {});
       }
     }
 

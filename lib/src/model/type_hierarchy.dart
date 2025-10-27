@@ -253,25 +253,27 @@ class TypeHierarchy {
   }
 
   /// returns the base types of the given [typeIdentifier]
-  Set<TypeIdentifier> baseTypesOf(TypeIdentifier typeIdentifier) {
+  /// if the base types are not retrievable then [null] is returned
+  Set<TypeIdentifier>? baseTypesOf(TypeIdentifier typeIdentifier) {
     final items = _types[typeIdentifier.packageAndTypeName];
     if (items == null || items.isEmpty) {
-      return {};
+      return null;
     }
+
     if (items.length > 1) {
       // there is more than one type with the same name in one package => we need to check the full library name
       // and remove all occurences that don't match
       final matchingItems = items.where((i) =>
           i.typeIdentifier.packageRelativeLibraryPath ==
           typeIdentifier.packageRelativeLibraryPath);
-      if (matchingItems.isEmpty) {
-        return {};
+
+      try {
+        // finally we try to get that single entry
+        return matchingItems.single.baseTypeIdentifiers;
+      } catch (e) {
+        // and if this fails we treat the base types as not retrievable and return [null]
+        return null;
       }
-      if (matchingItems.length > 1) {
-        // we still have multiple matching items => we can't tell which one to use
-        return {};
-      }
-      return matchingItems.single.baseTypeIdentifiers;
     }
     return items.single.baseTypeIdentifiers;
   }
