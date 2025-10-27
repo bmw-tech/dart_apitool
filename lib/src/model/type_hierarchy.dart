@@ -232,6 +232,57 @@ class TypeHierarchy {
     );
   }
 
+  /// clones this type hierarchy
+  TypeHierarchy clone() {
+    final cloned = TypeHierarchy.empty();
+    for (final entry in _types.entries) {
+      cloned._types[entry.key] = {...entry.value};
+    }
+    return cloned;
+  }
+
+  /// returns all registered types in this type hierarchy
+  List<TypeIdentifier> get registeredTypes {
+    final result = <TypeIdentifier>[];
+    for (final items in _types.values) {
+      for (final item in items) {
+        result.add(item.typeIdentifier);
+      }
+    }
+    return result;
+  }
+
+  /// returns the base types of the given [typeIdentifier]
+  /// if the base types are not retrievable then [null] is returned
+  Set<TypeIdentifier>? baseTypesOf(TypeIdentifier typeIdentifier) {
+    final items = _types[typeIdentifier.packageAndTypeName];
+    if (items == null || items.isEmpty) {
+      return null;
+    }
+
+    if (items.length > 1) {
+      // there is more than one type with the same name in one package => we need to check the full library name
+      // and remove all occurences that don't match
+      final matchingItems = items.where((i) =>
+          i.typeIdentifier.packageRelativeLibraryPath ==
+          typeIdentifier.packageRelativeLibraryPath);
+
+      try {
+        // finally we try to get that single entry
+        return matchingItems.single.baseTypeIdentifiers;
+      } catch (e) {
+        // and if this fails we treat the base types as not retrievable and return [null]
+        return null;
+      }
+    }
+    return items.single.baseTypeIdentifiers;
+  }
+
+  /// checks if this type hierarchy contains the given [typeIdentifier]
+  bool containsType(TypeIdentifier typeIdentifier) {
+    return _types.containsKey(typeIdentifier.packageAndTypeName);
+  }
+
   /// checks if [newTypeIdentifier] is a compatible replacement for [oldTypeIdentifier]
   bool isCompatibleReplacement({
     required TypeIdentifier oldTypeIdentifier,
