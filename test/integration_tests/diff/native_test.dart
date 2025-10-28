@@ -40,5 +40,26 @@ void main() {
         expect(breakingChanges, []);
       });
     });
+
+    group('objective_c', () {
+      late final PackageApi objcApi;
+      final refObjc = '0924cb0e80ed6ac39298363fabe0916808a4a1fe';
+
+      setUp(() async {
+        final objcRetriever = GitPackageApiRetriever(
+          gitUrl,
+          refObjc,
+          relativePackagePath: 'pkgs/objective_c',
+        );
+        objcApi = await objcRetriever.retrieve();
+      });
+
+      test('_FinalizablePointer should not be leaked in the public API',
+          () async {
+        final hasFinalizablePointer = objcApi.interfaceDeclarations
+            .any((id) => id.name == '_FinalizablePointer');
+        expect(hasFinalizablePointer, isFalse);
+      });
+    });
   });
 }
