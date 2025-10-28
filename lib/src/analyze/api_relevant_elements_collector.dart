@@ -204,6 +204,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       if (element.enclosingElement2 is EnumElement2) {
         return false;
       }
+      // constructors of private classes aren't collected
+      if (element.enclosingElement2.isPrivate) {
+        return false;
+      }
     }
     // don't collect any override -> already part of the source
     if (element is Annotatable &&
