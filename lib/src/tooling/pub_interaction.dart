@@ -90,14 +90,12 @@ abstract class PubInteraction {
       for (final potentialPackageDir
           in repositoryDir.listSync().whereType<Directory>()) {
         final packageDirName = path.basename(potentialPackageDir.path);
-        final dirParts = packageDirName.split('-').toList();
-        final versionPart = dirParts.last;
-        dirParts.removeLast();
-        final packageNamePart = dirParts.join('-');
 
-        if (packageNamePart != packageName) {
+        if (!packageDirName.startsWith('$packageName-')) {
           continue;
         }
+
+        final versionPart = packageDirName.substring(packageName.length + 1);
 
         final version = Version.parse(versionPart);
         versions[version] = potentialPackageDir.path;
