@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor2.dart';
 
@@ -86,10 +86,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   /// list of element ids that are allowed to be collected even if they are private
   final List<int> privateElementExceptions;
 
-  void _onTypeUsed(DartType type, Element2 referringElement,
+  void _onTypeUsed(DartType type, Element referringElement,
       {required TypeUsageKind typeUsageKind}) {
-    final directElement = type.element3;
-    final directElementLibrary = directElement?.library2;
+    final directElement = type.element;
+    final directElementLibrary = directElement?.library;
     if (directElement == null || directElementLibrary == null) {
       return;
     }
@@ -107,7 +107,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       return;
     }
 
-    _collectTypeHierarchy(type.element3);
+    _collectTypeHierarchy(type.element);
 
     final packageName = getPackageNameFromLibrary(directElementLibrary);
     if (packageName == _packageName) {
@@ -121,7 +121,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
             directElement, referringElement),
         rootPath: _context.rootPath,
       );
-      directElement.accept2(collector);
+      directElement.accept(collector);
       // merge result with this result
       _collectedElementIds.addAll(collector._collectedElementIds);
       interfaceDeclarations.addAll(collector.interfaceDeclarations);
@@ -146,7 +146,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
         }
       }
     } else if (type is TypeAlias) {
-      final aliasedType = type.alias?.element2.aliasedType;
+      final aliasedType = type.alias?.element.aliasedType;
       if (aliasedType != null) {
         _onTypeUsed(
           aliasedType,
@@ -157,20 +157,20 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     }
   }
 
-  void _collectTypeHierarchy(Element2? element) {
+  void _collectTypeHierarchy(Element? element) {
     final baseTypeIdentifiers = <TypeIdentifier>{};
-    if (element is InterfaceElement2) {
+    if (element is InterfaceElement) {
       for (final st in element.allSupertypes) {
         baseTypeIdentifiers.add(TypeIdentifier.fromNameAndLibraryPath(
-          typeName: st.element3.name3 ?? st.element3.displayName,
+          typeName: st.element.name ?? st.element.displayName,
           libraryPath: NamingUtils.getFullLibraryPathFromElement(
-            element: st.element3,
+            element: st.element,
           ),
         ));
       }
       typeHierarchy.registerType(
         TypeIdentifier.fromNameAndLibraryPath(
-          typeName: element.name3 ?? element.displayName,
+          typeName: element.name ?? element.displayName,
           libraryPath: NamingUtils.getFullLibraryPathFromElement(
             element: element,
           ),
@@ -180,10 +180,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     }
   }
 
-  void _onVisitAnyElement(Element2 element) {
+  void _onVisitAnyElement(Element element) {
     // set the package name to the first element's package we see
-    _packageName ??= element.library2 != null
-        ? getPackageNameFromLibrary(element.library2!)
+    _packageName ??= element.library != null
+        ? getPackageNameFromLibrary(element.library!)
         : null;
 
     _collectTypeHierarchy(element);
@@ -196,30 +196,25 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     return !_context.hiddenNames.contains(name);
   }
 
-  bool _isElementAllowedToBeCollected(Element2 element) {
+  bool _isElementAllowedToBeCollected(Element element) {
     // here we filter out elements that are technically part of the public API but actually aren't accessible
     // (like Enum constructors)
-    if (element is ConstructorElement2) {
+    if (element is ConstructorElement) {
       // constructors of enums aren't collected
-      if (element.enclosingElement2 is EnumElement2) {
+      if (element.enclosingElement is EnumElement) {
         return false;
       }
       // constructors of private classes aren't collected
-      if (element.enclosingElement2.isPrivate) {
+      if (element.enclosingElement.isPrivate) {
         return false;
       }
     }
     // don't collect any override -> already part of the source
-    if (element is Annotatable &&
-        (element as Annotatable).metadata2.hasOverride) {
+    if (element.metadata.hasOverride) {
       return false;
     }
 
-    var isInternal = false;
-
-    if (element is Annotatable) {
-      isInternal = InternalDeclarationUtils.hasInternal(element as Annotatable);
-    }
+    final isInternal = InternalDeclarationUtils.hasInternal(element);
 
     // if the element is public, it is allowed to be collected
     if (!isInternal && element.isPublic) {
@@ -231,7 +226,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   /// marks the given element as collected.
   /// Returns [true] if it got marked, returns [false] if it is already marked as collected
-  bool _markElementAsCollected(Element2 element) {
+  bool _markElementAsCollected(Element element) {
     directlyCollectedElementIds.add(element.id);
     if (_collectedElementIds.contains(element.id)) {
       return false;
@@ -240,10 +235,10 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     return true;
   }
 
-  bool _onVisitInterfaceElement(InterfaceElement2 interfaceElement) {
+  bool _onVisitInterfaceElement(InterfaceElement interfaceElement) {
     _onVisitAnyElement(interfaceElement);
-    if (interfaceElement.name3 != null &&
-        !_isNameExported(interfaceElement.name3!)) {
+    if (interfaceElement.name != null &&
+        !_isNameExported(interfaceElement.name!)) {
       return false;
     }
     if (!_isElementAllowedToBeCollected(interfaceElement)) {
@@ -268,28 +263,28 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   }
 
   @override
-  void visitClassElement(ClassElement2 element) {
+  void visitClassElement(ClassElement element) {
     if (_onVisitInterfaceElement(element)) {
       super.visitClassElement(element);
     }
   }
 
   @override
-  void visitEnumElement(EnumElement2 element) {
+  void visitEnumElement(EnumElement element) {
     if (_onVisitInterfaceElement(element)) {
       super.visitEnumElement(element);
     }
   }
 
   @override
-  void visitMixinElement(MixinElement2 element) {
+  void visitMixinElement(MixinElement element) {
     if (_onVisitInterfaceElement(element)) {
       super.visitMixinElement(element);
     }
   }
 
   @override
-  void visitFieldElement(FieldElement2 element) {
+  void visitFieldElement(FieldElement element) {
     _onVisitAnyElement(element);
     if (!_isElementAllowedToBeCollected(element)) {
       return;
@@ -302,11 +297,11 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       rootPath: _context.rootPath,
     ));
     super.visitFieldElement(element);
-    if (element.type.element3 != null) {
+    if (element.type.element != null) {
       bool canBeSet = !element.isFinal &&
           !element.isConst &&
           !element.isPrivate &&
-          element.setter2 != null;
+          element.setter != null;
       _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.output);
       if (canBeSet) {
         _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.input);
@@ -315,9 +310,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   }
 
   @override
-  visitTopLevelVariableElement(TopLevelVariableElement2 element) {
+  visitTopLevelVariableElement(TopLevelVariableElement element) {
     _onVisitAnyElement(element);
-    if (element.name3 != null && !_isNameExported(element.name3!)) {
+    if (element.name != null && !_isNameExported(element.name!)) {
       return;
     }
     if (!_isElementAllowedToBeCollected(element)) {
@@ -332,7 +327,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       rootPath: _context.rootPath,
     ));
     super.visitTopLevelVariableElement(element);
-    if (element.type.element3 != null) {
+    if (element.type.element != null) {
       bool canBeSet =
           !element.isFinal && !element.isConst && !element.isPrivate;
       _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.output);
@@ -347,17 +342,17 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     _onVisitAnyElement(element);
     super.visitFormalParameterElement(element);
     // exclude parameters for fields and properties as they are handled separately
-    if (element.enclosingElement2 is PropertyAccessorElement2) {
+    if (element.enclosingElement is PropertyAccessorElement) {
       return;
     }
     // this includes method, function and constructor calls
-    if (element.type.element3 != null) {
+    if (element.type.element != null) {
       _onTypeUsed(element.type, element, typeUsageKind: TypeUsageKind.input);
     }
   }
 
   @override
-  void visitMethodElement(MethodElement2 element) {
+  void visitMethodElement(MethodElement element) {
     _onVisitAnyElement(element);
     if (!_isElementAllowedToBeCollected(element)) {
       return;
@@ -371,7 +366,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       rootPath: _context.rootPath,
     ));
     super.visitMethodElement(element);
-    if (element.returnType.element3 != null) {
+    if (element.returnType.element != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
     }
@@ -379,7 +374,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
 
   @override
   void visitTopLevelFunctionElement(TopLevelFunctionElement element) {
-    if (element.name3 != null && !_isNameExported(element.name3!)) {
+    if (element.name != null && !_isNameExported(element.name!)) {
       return;
     }
     if (_onVisitFunctionElement(element)) {
@@ -394,7 +389,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
     }
   }
 
-  bool _onVisitFunctionElement(ExecutableElement2 element) {
+  bool _onVisitFunctionElement(ExecutableElement element) {
     _onVisitAnyElement(element);
     if (!_isElementAllowedToBeCollected(element)) {
       return false;
@@ -408,7 +403,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       namespace: _context.namespace,
       rootPath: _context.rootPath,
     ));
-    if (element.returnType.element3 != null) {
+    if (element.returnType.element != null) {
       _onTypeUsed(element.returnType, element,
           typeUsageKind: TypeUsageKind.output);
     }
@@ -416,7 +411,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   }
 
   @override
-  visitConstructorElement(ConstructorElement2 element) {
+  visitConstructorElement(ConstructorElement element) {
     _onVisitAnyElement(element);
     if (!_isElementAllowedToBeCollected(element)) {
       return;
@@ -435,9 +430,9 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
   }
 
   @override
-  visitTypeAliasElement(TypeAliasElement2 element) {
+  visitTypeAliasElement(TypeAliasElement element) {
     _onVisitAnyElement(element);
-    if (element.name3 != null && !_isNameExported(element.name3!)) {
+    if (element.name != null && !_isNameExported(element.name!)) {
       return;
     }
     if (!_isElementAllowedToBeCollected(element)) {
@@ -453,26 +448,26 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       rootPath: _context.rootPath,
     ));
     super.visitTypeAliasElement(element);
-    if (element.aliasedType.element3 != null) {
+    if (element.aliasedType.element != null) {
       _onTypeUsed(element.aliasedType, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }
   }
 
   @override
-  visitTypeParameterElement(TypeParameterElement2 element) {
+  visitTypeParameterElement(TypeParameterElement element) {
     _onVisitAnyElement(element);
     super.visitTypeParameterElement(element);
-    if (element.bound?.element3 != null) {
+    if (element.bound?.element != null) {
       _onTypeUsed(element.bound!, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }
   }
 
   @override
-  void visitExtensionElement(ExtensionElement2 element) {
+  void visitExtensionElement(ExtensionElement element) {
     _onVisitAnyElement(element);
-    if (element.name3 != null && !_isNameExported(element.name3!)) {
+    if (element.name != null && !_isNameExported(element.name!)) {
       return;
     }
     if (!_isElementAllowedToBeCollected(element)) {
@@ -487,7 +482,7 @@ class APIRelevantElementsCollector extends RecursiveElementVisitor2<void> {
       namespace: _context.namespace,
       rootPath: _context.rootPath,
     ));
-    if (element.extendedType.element3 != null) {
+    if (element.extendedType.element != null) {
       _onTypeUsed(element.extendedType, element,
           typeUsageKind: TypeUsageKind.hierarchy);
     }

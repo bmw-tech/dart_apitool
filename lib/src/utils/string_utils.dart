@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:path/path.dart' as path;
 
 /// returns the type parameter suffix (like `<T>`)
@@ -12,7 +12,7 @@ String getTypeParameterSuffix(List<String> typeParameterNames) {
   return typeParameterSuffix;
 }
 
-String? getPackageNameFromLibrary(LibraryElement2 library) {
+String? getPackageNameFromLibrary(LibraryElement library) {
   String? packageName;
   packageName = _getPackageNameFromPackageUri(library.uri) ??
       _getPackageNameFromFilePath(library.uri);

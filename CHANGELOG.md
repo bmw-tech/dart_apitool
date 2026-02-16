@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.23.1-dev
+- technical: bump analyzer to ^10.0.2.
 - Fix type hierarchy calculations when the type no longer is known by the new public API
 - Fix hyphens in packages bug.
 

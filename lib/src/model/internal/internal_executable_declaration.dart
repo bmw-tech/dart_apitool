@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../executable_declaration.dart';
 import 'internal_declaration.dart';
@@ -44,22 +44,22 @@ class InternalExecutableDeclaration implements InternalDeclaration {
   });
 
   InternalExecutableDeclaration.fromExecutableElement(
-    ExecutableElement2 executableElement, {
+    ExecutableElement executableElement, {
     String? namespace,
     required String rootPath,
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(executableElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              executableElement.enclosingElement2),
+              executableElement.enclosingElement),
           returnTypeName: executableElement.returnType.getDisplayString(),
           returnTypeFullLibraryName:
-              executableElement.returnType.element3?.library2?.uri.toString(),
+              executableElement.returnType.element?.library?.uri.toString(),
           // This is a fix for the only method overloading in Dart the `-` operator
-          name: (executableElement is MethodElement2 &&
+          name: (executableElement is MethodElement &&
                   executableElement.isOperator)
               ? () {
                   final rawName =
-                      executableElement.name3 ?? executableElement.displayName;
+                      executableElement.name ?? executableElement.displayName;
                   final prefix = executableElement.formalParameters.isEmpty
                       ? 'unary'
                       : 'binary';
@@ -69,9 +69,9 @@ class InternalExecutableDeclaration implements InternalDeclaration {
                   }
                   return prefix + rawName;
                 }()
-              : executableElement.name3 ?? executableElement.displayName,
+              : executableElement.name ?? executableElement.displayName,
           namespace: namespace,
-          isDeprecated: executableElement.metadata2.hasDeprecated,
+          isDeprecated: executableElement.metadata.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(executableElement),
           parameters: _computeParameterList(
@@ -81,7 +81,7 @@ class InternalExecutableDeclaration implements InternalDeclaration {
             rootPath,
           ),
           typeParameterNames:
-              _computeTypeParameters(executableElement.typeParameters2),
+              _computeTypeParameters(executableElement.typeParameters),
           type: _computeExecutableType(executableElement),
           isStatic: executableElement.isStatic,
           entryPoints: {},
@@ -108,8 +108,8 @@ class InternalExecutableDeclaration implements InternalDeclaration {
 
   /// retrieves the type of executable from the given [executableElement]
   static ExecutableType _computeExecutableType(
-      ExecutableElement2 executableElement) {
-    if (executableElement is ConstructorElement2) {
+      ExecutableElement executableElement) {
+    if (executableElement is ConstructorElement) {
       return ExecutableType.constructor;
     }
     return ExecutableType.method;
@@ -123,18 +123,18 @@ class InternalExecutableDeclaration implements InternalDeclaration {
         .map((e) => ExecutableParameterDeclaration(
               isRequired: e.isRequired,
               isNamed: e.isNamed,
-              name: e.name3 ?? e.displayName,
-              isDeprecated: e.metadata2.hasDeprecated,
+              name: e.name ?? e.displayName,
+              isDeprecated: e.metadata.hasDeprecated,
               isExperimental: InternalDeclarationUtils.hasExperimental(e),
               typeName: e.type.getDisplayString(),
-              typeFullLibraryName: e.type.element3?.library2?.uri.toString(),
+              typeFullLibraryName: e.type.element?.library?.uri.toString(),
               relativePath: relativePath,
             ))
         .toList();
   }
 
   static List<String> _computeTypeParameters(
-      List<TypeParameterElement2> paramList) {
-    return paramList.map((pe) => pe.name3 ?? pe.displayName).toList();
+      List<TypeParameterElement> paramList) {
+    return paramList.map((pe) => pe.name ?? pe.displayName).toList();
   }
 }
