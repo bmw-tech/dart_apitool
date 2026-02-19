@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/file_system.dart' hide File;
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:dart_apitool/api_tool.dart';
@@ -108,7 +108,7 @@ class PackageApiAnalyzer {
               rootPath: normalizedAbsoluteProjectPath,
               typeHierarchy: typeHierarchy,
             );
-            unitResult.libraryElement2.accept2(collector);
+            unitResult.libraryElement.accept(collector);
             final skippedInterfaces = <int>[];
             for (final cd in collector.interfaceDeclarations) {
               if (!collectedInterfaces.containsKey(cd.id)) {
@@ -234,7 +234,7 @@ class PackageApiAnalyzer {
           }
 
           final referencedFilesCollector = ExportedFilesCollector();
-          unitResult.libraryElement2.accept2(referencedFilesCollector);
+          unitResult.libraryElement.accept(referencedFilesCollector);
           for (final fileRef in referencedFilesCollector.fileReferences) {
             if (!_isInternalRef(
                 originLibrary: fileRef.originLibrary,
@@ -427,8 +427,8 @@ class PackageApiAnalyzer {
   }
 
   bool _isInternalRef(
-      {required LibraryElement2 originLibrary,
-      required LibraryElement2? refLibrary}) {
+      {required LibraryElement originLibrary,
+      required LibraryElement? refLibrary}) {
     if (refLibrary == null) {
       return true;
     }

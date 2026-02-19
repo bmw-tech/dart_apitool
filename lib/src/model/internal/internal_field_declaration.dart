@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../field_declaration.dart';
 import 'internal_declaration.dart';
@@ -44,19 +44,19 @@ class InternalFieldDeclaration implements InternalDeclaration {
   });
 
   InternalFieldDeclaration.fromPropertyInducingElement(
-    PropertyInducingElement2 fieldElement, {
+    PropertyInducingElement fieldElement, {
     String? namespace,
     required String rootPath,
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(fieldElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              fieldElement.enclosingElement2),
+              fieldElement.enclosingElement),
           typeName: fieldElement.type.getDisplayString(),
           typeFullLibraryName:
-              fieldElement.type.element3?.library2?.uri.toString(),
-          name: fieldElement.name3 ?? fieldElement.displayName,
+              fieldElement.type.element?.library?.uri.toString(),
+          name: fieldElement.name ?? fieldElement.displayName,
           namespace: namespace,
-          isDeprecated: fieldElement.metadata2.hasDeprecated,
+          isDeprecated: fieldElement.metadata.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(fieldElement),
           isStatic: fieldElement.isStatic,
@@ -64,8 +64,8 @@ class InternalFieldDeclaration implements InternalDeclaration {
           entryPoints: {},
           relativePath:
               InternalDeclarationUtils.getRelativePath(rootPath, fieldElement),
-          isReadable: fieldElement.getter2 != null,
-          isWriteable: fieldElement.setter2 != null,
+          isReadable: fieldElement.getter != null,
+          isWriteable: fieldElement.setter != null,
         );
 
   FieldDeclaration toFieldDeclaration() {

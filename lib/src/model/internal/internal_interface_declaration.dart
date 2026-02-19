@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 import '../interface_declaration.dart';
 import '../executable_declaration.dart';
@@ -53,24 +53,24 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
   });
 
   InternalInterfaceDeclaration.fromInterfaceElement(
-    InterfaceElement2 interfaceElement, {
+    InterfaceElement interfaceElement, {
     String? namespace,
     required String rootPath,
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(interfaceElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              interfaceElement.enclosingElement2),
-          name: interfaceElement.name3 ?? interfaceElement.displayName,
+              interfaceElement.enclosingElement),
+          name: interfaceElement.name ?? interfaceElement.displayName,
           namespace: namespace,
           isPrivate: interfaceElement.isPrivate,
-          isDeprecated: interfaceElement.metadata2.hasDeprecated,
+          isDeprecated: interfaceElement.metadata.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(interfaceElement),
           isSealed: InternalDeclarationUtils.hasSealed(interfaceElement),
-          isAbstract: (interfaceElement is ClassElement2) &&
-              interfaceElement.isAbstract,
+          isAbstract:
+              (interfaceElement is ClassElement) && interfaceElement.isAbstract,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
-              interfaceElement.typeParameters2),
+              interfaceElement.typeParameters),
           superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
               interfaceElement.allSupertypes),
           executableDeclarations: [],
@@ -79,29 +79,29 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           relativePath: InternalDeclarationUtils.getRelativePath(
               rootPath, interfaceElement),
           superClassIds: interfaceElement.allSupertypes
-              .map((e) => InternalDeclarationUtils.getIdFromElement(e.element3))
+              .map((e) => InternalDeclarationUtils.getIdFromElement(e.element))
               .nonNulls
               .toList(),
         );
 
   InternalInterfaceDeclaration.fromExtensionElement(
-    ExtensionElement2 extensionElement, {
+    ExtensionElement extensionElement, {
     String? namespace,
     required String rootPath,
   }) : this._(
           id: InternalDeclarationUtils.getIdFromElement(extensionElement)!,
           parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-              extensionElement.enclosingElement2),
-          name: extensionElement.name3 ?? extensionElement.displayName,
+              extensionElement.enclosingElement),
+          name: extensionElement.name ?? extensionElement.displayName,
           namespace: namespace,
           isPrivate: extensionElement.isPrivate,
-          isDeprecated: extensionElement.metadata2.hasDeprecated,
+          isDeprecated: extensionElement.metadata.hasDeprecated,
           isExperimental:
               InternalDeclarationUtils.hasExperimental(extensionElement),
           isSealed: InternalDeclarationUtils.hasSealed(extensionElement),
           isAbstract: false,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
-              extensionElement.typeParameters2),
+              extensionElement.typeParameters),
           superTypeNames: const {},
           executableDeclarations: [],
           fieldDeclarations: [],

@@ -1,11 +1,11 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 
 /// Utilities for naming things
 abstract class NamingUtils {
   /// calculates the full library path
   static String getFullLibraryPathFromElement({
-    required Element2? element,
+    required Element? element,
   }) {
-    return element?.library2?.uri.toString() ?? '';
+    return element?.library?.uri.toString() ?? '';
   }
 }

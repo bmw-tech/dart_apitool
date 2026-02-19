@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor2.dart';
 
 /// represents a file reference extracted from a dart source file
@@ -7,10 +7,10 @@ class FileReference {
   final String uri;
 
   /// library the reference comes from
-  final LibraryElement2 originLibrary;
+  final LibraryElement originLibrary;
 
   /// library the reference points to
-  final LibraryElement2? referencedLibrary;
+  final LibraryElement? referencedLibrary;
 
   /// list of show parameters for this reference
   final List<String> shownNames;
@@ -35,13 +35,13 @@ class ExportedFilesCollector extends RecursiveElementVisitor2<void> {
   final fileReferences = List<FileReference>.empty(growable: true);
 
   @override
-  void visitLibraryElement(LibraryElement2 element) {
+  void visitLibraryElement(LibraryElement element) {
     for (final libraryFragment in element.fragments) {
-      for (final exportedLibrary in libraryFragment.libraryExports2) {
+      for (final exportedLibrary in libraryFragment.libraryExports) {
         _addUri(
           uri: exportedLibrary.uri,
           originLibrary: element,
-          referencedLibrary: exportedLibrary.exportedLibrary2,
+          referencedLibrary: exportedLibrary.exportedLibrary,
           combinators: exportedLibrary.combinators,
         );
       }
@@ -50,8 +50,8 @@ class ExportedFilesCollector extends RecursiveElementVisitor2<void> {
 
   void _addUri({
     required DirectiveUri uri,
-    required LibraryElement2 originLibrary,
-    LibraryElement2? referencedLibrary,
+    required LibraryElement originLibrary,
+    LibraryElement? referencedLibrary,
     required List<NamespaceCombinator> combinators,
   }) {
     if (uri is DirectiveUriWithRelativeUriString) {

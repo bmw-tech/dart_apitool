@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:dart_apitool/src/model/internal/internal_declaration.dart';
 import 'package:dart_apitool/src/model/type_alias_declaration.dart';
 
@@ -34,17 +34,17 @@ class InternalTypeAliasDeclaration implements InternalDeclaration {
   });
 
   InternalTypeAliasDeclaration.fromTypeAliasElement(
-    TypeAliasElement2 typeAliasElement, {
+    TypeAliasElement typeAliasElement, {
     String? namespace,
     required String rootPath,
   }) : this._(
             id: InternalDeclarationUtils.getIdFromElement(typeAliasElement)!,
             parentClassId: InternalDeclarationUtils.getIdFromParentElement(
-                typeAliasElement.enclosingElement2),
-            name: typeAliasElement.name3 ?? typeAliasElement.displayName,
+                typeAliasElement.enclosingElement),
+            name: typeAliasElement.name ?? typeAliasElement.displayName,
             namespace: namespace,
             aliasedTypeName: typeAliasElement.aliasedType.getDisplayString(),
-            isDeprecated: typeAliasElement.metadata2.hasDeprecated,
+            isDeprecated: typeAliasElement.metadata.hasDeprecated,
             isExperimental:
                 InternalDeclarationUtils.hasExperimental(typeAliasElement),
             entryPoints: {},

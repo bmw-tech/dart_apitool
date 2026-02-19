@@ -1,26 +1,26 @@
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/source/file_source.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InternalDeclarationUtils {
-  static int? getIdFromElement(Element2? element) {
+  static int? getIdFromElement(Element? element) {
     if (element == null) {
       return null;
     }
     return element.id;
   }
 
-  static int? getIdFromParentElement(Element2? element) {
-    if (element is InterfaceElement2 || element is ExtensionElement2) {
+  static int? getIdFromParentElement(Element? element) {
+    if (element is InterfaceElement || element is ExtensionElement) {
       return getIdFromElement(element);
     }
     return null;
   }
 
   static List<String> computeTypeParameters(
-      List<TypeParameterElement2> typeParameters) {
-    return typeParameters.map((e) => e.name3 ?? e.displayName).toList();
+      List<TypeParameterElement> typeParameters) {
+    return typeParameters.map((e) => e.name ?? e.displayName).toList();
   }
 
   static Set<String> computeSuperTypeNames(List<InterfaceType> allSupertypes) {
@@ -31,9 +31,9 @@ abstract class InternalDeclarationUtils {
         .toSet();
   }
 
-  static bool containsAnnotation(Annotatable element, String name,
+  static bool containsAnnotation(Element element, String name,
       {bool ignoreCase = true}) {
-    bool result = element.metadata2.annotations.any((annotation) {
+    bool result = element.metadata.annotations.any((annotation) {
       // this is really hacky but currently there is no other way of getting into the guts of the annotation
       dynamic dynamicAnnotation = annotation;
       final String annotationName = dynamicAnnotation.annotationAst.name.name;
@@ -47,24 +47,24 @@ abstract class InternalDeclarationUtils {
     return result;
   }
 
-  static bool hasInternal(Annotatable element) {
+  static bool hasInternal(Element element) {
     return containsAnnotation(element, 'internal');
   }
 
-  static bool hasVisibleForTesting(Annotatable element) {
+  static bool hasVisibleForTesting(Element element) {
     return containsAnnotation(element, 'visibleForTesting');
   }
 
-  static bool hasExperimental(Annotatable element) {
+  static bool hasExperimental(Element element) {
     return containsAnnotation(element, 'experimental');
   }
 
-  static bool hasSealed(Annotatable element) {
-    return element.metadata2.hasSealed;
+  static bool hasSealed(Element element) {
+    return element.metadata.hasSealed;
   }
 
-  static String getRelativePath(String rootPath, Element2? element) {
-    final librarySource = element?.library2?.fragments.firstOrNull?.source;
+  static String getRelativePath(String rootPath, Element? element) {
+    final librarySource = element?.library?.fragments.firstOrNull?.source;
     if (librarySource is FileSource) {
       try {
         final libraryPath = librarySource.fullName;
@@ -73,10 +73,10 @@ abstract class InternalDeclarationUtils {
         // ignore
       }
     }
-    return element?.library2?.uri.toString() ?? '';
+    return element?.library?.uri.toString() ?? '';
   }
 
-  static String getFullQualifiedNameForLibrary(LibraryElement2 library) {
+  static String getFullQualifiedNameForLibrary(LibraryElement library) {
     final uri = library.uri;
     if (uri.isScheme('file')) {
       final pathParts = path.split(uri.toFilePath());
@@ -97,34 +97,34 @@ abstract class InternalDeclarationUtils {
     return uriPathSegments.join('/');
   }
 
-  static String getFullQualifiedNameFor(Element2 element) {
+  static String getFullQualifiedNameFor(Element element) {
     final parts = <String>[];
 
-    if (element.enclosingElement2 != null) {
-      parts.add(getFullQualifiedNameFor(element.enclosingElement2!));
-    } else if (element.library2 != null) {
+    if (element.enclosingElement != null) {
+      parts.add(getFullQualifiedNameFor(element.enclosingElement!));
+    } else if (element.library != null) {
       /// stop at root level and add the fully qualified library name
-      parts.add(getFullQualifiedNameForLibrary(element.library2!));
+      parts.add(getFullQualifiedNameForLibrary(element.library!));
     }
-    parts.add(element.name3 ?? element.displayName);
+    parts.add(element.name ?? element.displayName);
 
     return parts.where((part) => part.isNotEmpty).join('::');
   }
 
   static String? getNamespaceForElement(
-      Element2? referredElement, Element2 referringElement) {
-    final referredElementLibrary = referredElement?.library2;
+      Element? referredElement, Element referringElement) {
+    final referredElementLibrary = referredElement?.library;
     if (referredElementLibrary == null) {
       return null;
     }
-    final sourceLibrary = referringElement.library2;
+    final sourceLibrary = referringElement.library;
     if (sourceLibrary == null) {
       return null;
     }
     for (final sourceLibraryFragment in sourceLibrary.fragments) {
-      for (final libraryImport in sourceLibraryFragment.libraryImports2) {
-        if (libraryImport.importedLibrary2?.id == referredElementLibrary.id) {
-          return libraryImport.prefix2?.element.name3;
+      for (final libraryImport in sourceLibraryFragment.libraryImports) {
+        if (libraryImport.importedLibrary?.id == referredElementLibrary.id) {
+          return libraryImport.prefix?.element.name;
         }
       }
     }
