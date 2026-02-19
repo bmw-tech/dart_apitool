@@ -14,7 +14,7 @@ dependencies:
   colorize: ^3.0.0
   colorize_lumberdash: ^3.0.0
   console: ^4.1.0
-  freezed_annotation: ^3.0.0
+  freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   lumberdash: ^3.0.0
   package_config: ^2.2.0
