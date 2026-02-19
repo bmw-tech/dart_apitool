@@ -67,8 +67,8 @@ class InternalInterfaceDeclaration implements InternalDeclaration {
           isExperimental:
               InternalDeclarationUtils.hasExperimental(interfaceElement),
           isSealed: InternalDeclarationUtils.hasSealed(interfaceElement),
-          isAbstract: (interfaceElement is ClassElement) &&
-              interfaceElement.isAbstract,
+          isAbstract:
+              (interfaceElement is ClassElement) && interfaceElement.isAbstract,
           typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
               interfaceElement.typeParameters),
           superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
