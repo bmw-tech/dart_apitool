@@ -36,20 +36,16 @@ class ProcessUtils {
     stdoutSession?.openSubprocessOutputWindow();
 
     subscriptions.add(
-      process.stdout.listen(
-        (event) {
-          stdoutBytes.addAll(event);
-          stdoutSession?.write(event);
-        },
-      ),
+      process.stdout.listen((event) {
+        stdoutBytes.addAll(event);
+        stdoutSession?.write(event);
+      }),
     );
     subscriptions.add(
-      process.stderr.listen(
-        (event) {
-          stderrBytes.addAll(event);
-          stdoutSession?.write(event);
-        },
-      ),
+      process.stderr.listen((event) {
+        stderrBytes.addAll(event);
+        stdoutSession?.write(event);
+      }),
     );
 
     final exitCode = await process.exitCode;

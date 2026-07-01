@@ -30,8 +30,8 @@ class JsonDiffReporter extends DiffReporter {
         'toolAuthor': 'BMW Tech',
         'generatedAt': DateTime.now().toUtc().toLocal().toString(),
         'oldRef': oldPackageRef.ref,
-        'newRef': newPackageRef.ref
-      }
+        'newRef': newPackageRef.ref,
+      },
     };
 
     if (versionCheckResult != null) {
@@ -72,21 +72,27 @@ class JsonDiffReporter extends DiffReporter {
   }
 
   Map<String, dynamic>? _printApiChangeNode(
-      ApiChangeTreeNode node, bool breaking) {
-    Map<String, dynamic> nodeToMap(ApiChangeTreeNode n,
-        {String? labelOverride}) {
+    ApiChangeTreeNode node,
+    bool breaking,
+  ) {
+    Map<String, dynamic> nodeToMap(
+      ApiChangeTreeNode n, {
+      String? labelOverride,
+    }) {
       final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
       final changeList = relevantChanges
-          .map((c) => {
-                'changeDescription': c.changeDescription,
-                'changeCode': c.changeCode.code,
-                'isBreaking': c.isBreaking,
-                'type': c.isBreaking
-                    ? 'major'
-                    : c.type.requiresMinorBump
-                        ? 'minor'
-                        : 'patch',
-              })
+          .map(
+            (c) => {
+              'changeDescription': c.changeDescription,
+              'changeCode': c.changeCode.code,
+              'isBreaking': c.isBreaking,
+              'type': c.isBreaking
+                  ? 'major'
+                  : c.type.requiresMinorBump
+                  ? 'minor'
+                  : 'patch',
+            },
+          )
           .toList();
       final childNodes = n.children.values
           .map((value) => nodeToMap(value))
@@ -95,7 +101,8 @@ class JsonDiffReporter extends DiffReporter {
       return allChildren.isEmpty
           ? {}
           : {
-              'label': labelOverride ??
+              'label':
+                  labelOverride ??
                   (n.nodeDeclaration == null
                       ? ''
                       : getDeclarationNodeHeadline(n.nodeDeclaration!)),
@@ -103,8 +110,10 @@ class JsonDiffReporter extends DiffReporter {
             };
     }
 
-    final nodes = nodeToMap(node,
-        labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes');
+    final nodes = nodeToMap(
+      node,
+      labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes',
+    );
 
     return nodes.isEmpty ? null : nodes;
   }

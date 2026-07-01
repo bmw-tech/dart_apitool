@@ -19,7 +19,8 @@ sealed class PackageDependencyStorageV3 with _$PackageDependencyStorageV3 {
       _$PackageDependencyStorageV3FromJson(json);
 
   static PackageDependencyStorageV3 fromPackageDependency(
-      PackageDependency packageDependency) {
+    PackageDependency packageDependency,
+  ) {
     return PackageDependencyStorageV3(
       packageName: packageDependency.packageName,
       packageVersion: packageDependency.packageVersion,

@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithExperimental;
     late PackageApiAnalyzer packageAWithoutExperimental;
 
-    setUpAll(
-      () {
-        packageAWithExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+    setUpAll(() {
+      packageAWithExperimental = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_with_experimental_and_sealed',
-        ));
-        packageAWithoutExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+        ),
+      );
+      packageAWithoutExperimental = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_without_experimental_and_sealed',
-        ));
-      },
-    );
+        ),
+      );
+    });
     group('with experimental to without experimental', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {

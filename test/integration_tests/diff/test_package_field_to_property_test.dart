@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithField;
     late PackageApiAnalyzer packageAWithProperty;
 
-    setUpAll(
-      () {
-        packageAWithField = PackageApiAnalyzer(
-            packagePath: path.join(
+    setUpAll(() {
+      packageAWithField = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'field_to_property',
           'package_a_with_field',
-        ));
-        packageAWithProperty = PackageApiAnalyzer(
-            packagePath: path.join(
+        ),
+      );
+      packageAWithProperty = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'field_to_property',
           'package_a_with_property',
-        ));
-      },
-    );
+        ),
+      );
+    });
     group('changing a field to a read-only property', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {

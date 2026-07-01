@@ -15,32 +15,36 @@ void main() {
     });
 
     test('Root level field "any" is available', () {
-      final anyField = packageApi.fieldDeclarations
-          .singleWhere((element) => element.name == 'any');
+      final anyField = packageApi.fieldDeclarations.singleWhere(
+        (element) => element.name == 'any',
+      );
       expect(anyField.name, 'any');
       expect(anyField.typeName, 'Null');
       expect(anyField.isDeprecated, isFalse);
       expect(anyField.entryPoints!, contains('mockito.dart'));
     });
     test('Root level field "when" is available', () {
-      final whenField = packageApi.fieldDeclarations
-          .singleWhere((element) => element.name == 'when');
+      final whenField = packageApi.fieldDeclarations.singleWhere(
+        (element) => element.name == 'when',
+      );
       expect(whenField.name, 'when');
       expect(whenField.typeName, contains('PostExpectation'));
       expect(whenField.isDeprecated, isFalse);
       expect(whenField.entryPoints!, contains('mockito.dart'));
     });
     test('Root level field "verify" is available', () {
-      final verifyField = packageApi.fieldDeclarations
-          .singleWhere((element) => element.name == 'verify');
+      final verifyField = packageApi.fieldDeclarations.singleWhere(
+        (element) => element.name == 'verify',
+      );
       expect(verifyField.name, 'verify');
       expect(verifyField.typeName, contains('Verification'));
       expect(verifyField.isDeprecated, isFalse);
       expect(verifyField.entryPoints!, contains('mockito.dart'));
     });
     test('Root level field "verifyNever" is available', () {
-      final verifyNeverField = packageApi.fieldDeclarations
-          .singleWhere((element) => element.name == 'verifyNever');
+      final verifyNeverField = packageApi.fieldDeclarations.singleWhere(
+        (element) => element.name == 'verifyNever',
+      );
       expect(verifyNeverField.name, 'verifyNever');
       expect(verifyNeverField.typeName, contains('Verification'));
       expect(verifyNeverField.isDeprecated, isFalse);

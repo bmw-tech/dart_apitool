@@ -17,11 +17,7 @@ class GitRef {
   /// The branch, tag, or commit reference (optional)
   final String? ref;
 
-  GitRef._({
-    required this.uri,
-    this.path,
-    this.ref,
-  });
+  GitRef._({required this.uri, this.path, this.ref});
 
   /// Creates a GitRef from a package reference string
   /// Returns null if the string is not a valid git reference
@@ -51,7 +47,8 @@ class GitRef {
     // Regex to parse HTTPS git URLs with optional path and ref
     // Pattern: https://domain/user/repo(.git)?(/path/to/package)?(:ref)?
     final httpsPattern = RegExp(
-        r'^(https://[^/]+/[^/]+/[^/:]+(?:\.git)?)((?:/[^:]+)?)?(?::(.+))?$');
+      r'^(https://[^/]+/[^/]+/[^/:]+(?:\.git)?)((?:/[^:]+)?)?(?::(.+))?$',
+    );
 
     final match = httpsPattern.firstMatch(withoutScheme);
     if (match == null) {
@@ -67,21 +64,18 @@ class GitRef {
     final path = pathPart?.isNotEmpty == true && pathPart!.startsWith('/')
         ? pathPart.substring(1)
         : pathPart?.isNotEmpty == true
-            ? pathPart
-            : null;
+        ? pathPart
+        : null;
 
-    return GitRef._(
-      uri: uri,
-      path: path,
-      ref: ref,
-    );
+    return GitRef._(uri: uri, path: path, ref: ref);
   }
 
   static GitRef _parseSshFormat(String withoutScheme) {
     // Regex to parse SSH git URLs with optional path and ref
     // Pattern: git@host:user/repo(.git)?(/path/to/package)?(:ref)?
     final sshPattern = RegExp(
-        r'^([^@]+@[^:]+:[^/:]+/[^/:]+(?:\.git)?)((?:/[^:]+)?)?(?::(.+))?$');
+      r'^([^@]+@[^:]+:[^/:]+/[^/:]+(?:\.git)?)((?:/[^:]+)?)?(?::(.+))?$',
+    );
 
     final match = sshPattern.firstMatch(withoutScheme);
     if (match == null) {
@@ -97,14 +91,10 @@ class GitRef {
     final path = pathPart?.isNotEmpty == true && pathPart!.startsWith('/')
         ? pathPart.substring(1)
         : pathPart?.isNotEmpty == true
-            ? pathPart
-            : null;
+        ? pathPart
+        : null;
 
-    return GitRef._(
-      uri: uri,
-      path: path,
-      ref: ref,
-    );
+    return GitRef._(uri: uri, path: path, ref: ref);
   }
 
   /// Creates a string representation for internal use (e.g., in SourceItem)
@@ -136,8 +126,9 @@ class GitRef {
     String? path;
 
     if (uriWithPath.startsWith('https://')) {
-      final httpsPattern =
-          RegExp(r'^(https://[^/]+/[^/]+/[^/]+(?:\.git)?)((?:/.+)?)$');
+      final httpsPattern = RegExp(
+        r'^(https://[^/]+/[^/]+/[^/]+(?:\.git)?)((?:/.+)?)$',
+      );
       final match = httpsPattern.firstMatch(uriWithPath);
       if (match != null) {
         uri = match.group(1)!;
@@ -145,15 +136,16 @@ class GitRef {
         path = pathPart?.isNotEmpty == true && pathPart!.startsWith('/')
             ? pathPart.substring(1)
             : pathPart?.isNotEmpty == true
-                ? pathPart
-                : null;
+            ? pathPart
+            : null;
       } else {
         uri = uriWithPath;
         path = null;
       }
     } else if (uriWithPath.contains('@')) {
-      final sshPattern =
-          RegExp(r'^([^@]+@[^:]+:[^/]+/[^/]+(?:\.git)?)((?:/.+)?)$');
+      final sshPattern = RegExp(
+        r'^([^@]+@[^:]+:[^/]+/[^/]+(?:\.git)?)((?:/.+)?)$',
+      );
       final match = sshPattern.firstMatch(uriWithPath);
       if (match != null) {
         uri = match.group(1)!;
@@ -161,8 +153,8 @@ class GitRef {
         path = pathPart?.isNotEmpty == true && pathPart!.startsWith('/')
             ? pathPart.substring(1)
             : pathPart?.isNotEmpty == true
-                ? pathPart
-                : null;
+            ? pathPart
+            : null;
       } else {
         uri = uriWithPath;
         path = null;

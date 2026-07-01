@@ -22,7 +22,8 @@ enum ExecutableTypeStorageV3 {
   }
 
   static ExecutableTypeStorageV3 fromExecutableType(
-      ExecutableType executableType) {
+    ExecutableType executableType,
+  ) {
     switch (executableType) {
       case ExecutableType.method:
         return method;
@@ -48,12 +49,13 @@ sealed class ExecutableParameterDeclarationStorageV3
   }) = _ExecutableParameterDeclarationStorageV3;
 
   factory ExecutableParameterDeclarationStorageV3.fromJson(
-          Map<String, Object?> json) =>
-      _$ExecutableParameterDeclarationStorageV3FromJson(json);
+    Map<String, Object?> json,
+  ) => _$ExecutableParameterDeclarationStorageV3FromJson(json);
 
   static ExecutableParameterDeclarationStorageV3
-      fromExecutableParameterDeclaration(
-          ExecutableParameterDeclaration executableParameterDeclaration) {
+  fromExecutableParameterDeclaration(
+    ExecutableParameterDeclaration executableParameterDeclaration,
+  ) {
     return ExecutableParameterDeclarationStorageV3(
       isRequired: executableParameterDeclaration.isRequired,
       isNamed: executableParameterDeclaration.isNamed,
@@ -89,19 +91,25 @@ sealed class ExecutableDeclarationStorageV3
       _$ExecutableDeclarationStorageV3FromJson(json);
 
   static ExecutableDeclarationStorageV3 fromExecutableDeclaration(
-      ExecutableDeclaration executableDeclaration) {
+    ExecutableDeclaration executableDeclaration,
+  ) {
     return ExecutableDeclarationStorageV3(
       returnTypeName: executableDeclaration.returnTypeName,
       name: executableDeclaration.name,
       isDeprecated: executableDeclaration.isDeprecated,
       isExperimental: executableDeclaration.isExperimental,
       parameters: executableDeclaration.parameters
-          .map((p) => ExecutableParameterDeclarationStorageV3
-              .fromExecutableParameterDeclaration(p))
+          .map(
+            (p) =>
+                ExecutableParameterDeclarationStorageV3.fromExecutableParameterDeclaration(
+                  p,
+                ),
+          )
           .toList(),
       typeParameterNames: executableDeclaration.typeParameterNames,
       type: ExecutableTypeStorageV3.fromExecutableType(
-          executableDeclaration.type),
+        executableDeclaration.type,
+      ),
       isStatic: executableDeclaration.isStatic,
       entryPoints: executableDeclaration.entryPoints!,
       relativePath: executableDeclaration.relativePath,

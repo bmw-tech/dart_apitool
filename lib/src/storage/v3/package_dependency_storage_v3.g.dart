@@ -9,15 +9,15 @@ part of 'package_dependency_storage_v3.dart';
 // **************************************************************************
 
 _PackageDependencyStorageV3 _$PackageDependencyStorageV3FromJson(
-        Map<String, dynamic> json) =>
-    _PackageDependencyStorageV3(
-      packageName: json['packageName'] as String,
-      packageVersion: json['packageVersion'] as String?,
-    );
+  Map<String, dynamic> json,
+) => _PackageDependencyStorageV3(
+  packageName: json['packageName'] as String,
+  packageVersion: json['packageVersion'] as String?,
+);
 
 Map<String, dynamic> _$PackageDependencyStorageV3ToJson(
-        _PackageDependencyStorageV3 instance) =>
-    <String, dynamic>{
-      'packageName': instance.packageName,
-      'packageVersion': instance.packageVersion,
-    };
+  _PackageDependencyStorageV3 instance,
+) => <String, dynamic>{
+  'packageName': instance.packageName,
+  'packageVersion': instance.packageVersion,
+};

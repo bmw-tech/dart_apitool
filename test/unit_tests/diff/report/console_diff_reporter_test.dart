@@ -25,26 +25,30 @@ void main() {
       PackageApiDiffResult diffResult, {
       ApiChangeCode changeCode = ApiChangeCode.ci01,
     }) {
-      diffResult.addApiChange(ApiChange(
-        changeCode: changeCode,
-        changeDescription: 'Test breaking change: ${changeCode.name}',
-        contextTrace: [],
-        isExperimental: false,
-        type: ApiChangeType.remove,
-      ));
+      diffResult.addApiChange(
+        ApiChange(
+          changeCode: changeCode,
+          changeDescription: 'Test breaking change: ${changeCode.name}',
+          contextTrace: [],
+          isExperimental: false,
+          type: ApiChangeType.remove,
+        ),
+      );
     }
 
     void addNonBreakingChange(
       PackageApiDiffResult diffResult, {
       ApiChangeCode changeCode = ApiChangeCode.ci02,
     }) {
-      diffResult.addApiChange(ApiChange(
-        changeCode: changeCode,
-        changeDescription: 'Test non-breaking change: ${changeCode.name}',
-        contextTrace: [],
-        isExperimental: false,
-        type: ApiChangeType.addCompatiblePatch,
-      ));
+      diffResult.addApiChange(
+        ApiChange(
+          changeCode: changeCode,
+          changeDescription: 'Test non-breaking change: ${changeCode.name}',
+          contextTrace: [],
+          isExperimental: false,
+          type: ApiChangeType.addCompatiblePatch,
+        ),
+      );
     }
 
     test('Can be instantiated', () {
@@ -54,34 +58,44 @@ void main() {
 
     test('Can handle empty diff report', () {
       final diffResult = createEmptyDiffResult();
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
     test('Can handle diff report with only one breaking change', () {
       final diffResult = createEmptyDiffResult();
       addBreakingChange(diffResult, changeCode: ApiChangeCode.ci01);
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
     test('Can handle diff report with multiple breaking changes', () {
       final diffResult = createEmptyDiffResult();
       addBreakingChange(diffResult, changeCode: ApiChangeCode.ci01);
       addBreakingChange(diffResult, changeCode: ApiChangeCode.ci04);
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
     test('Can handle diff report with only one non-breaking change', () {
       final diffResult = createEmptyDiffResult();
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci02);
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
     test('Can handle diff report with multiple non-breaking changes', () {
       final diffResult = createEmptyDiffResult();
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci02);
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci05);
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
     test('Can handle diff report with breaking and non-breaking changes', () {
       final diffResult = createEmptyDiffResult();
@@ -89,8 +103,10 @@ void main() {
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci02);
       addBreakingChange(diffResult, changeCode: ApiChangeCode.ci04);
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci05);
-      expect(() => reporter.generateReport(diffResult, anyVersionCheckResult),
-          returnsNormally);
+      expect(
+        () => reporter.generateReport(diffResult, anyVersionCheckResult),
+        returnsNormally,
+      );
     });
   });
 }

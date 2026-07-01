@@ -18,7 +18,8 @@ sealed class IOSPlatformConstraintsStorageV3
       _$IOSPlatformConstraintsStorageV3FromJson(json);
 
   static IOSPlatformConstraintsStorageV3? fromIOSPlatformConstraints(
-      IOSPlatformConstraints? iosPlatformConstraints) {
+    IOSPlatformConstraints? iosPlatformConstraints,
+  ) {
     if (iosPlatformConstraints == null) {
       return null;
     }
@@ -40,11 +41,12 @@ sealed class AndroidPlatformConstraintsStorageV3
   }) = _AndroidPlatformConstraintsStorageV3;
 
   factory AndroidPlatformConstraintsStorageV3.fromJson(
-          Map<String, Object?> json) =>
-      _$AndroidPlatformConstraintsStorageV3FromJson(json);
+    Map<String, Object?> json,
+  ) => _$AndroidPlatformConstraintsStorageV3FromJson(json);
 
   static AndroidPlatformConstraintsStorageV3? fromAndroidPlatformConstraints(
-      AndroidPlatformConstraints? constraints) {
+    AndroidPlatformConstraints? constraints,
+  ) {
     if (constraints == null) {
       return null;
     }

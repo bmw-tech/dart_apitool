@@ -64,27 +64,24 @@ OBSOLETE: Has no effect anymore.
       await stdoutSession.writeln('Preparing ${ref.ref}$forceUseFlutterSuffix');
       String sourceDir = ref.ref;
       if (sourceDir.endsWith(p.separator)) {
-        sourceDir =
-            sourceDir.substring(0, sourceDir.length - p.separator.length);
+        sourceDir = sourceDir.substring(
+          0,
+          sourceDir.length - p.separator.length,
+        );
       }
 
-      sources.add(SourceItem(
-        sourceDir: sourceDir,
-        isInCache: false,
-      ));
+      sources.add(SourceItem(sourceDir: sourceDir, isInCache: false));
     } else if (ref.isPubRef) {
       await stdoutSession.writeln(
-          'Preparing ${ref.pubPackage!}:${ref.pubVersion ?? 'latest'}');
+        'Preparing ${ref.pubPackage!}:${ref.pubVersion ?? 'latest'}',
+      );
       await stdoutSession.writeln('Downloading');
       String sourceDir = await PubInteraction.installPackageToCache(
         ref.pubPackage!,
         ref.pubVersion,
         stdoutSession: stdoutSession,
       );
-      sources.add(SourceItem(
-        sourceDir: sourceDir,
-        isInCache: true,
-      ));
+      sources.add(SourceItem(sourceDir: sourceDir, isInCache: true));
     } else if (ref.isGitRef) {
       final gitRefObj = ref.gitRef!;
       await stdoutSession.writeln('Preparing git repository: ${gitRefObj.uri}');
@@ -93,17 +90,22 @@ OBSOLETE: Has no effect anymore.
       }
       // For git repositories, we'll clone directly to the temp directory later
       // Store the git info in a special SourceItem
-      sources.add(SourceItem(
-        sourceDir: gitRefObj.toInternalString(),
-        isInCache: false, // Treat git repos like local dirs - they need pub get
-      ));
+      sources.add(
+        SourceItem(
+          sourceDir: gitRefObj.toInternalString(),
+          isInCache:
+              false, // Treat git repos like local dirs - they need pub get
+        ),
+      );
     } else {
       throw ArgumentError('Unknown package ref: ${ref.ref}');
     }
     // merge sources to not copy children of a parent separately
     // => remove all sources that have a parent in the list
-    sources.removeWhere((sToRemove) =>
-        sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)));
+    sources.removeWhere(
+      (sToRemove) =>
+          sources.any((s) => p.isWithin(s.sourceDir, sToRemove.sourceDir)),
+    );
     final tempDir = await Directory.systemTemp.createTemp();
     String? gitPackageRelativePath; // Store the relative path for git packages
     await Future.forEach<SourceItem>(sources, (sourceItem) async {
@@ -129,7 +131,8 @@ OBSOLETE: Has no effect anymore.
         }
 
         await stdoutSession.writeln(
-            'Preparing package dependencies for git package ${gitRef.uri}$forceUseFlutterSuffix');
+          'Preparing package dependencies for git package ${gitRef.uri}$forceUseFlutterSuffix',
+        );
         await PubInteraction.runPubGet(
           packageDir,
           stdoutSession: stdoutSession,
@@ -142,10 +145,13 @@ OBSOLETE: Has no effect anymore.
         );
       } else {
         // Handle regular directories and pub packages
-        await stdoutSession
-            .writeln('Copying sources from ${sourceItem.sourceDir}');
-        await _copyPath(sourceItem.sourceDir,
-            sourceItem.destinationPath(forPrefix: tempDir.path));
+        await stdoutSession.writeln(
+          'Copying sources from ${sourceItem.sourceDir}',
+        );
+        await _copyPath(
+          sourceItem.sourceDir,
+          sourceItem.destinationPath(forPrefix: tempDir.path),
+        );
         if (!sourceItem.isInCache) {
           String forceUseFlutterSuffix = '';
           if (forceUseFlutterTool) {
@@ -153,7 +159,8 @@ OBSOLETE: Has no effect anymore.
           }
 
           await stdoutSession.writeln(
-              'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix');
+            'Preparing package dependencies for local package ${sourceItem.sourceDir}$forceUseFlutterSuffix',
+          );
           await PubInteraction.runPubGet(
             sourceItem.sourceDir,
             stdoutSession: stdoutSession,
@@ -167,9 +174,12 @@ OBSOLETE: Has no effect anymore.
         } else {
           await stdoutSession.writeln('Cleaning up local copy of pub package');
           // Check if we have a pub package that bundles a pubspec_overrides.yaml (as this most probably destroys pub get)
-          final pubspecOverrides = File(p.join(
+          final pubspecOverrides = File(
+            p.join(
               sourceItem.destinationPath(forPrefix: tempDir.path),
-              'pubspec_overrides.yaml'));
+              'pubspec_overrides.yaml',
+            ),
+          );
           if (await pubspecOverrides.exists()) {
             await pubspecOverrides.delete();
             await stdoutSession.writeln('- Removed pubspec_overrides.yaml');
@@ -178,9 +188,10 @@ OBSOLETE: Has no effect anymore.
       }
     });
     return PreparedPackageRef(
-        packageRef: ref,
-        tempDirectory: tempDir.path,
-        packageRelativePath: gitPackageRelativePath ?? packageRelativePath);
+      packageRef: ref,
+      tempDirectory: tempDir.path,
+      packageRelativePath: gitPackageRelativePath ?? packageRelativePath,
+    );
   }
 
   /// Analyzes the given prepared Package [ref].
@@ -202,8 +213,9 @@ OBSOLETE: Has no effect anymore.
     }
     if (preparedRef.packageRef.isPubRef) {
       path = PubInteraction.getPackagePathInCache(
-          preparedRef.packageRef.pubPackage!,
-          preparedRef.packageRef.pubVersion);
+        preparedRef.packageRef.pubPackage!,
+        preparedRef.packageRef.pubVersion,
+      );
     }
     if (preparedRef.packageRef.isGitRef) {
       // For git references, use the temp directory where the repository was cloned
@@ -211,19 +223,22 @@ OBSOLETE: Has no effect anymore.
     }
     if (path == null) {
       throw ArgumentError(
-          'Don\'t know how to handle ${preparedRef.packageRef.ref}');
+        'Don\'t know how to handle ${preparedRef.packageRef.ref}',
+      );
     }
 
     String packagePath = preparedRef.packageDirectory ?? path;
     // The analysis options might limit the scope of dart_apitool
-    final analysisOptionsFile =
-        File(p.join(packagePath, 'analysis_options.yaml'));
+    final analysisOptionsFile = File(
+      p.join(packagePath, 'analysis_options.yaml'),
+    );
     if (await analysisOptionsFile.exists()) {
       await analysisOptionsFile.delete();
     }
 
-    final packageConfig =
-        await package_config.findPackageConfig(Directory(packagePath));
+    final packageConfig = await package_config.findPackageConfig(
+      Directory(packagePath),
+    );
 
     // Check if the package_config.json is already present from the preparation step
 
@@ -235,8 +250,9 @@ OBSOLETE: Has no effect anymore.
         forceUseFlutterTool: forceUseFlutterTool,
       );
     } else {
-      await stdoutSession
-          .writeln('Omitting pub get (package config already present)');
+      await stdoutSession.writeln(
+        'Omitting pub get (package config already present)',
+      );
     }
 
     await stdoutSession.writeln('Analyzing $path');
@@ -252,8 +268,9 @@ OBSOLETE: Has no effect anymore.
   Future cleanUp(PreparedPackageRef preparedPackageRef) {
     stdout.writeln('Cleaning up');
     if (preparedPackageRef.tempDirectory != null) {
-      return Directory(preparedPackageRef.tempDirectory!)
-          .delete(recursive: true);
+      return Directory(
+        preparedPackageRef.tempDirectory!,
+      ).delete(recursive: true);
     }
     return Future.value();
   }

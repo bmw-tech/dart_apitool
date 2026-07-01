@@ -64,7 +64,8 @@ class ReleaseCommand extends Command {
     ]);
     if (gitDescribeResult.exitCode != 0) {
       throw Exception(
-          'Could not find last released version.\n${gitDescribeResult.stdout}\n${gitDescribeResult.stderr}');
+        'Could not find last released version.\n${gitDescribeResult.stdout}\n${gitDescribeResult.stderr}',
+      );
     }
     final tagName = gitDescribeResult.stdout.toString().split('\n').first;
     final tagVersionMatches = tagVersionRegex.allMatches(tagName);
@@ -85,14 +86,10 @@ class ReleaseCommand extends Command {
   void _checkIfEverythingIsCommited() {
     print('checking if everything is commited');
     final apiToolRootPath = _getApiToolRootPath();
-    final gitStatus = Process.runSync(
-      'git',
-      [
-        'diff',
-        '--quiet',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final gitStatus = Process.runSync('git', [
+      'diff',
+      '--quiet',
+    ], workingDirectory: apiToolRootPath);
     if (gitStatus.exitCode != 0) {
       print('Please commit all changes before releasing.');
       exit(1);
@@ -102,15 +99,11 @@ class ReleaseCommand extends Command {
   void _getPackageDependencies() {
     print('running pub get');
     final apiToolRootPath = _getApiToolRootPath();
-    final pubGetStatus = Process.runSync(
-      'fvm',
-      [
-        'dart',
-        'pub',
-        'get',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final pubGetStatus = Process.runSync('fvm', [
+      'dart',
+      'pub',
+      'get',
+    ], workingDirectory: apiToolRootPath);
     if (pubGetStatus.exitCode != 0) {
       print('pub get failed:');
       print(pubGetStatus.stderr);
@@ -122,16 +115,12 @@ class ReleaseCommand extends Command {
   void _runAnalyzer() {
     print('running analyzer');
     final apiToolRootPath = _getApiToolRootPath();
-    final analyzerStatus = Process.runSync(
-      'fvm',
-      [
-        'dart',
-        'analyze',
-        '--fatal-warnings',
-        '--fatal-infos',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final analyzerStatus = Process.runSync('fvm', [
+      'dart',
+      'analyze',
+      '--fatal-warnings',
+      '--fatal-infos',
+    ], workingDirectory: apiToolRootPath);
     if (analyzerStatus.exitCode != 0) {
       print('analyzer failed:');
       print(analyzerStatus.stderr);
@@ -143,14 +132,10 @@ class ReleaseCommand extends Command {
   void _runTests() {
     print('running tests');
     final apiToolRootPath = _getApiToolRootPath();
-    final testStatus = Process.runSync(
-      'fvm',
-      [
-        'dart',
-        'test',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final testStatus = Process.runSync('fvm', [
+      'dart',
+      'test',
+    ], workingDirectory: apiToolRootPath);
     if (testStatus.exitCode != 0) {
       print('tests failed:');
       print(testStatus.stderr);
@@ -163,19 +148,15 @@ class ReleaseCommand extends Command {
     print('checking semver');
     final apiToolRootPath = _getApiToolRootPath();
     final lastReleaseVersion = _getLastReleasedVersion();
-    final semverStatus = Process.runSync(
-      'fvm',
-      [
-        'dart',
-        'bin/main.dart',
-        'diff',
-        '--old',
-        'pub://dart_apitool/$lastReleaseVersion',
-        '--new',
-        '.',
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final semverStatus = Process.runSync('fvm', [
+      'dart',
+      'bin/main.dart',
+      'diff',
+      '--old',
+      'pub://dart_apitool/$lastReleaseVersion',
+      '--new',
+      '.',
+    ], workingDirectory: apiToolRootPath);
     if (semverStatus.exitCode != 0) {
       print('semver check failed:');
       print(semverStatus.stderr);
@@ -198,7 +179,10 @@ class ReleaseCommand extends Command {
     }
 
     final newVersion = Version(
-        currentVersion.major, currentVersion.minor, currentVersion.patch);
+      currentVersion.major,
+      currentVersion.minor,
+      currentVersion.patch,
+    );
     final newVersionString = newVersion.canonicalizedVersion;
 
     final newPubspecContent = pubspecContent.replaceAll(
@@ -213,15 +197,11 @@ class ReleaseCommand extends Command {
   void _commit(String message) {
     print('commiting: $message');
     final apiToolRootPath = _getApiToolRootPath();
-    final commitStatus = Process.runSync(
-      'git',
-      [
-        'commit',
-        '-am',
-        message,
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final commitStatus = Process.runSync('git', [
+      'commit',
+      '-am',
+      message,
+    ], workingDirectory: apiToolRootPath);
     if (commitStatus.exitCode != 0) {
       print('commit failed:');
       print(commitStatus.stderr);
@@ -233,14 +213,10 @@ class ReleaseCommand extends Command {
   void _createTag(String tag) {
     print('creating tag: $tag');
     final apiToolRootPath = _getApiToolRootPath();
-    final tagStatus = Process.runSync(
-      'git',
-      [
-        'tag',
-        tag,
-      ],
-      workingDirectory: apiToolRootPath,
-    );
+    final tagStatus = Process.runSync('git', [
+      'tag',
+      tag,
+    ], workingDirectory: apiToolRootPath);
     if (tagStatus.exitCode != 0) {
       print('creating tag failed:');
       print(tagStatus.stderr);
@@ -252,11 +228,12 @@ class ReleaseCommand extends Command {
   Future _publishDryRunAsync() async {
     print('publishing (dry run)');
     final apiToolRootPath = _getApiToolRootPath();
-    final pubProcess = await Process.start(
-      'fvm',
-      ['dart', 'pub', 'publish', '--dry-run'],
-      workingDirectory: apiToolRootPath,
-    );
+    final pubProcess = await Process.start('fvm', [
+      'dart',
+      'pub',
+      'publish',
+      '--dry-run',
+    ], workingDirectory: apiToolRootPath);
     pubProcess.stdout.transform(utf8.decoder).forEach(print);
     pubProcess.stderr.transform(utf8.decoder).forEach(print);
     final subscription = stdin.listen(pubProcess.stdin.add);

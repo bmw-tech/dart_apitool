@@ -15,34 +15,41 @@ void main() {
     });
 
     test('Bloc class is available', () {
-      final blocClass = packageApi.interfaceDeclarations
-          .singleWhere((element) => element.name == 'Bloc');
+      final blocClass = packageApi.interfaceDeclarations.singleWhere(
+        (element) => element.name == 'Bloc',
+      );
 
       expect(blocClass.name, 'Bloc');
       expect(blocClass.entryPoints, contains('bloc.dart'));
-      final stateField = blocClass.fieldDeclarations
-          .singleWhere((element) => element.name == 'state');
+      final stateField = blocClass.fieldDeclarations.singleWhere(
+        (element) => element.name == 'state',
+      );
       expect(stateField.name, 'state');
       expect(stateField.typeName, 'State');
     });
     test('Transition class is available', () {
-      final transitionClass = packageApi.interfaceDeclarations
-          .singleWhere((element) => element.name == 'Transition');
+      final transitionClass = packageApi.interfaceDeclarations.singleWhere(
+        (element) => element.name == 'Transition',
+      );
 
       expect(transitionClass.name, 'Transition');
       expect(transitionClass.entryPoints, contains('bloc.dart'));
-      final eventField = transitionClass.fieldDeclarations
-          .singleWhere((element) => element.name == 'event');
+      final eventField = transitionClass.fieldDeclarations.singleWhere(
+        (element) => element.name == 'event',
+      );
       expect(eventField.name, 'event');
       expect(eventField.typeName, 'Event');
     });
     test('EventHandler typedef is available', () {
-      final eventHandlerTypedef = packageApi.typeAliasDeclarations
-          .singleWhere((element) => element.name == 'EventHandler');
+      final eventHandlerTypedef = packageApi.typeAliasDeclarations.singleWhere(
+        (element) => element.name == 'EventHandler',
+      );
 
       expect(eventHandlerTypedef.name, 'EventHandler');
-      expect(eventHandlerTypedef.aliasedTypeName,
-          'FutureOr<void> Function(Event, Emitter<State>)');
+      expect(
+        eventHandlerTypedef.aliasedTypeName,
+        'FutureOr<void> Function(Event, Emitter<State>)',
+      );
     });
     test('Contains meta dependency', () {
       expect(packageApi.packageDependencies.length, 1);

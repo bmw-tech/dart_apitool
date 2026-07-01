@@ -47,8 +47,9 @@ abstract class IOSPlatformConstraintsHelper {
           continue;
         }
         final podspecContent = await podspecFile.readAsString();
-        final minimumOsVersion =
-            _getMinimumOsVersionFromPodspecContent(podspecContent);
+        final minimumOsVersion = _getMinimumOsVersionFromPodspecContent(
+          podspecContent,
+        );
         if (minimumOsVersion != null) {
           if (iosPlatformConstraints.minimumOsVersion == null ||
               iosPlatformConstraints.minimumOsVersion! < minimumOsVersion) {
@@ -64,12 +65,13 @@ abstract class IOSPlatformConstraintsHelper {
   }
 
   static num? _getMinimumOsVersionFromPodspecContent(String podspecContent) {
-    final minimumOsVersionMatches =
-        RegExp(r"platform\s*=\s*:ios\s*,\s*'(?<num>[0-9.]+)'")
-            .allMatches(podspecContent);
+    final minimumOsVersionMatches = RegExp(
+      r"platform\s*=\s*:ios\s*,\s*'(?<num>[0-9.]+)'",
+    ).allMatches(podspecContent);
     if (minimumOsVersionMatches.isNotEmpty) {
-      final minimumOsVersionString =
-          minimumOsVersionMatches.first.namedGroup('num');
+      final minimumOsVersionString = minimumOsVersionMatches.first.namedGroup(
+        'num',
+      );
       if (minimumOsVersionString != null) {
         return num.tryParse(minimumOsVersionString);
       }

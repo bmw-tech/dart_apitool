@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithOldLibraryName;
     late PackageApiAnalyzer packageAWithNewLibraryName;
 
-    setUpAll(
-      () {
-        packageAWithOldLibraryName = PackageApiAnalyzer(
-            packagePath: path.join(
+    setUpAll(() {
+      packageAWithOldLibraryName = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'library_rename_without_entry_point_change',
           'package_a_with_old_library_name',
-        ));
-        packageAWithNewLibraryName = PackageApiAnalyzer(
-            packagePath: path.join(
+        ),
+      );
+      packageAWithNewLibraryName = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'library_rename_without_entry_point_change',
           'package_a_with_new_library_name',
-        ));
-      },
-    );
+        ),
+      );
+    });
     group('diff', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
@@ -35,10 +35,7 @@ void main() {
       });
 
       test('doesn\'t count as any public API change', () {
-        expect(
-          diffResult.apiChanges.length,
-          0,
-        );
+        expect(diffResult.apiChanges.length, 0);
       });
     });
   });

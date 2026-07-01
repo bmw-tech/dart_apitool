@@ -9,15 +9,20 @@ import 'package:lumberdash/lumberdash.dart';
 
 void main(List<String> arguments) async {
   putLumberdashToWork(withClients: [ColorizeLumberdash()]);
-  final runner = CommandRunner<int>('dart-apitool', '''
+  final runner =
+      CommandRunner<int>('dart-apitool', '''
 dart-apitool (${ColorUtils.bold(await getOwnVersion())})
 
 A set of utilities for Package APIs.
 ''')
-    ..argParser.addFlag('version',
-        abbr: 'v', help: 'Prints the version of this tool.', negatable: false)
-    ..addCommand(DiffCommand())
-    ..addCommand(ExtractCommand());
+        ..argParser.addFlag(
+          'version',
+          abbr: 'v',
+          help: 'Prints the version of this tool.',
+          negatable: false,
+        )
+        ..addCommand(DiffCommand())
+        ..addCommand(ExtractCommand());
   try {
     final argParseResult = runner.argParser.parse(arguments);
     if (argParseResult['version']) {

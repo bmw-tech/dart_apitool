@@ -10,8 +10,9 @@ abstract class AndroidPlatformConstraintsHelper {
     required String packagePath,
   }) async {
     // check if the project has an Android Platform
-    final androidPlatformDirectory =
-        Directory(path.join(packagePath, 'android'));
+    final androidPlatformDirectory = Directory(
+      path.join(packagePath, 'android'),
+    );
     if (await androidPlatformDirectory.exists()) {
       // get all gradle files
       final gradleFiles = await androidPlatformDirectory
@@ -20,10 +21,10 @@ abstract class AndroidPlatformConstraintsHelper {
           .toList();
       AndroidPlatformConstraints androidPlatformConstraints =
           AndroidPlatformConstraints(
-        compileSdkVersion: null,
-        minSdkVersion: null,
-        targetSdkVersion: null,
-      );
+            compileSdkVersion: null,
+            minSdkVersion: null,
+            targetSdkVersion: null,
+          );
       for (final gradleFile in gradleFiles) {
         if (gradleFile is File) {
           final fileContent = await gradleFile.readAsString();
@@ -31,7 +32,9 @@ abstract class AndroidPlatformConstraintsHelper {
               _getAndroidPlatformConstraintsFromGradleFileContent(fileContent);
           if (androidPlatformConstraintsFromFile != null) {
             androidPlatformConstraints = _mergeAndroidPlatformConstraints(
-                androidPlatformConstraints, androidPlatformConstraintsFromFile);
+              androidPlatformConstraints,
+              androidPlatformConstraintsFromFile,
+            );
           }
         }
       }
@@ -41,7 +44,9 @@ abstract class AndroidPlatformConstraintsHelper {
   }
 
   static AndroidPlatformConstraints _mergeAndroidPlatformConstraints(
-      AndroidPlatformConstraints a, AndroidPlatformConstraints b) {
+    AndroidPlatformConstraints a,
+    AndroidPlatformConstraints b,
+  ) {
     return AndroidPlatformConstraints(
       minSdkVersion: (a.minSdkVersion ?? 0) > (b.minSdkVersion ?? 0)
           ? a.minSdkVersion
@@ -56,13 +61,16 @@ abstract class AndroidPlatformConstraintsHelper {
   }
 
   static AndroidPlatformConstraints?
-      _getAndroidPlatformConstraintsFromGradleFileContent(String fileContent) {
-    final minSdkVersionMatches =
-        RegExp(r'minSdkVersion (\d+)').allMatches(fileContent);
-    final targetSdkVersionMatches =
-        RegExp(r'targetSdkVersion (\d+)').allMatches(fileContent);
-    final compileSdkVersionMatches =
-        RegExp(r'compileSdkVersion (\d+)').allMatches(fileContent);
+  _getAndroidPlatformConstraintsFromGradleFileContent(String fileContent) {
+    final minSdkVersionMatches = RegExp(
+      r'minSdkVersion (\d+)',
+    ).allMatches(fileContent);
+    final targetSdkVersionMatches = RegExp(
+      r'targetSdkVersion (\d+)',
+    ).allMatches(fileContent);
+    final compileSdkVersionMatches = RegExp(
+      r'compileSdkVersion (\d+)',
+    ).allMatches(fileContent);
 
     int? versionFromMatches(Iterable<RegExpMatch> matches) {
       int? result;

@@ -47,13 +47,15 @@ void main() {
       PackageApiDiffResult diffResult, {
       ApiChangeCode changeCode = ApiChangeCode.ci01,
     }) {
-      diffResult.addApiChange(ApiChange(
-        changeCode: changeCode,
-        changeDescription: 'Test breaking change: ${changeCode.name}',
-        contextTrace: [],
-        isExperimental: false,
-        type: ApiChangeType.remove,
-      ));
+      diffResult.addApiChange(
+        ApiChange(
+          changeCode: changeCode,
+          changeDescription: 'Test breaking change: ${changeCode.name}',
+          contextTrace: [],
+          isExperimental: false,
+          type: ApiChangeType.remove,
+        ),
+      );
     }
 
     void addNonBreakingChange(
@@ -61,13 +63,15 @@ void main() {
       ApiChangeCode changeCode = ApiChangeCode.ci02,
       ApiChangeType changeType = ApiChangeType.addCompatiblePatch,
     }) {
-      diffResult.addApiChange(ApiChange(
-        changeCode: changeCode,
-        changeDescription: 'Test non-breaking change: ${changeCode.name}',
-        contextTrace: [],
-        isExperimental: false,
-        type: changeType,
-      ));
+      diffResult.addApiChange(
+        ApiChange(
+          changeCode: changeCode,
+          changeDescription: 'Test non-breaking change: ${changeCode.name}',
+          contextTrace: [],
+          isExperimental: false,
+          type: changeType,
+        ),
+      );
     }
 
     test('Can be instantiated', () {
@@ -89,11 +93,14 @@ void main() {
       expect(jsonReport['report']['breakingChanges'], isNotNull);
       expect(jsonReport['report']['breakingChanges']['children'].length, 1);
       expect(
-          jsonReport['report']['breakingChanges']['children']
-              .single['changeCode'],
-          ApiChangeCode.ci01.code);
-      expect(jsonReport['report']['breakingChanges']['children'].single['type'],
-          'major');
+        jsonReport['report']['breakingChanges']['children']
+            .single['changeCode'],
+        ApiChangeCode.ci01.code,
+      );
+      expect(
+        jsonReport['report']['breakingChanges']['children'].single['type'],
+        'major',
+      );
     });
     test('Can handle diff report with multiple breaking changes', () async {
       final diffResult = createEmptyDiffResult();
@@ -104,11 +111,13 @@ void main() {
       expect(jsonReport['report']['breakingChanges'], isNotNull);
       expect(jsonReport['report']['breakingChanges']['children'].length, 2);
       expect(
-          jsonReport['report']['breakingChanges']['children'][0]['changeCode'],
-          ApiChangeCode.ci01.code);
+        jsonReport['report']['breakingChanges']['children'][0]['changeCode'],
+        ApiChangeCode.ci01.code,
+      );
       expect(
-          jsonReport['report']['breakingChanges']['children'][1]['changeCode'],
-          ApiChangeCode.ci04.code);
+        jsonReport['report']['breakingChanges']['children'][1]['changeCode'],
+        ApiChangeCode.ci04.code,
+      );
     });
     test('Can handle diff report with only one non-breaking change', () async {
       final diffResult = createEmptyDiffResult();
@@ -118,38 +127,45 @@ void main() {
       expect(jsonReport['report']['nonBreakingChanges'], isNotNull);
       expect(jsonReport['report']['nonBreakingChanges']['children'].length, 1);
       expect(
-          jsonReport['report']['nonBreakingChanges']['children']
-              .single['changeCode'],
-          ApiChangeCode.ci02.code);
+        jsonReport['report']['nonBreakingChanges']['children']
+            .single['changeCode'],
+        ApiChangeCode.ci02.code,
+      );
       expect(
-          jsonReport['report']['nonBreakingChanges']['children'].single['type'],
-          'patch');
+        jsonReport['report']['nonBreakingChanges']['children'].single['type'],
+        'patch',
+      );
     });
     test('Can handle diff report with multiple non-breaking changes', () async {
       final diffResult = createEmptyDiffResult();
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci02);
-      addNonBreakingChange(diffResult,
-          changeCode: ApiChangeCode.ci05,
-          changeType: ApiChangeType.addCompatibleMinor);
+      addNonBreakingChange(
+        diffResult,
+        changeCode: ApiChangeCode.ci05,
+        changeType: ApiChangeType.addCompatibleMinor,
+      );
       await reporter.generateReport(diffResult, anyVersionCheckResult);
       final jsonReport = jsonDecode(collectedFileContent.toString());
       expect(jsonReport['report']['nonBreakingChanges'], isNotNull);
       expect(jsonReport['report']['nonBreakingChanges']['children'].length, 2);
       expect(
-          jsonReport['report']['nonBreakingChanges']['children'][0]
-              ['changeCode'],
-          ApiChangeCode.ci02.code);
+        jsonReport['report']['nonBreakingChanges']['children'][0]['changeCode'],
+        ApiChangeCode.ci02.code,
+      );
       expect(
-          jsonReport['report']['nonBreakingChanges']['children'][1]
-              ['changeCode'],
-          ApiChangeCode.ci05.code);
-      expect(jsonReport['report']['nonBreakingChanges']['children'][0]['type'],
-          'patch');
-      expect(jsonReport['report']['nonBreakingChanges']['children'][1]['type'],
-          'minor');
+        jsonReport['report']['nonBreakingChanges']['children'][1]['changeCode'],
+        ApiChangeCode.ci05.code,
+      );
+      expect(
+        jsonReport['report']['nonBreakingChanges']['children'][0]['type'],
+        'patch',
+      );
+      expect(
+        jsonReport['report']['nonBreakingChanges']['children'][1]['type'],
+        'minor',
+      );
     });
-    test('Can handle diff report with breaking and non-breaking changes',
-        () async {
+    test('Can handle diff report with breaking and non-breaking changes', () async {
       final diffResult = createEmptyDiffResult();
       addBreakingChange(diffResult, changeCode: ApiChangeCode.ci01);
       addNonBreakingChange(diffResult, changeCode: ApiChangeCode.ci02);
@@ -161,21 +177,23 @@ void main() {
       expect(jsonReport['report']['breakingChanges'], isNotNull);
       expect(jsonReport['report']['breakingChanges']['children'].length, 2);
       expect(
-          jsonReport['report']['breakingChanges']['children'][0]['changeCode'],
-          ApiChangeCode.ci01.code);
+        jsonReport['report']['breakingChanges']['children'][0]['changeCode'],
+        ApiChangeCode.ci01.code,
+      );
       expect(
-          jsonReport['report']['breakingChanges']['children'][1]['changeCode'],
-          ApiChangeCode.ci04.code);
+        jsonReport['report']['breakingChanges']['children'][1]['changeCode'],
+        ApiChangeCode.ci04.code,
+      );
       expect(jsonReport['report']['nonBreakingChanges'], isNotNull);
       expect(jsonReport['report']['nonBreakingChanges']['children'].length, 2);
       expect(
-          jsonReport['report']['nonBreakingChanges']['children'][0]
-              ['changeCode'],
-          ApiChangeCode.ci02.code);
+        jsonReport['report']['nonBreakingChanges']['children'][0]['changeCode'],
+        ApiChangeCode.ci02.code,
+      );
       expect(
-          jsonReport['report']['nonBreakingChanges']['children'][1]
-              ['changeCode'],
-          ApiChangeCode.ci05.code);
+        jsonReport['report']['nonBreakingChanges']['children'][1]['changeCode'],
+        ApiChangeCode.ci05.code,
+      );
     });
   });
 }

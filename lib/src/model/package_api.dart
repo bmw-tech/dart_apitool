@@ -55,13 +55,15 @@ sealed class PackageApi with _$PackageApi {
 
   /// returns all root level declarations of this package that don't have any entry points
   Iterable<Declaration>
-      get rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests {
+  get rootDeclarationsWithoutEntryPointsAndVisibleOutsideTests {
     return [
-      ...interfaceDeclarations.where((id) =>
-          (id.entryPoints?.isEmpty ?? false) && _isUsedOutsideTests(id)),
+      ...interfaceDeclarations.where(
+        (id) => (id.entryPoints?.isEmpty ?? false) && _isUsedOutsideTests(id),
+      ),
       ...executableDeclarations.where((ed) => ed.entryPoints?.isEmpty ?? false),
-      ...typeAliasDeclarations
-          .where((tad) => tad.entryPoints?.isEmpty ?? false),
+      ...typeAliasDeclarations.where(
+        (tad) => tad.entryPoints?.isEmpty ?? false,
+      ),
       ...fieldDeclarations.where((fd) => fd.entryPoints?.isEmpty ?? false),
     ];
   }

@@ -34,35 +34,37 @@ sealed class PackageApiStorageV3 with _$PackageApiStorageV3 {
   /// Returns a [PackageApiStorageV3] from a [PackageApi].
   static PackageApiStorageV3 fromPackageAPi(PackageApi packageApi) {
     return PackageApiStorageV3(
-        packageName: packageApi.packageName,
-        packageVersion: packageApi.packageVersion,
-        packagePath: packageApi.packagePath,
-        interfaceDeclarations: packageApi.interfaceDeclarations
-            .map((c) =>
-                InterfaceDeclarationStorageV3.fromInterfaceDeclaration(c))
-            .toList(),
-        executableDeclarations: packageApi.executableDeclarations
-            .map((e) =>
-                ExecutableDeclarationStorageV3.fromExecutableDeclaration(e))
-            .toList(),
-        fieldDeclarations: packageApi.fieldDeclarations
-            .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))
-            .toList(),
-        typeAliasDeclarations: packageApi.typeAliasDeclarations
-            .map((t) =>
-                TypeAliasDeclarationStorageV3.fromTypeAliasDeclaration(t))
-            .toList(),
-        semantics: packageApi.semantics,
-        iosPlatformConstraints:
-            IOSPlatformConstraintsStorageV3.fromIOSPlatformConstraints(
-                packageApi.iosPlatformConstraints),
-        androidPlatformConstraints:
-            AndroidPlatformConstraintsStorageV3.fromAndroidPlatformConstraints(
-                packageApi.androidPlatformConstraints),
-        sdkType: SdkTypeStorageV3.fromSdkType(packageApi.sdkType),
-        minSdkVersion: packageApi.minSdkVersion,
-        packageDependencies: packageApi.packageDependencies
-            .map((d) => PackageDependencyStorageV3.fromPackageDependency(d))
-            .toList());
+      packageName: packageApi.packageName,
+      packageVersion: packageApi.packageVersion,
+      packagePath: packageApi.packagePath,
+      interfaceDeclarations: packageApi.interfaceDeclarations
+          .map((c) => InterfaceDeclarationStorageV3.fromInterfaceDeclaration(c))
+          .toList(),
+      executableDeclarations: packageApi.executableDeclarations
+          .map(
+            (e) => ExecutableDeclarationStorageV3.fromExecutableDeclaration(e),
+          )
+          .toList(),
+      fieldDeclarations: packageApi.fieldDeclarations
+          .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))
+          .toList(),
+      typeAliasDeclarations: packageApi.typeAliasDeclarations
+          .map((t) => TypeAliasDeclarationStorageV3.fromTypeAliasDeclaration(t))
+          .toList(),
+      semantics: packageApi.semantics,
+      iosPlatformConstraints:
+          IOSPlatformConstraintsStorageV3.fromIOSPlatformConstraints(
+            packageApi.iosPlatformConstraints,
+          ),
+      androidPlatformConstraints:
+          AndroidPlatformConstraintsStorageV3.fromAndroidPlatformConstraints(
+            packageApi.androidPlatformConstraints,
+          ),
+      sdkType: SdkTypeStorageV3.fromSdkType(packageApi.sdkType),
+      minSdkVersion: packageApi.minSdkVersion,
+      packageDependencies: packageApi.packageDependencies
+          .map((d) => PackageDependencyStorageV3.fromPackageDependency(d))
+          .toList(),
+    );
   }
 }

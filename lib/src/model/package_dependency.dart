@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'package_dependency.freezed.dart';
 
 @freezed
-
 /// represents a package dependency
 sealed class PackageDependency with _$PackageDependency {
   factory PackageDependency({

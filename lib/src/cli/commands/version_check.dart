@@ -16,8 +16,8 @@ class VersionCheckResult {
     required this.newVersion,
     Version? neededVersion,
     required this.explanation,
-  })  : success = true,
-        neededVersion = neededVersion ?? newVersion;
+  }) : success = true,
+       neededVersion = neededVersion ?? newVersion;
 
   VersionCheckResult.failure({
     required this.oldVersion,
@@ -40,20 +40,24 @@ abstract class VersionCheck {
     stdout.writeln('Checking Package version');
     if (oldPackageApi.packageVersion == null) {
       throw PackageApiDiffError(
-          message: 'Old package doesn\'t contain a version]');
+        message: 'Old package doesn\'t contain a version]',
+      );
     }
     if (newPackageApi.packageVersion == null) {
       throw PackageApiDiffError(
-          message: 'New package doesn\'t contain a version]');
+        message: 'New package doesn\'t contain a version]',
+      );
     }
     final oldVersion = Version.parse(oldPackageApi.packageVersion!);
     final newVersion = Version.parse(newPackageApi.packageVersion!);
 
     bool containsAnyChanges = diffResult.hasChanges;
-    bool containsBreakingChanges =
-        diffResult.apiChanges.any((change) => change.isBreaking);
-    bool onlyPatchChanges =
-        diffResult.apiChanges.any((change) => !change.type.requiresMinorBump);
+    bool containsBreakingChanges = diffResult.apiChanges.any(
+      (change) => change.isBreaking,
+    );
+    bool onlyPatchChanges = diffResult.apiChanges.any(
+      (change) => !change.type.requiresMinorBump,
+    );
 
     if (versionCheckMode == VersionCheckMode.none) {
       return VersionCheckResult.success(
@@ -110,13 +114,15 @@ abstract class VersionCheck {
           ? 'which is > "$oldVersion" (pre-release but changes)'
           : 'and no changes';
       return VersionCheckResult.success(
-          oldVersion: oldVersion,
-          newVersion: newVersion,
-          explanation: '$prefix Got "$newVersion" $explanation');
+        oldVersion: oldVersion,
+        newVersion: newVersion,
+        explanation: '$prefix Got "$newVersion" $explanation',
+      );
     }
 
-    Version expectedMinVersion =
-        containsAnyChanges ? oldVersion.nextPatch : oldVersion;
+    Version expectedMinVersion = containsAnyChanges
+        ? oldVersion.nextPatch
+        : oldVersion;
     String versionExplanation = 'no changes';
     if (containsBreakingChanges) {
       expectedMinVersion = oldVersion.nextBreaking;

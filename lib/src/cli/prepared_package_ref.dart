@@ -12,8 +12,8 @@ class PreparedPackageRef {
 
   String? get packageDirectory =>
       tempDirectory != null && packageRelativePath != null
-          ? path.normalize(path.join(tempDirectory!, packageRelativePath))
-          : tempDirectory;
+      ? path.normalize(path.join(tempDirectory!, packageRelativePath))
+      : tempDirectory;
 
   PreparedPackageRef({
     required this.packageRef,

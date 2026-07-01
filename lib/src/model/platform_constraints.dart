@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'platform_constraints.freezed.dart';
 
 @freezed
-
 /// represents iOS platform constraints
 sealed class IOSPlatformConstraints with _$IOSPlatformConstraints {
   const factory IOSPlatformConstraints({
@@ -13,7 +12,6 @@ sealed class IOSPlatformConstraints with _$IOSPlatformConstraints {
 }
 
 @freezed
-
 /// represents Android platform constraints
 sealed class AndroidPlatformConstraints with _$AndroidPlatformConstraints {
   const factory AndroidPlatformConstraints({

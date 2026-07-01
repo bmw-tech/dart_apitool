@@ -17,7 +17,9 @@ class ColorUtils {
   /// Creates a colorized string for stdout output.
   /// If stdout is not a terminal, returns the plain text without colors.
   static String colorizeForStdout(
-      String text, Colorize Function(Colorize) style) {
+    String text,
+    Colorize Function(Colorize) style,
+  ) {
     if (shouldUseColorsForStdout) {
       return style(Colorize(text)).toString();
     }
@@ -27,7 +29,9 @@ class ColorUtils {
   /// Creates a colorized string for stderr output.
   /// If stderr is not a terminal, returns the plain text without colors.
   static String colorizeForStderr(
-      String text, Colorize Function(Colorize) style) {
+    String text,
+    Colorize Function(Colorize) style,
+  ) {
     if (shouldUseColorsForStderr) {
       return style(Colorize(text)).toString();
     }

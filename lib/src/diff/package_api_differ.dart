@@ -31,15 +31,19 @@ class PackageApiDiffer {
   }) {
     if (oldApi.packageName != newApi.packageName) {
       throw PackageApiDiffError(
-          message:
-              'Got different packages. Can\'t create diff. Old Package = "${oldApi.packageName}", New Package = "${newApi.packageName}"');
+        message:
+            'Got different packages. Can\'t create diff. Old Package = "${oldApi.packageName}", New Package = "${newApi.packageName}"',
+      );
     }
 
-    if (!SetEquality<PackageApiSemantics>()
-        .equals(oldApi.semantics, newApi.semantics)) {
+    if (!SetEquality<PackageApiSemantics>().equals(
+      oldApi.semantics,
+      newApi.semantics,
+    )) {
       throw PackageApiDiffError(
-          message:
-              'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}');
+        message:
+            'Given models have different semantics. Old Package: ${oldApi.semantics}, New Package: ${newApi.semantics}',
+      );
     }
 
     final mergedTypeHierarchy = _mergeTypeHierarchy(
@@ -96,7 +100,8 @@ class PackageApiDiffer {
       return PackageApiDiffResult()..addApiChanges(changes);
     } on Object catch (e, t) {
       throw PackageApiDiffError(
-          message: 'Error while creating the diff: $e $t');
+        message: 'Error while creating the diff: $e $t',
+      );
     }
   }
 
@@ -145,8 +150,10 @@ class PackageApiDiffer {
         // we need to do additional checks as we might have naming conflicts otherwise
 
         // if the entry points are the same (and not empty), then we can assume that the interfaces are the same (independent of their relative path)
-        if (SetEquality<String>()
-                .equals(oldInterface.entryPoints, newInterface.entryPoints) &&
+        if (SetEquality<String>().equals(
+              oldInterface.entryPoints,
+              newInterface.entryPoints,
+            ) &&
             (oldInterface.entryPoints ?? {}).isNotEmpty) {
           return true;
         }
@@ -166,33 +173,39 @@ class PackageApiDiffer {
     final changes = <ApiChange>[];
     for (final oldInterface in interfaceListDiff.matches.keys) {
       final newInterface = interfaceListDiff.matches[oldInterface]!;
-      changes.addAll(_calculateInterfaceDiff(
-        oldInterface,
-        newInterface,
-        context,
-        isExperimental: newInterface.isExperimental || isExperimental,
-        typeHierarchy: typeHierarchy,
-      ));
+      changes.addAll(
+        _calculateInterfaceDiff(
+          oldInterface,
+          newInterface,
+          context,
+          isExperimental: newInterface.isExperimental || isExperimental,
+          typeHierarchy: typeHierarchy,
+        ),
+      );
     }
     for (final removedInterface in interfaceListDiff.remainingOld) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ci01,
-        affectedDeclaration: removedInterface,
-        contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.remove,
-        isExperimental: isExperimental,
-        changeDescription: 'Interface "${removedInterface.name}" removed',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ci01,
+          affectedDeclaration: removedInterface,
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.remove,
+          isExperimental: isExperimental,
+          changeDescription: 'Interface "${removedInterface.name}" removed',
+        ),
+      );
     }
     for (final addedInterface in interfaceListDiff.remainingNew) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ci02,
-        affectedDeclaration: addedInterface,
-        contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.addCompatibleMinor,
-        isExperimental: isExperimental,
-        changeDescription: 'Interface "${addedInterface.name}" added',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ci02,
+          affectedDeclaration: addedInterface,
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.addCompatibleMinor,
+          isExperimental: isExperimental,
+          changeDescription: 'Interface "${addedInterface.name}" added',
+        ),
+      );
     }
     return changes;
   }
@@ -243,7 +256,7 @@ class PackageApiDiffer {
           newInterface.entryPoints,
           context,
           isExperimental: isExperimental,
-        )
+        ),
       ];
 
       _comparePropertiesAndAddChange(
@@ -439,12 +452,14 @@ class PackageApiDiffer {
         changeCode: ApiChangeCode.ce14,
         isExperimental: isExperimental,
       );
-      changes.addAll(_calculateEntryPointsDiff(
-        oldExecutable.entryPoints,
-        newExecutable.entryPoints,
-        context,
-        isExperimental: isExperimental,
-      ));
+      changes.addAll(
+        _calculateEntryPointsDiff(
+          oldExecutable.entryPoints,
+          newExecutable.entryPoints,
+          context,
+          isExperimental: isExperimental,
+        ),
+      );
 
       return changes;
     });
@@ -453,24 +468,29 @@ class PackageApiDiffer {
   /// returns a [Tuple2] containing
   /// - a [bool] indicating that the order between old and new changed amd
   /// - a [Map] between old parameters and new parameters that match
-  Tuple2<bool,
-          Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>>
-      _findMatchesByName(
+  Tuple2<
+    bool,
+    Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+  >
+  _findMatchesByName(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
   ) {
     bool reordered = false;
-    final oldParametersWithoutNamed =
-        oldParameters.where((oldParameter) => !oldParameter.isNamed).toList();
-    final newParametersWithoutNamed =
-        newParameters.where((newParameter) => !newParameter.isNamed).toList();
+    final oldParametersWithoutNamed = oldParameters
+        .where((oldParameter) => !oldParameter.isNamed)
+        .toList();
+    final newParametersWithoutNamed = newParameters
+        .where((newParameter) => !newParameter.isNamed)
+        .toList();
 
     final result =
         <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
 
     for (final oldParameter in oldParameters) {
-      for (final matchingNewParameter in newParameters
-          .where((newParameter) => newParameter.name == oldParameter.name)) {
+      for (final matchingNewParameter in newParameters.where(
+        (newParameter) => newParameter.name == oldParameter.name,
+      )) {
         // Only for positional arguments: check the order
         if (!oldParameter.isNamed &&
             !matchingNewParameter.isNamed &&
@@ -486,7 +506,7 @@ class PackageApiDiffer {
 
   /// returns a [Map] between old parameters and new parameters that match
   Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
-      _findMatchesByTypeOrder(
+  _findMatchesByTypeOrder(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
   ) {
@@ -506,17 +526,21 @@ class PackageApiDiffer {
   /// returns a [Tuple2] containing
   /// - a [bool] indicating that the order between old and new changed amd
   /// - a [Map] between old parameters and new parameters that match
-  Tuple2<bool,
-          Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>>
-      _findMatchingParameters(
+  Tuple2<
+    bool,
+    Map<ExecutableParameterDeclaration, ExecutableParameterDeclaration>
+  >
+  _findMatchingParameters(
     List<ExecutableParameterDeclaration> oldParameters,
     List<ExecutableParameterDeclaration> newParameters,
   ) {
     final oldParametersCopy = [...oldParameters];
     final newParametersCopy = [...newParameters];
     // 1st, find matching names
-    final matchedByNameTuple =
-        _findMatchesByName(oldParametersCopy, newParametersCopy);
+    final matchedByNameTuple = _findMatchesByName(
+      oldParametersCopy,
+      newParametersCopy,
+    );
     final reordered = matchedByNameTuple.item1;
     final matchedByName = matchedByNameTuple.item2;
     // 2. remove them from the list
@@ -525,8 +549,10 @@ class PackageApiDiffer {
       newParametersCopy.remove(matchedByName[matchedOldParameter]!);
     }
     // 2. find matching types in order
-    final matchedByTypeOrder =
-        _findMatchesByTypeOrder(oldParametersCopy, newParametersCopy);
+    final matchedByTypeOrder = _findMatchesByTypeOrder(
+      oldParametersCopy,
+      newParametersCopy,
+    );
     final result =
         <ExecutableParameterDeclaration, ExecutableParameterDeclaration>{};
     result.addAll(matchedByName);
@@ -542,8 +568,10 @@ class PackageApiDiffer {
     required bool isExperimental,
     required TypeHierarchy typeHierarchy,
   }) {
-    final parameterMatchesTuple =
-        _findMatchingParameters(oldParameters, newParameters);
+    final parameterMatchesTuple = _findMatchingParameters(
+      oldParameters,
+      newParameters,
+    );
     final parameterMatches = parameterMatchesTuple.item2;
     final reordered = parameterMatchesTuple.item1;
 
@@ -570,38 +598,44 @@ class PackageApiDiffer {
     // new parameters have most probably been added as parameters with equal name
     // already got matched by [_findMatchingParameters]
     for (final removedParameter in oldParametersCopy) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ce01,
-        affectedDeclaration: context.top(),
-        contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.remove,
-        isExperimental: isExperimental,
-        changeDescription: 'Parameter "${removedParameter.name}" removed',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ce01,
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.remove,
+          isExperimental: isExperimental,
+          changeDescription: 'Parameter "${removedParameter.name}" removed',
+        ),
+      );
     }
     for (final addedParameter in newParametersCopy) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ce02,
-        affectedDeclaration: context.top(),
-        contextTrace: _contextTraceFromStack(context),
-        type: (isInterfaceRequired ?? false) || addedParameter.isRequired
-            ? ApiChangeType.addBreaking
-            : ApiChangeType.addCompatibleMinor,
-        isExperimental: isExperimental,
-        changeDescription:
-            'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ce02,
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
+          type: (isInterfaceRequired ?? false) || addedParameter.isRequired
+              ? ApiChangeType.addBreaking
+              : ApiChangeType.addCompatibleMinor,
+          isExperimental: isExperimental,
+          changeDescription:
+              'Parameter "${addedParameter.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
+        ),
+      );
     }
 
     if (reordered) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.ce04,
-        affectedDeclaration: context.top(),
-        contextTrace: _contextTraceFromStack(context),
-        type: ApiChangeType.changeBreaking,
-        isExperimental: isExperimental,
-        changeDescription: 'Order of parameters changed',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.ce04,
+          affectedDeclaration: context.top(),
+          contextTrace: _contextTraceFromStack(context),
+          type: ApiChangeType.changeBreaking,
+          isExperimental: isExperimental,
+          changeDescription: 'Order of parameters changed',
+        ),
+      );
     }
 
     return changes;
@@ -711,24 +745,28 @@ class PackageApiDiffer {
       doOrderBeforeComparing: true,
     );
     for (final newEntryPoint in diffResult.remainingNew) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.cp01,
-        contextTrace: _contextTraceFromStack(context),
-        affectedDeclaration: context.top(),
-        changeDescription: 'New entry point: $newEntryPoint',
-        type: ApiChangeType.addCompatibleMinor,
-        isExperimental: isExperimental,
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.cp01,
+          contextTrace: _contextTraceFromStack(context),
+          affectedDeclaration: context.top(),
+          changeDescription: 'New entry point: $newEntryPoint',
+          type: ApiChangeType.addCompatibleMinor,
+          isExperimental: isExperimental,
+        ),
+      );
     }
     for (final oldEntryPoint in diffResult.remainingOld) {
-      changes.add(ApiChange(
-        changeCode: ApiChangeCode.cp02,
-        contextTrace: _contextTraceFromStack(context),
-        affectedDeclaration: context.top(),
-        changeDescription: 'Entry point removed: $oldEntryPoint',
-        type: ApiChangeType.remove,
-        isExperimental: isExperimental,
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: ApiChangeCode.cp02,
+          contextTrace: _contextTraceFromStack(context),
+          affectedDeclaration: context.top(),
+          changeDescription: 'Entry point removed: $oldEntryPoint',
+          type: ApiChangeType.remove,
+          isExperimental: isExperimental,
+        ),
+      );
     }
     return changes;
   }
@@ -748,7 +786,8 @@ class PackageApiDiffer {
             changeCode: ApiChangeCode.ci06,
             contextTrace: _contextTraceFromStack(context),
             affectedDeclaration: context.top(),
-            type: (isInterfaceRequired ?? false) ||
+            type:
+                (isInterfaceRequired ?? false) ||
                     oldTypeParameterNames.length < newTypeParameterNames.length
                 ? ApiChangeType.addBreaking
                 : ApiChangeType.remove,
@@ -760,27 +799,35 @@ class PackageApiDiffer {
       }
     } else {
       // we have an exact look at the type parameters and even only a name change leads to an API change
-      final tpnListDiff = _diffIterables<String>(oldTypeParameterNames,
-          newTypeParameterNames, (oldTpn, newTpn) => oldTpn == newTpn);
+      final tpnListDiff = _diffIterables<String>(
+        oldTypeParameterNames,
+        newTypeParameterNames,
+        (oldTpn, newTpn) => oldTpn == newTpn,
+      );
       final changes = <ApiChange>[];
       for (final removedTypeParameter in tpnListDiff.remainingOld) {
-        changes.add(ApiChange(
+        changes.add(
+          ApiChange(
             changeCode: ApiChangeCode.ci08,
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.remove,
             isExperimental: isExperimental,
-            changeDescription:
-                'Type Parameter "$removedTypeParameter" removed'));
+            changeDescription: 'Type Parameter "$removedTypeParameter" removed',
+          ),
+        );
       }
       for (final addedTypeParameter in tpnListDiff.remainingNew) {
-        changes.add(ApiChange(
+        changes.add(
+          ApiChange(
             changeCode: ApiChangeCode.ci07,
             affectedDeclaration: context.top(),
             contextTrace: _contextTraceFromStack(context),
             type: ApiChangeType.addBreaking,
             isExperimental: isExperimental,
-            changeDescription: 'Type Parameter "$addedTypeParameter" added'));
+            changeDescription: 'Type Parameter "$addedTypeParameter" added',
+          ),
+        );
       }
       return changes;
     }
@@ -794,7 +841,10 @@ class PackageApiDiffer {
     required bool isExperimental,
   }) {
     final stpnListDiff = _diffIterables<String>(
-        oldSuperTypes, newSuperTypes, (oldStpn, newStpn) => oldStpn == newStpn);
+      oldSuperTypes,
+      newSuperTypes,
+      (oldStpn, newStpn) => oldStpn == newStpn,
+    );
     final changes = <ApiChange>[];
 
     // Look for supertype changes (same base type, different parameters)
@@ -818,7 +868,8 @@ class PackageApiDiffer {
     for (final entry in pairedChanges.entries) {
       final oldType = entry.key;
       final newType = entry.value;
-      changes.add(ApiChange(
+      changes.add(
+        ApiChange(
           changeCode:
               ApiChangeCode.ci12, // New change code for supertype changes
           affectedDeclaration: context.top(),
@@ -826,28 +877,35 @@ class PackageApiDiffer {
           type: ApiChangeType
               .changeBreaking, // Supertype changes are typically breaking
           isExperimental: isExperimental,
-          changeDescription:
-              'Super Type changed from "$oldType" to "$newType"'));
+          changeDescription: 'Super Type changed from "$oldType" to "$newType"',
+        ),
+      );
     }
 
     for (final removedSuperType in remainingOld) {
-      changes.add(ApiChange(
+      changes.add(
+        ApiChange(
           changeCode: ApiChangeCode.ci05,
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
           isExperimental: isExperimental,
-          changeDescription: 'Super Type "$removedSuperType" removed'));
+          changeDescription: 'Super Type "$removedSuperType" removed',
+        ),
+      );
     }
 
     for (final addedSuperType in remainingNew) {
-      changes.add(ApiChange(
+      changes.add(
+        ApiChange(
           changeCode: ApiChangeCode.ci04,
           affectedDeclaration: context.top(),
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.addCompatibleMinor,
           isExperimental: isExperimental,
-          changeDescription: 'Super Type "$addedSuperType" added'));
+          changeDescription: 'Super Type "$addedSuperType" added',
+        ),
+      );
     }
     return changes;
   }
@@ -902,27 +960,34 @@ class PackageApiDiffer {
       );
     }
     for (final removedField in fieldsDiff.remainingOld) {
-      changes.add(ApiChange(
+      changes.add(
+        ApiChange(
           changeCode: ApiChangeCode.cf01,
           affectedDeclaration: removedField,
           contextTrace: _contextTraceFromStack(context),
           type: ApiChangeType.remove,
           isExperimental: isExperimental,
-          changeDescription: 'Field "${removedField.name}" removed'));
+          changeDescription: 'Field "${removedField.name}" removed',
+        ),
+      );
     }
     for (final addedField in fieldsDiff.remainingNew) {
-      changes.add(ApiChange(
+      changes.add(
+        ApiChange(
           changeCode: ApiChangeCode.cf02,
           affectedDeclaration: addedField,
           contextTrace: _contextTraceFromStack(context),
-          type: (isInterfaceRequired ?? false) &&
+          type:
+              (isInterfaceRequired ?? false) &&
                   !addedField.isStatic &&
                   !addedField.isConst
               ? ApiChangeType.addBreaking
               : ApiChangeType.addCompatibleMinor,
           isExperimental: isExperimental,
           changeDescription:
-              'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}'));
+              'Field "${addedField.name}" added${(isInterfaceRequired ?? false) ? ' (required)' : ''}',
+        ),
+      );
     }
     return changes;
   }
@@ -978,7 +1043,8 @@ class PackageApiDiffer {
         changeCode: ApiChangeCode.cf04,
         isExperimental: isExperimental,
         // field type change is compatible if the type change is compatible if passed in and out
-        isCompatibleChange: typeHierarchy.isCompatibleReplacement(
+        isCompatibleChange:
+            typeHierarchy.isCompatibleReplacement(
               oldTypeIdentifier: oldTypeIdentifier,
               newTypeIdentifier: newTypeIdentifier,
               isTypePassedIn: true,
@@ -999,12 +1065,14 @@ class PackageApiDiffer {
         changeCode: ApiChangeCode.cf05,
         isExperimental: isExperimental,
       );
-      changes.addAll(_calculateEntryPointsDiff(
-        oldField.entryPoints,
-        newField.entryPoints,
-        context,
-        isExperimental: isExperimental,
-      ));
+      changes.addAll(
+        _calculateEntryPointsDiff(
+          oldField.entryPoints,
+          newField.entryPoints,
+          context,
+          isExperimental: isExperimental,
+        ),
+      );
       _comparePropertiesAndAddChange(
         oldField.isReadable,
         newField.isReadable,
@@ -1137,25 +1205,29 @@ class PackageApiDiffer {
         return;
       }
       if (oldVal == null) {
-        changes.add(ApiChange(
-          changeCode: changeCodeAdd,
-          affectedDeclaration: null,
-          contextTrace: [],
-          type: ApiChangeType.addBreaking,
-          isExperimental: isExperimental,
-          changeDescription: 'Android platform $valName added',
-        ));
+        changes.add(
+          ApiChange(
+            changeCode: changeCodeAdd,
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.addBreaking,
+            isExperimental: isExperimental,
+            changeDescription: 'Android platform $valName added',
+          ),
+        );
         return;
       }
       if (newVal == null) {
-        changes.add(ApiChange(
-          changeCode: changeCodeRemove,
-          affectedDeclaration: null,
-          contextTrace: [],
-          type: ApiChangeType.remove,
-          isExperimental: isExperimental,
-          changeDescription: 'Android platform $valName removed',
-        ));
+        changes.add(
+          ApiChange(
+            changeCode: changeCodeRemove,
+            affectedDeclaration: null,
+            contextTrace: [],
+            type: ApiChangeType.remove,
+            isExperimental: isExperimental,
+            changeDescription: 'Android platform $valName removed',
+          ),
+        );
         return;
       }
       bool isBreaking = true;
@@ -1163,17 +1235,19 @@ class PackageApiDiffer {
       if (oldVal > newVal) {
         isBreaking = false;
       }
-      changes.add(ApiChange(
-        changeCode: changeCodeChanged,
-        affectedDeclaration: null,
-        contextTrace: [],
-        type: isBreaking
-            ? ApiChangeType.changeBreaking
-            : ApiChangeType.changeCompatibleMinor,
-        isExperimental: isExperimental,
-        changeDescription:
-            'Android platform $valName changed from $oldVal to $newVal',
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: changeCodeChanged,
+          affectedDeclaration: null,
+          contextTrace: [],
+          type: isBreaking
+              ? ApiChangeType.changeBreaking
+              : ApiChangeType.changeCompatibleMinor,
+          isExperimental: isExperimental,
+          changeDescription:
+              'Android platform $valName changed from $oldVal to $newVal',
+        ),
+      );
     }
 
     List<ApiChange> changes = [];
@@ -1249,15 +1323,19 @@ class PackageApiDiffer {
   }
 
   List<ApiChange> _calculatePackageDependenciesDiff(
-      PackageApi oldApi, PackageApi newApi,
-      {required bool isExperimental}) {
+    PackageApi oldApi,
+    PackageApi newApi, {
+    required bool isExperimental,
+  }) {
     final result = <ApiChange>[];
     final oldDependencies = oldApi.packageDependencies;
     final newDependencies = newApi.packageDependencies;
-    final oldDependenciesMap =
-        Map.fromEntries(oldDependencies.map((d) => MapEntry(d.packageName, d)));
-    final newDependenciesMap =
-        Map.fromEntries(newDependencies.map((d) => MapEntry(d.packageName, d)));
+    final oldDependenciesMap = Map.fromEntries(
+      oldDependencies.map((d) => MapEntry(d.packageName, d)),
+    );
+    final newDependenciesMap = Map.fromEntries(
+      newDependencies.map((d) => MapEntry(d.packageName, d)),
+    );
     final allDependencies = oldDependenciesMap.keys.toSet()
       ..addAll(newDependenciesMap.keys);
 
@@ -1302,13 +1380,16 @@ class PackageApiDiffer {
         if (oldDependency.packageVersion == null ||
             newDependency.packageVersion == null) {
           logWarning(
-              'Package dependency "$dependencyName" has a git or path dependency in one of the APIs. Skipping version check.');
+            'Package dependency "$dependencyName" has a git or path dependency in one of the APIs. Skipping version check.',
+          );
           continue;
         }
-        final oldVersion =
-            VersionConstraint.parse(oldDependency.packageVersion!);
-        final newVersion =
-            VersionConstraint.parse(newDependency.packageVersion!);
+        final oldVersion = VersionConstraint.parse(
+          oldDependency.packageVersion!,
+        );
+        final newVersion = VersionConstraint.parse(
+          newDependency.packageVersion!,
+        );
 
         final isNonBreakingVersionChange = oldVersion.allowsAny(newVersion);
         result.add(
@@ -1343,8 +1424,11 @@ class PackageApiDiffer {
     return result;
   }
 
-  T _executeInContext<T>(Stack<Declaration> context, Declaration newContext,
-      T Function(Stack<Declaration> context) fun) {
+  T _executeInContext<T>(
+    Stack<Declaration> context,
+    Declaration newContext,
+    T Function(Stack<Declaration> context) fun,
+  ) {
     context.push(newContext);
     final result = fun(context);
     context.pop();
@@ -1369,16 +1453,18 @@ class PackageApiDiffer {
         newTypeIdentifier: newTypeIdentifier,
         isTypePassedIn: true,
       );
-      changes.add(ApiChange(
-        changeCode: changeCode,
-        affectedDeclaration: affectedDeclaration,
-        contextTrace: _contextTraceFromStack(context),
-        type: isBreaking
-            ? ApiChangeType.changeBreaking
-            : ApiChangeType.changeCompatibleMinor,
-        changeDescription: changeDescription,
-        isExperimental: isExperimental,
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: changeCode,
+          affectedDeclaration: affectedDeclaration,
+          contextTrace: _contextTraceFromStack(context),
+          type: isBreaking
+              ? ApiChangeType.changeBreaking
+              : ApiChangeType.changeCompatibleMinor,
+          changeDescription: changeDescription,
+          isExperimental: isExperimental,
+        ),
+      );
     }
   }
 
@@ -1394,16 +1480,18 @@ class PackageApiDiffer {
     required bool isExperimental,
   }) {
     if (oldValue != newValue) {
-      changes.add(ApiChange(
-        changeCode: changeCode,
-        affectedDeclaration: affectedDeclaration,
-        contextTrace: _contextTraceFromStack(context),
-        type: isCompatibleChange
-            ? ApiChangeType.changeCompatibleMinor
-            : ApiChangeType.changeBreaking,
-        changeDescription: changeDescription,
-        isExperimental: isExperimental,
-      ));
+      changes.add(
+        ApiChange(
+          changeCode: changeCode,
+          affectedDeclaration: affectedDeclaration,
+          contextTrace: _contextTraceFromStack(context),
+          type: isCompatibleChange
+              ? ApiChangeType.changeCompatibleMinor
+              : ApiChangeType.changeBreaking,
+          changeDescription: changeDescription,
+          isExperimental: isExperimental,
+        ),
+      );
     }
   }
 
@@ -1422,15 +1510,18 @@ class PackageApiDiffer {
     final matches = <T, T>{};
 
     for (final oldItem in oldList) {
-      final sameMatches =
-          newList.where((newItem) => isSameFun(oldItem, newItem));
+      final sameMatches = newList.where(
+        (newItem) => isSameFun(oldItem, newItem),
+      );
       if (sameMatches.isNotEmpty) {
         final matchingNewItem = sameMatches.singleOrNull;
 
         if (matchingNewItem == null) {
           // If we encounter more than one element here then our whole algorithm crashes (multiple items treated as equal)
-          throw ArgumentError('Multiple new items found with the same '
-              'structure as the old item $oldItem: $sameMatches');
+          throw ArgumentError(
+            'Multiple new items found with the same '
+            'structure as the old item $oldItem: $sameMatches',
+          );
         }
         remainingOld.remove(oldItem);
         remainingNew.remove(matchingNewItem);

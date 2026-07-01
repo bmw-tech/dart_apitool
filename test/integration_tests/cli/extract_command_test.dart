@@ -18,24 +18,20 @@ void main() {
         ..addCommand(extractCommand);
     });
 
-    test(
-      'Can handle complex path dependencies',
-      () async {
-        final exitCode = await runner.run([
-          'extract',
-          '--input',
-          path.join(
-            'test',
-            'test_packages',
-            'path_references',
-            'cluster_a',
-            'package_a',
-          ),
-        ]);
-        expect(exitCode, 0);
-      },
-      timeout: integrationTestTimeout,
-    );
+    test('Can handle complex path dependencies', () async {
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'path_references',
+          'cluster_a',
+          'package_a',
+        ),
+      ]);
+      expect(exitCode, 0);
+    }, timeout: integrationTestTimeout);
 
     test(
       'packages with path dependencies don\'t yield unresolvable types',
@@ -70,8 +66,9 @@ void main() {
         // check if the ClassB field in ClassA has resolved its type
         final interfaceDeclarations =
             jsonReport['packageApi']['interfaceDeclarations'] as List;
-        final classADeclaration =
-            interfaceDeclarations.singleWhere((id) => id['name'] == 'ClassA');
+        final classADeclaration = interfaceDeclarations.singleWhere(
+          (id) => id['name'] == 'ClassA',
+        );
         final classBField = (classADeclaration['fieldDeclarations'] as List)
             .singleWhere((fd) => fd['name'] == 'classB');
         expect(classBField['typeName'], 'ClassB');
@@ -108,46 +105,40 @@ void main() {
         // check if the thisIsAMixinField in ClassA was extracted
         final interfaceDeclarations =
             jsonReport['packageApi']['interfaceDeclarations'] as List;
-        final classADeclaration =
-            interfaceDeclarations.singleWhere((id) => id['name'] == 'ClassA');
+        final classADeclaration = interfaceDeclarations.singleWhere(
+          (id) => id['name'] == 'ClassA',
+        );
         final thisIsAMixinFields =
-            (classADeclaration['fieldDeclarations'] as List)
-                .where((fd) => fd['name'] == 'thisIsAMixinField');
+            (classADeclaration['fieldDeclarations'] as List).where(
+              (fd) => fd['name'] == 'thisIsAMixinField',
+            );
         expect(thisIsAMixinFields.length, 1);
       },
       timeout: integrationTestTimeout,
     );
 
-    test(
-      'Can handle pub ref',
-      () async {
-        final exitCode = await runner.run([
-          'extract',
-          '--input',
-          'pub://dart_apitool/0.4.0',
-        ]);
-        expect(exitCode, 0);
-      },
-      timeout: integrationTestTimeout,
-    );
+    test('Can handle pub ref', () async {
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        'pub://dart_apitool/0.4.0',
+      ]);
+      expect(exitCode, 0);
+    }, timeout: integrationTestTimeout);
 
-    test(
-      'Can handle nested path dependencies',
-      () async {
-        final exitCode = await runner.run([
-          'extract',
-          '--input',
-          path.join(
-            'test',
-            'test_packages',
-            'nested_path_references',
-            'package_a',
-          ),
-        ]);
-        expect(exitCode, 0);
-      },
-      timeout: integrationTestTimeout,
-    );
+    test('Can handle nested path dependencies', () async {
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'nested_path_references',
+          'package_a',
+        ),
+      ]);
+      expect(exitCode, 0);
+    }, timeout: integrationTestTimeout);
 
     test(
       'Handles `set-exit-on-missing-export` well if an export is missing',
@@ -155,12 +146,7 @@ void main() {
         final exitCode = await runner.run([
           'extract',
           '--input',
-          path.join(
-            'test',
-            'test_packages',
-            'missing_export',
-            'package_a',
-          ),
+          path.join('test', 'test_packages', 'missing_export', 'package_a'),
           '--set-exit-on-missing-export',
         ]);
         expect(exitCode, -1);
@@ -206,40 +192,33 @@ void main() {
       timeout: integrationTestTimeout,
     );
 
-    test(
-      'reports missing exports in extract result',
-      () async {
-        final tempDir = await Directory.systemTemp.createTemp();
-        final tempFilePath =
-            path.join(tempDir.path, 'extract_missing_exports_test.json');
-        final exitCode = await runner.run([
-          'extract',
-          '--input',
-          path.join(
-            'test',
-            'test_packages',
-            'missing_export',
-            'package_a',
-          ),
-          '--output',
-          tempFilePath,
-        ]);
-        expect(exitCode, 0);
+    test('reports missing exports in extract result', () async {
+      final tempDir = await Directory.systemTemp.createTemp();
+      final tempFilePath = path.join(
+        tempDir.path,
+        'extract_missing_exports_test.json',
+      );
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join('test', 'test_packages', 'missing_export', 'package_a'),
+        '--output',
+        tempFilePath,
+      ]);
+      expect(exitCode, 0);
 
-        final jsonReportFile = File(tempFilePath);
-        expect(await jsonReportFile.exists(), isTrue);
+      final jsonReportFile = File(tempFilePath);
+      expect(await jsonReportFile.exists(), isTrue);
 
-        final jsonReport = jsonDecode(await jsonReportFile.readAsString());
-        await tempDir.delete(recursive: true);
+      final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+      await tempDir.delete(recursive: true);
 
-        final missingEntryPoints = jsonReport['missingEntryPoints'] as List;
+      final missingEntryPoints = jsonReport['missingEntryPoints'] as List;
 
-        // we expect to find elements with missing entry points here
-        expect(missingEntryPoints.length, 1);
-        expect(missingEntryPoints.first['name'], 'ClassB');
-      },
-      timeout: integrationTestTimeout,
-    );
+      // we expect to find elements with missing entry points here
+      expect(missingEntryPoints.length, 1);
+      expect(missingEntryPoints.first['name'], 'ClassB');
+    }, timeout: integrationTestTimeout);
     test(
       'Can handle ffigen dependency overrides correctly (pub ref)',
       () async {
@@ -276,13 +255,10 @@ void main() {
           assert(resultClone.exitCode == 0);
 
           // checkout ref
-          final resultCheckout = Process.runSync(
-              'git',
-              [
-                'checkout',
-                gitRef,
-              ],
-              workingDirectory: tempDir.path);
+          final resultCheckout = Process.runSync('git', [
+            'checkout',
+            gitRef,
+          ], workingDirectory: tempDir.path);
           assert(resultCheckout.exitCode == 0);
 
           final exitCode = await runner.run([
@@ -299,67 +275,20 @@ void main() {
       timeout: integrationTestTimeout,
     );
 
-    test(
-      'Can handle hooks:0.20.0 external types',
-      () async {
-        final pubRef = 'pub://hooks/0.20.0';
+    test('Can handle hooks:0.20.0 external types', () async {
+      final pubRef = 'pub://hooks/0.20.0';
 
-        final tempDir = await Directory.systemTemp.createTemp();
-        final tempFilePath =
-            path.join(tempDir.path, 'handles_external_types.json');
+      final tempDir = await Directory.systemTemp.createTemp();
+      final tempFilePath = path.join(
+        tempDir.path,
+        'handles_external_types.json',
+      );
 
-        try {
-          final exitCode = await runner.run([
-            'extract',
-            '--input',
-            pubRef,
-            '--output',
-            tempFilePath,
-          ]);
-          expect(exitCode, 0);
-
-          final jsonReportFile = File(tempFilePath);
-          expect(await jsonReportFile.exists(), isTrue);
-
-          final jsonReport = jsonDecode(await jsonReportFile.readAsString());
-
-          final interfaceDeclarations =
-              jsonReport['packageApi']['interfaceDeclarations'] as List;
-          final builderInterface = interfaceDeclarations
-              .singleWhere((id) => id['name'] == 'Builder');
-          final builderExecutableDeclarations =
-              builderInterface['executableDeclarations'] as List;
-          final builderRunExecutable = builderExecutableDeclarations
-              .singleWhere((id) => id['name'] == 'run');
-          final builderRunExecutableParameters =
-              builderRunExecutable['parameters'] as List;
-          final builderRunExecutableLoggerParameter =
-              builderRunExecutableParameters
-                  .singleWhere((id) => id['name'] == 'logger');
-          expect(builderRunExecutableLoggerParameter['typeName'], 'Logger?');
-        } finally {
-          tempDir.deleteSync(recursive: true);
-        }
-      },
-      timeout: integrationTestTimeout,
-    );
-
-    test(
-      'can handle packages in a workspace',
-      () async {
-        final tempDir = await Directory.systemTemp.createTemp();
-        final tempFilePath =
-            path.join(tempDir.path, 'handles_workspace_package.json');
+      try {
         final exitCode = await runner.run([
           'extract',
           '--input',
-          path.join(
-            'test',
-            'test_packages',
-            'test_workspace',
-            'packages',
-            'workspace_package1',
-          ),
+          pubRef,
           '--output',
           tempFilePath,
         ]);
@@ -369,19 +298,65 @@ void main() {
         expect(await jsonReportFile.exists(), isTrue);
 
         final jsonReport = jsonDecode(await jsonReportFile.readAsString());
-        await tempDir.delete(recursive: true);
 
-        // make sure that the property "awesomePath" is reported
         final interfaceDeclarations =
             jsonReport['packageApi']['interfaceDeclarations'] as List;
-        final awesomeDeclaration =
-            interfaceDeclarations.singleWhere((id) => id['name'] == 'Awesome');
-        final awesomePathField =
-            (awesomeDeclaration['fieldDeclarations'] as List)
-                .singleWhere((fd) => fd['name'] == 'awesomePath');
-        expect(awesomePathField['typeName'], 'String');
-      },
-      timeout: integrationTestTimeout,
-    );
+        final builderInterface = interfaceDeclarations.singleWhere(
+          (id) => id['name'] == 'Builder',
+        );
+        final builderExecutableDeclarations =
+            builderInterface['executableDeclarations'] as List;
+        final builderRunExecutable = builderExecutableDeclarations.singleWhere(
+          (id) => id['name'] == 'run',
+        );
+        final builderRunExecutableParameters =
+            builderRunExecutable['parameters'] as List;
+        final builderRunExecutableLoggerParameter =
+            builderRunExecutableParameters.singleWhere(
+              (id) => id['name'] == 'logger',
+            );
+        expect(builderRunExecutableLoggerParameter['typeName'], 'Logger?');
+      } finally {
+        tempDir.deleteSync(recursive: true);
+      }
+    }, timeout: integrationTestTimeout);
+
+    test('can handle packages in a workspace', () async {
+      final tempDir = await Directory.systemTemp.createTemp();
+      final tempFilePath = path.join(
+        tempDir.path,
+        'handles_workspace_package.json',
+      );
+      final exitCode = await runner.run([
+        'extract',
+        '--input',
+        path.join(
+          'test',
+          'test_packages',
+          'test_workspace',
+          'packages',
+          'workspace_package1',
+        ),
+        '--output',
+        tempFilePath,
+      ]);
+      expect(exitCode, 0);
+
+      final jsonReportFile = File(tempFilePath);
+      expect(await jsonReportFile.exists(), isTrue);
+
+      final jsonReport = jsonDecode(await jsonReportFile.readAsString());
+      await tempDir.delete(recursive: true);
+
+      // make sure that the property "awesomePath" is reported
+      final interfaceDeclarations =
+          jsonReport['packageApi']['interfaceDeclarations'] as List;
+      final awesomeDeclaration = interfaceDeclarations.singleWhere(
+        (id) => id['name'] == 'Awesome',
+      );
+      final awesomePathField = (awesomeDeclaration['fieldDeclarations'] as List)
+          .singleWhere((fd) => fd['name'] == 'awesomePath');
+      expect(awesomePathField['typeName'], 'String');
+    }, timeout: integrationTestTimeout);
   });
 }
