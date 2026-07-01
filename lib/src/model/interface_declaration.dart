@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:analyzer/dart/element/element.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../utils/string_utils.dart';

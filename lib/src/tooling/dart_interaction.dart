@@ -10,6 +10,7 @@ import 'package:package_config/package_config.dart' as package_config;
 
 import '../errors/errors.dart';
 import '../utils/utils.dart';
+import 'package_tooling.dart';
 
 /// Helper class for interacting with Dart and Flutter
 abstract class DartInteraction {
@@ -33,11 +34,12 @@ abstract class DartInteraction {
       final pubspecExists = await File(pubspecPath).exists();
       if (!pubspecExists) {
         throw RunDartError(
-            'Error running pub get in $forDirectory:\nThis is not a valid dart package directory');
+          'Error running pub get in $forDirectory:\nThis is not a valid dart package directory',
+        );
       }
       final yamlContent = await File(pubspecPath).readAsString();
       final pubSpec = Pubspec.parse(yamlContent);
-      useFlutter = pubSpec.dependencies.containsKey('flutter');
+      useFlutter = PackageTooling.isFlutterPackage(pubSpec);
     } else {
       // here we are forced to use Flutter (forceUseFlutterTool == true)
       useFlutter = true;
@@ -54,9 +56,7 @@ abstract class DartInteraction {
       if (flutterExecutablePath == null) {
         logWarning(
           'Unable to find matching Flutter executable. Using system Flutter executable...',
-          extras: {
-            'dart executable': _getDartExecutablePath(),
-          },
+          extras: {'dart executable': _getDartExecutablePath()},
         );
       }
       return _runDartOrFlutterCommand(
@@ -77,20 +77,20 @@ abstract class DartInteraction {
     List<String> args = const [],
     StdoutSession? stdoutSession,
   }) {
-    return _runDartOrFlutterCommand(_getDartExecutablePath(),
-        args: args,
-        workingDirectory: workingDirectory,
-        stdoutSession: stdoutSession);
+    return _runDartOrFlutterCommand(
+      _getDartExecutablePath(),
+      args: args,
+      workingDirectory: workingDirectory,
+      stdoutSession: stdoutSession,
+    );
   }
 
   static Future transferPackageConfig({
     required String fromPackage,
     required String toPackage,
     required StdoutSession stdoutSession,
-    ({
-      String oldPackageName,
-      String newPackageName
-    })? packageNameReplacementInfo,
+    ({String oldPackageName, String newPackageName})?
+    packageNameReplacementInfo,
   }) async {
     // we need to turn relative paths into absolute paths as the
     // functionality to find the package config is relying on absolute paths
@@ -101,8 +101,9 @@ abstract class DartInteraction {
       toPackage = path.absolute(toPackage);
     }
 
-    final packageConfig =
-        await package_config.findPackageConfig(Directory(fromPackage));
+    final packageConfig = await package_config.findPackageConfig(
+      Directory(fromPackage),
+    );
     if (packageConfig == null) {
       throw Exception('No package config found for $fromPackage');
     }
@@ -136,8 +137,9 @@ abstract class DartInteraction {
     }
     // remove old package
     if (packageNameReplacementInfo != null) {
-      (packageConfigJson['packages'] as List<dynamic>).removeWhere((entry) =>
-          entry['name'] == packageNameReplacementInfo.oldPackageName);
+      (packageConfigJson['packages'] as List<dynamic>).removeWhere(
+        (entry) => entry['name'] == packageNameReplacementInfo.oldPackageName,
+      );
     }
     await packageConfigFile.writeAsString(jsonEncode(packageConfigJson));
   }
@@ -169,8 +171,9 @@ abstract class DartInteraction {
   static Future<String?> _findFlutterExecutablePath() async {
     final dartExecutableDirPath = _getDartExecutablePath();
 
-    final flutterExecutableName =
-        Platform.isWindows ? 'flutter.bat' : 'flutter';
+    final flutterExecutableName = Platform.isWindows
+        ? 'flutter.bat'
+        : 'flutter';
 
     // trying to search in the first bin folder from the dart executable path
     // we have to search for it this way as we want to find the matching flutter executable.

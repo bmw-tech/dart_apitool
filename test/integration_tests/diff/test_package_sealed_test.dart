@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithExperimental;
     late PackageApiAnalyzer packageAWithoutExperimental;
 
-    setUpAll(
-      () {
-        packageAWithExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+    setUpAll(() {
+      packageAWithExperimental = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_with_experimental_and_sealed',
-        ));
-        packageAWithoutExperimental = PackageApiAnalyzer(
-            packagePath: path.join(
+        ),
+      );
+      packageAWithoutExperimental = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'experimental_and_sealed_diff',
           'package_a_without_experimental_and_sealed',
-        ));
-      },
-    );
+        ),
+      );
+    });
     group('with sealed to without sealed', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
@@ -34,15 +34,16 @@ void main() {
         );
       });
 
-      test('detects removal of sealed flag', () {
+      test('ignores removal of legacy sealed annotation', () {
         expect(
           diffResult.apiChanges,
-          containsOnce(
-            predicate(
-              (ApiChange change) =>
-                  change.affectedDeclaration?.name == 'ClassD' &&
-                  change.changeDescription.contains('Sealed') &&
-                  !change.isBreaking,
+          isNot(
+            contains(
+              predicate(
+                (ApiChange change) =>
+                    change.affectedDeclaration?.name == 'ClassD' &&
+                    change.changeDescription.contains('Sealed'),
+              ),
             ),
           ),
         );
@@ -67,15 +68,16 @@ void main() {
         );
       });
 
-      test('detects addition of sealed flag', () {
+      test('ignores addition of legacy sealed annotation', () {
         expect(
           diffResult.apiChanges,
-          containsOnce(
-            predicate(
-              (ApiChange change) =>
-                  change.affectedDeclaration?.name == 'ClassD' &&
-                  change.changeDescription.contains('Sealed') &&
-                  change.isBreaking,
+          isNot(
+            contains(
+              predicate(
+                (ApiChange change) =>
+                    change.affectedDeclaration?.name == 'ClassD' &&
+                    change.changeDescription.contains('Sealed'),
+              ),
             ),
           ),
         );
@@ -85,7 +87,7 @@ void main() {
             predicate(
               (ApiChange change) =>
                   change.affectedDeclaration?.name == 'newMethod' &&
-                  !change.isBreaking,
+                  change.isBreaking,
             ),
           ),
         );

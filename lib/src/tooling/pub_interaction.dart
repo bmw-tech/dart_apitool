@@ -5,8 +5,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
+import 'package:yaml_edit/yaml_edit.dart';
 import '../errors/run_dart_error.dart';
 import '../utils/utils.dart';
+import 'package_tooling.dart';
 
 /// helper class for interactions with pub
 abstract class PubInteraction {
@@ -29,7 +31,8 @@ abstract class PubInteraction {
     );
     if (version == null) {
       await stdoutSession?.writeln(
-          'No version for $packageName specified, using latest version');
+        'No version for $packageName specified, using latest version',
+      );
       final latestVersion = getLatestVersionInCacheFor(packageName);
       version = latestVersion.toString();
       await stdoutSession?.writeln('Using version $version');
@@ -39,7 +42,9 @@ abstract class PubInteraction {
 
   @visibleForTesting
   static Future<bool> removePackageFromCache(
-      String packageName, String version) async {
+    String packageName,
+    String version,
+  ) async {
     try {
       final directory = Directory(getPackagePathInCache(packageName, version));
       if (!await directory.exists()) {
@@ -57,8 +62,11 @@ abstract class PubInteraction {
     String? cacheDir = Platform.environment['PUB_CACHE'];
     if (cacheDir == null) {
       if (Platform.isWindows) {
-        cacheDir =
-            path.join(Platform.environment['LOCALAPPDATA']!, 'Pub', 'Cache');
+        cacheDir = path.join(
+          Platform.environment['LOCALAPPDATA']!,
+          'Pub',
+          'Cache',
+        );
       } else {
         cacheDir = path.join(Platform.environment['HOME']!, '.pub-cache');
       }
@@ -77,14 +85,16 @@ abstract class PubInteraction {
   }
 
   static Map<Version, String> getAllPackageVersionsForPackageInCache(
-      String packageName) {
+    String packageName,
+  ) {
     final cacheDir = pubCacheDir;
     final hostedDir = path.join(cacheDir, 'hosted');
 
     final versions = <Version, String>{};
 
-    final repositoryDirs =
-        Directory(hostedDir).listSync().whereType<Directory>().toList();
+    final repositoryDirs = Directory(
+      hostedDir,
+    ).listSync().whereType<Directory>().toList();
 
     for (final repositoryDir in repositoryDirs) {
       for (final potentialPackageDir
@@ -124,10 +134,9 @@ abstract class PubInteraction {
     List<String> hostedDirs = [];
 
     if (Directory(hostedDir).existsSync()) {
-      Directory(hostedDir)
-          .listSync()
-          .map((entity) => entity.path)
-          .forEach((path) {
+      Directory(hostedDir).listSync().map((entity) => entity.path).forEach((
+        path,
+      ) {
         if (Directory(path).existsSync()) {
           hostedDirs.add(path);
         }
@@ -135,8 +144,9 @@ abstract class PubInteraction {
     }
 
     final envHostedUrl = Platform.environment['PUB_HOSTED_URL'];
-    final envHosted =
-        envHostedUrl == null ? null : Uri.parse(envHostedUrl).host;
+    final envHosted = envHostedUrl == null
+        ? null
+        : Uri.parse(envHostedUrl).host;
 
     final List<String> hostPriorities = [
       // first check PUB_HOSTED_URL from environment variable if set
@@ -147,8 +157,9 @@ abstract class PubInteraction {
     ];
 
     for (final hostPriority in hostPriorities) {
-      final matchingHostedDirs =
-          hostedDirs.where((dir) => dir.startsWith(hostPriority)).toList();
+      final matchingHostedDirs = hostedDirs
+          .where((dir) => dir.startsWith(hostPriority))
+          .toList();
       final foundPackagePath = findHostedDirectory(matchingHostedDirs);
       if (foundPackagePath != null) {
         return foundPackagePath;
@@ -166,10 +177,7 @@ abstract class PubInteraction {
   }) async {
     return DartInteraction.runDartOrFlutterCommand(
       packageDirectory,
-      args: [
-        'pub',
-        'get',
-      ],
+      args: ['pub', 'get'],
       stdoutSession: stdoutSession,
       forceUseFlutterTool: forceUseFlutterTool,
     );
@@ -182,10 +190,11 @@ abstract class PubInteraction {
     bool forceUseFlutterTool = false,
   }) async {
     final forDirectoryPubspecPath = path.join(forDirectory, 'pubspec.yaml');
-    final forDirectoryPubspec =
-        Pubspec.parse(File(forDirectoryPubspecPath).readAsStringSync());
+    final forDirectoryPubspecFile = File(forDirectoryPubspecPath);
+    final originalPubspecContent = forDirectoryPubspecFile.readAsStringSync();
+    final forDirectoryPubspec = Pubspec.parse(originalPubspecContent);
     final packageName = forDirectoryPubspec.name;
-    final isFlutter = forDirectoryPubspec.flutter != null;
+    final isFlutter = PackageTooling.isFlutterPackage(forDirectoryPubspec);
 
     String potentialFlutterDependency = isFlutter
         ? '''
@@ -198,8 +207,7 @@ abstract class PubInteraction {
     final tempPackagePath = path.join(tempDirectory.path, 'temp_package');
     final tempPackagePubspecPath = path.join(tempPackagePath, 'pubspec.yaml');
     Directory(tempPackagePath).createSync(recursive: true);
-    File(tempPackagePubspecPath).writeAsStringSync(
-      '''
+    File(tempPackagePubspecPath).writeAsStringSync('''
 name: temp_package
 version: 0.0.1
 publish_to: none
@@ -211,21 +219,70 @@ dependencies:
   $packageName:
     path: $forDirectory
 $potentialFlutterDependency
-''',
+''');
+    final needsCompatiblePubspec = _needsPubGetCompatiblePubspec(
+      forDirectoryPubspec,
     );
-    await DartInteraction.runDartOrFlutterCommand(tempPackagePath,
+    try {
+      if (needsCompatiblePubspec) {
+        // Some historic pub packages cannot be resolved by a modern SDK because
+        // their original SDK lower bound is pre-null-safety. Loosen only the temp
+        // copy used for dependency resolution; restore it before analysis so API
+        // metadata and dependency diffs still reflect the real package pubspec.
+        await _writePubGetCompatiblePubspec(
+          forDirectoryPubspecFile,
+          originalPubspecContent,
+          forDirectoryPubspec,
+        );
+      }
+      await DartInteraction.runDartOrFlutterCommand(
+        tempPackagePath,
         args: ['pub', 'get'],
         stdoutSession: stdoutSession,
-        forceUseFlutterTool: forceUseFlutterTool);
-    await DartInteraction.transferPackageConfig(
-      fromPackage: tempPackagePath,
-      toPackage: forDirectory,
-      stdoutSession: stdoutSession,
-      packageNameReplacementInfo: (
-        oldPackageName: 'temp_package',
-        newPackageName: packageName
-      ),
-    );
-    await Directory(tempDirectory.path).delete(recursive: true);
+        forceUseFlutterTool: forceUseFlutterTool,
+      );
+      await DartInteraction.transferPackageConfig(
+        fromPackage: tempPackagePath,
+        toPackage: forDirectory,
+        stdoutSession: stdoutSession,
+        packageNameReplacementInfo: (
+          oldPackageName: 'temp_package',
+          newPackageName: packageName,
+        ),
+      );
+    } finally {
+      if (needsCompatiblePubspec) {
+        await forDirectoryPubspecFile.writeAsString(originalPubspecContent);
+      }
+      await Directory(tempDirectory.path).delete(recursive: true);
+    }
+  }
+
+  static bool _needsPubGetCompatiblePubspec(Pubspec pubspec) {
+    final sdkConstraint = pubspec.environment['sdk'];
+    final currentSdkVersion = Version.parse(Platform.version.split(' ').first);
+    return sdkConstraint != null && !sdkConstraint.allows(currentSdkVersion);
+  }
+
+  static Future<void> _writePubGetCompatiblePubspec(
+    File pubspecFile,
+    String pubspecContent,
+    Pubspec pubspec,
+  ) async {
+    // Keep path/git/sdk dependencies intact. Hosted constraints can be relaxed
+    // safely because this pub get only creates package_config.json.
+    final editor = YamlEditor(pubspecContent);
+    editor.update(['environment', 'sdk'], '>=2.12.0 <4.0.0');
+    for (final section in ['dependencies', 'dev_dependencies']) {
+      final dependencies = section == 'dependencies'
+          ? pubspec.dependencies
+          : pubspec.devDependencies;
+      for (final entry in dependencies.entries) {
+        if (entry.value is HostedDependency) {
+          editor.update([section, entry.key], 'any');
+        }
+      }
+    }
+    await pubspecFile.writeAsString(editor.toString());
   }
 }

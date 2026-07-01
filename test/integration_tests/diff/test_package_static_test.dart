@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithoutStaticElement;
     late PackageApiAnalyzer packageAWithStaticElement;
 
-    setUpAll(
-      () {
-        packageAWithoutStaticElement = PackageApiAnalyzer(
-            packagePath: path.join(
+    setUpAll(() {
+      packageAWithoutStaticElement = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'static_elements',
           'package_a_without_static_element',
-        ));
-        packageAWithStaticElement = PackageApiAnalyzer(
-            packagePath: path.join(
+        ),
+      );
+      packageAWithStaticElement = PackageApiAnalyzer(
+        packagePath: path.join(
           'test',
           'test_packages',
           'static_elements',
           'package_a_with_static_element',
-        ));
-      },
-    );
+        ),
+      );
+    });
     group('adding a static method to a required type', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
@@ -84,7 +84,7 @@ void main() {
         );
       });
 
-      test('detects the addition of a const', () {
+      test('detects the addition of a const field as a field', () {
         expect(
           diffResult.apiChanges,
           containsOnce(
@@ -96,7 +96,7 @@ void main() {
         );
       });
 
-      test('addition of a const is not breaking', () {
+      test('addition of a const field is not breaking', () {
         expect(
           diffResult.apiChanges,
           containsOnce(
