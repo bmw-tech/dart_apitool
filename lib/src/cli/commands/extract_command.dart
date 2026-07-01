@@ -73,7 +73,10 @@ If not specified the extracted API will be printed to the console.
     final doSetExitCodeOnMissingExport =
         argResults![_optionNameSetExitCodeOnMissingExport] as bool;
 
-    final preparedPackageRef = await prepare(argResults!, packageRef);
+    final preparedPackageRef = await prepare(
+      argResults!,
+      packageRef,
+    );
     final packageApi = await analyze(
       argResults!,
       preparedPackageRef,
@@ -103,8 +106,7 @@ If not specified the extracted API will be printed to the console.
     if (declarationsWithoutEntryPointsOutsideTests.isNotEmpty) {
       if (outFilePath == null) {
         stdout.writeln(
-          'The following declarations do not have an entry point (did you miss to export them?):',
-        );
+            'The following declarations do not have an entry point (did you miss to export them?):');
         for (final declaration in declarationsWithoutEntryPointsOutsideTests) {
           stdout.writeln('  ${declaration.name}');
           if (declaration is InterfaceDeclaration) {

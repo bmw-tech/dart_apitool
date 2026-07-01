@@ -19,8 +19,7 @@ class ConsoleDiffReporter extends DiffReporter {
       final changes = _printApiChangeNode(diffResult.rootNode, breaking);
       if (changes == null) {
         stdout.writeln(
-          breaking ? 'No breaking changes!' : 'No non-breaking changes!',
-        );
+            breaking ? 'No breaking changes!' : 'No non-breaking changes!');
       } else {
         stdout.write(changes);
       }
@@ -58,14 +57,8 @@ class ConsoleDiffReporter extends DiffReporter {
   String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
     Map nodeToTree(ApiChangeTreeNode n, {String? labelOverride}) {
       final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
-      final changeNodes = relevantChanges.map(
-        (c) =>
-            '${ColorUtils.italic(c.changeDescription)} (${c.changeCode.code})${c.isBreaking
-                ? ''
-                : c.type.requiresMinorBump
-                ? ' (minor)'
-                : ' (patch)'}',
-      );
+      final changeNodes = relevantChanges.map((c) =>
+          '${ColorUtils.italic(c.changeDescription)} (${c.changeCode.code})${c.isBreaking ? '' : c.type.requiresMinorBump ? ' (minor)' : ' (patch)'}');
       final childNodes = n.children.values
           .map((value) => nodeToTree(value))
           .where((element) => element.isNotEmpty);
@@ -73,20 +66,16 @@ class ConsoleDiffReporter extends DiffReporter {
       return allChildren.isEmpty
           ? {}
           : {
-              'label': ColorUtils.bold(
-                labelOverride ??
-                    (n.nodeDeclaration == null
-                        ? ''
-                        : getDeclarationNodeHeadline(n.nodeDeclaration!)),
-              ),
+              'label': ColorUtils.bold(labelOverride ??
+                  (n.nodeDeclaration == null
+                      ? ''
+                      : getDeclarationNodeHeadline(n.nodeDeclaration!))),
               'nodes': allChildren,
             };
     }
 
-    final nodes = nodeToTree(
-      node,
-      labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes',
-    );
+    final nodes = nodeToTree(node,
+        labelOverride: breaking ? 'BREAKING CHANGES' : 'Non-Breaking changes');
 
     return nodes.isEmpty ? null : createTree(nodes);
   }

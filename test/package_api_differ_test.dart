@@ -25,9 +25,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final newClassApiChange = diffResult.apiChanges.first;
       expect(
-        newClassApiChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
+          newClassApiChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(newClassApiChange.type, ApiChangeType.addCompatibleMinor);
       expect(newClassApiChange.changeDescription, contains('ClassB'));
       expect(newClassApiChange.contextTrace, isEmpty);
@@ -40,10 +38,8 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final removedClassApiChange = diffResult.apiChanges.first;
-      expect(
-        removedClassApiChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(removedClassApiChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
       expect(removedClassApiChange.type, ApiChangeType.remove);
       expect(removedClassApiChange.changeDescription, contains('ClassB'));
       expect(removedClassApiChange.contextTrace, isEmpty);
@@ -56,15 +52,11 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final newExecutableApiChange = diffResult.apiChanges.first;
-      expect(
-        newExecutableApiChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(newExecutableApiChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
       expect(newExecutableApiChange.type, ApiChangeType.addCompatibleMinor);
       expect(
-        newExecutableApiChange.changeDescription,
-        contains('doSomething2'),
-      );
+          newExecutableApiChange.changeDescription, contains('doSomething2'));
       expect(newExecutableApiChange.contextTrace, isEmpty);
     });
     test('removed root level executable is detected', () {
@@ -75,15 +67,11 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final removedExecutableApiChange = diffResult.apiChanges.first;
-      expect(
-        removedExecutableApiChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(removedExecutableApiChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
       expect(removedExecutableApiChange.type, ApiChangeType.remove);
-      expect(
-        removedExecutableApiChange.changeDescription,
-        contains('doSomething2'),
-      );
+      expect(removedExecutableApiChange.changeDescription,
+          contains('doSomething2'));
       expect(removedExecutableApiChange.contextTrace, isEmpty);
     });
     test('new root level field is detected', () {
@@ -108,9 +96,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final removedFieldApiChange = diffResult.apiChanges.first;
       expect(
-        removedFieldApiChange.affectedDeclaration,
-        isA<FieldDeclaration>(),
-      );
+          removedFieldApiChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(removedFieldApiChange.type, ApiChangeType.remove);
       expect(removedFieldApiChange.changeDescription, contains('fieldB'));
       expect(removedFieldApiChange.contextTrace, isEmpty);
@@ -125,14 +111,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        deprecatedAddedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -144,14 +126,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        deprecatedAddedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -169,14 +147,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        deprecatedAddedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -188,14 +162,10 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
-      expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        deprecatedAddedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
     });
@@ -214,9 +184,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<FieldDeclaration>(),
-      );
+          deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -230,9 +198,7 @@ void main() {
       expect(diffResult.apiChanges.length, 1);
       final deprecatedAddedChange = diffResult.apiChanges.first;
       expect(
-        deprecatedAddedChange.affectedDeclaration,
-        isA<FieldDeclaration>(),
-      );
+          deprecatedAddedChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.contextTrace.first, isA<FieldDeclaration>());
       expect(deprecatedAddedChange.type, ApiChangeType.changeCompatibleMinor);
       expect(deprecatedAddedChange.changeDescription, contains('Deprecated'));
@@ -242,7 +208,9 @@ void main() {
   group('Type parameter handling', () {
     test('Class type parameter adding detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageClassAApi,
@@ -250,23 +218,19 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeParameterAddedChange = diffResult.apiChanges.first;
-      expect(
-        typeParameterAddedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        typeParameterAddedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(typeParameterAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(typeParameterAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParameterAddedChange.type, ApiChangeType.addBreaking);
-      expect(
-        typeParameterAddedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParameterAddedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
     test('Class type parameter removal detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageClassAWithTypeParameterTApi,
@@ -274,24 +238,20 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeParameterRemovedChange = diffResult.apiChanges.first;
-      expect(
-        typeParameterRemovedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        typeParameterRemovedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(typeParameterRemovedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(typeParameterRemovedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParameterRemovedChange.type, ApiChangeType.remove);
-      expect(
-        typeParameterRemovedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParameterRemovedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
 
     test('Executable type parameter adding detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageExecutable1Api,
@@ -299,23 +259,19 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeParameterAddedChange = diffResult.apiChanges.first;
-      expect(
-        typeParameterAddedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        typeParameterAddedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(typeParameterAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(typeParameterAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParameterAddedChange.type, ApiChangeType.addBreaking);
-      expect(
-        typeParameterAddedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParameterAddedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
     test('Executable type parameter removal detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageExecutable1WithTypeParameterTApi,
@@ -323,23 +279,19 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeParameterRemovedChange = diffResult.apiChanges.first;
-      expect(
-        typeParameterRemovedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        typeParameterRemovedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(typeParameterRemovedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(typeParameterRemovedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParameterRemovedChange.type, ApiChangeType.remove);
-      expect(
-        typeParameterRemovedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParameterRemovedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
     test('Class type parameter name change detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageClassAWithTypeParameterTApi,
@@ -352,36 +304,26 @@ void main() {
       final typeParmeterRemovedChange = diffResult.apiChanges
           .where((change) => change.type == ApiChangeType.remove)
           .single;
-      expect(
-        typeParmeterAddedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        typeParmeterAddedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(typeParmeterAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(typeParmeterAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParmeterAddedChange.type, ApiChangeType.addBreaking);
-      expect(
-        typeParmeterAddedChange.changeDescription,
-        contains('Type Parameter "R"'),
-      );
-      expect(
-        typeParmeterRemovedChange.affectedDeclaration,
-        isA<InterfaceDeclaration>(),
-      );
-      expect(
-        typeParmeterRemovedChange.contextTrace.first,
-        isA<InterfaceDeclaration>(),
-      );
+      expect(typeParmeterAddedChange.changeDescription,
+          contains('Type Parameter "R"'));
+      expect(typeParmeterRemovedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(typeParmeterRemovedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
       expect(typeParmeterRemovedChange.type, ApiChangeType.remove);
-      expect(
-        typeParmeterRemovedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParmeterRemovedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
     test('Executable type parameter name change detected', () {
       final differ = PackageApiDiffer(
-        options: PackageApiDifferOptions(ignoreTypeParameterNameChanges: false),
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: false,
+        ),
       );
       final diffResult = differ.diff(
         oldApi: packageExecutable1WithTypeParameterTApi,
@@ -394,138 +336,106 @@ void main() {
       final typeParmeterRemovedChange = diffResult.apiChanges
           .where((change) => change.type == ApiChangeType.remove)
           .single;
-      expect(
-        typeParmeterAddedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        typeParmeterAddedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(typeParmeterAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(typeParmeterAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParmeterAddedChange.type, ApiChangeType.addBreaking);
-      expect(
-        typeParmeterAddedChange.changeDescription,
-        contains('Type Parameter "R"'),
-      );
-      expect(
-        typeParmeterRemovedChange.affectedDeclaration,
-        isA<ExecutableDeclaration>(),
-      );
-      expect(
-        typeParmeterRemovedChange.contextTrace.first,
-        isA<ExecutableDeclaration>(),
-      );
+      expect(typeParmeterAddedChange.changeDescription,
+          contains('Type Parameter "R"'));
+      expect(typeParmeterRemovedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(typeParmeterRemovedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
       expect(typeParmeterRemovedChange.type, ApiChangeType.remove);
-      expect(
-        typeParmeterRemovedChange.changeDescription,
-        contains('Type Parameter "T"'),
-      );
+      expect(typeParmeterRemovedChange.changeDescription,
+          contains('Type Parameter "T"'));
     });
     test(
-      'Class type parameter adding detected (without type parameter name check)',
-      () {
-        final differ = PackageApiDiffer(
-          options: PackageApiDifferOptions(
-            ignoreTypeParameterNameChanges: true,
-          ),
-        );
-        final diffResult = differ.diff(
-          oldApi: packageClassAApi,
-          newApi: packageClassAWithTypeParameterTApi,
-        );
-        expect(diffResult.apiChanges.length, 1);
-        final deprecatedAddedChange = diffResult.apiChanges.first;
-        expect(
-          deprecatedAddedChange.affectedDeclaration,
-          isA<InterfaceDeclaration>(),
-        );
-        expect(
-          deprecatedAddedChange.contextTrace.first,
-          isA<InterfaceDeclaration>(),
-        );
-        expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
-        expect(deprecatedAddedChange.changeDescription, contains('"T"'));
-      },
-    );
+        'Class type parameter adding detected (without type parameter name check)',
+        () {
+      final differ = PackageApiDiffer(
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: true,
+        ),
+      );
+      final diffResult = differ.diff(
+        oldApi: packageClassAApi,
+        newApi: packageClassAWithTypeParameterTApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
+      expect(deprecatedAddedChange.changeDescription, contains('"T"'));
+    });
     test(
-      'Class type parameter removal detected (without type parameter name check)',
-      () {
-        final differ = PackageApiDiffer(
-          options: PackageApiDifferOptions(
-            ignoreTypeParameterNameChanges: true,
-          ),
-        );
-        final diffResult = differ.diff(
-          oldApi: packageClassAWithTypeParameterTApi,
-          newApi: packageClassAApi,
-        );
-        expect(diffResult.apiChanges.length, 1);
-        final deprecatedAddedChange = diffResult.apiChanges.first;
-        expect(
-          deprecatedAddedChange.affectedDeclaration,
-          isA<InterfaceDeclaration>(),
-        );
-        expect(
-          deprecatedAddedChange.contextTrace.first,
-          isA<InterfaceDeclaration>(),
-        );
-        expect(deprecatedAddedChange.type, ApiChangeType.remove);
-        expect(deprecatedAddedChange.changeDescription, contains('"T"'));
-      },
-    );
+        'Class type parameter removal detected (without type parameter name check)',
+        () {
+      final differ = PackageApiDiffer(
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: true,
+        ),
+      );
+      final diffResult = differ.diff(
+        oldApi: packageClassAWithTypeParameterTApi,
+        newApi: packageClassAApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<InterfaceDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.remove);
+      expect(deprecatedAddedChange.changeDescription, contains('"T"'));
+    });
 
     test(
-      'Executable type parameter adding detected (without type parameter name check)',
-      () {
-        final differ = PackageApiDiffer(
-          options: PackageApiDifferOptions(
-            ignoreTypeParameterNameChanges: true,
-          ),
-        );
-        final diffResult = differ.diff(
-          oldApi: packageExecutable1Api,
-          newApi: packageExecutable1WithTypeParameterTApi,
-        );
-        expect(diffResult.apiChanges.length, 1);
-        final deprecatedAddedChange = diffResult.apiChanges.first;
-        expect(
-          deprecatedAddedChange.affectedDeclaration,
-          isA<ExecutableDeclaration>(),
-        );
-        expect(
-          deprecatedAddedChange.contextTrace.first,
-          isA<ExecutableDeclaration>(),
-        );
-        expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
-        expect(deprecatedAddedChange.changeDescription, contains('"T"'));
-      },
-    );
+        'Executable type parameter adding detected (without type parameter name check)',
+        () {
+      final differ = PackageApiDiffer(
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: true,
+        ),
+      );
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1Api,
+        newApi: packageExecutable1WithTypeParameterTApi,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.addBreaking);
+      expect(deprecatedAddedChange.changeDescription, contains('"T"'));
+    });
     test(
-      'Executable type parameter removal detected (without type parameter name check)',
-      () {
-        final differ = PackageApiDiffer(
-          options: PackageApiDifferOptions(
-            ignoreTypeParameterNameChanges: true,
-          ),
-        );
-        final diffResult = differ.diff(
-          oldApi: packageExecutable1WithTypeParameterTApi,
-          newApi: packageExecutable1Api,
-        );
-        expect(diffResult.apiChanges.length, 1);
-        final deprecatedAddedChange = diffResult.apiChanges.first;
-        expect(
-          deprecatedAddedChange.affectedDeclaration,
-          isA<ExecutableDeclaration>(),
-        );
-        expect(
-          deprecatedAddedChange.contextTrace.first,
-          isA<ExecutableDeclaration>(),
-        );
-        expect(deprecatedAddedChange.type, ApiChangeType.remove);
-        expect(deprecatedAddedChange.changeDescription, contains('"T"'));
-      },
-    );
+        'Executable type parameter removal detected (without type parameter name check)',
+        () {
+      final differ = PackageApiDiffer(
+        options: PackageApiDifferOptions(
+          ignoreTypeParameterNameChanges: true,
+        ),
+      );
+      final diffResult = differ.diff(
+        oldApi: packageExecutable1WithTypeParameterTApi,
+        newApi: packageExecutable1Api,
+      );
+      expect(diffResult.apiChanges.length, 1);
+      final deprecatedAddedChange = diffResult.apiChanges.first;
+      expect(deprecatedAddedChange.affectedDeclaration,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.contextTrace.first,
+          isA<ExecutableDeclaration>());
+      expect(deprecatedAddedChange.type, ApiChangeType.remove);
+      expect(deprecatedAddedChange.changeDescription, contains('"T"'));
+    });
   });
   group('Type change handling', () {
     test('Field type change detected', () {
@@ -562,10 +472,8 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 1);
       final typeChange = diffResult.apiChanges.first;
-      expect(
-        typeChange.affectedDeclaration,
-        isA<ExecutableParameterDeclaration>(),
-      );
+      expect(typeChange.affectedDeclaration,
+          isA<ExecutableParameterDeclaration>());
       expect(typeChange.changeDescription, contains('NewType'));
       expect(typeChange.contextTrace.first, isA<ExecutableDeclaration>());
       expect(typeChange.type, ApiChangeType.changeBreaking);
@@ -714,11 +622,9 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.addCompatibleMinor,
-      );
-      final removeChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.remove,
-      );
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<FieldDeclaration>());
       expect(removeChange.changeDescription, contains('Entry point'));
       expect(removeChange.changeDescription, contains('a.dart'));
@@ -768,11 +674,9 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.addCompatibleMinor,
-      );
-      final removeChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.remove,
-      );
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<ExecutableDeclaration>());
       expect(removeChange.changeDescription, contains('Entry point'));
       expect(removeChange.changeDescription, contains('a.dart'));
@@ -822,11 +726,9 @@ void main() {
       );
       expect(diffResult.apiChanges.length, 2);
       final addChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.addCompatibleMinor,
-      );
-      final removeChange = diffResult.apiChanges.singleWhere(
-        (element) => element.type == ApiChangeType.remove,
-      );
+          (element) => element.type == ApiChangeType.addCompatibleMinor);
+      final removeChange = diffResult.apiChanges
+          .singleWhere((element) => element.type == ApiChangeType.remove);
       expect(removeChange.affectedDeclaration, isA<InterfaceDeclaration>());
       expect(removeChange.changeDescription, contains('Entry point'));
       expect(removeChange.changeDescription, contains('a.dart'));
@@ -873,125 +775,120 @@ void main() {
 
   group('Generic type compatibility handling', () {
     test(
-      'Generic types with different parameter counts can be compatible (default parameters)',
-      () {
-        // This test covers the GitHub issue scenario where:
-        // Parent: MyClass<T> -> MyClass<T, O> (with default parameter)
-        // Subclass: extends MyClass<int> -> extends MyClass<int, String>
-        // The subclass change should not be reported as a separate breaking change
+        'Generic types with different parameter counts can be compatible (default parameters)',
+        () {
+      // This test covers the GitHub issue scenario where:
+      // Parent: MyClass<T> -> MyClass<T, O> (with default parameter)
+      // Subclass: extends MyClass<int> -> extends MyClass<int, String>
+      // The subclass change should not be reported as a separate breaking change
 
-        final oldApiWithSubclass = PackageApi(
-          packageName: 'test_package',
-          packageVersion: '1.0.0',
-          packagePath: '.',
-          typeHierarchy: TypeHierarchy.empty(),
-          interfaceDeclarations: [
-            InterfaceDeclaration(
-              name: 'MyClass',
-              typeParameterNames: const ['T'],
-              executableDeclarations: const [],
-              fieldDeclarations: const [],
-              superTypeNames: const {},
-              typeUsages: {},
-              relativePath: 'lib/test.dart',
-              isDeprecated: false,
-              isExperimental: false,
-              isSealed: false,
-              isAbstract: false,
-            ),
-            InterfaceDeclaration(
-              name: 'Other',
-              typeParameterNames: const [],
-              executableDeclarations: const [],
-              fieldDeclarations: const [],
-              superTypeNames: const {'MyClass<int>'},
-              typeUsages: {},
-              relativePath: 'lib/test.dart',
-              isDeprecated: false,
-              isExperimental: false,
-              isSealed: false,
-              isAbstract: false,
-            ),
-          ],
-          executableDeclarations: const [],
-          fieldDeclarations: const [],
-          typeAliasDeclarations: const [],
-          sdkType: SdkType.unknown,
-          minSdkVersion: Version.none,
-          packageDependencies: [],
-        );
+      final oldApiWithSubclass = PackageApi(
+        packageName: 'test_package',
+        packageVersion: '1.0.0',
+        packagePath: '.',
+        typeHierarchy: TypeHierarchy.empty(),
+        interfaceDeclarations: [
+          InterfaceDeclaration(
+            name: 'MyClass',
+            typeParameterNames: const ['T'],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+          InterfaceDeclaration(
+            name: 'Other',
+            typeParameterNames: const [],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {'MyClass<int>'},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+        ],
+        executableDeclarations: const [],
+        fieldDeclarations: const [],
+        typeAliasDeclarations: const [],
+        sdkType: SdkType.unknown,
+        minSdkVersion: Version.none,
+        packageDependencies: [],
+      );
 
-        final newApiWithSubclass = PackageApi(
-          packageName: 'test_package',
-          packageVersion: '1.0.0',
-          packagePath: '.',
-          typeHierarchy: TypeHierarchy.empty(),
-          interfaceDeclarations: [
-            InterfaceDeclaration(
-              name: 'MyClass',
-              typeParameterNames: const ['T', 'O'],
-              executableDeclarations: const [],
-              fieldDeclarations: const [],
-              superTypeNames: const {},
-              typeUsages: {},
-              relativePath: 'lib/test.dart',
-              isDeprecated: false,
-              isExperimental: false,
-              isSealed: false,
-              isAbstract: false,
-            ),
-            InterfaceDeclaration(
-              name: 'Other',
-              typeParameterNames: const [],
-              executableDeclarations: const [],
-              fieldDeclarations: const [],
-              superTypeNames: const {'MyClass<int, String>'},
-              typeUsages: {},
-              relativePath: 'lib/test.dart',
-              isDeprecated: false,
-              isExperimental: false,
-              isSealed: false,
-              isAbstract: false,
-            ),
-          ],
-          executableDeclarations: const [],
-          fieldDeclarations: const [],
-          typeAliasDeclarations: const [],
-          sdkType: SdkType.unknown,
-          minSdkVersion: Version.none,
-          packageDependencies: [],
-        );
+      final newApiWithSubclass = PackageApi(
+        packageName: 'test_package',
+        packageVersion: '1.0.0',
+        packagePath: '.',
+        typeHierarchy: TypeHierarchy.empty(),
+        interfaceDeclarations: [
+          InterfaceDeclaration(
+            name: 'MyClass',
+            typeParameterNames: const ['T', 'O'],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+          InterfaceDeclaration(
+            name: 'Other',
+            typeParameterNames: const [],
+            executableDeclarations: const [],
+            fieldDeclarations: const [],
+            superTypeNames: const {'MyClass<int, String>'},
+            typeUsages: {},
+            relativePath: 'lib/test.dart',
+            isDeprecated: false,
+            isExperimental: false,
+            isSealed: false,
+            isAbstract: false,
+          ),
+        ],
+        executableDeclarations: const [],
+        fieldDeclarations: const [],
+        typeAliasDeclarations: const [],
+        sdkType: SdkType.unknown,
+        minSdkVersion: Version.none,
+        packageDependencies: [],
+      );
 
-        final differ = PackageApiDiffer();
-        final diffResult = differ.diff(
-          oldApi: oldApiWithSubclass,
-          newApi: newApiWithSubclass,
-        );
+      final differ = PackageApiDiffer();
+      final diffResult = differ.diff(
+        oldApi: oldApiWithSubclass,
+        newApi: newApiWithSubclass,
+      );
 
-        // Should detect: 1) parent type parameter addition, 2) supertype change (not remove+add)
-        expect(diffResult.apiChanges.length, 2);
+      // Should detect: 1) parent type parameter addition, 2) supertype change (not remove+add)
+      expect(diffResult.apiChanges.length, 2);
 
-        final parentTypeParameterChange = diffResult.apiChanges
-            .where((change) => change.affectedDeclaration?.name == 'MyClass')
-            .single;
-        expect(parentTypeParameterChange.type, ApiChangeType.addBreaking);
-        expect(
-          parentTypeParameterChange.changeDescription,
-          contains('Number of type parameters changed'),
-        );
+      final parentTypeParameterChange = diffResult.apiChanges
+          .where((change) => change.affectedDeclaration?.name == 'MyClass')
+          .single;
+      expect(parentTypeParameterChange.type, ApiChangeType.addBreaking);
+      expect(parentTypeParameterChange.changeDescription,
+          contains('Number of type parameters changed'));
 
-        // Verify inheritance is reported as a single "change" not "remove + add"
-        final inheritanceChange = diffResult.apiChanges
-            .where((change) => change.affectedDeclaration?.name == 'Other')
-            .single;
-        expect(inheritanceChange.type, ApiChangeType.changeBreaking);
-        expect(
+      // Verify inheritance is reported as a single "change" not "remove + add"
+      final inheritanceChange = diffResult.apiChanges
+          .where((change) => change.affectedDeclaration?.name == 'Other')
+          .single;
+      expect(inheritanceChange.type, ApiChangeType.changeBreaking);
+      expect(
           inheritanceChange.changeDescription,
           contains(
-            'Super Type changed from "MyClass<int>" to "MyClass<int, String>"',
-          ),
-        );
-      },
-    );
+              'Super Type changed from "MyClass<int>" to "MyClass<int, String>"'));
+    });
   });
 }

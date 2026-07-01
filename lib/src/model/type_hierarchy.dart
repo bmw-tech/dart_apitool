@@ -60,17 +60,17 @@ sealed class TypeIdentifier with _$TypeIdentifier {
 
   /// returns a copy of this type identifier without the nullable flag
   TypeIdentifier asNonNullable() => TypeIdentifier(
-    typeName: nonNullableTypeName,
-    packageName: packageName,
-    packageRelativeLibraryPath: packageRelativeLibraryPath,
-  );
+        typeName: nonNullableTypeName,
+        packageName: packageName,
+        packageRelativeLibraryPath: packageRelativeLibraryPath,
+      );
 
   /// returns a copy of this type identifier with the nullable flag
   TypeIdentifier asNullable() => TypeIdentifier(
-    typeName: nullableTypeName,
-    packageName: packageName,
-    packageRelativeLibraryPath: packageRelativeLibraryPath,
-  );
+        typeName: nullableTypeName,
+        packageName: packageName,
+        packageRelativeLibraryPath: packageRelativeLibraryPath,
+      );
 
   static final _libraryPathToPackageInfoCache =
       <String, Tuple2<String, String>>{};
@@ -162,16 +162,13 @@ sealed class TypeIdentifier with _$TypeIdentifier {
       );
     }
     // get package name from pubspec
-    final pubspecContent = File(
-      path.join(pubspecDirectoryPath, 'pubspec.yaml'),
-    ).readAsStringSync();
+    final pubspecContent = File(path.join(pubspecDirectoryPath, 'pubspec.yaml'))
+        .readAsStringSync();
     final pubspec = Pubspec.parse(pubspecContent);
     final packageName = pubspec.name;
     // get package relative library path
-    final packageRelativeLibraryPath = path.relative(
-      libraryPath,
-      from: pubspecDirectoryPath,
-    );
+    final packageRelativeLibraryPath =
+        path.relative(libraryPath, from: pubspecDirectoryPath);
 
     _libraryPathToPackageInfoCache[libraryPath] = Tuple2(
       packageName,
@@ -266,11 +263,9 @@ class TypeHierarchy {
     if (items.length > 1) {
       // there is more than one type with the same name in one package => we need to check the full library name
       // and remove all occurences that don't match
-      final matchingItems = items.where(
-        (i) =>
-            i.typeIdentifier.packageRelativeLibraryPath ==
-            typeIdentifier.packageRelativeLibraryPath,
-      );
+      final matchingItems = items.where((i) =>
+          i.typeIdentifier.packageRelativeLibraryPath ==
+          typeIdentifier.packageRelativeLibraryPath);
 
       try {
         // finally we try to get that single entry
@@ -339,14 +334,10 @@ class TypeHierarchy {
       return true;
     }
 
-    final newIsSubtypeOfOld = _isSubTypeOf(
-      newTypeIdentifier,
-      oldTypeIdentifier,
-    );
-    final oldIsSubtypeOfNew = _isSubTypeOf(
-      oldTypeIdentifier,
-      newTypeIdentifier,
-    );
+    final newIsSubtypeOfOld =
+        _isSubTypeOf(newTypeIdentifier, oldTypeIdentifier);
+    final oldIsSubtypeOfNew =
+        _isSubTypeOf(oldTypeIdentifier, newTypeIdentifier);
 
     // if we pass the type in then it can get wider
     // if we pass it out then it can get narrower
@@ -367,9 +358,8 @@ class TypeHierarchy {
     }
 
     // Extract base type names (without generic parameters)
-    final subTypeName = _extractBaseTypeName(
-      potentialSubType.nonNullableTypeName,
-    );
+    final subTypeName =
+        _extractBaseTypeName(potentialSubType.nonNullableTypeName);
     final superTypeName = _extractBaseTypeName(superType.nonNullableTypeName);
 
     // Check if both types are from the same package (built-in types should have empty package names)
@@ -385,9 +375,7 @@ class TypeHierarchy {
 
     // Check generic type covariance for common collection types
     if (_isGenericTypeCovariant(
-      potentialSubType.nonNullableTypeName,
-      superType.nonNullableTypeName,
-    )) {
+        potentialSubType.nonNullableTypeName, superType.nonNullableTypeName)) {
       return true;
     }
 
@@ -457,17 +445,16 @@ class TypeHierarchy {
 
       // For other type arguments, check covariance
       if (!_isTypeArgumentSubtype(
-        TypeIdentifier(
-          typeName: subArg,
-          packageName: '',
-          packageRelativeLibraryPath: '',
-        ),
-        TypeIdentifier(
-          typeName: superArg,
-          packageName: '',
-          packageRelativeLibraryPath: '',
-        ),
-      )) {
+          TypeIdentifier(
+            typeName: subArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ),
+          TypeIdentifier(
+            typeName: superArg,
+            packageName: '',
+            packageRelativeLibraryPath: '',
+          ))) {
         return false;
       }
     }
@@ -478,9 +465,7 @@ class TypeHierarchy {
   /// Checks if a type argument is a subtype of another type argument
   /// This handles special cases like dynamic and nullable types
   bool _isTypeArgumentSubtype(
-    TypeIdentifier subType,
-    TypeIdentifier superType,
-  ) {
+      TypeIdentifier subType, TypeIdentifier superType) {
     // If super type is dynamic, any type is a subtype
     if (superType.isDynamic) {
       return true;
@@ -506,14 +491,8 @@ class TypeHierarchy {
   bool _isCovariantGenericType(String baseType) {
     // These generic types are covariant in Dart
     // Note: Map is covariant in its value type (second type parameter)
-    return const {
-      'List',
-      'Set',
-      'Iterable',
-      'Future',
-      'Stream',
-      'Map',
-    }.contains(baseType);
+    return const {'List', 'Set', 'Iterable', 'Future', 'Stream', 'Map'}
+        .contains(baseType);
   }
 
   /// Parses a generic type into base type and type arguments
@@ -538,7 +517,10 @@ class TypeHierarchy {
         .where((arg) => arg.isNotEmpty)
         .toList();
 
-    return _GenericTypeInfo(baseType: baseType, typeArguments: typeArguments);
+    return _GenericTypeInfo(
+      baseType: baseType,
+      typeArguments: typeArguments,
+    );
   }
 
   bool _isSubTypeOf(
@@ -561,17 +543,15 @@ class TypeHierarchy {
     // find potential sub type
     // we copy the set to avoid modifying the original set when removing items later
     final items = {
-      ...(_types[potentialSubTypeIdentifier.packageAndTypeName] ?? {}),
+      ...(_types[potentialSubTypeIdentifier.packageAndTypeName] ?? {})
     };
 
     if (items.length > 1) {
       // there is more than one type with the same name in one package => we need to check the full library name
       // and remove all occurences that don't match
-      items.removeWhere(
-        (i) =>
-            i.typeIdentifier.packageRelativeLibraryPath !=
-            potentialSubTypeIdentifier.packageRelativeLibraryPath,
-      );
+      items.removeWhere((i) =>
+          i.typeIdentifier.packageRelativeLibraryPath !=
+          potentialSubTypeIdentifier.packageRelativeLibraryPath);
     }
 
     // after removal of non-matching types: if there are no entries left or more than 1 entry is left => we can't tell and return false
@@ -601,7 +581,10 @@ class _GenericTypeInfo {
   final String baseType;
   final List<String> typeArguments;
 
-  _GenericTypeInfo({required this.baseType, required this.typeArguments});
+  _GenericTypeInfo({
+    required this.baseType,
+    required this.typeArguments,
+  });
 }
 
 /// represents a type in the type hierarchy

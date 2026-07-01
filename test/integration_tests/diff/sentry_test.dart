@@ -13,15 +13,13 @@ void main() {
 
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await retriever_5_1_0.retrieve(),
-          newApi: await retriever_6_0_0.retrieve(),
-        );
+            oldApi: await retriever_5_1_0.retrieve(),
+            newApi: await retriever_6_0_0.retrieve());
       });
 
       test('is breaking change', () {
-        final isBreakingChange = diffResult.apiChanges.any(
-          (element) => element.isBreaking,
-        );
+        final isBreakingChange =
+            diffResult.apiChanges.any((element) => element.isBreaking);
         expect(isBreakingChange, isTrue);
       });
     });
@@ -33,15 +31,13 @@ void main() {
 
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await retriever_5_0_0.retrieve(),
-          newApi: await retriever_5_1_0.retrieve(),
-        );
+            oldApi: await retriever_5_0_0.retrieve(),
+            newApi: await retriever_5_1_0.retrieve());
       });
 
       test('is non-breaking change', () {
-        final isBreakingChange = diffResult.apiChanges.any(
-          (element) => element.isBreaking,
-        );
+        final isBreakingChange =
+            diffResult.apiChanges.any((element) => element.isBreaking);
         expect(isBreakingChange, isFalse);
       });
     });

@@ -15,22 +15,17 @@ void main() {
 
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await sqflite_common_2_3_0.retrieve(),
-          newApi: await sqflite_common_2_4_0.retrieve(),
-        );
+            oldApi: await sqflite_common_2_3_0.retrieve(),
+            newApi: await sqflite_common_2_4_0.retrieve());
       });
 
-      test(
-        'detects rawQueryCursor added to required interface as breaking',
-        () {
-          final isBreakingChange = diffResult.apiChanges.any(
-            (element) =>
-                element.affectedDeclaration!.name == 'rawQueryCursor' &&
-                element.isBreaking,
-          );
-          expect(isBreakingChange, isTrue);
-        },
-      );
+      test('detects rawQueryCursor added to required interface as breaking',
+          () {
+        final isBreakingChange = diffResult.apiChanges.any((element) =>
+            element.affectedDeclaration!.name == 'rawQueryCursor' &&
+            element.isBreaking);
+        expect(isBreakingChange, isTrue);
+      });
     });
     group('2.3.0 to 2.4.0 (ignore required)', () {
       final packageName = 'sqflite_common';
@@ -39,24 +34,22 @@ void main() {
       late PackageApiDiffResult diffResult;
 
       setUpAll(() async {
-        diffResult =
-            PackageApiDiffer(
-              options: PackageApiDifferOptions(doIgnoreRequiredness: true),
-            ).diff(
-              oldApi: await sqflite_common_2_3_0.retrieve(),
-              newApi: await sqflite_common_2_4_0.retrieve(),
-            );
+        diffResult = PackageApiDiffer(
+          options: PackageApiDifferOptions(
+            doIgnoreRequiredness: true,
+          ),
+        ).diff(
+            oldApi: await sqflite_common_2_3_0.retrieve(),
+            newApi: await sqflite_common_2_4_0.retrieve());
       });
 
       test(
-        'has no breaking changes as we ignore requiredness of the Database interface',
-        () {
-          final isBreakingChange = diffResult.apiChanges.any(
-            (element) => element.isBreaking,
-          );
-          expect(isBreakingChange, isFalse);
-        },
-      );
+          'has no breaking changes as we ignore requiredness of the Database interface',
+          () {
+        final isBreakingChange =
+            diffResult.apiChanges.any((element) => element.isBreaking);
+        expect(isBreakingChange, isFalse);
+      });
     });
   });
 }

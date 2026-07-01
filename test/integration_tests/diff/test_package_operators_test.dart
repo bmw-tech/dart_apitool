@@ -7,26 +7,26 @@ void main() {
     late PackageApiAnalyzer packageAWithRecord;
     late PackageApiAnalyzer packageAWithChangedRecord;
 
-    setUpAll(() {
-      packageAWithRecord = PackageApiAnalyzer(
-        packagePath: path.join(
+    setUpAll(
+      () {
+        packageAWithRecord = PackageApiAnalyzer(
+            packagePath: path.join(
           'test',
           'test_packages',
           'operators',
           'package_a_with_operators',
-        ),
-      );
-      // we test the same package against itself.
-      // We just want to know if the differ can handle two operators with the same name
-      packageAWithChangedRecord = PackageApiAnalyzer(
-        packagePath: path.join(
+        ));
+        // we test the same package against itself.
+        // We just want to know if the differ can handle two operators with the same name
+        packageAWithChangedRecord = PackageApiAnalyzer(
+            packagePath: path.join(
           'test',
           'test_packages',
           'operators',
           'package_a_with_operators',
-        ),
-      );
-    });
+        ));
+      },
+    );
     group('having the - operator two times (unary and not)', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
@@ -37,7 +37,10 @@ void main() {
       });
 
       test('does not crash', () {
-        expect(diffResult.apiChanges, isEmpty);
+        expect(
+          diffResult.apiChanges,
+          isEmpty,
+        );
       });
     });
 
@@ -47,9 +50,8 @@ void main() {
         final api = await packageAWithRecord.analyze();
 
         // Find the ClassA interface
-        final classAInterface = api.interfaceDeclarations.firstWhere(
-          (interface) => interface.name == 'ClassA',
-        );
+        final classAInterface = api.interfaceDeclarations
+            .firstWhere((interface) => interface.name == 'ClassA');
 
         // Look for minus operators (binary and unary)
         final minusOperators = classAInterface.executableDeclarations
@@ -60,12 +62,10 @@ void main() {
         expect(minusOperators.length, equals(2));
 
         // Find the specific operators
-        final binaryMinusOperator = minusOperators.firstWhere(
-          (op) => op.name == 'binary-',
-        );
-        final unaryMinusOperator = minusOperators.firstWhere(
-          (op) => op.name == 'unary-',
-        );
+        final binaryMinusOperator =
+            minusOperators.firstWhere((op) => op.name == 'binary-');
+        final unaryMinusOperator =
+            minusOperators.firstWhere((op) => op.name == 'unary-');
 
         // Verify the names are correct (not duplicated)
         expect(binaryMinusOperator.name, equals('binary-'));

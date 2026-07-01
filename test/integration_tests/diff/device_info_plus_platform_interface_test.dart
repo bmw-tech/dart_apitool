@@ -15,16 +15,13 @@ void main() {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await retriever_2_2_0.retrieve(),
-          newApi: await retriever_2_4_0.retrieve(),
-        );
+            oldApi: await retriever_2_2_0.retrieve(),
+            newApi: await retriever_2_4_0.retrieve());
       });
 
       test('any breaking changes are detected', () {
         expect(
-          diffResult.apiChanges.any((element) => element.isBreaking),
-          isTrue,
-        );
+            diffResult.apiChanges.any((element) => element.isBreaking), isTrue);
       });
       test('adding username breaking change is detected', () {
         final userNameChange = diffResult.apiChanges

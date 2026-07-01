@@ -169,7 +169,8 @@ enum ApiChangeCode {
   cd02._('CD02', 'Dependency removed'),
 
   /// Dependency version changed
-  cd03._('CD03', 'Dependency version changed');
+  cd03._('CD03', 'Dependency version changed'),
+  ;
 
   const ApiChangeCode._(this.code, this.description);
   final String code;

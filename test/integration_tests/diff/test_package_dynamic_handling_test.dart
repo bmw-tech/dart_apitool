@@ -7,24 +7,24 @@ void main() {
     late PackageApiAnalyzer packageAWithDynamic;
     late PackageApiAnalyzer packageAWithStricterTypes;
 
-    setUpAll(() {
-      packageAWithDynamic = PackageApiAnalyzer(
-        packagePath: path.join(
+    setUpAll(
+      () {
+        packageAWithDynamic = PackageApiAnalyzer(
+            packagePath: path.join(
           'test',
           'test_packages',
           'dynamic_handling',
           'package_a_with_dynamic_types',
-        ),
-      );
-      packageAWithStricterTypes = PackageApiAnalyzer(
-        packagePath: path.join(
+        ));
+        packageAWithStricterTypes = PackageApiAnalyzer(
+            packagePath: path.join(
           'test',
           'test_packages',
           'dynamic_handling',
           'package_a_with_stricter_types',
-        ),
-      );
-    });
+        ));
+      },
+    );
     group('turning dynamic to Object?', () {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
@@ -36,32 +36,35 @@ void main() {
 
       test('is no breaking change for method parameters', () {
         final paramChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('parameter') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('parameter') ?? false)
             .single;
-        expect(paramChange.isBreaking, isFalse);
+        expect(
+          paramChange.isBreaking,
+          isFalse,
+        );
       });
 
       test('is no breaking change for function return types', () {
         final functionChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('function') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('function') ?? false)
             .single;
-        expect(functionChange.isBreaking, isFalse);
+        expect(
+          functionChange.isBreaking,
+          isFalse,
+        );
       });
 
       test('is no breaking change for property types)', () {
         final functionChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('property') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('property') ?? false)
             .single;
-        expect(functionChange.isBreaking, isFalse);
+        expect(
+          functionChange.isBreaking,
+          isFalse,
+        );
       });
     });
     group('turning Object? type to dynamic', () {
@@ -75,32 +78,35 @@ void main() {
 
       test('is no breaking change for method parameters', () {
         final paramChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('parameter') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('parameter') ?? false)
             .single;
-        expect(paramChange.isBreaking, isFalse);
+        expect(
+          paramChange.isBreaking,
+          isFalse,
+        );
       });
 
       test('is a breaking change for function return types', () {
         final functionChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('function') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('function') ?? false)
             .single;
-        expect(functionChange.isBreaking, isTrue);
+        expect(
+          functionChange.isBreaking,
+          isTrue,
+        );
       });
 
       test('is a breaking change for property types)', () {
         final functionChange = diffResult.apiChanges
-            .where(
-              (ac) =>
-                  ac.affectedDeclaration?.name.contains('property') ?? false,
-            )
+            .where((ac) =>
+                ac.affectedDeclaration?.name.contains('property') ?? false)
             .single;
-        expect(functionChange.isBreaking, isTrue);
+        expect(
+          functionChange.isBreaking,
+          isTrue,
+        );
       });
     });
   });

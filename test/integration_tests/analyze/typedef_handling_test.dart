@@ -9,8 +9,8 @@ void main() {
       packageWithTypedefExportAnalyzer = PackageApiAnalyzer(
         packagePath: 'test/test_packages/missing_export/package_a',
       );
-      packageWithTypedefExport = await packageWithTypedefExportAnalyzer
-          .analyze();
+      packageWithTypedefExport =
+          await packageWithTypedefExportAnalyzer.analyze();
     });
 
     test('carry over the entrypoint to the aliased type', () {

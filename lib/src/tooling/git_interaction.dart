@@ -9,7 +9,8 @@ abstract class GitInteraction {
     String gitUri,
     String targetDirectory,
     String? ref, // branch, tag, or commit
-    String? path, { // subdirectory path within the repository
+    String? path, // subdirectory path within the repository
+    {
     StdoutSession? stdoutSession,
   }) async {
     final session = stdoutSession ?? StdoutSession();
@@ -27,19 +28,19 @@ abstract class GitInteraction {
     // If ref is specified, checkout the specific ref (branch, tag, or commit)
     if (ref != null) {
       await session.writeln('Checking out ref: $ref');
-      final checkoutResult = await Process.run('git', [
-        'checkout',
-        ref,
-      ], workingDirectory: targetDirectory);
+      final checkoutResult = await Process.run(
+        'git',
+        ['checkout', ref],
+        workingDirectory: targetDirectory,
+      );
       if (checkoutResult.exitCode != 0) {
         throw Exception('Failed to checkout $ref: ${checkoutResult.stderr}');
       }
     }
 
     // Determine the final package directory
-    final packageDirectory = path != null
-        ? p.join(targetDirectory, path)
-        : targetDirectory;
+    final packageDirectory =
+        path != null ? p.join(targetDirectory, path) : targetDirectory;
 
     // Verify that the package directory exists
     if (!await Directory(packageDirectory).exists()) {
@@ -50,8 +51,7 @@ abstract class GitInteraction {
     final pubspecFile = File(p.join(packageDirectory, 'pubspec.yaml'));
     if (!await pubspecFile.exists()) {
       throw Exception(
-        'No pubspec.yaml found in package directory: $packageDirectory',
-      );
+          'No pubspec.yaml found in package directory: $packageDirectory');
     }
 
     await session.writeln('Successfully cloned to: $targetDirectory');

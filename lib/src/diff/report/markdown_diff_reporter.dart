@@ -32,32 +32,26 @@ class MarkdownDiffReporter extends DiffReporter {
       ..writeln('## ℹ️ API-Tool Info')
       ..writeln('Comparing $oldPackageRef vs $newPackageRef  ')
       ..writeln(
-        'This report was generated using [dart_apitool](https://github.com/bmw-tech/dart_apitool) v${await getOwnVersion()} by [BMW Tech](https://github.com/bmw-tech).  ',
-      )
+          'This report was generated using [dart_apitool](https://github.com/bmw-tech/dart_apitool) v${await getOwnVersion()} by [BMW Tech](https://github.com/bmw-tech).  ')
       ..writeln(
-        'This report was created on ${DateTime.now().toUtc().toLocal()} UTC.',
-      )
+          'This report was created on ${DateTime.now().toUtc().toLocal()} UTC.')
       ..writeln()
       ..writeln('## Report')
       ..writeln(
-        'To learn more about the detected changes, visit [GitHub Change Codes]($changeCodesReadMe)',
-      )
+          'To learn more about the detected changes, visit [GitHub Change Codes]($changeCodesReadMe)')
       ..writeln();
 
     void printChanges(bool breaking) {
       markdownReport
         ..writeln(
-          '### ${breaking ? '🚨 BREAKING CHANGES' : '🆕 Non-Breaking Changes'}',
-        )
+            '### ${breaking ? '🚨 BREAKING CHANGES' : '🆕 Non-Breaking Changes'}')
         ..writeln();
 
       final changes = _printApiChangeNode(diffResult.rootNode, breaking);
-      markdownReport.writeln(
-        changes ??
-            (breaking
-                ? 'No breaking changes! 🎉'
-                : 'No non-breaking changes! 🎉'),
-      );
+      markdownReport.writeln(changes ??
+          (breaking
+              ? 'No breaking changes! 🎉'
+              : 'No non-breaking changes! 🎉'));
 
       markdownReport.writeln();
     }
@@ -96,10 +90,8 @@ class MarkdownDiffReporter extends DiffReporter {
   }
 
   String? _printApiChangeNode(ApiChangeTreeNode node, bool breaking) {
-    Map<String, dynamic> nodeToTree(
-      ApiChangeTreeNode n, {
-      String? labelOverride,
-    }) {
+    Map<String, dynamic> nodeToTree(ApiChangeTreeNode n,
+        {String? labelOverride}) {
       final relevantChanges = n.changes.where((c) => c.isBreaking == breaking);
       final childNodes = n.children.values
           .map((value) => nodeToTree(value))
@@ -108,12 +100,11 @@ class MarkdownDiffReporter extends DiffReporter {
       return allChildren.isEmpty
           ? {}
           : {
-              'label':
-                  labelOverride ??
+              'label': labelOverride ??
                   (n.nodeDeclaration == null
                       ? ''
                       : getDeclarationNodeHeadline(n.nodeDeclaration!)),
-              'children': allChildren,
+              'children': allChildren
             };
     }
 
@@ -123,10 +114,8 @@ class MarkdownDiffReporter extends DiffReporter {
       return null;
     }
 
-    String generateMarkdownTree(
-      Map<String, dynamic> node, {
-      int currentLevel = 0,
-    }) {
+    String generateMarkdownTree(Map<String, dynamic> node,
+        {int currentLevel = 0}) {
       final parentIndentation = '    ' * currentLevel;
       final childIndentation = '    ' * (currentLevel + 1);
       final buffer = StringBuffer();
@@ -136,15 +125,10 @@ class MarkdownDiffReporter extends DiffReporter {
       for (final change in node['children']) {
         if (change is Map<String, dynamic> && change.containsKey('children')) {
           buffer.write(
-            generateMarkdownTree(change, currentLevel: currentLevel + 1),
-          );
+              generateMarkdownTree(change, currentLevel: currentLevel + 1));
         } else {
           final changeEntry =
-              '$childIndentation * **${change.changeDescription}** [(${change.changeCode.code})]($changeCodesReadMe#${change.changeCode.code.toLowerCase()})${change.isBreaking
-                  ? ''
-                  : change.type.requiresMinorBump
-                  ? ' (minor)'
-                  : ' (patch)'}';
+              '$childIndentation * **${change.changeDescription}** [(${change.changeCode.code})]($changeCodesReadMe#${change.changeCode.code.toLowerCase()})${change.isBreaking ? '' : change.type.requiresMinorBump ? ' (minor)' : ' (patch)'}';
           buffer.writeln(changeEntry);
         }
       }

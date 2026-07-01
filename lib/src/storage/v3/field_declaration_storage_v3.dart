@@ -26,8 +26,7 @@ sealed class FieldDeclarationStorageV3 with _$FieldDeclarationStorageV3 {
       _$FieldDeclarationStorageV3FromJson(json);
 
   static FieldDeclarationStorageV3 fromFieldDeclaration(
-    FieldDeclaration fieldDeclaration,
-  ) {
+      FieldDeclaration fieldDeclaration) {
     return FieldDeclarationStorageV3(
       typeName: fieldDeclaration.typeName,
       name: fieldDeclaration.name,

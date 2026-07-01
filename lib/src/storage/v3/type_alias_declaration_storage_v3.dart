@@ -24,8 +24,7 @@ sealed class TypeAliasDeclarationStorageV3
       _$TypeAliasDeclarationStorageV3FromJson(json);
 
   static TypeAliasDeclarationStorageV3 fromTypeAliasDeclaration(
-    TypeAliasDeclaration typeAliasDeclaration,
-  ) {
+      TypeAliasDeclaration typeAliasDeclaration) {
     return TypeAliasDeclarationStorageV3(
       name: typeAliasDeclaration.name,
       aliasedTypeName: typeAliasDeclaration.aliasedTypeName,

@@ -27,9 +27,9 @@ void main() {
       required bool expectedIsDeprecatedFlag,
     }) {
       test('Field $fieldName is analyzed correctly', () {
-        final field = getHostClass().fieldDeclarations.firstWhere(
-          (element) => element.name == fieldName,
-        );
+        final field = getHostClass()
+            .fieldDeclarations
+            .firstWhere((element) => element.name == fieldName);
         expect(field.typeName, expectedTypeName);
         expect(field.isDeprecated, expectedIsDeprecatedFlag);
       });
@@ -38,46 +38,29 @@ void main() {
     group('WindowsDevice is analyzed correctly', () {
       // ignore: prefer_function_declarations_over_variables
       final getHostClass = () {
-        return packageApi.interfaceDeclarations.firstWhere(
-          (element) => element.name == 'WindowsDeviceInfo',
-        );
+        return packageApi.interfaceDeclarations
+            .firstWhere((element) => element.name == 'WindowsDeviceInfo');
       };
-      testField(
-        getHostClass,
-        'computerName',
-        expectedTypeName: 'String',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'numberOfCores',
-        expectedTypeName: 'int',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'systemMemoryInMegabytes',
-        expectedTypeName: 'int',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'userName',
-        expectedTypeName: 'String',
-        expectedIsDeprecatedFlag: false,
-      );
+      testField(getHostClass, 'computerName',
+          expectedTypeName: 'String', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'numberOfCores',
+          expectedTypeName: 'int', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'systemMemoryInMegabytes',
+          expectedTypeName: 'int', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'userName',
+          expectedTypeName: 'String', expectedIsDeprecatedFlag: false);
       test('does contain overwritten toMap() from super class', () {
         expect(
-          getHostClass().executableDeclarations
-              .where((element) => element.name == 'toMap')
-              .isNotEmpty,
-          isTrue,
-        );
+            getHostClass()
+                .executableDeclarations
+                .where((element) => element.name == 'toMap')
+                .isNotEmpty,
+            isTrue);
       });
       test('contains constructor with right number of arguments', () {
-        final constructors = getHostClass().executableDeclarations.where(
-          (element) => element.type == ExecutableType.constructor,
-        );
+        final constructors = getHostClass()
+            .executableDeclarations
+            .where((element) => element.type == ExecutableType.constructor);
         expect(constructors.length, 1);
         expect(constructors.first.parameters.length, 25);
         final requiredConstructorParameters = constructors.first.parameters
@@ -88,54 +71,37 @@ void main() {
     group('AndroidDeviceInfo is analyzed correctly', () {
       // ignore: prefer_function_declarations_over_variables
       final getHostClass = () {
-        return packageApi.interfaceDeclarations.firstWhere(
-          (element) => element.name == 'AndroidDeviceInfo',
-        );
+        return packageApi.interfaceDeclarations
+            .firstWhere((element) => element.name == 'AndroidDeviceInfo');
       };
-      testField(
-        getHostClass,
-        'board',
-        expectedTypeName: 'String?',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'device',
-        expectedTypeName: 'String?',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'host',
-        expectedTypeName: 'String?',
-        expectedIsDeprecatedFlag: false,
-      );
-      testField(
-        getHostClass,
-        'isPhysicalDevice',
-        expectedTypeName: 'bool?',
-        expectedIsDeprecatedFlag: false,
-      );
+      testField(getHostClass, 'board',
+          expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'device',
+          expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'host',
+          expectedTypeName: 'String?', expectedIsDeprecatedFlag: false);
+      testField(getHostClass, 'isPhysicalDevice',
+          expectedTypeName: 'bool?', expectedIsDeprecatedFlag: false);
       test('does contain overwritten toMap() from super class', () {
         expect(
-          getHostClass().executableDeclarations
-              .where((element) => element.name == 'toMap')
-              .isNotEmpty,
-          isTrue,
-        );
+            getHostClass()
+                .executableDeclarations
+                .where((element) => element.name == 'toMap')
+                .isNotEmpty,
+            isTrue);
       });
       test('does contain BaseDeviceInfo super class', () {
         expect(
-          getHostClass().superTypeNames
-              .where((element) => element == 'BaseDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            getHostClass()
+                .superTypeNames
+                .where((element) => element == 'BaseDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('contains constructor with right number of arguments', () {
-        final constructors = getHostClass().executableDeclarations.where(
-          (element) => element.type == ExecutableType.constructor,
-        );
+        final constructors = getHostClass()
+            .executableDeclarations
+            .where((element) => element.type == ExecutableType.constructor);
         expect(constructors.length, 1);
         expect(constructors.first.parameters.length, 21);
         final requiredConstructorParameters = constructors.first.parameters
@@ -148,86 +114,76 @@ void main() {
         // MethodChannelDeviceInfo gets used in the implementation but is not exposed directly or indirectly via
         // any signatures => not part of the public API
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'MethodChannelDeviceInfo')
-              .isEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'MethodChannelDeviceInfo')
+                .isEmpty,
+            isTrue);
       });
       test('PlatformInterface is not part of the public API', () {
         // PlatformInterface is used as a super class for DeviceInfoPlatform but does not belong to this package
         // => it is not part of the public API
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'PlatformInterface')
-              .isEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'PlatformInterface')
+                .isEmpty,
+            isTrue);
       });
 
       test('DeviceInfoPlatform is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'DeviceInfoPlatform')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'DeviceInfoPlatform')
+                .isNotEmpty,
+            isTrue);
       });
       test('BaseDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'BaseDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'BaseDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('WebBrowserInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'WebBrowserInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'WebBrowserInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('MacOsDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'MacOsDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'MacOsDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('WindowsDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'WindowsDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'WindowsDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('LinuxDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'LinuxDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'LinuxDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('IosDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'IosDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'IosDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('AndroidDeviceInfo is part of the public API', () {
         expect(
-          packageApi.interfaceDeclarations
-              .where((element) => element.name == 'AndroidDeviceInfo')
-              .isNotEmpty,
-          isTrue,
-        );
+            packageApi.interfaceDeclarations
+                .where((element) => element.name == 'AndroidDeviceInfo')
+                .isNotEmpty,
+            isTrue);
       });
       test('Platform constraints are null', () {
         // this is not a platform dependent package => no platform constraints
@@ -262,10 +218,7 @@ void main() {
     test('Contains dependencies', () {
       expect(packageApi.packageDependencies.length, 5);
       expectPackageDependency(
-        packageApi,
-        'device_info_plus_platform_interface',
-        '^3.0.0',
-      );
+          packageApi, 'device_info_plus_platform_interface', '^3.0.0');
       expectPackageDependency(packageApi, 'device_info_plus_macos', '^3.0.0');
       expectPackageDependency(packageApi, 'device_info_plus_linux', '^3.0.0');
       expectPackageDependency(packageApi, 'device_info_plus_web', '^3.0.0');

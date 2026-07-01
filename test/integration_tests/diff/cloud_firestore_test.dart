@@ -13,23 +13,19 @@ void main() {
 
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await retriever_4_3_1.retrieve(),
-          newApi: await retriever_4_3_2.retrieve(),
-        );
+            oldApi: await retriever_4_3_1.retrieve(),
+            newApi: await retriever_4_3_2.retrieve());
       });
 
-      test(
-        'compatible dependency changes lead to an expected patch change',
-        () {
-          expect(
+      test('compatible dependency changes lead to an expected patch change',
+          () {
+        expect(
             diffResult.apiChanges.every(
               (element) =>
                   !element.type.requiresMinorBump && !element.type.isBreaking,
             ),
-            isTrue,
-          );
-        },
-      );
+            isTrue);
+      });
     });
   });
 }

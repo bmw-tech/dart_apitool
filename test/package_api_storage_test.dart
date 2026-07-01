@@ -24,11 +24,8 @@ void main() {
       expect(interfaceDeclarationJson, isNotNull);
       expect(interfaceDeclarationJson['name'], 'StorageTestClass');
       expect(interfaceDeclarationJson['isDeprecated'], false);
-      expect(
-        interfaceDeclarationJson['isSealed'],
-        false,
-        reason: 'isSealed should be false for StorageTestClass',
-      );
+      expect(interfaceDeclarationJson['isSealed'], false,
+          reason: 'isSealed should be false for StorageTestClass');
       expect(interfaceDeclarationJson['typeParameterNames'], ['T']);
       expect(interfaceDeclarationJson['superTypeNames'], ['SuperType']);
       final classExecutableDeclarationsJson =
@@ -74,11 +71,8 @@ void main() {
       final sealedInterfaceDeclarationJson = interfaceDeclarationsJson[1];
       expect(sealedInterfaceDeclarationJson, isNotNull);
       expect(sealedInterfaceDeclarationJson['name'], 'SealedStorageTestClass');
-      expect(
-        sealedInterfaceDeclarationJson['isSealed'],
-        true,
-        reason: 'isSealed should be true for SealedStorageTestClass',
-      );
+      expect(sealedInterfaceDeclarationJson['isSealed'], true,
+          reason: 'isSealed should be true for SealedStorageTestClass');
       final typeAliasDeclarationsJson = packageApiJson['typeAliasDeclarations'];
       expect(typeAliasDeclarationsJson, isNotNull);
       final typeAliasDeclaration = typeAliasDeclarationsJson.first;
@@ -182,9 +176,11 @@ final testPackageApi = PackageApi(
       aliasedTypeName: 'aliasedTypeName',
       isDeprecated: false,
       isExperimental: false,
-      entryPoints: {'entrypoint.dart'},
+      entryPoints: {
+        'entrypoint.dart',
+      },
       relativePath: '',
-    ),
+    )
   ],
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,

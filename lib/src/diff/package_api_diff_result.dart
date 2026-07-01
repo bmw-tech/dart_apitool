@@ -13,9 +13,11 @@ class ApiChangeTreeNode {
   final Map<Declaration, ApiChangeTreeNode> children;
 
   /// creates a new ApiChangeTreeNode instance
-  ApiChangeTreeNode({required this.nodeDeclaration, List<ApiChange>? changes})
-    : changes = changes ?? [],
-      children = {};
+  ApiChangeTreeNode({
+    required this.nodeDeclaration,
+    List<ApiChange>? changes,
+  })  : changes = changes ?? [],
+        children = {};
 }
 
 /// represents the result of a diff run
@@ -38,9 +40,8 @@ class PackageApiDiffResult {
     for (int i = change.contextTrace.length - 1; i >= 0; i--) {
       final currentContext = change.contextTrace[i];
       if (!currentNode.children.containsKey(currentContext)) {
-        currentNode.children[currentContext] = ApiChangeTreeNode(
-          nodeDeclaration: currentContext,
-        );
+        currentNode.children[currentContext] =
+            ApiChangeTreeNode(nodeDeclaration: currentContext);
       }
       currentNode = currentNode.children[currentContext]!;
     }

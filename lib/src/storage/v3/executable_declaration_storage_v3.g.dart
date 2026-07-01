@@ -9,68 +9,66 @@ part of 'executable_declaration_storage_v3.dart';
 // **************************************************************************
 
 _ExecutableParameterDeclarationStorageV3
-_$ExecutableParameterDeclarationStorageV3FromJson(Map<String, dynamic> json) =>
-    _ExecutableParameterDeclarationStorageV3(
-      isRequired: json['isRequired'] as bool,
-      isNamed: json['isNamed'] as bool,
+    _$ExecutableParameterDeclarationStorageV3FromJson(
+            Map<String, dynamic> json) =>
+        _ExecutableParameterDeclarationStorageV3(
+          isRequired: json['isRequired'] as bool,
+          isNamed: json['isNamed'] as bool,
+          name: json['name'] as String,
+          isDeprecated: json['isDeprecated'] as bool,
+          isExperimental: json['isExperimental'] as bool,
+          typeName: json['typeName'] as String,
+          relativePath: json['relativePath'] as String,
+        );
+
+Map<String, dynamic> _$ExecutableParameterDeclarationStorageV3ToJson(
+        _ExecutableParameterDeclarationStorageV3 instance) =>
+    <String, dynamic>{
+      'isRequired': instance.isRequired,
+      'isNamed': instance.isNamed,
+      'name': instance.name,
+      'isDeprecated': instance.isDeprecated,
+      'isExperimental': instance.isExperimental,
+      'typeName': instance.typeName,
+      'relativePath': instance.relativePath,
+    };
+
+_ExecutableDeclarationStorageV3 _$ExecutableDeclarationStorageV3FromJson(
+        Map<String, dynamic> json) =>
+    _ExecutableDeclarationStorageV3(
+      returnTypeName: json['returnTypeName'] as String,
       name: json['name'] as String,
       isDeprecated: json['isDeprecated'] as bool,
       isExperimental: json['isExperimental'] as bool,
-      typeName: json['typeName'] as String,
+      parameters: (json['parameters'] as List<dynamic>)
+          .map((e) => ExecutableParameterDeclarationStorageV3.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      type: $enumDecode(_$ExecutableTypeStorageV3EnumMap, json['type']),
+      isStatic: json['isStatic'] as bool,
+      entryPoints: (json['entryPoints'] as List<dynamic>)
+          .map((e) => e as String)
+          .toSet(),
       relativePath: json['relativePath'] as String,
     );
 
-Map<String, dynamic> _$ExecutableParameterDeclarationStorageV3ToJson(
-  _ExecutableParameterDeclarationStorageV3 instance,
-) => <String, dynamic>{
-  'isRequired': instance.isRequired,
-  'isNamed': instance.isNamed,
-  'name': instance.name,
-  'isDeprecated': instance.isDeprecated,
-  'isExperimental': instance.isExperimental,
-  'typeName': instance.typeName,
-  'relativePath': instance.relativePath,
-};
-
-_ExecutableDeclarationStorageV3 _$ExecutableDeclarationStorageV3FromJson(
-  Map<String, dynamic> json,
-) => _ExecutableDeclarationStorageV3(
-  returnTypeName: json['returnTypeName'] as String,
-  name: json['name'] as String,
-  isDeprecated: json['isDeprecated'] as bool,
-  isExperimental: json['isExperimental'] as bool,
-  parameters: (json['parameters'] as List<dynamic>)
-      .map(
-        (e) => ExecutableParameterDeclarationStorageV3.fromJson(
-          e as Map<String, dynamic>,
-        ),
-      )
-      .toList(),
-  typeParameterNames: (json['typeParameterNames'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
-  type: $enumDecode(_$ExecutableTypeStorageV3EnumMap, json['type']),
-  isStatic: json['isStatic'] as bool,
-  entryPoints: (json['entryPoints'] as List<dynamic>)
-      .map((e) => e as String)
-      .toSet(),
-  relativePath: json['relativePath'] as String,
-);
-
 Map<String, dynamic> _$ExecutableDeclarationStorageV3ToJson(
-  _ExecutableDeclarationStorageV3 instance,
-) => <String, dynamic>{
-  'returnTypeName': instance.returnTypeName,
-  'name': instance.name,
-  'isDeprecated': instance.isDeprecated,
-  'isExperimental': instance.isExperimental,
-  'parameters': instance.parameters,
-  'typeParameterNames': instance.typeParameterNames,
-  'type': _$ExecutableTypeStorageV3EnumMap[instance.type]!,
-  'isStatic': instance.isStatic,
-  'entryPoints': instance.entryPoints.toList(),
-  'relativePath': instance.relativePath,
-};
+        _ExecutableDeclarationStorageV3 instance) =>
+    <String, dynamic>{
+      'returnTypeName': instance.returnTypeName,
+      'name': instance.name,
+      'isDeprecated': instance.isDeprecated,
+      'isExperimental': instance.isExperimental,
+      'parameters': instance.parameters,
+      'typeParameterNames': instance.typeParameterNames,
+      'type': _$ExecutableTypeStorageV3EnumMap[instance.type]!,
+      'isStatic': instance.isStatic,
+      'entryPoints': instance.entryPoints.toList(),
+      'relativePath': instance.relativePath,
+    };
 
 const _$ExecutableTypeStorageV3EnumMap = {
   ExecutableTypeStorageV3.method: 'method',

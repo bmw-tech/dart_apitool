@@ -7,11 +7,8 @@ void main() {
   group('analyzer gets analyzed correctly', () {
     final packageName = 'analyzer';
     final packageVersion = '5.2.0';
-    final retriever = PackageApiRetriever(
-      packageName,
-      packageVersion,
-      doConsiderNonSrcAsEntryPoints: true,
-    );
+    final retriever = PackageApiRetriever(packageName, packageVersion,
+        doConsiderNonSrcAsEntryPoints: true);
     late PackageApi packageApi;
 
     setUpAll(() async {

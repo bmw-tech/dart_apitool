@@ -57,7 +57,9 @@ final packageClassAApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  interfaceDeclarations: [simpleClassA],
+  interfaceDeclarations: [
+    simpleClassA,
+  ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
@@ -87,7 +89,11 @@ final packageClassAApiEntryPointA = PackageApi(
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: [
-    simpleClassA.copyWith(entryPoints: {'a.dart'}),
+    simpleClassA.copyWith(
+      entryPoints: {
+        'a.dart',
+      },
+    ),
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
@@ -102,7 +108,11 @@ final packageClassAApiEntryPointB = PackageApi(
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: [
-    simpleClassA.copyWith(entryPoints: {'b.dart'}),
+    simpleClassA.copyWith(
+      entryPoints: {
+        'b.dart',
+      },
+    ),
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
@@ -117,7 +127,12 @@ final packageClassAApiEntryPointAB = PackageApi(
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: [
-    simpleClassA.copyWith(entryPoints: {'a.dart', 'b.dart'}),
+    simpleClassA.copyWith(
+      entryPoints: {
+        'a.dart',
+        'b.dart',
+      },
+    ),
   ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
@@ -133,7 +148,10 @@ final packageClassAClassBApi = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
-  interfaceDeclarations: [simpleClassA, simpleClassB],
+  interfaceDeclarations: [
+    simpleClassA,
+    simpleClassB,
+  ],
   executableDeclarations: const [],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
@@ -185,7 +203,9 @@ final packageExecutable1Api = PackageApi(
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: const [],
-  executableDeclarations: [simpleExecutable1],
+  executableDeclarations: [
+    simpleExecutable1,
+  ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
@@ -215,119 +235,127 @@ final packageExecutable1StaticChangedApi = packageExecutable1Api.copyWith(
       .map((exd) => exd.copyWith(isStatic: true))
       .toList(),
 );
-final packageExecutable1ParameterTypeChangedApi = packageExecutable1Api
-    .copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations.map((
-        exd,
-      ) {
-        bool parameterChanged = false;
-        return exd.copyWith(
-          parameters: exd.parameters.map((param) {
+final packageExecutable1ParameterTypeChangedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      bool parameterChanged = false;
+      return exd.copyWith(
+        parameters: exd.parameters.map(
+          (param) {
             // only change the first param
             if (parameterChanged) {
               return param;
             }
             parameterChanged = true;
-            return param.copyWith(typeName: 'NewType');
-          }).toList(),
-        );
-      }).toList(),
-    );
+            return param.copyWith(
+              typeName: 'NewType',
+            );
+          },
+        ).toList(),
+      );
+    },
+  ).toList(),
+);
 final packageExecutable1OptionalPositionalParameterAddedApi =
     packageExecutable1Api.copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations.map((
-        exd,
-      ) {
-        return exd.copyWith(
-          parameters: [
-            ...exd.parameters,
-            ExecutableParameterDeclaration(
-              isRequired: false,
-              isNamed: false,
-              name: 'optionalPositional',
-              isDeprecated: false,
-              isExperimental: false,
-              typeName: 'bool',
-              typeFullLibraryName: null,
-              relativePath: '',
-            ),
-          ],
-        );
-      }).toList(),
-    );
-final packageExecutable1OptionalNamedParameterAddedApi = packageExecutable1Api
-    .copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations.map((
-        exd,
-      ) {
-        return exd.copyWith(
-          parameters: [
-            ...exd.parameters,
-            ExecutableParameterDeclaration(
-              isRequired: false,
-              isNamed: true,
-              name: 'optionalNamed',
-              isDeprecated: false,
-              isExperimental: false,
-              typeName: 'bool',
-              typeFullLibraryName: null,
-              relativePath: '',
-            ),
-          ],
-        );
-      }).toList(),
-    );
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutableParameterDeclaration(
+            isRequired: false,
+            isNamed: false,
+            name: 'optionalPositional',
+            isDeprecated: false,
+            isExperimental: false,
+            typeName: 'bool',
+            typeFullLibraryName: null,
+            relativePath: '',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
+final packageExecutable1OptionalNamedParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutableParameterDeclaration(
+            isRequired: false,
+            isNamed: true,
+            name: 'optionalNamed',
+            isDeprecated: false,
+            isExperimental: false,
+            typeName: 'bool',
+            typeFullLibraryName: null,
+            relativePath: '',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
 final packageExecutable1RequiredPositionalParameterAddedApi =
     packageExecutable1Api.copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations.map((
-        exd,
-      ) {
-        return exd.copyWith(
-          parameters: [
-            ...exd.parameters,
-            ExecutableParameterDeclaration(
-              isRequired: true,
-              isNamed: false,
-              name: 'requiredPositional',
-              isDeprecated: false,
-              isExperimental: false,
-              typeName: 'bool',
-              typeFullLibraryName: null,
-              relativePath: '',
-            ),
-          ],
-        );
-      }).toList(),
-    );
-final packageExecutable1RequiredNamedParameterAddedApi = packageExecutable1Api
-    .copyWith(
-      executableDeclarations: packageExecutable1Api.executableDeclarations.map((
-        exd,
-      ) {
-        return exd.copyWith(
-          parameters: [
-            ...exd.parameters,
-            ExecutableParameterDeclaration(
-              isRequired: true,
-              isNamed: true,
-              name: 'requiredNamed',
-              isDeprecated: false,
-              isExperimental: false,
-              typeName: 'bool',
-              typeFullLibraryName: null,
-              relativePath: '',
-            ),
-          ],
-        );
-      }).toList(),
-    );
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutableParameterDeclaration(
+            isRequired: true,
+            isNamed: false,
+            name: 'requiredPositional',
+            isDeprecated: false,
+            isExperimental: false,
+            typeName: 'bool',
+            typeFullLibraryName: null,
+            relativePath: '',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
+final packageExecutable1RequiredNamedParameterAddedApi =
+    packageExecutable1Api.copyWith(
+  executableDeclarations: packageExecutable1Api.executableDeclarations.map(
+    (exd) {
+      return exd.copyWith(
+        parameters: [
+          ...exd.parameters,
+          ExecutableParameterDeclaration(
+            isRequired: true,
+            isNamed: true,
+            name: 'requiredNamed',
+            isDeprecated: false,
+            isExperimental: false,
+            typeName: 'bool',
+            typeFullLibraryName: null,
+            relativePath: '',
+          ),
+        ],
+      );
+    },
+  ).toList(),
+);
 final packageExecutable1ApiEntryPointA = PackageApi(
   packageName: 'simple_package',
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
-    simpleExecutable1.copyWith(entryPoints: {'a.dart'}),
+    simpleExecutable1.copyWith(
+      entryPoints: {
+        'a.dart',
+      },
+    ),
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
@@ -342,7 +370,11 @@ final packageExecutable1ApiEntryPointB = PackageApi(
   packagePath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
-    simpleExecutable1.copyWith(entryPoints: {'b.dart'}),
+    simpleExecutable1.copyWith(
+      entryPoints: {
+        'b.dart',
+      },
+    ),
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
@@ -357,7 +389,12 @@ final packageExecutable1ApiEntryPointAB = PackageApi(
   packagePath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: [
-    simpleExecutable1.copyWith(entryPoints: {'a.dart', 'b.dart'}),
+    simpleExecutable1.copyWith(
+      entryPoints: {
+        'a.dart',
+        'b.dart',
+      },
+    ),
   ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
@@ -373,7 +410,10 @@ final packageExecutable1Executable2Api = PackageApi(
   packageVersion: '1.0.0',
   packagePath: '.',
   interfaceDeclarations: const [],
-  executableDeclarations: [simpleExecutable1, simpleExecutable2],
+  executableDeclarations: [
+    simpleExecutable1,
+    simpleExecutable2,
+  ],
   fieldDeclarations: const [],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
@@ -413,7 +453,9 @@ final packageFieldA = PackageApi(
   packagePath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
-  fieldDeclarations: [simpleFieldDeclarationA],
+  fieldDeclarations: [
+    simpleFieldDeclarationA,
+  ],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,
@@ -439,7 +481,11 @@ final packageFieldAEntryPointA = PackageApi(
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
-    simpleFieldDeclarationA.copyWith(entryPoints: {'a.dart'}),
+    simpleFieldDeclarationA.copyWith(
+      entryPoints: {
+        'a.dart',
+      },
+    ),
   ],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
@@ -454,7 +500,11 @@ final packageFieldAEntryPointB = PackageApi(
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
-    simpleFieldDeclarationA.copyWith(entryPoints: {'b.dart'}),
+    simpleFieldDeclarationA.copyWith(
+      entryPoints: {
+        'b.dart',
+      },
+    ),
   ],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
@@ -469,7 +519,12 @@ final packageFieldAEntryPointAB = PackageApi(
   interfaceDeclarations: const [],
   executableDeclarations: const [],
   fieldDeclarations: [
-    simpleFieldDeclarationA.copyWith(entryPoints: {'b.dart', 'a.dart'}),
+    simpleFieldDeclarationA.copyWith(
+      entryPoints: {
+        'b.dart',
+        'a.dart',
+      },
+    ),
   ],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
@@ -485,7 +540,10 @@ final packageFieldAFieldB = PackageApi(
   packagePath: '.',
   interfaceDeclarations: const [],
   executableDeclarations: const [],
-  fieldDeclarations: [simpleFieldDeclarationA, simpleFieldDeclarationB],
+  fieldDeclarations: [
+    simpleFieldDeclarationA,
+    simpleFieldDeclarationB,
+  ],
   typeAliasDeclarations: const [],
   sdkType: SdkType.unknown,
   minSdkVersion: Version.none,

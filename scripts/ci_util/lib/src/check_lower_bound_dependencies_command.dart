@@ -19,27 +19,22 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final String apiToolRootPath = _getApiToolRootPath();
 
     // get all dependencies
-    final pubspec = PubSpec.loadFromPath(
-      path.join(apiToolRootPath, 'pubspec.yaml'),
-    );
+    final pubspec =
+        PubSpec.loadFromPath(path.join(apiToolRootPath, 'pubspec.yaml'));
 
     final testExecutions = pubspec.dependencies.list
         .whereType<DependencyVersioned>()
-        .map(
-          (d) async => () async {
-            final dependencyName = (d as Dependency).name;
-            stdout.writeln('Testing lower bound of $dependencyName');
-            try {
-              await _testWithFixedDependency(dependencyName);
-            } catch (e) {
-              return LowerBoundCheckResult(
-                dependencyName: dependencyName,
-                error: e.toString(),
-              );
-            }
-            return LowerBoundCheckResult(dependencyName: dependencyName);
-          },
-        )
+        .map((d) async => () async {
+              final dependencyName = (d as Dependency).name;
+              stdout.writeln('Testing lower bound of $dependencyName');
+              try {
+                await _testWithFixedDependency(dependencyName);
+              } catch (e) {
+                return LowerBoundCheckResult(
+                    dependencyName: dependencyName, error: e.toString());
+              }
+              return LowerBoundCheckResult(dependencyName: dependencyName);
+            })
         .toList(growable: true);
 
     final numberOfParallelTasks = (Platform.numberOfProcessors / 2).ceil();
@@ -49,11 +44,9 @@ class CheckLowerBoundDependenciesCommand extends Command {
 
     try {
       final results = await Future.wait(
-        testExecutions.map(
-          (run) => pool.withResource(() async {
-            return (await run)();
-          }),
-        ),
+        testExecutions.map((run) => pool.withResource(() async {
+              return (await run)();
+            })),
       );
 
       failedDependencies.addAll(
@@ -66,16 +59,13 @@ class CheckLowerBoundDependenciesCommand extends Command {
     if (failedDependencies.isNotEmpty) {
       final errorMessage = StringBuffer();
       errorMessage.writeln(
-        'Following dependencies failed when locked to their lower bound:',
-      );
-      errorMessage.writeln(
-        failedDependencies.map((e) => e.dependencyName).join('\n'),
-      );
+          'Following dependencies failed when locked to their lower bound:');
+      errorMessage
+          .writeln(failedDependencies.map((e) => e.dependencyName).join('\n'));
       errorMessage.writeln();
       errorMessage.writeln('See error messages for details:');
       errorMessage.writeln(
-        failedDependencies.map((e) => e.error!).join('\n-----------\n'),
-      );
+          failedDependencies.map((e) => e.error!).join('\n-----------\n'));
       throw Exception(errorMessage.toString());
     }
   }
@@ -84,15 +74,12 @@ class CheckLowerBoundDependenciesCommand extends Command {
     final String apiToolRootPath = _getApiToolRootPath();
     final tempDir = await Directory.systemTemp.createTemp();
     try {
-      stdout.writeln(
-        '[$dependencyName] Copying api tool to temporary directory',
-      );
+      stdout
+          .writeln('[$dependencyName] Copying api tool to temporary directory');
       await _copyPath(apiToolRootPath, tempDir.path);
       stdout.writeln('[$dependencyName] Fixing dependency');
       await _fixDependency(
-        path.join(tempDir.path, 'pubspec.yaml'),
-        dependencyName,
-      );
+          path.join(tempDir.path, 'pubspec.yaml'), dependencyName);
       stdout.writeln('[$dependencyName] Running pub get');
       await _executePubGet(tempDir.path);
       stdout.writeln('[$dependencyName] Running build');
@@ -131,10 +118,11 @@ class CheckLowerBoundDependenciesCommand extends Command {
       executable = 'dart';
       additionalArguments = [];
     }
-    final result = await Process.run(executable, [
-      ...additionalArguments,
-      ...arguments,
-    ], workingDirectory: path);
+    final result = await Process.run(
+      executable,
+      [...additionalArguments, ...arguments],
+      workingDirectory: path,
+    );
     print(result.stdout);
     print(result.stderr);
     if (result.exitCode != 0) {
@@ -151,12 +139,11 @@ class CheckLowerBoundDependenciesCommand extends Command {
       if (dependency.name == dependencyName &&
           dependency is DependencyVersioned) {
         final castedDependency = dependency as DependencyVersioned;
-        castedDependency.versionConstraint = castedDependency.versionConstraint
-            .replaceFirst('^', '');
+        castedDependency.versionConstraint =
+            castedDependency.versionConstraint.replaceFirst('^', '');
         adaptedOne = true;
         stdout.writeln(
-          '[$dependencyName] Fixing dependency to ${castedDependency.versionConstraint}',
-        );
+            '[$dependencyName] Fixing dependency to ${castedDependency.versionConstraint}');
       }
     }
     if (!adaptedOne) {

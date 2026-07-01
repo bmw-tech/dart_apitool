@@ -114,9 +114,8 @@ sealed class ExecutableDeclaration
         String requiredPrefix = '';
         if (parameter.isRequired) {
           requiredPrefix = 'required ';
-          namedParameterStrings.add(
-            '$requiredPrefix$paramTypeString $paramName',
-          );
+          namedParameterStrings
+              .add('$requiredPrefix$paramTypeString $paramName');
         }
       }
     }
