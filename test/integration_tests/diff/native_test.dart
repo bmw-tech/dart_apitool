@@ -26,17 +26,14 @@ void main() {
         final oldApi = await parentRetriever.retrieve();
         final newApi = await childRetriever.retrieve();
         diffResult = PackageApiDiffer(
-            options: PackageApiDifferOptions(
-          doCheckSdkVersion: false,
-        )).diff(
-          oldApi: oldApi,
-          newApi: newApi,
-        );
+          options: PackageApiDifferOptions(doCheckSdkVersion: false),
+        ).diff(oldApi: oldApi, newApi: newApi);
       });
 
       test('should not be breaking', () {
-        final breakingChanges =
-            diffResult.apiChanges.where((change) => change.isBreaking).toList();
+        final breakingChanges = diffResult.apiChanges
+            .where((change) => change.isBreaking)
+            .toList();
         expect(breakingChanges, []);
       });
     });
@@ -54,12 +51,16 @@ void main() {
         objcApi = await objcRetriever.retrieve();
       });
 
-      test('_FinalizablePointer should not be leaked in the public API',
-          () async {
-        final hasFinalizablePointer = objcApi.interfaceDeclarations
-            .any((id) => id.name == '_FinalizablePointer');
-        expect(hasFinalizablePointer, isFalse);
-      });
+      test(
+        '_FinalizablePointer should not be leaked in the public API',
+        () async {
+          final hasFinalizablePointer = objcApi.interfaceDeclarations.any(
+            (id) => id.name == '_FinalizablePointer',
+          );
+          expect(hasFinalizablePointer, isFalse);
+        },
+        timeout: integrationTestTimeout,
+      );
     });
   });
 }

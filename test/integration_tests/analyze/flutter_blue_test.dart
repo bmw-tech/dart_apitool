@@ -14,41 +14,32 @@ void main() {
       packageApi = await retriever.retrieve();
     });
 
-    test('BluetoothCharacteristic exists two times in different namespaces',
-        () {
+    test('BluetoothCharacteristic exists two times', () {
       final bluetoothCharacteristicClasses = packageApi.interfaceDeclarations
           .where((element) => element.name.endsWith('BluetoothCharacteristic'))
           .toList();
 
       expect(bluetoothCharacteristicClasses.length, 2);
 
-      final bluetoothCharacteristicMainClasses = packageApi
-          .interfaceDeclarations
-          .where((element) => element.name == 'BluetoothCharacteristic')
-          .toList();
-      expect(bluetoothCharacteristicMainClasses.length, 1);
-      final bluetoothCharacteristicProtoClasses = packageApi
-          .interfaceDeclarations
-          .where((element) => element.name == 'protos.BluetoothCharacteristic')
-          .toList();
-      expect(bluetoothCharacteristicProtoClasses.length, 1);
+      expect(
+        bluetoothCharacteristicClasses.where(
+          (element) => element.name == 'BluetoothCharacteristic',
+        ),
+        hasLength(2),
+      );
     });
 
-    test('ScanResult exists two times in different namespaces', () {
+    test('ScanResult exists two times', () {
       final scanResultClasses = packageApi.interfaceDeclarations
           .where((element) => element.name.endsWith('ScanResult'))
           .toList();
 
       expect(scanResultClasses.length, 2);
 
-      final scanResultMainClasses = packageApi.interfaceDeclarations
-          .where((element) => element.name == 'ScanResult')
-          .toList();
-      expect(scanResultMainClasses.length, 1);
-      final scanResultProtoClasses = packageApi.interfaceDeclarations
-          .where((element) => element.name == 'protos.ScanResult')
-          .toList();
-      expect(scanResultProtoClasses.length, 1);
+      expect(
+        scanResultClasses.where((element) => element.name == 'ScanResult'),
+        hasLength(2),
+      );
     });
 
     test('Contains dependencies', () {

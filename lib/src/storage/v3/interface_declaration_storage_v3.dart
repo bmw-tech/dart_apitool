@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:analyzer/dart/element/element.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../model/model.dart';
@@ -33,7 +31,8 @@ sealed class InterfaceDeclarationStorageV3
       _$InterfaceDeclarationStorageV3FromJson(json);
 
   static InterfaceDeclarationStorageV3 fromInterfaceDeclaration(
-      InterfaceDeclaration interfaceDeclaration) {
+    InterfaceDeclaration interfaceDeclaration,
+  ) {
     return InterfaceDeclarationStorageV3(
       name: interfaceDeclaration.name,
       isDeprecated: interfaceDeclaration.isDeprecated,
@@ -43,8 +42,9 @@ sealed class InterfaceDeclarationStorageV3
       typeParameterNames: interfaceDeclaration.typeParameterNames,
       superTypeNames: interfaceDeclaration.superTypeNames.toList(),
       executableDeclarations: interfaceDeclaration.executableDeclarations
-          .map((e) =>
-              ExecutableDeclarationStorageV3.fromExecutableDeclaration(e))
+          .map(
+            (e) => ExecutableDeclarationStorageV3.fromExecutableDeclaration(e),
+          )
           .toList(),
       fieldDeclarations: interfaceDeclaration.fieldDeclarations
           .map((f) => FieldDeclarationStorageV3.fromFieldDeclaration(f))

@@ -1,6 +1,8 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('Unexported functions', () {
     late PackageApiAnalyzer packageAnalyzer;
@@ -9,7 +11,7 @@ void main() {
       packageAnalyzer = PackageApiAnalyzer(
         packagePath: 'test/test_packages/missing_export/package_a',
       );
-      packageApi = await packageAnalyzer.analyze();
+      packageApi = await packageAnalyzer.analyzePrepared();
     });
 
     test('should not include unexported top level function', () {
