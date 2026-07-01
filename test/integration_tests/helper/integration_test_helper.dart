@@ -4,6 +4,47 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' as p;
 
+final _preparedPackageApis = <String, Future<PackageApi>>{};
+
+extension PreparedPackageApiAnalyzer on PackageApiAnalyzer {
+  Future<PackageApi> analyzePrepared() async {
+    final normalizedPackagePath = p.normalize(p.absolute(packagePath));
+    final cacheKey = [
+      normalizedPackagePath,
+      doAnalyzePlatformConstraints,
+      doConsiderNonSrcAsEntryPoints,
+    ].join('|');
+    return _preparedPackageApis.putIfAbsent(cacheKey, () async {
+      await _preparePackagePath(normalizedPackagePath);
+      return analyze();
+    });
+  }
+}
+
+Future<void> _preparePackagePath(String packagePath) async {
+  final dartToolDirectory = Directory(p.join(packagePath, '.dart_tool'));
+  await dartToolDirectory.create(recursive: true);
+  final lockFile = await File(
+    p.join(dartToolDirectory.path, 'package_config.lock'),
+  ).open(mode: FileMode.write);
+
+  try {
+    await lockFile.lock();
+    final packageConfigFile = File(
+      p.join(dartToolDirectory.path, 'package_config.json'),
+    );
+    if (!await packageConfigFile.exists()) {
+      await PubInteraction.runPubGetIndirectly(
+        packagePath,
+        stdoutSession: StdoutSession(),
+      );
+    }
+  } finally {
+    await lockFile.unlock();
+    await lockFile.close();
+  }
+}
+
 class PackageApiRetriever {
   final String packageName;
   final String packageVersion;

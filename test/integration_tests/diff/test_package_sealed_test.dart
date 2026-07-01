@@ -2,6 +2,8 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' as path;
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('test_package_experimental (sealed)', () {
     late PackageApiAnalyzer packageAWithExperimental;
@@ -29,8 +31,8 @@ void main() {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await packageAWithExperimental.analyze(),
-          newApi: await packageAWithoutExperimental.analyze(),
+          oldApi: await packageAWithExperimental.analyzePrepared(),
+          newApi: await packageAWithoutExperimental.analyzePrepared(),
         );
       });
 
@@ -63,8 +65,8 @@ void main() {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await packageAWithoutExperimental.analyze(),
-          newApi: await packageAWithExperimental.analyze(),
+          oldApi: await packageAWithoutExperimental.analyzePrepared(),
+          newApi: await packageAWithExperimental.analyzePrepared(),
         );
       });
 

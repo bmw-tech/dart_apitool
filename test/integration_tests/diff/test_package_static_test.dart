@@ -2,6 +2,8 @@ import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' as path;
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('test_package_static_test', () {
     late PackageApiAnalyzer packageAWithoutStaticElement;
@@ -29,8 +31,8 @@ void main() {
       late PackageApiDiffResult diffResult;
       setUpAll(() async {
         diffResult = PackageApiDiffer().diff(
-          oldApi: await packageAWithoutStaticElement.analyze(),
-          newApi: await packageAWithStaticElement.analyze(),
+          oldApi: await packageAWithoutStaticElement.analyzePrepared(),
+          newApi: await packageAWithStaticElement.analyzePrepared(),
         );
       });
 

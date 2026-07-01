@@ -1,6 +1,8 @@
 import 'package:dart_apitool/api_tool.dart';
 import 'package:test/test.dart';
 
+import '../helper/integration_test_helper.dart';
+
 void main() {
   group('Entrypoint handling', () {
     late PackageApi packageApi;
@@ -8,7 +10,7 @@ void main() {
     setUpAll(() async {
       packageApi = await PackageApiAnalyzer(
         packagePath: 'test/test_packages/missing_export/package_a',
-      ).analyze();
+      ).analyzePrepared();
     });
 
     test('records all barrel entrypoints for a re-exported declaration', () {
