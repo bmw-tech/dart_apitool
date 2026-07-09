@@ -110,6 +110,10 @@ Usage: dart-apitool diff [arguments]
                                          (defaults to on)
     --[no-]ignore-requiredness           Whether to ignore the required aspect of interfaces 
                                          (yielding less strict version bump requirements)
+    --[no-]set-exit-on-version-check-failure Sets exit code to != 0 if the 
+                                         version check fails. Has no effect if 
+                                         --version-check-mode=none.
+                                         (defaults to on)
     --report-format                      Which output format should be used
                                          [cli (default), markdown, json]
     --report-file-path                   Where to store the report file (no effect on cli option)

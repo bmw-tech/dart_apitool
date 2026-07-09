@@ -23,6 +23,8 @@ String _optionNameCheckSdkVersion = 'check-sdk-version';
 String _optionNameDependencyCheckMode = 'dependency-check-mode';
 String _optionNameRemoveExample = 'remove-example';
 String _optionNameIgnoreRequiredness = 'ignore-requiredness';
+String _optionNameSetExitOnVersionCheckFailure =
+    'set-exit-on-version-check-failure';
 String _optionReportFormat = 'report-format';
 String _optionReportPath = 'report-file-path';
 
@@ -106,6 +108,15 @@ Whether to ignore the required aspect of interfaces
       defaultsTo: false,
       negatable: true,
     );
+    argParser.addFlag(
+      _optionNameSetExitOnVersionCheckFailure,
+      help: '''
+Sets exit code to != 0 if the version check fails.
+Has no effect if --version-check-mode=none.
+''',
+      defaultsTo: true,
+      negatable: true,
+    );
     argParser.addOption(
       _optionReportFormat,
       help: 'Which output format should be used',
@@ -152,6 +163,8 @@ Whether to ignore the required aspect of interfaces
     }
     final doIgnoreRequiredness =
         argResults![_optionNameIgnoreRequiredness] as bool;
+    final setExitOnVersionCheckFailure =
+        argResults![_optionNameSetExitOnVersionCheckFailure] as bool;
 
     final preparedOldPackageRef = await prepare(
       argResults!,
@@ -215,10 +228,11 @@ Whether to ignore the required aspect of interfaces
 
     stdout.writeln('-- Generating report using: ${reporter.reporterName} --');
     await reporter.generateReport(diffResult, versionCheckResult);
-    if (versionCheckResult?.success ?? true) {
-      return 0;
-    } else {
+    if (versionCheckResult != null &&
+        !versionCheckResult.success &&
+        setExitOnVersionCheckFailure) {
       return -1;
     }
+    return 0;
   }
 }

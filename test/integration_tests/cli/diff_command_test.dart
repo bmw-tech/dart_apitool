@@ -183,5 +183,36 @@ void main() {
       },
       timeout: integrationTestTimeout,
     );
+
+    test(
+      'diffing grpc 3.2.3 to 3.2.2 fails version check by default',
+      () async {
+        final exitCode = await runner.run([
+          'diff',
+          '--old',
+          'pub://grpc/3.2.3',
+          '--new',
+          'pub://grpc/3.2.2',
+        ]);
+        expect(exitCode, -1);
+      },
+      timeout: integrationTestTimeout,
+    );
+
+    test(
+      'diffing grpc 3.2.3 to 3.2.2 works with --no-set-exit-on-version-check-failure',
+      () async {
+        final exitCode = await runner.run([
+          'diff',
+          '--old',
+          'pub://grpc/3.2.3',
+          '--new',
+          'pub://grpc/3.2.2',
+          '--no-set-exit-on-version-check-failure',
+        ]);
+        expect(exitCode, 0);
+      },
+      timeout: integrationTestTimeout,
+    );
   });
 }
