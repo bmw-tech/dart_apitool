@@ -1,5 +1,4 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:collection/collection.dart';
 
 import '../class_declaration.dart';
 import '../executable_declaration.dart';
@@ -43,21 +42,18 @@ class InternalClassDeclaration implements InternalDeclaration {
   InternalClassDeclaration.fromClassElement(ClassElement classElement)
       : this._(
           id: InternalDeclarationUtils.getIdFromElement(classElement)!,
-          parentClassId: InternalDeclarationUtils.getIdFromElement(
-              classElement.enclosingElement3),
+          parentClassId: InternalDeclarationUtils.getIdFromElement(classElement.enclosingElement3),
           name: classElement.name,
           isPrivate: classElement.isPrivate,
           isDeprecated: classElement.hasDeprecated,
-          typeParameterNames: InternalDeclarationUtils.computeTypeParameters(
-              classElement.typeParameters),
-          superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(
-              classElement.allSupertypes),
+          typeParameterNames: InternalDeclarationUtils.computeTypeParameters(classElement.typeParameters),
+          superTypeNames: InternalDeclarationUtils.computeSuperTypeNames(classElement.allSupertypes),
           executableDeclarations: [],
           fieldDeclarations: [],
           entryPoints: {},
           superClassIds: classElement.allSupertypes
               .map((e) => InternalDeclarationUtils.getIdFromElement(e.element2))
-              .whereNotNull()
+              .nonNulls
               .toList(),
         );
 

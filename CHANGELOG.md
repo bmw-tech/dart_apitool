@@ -4,6 +4,7 @@
 - PackageAPI semantics are now an enum
 - Fixes issues with entry points for fields and executables (differ ignored them)
 - API changes for the diff command are now printed as a proper tree
+- `--set-exit-on-version-check-failure` to suppress exit code != 0 in case a mismatch is detected
 
 ## Version 0.4.0
 - adds type aliases to Package API model
