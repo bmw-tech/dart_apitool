@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.23.2-dev
+## Version 0.23.2
 - `--set-exit-on-version-check-failure` to suppress exit code != 0 in case a mismatch is detected
 
 ## Version 0.23.1
