@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 0.23.2-dev
+- `--set-exit-on-version-check-failure` to suppress exit code != 0 in case a mismatch is detected
 
 ## Version 0.23.1
 - technical: bump analyzer to ^10.0.2.
